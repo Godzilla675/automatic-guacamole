@@ -188,7 +188,7 @@ This document outlines features that future agents should implement to enhance t
 3. **Keep It Modular**: Each feature should be as independent as possible for easier maintenance.
 
 4. **Use Web Standards**: Prefer native web APIs and established libraries. Current stack:
-   - Three.js for 3D rendering
+   - Canvas 2D API for custom 3D projection rendering
    - Vanilla JavaScript (no framework required)
    - CSS3 for UI
    - LocalStorage for persistence
