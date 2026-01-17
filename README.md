@@ -92,10 +92,11 @@ python -m http.server 8000
 ```
 
 ### Requirements
-- Modern web browser with WebGL support
+- Modern web browser with Canvas 2D support
 - JavaScript enabled
-- For best performance: Desktop with dedicated GPU
+- For best performance: Desktop with modern CPU
 - Mobile: iOS 12+ or Android 8+
+- No external dependencies or CDN required
 
 ## 📂 Project Structure
 
@@ -111,10 +112,10 @@ automatic-guacamole/
 ## 🛠️ Technical Details
 
 ### Technologies Used
-- **Three.js** (r128) - 3D rendering engine
+- **Canvas 2D API** - 3D projection rendering (no external dependencies!)
 - **Vanilla JavaScript** - Game logic (no frameworks)
 - **CSS3** - UI styling and animations
-- **WebGL** - Hardware-accelerated 3D graphics
+- Pure web standards - Works everywhere without CDN dependencies
 
 ### Performance
 - Target: 60 FPS on desktop, 30+ FPS on mobile
@@ -129,6 +130,7 @@ automatic-guacamole/
 - Physics simulation with collision detection
 - Procedural terrain generation
 - Day/night cycle with dynamic lighting
+- Custom 3D projection using Canvas 2D (no WebGL required)
 
 ## 🎨 Customization
 
@@ -165,6 +167,7 @@ In `game.js` constructor, adjust:
 - Limited render distance to maintain performance
 - Block breaking is instant (no animation yet)
 - No sound effects or music
+- Uses Canvas 2D instead of WebGL (good for compatibility, but lower performance)
 
 See [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for planned improvements.
 
