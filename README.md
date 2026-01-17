@@ -1,6 +1,6 @@
 # 🎮 Voxel World - Minecraft Clone
 
-A fully-featured browser-based Minecraft clone built with Three.js. Play directly in your browser on both PC and mobile devices!
+A fully-featured browser-based Minecraft clone built with pure JavaScript and Canvas 2D. Play directly in your browser on both PC and mobile devices!
 
 ![Game Status](https://img.shields.io/badge/status-playable-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-web-blue)
@@ -120,9 +120,9 @@ automatic-guacamole/
 ### Performance
 - Target: 60 FPS on desktop, 30+ FPS on mobile
 - Chunk-based world management
-- Dynamic rendering distance (3 chunks)
-- Shadow mapping with PCF soft shadows
-- Fog for distant terrain hiding
+- Dynamic rendering distance (4 chunks)
+- Distance-based lighting and fog
+- Painter's algorithm sorting for proper transparency
 
 ### Architecture
 - Object-oriented design with `VoxelWorld` class
@@ -141,9 +141,10 @@ Edit `game.js` in the `initBlockTypes()` method:
 ```javascript
 8: { 
     name: 'newblock', 
-    color: 0xFF0000,  // Color in hex
-    solid: true,       // Is it solid?
-    transparent: false // Is it transparent?
+    color: '#FF0000',   // Color in hex string format
+    top: '#FF6666',     // Top face color
+    solid: true,        // Is it solid?
+    transparent: false  // Is it transparent?
 }
 ```
 
@@ -157,8 +158,8 @@ const noise = Math.sin(x * scale) * Math.cos(z * scale) * 5;
 ### Change Game Settings
 In `game.js` constructor, adjust:
 - `chunkSize`: Size of each chunk (default: 16)
-- `renderDistance`: How far to render chunks (default: 3)
-- `worldHeight`: Maximum build height (default: 64)
+- `renderDistance`: How far to render chunks (default: 4)
+- `worldHeight`: Maximum build height (default: 32)
 - `dayLength`: Length of day/night cycle in ms (default: 120000)
 
 ## 🐛 Known Issues
@@ -199,10 +200,10 @@ This project is open source and available for educational purposes.
 
 ## 🎮 Credits
 
-Created as a browser-based Minecraft-inspired voxel game.
+Created as a browser-based Minecraft-inspired voxel game using pure web technologies.
 
 ### Technologies
-- Three.js - 3D graphics library
+- Canvas 2D API - Custom 3D projection and rendering
 - Modern web standards (HTML5, CSS3, ES6+)
 
 ## 🚀 Performance Tips
@@ -226,7 +227,7 @@ For issues or questions:
 1. Check [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for known limitations
 2. Test in different browsers
 3. Check browser console for errors
-4. Verify WebGL support: visit https://get.webgl.org/
+4. Verify Canvas 2D support in your browser (all modern browsers support this)
 
 ## 🎉 Have Fun!
 
