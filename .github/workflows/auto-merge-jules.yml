@@ -7,7 +7,7 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
-    if: github.actor == 'google-labs-jules'
+    if: github.event.pull_request.user.login == 'google-labs-jules'
     permissions:
       contents: write
       pull-requests: write
