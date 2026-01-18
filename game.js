@@ -207,7 +207,7 @@ class VoxelWorld {
         const cz = Math.floor(z / this.chunkSize);
         const chunkKey = `${cx},${cz}`;
         const blockKey = `${x},${y},${z}`;
-
+        
         if (type === null) {
             if (this.chunks.has(chunkKey)) {
                 const chunk = this.chunks.get(chunkKey);

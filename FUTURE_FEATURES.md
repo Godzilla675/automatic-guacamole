@@ -63,7 +63,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Redstone-like logic blocks
 
 ### 7. World Saving/Loading
-- [x] Save world state to browser localStorage (Full chunk data serialized to Base64)
+- [x] Save world state to browser localStorage
 - [x] Load saved worlds
 - [ ] Multiple world slots
 - [ ] Export/import world data
@@ -168,10 +168,16 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Resource pack support
 - [ ] Texture customization
 
+## Bugs & Maintenance (Lower Priority)
+
+### 19. Critical Fixes & Bugs
+- [ ] Fix memory management strategy (currently stops building at 500k blocks)
+- [ ] Optimize render loop (O(N) iteration on every frame)
+
 ## Technical Improvements
 
-### 19. Code Quality
-- [x] Unit tests for core systems (Added `tests/test_logic.js`)
+### 20. Code Quality
+- [ ] Unit tests for core systems
 - [ ] Integration tests
 - [x] Code documentation
 - [ ] Performance profiling
@@ -180,7 +186,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Cross-browser compatibility testing
 - [ ] Improve raycast accuracy (switch to DDA algorithm)
 
-### 20. Accessibility
+### 21. Accessibility
 - [ ] Keyboard navigation for menus
 - [ ] Screen reader support
 - [ ] Colorblind modes
@@ -246,7 +252,14 @@ This document outlines features that future agents should implement to enhance t
 - Debug information
 - Pause menu
 - Block selection system
-- World saving and loading (Chunks and player state)
-- Modular code architecture (js/ directory)
-- Crafting UI
-- Basic Mobs
+- World saving and loading
+
+## Contribution Guidelines
+
+When implementing features:
+1. Maintain the existing code style
+2. Add comments for complex logic
+3. Test on both PC and mobile
+4. Update this document when adding features
+5. Consider performance impact
+6. Keep the game accessible and fun
