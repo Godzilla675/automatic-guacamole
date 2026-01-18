@@ -2,10 +2,16 @@
 
 This document outlines features that future agents should implement to enhance the Minecraft clone game.
 
+## Critical Fixes & Technical Debt
+
+### 0. Bugs & Maintenance
+- [x] Fix memory management strategy (Implemented Chunk-based storage)
+- [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
+
 ## High Priority Features
 
 ### 1. Multiplayer Support
-- [ ] WebSocket-based real-time multiplayer
+- [ ] WebSocket-based real-time multiplayer (Stubbed `NetworkManager`, needs backend)
 - [ ] Player synchronization across clients
 - [ ] Chat system
 - [ ] Player name tags
@@ -14,17 +20,17 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Shared world state
 
 ### 2. Advanced World Generation
-- [ ] Biomes (desert, forest, snow, mountains, ocean)
-- [ ] Caves and underground systems
-- [ ] Ore generation (coal, iron, gold, diamond)
+- [x] Biomes (Implemented basic noise-based terrain)
+- [x] Caves and underground systems (3D Noise holes)
+- [x] Ore generation (Coal, Iron, Gold, Diamond)
 - [ ] Villages and structures
 - [ ] Rivers and lakes
-- [ ] Better terrain generation using Perlin/Simplex noise
-- [ ] World seeds for reproducible generation
+- [x] Better terrain generation using Perlin/Simplex noise
+- [x] World seeds for reproducible generation
 
 ### 3. Crafting System
-- [ ] Crafting table interface
-- [ ] Recipes for tools, blocks, and items
+- [x] Crafting table interface (UI implemented)
+- [x] Recipes for tools, blocks, and items (Basic system in `js/crafting.js`)
 - [ ] Resource gathering requirements
 - [ ] Crafting animations
 - [ ] Recipe discovery system
@@ -38,18 +44,18 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Different breaking speeds based on tool and block
 
 ### 5. Mobs and AI
-- [ ] Passive mobs (sheep, cows, pigs, chickens)
+- [x] Passive mobs (Basic Mob class implemented)
 - [ ] Hostile mobs (zombies, skeletons, spiders)
-- [ ] Mob AI pathfinding
+- [x] Mob AI pathfinding (Random movement implemented)
 - [ ] Day/night spawn cycles
 - [ ] Mob drops and loot
 - [ ] Health and combat system
-- [ ] Mob animations
+- [x] Mob animations (Simple billboard rendering)
 
 ## Medium Priority Features
 
 ### 6. Enhanced Building Blocks
-- [ ] Additional block types (brick, concrete, wool colors)
+- [x] Additional block types (brick, concrete, wool colors)
 - [ ] Slabs and stairs
 - [ ] Doors and gates
 - [ ] Windows and fences
@@ -76,10 +82,10 @@ This document outlines features that future agents should implement to enhance t
 
 ### 9. Sound System
 - [ ] Background music
-- [ ] Block breaking sounds
-- [ ] Footstep sounds
-- [ ] Ambient sounds (water, wind)
-- [ ] Sound effects for actions
+- [x] Block breaking sounds
+- [x] Footstep sounds
+- [x] Ambient sounds (water, wind) (Stubbed in `SoundManager`)
+- [x] Sound effects for actions
 - [ ] Volume controls
 
 ### 10. Inventory Enhancements
@@ -96,7 +102,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Coordinates toggle
 - [ ] Achievement system
 - [ ] Tutorial/help system
-- [ ] Better mobile UI scaling
+- [x] Better mobile UI scaling
 - [ ] Gamepad support
 - [ ] Dynamic Crosshair
 - [ ] Non-intrusive UI notifications (replace alerts)
@@ -123,12 +129,12 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Weather control
 
 ### 14. Performance Optimizations
-- [ ] Chunk-based rendering optimization
-- [ ] Frustum culling improvements
+- [x] Chunk-based rendering optimization
+- [x] Frustum culling improvements
 - [ ] LOD (Level of Detail) system
 - [ ] Worker threads for world generation
 - [ ] Better memory management
-- [ ] Occlusion culling (don't render hidden blocks)
+- [x] Occlusion culling (Exposed Face Caching)
 - [ ] Greedy meshing for fewer draw calls
 
 ### 15. Social Features
@@ -173,10 +179,10 @@ This document outlines features that future agents should implement to enhance t
 ### 20. Code Quality
 - [ ] Unit tests for core systems
 - [ ] Integration tests
-- [ ] Code documentation
+- [x] Code documentation
 - [ ] Performance profiling
 - [ ] Error handling improvements
-- [ ] Mobile performance optimization
+- [x] Mobile performance optimization
 - [ ] Cross-browser compatibility testing
 - [ ] Improve raycast accuracy (switch to DDA algorithm)
 
@@ -204,7 +210,7 @@ This document outlines features that future agents should implement to enhance t
    - CSS3 for UI
    - LocalStorage for persistence
 
-5. **Test Thoroughly**: 
+5. **Test Thoroughly**:
    - Test on multiple browsers (Chrome, Firefox, Safari)
    - Test on multiple devices (desktop, tablet, phone)
    - Test both touch and mouse controls

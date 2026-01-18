@@ -11,7 +11,7 @@ class VoxelWorld {
         this.chunkSize = 16;
         this.renderDistance = 4;
         this.worldHeight = 32;
-        
+
         this.player = {
             x: 8, y: 25, z: 8,
             vx: 0, vy: 0, vz: 0,
@@ -24,13 +24,13 @@ class VoxelWorld {
             height: 1.8,
             width: 0.6
         };
-        
+
         this.controls = {
             forward: false, backward: false,
             left: false, right: false,
             jump: false, sneak: false
         };
-        
+
         this.mouse = { locked: false, x: 0, y: 0 };
         this.selectedBlock = 0;
         this.lastTime = Date.now();
@@ -42,7 +42,7 @@ class VoxelWorld {
         this.isMobile = this.detectMobile();
         this.joystick = { active: false, x: 0, y: 0 };
         this.lookTouch = { active: false, startX: 0, startY: 0 };
-        
+
         // Projection settings
         this.fov = 60;
         this.nearPlane = 0.1;
@@ -85,28 +85,28 @@ class VoxelWorld {
         const dpr = window.devicePixelRatio || 1;
         const width = window.innerWidth;
         const height = window.innerHeight;
-        
+
         this.canvas.style.width = width + 'px';
         this.canvas.style.height = height + 'px';
         this.canvas.width = width * dpr;
         this.canvas.height = height * dpr;
-        
+
         if (this.ctx && this.ctx.setTransform) {
             this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
-        
+
         // Generate initial world
         await this.generateWorld();
-        
+
         // Set up event listeners
         this.setupEventListeners();
-        
+
         // Show mobile controls if on mobile
         if (this.isMobile) {
             document.getElementById('mobile-controls').classList.remove('hidden');
             this.setupMobileControls();
         }
-        
+
         // Start game loop
         this.gameLoop();
     }
@@ -295,7 +295,7 @@ class VoxelWorld {
                 case 'KeyS': this.controls.backward = true; break;
                 case 'KeyA': this.controls.left = true; break;
                 case 'KeyD': this.controls.right = true; break;
-                case 'Space': 
+                case 'Space':
                     this.controls.jump = true;
                     e.preventDefault();
                     break;
@@ -392,7 +392,7 @@ class VoxelWorld {
             const rect = joystickContainer.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-            
+
             let dx = touch.clientX - centerX;
             let dy = touch.clientY - centerY;
             const distance = Math.sqrt(dx * dx + dy * dy);
@@ -404,7 +404,7 @@ class VoxelWorld {
             }
 
             joystickStick.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-            
+
             this.joystick.x = dx / maxDistance;
             this.joystick.y = dy / maxDistance;
 
@@ -619,7 +619,7 @@ class VoxelWorld {
     toggleInventory() {
         const inventory = document.getElementById('inventory-screen');
         inventory.classList.toggle('hidden');
-        
+
         if (!inventory.classList.contains('hidden')) {
             // Exiting pointer lock when opening inventory
             if (document.pointerLockElement) {
@@ -795,7 +795,7 @@ class VoxelWorld {
         const dtFactor = deltaTime / TARGET_FRAME_TIME_MS;
         const moveSpeed = this.player.speed * dtFactor;
         const gravity = this.player.gravity * dtFactor;
-        
+
         const forward = {
             x: Math.sin(this.player.yaw),
             z: Math.cos(this.player.yaw)
@@ -866,7 +866,7 @@ class VoxelWorld {
 
         this.player.onGround = false;
         const newY = this.player.y + this.player.vy;
-        
+
         if (this.player.vy < 0) {
             if (checkCollision(this.player.x, newY, this.player.z)) {
                 this.player.vy = 0;
@@ -910,7 +910,7 @@ class VoxelWorld {
             document.getElementById('fps').textContent = this.fps;
         }
 
-        document.getElementById('position').textContent = 
+        document.getElementById('position').textContent =
             `${Math.floor(this.player.x)}, ${Math.floor(this.player.y)}, ${Math.floor(this.player.z)}`;
 
         document.getElementById('block-count').textContent = this.blockCount;
@@ -919,7 +919,7 @@ class VoxelWorld {
     render() {
         const w = this.canvas.width;
         const h = this.canvas.height;
-        
+
         // Sky
         const skyGradient = this.ctx.createLinearGradient(0, 0, 0, h);
         const brightness = this.sunBrightness || 0.8;
@@ -994,18 +994,18 @@ class VoxelWorld {
 
             if (size > 0.5 && sx > -size && sx < w + size && sy > -size && sy < h + size) {
                 const blockType = this.blockTypes[block.type];
-                
+
                 // Calculate lighting
                 const lightLevel = Math.min(1, (brightness * 0.7) + 0.3 / (1 + block.dist * 0.05));
-                
+
                 // Draw top face
                 this.ctx.fillStyle = this.adjustColor(blockType.top, lightLevel * 1.1);
                 this.ctx.fillRect(sx - size / 2, sy - size, size, size / 2);
-                
+
                 // Draw front face
                 this.ctx.fillStyle = this.adjustColor(blockType.color, lightLevel * 0.8);
                 this.ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
-                
+
                 // Draw side face
                 this.ctx.fillStyle = this.adjustColor(blockType.color, lightLevel * 0.6);
                 this.ctx.beginPath();
@@ -1015,7 +1015,7 @@ class VoxelWorld {
                 this.ctx.lineTo(sx + size / 2, sy + size / 2);
                 this.ctx.closePath();
                 this.ctx.fill();
-                
+
                 // Outline for transparent blocks
                 if (blockType.transparent) {
                     this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
@@ -1109,7 +1109,7 @@ window.addEventListener('load', () => {
 document.getElementById('start-game').addEventListener('click', async () => {
     document.getElementById('menu-screen').classList.add('hidden');
     document.getElementById('game-container').classList.remove('hidden');
-    
+
     if (!game) {
         game = new VoxelWorld();
         await game.init();
@@ -1162,18 +1162,18 @@ document.querySelectorAll('.inventory-item').forEach((item) => {
             'dirt': 0, 'stone': 1, 'grass': 2, 'wood': 3,
             'leaves': 4, 'sand': 5, 'water': 6, 'glass': 7
         };
-        
+
         if (!game) {
             console.warn('Inventory item clicked before game was initialized.');
             return;
         }
-        
+
         if (!(type in typeMap)) {
             console.error('Invalid inventory block type selected:', type);
             alert('This inventory item is not available. Please select another block.');
             return;
         }
-        
+
         game.selectBlock(typeMap[type]);
         document.getElementById('inventory-screen').classList.add('hidden');
     });
