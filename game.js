@@ -404,28 +404,48 @@ class VoxelWorld {
             this.lookTouch.active = false;
         });
 
-        document.getElementById('jump-btn').addEventListener('touchstart', (e) => {
+        // Jump button - both touch and keyboard support
+        const jumpBtn = document.getElementById('jump-btn');
+        jumpBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.controls.jump = true;
         });
-
-        document.getElementById('jump-btn').addEventListener('touchend', (e) => {
+        jumpBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
             this.controls.jump = false;
         });
+        jumpBtn.addEventListener('click', () => {
+            this.controls.jump = true;
+            setTimeout(() => { this.controls.jump = false; }, 100);
+        });
 
-        document.getElementById('break-btn').addEventListener('touchstart', (e) => {
+        // Break button - both touch and keyboard support
+        const breakBtn = document.getElementById('break-btn');
+        breakBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.breakBlock();
         });
+        breakBtn.addEventListener('click', () => {
+            this.breakBlock();
+        });
 
-        document.getElementById('place-btn').addEventListener('touchstart', (e) => {
+        // Place button - both touch and keyboard support
+        const placeBtn = document.getElementById('place-btn');
+        placeBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.placeBlock();
         });
+        placeBtn.addEventListener('click', () => {
+            this.placeBlock();
+        });
 
-        document.getElementById('fly-btn').addEventListener('touchstart', (e) => {
+        // Fly button - both touch and keyboard support
+        const flyBtn = document.getElementById('fly-btn');
+        flyBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
+            this.player.flying = !this.player.flying;
+        });
+        flyBtn.addEventListener('click', () => {
             this.player.flying = !this.player.flying;
         });
     }
@@ -543,8 +563,9 @@ class VoxelWorld {
     }
 
     updatePhysics(deltaTime) {
-        // Normalize deltaTime to ensure frame-rate independent physics (target: 60 FPS = ~16.67ms)
-        const dtFactor = deltaTime / 16.67;
+        // Normalize deltaTime to ensure frame-rate independent physics (target: 60 FPS)
+        const TARGET_FRAME_TIME_MS = 16.67;
+        const dtFactor = deltaTime / TARGET_FRAME_TIME_MS;
         const moveSpeed = this.player.speed * dtFactor;
         const gravity = this.player.gravity * dtFactor;
         
@@ -581,7 +602,8 @@ class VoxelWorld {
         } else {
             this.player.vy += gravity;
             if (this.controls.jump && this.player.onGround) {
-                this.player.vy = this.player.jumpForce * dtFactor;
+                // Jump force is fixed initial velocity, not scaled by deltaTime
+                this.player.vy = this.player.jumpForce;
                 this.player.onGround = false;
             }
         }
@@ -902,7 +924,7 @@ document.querySelectorAll('.inventory-item').forEach((item) => {
             return;
         }
         
-        if (!Object.prototype.hasOwnProperty.call(typeMap, type)) {
+        if (!(type in typeMap)) {
             console.error('Invalid inventory block type selected:', type);
             alert('This inventory item is not available. Please select another block.');
             return;
