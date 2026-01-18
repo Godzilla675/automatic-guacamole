@@ -565,16 +565,59 @@ class VoxelWorld {
 
     saveGame() {
         try {
+            // Optimized Binary Encoding for World Data
+            // Format: Base64 encoded Int32Array
+            // Each block is packed into a single 32-bit integer:
+            // Bits 0-9:   x + 512 (10 bits, range -512 to 511)
+            // Bits 10-19: z + 512 (10 bits, range -512 to 511)
+            // Bits 20-26: y (7 bits, range 0 to 127)
+            // Bits 27-30: type (4 bits, range 0 to 15)
+
+            const blocks = Array.from(this.world.values());
+            const buffer = new Int32Array(blocks.length);
+
+            blocks.forEach((b, i) => {
+                const x = Math.max(-512, Math.min(511, b.x));
+                const z = Math.max(-512, Math.min(511, b.z));
+                const y = Math.max(0, Math.min(127, b.y)); // Expanded to 7 bits to support height > 63
+                const type = b.type & 0xF; // 4 bits
+
+                buffer[i] = (x + 512) | ((z + 512) << 10) | (y << 20) | (type << 27);
+            });
+
+            // Convert buffer to Base64 string
+            // We can't use Buffer (Node.js) in browser, so we use a FileReader or simple loop
+            // Since it's Int32, let's treat it as bytes.
+            const uint8Array = new Uint8Array(buffer.buffer);
+            let binary = '';
+            // Chunking to avoid stack overflow with String.fromCharCode
+            for (let i = 0; i < uint8Array.byteLength; i += 32768) {
+                binary += String.fromCharCode.apply(null, uint8Array.subarray(i, i + 32768));
+            }
+            const base64World = btoa(binary);
+
             const saveData = {
-                world: Array.from(this.world.entries()),
+                worldData: base64World,
                 player: this.player,
-                gameTime: this.gameTime
+                gameTime: this.gameTime,
+                version: 2
             };
-            localStorage.setItem('voxel-world-save', JSON.stringify(saveData));
+
+            const jsonString = JSON.stringify(saveData);
+
+            if (jsonString.length > 4500000) {
+                 console.warn('Save file is very large:', (jsonString.length / 1024 / 1024).toFixed(2), 'MB');
+            }
+
+            localStorage.setItem('voxel-world-save', jsonString);
             alert('Game Saved Successfully!');
         } catch (e) {
             console.error('Failed to save game:', e);
-            alert('Failed to save game. Storage might be full.');
+            if (e.name === 'QuotaExceededError' || e.message.includes('quota')) {
+                 alert('Failed to save game. Storage is full. Try exploring less before saving.');
+            } else {
+                 alert('Failed to save game: ' + e.message);
+            }
         }
     }
 
@@ -587,9 +630,58 @@ class VoxelWorld {
             }
 
             const saveData = JSON.parse(saveString);
+            this.world = new Map();
 
-            // Restore world
-            this.world = new Map(saveData.world);
+            // Handle different versions
+            if (saveData.version === 2 && saveData.worldData) {
+                // Version 2: Base64 encoded Int32Array
+                try {
+                    const binary = atob(saveData.worldData);
+                    const bytes = new Uint8Array(binary.length);
+                    for (let i = 0; i < binary.length; i++) {
+                        bytes[i] = binary.charCodeAt(i);
+                    }
+                    const buffer = new Int32Array(bytes.buffer);
+
+                    for (let i = 0; i < buffer.length; i++) {
+                        const val = buffer[i];
+                        const x = (val & 0x3FF) - 512;
+                        const z = ((val >> 10) & 0x3FF) - 512;
+                        const y = (val >> 20) & 0x7F; // 7 bits mask
+                        const type = (val >> 27) & 0xF;
+
+                        this.setBlock(x, y, z, type);
+                    }
+                } catch (err) {
+                    console.error('Failed to parse version 2 save data', err);
+                    throw new Error('Save data corruption');
+                }
+            } else if (saveData.world) {
+                // Fallback to older versions (Array or Map)
+                if (Array.isArray(saveData.world)) {
+                    const firstItem = saveData.world[0];
+                    if (Array.isArray(firstItem) && typeof firstItem[0] === 'number') {
+                        // Compact Array format [x,y,z,type]
+                        saveData.world.forEach(b => {
+                            const [x, y, z, type] = b;
+                            this.setBlock(x, y, z, type);
+                        });
+                    } else {
+                        // Legacy Map entries
+                        try {
+                            const tempMap = new Map(saveData.world);
+                            tempMap.forEach((val) => {
+                                 if (val && typeof val.x === 'number') {
+                                     this.setBlock(val.x, val.y, val.z, val.type);
+                                 }
+                            });
+                        } catch (err) {
+                             // Try direct iteration if it was just array of values (unlikely based on old code)
+                             console.error("Failed to parse legacy world format", err);
+                        }
+                    }
+                }
+            }
 
             // Restore player
             this.player = { ...this.player, ...saveData.player };
