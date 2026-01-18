@@ -7,11 +7,13 @@ This document outlines features that future agents should implement to enhance t
 ### 0. Bugs & Maintenance
 - [x] Fix memory management strategy (Implemented Chunk-based storage)
 - [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
+- [ ] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
+- [ ] Fix Crafting System (Currently uses infinite resources, need to implement inventory consumption)
 
 ## High Priority Features
 
 ### 1. Multiplayer Support
-- [ ] WebSocket-based real-time multiplayer (Stubbed `NetworkManager`, needs backend)
+- [ ] WebSocket-based real-time multiplayer (Stubbed `NetworkManager` in `js/network.js`, needs backend)
 - [ ] Player synchronization across clients
 - [ ] Chat system
 - [ ] Player name tags
@@ -31,7 +33,7 @@ This document outlines features that future agents should implement to enhance t
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
 - [x] Recipes for tools, blocks, and items (Basic system in `js/crafting.js`)
-- [ ] Resource gathering requirements
+- [ ] Resource gathering requirements (Currently infinite crafting)
 - [ ] Crafting animations
 - [ ] Recipe discovery system
 
@@ -44,7 +46,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Different breaking speeds based on tool and block
 
 ### 5. Mobs and AI
-- [x] Passive mobs (Basic Mob class implemented)
+- [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
 - [ ] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement implemented)
 - [ ] Day/night spawn cycles
@@ -63,7 +65,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Redstone-like logic blocks
 
 ### 7. World Saving/Loading
-- [x] Save world state to browser localStorage
+- [x] Save world state to browser localStorage (Implemented in `js/world.js`)
 - [x] Load saved worlds
 - [ ] Multiple world slots
 - [ ] Export/import world data
@@ -171,8 +173,8 @@ This document outlines features that future agents should implement to enhance t
 ## Bugs & Maintenance (Lower Priority)
 
 ### 19. Critical Fixes & Bugs
-- [ ] Fix memory management strategy (currently stops building at 500k blocks)
-- [ ] Optimize render loop (O(N) iteration on every frame)
+- [ ] Fix memory management strategy (currently stops building at 500k blocks - *Verify if Chunk limit covers this*)
+- [ ] Optimize render loop (O(N) iteration on every frame - *Verify if implemented culling solved this*)
 
 ## Technical Improvements
 
@@ -184,7 +186,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Error handling improvements
 - [x] Mobile performance optimization
 - [ ] Cross-browser compatibility testing
-- [ ] Improve raycast accuracy (switch to DDA algorithm)
+- [x] Improve raycast accuracy (Implemented DDA algorithm in `js/physics.js`)
 
 ### 21. Accessibility
 - [ ] Keyboard navigation for menus
@@ -202,7 +204,7 @@ This document outlines features that future agents should implement to enhance t
 
 2. **Maintain Performance**: Always test on mobile devices. The game should run at 30+ FPS on mid-range phones.
 
-3. **Keep It Modular**: Each feature should be as independent as possible for easier maintenance.
+3. **Keep It Modular**: Each feature should be as independent as possible for easier maintenance. Use the `js/` directory structure.
 
 4. **Use Web Standards**: Prefer native web APIs and established libraries. Current stack:
    - Canvas 2D API for custom 3D projection rendering
@@ -227,8 +229,8 @@ This document outlines features that future agents should implement to enhance t
 
 ✅ **Completed Features:**
 - Basic 3D voxel world
-- Terrain generation with height variation
-- Multiple block types (8 types)
+- Terrain generation with height variation and caves
+- Multiple block types (8+ types including ores)
 - Block placement and destruction
 - First-person camera controls
 - WASD movement
@@ -239,10 +241,10 @@ This document outlines features that future agents should implement to enhance t
 - Collision detection
 - Jumping
 - Flying mode
-- Hotbar with 5 slots
+- Hotbar with 9 slots
 - Inventory screen
 - Day/night cycle
-- Dynamic lighting
+- Dynamic lighting (basic)
 - Trees generation
 - Water blocks
 - Transparent blocks
@@ -252,14 +254,4 @@ This document outlines features that future agents should implement to enhance t
 - Debug information
 - Pause menu
 - Block selection system
-- World saving and loading
-
-## Contribution Guidelines
-
-When implementing features:
-1. Maintain the existing code style
-2. Add comments for complex logic
-3. Test on both PC and mobile
-4. Update this document when adding features
-5. Consider performance impact
-6. Keep the game accessible and fun
+- World saving and loading (Chunks based)
