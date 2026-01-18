@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Minecraft Clone - Voxel World</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1>🎮 Voxel World</h1>
+            <div class="spinner"></div>
+            <p>Loading game...</p>
+        </div>
+    </div>
+
+    <div id="menu-screen" class="hidden">
+        <div class="menu-content">
+            <h1>🎮 Voxel World</h1>
+            <p class="subtitle">A Minecraft-inspired browser game</p>
+            <button type="button" id="start-game" class="menu-button">Start Game</button>
+            <button type="button" id="show-controls" class="menu-button">Controls</button>
+            <div id="controls-info" class="hidden">
+                <h3>PC Controls:</h3>
+                <ul>
+                    <li>WASD - Move</li>
+                    <li>Space - Jump</li>
+                    <li>Mouse - Look around</li>
+                    <li>Left Click - Break block</li>
+                    <li>Right Click - Place block</li>
+                    <li>1-5 - Select block type</li>
+                    <li>E - Toggle inventory</li>
+                    <li>Shift - Sneak/Descend (creative)</li>
+                    <li>F - Toggle fly mode</li>
+                </ul>
+                <h3>Mobile Controls:</h3>
+                <ul>
+                    <li>Left joystick - Move</li>
+                    <li>Right side - Look around</li>
+                    <li>Jump button - Jump</li>
+                    <li>Action buttons - Break/Place blocks</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-container" class="hidden">
+        <canvas id="game-canvas" aria-label="Voxel World 3D game view" role="application"></canvas>
+        
+        <div id="crosshair" aria-hidden="true"></div>
+        
+        <div id="hud" role="complementary" aria-label="Game HUD">
+            <div id="debug-info">
+                <div>FPS: <span id="fps">0</span></div>
+                <div>Position: <span id="position">0, 0, 0</span></div>
+                <div>Blocks: <span id="block-count">0</span></div>
+                <div>Time: <span id="game-time">Day</span></div>
+            </div>
+            
+            <div id="hotbar">
+                <div class="hotbar-slot active" data-slot="0">
+                    <span class="block-icon" style="background: #8B4513;">🟫</span>
+                    <span class="slot-number">1</span>
+                </div>
+                <div class="hotbar-slot" data-slot="1">
+                    <span class="block-icon" style="background: #808080;">🔲</span>
+                    <span class="slot-number">2</span>
+                </div>
+                <div class="hotbar-slot" data-slot="2">
+                    <span class="block-icon" style="background: #228B22;">🟩</span>
+                    <span class="slot-number">3</span>
+                </div>
+                <div class="hotbar-slot" data-slot="3">
+                    <span class="block-icon" style="background: #8B7355;">🪵</span>
+                    <span class="slot-number">4</span>
+                </div>
+                <div class="hotbar-slot" data-slot="4">
+                    <span class="block-icon" style="background: #90EE90;">🌿</span>
+                    <span class="slot-number">5</span>
+                </div>
+            </div>
+
+            <div id="mobile-controls" class="hidden">
+                <div id="joystick-container">
+                    <div id="joystick-base"></div>
+                    <div id="joystick-stick"></div>
+                </div>
+                <div id="action-buttons">
+                    <button type="button" id="jump-btn" class="action-btn" aria-label="Jump">↑<br>Jump</button>
+                    <button type="button" id="break-btn" class="action-btn" aria-label="Break block">⛏️<br>Break</button>
+                    <button type="button" id="place-btn" class="action-btn" aria-label="Place block">📦<br>Place</button>
+                    <button type="button" id="fly-btn" class="action-btn" aria-label="Toggle flying mode">✈️<br>Fly</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="inventory-screen" class="hidden">
+            <div class="inventory-content">
+                <h2>Inventory</h2>
+                <div class="inventory-grid">
+                    <div class="inventory-item" data-type="dirt">
+                        <span class="block-icon" style="background: #8B4513;">🟫</span>
+                        <span class="item-name">Dirt</span>
+                    </div>
+                    <div class="inventory-item" data-type="stone">
+                        <span class="block-icon" style="background: #808080;">🔲</span>
+                        <span class="item-name">Stone</span>
+                    </div>
+                    <div class="inventory-item" data-type="grass">
+                        <span class="block-icon" style="background: #228B22;">🟩</span>
+                        <span class="item-name">Grass</span>
+                    </div>
+                    <div class="inventory-item" data-type="wood">
+                        <span class="block-icon" style="background: #8B7355;">🪵</span>
+                        <span class="item-name">Wood</span>
+                    </div>
+                    <div class="inventory-item" data-type="leaves">
+                        <span class="block-icon" style="background: #90EE90;">🌿</span>
+                        <span class="item-name">Leaves</span>
+                    </div>
+                    <div class="inventory-item" data-type="sand">
+                        <span class="block-icon" style="background: #F4A460;">🏖️</span>
+                        <span class="item-name">Sand</span>
+                    </div>
+                    <div class="inventory-item" data-type="water">
+                        <span class="block-icon" style="background: #4169E1;">💧</span>
+                        <span class="item-name">Water</span>
+                    </div>
+                    <div class="inventory-item" data-type="glass">
+                        <span class="block-icon" style="background: rgba(173, 216, 230, 0.5);">🔷</span>
+                        <span class="item-name">Glass</span>
+                    </div>
+                </div>
+                <button type="button" id="close-inventory" class="menu-button">Close (E)</button>
+            </div>
+        </div>
+
+        <button type="button" id="pause-btn" class="ui-button" aria-label="Pause game">⏸️ Pause</button>
+    </div>
+
+    <div id="pause-screen" class="hidden">
+        <div class="menu-content">
+            <h1>Game Paused</h1>
+            <button type="button" id="resume-game" class="menu-button">Resume</button>
+            <button type="button" id="return-menu" class="menu-button">Return to Menu</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
