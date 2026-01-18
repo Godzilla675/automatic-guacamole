@@ -21,8 +21,8 @@
         <div class="menu-content">
             <h1>🎮 Voxel World</h1>
             <p class="subtitle">A Minecraft-inspired browser game</p>
-            <button id="start-game" class="menu-button">Start Game</button>
-            <button id="show-controls" class="menu-button">Controls</button>
+            <button type="button" id="start-game" class="menu-button">Start Game</button>
+            <button type="button" id="show-controls" class="menu-button">Controls</button>
             <div id="controls-info" class="hidden">
                 <h3>PC Controls:</h3>
                 <ul>
@@ -48,11 +48,11 @@
     </div>
 
     <div id="game-container" class="hidden">
-        <canvas id="game-canvas"></canvas>
+        <canvas id="game-canvas" aria-label="Voxel World 3D game view" role="application"></canvas>
         
-        <div id="crosshair"></div>
+        <div id="crosshair" aria-hidden="true"></div>
         
-        <div id="hud">
+        <div id="hud" role="complementary" aria-label="Game HUD">
             <div id="debug-info">
                 <div>FPS: <span id="fps">0</span></div>
                 <div>Position: <span id="position">0, 0, 0</span></div>
@@ -89,10 +89,10 @@
                     <div id="joystick-stick"></div>
                 </div>
                 <div id="action-buttons">
-                    <button id="jump-btn" class="action-btn">↑<br>Jump</button>
-                    <button id="break-btn" class="action-btn">⛏️<br>Break</button>
-                    <button id="place-btn" class="action-btn">📦<br>Place</button>
-                    <button id="fly-btn" class="action-btn">✈️<br>Fly</button>
+                    <button type="button" id="jump-btn" class="action-btn" aria-label="Jump">↑<br>Jump</button>
+                    <button type="button" id="break-btn" class="action-btn" aria-label="Break block">⛏️<br>Break</button>
+                    <button type="button" id="place-btn" class="action-btn" aria-label="Place block">📦<br>Place</button>
+                    <button type="button" id="fly-btn" class="action-btn" aria-label="Toggle flying mode">✈️<br>Fly</button>
                 </div>
             </div>
         </div>
@@ -134,18 +134,18 @@
                         <span class="item-name">Glass</span>
                     </div>
                 </div>
-                <button id="close-inventory" class="menu-button">Close (E)</button>
+                <button type="button" id="close-inventory" class="menu-button">Close (E)</button>
             </div>
         </div>
 
-        <button id="pause-btn" class="ui-button">⏸️ Pause</button>
+        <button type="button" id="pause-btn" class="ui-button" aria-label="Pause game">⏸️ Pause</button>
     </div>
 
     <div id="pause-screen" class="hidden">
         <div class="menu-content">
             <h1>Game Paused</h1>
-            <button id="resume-game" class="menu-button">Resume</button>
-            <button id="return-menu" class="menu-button">Return to Menu</button>
+            <button type="button" id="resume-game" class="menu-button">Resume</button>
+            <button type="button" id="return-menu" class="menu-button">Return to Menu</button>
         </div>
     </div>
 

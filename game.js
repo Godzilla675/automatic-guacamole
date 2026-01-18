@@ -62,13 +62,37 @@ class VoxelWorld {
     }
 
     detectMobile() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-               (window.innerWidth < 768);
+        const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        const hasTouchSupport =
+            ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0) ||
+            ('msMaxTouchPoints' in navigator && navigator.msMaxTouchPoints > 0) ||
+            (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+
+        const isSmallScreen =
+            (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) ||
+            (window.innerWidth < 768);
+
+        // Consider a device mobile if it has mobile UA and either touch or small screen,
+        // or if it has both touch support and a small screen (e.g., tablets).
+        return (isMobileUserAgent && (hasTouchSupport || isSmallScreen)) ||
+               (hasTouchSupport && isSmallScreen);
     }
 
     async init() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        // Set up canvas with device pixel ratio for crisp rendering
+        const dpr = window.devicePixelRatio || 1;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        this.canvas.style.width = width + 'px';
+        this.canvas.style.height = height + 'px';
+        this.canvas.width = width * dpr;
+        this.canvas.height = height * dpr;
+        
+        if (this.ctx && this.ctx.setTransform) {
+            this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
         
         // Generate initial world
         await this.generateWorld();
@@ -97,12 +121,13 @@ class VoxelWorld {
                 }
             }
 
-            // Generate some trees
+            // Generate some trees (only above water level)
             for (let i = 0; i < 15; i++) {
                 const x = Math.floor(Math.random() * this.chunkSize * 6) - this.chunkSize * 3;
                 const z = Math.floor(Math.random() * this.chunkSize * 6) - this.chunkSize * 3;
                 const y = this.getHeightAt(x, z);
-                if (y > 0 && y < 30) {
+                // Only place trees above water level (water level is at y = 16) and below height limit
+                if (y >= 16 && y < 30) {
                     this.generateTree(x, y, z);
                 }
             }
@@ -184,6 +209,21 @@ class VoxelWorld {
             return;
         }
 
+        // Add world size limits to prevent excessive memory usage
+        // Limit world to reasonable bounds around spawn
+        const maxDistance = 500;
+        if (Math.abs(x) > maxDistance || Math.abs(z) > maxDistance || y < 0 || y > this.worldHeight * 2) {
+            console.warn('Block placement outside world bounds:', x, y, z);
+            return;
+        }
+
+        // Prevent excessive block count (especially important if multiplayer is added)
+        const maxBlocks = 500000;
+        if (this.world.size >= maxBlocks && !this.world.has(key)) {
+            console.warn('World block limit reached:', maxBlocks);
+            return;
+        }
+
         this.world.set(key, { x, y, z, type });
     }
 
@@ -258,8 +298,22 @@ class VoxelWorld {
         document.addEventListener('contextmenu', (e) => e.preventDefault());
 
         window.addEventListener('resize', () => {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
+            const dpr = window.devicePixelRatio || 1;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // Set the display size in CSS pixels
+            this.canvas.style.width = width + 'px';
+            this.canvas.style.height = height + 'px';
+
+            // Set the internal canvas resolution in device pixels
+            this.canvas.width = width * dpr;
+            this.canvas.height = height * dpr;
+
+            // Scale the drawing context so game logic can continue using CSS pixels
+            if (this.ctx && this.ctx.setTransform) {
+                this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
         });
 
         document.querySelectorAll('.hotbar-slot').forEach((slot, index) => {
@@ -397,10 +451,17 @@ class VoxelWorld {
             const newY = target.y + target.face.y;
             const newZ = target.z + target.face.z;
 
+            // Improved bounding box check for block placement
             const px = this.player.x, py = this.player.y, pz = this.player.z;
-            const inPlayer = Math.abs(newX - px) < 0.6 && 
-                           newY >= py && newY < py + this.player.height &&
-                           Math.abs(newZ - pz) < 0.6;
+            const blockCenterX = newX + 0.5;
+            const blockCenterZ = newZ + 0.5;
+            const dx = blockCenterX - px;
+            const dz = blockCenterZ - pz;
+            const horizontalDistance = Math.sqrt(dx * dx + dz * dz);
+            const radius = this.player.width / 2;
+            const horizontallyInside = horizontalDistance < radius;
+            const verticallyInside = newY >= py && newY <= py + this.player.height;
+            const inPlayer = horizontallyInside && verticallyInside;
 
             if (!inPlayer) {
                 this.setBlock(newX, newY, newZ, this.selectedBlock);
@@ -410,6 +471,7 @@ class VoxelWorld {
 
     raycast() {
         const maxDist = 5;
+        // Using fixed step size - could be optimized with DDA algorithm for better accuracy
         const step = 0.1;
         const dirX = Math.sin(this.player.yaw) * Math.cos(this.player.pitch);
         const dirY = -Math.sin(this.player.pitch);
@@ -454,8 +516,14 @@ class VoxelWorld {
         inventory.classList.toggle('hidden');
         
         if (!inventory.classList.contains('hidden')) {
+            // Exiting pointer lock when opening inventory
             if (document.pointerLockElement) {
                 document.exitPointerLock();
+            }
+        } else {
+            // Re-request pointer lock when closing inventory on non-mobile devices
+            if (!this.isMobile && document.pointerLockElement !== this.canvas) {
+                this.canvas.requestPointerLock();
             }
         }
     }
@@ -467,8 +535,19 @@ class VoxelWorld {
         }
     }
 
+    resumeGame() {
+        // Re-request pointer lock when resuming on non-mobile devices
+        if (!this.isMobile && document.pointerLockElement !== this.canvas) {
+            this.canvas.requestPointerLock();
+        }
+    }
+
     updatePhysics(deltaTime) {
-        const moveSpeed = this.player.speed;
+        // Normalize deltaTime to ensure frame-rate independent physics (target: 60 FPS = ~16.67ms)
+        const dtFactor = deltaTime / 16.67;
+        const moveSpeed = this.player.speed * dtFactor;
+        const gravity = this.player.gravity * dtFactor;
+        
         const forward = {
             x: Math.sin(this.player.yaw),
             z: Math.cos(this.player.yaw)
@@ -500,9 +579,9 @@ class VoxelWorld {
             if (this.controls.jump) this.player.vy = moveSpeed * 2;
             if (this.controls.sneak) this.player.vy = -moveSpeed * 2;
         } else {
-            this.player.vy += this.player.gravity;
+            this.player.vy += gravity;
             if (this.controls.jump && this.player.onGround) {
-                this.player.vy = this.player.jumpForce;
+                this.player.vy = this.player.jumpForce * dtFactor;
                 this.player.onGround = false;
             }
         }
@@ -510,9 +589,10 @@ class VoxelWorld {
         this.player.vx *= 0.8;
         this.player.vz *= 0.8;
 
-        // Collision detection
+        // Collision detection with improved step size to prevent clipping
         const checkCollision = (x, y, z) => {
-            for (let dy = 0; dy < this.player.height; dy += 0.5) {
+            // Use smaller step size (0.3) to check more positions and prevent head clipping
+            for (let dy = 0; dy <= this.player.height; dy += 0.3) {
                 const blockType = this.getBlock(x, y + dy, z);
                 if (blockType !== null && this.blockTypes[blockType].solid) {
                     return true;
@@ -555,13 +635,16 @@ class VoxelWorld {
         }
 
         if (this.player.y < 0) {
-            this.player.y = 25;
+            // Respawn at safe height above terrain
+            const safeGroundY = this.getHeightAt(Math.floor(this.player.x), Math.floor(this.player.z));
+            this.player.y = safeGroundY + 1;
             this.player.vy = 0;
         }
     }
 
-    updateDayNightCycle() {
-        this.gameTime += 16;
+    updateDayNightCycle(deltaTime) {
+        // Use actual deltaTime for consistent cycle duration regardless of frame rate
+        this.gameTime += deltaTime;
         const cycle = (this.gameTime % this.dayLength) / this.dayLength;
         const isDay = cycle < 0.5;
         document.getElementById('game-time').textContent = isDay ? 'Day' : 'Night';
@@ -600,6 +683,9 @@ class VoxelWorld {
         this.ctx.fillRect(0, 0, w, h);
 
         // Collect visible blocks
+        // NOTE: This iterates through ALL blocks in the world Map on every frame.
+        // For large worlds (~392K blocks), consider implementing chunk-based frustum culling
+        // or spatial partitioning to only iterate through potentially visible blocks.
         const blocks = [];
         const viewDist = 50;
         
@@ -610,29 +696,35 @@ class VoxelWorld {
             const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
             
             if (dist < viewDist) {
-                // Rotate around player
+                // Rotate around player (yaw rotation)
                 const sinY = Math.sin(-this.player.yaw);
                 const cosY = Math.cos(-this.player.yaw);
-                const rx = dx * cosY - dz * sinY;
-                const rz = dx * sinY + dz * cosY;
+                const rotatedX = dx * cosY - dz * sinY;
+                const rotatedZAfterYaw = dx * sinY + dz * cosY;
                 
                 // Pitch rotation
                 const sinP = Math.sin(-this.player.pitch);
                 const cosP = Math.cos(-this.player.pitch);
-                const ry = dy * cosP - rz * sinP;
-                const rz2 = dy * sinP + rz * cosP;
+                const rotatedY = dy * cosP - rotatedZAfterYaw * sinP;
+                const rotatedZAfterPitch = dy * sinP + rotatedZAfterYaw * cosP;
                 
-                if (rz2 > 0.1) {
+                // Only include blocks in front of camera
+                if (rotatedZAfterPitch > 0.1) {
                     blocks.push({
                         ...block,
-                        rx, ry, rz: rz2,
+                        rx: rotatedX,
+                        ry: rotatedY,
+                        rz: rotatedZAfterPitch,
                         dist
                     });
                 }
             }
         });
 
-        // Sort by distance (far to near)
+        // Sort by distance (far to near) for painter's algorithm
+        // NOTE: Full array sort on every frame is O(n log n). For better performance,
+        // consider using a more efficient sorting algorithm for nearly-sorted data
+        // or implement a depth buffer approach to avoid sorting altogether.
         blocks.sort((a, b) => b.dist - a.dist);
 
         // Draw blocks
@@ -676,12 +768,60 @@ class VoxelWorld {
         });
     }
 
-    adjustColor(hexColor, brightness) {
-        const r = parseInt(hexColor.slice(1, 3), 16);
-        const g = parseInt(hexColor.slice(3, 5), 16);
-        const b = parseInt(hexColor.slice(5, 7), 16);
-        
-        return `rgb(${Math.floor(r * brightness)}, ${Math.floor(g * brightness)}, ${Math.floor(b * brightness)})`;
+    adjustColor(color, brightness) {
+        // Handle hex colors (#RRGGBB or #RGB)
+        if (typeof color === 'string' && color[0] === '#') {
+            let hex = color.slice(1);
+
+            // Expand shorthand hex (#RGB -> #RRGGBB)
+            if (hex.length === 3) {
+                hex = hex.split('').map(ch => ch + ch).join('');
+            }
+
+            if (hex.length === 6) {
+                const r = parseInt(hex.slice(0, 2), 16);
+                const g = parseInt(hex.slice(2, 4), 16);
+                const b = parseInt(hex.slice(4, 6), 16);
+
+                if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) {
+                    const rr = Math.max(0, Math.min(255, Math.floor(r * brightness)));
+                    const gg = Math.max(0, Math.min(255, Math.floor(g * brightness)));
+                    const bb = Math.max(0, Math.min(255, Math.floor(b * brightness)));
+                    return `rgb(${rr}, ${gg}, ${bb})`;
+                }
+            }
+
+            // Fallback: if hex parsing failed, return original color
+            return color;
+        }
+
+        // Handle rgb(...) / rgba(...)
+        if (typeof color === 'string' && color.toLowerCase().startsWith('rgb')) {
+            const match = color.match(/^rgba?\(\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)(?:\s*,\s*([0-9.]+)\s*)?\)$/i);
+            if (match) {
+                let r = parseFloat(match[1]);
+                let g = parseFloat(match[2]);
+                let b = parseFloat(match[3]);
+                const a = match[4] !== undefined ? parseFloat(match[4]) : undefined;
+
+                if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) {
+                    r = Math.max(0, Math.min(255, Math.floor(r * brightness)));
+                    g = Math.max(0, Math.min(255, Math.floor(g * brightness)));
+                    b = Math.max(0, Math.min(255, Math.floor(b * brightness)));
+
+                    if (a !== undefined && !Number.isNaN(a)) {
+                        return `rgba(${r}, ${g}, ${b}, ${a})`;
+                    }
+                    return `rgb(${r}, ${g}, ${b})`;
+                }
+            }
+
+            // Fallback: if rgb(a) parsing failed, return original color
+            return color;
+        }
+
+        // Unsupported format: return original color unchanged
+        return color;
     }
 
     gameLoop() {
@@ -692,7 +832,7 @@ class VoxelWorld {
         this.lastTime = currentTime;
 
         this.updatePhysics(deltaTime);
-        this.updateDayNightCycle();
+        this.updateDayNightCycle(deltaTime);
         this.updateHUD();
         this.render();
     }
@@ -731,6 +871,9 @@ document.getElementById('pause-btn').addEventListener('click', () => {
 
 document.getElementById('resume-game').addEventListener('click', () => {
     document.getElementById('pause-screen').classList.add('hidden');
+    if (game) {
+        game.resumeGame();
+    }
 });
 
 document.getElementById('return-menu').addEventListener('click', () => {
@@ -753,9 +896,19 @@ document.querySelectorAll('.inventory-item').forEach((item) => {
             'dirt': 0, 'stone': 1, 'grass': 2, 'wood': 3,
             'leaves': 4, 'sand': 5, 'water': 6, 'glass': 7
         };
-        if (typeMap[type] !== undefined && game) {
-            game.selectBlock(typeMap[type]);
-            document.getElementById('inventory-screen').classList.add('hidden');
+        
+        if (!game) {
+            console.warn('Inventory item clicked before game was initialized.');
+            return;
         }
+        
+        if (!Object.prototype.hasOwnProperty.call(typeMap, type)) {
+            console.error('Invalid inventory block type selected:', type);
+            alert('This inventory item is not available. Please select another block.');
+            return;
+        }
+        
+        game.selectBlock(typeMap[type]);
+        document.getElementById('inventory-screen').classList.add('hidden');
     });
 });

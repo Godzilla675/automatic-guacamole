@@ -137,7 +137,9 @@ automatic-guacamole/
 The game is easily customizable:
 
 ### Add New Block Types
-Edit `game.js` in the `initBlockTypes()` method:
+To add a new block type, you need to update multiple files:
+
+1. **Add block definition** in `game.js` `initBlockTypes()` method:
 ```javascript
 8: { 
     name: 'newblock', 
@@ -147,6 +149,25 @@ Edit `game.js` in the `initBlockTypes()` method:
     transparent: false  // Is it transparent?
 }
 ```
+
+2. **Add inventory item** in `index.html` inside the `.inventory-grid`:
+```html
+<div class="inventory-item" data-type="newblock">
+    <span class="block-icon" style="background: #FF0000;">🧱</span>
+    <span class="item-name">New Block</span>
+</div>
+```
+
+3. **Update typeMap** in `game.js` at the bottom (inventory click handler):
+```javascript
+const typeMap = {
+    'dirt': 0, 'stone': 1, 'grass': 2, 'wood': 3,
+    'leaves': 4, 'sand': 5, 'water': 6, 'glass': 7,
+    'newblock': 8  // Add your new block here
+};
+```
+
+4. **Optionally add to hotbar** by modifying the hotbar HTML in `index.html`.
 
 ### Adjust World Generation
 Modify `getHeightAt()` method in `game.js` to change terrain:
