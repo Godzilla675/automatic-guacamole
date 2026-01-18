@@ -2,12 +2,6 @@
 
 This document outlines features that future agents should implement to enhance the Minecraft clone game.
 
-## Critical Fixes & Technical Debt
-
-### 0. Bugs & Maintenance
-- [ ] Fix memory management strategy (currently stops building at 500k blocks)
-- [ ] Optimize render loop (O(N) iteration on every frame)
-
 ## High Priority Features
 
 ### 1. Multiplayer Support
@@ -63,8 +57,8 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Redstone-like logic blocks
 
 ### 7. World Saving/Loading
-- [ ] Save world state to browser localStorage
-- [ ] Load saved worlds
+- [x] Save world state to browser localStorage
+- [x] Load saved worlds
 - [ ] Multiple world slots
 - [ ] Export/import world data
 - [ ] Auto-save functionality
@@ -168,9 +162,15 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Resource pack support
 - [ ] Texture customization
 
+## Bugs & Maintenance (Lower Priority)
+
+### 19. Critical Fixes & Bugs
+- [ ] Fix memory management strategy (currently stops building at 500k blocks)
+- [ ] Optimize render loop (O(N) iteration on every frame)
+
 ## Technical Improvements
 
-### 19. Code Quality
+### 20. Code Quality
 - [ ] Unit tests for core systems
 - [ ] Integration tests
 - [ ] Code documentation
@@ -179,7 +179,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Mobile performance optimization
 - [ ] Cross-browser compatibility testing
 
-### 20. Accessibility
+### 21. Accessibility
 - [ ] Keyboard navigation for menus
 - [ ] Screen reader support
 - [ ] Colorblind modes
@@ -245,6 +245,7 @@ This document outlines features that future agents should implement to enhance t
 - Debug information
 - Pause menu
 - Block selection system
+- World saving and loading
 
 ## Contribution Guidelines
 

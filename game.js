@@ -557,8 +557,51 @@ class VoxelWorld {
 
     resumeGame() {
         // Re-request pointer lock when resuming on non-mobile devices
+        document.getElementById('pause-screen').classList.add('hidden');
         if (!this.isMobile && document.pointerLockElement !== this.canvas) {
             this.canvas.requestPointerLock();
+        }
+    }
+
+    saveGame() {
+        try {
+            const saveData = {
+                world: Array.from(this.world.entries()),
+                player: this.player,
+                gameTime: this.gameTime
+            };
+            localStorage.setItem('voxel-world-save', JSON.stringify(saveData));
+            alert('Game Saved Successfully!');
+        } catch (e) {
+            console.error('Failed to save game:', e);
+            alert('Failed to save game. Storage might be full.');
+        }
+    }
+
+    loadGame() {
+        try {
+            const saveString = localStorage.getItem('voxel-world-save');
+            if (!saveString) {
+                alert('No saved game found!');
+                return;
+            }
+
+            const saveData = JSON.parse(saveString);
+
+            // Restore world
+            this.world = new Map(saveData.world);
+
+            // Restore player
+            this.player = { ...this.player, ...saveData.player };
+
+            // Restore time
+            this.gameTime = saveData.gameTime || 0;
+
+            alert('Game Loaded Successfully!');
+            this.resumeGame();
+        } catch (e) {
+            console.error('Failed to load game:', e);
+            alert('Failed to load game. Save file might be corrupted.');
         }
     }
 
@@ -892,10 +935,18 @@ document.getElementById('pause-btn').addEventListener('click', () => {
 });
 
 document.getElementById('resume-game').addEventListener('click', () => {
-    document.getElementById('pause-screen').classList.add('hidden');
+    // Note: resumeGame() now handles hiding the pause screen
     if (game) {
         game.resumeGame();
     }
+});
+
+document.getElementById('save-game').addEventListener('click', () => {
+    if (game) game.saveGame();
+});
+
+document.getElementById('load-game').addEventListener('click', () => {
+    if (game) game.loadGame();
 });
 
 document.getElementById('return-menu').addEventListener('click', () => {
