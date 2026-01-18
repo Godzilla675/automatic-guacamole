@@ -178,6 +178,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Error handling improvements
 - [ ] Mobile performance optimization
 - [ ] Cross-browser compatibility testing
+- [ ] Improve raycast accuracy (switch to DDA algorithm)
 
 ### 21. Accessibility
 - [ ] Keyboard navigation for menus
