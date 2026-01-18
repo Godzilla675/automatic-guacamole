@@ -5,7 +5,8 @@ class VoxelWorld {
     constructor() {
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.world = new Map();
+        this.chunks = new Map();
+        this.blockCount = 0;
         this.blockTypes = this.initBlockTypes();
         this.chunkSize = 16;
         this.renderDistance = 4;
@@ -202,10 +203,22 @@ class VoxelWorld {
     }
 
     setBlock(x, y, z, type) {
-        const key = `${x},${y},${z}`;
+        const cx = Math.floor(x / this.chunkSize);
+        const cz = Math.floor(z / this.chunkSize);
+        const chunkKey = `${cx},${cz}`;
+        const blockKey = `${x},${y},${z}`;
         
         if (type === null) {
-            this.world.delete(key);
+            if (this.chunks.has(chunkKey)) {
+                const chunk = this.chunks.get(chunkKey);
+                if (chunk.has(blockKey)) {
+                    chunk.delete(blockKey);
+                    this.blockCount--;
+                    if (chunk.size === 0) {
+                        this.chunks.delete(chunkKey);
+                    }
+                }
+            }
             return;
         }
 
@@ -217,20 +230,62 @@ class VoxelWorld {
             return;
         }
 
-        // Prevent excessive block count (especially important if multiplayer is added)
+        // Memory Management: Remove distant chunks if limit reached
         const maxBlocks = 500000;
-        if (this.world.size >= maxBlocks && !this.world.has(key)) {
-            console.warn('World block limit reached:', maxBlocks);
-            return;
+        if (this.blockCount >= maxBlocks) {
+            // Find chunk furthest from player
+            const pcx = Math.floor(this.player.x / this.chunkSize);
+            const pcz = Math.floor(this.player.z / this.chunkSize);
+
+            let furthestKey = null;
+            let maxDistSq = -1;
+
+            for (const key of this.chunks.keys()) {
+                const [kcx, kcz] = key.split(',').map(Number);
+                const dx = kcx - pcx;
+                const dz = kcz - pcz;
+                const distSq = dx * dx + dz * dz;
+
+                if (distSq > maxDistSq) {
+                    maxDistSq = distSq;
+                    furthestKey = key;
+                }
+            }
+
+            if (furthestKey) {
+                const removedChunk = this.chunks.get(furthestKey);
+                this.blockCount -= removedChunk.size;
+                this.chunks.delete(furthestKey);
+            }
         }
 
-        this.world.set(key, { x, y, z, type });
+        if (!this.chunks.has(chunkKey)) {
+            this.chunks.set(chunkKey, new Map());
+        }
+
+        const chunk = this.chunks.get(chunkKey);
+        if (!chunk.has(blockKey)) {
+            this.blockCount++;
+        }
+        chunk.set(blockKey, { x, y, z, type });
     }
 
     getBlock(x, y, z) {
-        const key = `${Math.floor(x)},${Math.floor(y)},${Math.floor(z)}`;
-        const block = this.world.get(key);
-        return block ? block.type : null;
+        const ix = Math.floor(x);
+        const iy = Math.floor(y);
+        const iz = Math.floor(z);
+
+        const cx = Math.floor(ix / this.chunkSize);
+        const cz = Math.floor(iz / this.chunkSize);
+        const chunkKey = `${cx},${cz}`;
+
+        if (this.chunks.has(chunkKey)) {
+            const chunk = this.chunks.get(chunkKey);
+            const blockKey = `${ix},${iy},${iz}`;
+            const block = chunk.get(blockKey);
+            return block ? block.type : null;
+        }
+        return null;
     }
 
     setupEventListeners() {
@@ -491,43 +546,73 @@ class VoxelWorld {
 
     raycast() {
         const maxDist = 5;
-        // Using fixed step size - could be optimized with DDA algorithm for better accuracy
-        const step = 0.1;
+
+        // Improved Raycast using DDA (Digital Differential Analyzer) algorithm
+        const startX = this.player.x;
+        const startY = this.player.y + this.player.height - 0.2;
+        const startZ = this.player.z;
+
         const dirX = Math.sin(this.player.yaw) * Math.cos(this.player.pitch);
         const dirY = -Math.sin(this.player.pitch);
         const dirZ = Math.cos(this.player.yaw) * Math.cos(this.player.pitch);
 
-        for (let dist = 0; dist < maxDist; dist += step) {
-            const x = Math.floor(this.player.x + dirX * dist);
-            const y = Math.floor(this.player.y + this.player.height - 0.2 + dirY * dist);
-            const z = Math.floor(this.player.z + dirZ * dist);
+        let x = Math.floor(startX);
+        let y = Math.floor(startY);
+        let z = Math.floor(startZ);
+
+        const stepX = Math.sign(dirX);
+        const stepY = Math.sign(dirY);
+        const stepZ = Math.sign(dirZ);
+
+        const tDeltaX = dirX !== 0 ? Math.abs(1 / dirX) : Infinity;
+        const tDeltaY = dirY !== 0 ? Math.abs(1 / dirY) : Infinity;
+        const tDeltaZ = dirZ !== 0 ? Math.abs(1 / dirZ) : Infinity;
+
+        let tMaxX = dirX !== 0 ? (stepX > 0 ? (x + 1 - startX) : (startX - x)) * tDeltaX : Infinity;
+        let tMaxY = dirY !== 0 ? (stepY > 0 ? (y + 1 - startY) : (startY - y)) * tDeltaY : Infinity;
+        let tMaxZ = dirZ !== 0 ? (stepZ > 0 ? (z + 1 - startZ) : (startZ - z)) * tDeltaZ : Infinity;
+
+        let face = null;
+
+        // Check starting block
+        const startBlock = this.getBlock(x, y, z);
+        if (startBlock !== null && this.blockTypes[startBlock].solid) {
+             return { x, y, z, type: startBlock, face: null };
+        }
+
+        while (true) {
+            if (tMaxX < tMaxY) {
+                if (tMaxX < tMaxZ) {
+                    if (tMaxX > maxDist) break;
+                    x += stepX;
+                    tMaxX += tDeltaX;
+                    face = { x: -stepX, y: 0, z: 0 };
+                } else {
+                    if (tMaxZ > maxDist) break;
+                    z += stepZ;
+                    tMaxZ += tDeltaZ;
+                    face = { x: 0, y: 0, z: -stepZ };
+                }
+            } else {
+                if (tMaxY < tMaxZ) {
+                    if (tMaxY > maxDist) break;
+                    y += stepY;
+                    tMaxY += tDeltaY;
+                    face = { x: 0, y: -stepY, z: 0 };
+                } else {
+                    if (tMaxZ > maxDist) break;
+                    z += stepZ;
+                    tMaxZ += tDeltaZ;
+                    face = { x: 0, y: 0, z: -stepZ };
+                }
+            }
 
             const blockType = this.getBlock(x, y, z);
             if (blockType !== null && this.blockTypes[blockType].solid) {
-                const faces = [
-                    {x: 1, y: 0, z: 0}, {x: -1, y: 0, z: 0},
-                    {x: 0, y: 1, z: 0}, {x: 0, y: -1, z: 0},
-                    {x: 0, y: 0, z: 1}, {x: 0, y: 0, z: -1}
-                ];
-                const fx = (this.player.x + dirX * dist) - x;
-                const fy = (this.player.y + this.player.height - 0.2 + dirY * dist) - y;
-                const fz = (this.player.z + dirZ * dist) - z;
-                
-                let bestFace = faces[0];
-                let minDist = 999;
-                faces.forEach(face => {
-                    const d = Math.abs((fx - 0.5) - face.x * 0.5) + 
-                             Math.abs((fy - 0.5) - face.y * 0.5) + 
-                             Math.abs((fz - 0.5) - face.z * 0.5);
-                    if (d < minDist) {
-                        minDist = d;
-                        bestFace = face;
-                    }
-                });
-
-                return { x, y, z, type: blockType, face: bestFace };
+                return { x, y, z, type: blockType, face };
             }
         }
+
         return null;
     }
 
@@ -573,7 +658,14 @@ class VoxelWorld {
             // Bits 20-26: y (7 bits, range 0 to 127)
             // Bits 27-30: type (4 bits, range 0 to 15)
 
-            const blocks = Array.from(this.world.values());
+            // Collect all blocks from all chunks
+            const blocks = [];
+            this.chunks.forEach(chunk => {
+                chunk.forEach(block => {
+                    blocks.push(block);
+                });
+            });
+
             const buffer = new Int32Array(blocks.length);
 
             blocks.forEach((b, i) => {
@@ -821,7 +913,7 @@ class VoxelWorld {
         document.getElementById('position').textContent = 
             `${Math.floor(this.player.x)}, ${Math.floor(this.player.y)}, ${Math.floor(this.player.z)}`;
 
-        document.getElementById('block-count').textContent = this.world.size;
+        document.getElementById('block-count').textContent = this.blockCount;
     }
 
     render() {
@@ -839,44 +931,53 @@ class VoxelWorld {
         this.ctx.fillStyle = skyGradient;
         this.ctx.fillRect(0, 0, w, h);
 
-        // Collect visible blocks
-        // NOTE: This iterates through ALL blocks in the world Map on every frame.
-        // For large worlds (~392K blocks), consider implementing chunk-based frustum culling
-        // or spatial partitioning to only iterate through potentially visible blocks.
+        // Collect visible blocks from chunks
         const blocks = [];
         const viewDist = 50;
-        
-        this.world.forEach((block) => {
-            const dx = block.x - this.player.x;
-            const dy = block.y - (this.player.y + this.player.height - 0.2);
-            const dz = block.z - this.player.z;
-            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-            
-            if (dist < viewDist) {
-                // Rotate around player (yaw rotation)
-                const sinY = Math.sin(-this.player.yaw);
-                const cosY = Math.cos(-this.player.yaw);
-                const rotatedX = dx * cosY - dz * sinY;
-                const rotatedZAfterYaw = dx * sinY + dz * cosY;
-                
-                // Pitch rotation
-                const sinP = Math.sin(-this.player.pitch);
-                const cosP = Math.cos(-this.player.pitch);
-                const rotatedY = dy * cosP - rotatedZAfterYaw * sinP;
-                const rotatedZAfterPitch = dy * sinP + rotatedZAfterYaw * cosP;
-                
-                // Only include blocks in front of camera
-                if (rotatedZAfterPitch > 0.1) {
-                    blocks.push({
-                        ...block,
-                        rx: rotatedX,
-                        ry: rotatedY,
-                        rz: rotatedZAfterPitch,
-                        dist
+        // Chunk-based culling
+        const pcx = Math.floor(this.player.x / this.chunkSize);
+        const pcz = Math.floor(this.player.z / this.chunkSize);
+        const renderDistChunks = Math.ceil(viewDist / this.chunkSize) + 1;
+
+        for (let cx = pcx - renderDistChunks; cx <= pcx + renderDistChunks; cx++) {
+            for (let cz = pcz - renderDistChunks; cz <= pcz + renderDistChunks; cz++) {
+                const chunkKey = `${cx},${cz}`;
+                if (this.chunks.has(chunkKey)) {
+                     const chunk = this.chunks.get(chunkKey);
+                     chunk.forEach(block => {
+                         const dx = block.x - this.player.x;
+                         const dy = block.y - (this.player.y + this.player.height - 0.2);
+                         const dz = block.z - this.player.z;
+                         const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                         if (dist < viewDist) {
+                            // Rotate around player (yaw rotation)
+                            const sinY = Math.sin(-this.player.yaw);
+                            const cosY = Math.cos(-this.player.yaw);
+                            const rotatedX = dx * cosY - dz * sinY;
+                            const rotatedZAfterYaw = dx * sinY + dz * cosY;
+
+                            // Pitch rotation
+                            const sinP = Math.sin(-this.player.pitch);
+                            const cosP = Math.cos(-this.player.pitch);
+                            const rotatedY = dy * cosP - rotatedZAfterYaw * sinP;
+                            const rotatedZAfterPitch = dy * sinP + rotatedZAfterYaw * cosP;
+
+                            // Only include blocks in front of camera
+                            if (rotatedZAfterPitch > 0.1) {
+                                blocks.push({
+                                    ...block,
+                                    rx: rotatedX,
+                                    ry: rotatedY,
+                                    rz: rotatedZAfterPitch,
+                                    dist
+                                });
+                            }
+                        }
                     });
                 }
             }
-        });
+        }
 
         // Sort by distance (far to near) for painter's algorithm
         // NOTE: Full array sort on every frame is O(n log n). For better performance,
