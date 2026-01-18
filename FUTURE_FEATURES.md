@@ -255,3 +255,13 @@ This document outlines features that future agents should implement to enhance t
 - Pause menu
 - Block selection system
 - World saving and loading (Chunks based)
+
+## Contribution Guidelines
+
+When implementing features:
+1. Maintain the existing code style
+2. Add comments for complex logic
+3. Test on both PC and mobile
+4. Update this document when adding features
+5. Consider performance impact
+6. Keep the game accessible and fun
