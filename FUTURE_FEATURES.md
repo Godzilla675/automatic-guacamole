@@ -2,6 +2,12 @@
 
 This document outlines features that future agents should implement to enhance the Minecraft clone game.
 
+## Critical Fixes & Technical Debt
+
+### 0. Bugs & Maintenance
+- [ ] Fix memory management strategy (currently stops building at 500k blocks)
+- [ ] Optimize render loop (O(N) iteration on every frame)
+
 ## High Priority Features
 
 ### 1. Multiplayer Support
@@ -72,6 +78,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Weather effects (rain, snow)
 - [ ] Clouds
 - [ ] Better skybox
+- [ ] Head bobbing animation
 
 ### 9. Sound System
 - [ ] Background music
@@ -97,6 +104,8 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Tutorial/help system
 - [ ] Better mobile UI scaling
 - [ ] Gamepad support
+- [ ] Dynamic Crosshair
+- [ ] Non-intrusive UI notifications (replace alerts)
 
 ## Low Priority / Polish Features
 
@@ -109,6 +118,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Potions and brewing
 - [ ] Farming (crops, animals)
 - [ ] Fishing
+- [ ] Sprinting mechanic
 
 ### 13. Creative Mode Features
 - [ ] Unlimited blocks
