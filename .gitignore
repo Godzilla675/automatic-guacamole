@@ -22,3 +22,5 @@ package-lock.json
 # Build artifacts (if added later)
 dist/
 build/
+__pycache__/
+*.pyc
