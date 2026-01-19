@@ -34,12 +34,12 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Shovels for faster dirt/sand breaking
 - [ ] Axes for faster wood breaking
 - [x] Swords for combat
-- [ ] Tool durability system
+- [x] Tool durability system
 - [ ] Different breaking speeds based on tool and block
 
 ### 5. Mobs and AI
 - [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
-- [ ] Hostile mobs (zombies, skeletons, spiders) - *Note: Only Zombies implemented*
+- [x] Hostile mobs (zombies, skeletons, spiders) - *Note: All implemented*
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
 - [ ] Day/night spawn cycles
 - [ ] Mob drops and loot
@@ -169,8 +169,8 @@ This document outlines features that future agents should implement to enhance t
 - [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
 - [x] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
 - [x] Fix Crafting System (Inventory consumption implemented)
-- [ ] Fix memory management strategy (verify chunk limit)
-- [ ] Optimize render loop (verify culling efficiency)
+- [x] Fix memory management strategy (verify chunk limit - Implemented `unloadFarChunks`)
+- [x] Optimize render loop (verify culling efficiency - Implemented World-aware face culling)
 
 ## Technical Improvements
 

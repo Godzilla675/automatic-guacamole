@@ -1,38 +1,36 @@
 from playwright.sync_api import sync_playwright
 import os
 
-def test_game_load(page):
-    # Go to the local file
-    cwd = os.getcwd()
-    file_path = f"file://{cwd}/index.html"
-    print(f"Navigating to {file_path}")
-    page.goto(file_path)
+def verify_game():
+    if not os.path.exists("verification"):
+        os.makedirs("verification")
 
-    # Wait for the game to load (menu screen)
-    # The menu screen has ID 'menu-screen' and should be visible after loading-screen is hidden
-    # loading screen is hidden after 1500ms
-    page.wait_for_selector("#menu-screen", state="visible", timeout=5000)
-
-    # Click 'Start Game'
-    page.click("#start-game")
-
-    # Wait for game container
-    page.wait_for_selector("#game-canvas", state="visible")
-
-    # Wait a bit for render
-    page.wait_for_timeout(2000)
-
-    # Take screenshot
-    page.screenshot(path="verification/game_screenshot.png")
-    print("Screenshot taken")
-
-if __name__ == "__main__":
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
-        try:
-            test_game_load(page)
-        except Exception as e:
-            print(f"Error: {e}")
-        finally:
-            browser.close()
+        page.goto("http://localhost:8080")
+
+        # Click Start Game
+        page.click("#start-game")
+
+        # Wait for game canvas
+        page.wait_for_selector("#game-canvas")
+
+        # Wait a bit for init
+        page.wait_for_timeout(2000)
+
+        # Modify durability of slot 0 (Diamond Pickaxe) to show bar
+        # Max durability is 1561. Set to 500 to show bar (~1/3).
+        page.evaluate("""
+            const item = { type: window.BLOCK.PICKAXE_DIAMOND, count: 1, durability: 500 };
+            window.game.player.inventory[0] = item;
+            window.game.updateHotbarUI();
+        """)
+
+        # Take screenshot
+        page.screenshot(path="verification/game_hud.png")
+
+        browser.close()
+
+if __name__ == "__main__":
+    verify_game()

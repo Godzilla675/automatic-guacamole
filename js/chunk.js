@@ -34,7 +34,7 @@ class Chunk {
         this.modified = true;
     }
 
-    updateVisibleBlocks() {
+    updateVisibleBlocks(world) {
         if (!this.modified) return;
         this.visibleBlocks = [];
 
@@ -44,10 +44,9 @@ class Chunk {
                     const type = this.getBlock(x, y, z);
                     if (type === BLOCK.AIR) continue;
 
-                    // Check neighbors (simple check within chunk, ignores chunk borders for simplicity for now)
-                    // For perfect culling, we need world context, but chunk-local is a good start.
+                    // Check neighbors
                     // We check if ANY face is exposed.
-                    if (this.isExposed(x, y, z)) {
+                    if (this.isExposed(x, y, z, world)) {
                         this.visibleBlocks.push({ x, y, z, type });
                     }
                 }
@@ -56,14 +55,35 @@ class Chunk {
         this.modified = false;
     }
 
-    isExposed(x, y, z) {
-        // Check 6 directions
-        if (this.getBlock(x+1, y, z) === BLOCK.AIR) return true;
-        if (this.getBlock(x-1, y, z) === BLOCK.AIR) return true;
-        if (this.getBlock(x, y+1, z) === BLOCK.AIR) return true;
-        if (this.getBlock(x, y-1, z) === BLOCK.AIR) return true;
-        if (this.getBlock(x, y, z+1) === BLOCK.AIR) return true;
-        if (this.getBlock(x, y, z-1) === BLOCK.AIR) return true;
+    isExposed(x, y, z, world) {
+        const isTransparent = (bx, by, bz) => {
+            let type;
+            // Check bounds for local access
+            if (bx >= 0 && bx < this.size && bz >= 0 && bz < this.size && by >= 0 && by < this.maxHeight) {
+                type = this.getBlock(bx, by, bz);
+            } else if (world) {
+                // Neighbor is outside chunk, check world
+                const wx = this.cx * this.size + bx;
+                const wz = this.cz * this.size + bz;
+                const wy = by;
+                type = world.getBlock(wx, wy, wz);
+            } else {
+                // If no world context provided and out of bounds, default to exposed (safe)
+                return true;
+            }
+
+            if (type === BLOCK.AIR) return true;
+            // Check specific transparent blocks (leaves, water, glass)
+            if (window.BLOCKS && window.BLOCKS[type] && window.BLOCKS[type].transparent) return true;
+            return false;
+        };
+
+        if (isTransparent(x+1, y, z)) return true;
+        if (isTransparent(x-1, y, z)) return true;
+        if (isTransparent(x, y+1, z)) return true;
+        if (isTransparent(x, y-1, z)) return true;
+        if (isTransparent(x, y, z+1)) return true;
+        if (isTransparent(x, y, z-1)) return true;
         return false;
     }
 }
