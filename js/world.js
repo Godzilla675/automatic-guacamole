@@ -35,6 +35,12 @@ class World {
             return;
         }
         chunk.setBlock(lx, y, lz, type);
+
+        // Update neighbors if on edge to ensure culling is updated
+        if (lx === 0) { const c = this.getChunk(cx - 1, cz); if (c) c.modified = true; }
+        if (lx === this.chunkSize - 1) { const c = this.getChunk(cx + 1, cz); if (c) c.modified = true; }
+        if (lz === 0) { const c = this.getChunk(cx, cz - 1); if (c) c.modified = true; }
+        if (lz === this.chunkSize - 1) { const c = this.getChunk(cx, cz + 1); if (c) c.modified = true; }
     }
 
     getBlock(x, y, z) {
@@ -46,6 +52,22 @@ class World {
         let chunk = this.getChunk(cx, cz);
         if (!chunk) return BLOCK.AIR;
         return chunk.getBlock(lx, y, lz);
+    }
+
+    unloadFarChunks(playerX, playerZ, renderDist) {
+        const centerCX = Math.floor(playerX / this.chunkSize);
+        const centerCZ = Math.floor(playerZ / this.chunkSize);
+        const unloadDist = renderDist + 2; // Keep a buffer around render distance
+
+        for (const key of this.chunks.keys()) {
+             const [cxStr, czStr] = key.split(',');
+             const cx = parseInt(cxStr);
+             const cz = parseInt(czStr);
+
+             if (Math.abs(cx - centerCX) > unloadDist || Math.abs(cz - centerCZ) > unloadDist) {
+                 this.chunks.delete(key);
+             }
+        }
     }
 
     generateChunk(cx, cz) {

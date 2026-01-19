@@ -1,7 +1,9 @@
 const MOB_TYPE = {
     COW: 'cow',
     ZOMBIE: 'zombie',
-    PIG: 'pig'
+    PIG: 'pig',
+    SKELETON: 'skeleton',
+    SPIDER: 'spider'
 };
 
 class Mob {
@@ -25,6 +27,7 @@ class Mob {
 
         this.yaw = Math.random() * Math.PI * 2;
         this.moveTimer = 0;
+        this.attackCooldown = 0;
 
         this.initType();
     }
@@ -45,6 +48,17 @@ class Mob {
                 this.color = '#2E8B57'; // Green
                 this.height = 1.8;
                 this.speed = 2.5; // Faster
+                break;
+            case MOB_TYPE.SKELETON:
+                this.color = '#DDDDDD'; // Light Grey
+                this.height = 1.8;
+                this.speed = 2.0;
+                break;
+            case MOB_TYPE.SPIDER:
+                this.color = '#330000'; // Dark Red/Black
+                this.height = 0.8;
+                this.width = 1.2;
+                this.speed = 3.5; // Very Fast
                 break;
         }
     }
@@ -113,23 +127,45 @@ class Mob {
         const dist = Math.sqrt(dx*dx + dz*dz);
 
         if (dist < 20 && dist > 1) { // Detect range
-            this.yaw = Math.atan2(dx, dz); // Correct atan2 order for (x, z) logic usually?
-            // Standard Math.atan2(y, x). Here Z is Y.
-            // But wait, our coordinate system:
-            // x = sin(yaw), z = cos(yaw)
-            // So tan(yaw) = x / z.
-            // yaw = atan2(x, z).
+            this.yaw = Math.atan2(dx, dz);
 
-            // Move towards player
-            this.vx = Math.sin(this.yaw) * this.speed;
-            this.vz = Math.cos(this.yaw) * this.speed;
+            if (this.type === MOB_TYPE.SKELETON) {
+                 if (dist > 8) {
+                     // Move closer
+                     this.vx = Math.sin(this.yaw) * this.speed;
+                     this.vz = Math.cos(this.yaw) * this.speed;
+                 } else {
+                     // Stop and shoot
+                     this.vx = 0;
+                     this.vz = 0;
+                     this.attackCooldown -= dt;
+                     if (this.attackCooldown <= 0) {
+                         if (this.game.spawnProjectile) {
+                             // Shoot at player height
+                             const dir = { x: dx/dist, y: (player.y + player.height*0.8 - (this.y + this.height*0.8))/dist, z: dz/dist };
+                             this.game.spawnProjectile(this.x, this.y + this.height * 0.8, this.z, dir);
+                         }
+                         this.attackCooldown = 3.0;
+                     }
+                 }
+            } else {
+                // Zombie & Spider
+                this.vx = Math.sin(this.yaw) * this.speed;
+                this.vz = Math.cos(this.yaw) * this.speed;
 
-            // Jump if wall (simple)
-            const bx = Math.floor(this.x + this.vx * 0.5);
-            const bz = Math.floor(this.z + this.vz * 0.5);
-            const by = Math.floor(this.y);
-            if (this.world.getBlock(bx, by, bz) !== BLOCK.AIR) {
-                if (this.vy === 0) this.vy = 6;
+                // Jump if wall (simple)
+                const bx = Math.floor(this.x + this.vx * 0.5);
+                const bz = Math.floor(this.z + this.vz * 0.5);
+                const by = Math.floor(this.y);
+                const blockInFront = this.world.getBlock(bx, by, bz);
+
+                if (blockInFront !== BLOCK.AIR && !BLOCKS[blockInFront].liquid) {
+                    if (this.type === MOB_TYPE.SPIDER) {
+                        this.vy = 5; // Climb/Super jump
+                    } else if (this.vy === 0) {
+                        this.vy = 6;
+                    }
+                }
             }
         } else {
             this.updatePassiveAI(dt); // Wander if lost

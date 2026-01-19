@@ -10,6 +10,7 @@ class Game {
         this.physics = new Physics(this.world);
         this.player = new Player(this);
         this.mobs = [];
+        this.projectiles = [];
         this.network = new NetworkManager(this);
         this.crafting = new CraftingSystem(this);
 
@@ -60,12 +61,15 @@ class Game {
             this.mobs.push(new Mob(this, 15 + i*2, 40, 15 + i*2, MOB_TYPE.ZOMBIE));
         }
         this.mobs.push(new Mob(this, 12, 40, 12, MOB_TYPE.PIG));
+        this.mobs.push(new Mob(this, 20, 40, 20, MOB_TYPE.SKELETON));
+        this.mobs.push(new Mob(this, 25, 40, 25, MOB_TYPE.SPIDER));
 
         // Connect Multiplayer
         this.network.connect('ws://localhost:8080');
 
         this.crafting.initUI();
         this.setupEventListeners();
+        this.updateHotbarUI();
 
         if (this.isMobile) {
             document.getElementById('mobile-controls').classList.remove('hidden');
@@ -95,6 +99,9 @@ class Game {
         const centerChunkX = Math.floor(this.player.x / 16);
         const centerChunkZ = Math.floor(this.player.z / 16);
         const dist = this.world.renderDistance; // In chunks
+
+        // Unload far chunks
+        this.world.unloadFarChunks(this.player.x, this.player.z, dist);
 
         for (let cx = centerChunkX - dist; cx <= centerChunkX + dist; cx++) {
             for (let cz = centerChunkZ - dist; cz <= centerChunkZ + dist; cz++) {
@@ -281,6 +288,23 @@ class Game {
         if (hit) {
             this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.AIR);
             window.soundManager.play('break');
+
+            // Tool Durability
+            const slotIdx = this.player.selectedSlot;
+            const item = this.player.inventory[slotIdx];
+            if (item && window.TOOLS[item.type]) {
+                const toolDef = window.TOOLS[item.type];
+                if (item.durability === undefined) {
+                    item.durability = toolDef.durability;
+                }
+                item.durability--;
+                if (item.durability <= 0) {
+                     this.player.inventory[slotIdx] = null;
+                     window.soundManager.play('break'); // Re-use break sound for now
+                }
+                this.updateHotbarUI();
+            }
+
             // Drop item?
             // Add to inventory?
             this.network.sendBlockUpdate(hit.x, hit.y, hit.z, BLOCK.AIR);
@@ -350,14 +374,117 @@ class Game {
     }
 
     updateHotbarUI() {
-        document.querySelectorAll('.hotbar-slot').forEach((slot, i) => {
+        const hotbar = document.getElementById('hotbar');
+
+        // Initialize slots if needed
+        if (hotbar.children.length === 0) {
+             for (let i = 0; i < 9; i++) {
+                 const slot = document.createElement('div');
+                 slot.className = 'hotbar-slot';
+                 slot.dataset.slot = i;
+
+                 const icon = document.createElement('span');
+                 icon.className = 'block-icon';
+                 slot.appendChild(icon);
+
+                 const num = document.createElement('span');
+                 num.className = 'slot-number';
+                 num.textContent = i + 1;
+                 slot.appendChild(num);
+
+                 slot.addEventListener('click', () => {
+                    this.player.selectedSlot = i;
+                    this.updateHotbarUI();
+                 });
+
+                 hotbar.appendChild(slot);
+             }
+        }
+
+        const slots = hotbar.children;
+        for (let i = 0; i < 9; i++) {
+            const slot = slots[i];
+            if (!slot) continue;
+
             slot.classList.toggle('active', i === this.player.selectedSlot);
-        });
+
+            const item = this.player.inventory[i];
+            const icon = slot.querySelector('.block-icon');
+
+            // Clear existing durability bar
+            const existingBar = slot.querySelector('.durability-bar-bg');
+            if (existingBar) existingBar.remove();
+
+            if (item) {
+                const blockDef = window.BLOCKS[item.type];
+                if (blockDef) {
+                    icon.textContent = blockDef.icon || '';
+                    icon.style.backgroundColor = blockDef.color || 'transparent';
+                }
+
+                // Durability Bar
+                if (window.TOOLS[item.type]) {
+                    const toolDef = window.TOOLS[item.type];
+                    const max = toolDef.durability;
+                    const current = item.durability !== undefined ? item.durability : max;
+
+                    if (current < max) {
+                        const pct = Math.max(0, Math.min(100, (current / max) * 100));
+
+                        const barBg = document.createElement('div');
+                        barBg.className = 'durability-bar-bg';
+                        const bar = document.createElement('div');
+                        bar.className = 'durability-bar';
+                        bar.style.width = pct + '%';
+
+                        if (pct < 20) bar.style.backgroundColor = '#FF0000';
+                        else if (pct < 50) bar.style.backgroundColor = '#FFFF00';
+
+                        barBg.appendChild(bar);
+                        slot.appendChild(barBg);
+                    }
+                }
+            } else {
+                icon.style.backgroundColor = 'transparent';
+                icon.textContent = '';
+            }
+        }
     }
 
     update(dt) {
         this.player.update(dt / 1000);
         this.mobs.forEach(mob => mob.update(dt / 1000));
+
+        // Update Projectiles
+        for (let i = this.projectiles.length - 1; i >= 0; i--) {
+            const p = this.projectiles[i];
+            const dts = dt / 1000;
+            p.x += p.vx * dts;
+            p.y += p.vy * dts;
+            p.z += p.vz * dts;
+            p.life -= dts;
+
+            // Collision with world
+            if (this.world.getBlock(Math.floor(p.x), Math.floor(p.y), Math.floor(p.z)) !== BLOCK.AIR) {
+                p.life = 0;
+            }
+
+            // Collision with player (simple distance)
+            const dx = p.x - this.player.x;
+            const dy = p.y - (this.player.y + this.player.height/2);
+            const dz = p.z - this.player.z;
+            if (dx*dx + dy*dy + dz*dz < 1.0) {
+                 p.life = 0;
+                 // Push player
+                 this.player.vx += p.vx * 0.5;
+                 this.player.vz += p.vz * 0.5;
+                 // Damage sound?
+            }
+
+            if (p.life <= 0) {
+                this.projectiles.splice(i, 1);
+            }
+        }
 
         this.gameTime += dt;
         const cycle = (this.gameTime % this.dayLength) / this.dayLength;
@@ -419,7 +546,7 @@ class Game {
 
                 // Ensure chunk cache is built
                 if (chunk.modified) {
-                    chunk.updateVisibleBlocks();
+                    chunk.updateVisibleBlocks(this.world);
                 }
 
                 // Iterate cached visible blocks
@@ -512,6 +639,28 @@ class Game {
              }
         });
 
+        // Draw Projectiles
+        this.projectiles.forEach(p => {
+             const dx = p.x - px;
+             const dy = p.y - py;
+             const dz = p.z - pz;
+
+             const rx = dx * cosY - dz * sinY;
+             const rz = dx * sinY + dz * cosY;
+             const ry = dy * cosP - rz * sinP;
+             const rz2 = dy * sinP + rz * cosP;
+
+             if (rz2 > 0.1) {
+                 const scale = (h / 2) / Math.tan(this.fov * Math.PI / 360);
+                 const size = (scale / rz2) * 0.2;
+                 const sx = (rx / rz2) * scale + w / 2;
+                 const sy = (ry / rz2) * scale + h / 2;
+
+                 ctx.fillStyle = 'white';
+                 ctx.fillRect(sx - size/2, sy - size/2, size, size);
+             }
+        });
+
         // Draw Other Players
         if (this.network && this.network.otherPlayers) {
             this.network.otherPlayers.forEach(p => {
@@ -563,6 +712,16 @@ class Game {
             }
         }
         return color;
+    }
+
+    spawnProjectile(x, y, z, dir) {
+        this.projectiles.push({
+            x, y, z,
+            vx: dir.x * 15,
+            vy: dir.y * 15,
+            vz: dir.z * 15,
+            life: 2.0
+        });
     }
 
     gameLoop() {
