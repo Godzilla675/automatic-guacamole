@@ -2,24 +2,16 @@
 
 This document outlines features that future agents should implement to enhance the Minecraft clone game.
 
-## Critical Fixes & Technical Debt
-
-### 0. Bugs & Maintenance
-- [x] Fix memory management strategy (Implemented Chunk-based storage)
-- [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
-- [x] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
-- [x] Fix Crafting System (Currently uses infinite resources, need to implement inventory consumption)
-
 ## High Priority Features
 
 ### 1. Multiplayer Support
-- [x] WebSocket-based real-time multiplayer (Stubbed `NetworkManager` in `js/network.js`, needs backend)
+- [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
 - [x] Player synchronization across clients
 - [ ] Chat system
 - [ ] Player name tags
 - [x] Server infrastructure (Node.js + WebSocket)
 - [ ] Player spawn points
-- [ ] Shared world state
+- [x] Shared world state
 
 ### 2. Advanced World Generation
 - [x] Biomes (Implemented basic noise-based terrain)
@@ -33,7 +25,7 @@ This document outlines features that future agents should implement to enhance t
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
 - [x] Recipes for tools, blocks, and items (Basic system in `js/crafting.js`)
-- [x] Resource gathering requirements (Currently infinite crafting)
+- [x] Resource gathering requirements (Inventory consumption implemented)
 - [ ] Crafting animations
 - [ ] Recipe discovery system
 
@@ -48,10 +40,10 @@ This document outlines features that future agents should implement to enhance t
 ### 5. Mobs and AI
 - [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
 - [x] Hostile mobs (zombies, skeletons, spiders)
-- [x] Mob AI pathfinding (Random movement implemented)
+- [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
 - [ ] Day/night spawn cycles
 - [ ] Mob drops and loot
-- [ ] Health and combat system
+- [ ] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
 
 ## Medium Priority Features
@@ -86,7 +78,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Background music
 - [x] Block breaking sounds
 - [x] Footstep sounds
-- [x] Ambient sounds (water, wind) (Stubbed in `SoundManager`)
+- [x] Ambient sounds (water, wind) (Basic implementation in `SoundManager`)
 - [x] Sound effects for actions
 - [ ] Volume controls
 
@@ -170,11 +162,15 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Resource pack support
 - [ ] Texture customization
 
-## Bugs & Maintenance (Lower Priority)
+## Bugs & Maintenance
 
 ### 19. Critical Fixes & Bugs
-- [ ] Fix memory management strategy (currently stops building at 500k blocks - *Verify if Chunk limit covers this*)
-- [ ] Optimize render loop (O(N) iteration on every frame - *Verify if implemented culling solved this*)
+- [x] Fix memory management strategy (Implemented Chunk-based storage)
+- [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
+- [x] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
+- [x] Fix Crafting System (Inventory consumption implemented)
+- [ ] Fix memory management strategy (verify chunk limit)
+- [ ] Optimize render loop (verify culling efficiency)
 
 ## Technical Improvements
 
@@ -200,7 +196,7 @@ This document outlines features that future agents should implement to enhance t
 
 ### For Future Developers:
 
-1. **Start with High Priority**: Focus on multiplayer and world generation as these are foundational features.
+1. **Prioritize New Features**: Focus on adding high-priority features (e.g., Combat, Dynamic Crosshair, Tool Durability) BEFORE fixing non-critical bugs or refactoring code.
 
 2. **Maintain Performance**: Always test on mobile devices. The game should run at 30+ FPS on mid-range phones.
 
@@ -255,3 +251,7 @@ This document outlines features that future agents should implement to enhance t
 - Pause menu
 - Block selection system
 - World saving and loading (Chunks based)
+- Multiplayer (Basic Position/Block Sync)
+- Crafting System (Resource Consumption)
+- Mobs (Passive & Hostile AI)
+- Audio (Basic SFX)
