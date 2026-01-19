@@ -39,7 +39,7 @@ This document outlines features that future agents should implement to enhance t
 
 ### 5. Mobs and AI
 - [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
-- [x] Hostile mobs (zombies, skeletons, spiders)
+- [ ] Hostile mobs (zombies, skeletons, spiders) - *Note: Only Zombies implemented*
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
 - [ ] Day/night spawn cycles
 - [ ] Mob drops and loot
@@ -77,7 +77,7 @@ This document outlines features that future agents should implement to enhance t
 ### 9. Sound System
 - [ ] Background music
 - [x] Block breaking sounds
-- [x] Footstep sounds
+- [ ] Footstep sounds
 - [x] Ambient sounds (water, wind) (Basic implementation in `SoundManager`)
 - [x] Sound effects for actions
 - [ ] Volume controls

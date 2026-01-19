@@ -1,13 +1,18 @@
 const assert = require('assert');
 const { JSDOM } = require('jsdom');
+const fs = require('fs');
 
 // Mock Game Environment
-const dom = new JSDOM(`<!DOCTYPE html><body><div id="crafting-recipes"></div><div id="crafting-screen"></div><div id="close-crafting"></div></body>`);
+const dom = new JSDOM(`<!DOCTYPE html><body><div id="crafting-recipes"></div><div id="crafting-screen"></div><div id="close-crafting"></div></body>`, {
+    runScripts: "dangerously",
+    resources: "usable"
+});
 global.window = dom.window;
 global.document = dom.window.document;
+global.alert = (msg) => {}; // Mock alert
 
-// Mock globals
-global.BLOCK = {
+// Mock globals in the window context
+dom.window.BLOCK = {
     DIRT: 0,
     STONE: 1,
     GRASS: 2,
@@ -20,12 +25,11 @@ global.BLOCK = {
     PLANK: 9,
     COBBLESTONE: 10
 };
-global.BLOCKS = {};
+dom.window.BLOCKS = {};
 
-// Load Crafting System (needs manual load since no modules)
-// We need to read the file first.
-const fs = require('fs');
+// Load Crafting System
 const craftingCode = fs.readFileSync('js/crafting.js', 'utf8');
+dom.window.eval(craftingCode);
 
 // Mock Game Class
 class MockGame {
@@ -37,9 +41,6 @@ class MockGame {
     }
 }
 
-// Execute the crafting code in this context
-eval(craftingCode);
-
 // Test Suite
 describe('Crafting System', () => {
     let game;
@@ -47,29 +48,31 @@ describe('Crafting System', () => {
 
     beforeEach(() => {
         game = new MockGame();
-        crafting = new window.CraftingSystem(game);
+        // Access CraftingSystem from window
+        crafting = new dom.window.CraftingSystem(game);
         // Overwrite recipes for testing
         crafting.recipes = [
              {
                 name: "Planks",
-                result: { type: BLOCK.PLANK, count: 4 },
-                ingredients: [ { type: BLOCK.WOOD, count: 1 } ]
+                result: { type: dom.window.BLOCK.PLANK, count: 4 },
+                ingredients: [ { type: dom.window.BLOCK.WOOD, count: 1 } ]
             }
         ];
         // Mock alert globally
         global.alert = (msg) => {};
+        dom.window.alert = (msg) => {};
     });
 
     it('should craft item if ingredients exist', () => {
         // Give wood
-        game.player.inventory[0] = { type: BLOCK.WOOD, count: 2 };
+        game.player.inventory[0] = { type: dom.window.BLOCK.WOOD, count: 2 };
 
         crafting.craft(0);
 
         // Should have 1 wood left
         assert.strictEqual(game.player.inventory[0].count, 1);
         // Should have 4 planks (in first empty slot)
-        const planks = game.player.inventory.find(s => s && s.type === BLOCK.PLANK);
+        const planks = game.player.inventory.find(s => s && s.type === dom.window.BLOCK.PLANK);
         assert.ok(planks, 'Planks not found');
         assert.strictEqual(planks.count, 4);
     });
@@ -77,22 +80,22 @@ describe('Crafting System', () => {
     it('should fail if not enough ingredients', () => {
         // No wood
         let alertMsg = '';
-        global.alert = (msg) => alertMsg = msg;
+        dom.window.alert = (msg) => alertMsg = msg;
 
         crafting.craft(0);
 
         assert.ok(alertMsg.includes('Not enough'));
 
         // Inventory check
-        const planks = game.player.inventory.find(s => s && s.type === BLOCK.PLANK);
+        const planks = game.player.inventory.find(s => s && s.type === dom.window.BLOCK.PLANK);
         assert.strictEqual(planks, undefined);
     });
 
     it('should stack items', () => {
         // Give wood
-        game.player.inventory[0] = { type: BLOCK.WOOD, count: 1 };
+        game.player.inventory[0] = { type: dom.window.BLOCK.WOOD, count: 1 };
         // Give existing planks
-        game.player.inventory[1] = { type: BLOCK.PLANK, count: 60 };
+        game.player.inventory[1] = { type: dom.window.BLOCK.PLANK, count: 60 };
 
         crafting.craft(0);
 
