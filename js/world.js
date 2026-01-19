@@ -149,7 +149,7 @@ class World {
         }
     }
 
-    saveWorld() {
+    saveWorld(slotName = 'default') {
         // Limit number of chunks to save to avoid quota limit
         // We only really need to save chunks that might have been modified?
         // Or just save all current chunks. 16KB * 20 = 320KB. Safe.
@@ -179,19 +179,19 @@ class World {
         };
 
         try {
-            localStorage.setItem('voxelWorldSave', JSON.stringify(data));
-            console.log("World saved", chunksData.length, "chunks");
+            localStorage.setItem('voxelWorldSave_' + slotName, JSON.stringify(data));
+            console.log("World saved to slot:", slotName, chunksData.length, "chunks");
             // Also notify user
             if (window.game) window.game.chat?.addMessage("World Saved!");
-            alert("World Saved!");
+            alert("World Saved: " + slotName);
         } catch(e) {
             console.error("Save failed", e);
             alert("Save failed (Quota exceeded?)");
         }
     }
 
-    loadWorld() {
-        const dataStr = localStorage.getItem('voxelWorldSave');
+    loadWorld(slotName = 'default') {
+        const dataStr = localStorage.getItem('voxelWorldSave_' + slotName);
         if (dataStr) {
             try {
                 const data = JSON.parse(dataStr);
@@ -210,11 +210,14 @@ class World {
                         this.chunks.set(this.getChunkKey(cData.cx, cData.cz), chunk);
                     });
                 }
-                console.log("World loaded");
-                alert("World Loaded!");
+                console.log("World loaded from slot:", slotName);
+                alert("World Loaded: " + slotName);
             } catch(e) {
                 console.error("Load failed", e);
+                alert("Load Failed");
             }
+        } else {
+            alert("No save found for slot: " + slotName);
         }
     }
 }

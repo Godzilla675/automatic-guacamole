@@ -7,17 +7,17 @@ This document outlines features that future agents should implement to enhance t
 ### 0. Bugs & Maintenance
 - [x] Fix memory management strategy (Implemented Chunk-based storage)
 - [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
-- [ ] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
-- [ ] Fix Crafting System (Currently uses infinite resources, need to implement inventory consumption)
+- [x] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
+- [x] Fix Crafting System (Currently uses infinite resources, need to implement inventory consumption)
 
 ## High Priority Features
 
 ### 1. Multiplayer Support
-- [ ] WebSocket-based real-time multiplayer (Stubbed `NetworkManager` in `js/network.js`, needs backend)
-- [ ] Player synchronization across clients
+- [x] WebSocket-based real-time multiplayer (Stubbed `NetworkManager` in `js/network.js`, needs backend)
+- [x] Player synchronization across clients
 - [ ] Chat system
 - [ ] Player name tags
-- [ ] Server infrastructure (Node.js + WebSocket)
+- [x] Server infrastructure (Node.js + WebSocket)
 - [ ] Player spawn points
 - [ ] Shared world state
 
@@ -33,21 +33,21 @@ This document outlines features that future agents should implement to enhance t
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
 - [x] Recipes for tools, blocks, and items (Basic system in `js/crafting.js`)
-- [ ] Resource gathering requirements (Currently infinite crafting)
+- [x] Resource gathering requirements (Currently infinite crafting)
 - [ ] Crafting animations
 - [ ] Recipe discovery system
 
 ### 4. Tools and Items
-- [ ] Pickaxes (wood, stone, iron, diamond)
+- [x] Pickaxes (wood, stone, iron, diamond)
 - [ ] Shovels for faster dirt/sand breaking
 - [ ] Axes for faster wood breaking
-- [ ] Swords for combat
+- [x] Swords for combat
 - [ ] Tool durability system
 - [ ] Different breaking speeds based on tool and block
 
 ### 5. Mobs and AI
 - [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
-- [ ] Hostile mobs (zombies, skeletons, spiders)
+- [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement implemented)
 - [ ] Day/night spawn cycles
 - [ ] Mob drops and loot
@@ -67,7 +67,7 @@ This document outlines features that future agents should implement to enhance t
 ### 7. World Saving/Loading
 - [x] Save world state to browser localStorage (Implemented in `js/world.js`)
 - [x] Load saved worlds
-- [ ] Multiple world slots
+- [x] Multiple world slots
 - [ ] Export/import world data
 - [ ] Auto-save functionality
 
@@ -179,7 +179,7 @@ This document outlines features that future agents should implement to enhance t
 ## Technical Improvements
 
 ### 20. Code Quality
-- [ ] Unit tests for core systems
+- [x] Unit tests for core systems
 - [ ] Integration tests
 - [x] Code documentation
 - [ ] Performance profiling
