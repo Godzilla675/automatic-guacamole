@@ -73,6 +73,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Clouds
 - [ ] Better skybox
 - [ ] Head bobbing animation
+- [ ] Sun/Moon rendering
 
 ### 9. Sound System
 - [ ] Background music
@@ -86,12 +87,14 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Larger inventory (3x9 grid)
 - [ ] Drag and drop items
 - [ ] Item stacking
-- [ ] Hotbar number indicators
+- [x] Hotbar number indicators
 - [ ] Quick item swap
 - [ ] Inventory sorting
 
 ### 11. User Interface Improvements
 - [ ] Settings menu (graphics, controls, sound)
+- [ ] FOV Slider
+- [ ] Mouse Sensitivity Control
 - [ ] Minimap
 - [ ] Coordinates toggle
 - [ ] Achievement system
@@ -118,6 +121,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Unlimited blocks
 - [ ] Instant block breaking
 - [ ] No collision mode (noclip)
+- [x] Fly mode toggle (Key 'F')
 - [ ] World edit tools (copy, paste, fill)
 - [ ] Time control
 - [ ] Weather control
@@ -171,6 +175,8 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Crafting System (Inventory consumption implemented)
 - [x] Fix memory management strategy (verify chunk limit - Implemented `unloadFarChunks`)
 - [x] Optimize render loop (verify culling efficiency - Implemented World-aware face culling)
+- [ ] Fix Footstep Sounds (Logic missing in Player.js)
+- [ ] Fix Crouch Mechanics (No hitbox reduction or speed change on ground)
 
 ## Technical Improvements
 
