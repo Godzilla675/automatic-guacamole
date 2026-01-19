@@ -344,8 +344,8 @@ body {
     transform: scale(0.95);
 }
 
-/* Inventory */
-#inventory-screen {
+/* Crafting & Inventory */
+#inventory-screen, #crafting-screen {
     position: absolute;
     top: 0;
     left: 0;

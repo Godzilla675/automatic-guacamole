@@ -49,26 +49,75 @@ class CraftingSystem {
 
     craft(index) {
         const recipe = this.recipes[index];
-        // Check ingredients
-        // Simplified: Infinite crafting for demo/creative feel, or implement check
-        // Let's implement basic check
         const player = this.game.player;
+        const inventory = player.inventory;
 
-        // Find ingredients
-        let hasAll = true;
-        // This requires inventory to be more than just an array of slots we can overwrite.
-        // For now, let's just give the item.
-
-        // Add to inventory
-        // Find first empty slot or stack
-        for (let i = 0; i < player.inventory.length; i++) {
-             if (!player.inventory[i] || player.inventory[i].type === recipe.result.type) {
-                 player.inventory[i] = { type: recipe.result.type, count: 64 }; // Just give a stack
-                 alert(`Crafted ${recipe.name}!`);
-                 return;
-             }
+        // 1. Check if player has all ingredients
+        for (const ingredient of recipe.ingredients) {
+            let countFound = 0;
+            for (const slot of inventory) {
+                if (slot && slot.type === ingredient.type) {
+                    countFound += slot.count;
+                }
+            }
+            if (countFound < ingredient.count) {
+                alert(`Not enough resources! Need ${ingredient.count} of block ID ${ingredient.type}`);
+                return;
+            }
         }
-        alert("Inventory full!");
+
+        // 2. Remove ingredients
+        for (const ingredient of recipe.ingredients) {
+            let countToRemove = ingredient.count;
+            for (let i = 0; i < inventory.length; i++) {
+                const slot = inventory[i];
+                if (slot && slot.type === ingredient.type) {
+                    if (slot.count >= countToRemove) {
+                        slot.count -= countToRemove;
+                        countToRemove = 0;
+                        if (slot.count === 0) inventory[i] = null;
+                    } else {
+                        countToRemove -= slot.count;
+                        inventory[i] = null;
+                    }
+                    if (countToRemove === 0) break;
+                }
+            }
+        }
+
+        // 3. Add result to inventory
+        let countToAdd = recipe.result.count;
+        const typeToAdd = recipe.result.type;
+
+        // Try to stack first
+        for (let i = 0; i < inventory.length; i++) {
+            const slot = inventory[i];
+            if (slot && slot.type === typeToAdd && slot.count < 64) {
+                const space = 64 - slot.count;
+                const toAdd = Math.min(space, countToAdd);
+                slot.count += toAdd;
+                countToAdd -= toAdd;
+                if (countToAdd <= 0) break;
+            }
+        }
+
+        // Put remaining in empty slot
+        if (countToAdd > 0) {
+            for (let i = 0; i < inventory.length; i++) {
+                if (inventory[i] === null) {
+                    inventory[i] = { type: typeToAdd, count: countToAdd };
+                    countToAdd = 0;
+                    break;
+                }
+            }
+        }
+
+        if (countToAdd > 0) {
+            alert("Inventory full! Some items dropped (logic not implemented for drops yet)");
+            // In a real game we would drop item entity
+        } else {
+             alert(`Crafted ${recipe.name}!`);
+        }
     }
 }
 

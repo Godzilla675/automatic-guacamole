@@ -24,7 +24,27 @@ const BLOCK = {
     ORE_IRON: 13,
     ORE_GOLD: 14,
     ORE_DIAMOND: 15,
-    CACTUS: 16
+    CACTUS: 16,
+    // Tools/Items (IDs start at 100 to avoid conflict with blocks)
+    PICKAXE_WOOD: 100,
+    PICKAXE_STONE: 101,
+    PICKAXE_IRON: 102,
+    PICKAXE_DIAMOND: 103,
+    SWORD_WOOD: 104,
+    SWORD_STONE: 105,
+    SWORD_IRON: 106,
+    SWORD_DIAMOND: 107
+};
+
+const TOOLS = {
+    [BLOCK.PICKAXE_WOOD]: { type: 'pickaxe', speed: 2, damage: 2, durability: 60 },
+    [BLOCK.PICKAXE_STONE]: { type: 'pickaxe', speed: 4, damage: 3, durability: 132 },
+    [BLOCK.PICKAXE_IRON]: { type: 'pickaxe', speed: 6, damage: 4, durability: 250 },
+    [BLOCK.PICKAXE_DIAMOND]: { type: 'pickaxe', speed: 8, damage: 5, durability: 1561 },
+    [BLOCK.SWORD_WOOD]: { type: 'sword', speed: 1.5, damage: 4, durability: 60 },
+    [BLOCK.SWORD_STONE]: { type: 'sword', speed: 1.5, damage: 5, durability: 132 },
+    [BLOCK.SWORD_IRON]: { type: 'sword', speed: 1.5, damage: 6, durability: 250 },
+    [BLOCK.SWORD_DIAMOND]: { type: 'sword', speed: 1.5, damage: 7, durability: 1561 }
 };
 
 const BLOCKS = {
@@ -49,8 +69,19 @@ const BLOCKS = {
     [BLOCK.ORE_GOLD]: { name: 'gold_ore', color: '#808080', top: '#FFD700', solid: true },
     [BLOCK.ORE_DIAMOND]: { name: 'diamond_ore', color: '#808080', top: '#00FFFF', solid: true },
 
-    [BLOCK.CACTUS]: { name: 'cactus', color: '#2E8B57', top: '#2E8B57', solid: true }
+    [BLOCK.CACTUS]: { name: 'cactus', color: '#2E8B57', top: '#2E8B57', solid: true },
+
+    // Tools Visuals (Simplified)
+    [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true },
+    [BLOCK.PICKAXE_STONE]: { name: 'Stone Pickaxe', color: '#808080', solid: false, isItem: true },
+    [BLOCK.PICKAXE_IRON]: { name: 'Iron Pickaxe', color: '#C0C0C0', solid: false, isItem: true },
+    [BLOCK.PICKAXE_DIAMOND]: { name: 'Diamond Pickaxe', color: '#00FFFF', solid: false, isItem: true },
+    [BLOCK.SWORD_WOOD]: { name: 'Wood Sword', color: '#8B4513', solid: false, isItem: true },
+    [BLOCK.SWORD_STONE]: { name: 'Stone Sword', color: '#808080', solid: false, isItem: true },
+    [BLOCK.SWORD_IRON]: { name: 'Iron Sword', color: '#C0C0C0', solid: false, isItem: true },
+    [BLOCK.SWORD_DIAMOND]: { name: 'Diamond Sword', color: '#00FFFF', solid: false, isItem: true }
 };
 
 window.BLOCK = BLOCK;
 window.BLOCKS = BLOCKS;
+window.TOOLS = TOOLS;

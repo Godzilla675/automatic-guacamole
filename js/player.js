@@ -29,6 +29,8 @@ class Player {
         this.inventory[5] = { type: BLOCK.BRICK, count: 64 };
         this.inventory[6] = { type: BLOCK.PLANK, count: 64 };
         this.inventory[7] = { type: BLOCK.GLASS, count: 64 };
+        // Give tools
+        this.inventory[8] = { type: BLOCK.PICKAXE_DIAMOND, count: 1 };
 
         this.selectedSlot = 0;
     }

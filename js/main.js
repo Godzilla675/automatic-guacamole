@@ -53,9 +53,16 @@ class Game {
         this.updateChunks();
 
         // Init Mobs
-        for (let i = 0; i < 5; i++) {
-            this.mobs.push(new Mob(this.world, 8 + i*2, 30, 8 + i*2));
+        for (let i = 0; i < 3; i++) {
+            this.mobs.push(new Mob(this, 8 + i*2, 40, 8 + i*2, MOB_TYPE.COW));
         }
+        for (let i = 0; i < 2; i++) {
+            this.mobs.push(new Mob(this, 15 + i*2, 40, 15 + i*2, MOB_TYPE.ZOMBIE));
+        }
+        this.mobs.push(new Mob(this, 12, 40, 12, MOB_TYPE.PIG));
+
+        // Connect Multiplayer
+        this.network.connect('ws://localhost:8080');
 
         this.crafting.initUI();
         this.setupEventListeners();
@@ -111,8 +118,16 @@ class Game {
                 case 'KeyE': this.toggleInventory(); break;
                 case 'Escape': this.pauseGame(); break;
                 case 'KeyC': this.craftingUI(); break;
-                case 'KeyO': this.world.saveWorld(); break;
-                case 'KeyL': this.world.loadWorld(); break;
+                case 'KeyO': {
+                    const name = prompt("Save World Name:", "default");
+                    if (name) this.world.saveWorld(name);
+                    break;
+                }
+                case 'KeyL': {
+                    const name = prompt("Load World Name:", "default");
+                    if (name) this.world.loadWorld(name);
+                    break;
+                }
                 // Hotbar keys 1-9
                 default:
                     if (e.code.startsWith('Digit')) {
@@ -297,6 +312,10 @@ class Game {
 
             const slot = this.player.inventory[this.player.selectedSlot];
             if (slot && slot.count > 0) {
+                 // Check if it's an item/tool, not a block
+                 const blockDef = BLOCKS[slot.type];
+                 if (blockDef && blockDef.isItem) return;
+
                  this.world.setBlock(nx, ny, nz, slot.type);
                  window.soundManager.play('place');
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);
@@ -348,6 +367,11 @@ class Game {
         // Chunk Loading
         if (this.frameCount % 60 === 0) { // Check every second
             this.updateChunks();
+        }
+
+        // Multiplayer Sync
+        if (this.frameCount % 3 === 0) { // Send every 3 frames (~20fps)
+            this.network.sendPosition(this.player.x, this.player.y, this.player.z, this.player.yaw, this.player.pitch);
         }
     }
 
@@ -483,10 +507,39 @@ class Game {
                  const sx = (rx / rz2) * scale + w / 2;
                  const sy = (ry / rz2) * scale + h / 2;
 
-                 ctx.fillStyle = 'red';
+                 ctx.fillStyle = mob.color;
                  ctx.fillRect(sx - size/4, sy - size, size/2, size);
              }
         });
+
+        // Draw Other Players
+        if (this.network && this.network.otherPlayers) {
+            this.network.otherPlayers.forEach(p => {
+                 const dx = p.x - px;
+                 const dy = p.y - py;
+                 const dz = p.z - pz;
+
+                 const rx = dx * cosY - dz * sinY;
+                 const rz = dx * sinY + dz * cosY;
+                 const ry = dy * cosP - rz * sinP;
+                 const rz2 = dy * sinP + rz * cosP;
+
+                 if (rz2 > 0.1) {
+                     const scale = (h / 2) / Math.tan(this.fov * Math.PI / 360);
+                     const size = (scale / rz2) * 1.8; // Player height
+                     const sx = (rx / rz2) * scale + w / 2;
+                     const sy = (ry / rz2) * scale + h / 2;
+
+                     ctx.fillStyle = 'blue';
+                     ctx.fillRect(sx - size/4, sy - size, size/2, size);
+
+                     // Name tag?
+                     ctx.fillStyle = 'white';
+                     ctx.font = '10px Arial';
+                     ctx.fillText('Player', sx - 10, sy - size - 5);
+                 }
+            });
+        }
 
         // HUD Updates
         document.getElementById('fps').textContent = this.fps;
