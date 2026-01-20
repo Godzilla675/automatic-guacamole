@@ -38,17 +38,23 @@ This document outlines features that future agents should implement to enhance t
 - [x] Different breaking speeds based on tool and block
 
 ### 5. Mobs and AI
-- [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
+- [x] Passive mobs (Cows, Pigs implemented; Sheep missing)
 - [x] Hostile mobs (zombies, skeletons, spiders) - *Note: All implemented*
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
 - [x] Day/night spawn cycles
 - [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string)
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
+- [ ] Sheep Mob (Missing implementation)
+
+### 6. Core Mechanics
+- [ ] Sprinting mechanic
+- [ ] Fall damage
+- [ ] Hunger system
 
 ## Medium Priority Features
 
-### 6. Enhanced Building Blocks
+### 7. Enhanced Building Blocks
 - [x] Additional block types (brick, concrete, wool colors)
 - [ ] Slabs and stairs
 - [ ] Doors and gates
@@ -56,14 +62,14 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Decorative blocks
 - [ ] Redstone-like logic blocks
 
-### 7. World Saving/Loading
+### 8. World Saving/Loading
 - [x] Save world state to browser localStorage (Implemented in `js/world.js`)
 - [x] Load saved worlds
 - [x] Multiple world slots
 - [ ] Export/import world data
 - [ ] Auto-save functionality
 
-### 8. Advanced Graphics
+### 9. Advanced Graphics
 - [ ] Better shadows and lighting
 - [ ] Particle effects (breaking blocks, water splash)
 - [ ] Block breaking animation (Basic progress bar implemented)
@@ -75,7 +81,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Head bobbing animation
 - [ ] Sun/Moon rendering
 
-### 9. Sound System
+### 10. Sound System
 - [ ] Background music
 - [x] Block breaking sounds
 - [x] Footstep sounds
@@ -83,7 +89,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Sound effects for actions
 - [ ] Volume controls
 
-### 10. Inventory Enhancements
+### 11. Inventory Enhancements
 - [ ] Larger inventory (3x9 grid)
 - [ ] Drag and drop items
 - [ ] Item stacking
@@ -91,7 +97,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Quick item swap
 - [ ] Inventory sorting
 
-### 11. User Interface Improvements
+### 12. User Interface Improvements
 - [ ] Settings menu (graphics, controls, sound)
 - [ ] FOV Slider
 - [ ] Mouse Sensitivity Control
@@ -106,18 +112,15 @@ This document outlines features that future agents should implement to enhance t
 
 ## Low Priority / Polish Features
 
-### 12. Advanced Gameplay
-- [ ] Hunger system
+### 13. Advanced Gameplay
 - [ ] Health regeneration
-- [ ] Fall damage
 - [ ] Experience points and levels
 - [ ] Enchanting system
 - [ ] Potions and brewing
 - [ ] Farming (crops, animals)
 - [ ] Fishing
-- [ ] Sprinting mechanic
 
-### 13. Creative Mode Features
+### 14. Creative Mode Features
 - [ ] Unlimited blocks
 - [ ] Instant block breaking
 - [ ] No collision mode (noclip)
@@ -126,7 +129,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Time control
 - [ ] Weather control
 
-### 14. Performance Optimizations
+### 15. Performance Optimizations
 - [x] Chunk-based rendering optimization
 - [x] Frustum culling improvements
 - [ ] LOD (Level of Detail) system
@@ -135,21 +138,21 @@ This document outlines features that future agents should implement to enhance t
 - [x] Occlusion culling (Exposed Face Caching)
 - [ ] Greedy meshing for fewer draw calls
 
-### 15. Social Features
+### 16. Social Features
 - [ ] Screenshot system
 - [ ] Share world links
 - [ ] Leaderboards
 - [ ] World showcase gallery
 - [ ] Friends system
 
-### 16. Advanced Building
+### 17. Advanced Building
 - [ ] Copy/paste structures
 - [ ] Symmetry mode
 - [ ] Fill tool
 - [ ] Replace tool
 - [ ] Undo/redo system
 
-### 17. World Interaction
+### 18. World Interaction
 - [ ] Chests and storage
 - [ ] Furnaces for smelting
 - [ ] Beds for sleeping
@@ -158,7 +161,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Boats
 - [ ] Signs and text
 
-### 18. Modding Support
+### 19. Modding Support
 - [ ] Plugin API
 - [ ] Custom block types
 - [ ] Custom mob types
@@ -168,7 +171,7 @@ This document outlines features that future agents should implement to enhance t
 
 ## Bugs & Maintenance
 
-### 19. Critical Fixes & Bugs
+### 20. Critical Fixes & Bugs
 - [x] Fix memory management strategy (Implemented Chunk-based storage)
 - [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
 - [x] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
@@ -179,10 +182,15 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Crouch Mechanics (Speed reduction implemented)
 - [x] Fix Crouch Mechanics (Visual height reduction implemented)
 - [x] Fix Block IDs (Dirt was 0/Air, making it invisible)
+- [ ] Implement Sheep Mob (Missing in `Game.spawnMobs` and `Mob` class)
+- [ ] Fix Water Physics (No flow logic)
+- [ ] Implement Fall Damage
+- [ ] Implement Sprinting
+- [ ] Fix Projectile Collision (Improve hit detection)
 
 ## Technical Improvements
 
-### 20. Code Quality
+### 21. Code Quality
 - [x] Unit tests for core systems
 - [ ] Integration tests
 - [x] Code documentation
@@ -193,10 +201,15 @@ This document outlines features that future agents should implement to enhance t
 - [x] Improve raycast accuracy (Implemented DDA algorithm in `js/physics.js`)
 - [ ] Server-side world persistence
 
-### 21. Accessibility
+### 22. Accessibility
 - [ ] Keyboard navigation for menus
 - [ ] Screen reader support
 - [ ] Colorblind modes
 - [ ] Adjustable UI sizes
 - [ ] Remappable controls
 - [ ] Simplified controls option
+
+## Contribution Guidelines
+* When adding a new feature, please update this file.
+* Ensure all tests pass before submitting.
+* Follow the code style of the existing project.
