@@ -177,7 +177,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Optimize render loop (verify culling efficiency - Implemented World-aware face culling)
 - [x] Fix Footstep Sounds (Logic implemented in Player.js)
 - [x] Fix Crouch Mechanics (Speed reduction implemented)
-- [ ] Fix Crouch Mechanics (Visual height reduction not implemented)
+- [x] Fix Crouch Mechanics (Visual height reduction implemented)
 
 ## Technical Improvements
 
