@@ -1,30 +1,26 @@
 // Block definitions
 
 const BLOCK = {
-    AIR: 0, // Using 0 as AIR/NULL in logic, but standard blocks start at 1 usually.
-            // In original game.js: 0=dirt, 1=stone... null=air.
-            // Let's standardize: null/undefined is Air.
-            // We'll use IDs compatible with old save if possible, or mapping.
-            // Old: 0:dirt, 1:stone, 2:grass, 3:wood, 4:leaves, 5:sand, 6:water, 7:glass
+    AIR: 0,
 
-    DIRT: 0,
-    STONE: 1,
-    GRASS: 2,
-    WOOD: 3,
-    LEAVES: 4,
-    SAND: 5,
-    WATER: 6,
-    GLASS: 7,
+    DIRT: 1,
+    STONE: 2,
+    GRASS: 3,
+    WOOD: 4,
+    LEAVES: 5,
+    SAND: 6,
+    WATER: 7,
+    GLASS: 8,
     // New blocks
-    BRICK: 8,
-    PLANK: 9,
-    COBBLESTONE: 10,
-    BEDROCK: 11,
-    ORE_COAL: 12,
-    ORE_IRON: 13,
-    ORE_GOLD: 14,
-    ORE_DIAMOND: 15,
-    CACTUS: 16,
+    BRICK: 9,
+    PLANK: 10,
+    COBBLESTONE: 11,
+    BEDROCK: 12,
+    ORE_COAL: 13,
+    ORE_IRON: 14,
+    ORE_GOLD: 15,
+    ORE_DIAMOND: 16,
+    CACTUS: 17,
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -41,7 +37,14 @@ const BLOCK = {
     SWORD_WOOD: 104,
     SWORD_STONE: 105,
     SWORD_IRON: 106,
-    SWORD_DIAMOND: 107
+    SWORD_DIAMOND: 107,
+
+    // Mob Drops
+    ITEM_ROTTEN_FLESH: 200,
+    ITEM_BONE: 201,
+    ITEM_STRING: 202,
+    ITEM_PORKCHOP: 203,
+    ITEM_LEATHER: 204
 };
 
 const TOOLS = {
@@ -109,7 +112,14 @@ const BLOCKS = {
     [BLOCK.SWORD_WOOD]: { name: 'Wood Sword', color: '#8B4513', solid: false, isItem: true, icon: '⚔️' },
     [BLOCK.SWORD_STONE]: { name: 'Stone Sword', color: '#808080', solid: false, isItem: true, icon: '⚔️' },
     [BLOCK.SWORD_IRON]: { name: 'Iron Sword', color: '#C0C0C0', solid: false, isItem: true, icon: '⚔️' },
-    [BLOCK.SWORD_DIAMOND]: { name: 'Diamond Sword', color: '#00FFFF', solid: false, isItem: true, icon: '⚔️' }
+    [BLOCK.SWORD_DIAMOND]: { name: 'Diamond Sword', color: '#00FFFF', solid: false, isItem: true, icon: '⚔️' },
+
+    // Mob Drop Items
+    [BLOCK.ITEM_ROTTEN_FLESH]: { name: 'Rotten Flesh', color: '#6B8E23', solid: false, isItem: true, icon: '🧟' },
+    [BLOCK.ITEM_BONE]: { name: 'Bone', color: '#F0F0F0', solid: false, isItem: true, icon: '🦴' },
+    [BLOCK.ITEM_STRING]: { name: 'String', color: '#FFFFFF', solid: false, isItem: true, icon: '🕸️' },
+    [BLOCK.ITEM_PORKCHOP]: { name: 'Porkchop', color: '#FFB6C1', solid: false, isItem: true, icon: '🥩' },
+    [BLOCK.ITEM_LEATHER]: { name: 'Leather', color: '#8B4513', solid: false, isItem: true, icon: '🟫' }
 };
 
 window.BLOCK = BLOCK;
