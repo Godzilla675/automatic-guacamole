@@ -77,6 +77,9 @@ class Player {
         // Crouch Speed
         if (controls.sneak && !this.flying && this.onGround) {
             moveSpeed *= 0.4;
+            this.height = 1.5;
+        } else {
+            this.height = 1.8;
         }
 
         let dx = 0;

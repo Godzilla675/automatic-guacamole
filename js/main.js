@@ -672,7 +672,7 @@ class Game {
                  // Push player
                  this.player.vx += p.vx * 0.5;
                  this.player.vz += p.vz * 0.5;
-                 // Damage sound?
+                 this.player.takeDamage(2);
             }
 
             if (p.life <= 0) {
