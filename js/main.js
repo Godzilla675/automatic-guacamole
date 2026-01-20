@@ -1,3 +1,67 @@
+// Chat Manager
+class ChatManager {
+    constructor(game) {
+        this.game = game;
+        this.container = document.getElementById('chat-container');
+        this.messages = document.getElementById('chat-messages');
+        this.input = document.getElementById('chat-input');
+        this.isOpen = false;
+
+        this.input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                this.send();
+                this.close();
+            } else if (e.key === 'Escape') {
+                this.close();
+            }
+            e.stopPropagation(); // Prevent game controls
+        });
+    }
+
+    addMessage(text, sender) {
+        const line = document.createElement('div');
+        line.className = 'message';
+        line.textContent = sender ? `<${sender}> ${text}` : text;
+        this.messages.appendChild(line);
+        this.messages.scrollTop = this.messages.scrollHeight;
+
+        // Remove old messages
+        if (this.messages.children.length > 50) {
+            this.messages.removeChild(this.messages.firstChild);
+        }
+    }
+
+    open() {
+        this.isOpen = true;
+        this.input.classList.remove('hidden');
+        this.input.focus();
+        document.exitPointerLock();
+        this.game.controls.enabled = false; // Disable game controls
+    }
+
+    close() {
+        this.isOpen = false;
+        this.input.classList.add('hidden');
+        this.input.blur();
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+        this.game.controls.enabled = true;
+    }
+
+    toggle() {
+        if (this.isOpen) this.close();
+        else this.open();
+    }
+
+    send() {
+        const text = this.input.value.trim();
+        if (text) {
+            this.game.network.sendChat(text);
+            // this.addMessage(text, this.game.player.name); // Server will echo back usually
+            this.input.value = '';
+        }
+    }
+}
+
 // Main Game Class
 
 class Game {
@@ -13,6 +77,7 @@ class Game {
         this.projectiles = [];
         this.network = new NetworkManager(this);
         this.crafting = new CraftingSystem(this);
+        this.chat = new ChatManager(this);
 
         // Game State
         this.lastTime = Date.now();
@@ -27,7 +92,8 @@ class Game {
         this.controls = {
             forward: false, backward: false,
             left: false, right: false,
-            jump: false, sneak: false
+            jump: false, sneak: false,
+            enabled: true
         };
         this.mouse = { locked: false };
         this.isMobile = this.detectMobile();
@@ -37,6 +103,9 @@ class Game {
         // Rendering
         this.fov = 60;
         this.renderDistance = 60; // blocks
+
+        // Action State
+        this.breaking = null; // {x, y, z, progress, limit}
     }
 
     detectMobile() {
@@ -67,7 +136,15 @@ class Game {
         // Connect Multiplayer
         this.network.connect('ws://localhost:8080');
 
+        // Get Player Name
+        const savedName = localStorage.getItem('voxel_player_name');
+        let name = prompt("Enter your name:", savedName || "Player");
+        if (!name) name = "Guest" + Math.floor(Math.random()*1000);
+        localStorage.setItem('voxel_player_name', name);
+        this.player.name = name;
+
         this.crafting.initUI();
+        this.updateHealthUI();
         this.setupEventListeners();
         this.updateHotbarUI();
 
@@ -114,7 +191,24 @@ class Game {
         // Keyboard
         document.addEventListener('keydown', (e) => {
             if (e.repeat) return;
+
+            // Chat Toggle (T or Enter)
+            if (e.code === 'KeyT' || e.code === 'Enter') {
+                if (!this.chat.isOpen) {
+                    this.chat.open();
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+            if (!this.controls.enabled) return;
+
             switch(e.code) {
+                case 'F3':
+                    e.preventDefault();
+                    const debug = document.getElementById('debug-info');
+                    if (debug) debug.classList.toggle('hidden');
+                    break;
                 case 'KeyW': this.controls.forward = true; break;
                 case 'KeyS': this.controls.backward = true; break;
                 case 'KeyA': this.controls.left = true; break;
@@ -180,8 +274,14 @@ class Game {
 
         document.addEventListener('mousedown', (e) => {
             if (this.mouse.locked) {
-                if (e.button === 0) this.breakBlock();
-                else if (e.button === 2) this.placeBlock();
+                if (e.button === 0) this.startAction(true); // Attack/Break
+                else if (e.button === 2) this.startAction(false); // Place
+            }
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (this.mouse.locked) {
+                 if (e.button === 0) this.stopAction();
             }
         });
 
@@ -273,42 +373,136 @@ class Game {
         // Buttons
         document.getElementById('jump-btn').addEventListener('touchstart', (e) => { e.preventDefault(); this.controls.jump = true; });
         document.getElementById('jump-btn').addEventListener('touchend', (e) => { e.preventDefault(); this.controls.jump = false; });
-        document.getElementById('break-btn').addEventListener('touchstart', (e) => { e.preventDefault(); this.breakBlock(); });
-        document.getElementById('place-btn').addEventListener('touchstart', (e) => { e.preventDefault(); this.placeBlock(); });
+
+        const breakBtn = document.getElementById('break-btn');
+        breakBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.startAction(true); });
+        breakBtn.addEventListener('touchend', (e) => { e.preventDefault(); this.stopAction(); });
+
+        const placeBtn = document.getElementById('place-btn');
+        placeBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.startAction(false); });
+
         document.getElementById('fly-btn').addEventListener('touchstart', (e) => { e.preventDefault(); this.player.flying = !this.player.flying; });
     }
 
-    breakBlock() {
+    startAction(isLeftClick) {
+        if (!isLeftClick) {
+            this.placeBlock();
+            return;
+        }
+
         const dir = {
             x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
             y: -Math.sin(this.player.pitch),
             z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
         };
-        const hit = this.physics.raycast(this.player, dir, 5);
-        if (hit) {
-            this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.AIR);
-            window.soundManager.play('break');
 
-            // Tool Durability
-            const slotIdx = this.player.selectedSlot;
-            const item = this.player.inventory[slotIdx];
-            if (item && window.TOOLS[item.type]) {
-                const toolDef = window.TOOLS[item.type];
-                if (item.durability === undefined) {
-                    item.durability = toolDef.durability;
-                }
-                item.durability--;
-                if (item.durability <= 0) {
-                     this.player.inventory[slotIdx] = null;
-                     window.soundManager.play('break'); // Re-use break sound for now
-                }
-                this.updateHotbarUI();
+        // 1. Check Mobs
+        let closestMob = null;
+        let minMobDist = 4.0; // Melee range
+
+        this.mobs.forEach(mob => {
+            if (mob.isDead) return;
+            // Simplified ray-sphere/box intersection
+            // Project mob center onto ray
+            const dx = mob.x - this.player.x;
+            const dy = (mob.y + mob.height/2) - (this.player.y + this.player.height); // Eye to center
+            const dz = mob.z - this.player.z;
+
+            const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+            if (dist > minMobDist) return;
+
+            // Check dot product (angle)
+            const dot = (dx*dir.x + dy*dir.y + dz*dir.z) / dist;
+            if (dot > 0.9) { // ~25 degrees
+                minMobDist = dist;
+                closestMob = mob;
+            }
+        });
+
+        if (closestMob) {
+            // Attack Mob
+            const slot = this.player.inventory[this.player.selectedSlot];
+            let damage = 1;
+            if (slot && window.TOOLS[slot.type]) {
+                damage = window.TOOLS[slot.type].damage || 1;
+                // Reduce durability
+                 if (slot.durability !== undefined) slot.durability--;
+                 this.updateHotbarUI();
             }
 
-            // Drop item?
-            // Add to inventory?
-            this.network.sendBlockUpdate(hit.x, hit.y, hit.z, BLOCK.AIR);
+            // Knockback direction
+            const kb = { x: dir.x, z: dir.z };
+            closestMob.takeDamage(damage, kb);
+            return;
         }
+
+        // 2. Check Block
+        const hit = this.physics.raycast(this.player, dir, 5);
+        if (hit) {
+            const blockType = this.world.getBlock(hit.x, hit.y, hit.z);
+            if (blockType === BLOCK.AIR || blockType === BLOCK.WATER) return;
+
+            const blockDef = BLOCKS[blockType];
+            const hardness = blockDef.hardness !== undefined ? blockDef.hardness : 1.0;
+
+            if (hardness < 0) return; // Unbreakable
+
+            // Calculate break time
+            let speedMultiplier = 1;
+            const slot = this.player.inventory[this.player.selectedSlot];
+            let canHarvest = true; // For now everything is harvestable, simplified
+
+            if (slot && window.TOOLS[slot.type]) {
+                 const tool = window.TOOLS[slot.type];
+                 if (blockDef.tool === tool.type) {
+                     speedMultiplier = tool.speed;
+                 } else {
+                     speedMultiplier = 1;
+                 }
+            } else {
+                // Hand speed?
+                speedMultiplier = 1;
+            }
+
+            // Time in seconds
+            // Minecraft formula approx: Time = Hardness * 1.5 (if correct tool) or * 5 (if incorrect)
+            // We'll simplify: Time = Hardness / SpeedMultiplier * constant
+            const limit = (hardness * 1.5) / speedMultiplier;
+
+            this.breaking = {
+                x: hit.x, y: hit.y, z: hit.z,
+                progress: 0,
+                limit: limit,
+                lastTick: Date.now()
+            };
+        }
+    }
+
+    stopAction() {
+        this.breaking = null;
+    }
+
+    finalizeBreakBlock(x, y, z) {
+        this.world.setBlock(x, y, z, BLOCK.AIR);
+        window.soundManager.play('break');
+
+        // Tool Durability
+        const slotIdx = this.player.selectedSlot;
+        const item = this.player.inventory[slotIdx];
+        if (item && window.TOOLS[item.type]) {
+            const toolDef = window.TOOLS[item.type];
+            if (item.durability === undefined) {
+                item.durability = toolDef.durability;
+            }
+            item.durability--;
+            if (item.durability <= 0) {
+                 this.player.inventory[slotIdx] = null;
+                 window.soundManager.play('break');
+            }
+            this.updateHotbarUI();
+        }
+
+        this.network.sendBlockUpdate(x, y, z, BLOCK.AIR);
     }
 
     placeBlock() {
@@ -494,6 +688,64 @@ class Game {
         // Chunk Loading
         if (this.frameCount % 60 === 0) { // Check every second
             this.updateChunks();
+        }
+
+        // Crosshair Interaction Update
+        const lookDir = {
+            x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+            y: -Math.sin(this.player.pitch),
+            z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+        };
+
+        let hasTarget = false;
+
+        // Check Mobs
+        for (let mob of this.mobs) {
+             if (mob.isDead) continue;
+             const dx = mob.x - this.player.x;
+             const dy = (mob.y + mob.height/2) - (this.player.y + this.player.height);
+             const dz = mob.z - this.player.z;
+             const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+             if (dist < 4.0) {
+                 const dot = (dx*lookDir.x + dy*lookDir.y + dz*lookDir.z) / dist;
+                 if (dot > 0.9) {
+                     hasTarget = true;
+                     break;
+                 }
+             }
+        }
+
+        if (!hasTarget) {
+            const hit = this.physics.raycast(this.player, lookDir, 5);
+            if (hit) {
+                const b = this.world.getBlock(hit.x, hit.y, hit.z);
+                if (b !== BLOCK.AIR && b !== BLOCK.WATER) hasTarget = true;
+            }
+        }
+
+        const crosshair = document.getElementById('crosshair');
+        if (crosshair) {
+            if (hasTarget) crosshair.classList.add('active');
+            else crosshair.classList.remove('active');
+        }
+
+        // Breaking Block Logic
+        if (this.breaking) {
+            const hit = this.physics.raycast(this.player, lookDir, 5); // Reuse lookDir
+
+            if (!hit || hit.x !== this.breaking.x || hit.y !== this.breaking.y || hit.z !== this.breaking.z) {
+                this.breaking = null; // Looked away
+            } else {
+                const now = Date.now();
+                const delta = (now - this.breaking.lastTick) / 1000;
+                this.breaking.lastTick = now;
+                this.breaking.progress += delta;
+
+                if (this.breaking.progress >= this.breaking.limit) {
+                    this.finalizeBreakBlock(this.breaking.x, this.breaking.y, this.breaking.z);
+                    this.breaking = null;
+                }
+            }
         }
 
         // Multiplayer Sync
@@ -682,10 +934,12 @@ class Game {
                      ctx.fillStyle = 'blue';
                      ctx.fillRect(sx - size/4, sy - size, size/2, size);
 
-                     // Name tag?
+                     // Name tag
                      ctx.fillStyle = 'white';
-                     ctx.font = '10px Arial';
-                     ctx.fillText('Player', sx - 10, sy - size - 5);
+                     ctx.font = '12px Arial';
+                     ctx.textAlign = 'center';
+                     ctx.fillText(p.name || 'Player', sx, sy - size - 10);
+                     ctx.textAlign = 'left'; // Reset
                  }
             });
         }
@@ -694,7 +948,40 @@ class Game {
         document.getElementById('fps').textContent = this.fps;
         document.getElementById('position').textContent = `${Math.floor(px)}, ${Math.floor(py)}, ${Math.floor(pz)}`;
         document.getElementById('block-count').textContent = blocksToDraw.length;
+        const cycle = (this.gameTime % this.dayLength) / this.dayLength;
+        const isDay = cycle < 0.5;
         document.getElementById('game-time').textContent = isDay ? 'Day' : 'Night';
+
+        this.updateHealthUI();
+
+        // Breaking Indicator
+        if (this.breaking) {
+            const pct = Math.min(1, this.breaking.progress / this.breaking.limit);
+            const size = 20;
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(w/2 - size, h/2 - size, size*2, size*2 * pct);
+            ctx.strokeStyle = 'white';
+            ctx.strokeRect(w/2 - size, h/2 - size, size*2, size*2);
+        }
+    }
+
+    updateHealthUI() {
+        const bar = document.getElementById('health-bar');
+        if (bar) {
+            const pct = (this.player.health / this.player.maxHealth) * 100;
+            bar.style.width = pct + '%';
+        }
+
+        // Damage Overlay
+        const overlay = document.getElementById('damage-overlay');
+        if (overlay && this.player.health < this.player.maxHealth) {
+             // Flash red if recently damaged
+             if (Date.now() - this.player.lastDamageTime < 200) {
+                 overlay.style.opacity = 0.5;
+             } else {
+                 overlay.style.opacity = 0;
+             }
+        }
     }
 
     adjustColor(color, brightness) {
@@ -770,3 +1057,5 @@ window.onload = () => {
          game.toggleInventory();
     });
 };
+
+window.Game = Game;

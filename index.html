@@ -50,9 +50,19 @@
     <div id="game-container" class="hidden">
         <canvas id="game-canvas" aria-label="Voxel World 3D game view" role="application"></canvas>
         
+        <div id="damage-overlay"></div>
         <div id="crosshair" aria-hidden="true"></div>
         
         <div id="hud" role="complementary" aria-label="Game HUD">
+            <div id="chat-container">
+                <div id="chat-messages"></div>
+                <input type="text" id="chat-input" placeholder="Press Enter to send..." class="hidden">
+            </div>
+
+            <div id="health-bar-container">
+                <div id="health-bar"></div>
+            </div>
+
             <div id="debug-info">
                 <div>FPS: <span id="fps">0</span></div>
                 <div>Position: <span id="position">0, 0, 0</span></div>

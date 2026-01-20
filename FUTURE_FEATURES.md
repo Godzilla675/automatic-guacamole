@@ -7,8 +7,8 @@ This document outlines features that future agents should implement to enhance t
 ### 1. Multiplayer Support
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
 - [x] Player synchronization across clients
-- [ ] Chat system
-- [ ] Player name tags
+- [x] Chat system
+- [x] Player name tags
 - [x] Server infrastructure (Node.js + WebSocket)
 - [ ] Player spawn points
 - [x] Shared world state
@@ -31,19 +31,19 @@ This document outlines features that future agents should implement to enhance t
 
 ### 4. Tools and Items
 - [x] Pickaxes (wood, stone, iron, diamond)
-- [ ] Shovels for faster dirt/sand breaking
-- [ ] Axes for faster wood breaking
+- [x] Shovels for faster dirt/sand breaking
+- [x] Axes for faster wood breaking
 - [x] Swords for combat
 - [x] Tool durability system
-- [ ] Different breaking speeds based on tool and block
+- [x] Different breaking speeds based on tool and block
 
 ### 5. Mobs and AI
 - [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
 - [x] Hostile mobs (zombies, skeletons, spiders) - *Note: All implemented*
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
 - [ ] Day/night spawn cycles
-- [ ] Mob drops and loot
-- [ ] Health and combat system (Player health, Mob damage)
+- [x] Mob drops and loot (Basic logic implemented)
+- [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
 
 ## Medium Priority Features
@@ -66,7 +66,7 @@ This document outlines features that future agents should implement to enhance t
 ### 8. Advanced Graphics
 - [ ] Better shadows and lighting
 - [ ] Particle effects (breaking blocks, water splash)
-- [ ] Block breaking animation
+- [ ] Block breaking animation (Basic progress bar implemented)
 - [ ] Ambient occlusion
 - [ ] Water animations and flow
 - [ ] Weather effects (rain, snow)
@@ -78,7 +78,7 @@ This document outlines features that future agents should implement to enhance t
 ### 9. Sound System
 - [ ] Background music
 - [x] Block breaking sounds
-- [ ] Footstep sounds
+- [x] Footstep sounds
 - [x] Ambient sounds (water, wind) (Basic implementation in `SoundManager`)
 - [x] Sound effects for actions
 - [ ] Volume controls
@@ -96,12 +96,12 @@ This document outlines features that future agents should implement to enhance t
 - [ ] FOV Slider
 - [ ] Mouse Sensitivity Control
 - [ ] Minimap
-- [ ] Coordinates toggle
+- [x] Coordinates toggle (F3)
 - [ ] Achievement system
 - [ ] Tutorial/help system
 - [x] Better mobile UI scaling
 - [ ] Gamepad support
-- [ ] Dynamic Crosshair
+- [x] Dynamic Crosshair
 - [ ] Non-intrusive UI notifications (replace alerts)
 
 ## Low Priority / Polish Features
@@ -175,8 +175,8 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Crafting System (Inventory consumption implemented)
 - [x] Fix memory management strategy (verify chunk limit - Implemented `unloadFarChunks`)
 - [x] Optimize render loop (verify culling efficiency - Implemented World-aware face culling)
-- [ ] Fix Footstep Sounds (Logic missing in Player.js)
-- [ ] Fix Crouch Mechanics (No hitbox reduction or speed change on ground)
+- [x] Fix Footstep Sounds (Logic implemented in Player.js)
+- [x] Fix Crouch Mechanics (Speed reduction implemented)
 
 ## Technical Improvements
 
@@ -197,67 +197,3 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Adjustable UI sizes
 - [ ] Remappable controls
 - [ ] Simplified controls option
-
-## Implementation Notes
-
-### For Future Developers:
-
-1. **Prioritize New Features**: Focus on adding high-priority features (e.g., Combat, Dynamic Crosshair, Tool Durability) BEFORE fixing non-critical bugs or refactoring code.
-
-2. **Maintain Performance**: Always test on mobile devices. The game should run at 30+ FPS on mid-range phones.
-
-3. **Keep It Modular**: Each feature should be as independent as possible for easier maintenance. Use the `js/` directory structure.
-
-4. **Use Web Standards**: Prefer native web APIs and established libraries. Current stack:
-   - Canvas 2D API for custom 3D projection rendering
-   - Vanilla JavaScript (no framework required)
-   - CSS3 for UI
-   - LocalStorage for persistence
-
-5. **Test Thoroughly**:
-   - Test on multiple browsers (Chrome, Firefox, Safari)
-   - Test on multiple devices (desktop, tablet, phone)
-   - Test both touch and mouse controls
-
-6. **Optimize Continuously**:
-   - Profile with browser DevTools
-   - Monitor memory usage
-   - Keep draw calls low
-   - Use texture atlases
-
-7. **Document Changes**: Update this file when features are implemented or new features are discovered.
-
-## Current Implementation Status
-
-✅ **Completed Features:**
-- Basic 3D voxel world
-- Terrain generation with height variation and caves
-- Multiple block types (8+ types including ores)
-- Block placement and destruction
-- First-person camera controls
-- WASD movement
-- Mouse look controls
-- Touch controls for mobile
-- Virtual joystick
-- Gravity and physics
-- Collision detection
-- Jumping
-- Flying mode
-- Hotbar with 9 slots
-- Inventory screen
-- Day/night cycle
-- Dynamic lighting (basic)
-- Trees generation
-- Water blocks
-- Transparent blocks
-- Responsive design
-- Mobile and desktop support
-- FPS counter
-- Debug information
-- Pause menu
-- Block selection system
-- World saving and loading (Chunks based)
-- Multiplayer (Basic Position/Block Sync)
-- Crafting System (Resource Consumption)
-- Mobs (Passive & Hostile AI)
-- Audio (Basic SFX)
