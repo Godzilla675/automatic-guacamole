@@ -11,7 +11,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Player name tags
 - [x] Server infrastructure (Node.js + WebSocket)
 - [ ] Player spawn points
-- [x] Shared world state
+- [x] Shared world state (Real-time sync only, no server-side persistence yet)
 
 ### 2. Advanced World Generation
 - [x] Biomes (Implemented basic noise-based terrain)
@@ -41,8 +41,8 @@ This document outlines features that future agents should implement to enhance t
 - [x] Passive mobs (Basic `Mob` class in `js/mob.js` and spawn logic in `js/main.js`)
 - [x] Hostile mobs (zombies, skeletons, spiders) - *Note: All implemented*
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
-- [ ] Day/night spawn cycles
-- [x] Mob drops and loot (Basic logic implemented)
+- [x] Day/night spawn cycles
+- [ ] Mob drops and loot (Implemented in code as "disappear", needs item drops)
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
 
@@ -177,6 +177,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Optimize render loop (verify culling efficiency - Implemented World-aware face culling)
 - [x] Fix Footstep Sounds (Logic implemented in Player.js)
 - [x] Fix Crouch Mechanics (Speed reduction implemented)
+- [ ] Fix Crouch Mechanics (Visual height reduction not implemented)
 
 ## Technical Improvements
 
@@ -189,6 +190,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Mobile performance optimization
 - [ ] Cross-browser compatibility testing
 - [x] Improve raycast accuracy (Implemented DDA algorithm in `js/physics.js`)
+- [ ] Server-side world persistence
 
 ### 21. Accessibility
 - [ ] Keyboard navigation for menus

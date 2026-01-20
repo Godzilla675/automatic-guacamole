@@ -54,6 +54,15 @@ class World {
         return chunk.getBlock(lx, y, lz);
     }
 
+    getHighestBlockY(x, z) {
+        for (let y = this.worldHeight - 1; y >= 0; y--) {
+            if (this.getBlock(x, y, z) !== BLOCK.AIR) {
+                return y + 1;
+            }
+        }
+        return 0;
+    }
+
     unloadFarChunks(playerX, playerZ, renderDist) {
         const centerCX = Math.floor(playerX / this.chunkSize);
         const centerCZ = Math.floor(playerZ / this.chunkSize);

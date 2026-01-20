@@ -1011,6 +1011,56 @@ class Game {
         });
     }
 
+    spawnMobs() {
+        if (this.mobs.length >= 20) return;
+
+        const range = 40;
+        const minRange = 16;
+
+        // Attempt spawn
+        const angle = Math.random() * Math.PI * 2;
+        const dist = minRange + Math.random() * (range - minRange);
+
+        const x = this.player.x + Math.cos(angle) * dist;
+        const z = this.player.z + Math.sin(angle) * dist;
+
+        // Find ground
+        const floorX = Math.floor(x);
+        const floorZ = Math.floor(z);
+        const y = this.world.getHighestBlockY(floorX, floorZ);
+
+        if (y <= 0 || y > 60) return;
+
+        // Check if spawn position is valid (not inside block, ample space)
+        // getHighestBlockY returns y above the block.
+        // Check if water?
+        const groundBlock = this.world.getBlock(floorX, y-1, floorZ);
+        if (groundBlock === BLOCK.WATER) return; // Don't spawn in water for now
+
+        // Check light level (Day/Night)
+        const cycle = (this.gameTime % this.dayLength) / this.dayLength;
+        const isDay = cycle < 0.5; // 0 to 0.5 is day
+
+        let type = null;
+        if (isDay) {
+            // Passive
+            const r = Math.random();
+            if (r < 0.33) type = MOB_TYPE.COW;
+            else if (r < 0.66) type = MOB_TYPE.PIG;
+            // else Sheep? (Not implemented)
+        } else {
+            // Hostile
+            const r = Math.random();
+            if (r < 0.33) type = MOB_TYPE.ZOMBIE;
+            else if (r < 0.66) type = MOB_TYPE.SKELETON;
+            else type = MOB_TYPE.SPIDER;
+        }
+
+        if (type) {
+            this.mobs.push(new Mob(this, x, y, z, type));
+        }
+    }
+
     gameLoop() {
         const now = Date.now();
         const dt = now - this.lastTime;
@@ -1031,7 +1081,7 @@ class Game {
 }
 
 // Initialization
-let game = null;
+window.game = null;
 window.onload = () => {
     // UI Logic
     setTimeout(() => {
@@ -1042,19 +1092,19 @@ window.onload = () => {
     document.getElementById('start-game').addEventListener('click', () => {
         document.getElementById('menu-screen').classList.add('hidden');
         document.getElementById('game-container').classList.remove('hidden');
-        if (!game) {
-            game = new Game();
-            game.init();
+        if (!window.game) {
+            window.game = new Game();
+            window.game.init();
         }
     });
 
-    document.getElementById('resume-game').addEventListener('click', () => game.resumeGame());
+    document.getElementById('resume-game').addEventListener('click', () => window.game.resumeGame());
     document.getElementById('return-menu').addEventListener('click', () => {
          // Reload page to reset for now
          location.reload();
     });
     document.getElementById('close-inventory').addEventListener('click', () => {
-         game.toggleInventory();
+         window.game.toggleInventory();
     });
 };
 
