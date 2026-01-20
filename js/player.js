@@ -33,13 +33,51 @@ class Player {
         this.inventory[8] = { type: BLOCK.PICKAXE_DIAMOND, count: 1 };
 
         this.selectedSlot = 0;
+
+        // Stats
+        this.health = 20;
+        this.maxHealth = 20;
+        this.lastDamageTime = 0;
+
+        // Movement state
+        this.walkDistance = 0;
+    }
+
+    takeDamage(amount) {
+        if (Date.now() - this.lastDamageTime < 500) return; // Invulnerability frames
+        this.health -= amount;
+        this.lastDamageTime = Date.now();
+        // Knockback or sound?
+        window.soundManager.play('break'); // Placeholder damage sound
+        if (this.health <= 0) {
+            this.respawn();
+        }
+        // Update UI if exists
+        if (this.game.updateHealthUI) this.game.updateHealthUI();
+    }
+
+    respawn() {
+        this.x = 8;
+        this.y = 40;
+        this.z = 8;
+        this.health = this.maxHealth;
+        this.vx = 0;
+        this.vy = 0;
+        this.vz = 0;
+        if (this.game.chat) this.game.chat.addMessage("You died! Respawning...");
+        if (this.game.updateHealthUI) this.game.updateHealthUI();
     }
 
     update(dt) {
         const controls = this.game.controls;
 
         // Physics integration
-        const moveSpeed = this.speed;
+        let moveSpeed = this.speed;
+
+        // Crouch Speed
+        if (controls.sneak && !this.flying && this.onGround) {
+            moveSpeed *= 0.4;
+        }
 
         let dx = 0;
         let dz = 0;
@@ -84,7 +122,21 @@ class Player {
         }
 
         // Apply Velocity
+        const prevX = this.x;
+        const prevZ = this.z;
         this.moveBy(this.vx * dt, this.vy * dt, this.vz * dt);
+
+        // Footstep sounds
+        if (this.onGround && !this.flying) {
+            const dist = Math.sqrt((this.x - prevX)**2 + (this.z - prevZ)**2);
+            if (dist > 0) {
+                this.walkDistance += dist;
+                if (this.walkDistance > 2.5) { // Step every 2.5m
+                    this.walkDistance = 0;
+                    window.soundManager.play('step');
+                }
+            }
+        }
 
         // Friction
         if (this.flying) {

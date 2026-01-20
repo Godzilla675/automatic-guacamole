@@ -48,6 +48,13 @@ wss.on('connection', (ws) => {
                     z: data.z,
                     blockType: data.blockType
                 }, id);
+            } else if (data.type === 'chat') {
+                // Broadcast chat to ALL players (including sender usually, or handle sender locally)
+                broadcast({
+                    type: 'chat',
+                    sender: data.sender,
+                    message: data.message
+                }, -1); // -1 to not exclude anyone, or just id if we want to exclude sender
             }
         } catch (e) {
             console.error('Error processing message', e);

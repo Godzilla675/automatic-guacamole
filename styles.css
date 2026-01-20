@@ -195,6 +195,11 @@ body {
     transform: translateX(-50%);
 }
 
+#crosshair.active::before,
+#crosshair.active::after {
+    background: rgba(255, 0, 0, 0.8);
+}
+
 /* HUD */
 #hud {
     position: absolute;
@@ -446,6 +451,88 @@ body {
     background: rgba(0, 0, 0, 0.7);
 }
 
+/* Chat */
+#chat-container {
+    position: absolute;
+    bottom: 100px;
+    left: 10px;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    pointer-events: none;
+    z-index: 60;
+}
+#chat-messages {
+    overflow-y: hidden;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+#chat-messages .message {
+    background: rgba(0,0,0,0.3);
+    padding: 2px 5px;
+    border-radius: 3px;
+    animation: fadeout 10s forwards;
+}
+@keyframes fadeout {
+    0% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+#chat-input {
+    width: 100%;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid white;
+    color: white;
+    padding: 5px;
+    pointer-events: all;
+}
+#chat-input.hidden {
+    display: none;
+}
+
+/* Health Bar */
+#health-bar-container {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 15px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 3px;
+    z-index: 55;
+    display: flex;
+    justify-content: flex-start;
+}
+#health-bar {
+    height: 100%;
+    width: 100%;
+    background: #FF3030;
+    transition: width 0.2s;
+}
+
+/* Damage Overlay */
+#damage-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: red;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 90;
+    transition: opacity 0.1s;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .menu-content h1 {
@@ -470,6 +557,11 @@ body {
     
     .inventory-grid {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    #chat-container {
+        width: 200px;
+        bottom: 120px;
     }
 }
 

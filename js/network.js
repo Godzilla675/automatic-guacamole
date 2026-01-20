@@ -52,8 +52,14 @@ class NetworkManager {
                     z: data.z,
                     yaw: data.yaw,
                     pitch: data.pitch,
+                    name: data.name,
                     lastUpdate: Date.now()
                 });
+                break;
+            case 'chat':
+                if (this.game.chat) {
+                    this.game.chat.addMessage(data.message, data.sender);
+                }
                 break;
             case 'player_leave':
                 this.otherPlayers.delete(data.id);
@@ -72,7 +78,21 @@ class NetworkManager {
     sendPosition(x, y, z, yaw, pitch) {
         if (!this.connected) return;
         if (this.socket.readyState === WebSocket.OPEN) {
-            this.socket.send(JSON.stringify({ type: 'move', x, y, z, yaw, pitch }));
+            this.socket.send(JSON.stringify({
+                type: 'move', x, y, z, yaw, pitch,
+                name: this.game.player.name
+            }));
+        }
+    }
+
+    sendChat(message) {
+        if (!this.connected) return;
+        if (this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(JSON.stringify({
+                type: 'chat',
+                sender: this.game.player.name || 'Player',
+                message: message
+            }));
         }
     }
 
