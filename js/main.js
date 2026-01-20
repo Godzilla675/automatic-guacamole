@@ -74,6 +74,7 @@ class Game {
         this.physics = new Physics(this.world);
         this.player = new Player(this);
         this.mobs = [];
+        this.drops = [];
         this.projectiles = [];
         this.network = new NetworkManager(this);
         this.crafting = new CraftingSystem(this);
@@ -647,7 +648,67 @@ class Game {
 
     update(dt) {
         this.player.update(dt / 1000);
-        this.mobs.forEach(mob => mob.update(dt / 1000));
+
+        // Mobs
+        for (let i = this.mobs.length - 1; i >= 0; i--) {
+            const mob = this.mobs[i];
+            if (mob.isDead) {
+                this.mobs.splice(i, 1);
+                continue;
+            }
+            mob.update(dt / 1000);
+        }
+
+        // Spawn mobs
+        if (this.frameCount % 120 === 0) {
+            this.spawnMobs();
+        }
+
+        // Drops
+        for (let i = this.drops.length - 1; i >= 0; i--) {
+            const drop = this.drops[i];
+            drop.update(dt / 1000);
+
+            if (drop.lifeTime <= 0) {
+                this.drops.splice(i, 1);
+                continue;
+            }
+
+            // Collection
+            const dx = this.player.x - drop.x;
+            const dy = (this.player.y + 0.5) - drop.y;
+            const dz = this.player.z - drop.z;
+            if (dx*dx + dy*dy + dz*dz < 1.5) {
+                // Collect
+                // Add to inventory
+                // Find empty slot or stack
+                let added = false;
+                // Simple add to first empty or stack logic (simplified)
+                for (let j = 0; j < this.player.inventory.length; j++) {
+                    const slot = this.player.inventory[j];
+                    if (slot && slot.type === drop.type && slot.count < 64) {
+                        slot.count += drop.count;
+                        added = true;
+                        break;
+                    }
+                }
+                if (!added) {
+                     for (let j = 0; j < this.player.inventory.length; j++) {
+                         if (!this.player.inventory[j]) {
+                             this.player.inventory[j] = { type: drop.type, count: drop.count };
+                             added = true;
+                             break;
+                         }
+                     }
+                }
+
+                if (added) {
+                    window.soundManager.play('place'); // Pickup sound?
+                    this.drops.splice(i, 1);
+                    this.updateHotbarUI();
+                }
+            }
+        }
 
         // Update Projectiles
         for (let i = this.projectiles.length - 1; i >= 0; i--) {
@@ -888,6 +949,37 @@ class Game {
 
                  ctx.fillStyle = mob.color;
                  ctx.fillRect(sx - size/4, sy - size, size/2, size);
+             }
+        });
+
+        // Draw Drops
+        this.drops.forEach(drop => {
+             const dx = drop.x - px;
+             const dy = drop.y - py;
+             const dz = drop.z - pz;
+
+             const rx = dx * cosY - dz * sinY;
+             const rz = dx * sinY + dz * cosY;
+             const ry = dy * cosP - rz * sinP;
+             const rz2 = dy * sinP + rz * cosP;
+
+             if (rz2 > 0.1) {
+                 const scale = (h / 2) / Math.tan(this.fov * Math.PI / 360);
+                 const size = (scale / rz2) * 0.3; // Small size
+                 const sx = (rx / rz2) * scale + w / 2;
+                 const sy = (ry / rz2) * scale + h / 2;
+
+                 // Simple rotating cube effect (just changing width slightly)
+                 const rotSize = size * (0.8 + 0.2 * Math.sin(drop.rotY));
+
+                 const blockDef = window.BLOCKS[drop.type];
+                 ctx.fillStyle = blockDef ? blockDef.color : '#FFFFFF';
+                 ctx.fillRect(sx - rotSize/2, sy - size/2, rotSize, size);
+
+                 // Outline
+                 ctx.strokeStyle = 'black';
+                 ctx.lineWidth = 1;
+                 ctx.strokeRect(sx - rotSize/2, sy - size/2, rotSize, size);
              }
         });
 

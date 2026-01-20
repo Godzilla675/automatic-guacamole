@@ -42,7 +42,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Hostile mobs (zombies, skeletons, spiders) - *Note: All implemented*
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
 - [x] Day/night spawn cycles
-- [ ] Mob drops and loot (Implemented in code as "disappear", needs item drops)
+- [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string)
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
 
@@ -178,6 +178,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Footstep Sounds (Logic implemented in Player.js)
 - [x] Fix Crouch Mechanics (Speed reduction implemented)
 - [x] Fix Crouch Mechanics (Visual height reduction implemented)
+- [x] Fix Block IDs (Dirt was 0/Air, making it invisible)
 
 ## Technical Improvements
 

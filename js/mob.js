@@ -94,8 +94,32 @@ class Mob {
     die() {
         this.isDead = true;
         // Drop items
-        // For now, simpler implementation: just disappear or spawn a "drop" entity
-        // We will remove from game.mobs list in main update loop
+        let dropType = null;
+        let count = 1;
+
+        switch(this.type) {
+            case MOB_TYPE.COW:
+                if (Math.random() < 0.5) dropType = BLOCK.ITEM_LEATHER;
+                // else Meat? Not implemented yet
+                break;
+            case MOB_TYPE.PIG:
+                dropType = BLOCK.ITEM_PORKCHOP;
+                break;
+            case MOB_TYPE.ZOMBIE:
+                dropType = BLOCK.ITEM_ROTTEN_FLESH;
+                break;
+            case MOB_TYPE.SKELETON:
+                dropType = BLOCK.ITEM_BONE;
+                // Chance for arrow or bow?
+                break;
+            case MOB_TYPE.SPIDER:
+                dropType = BLOCK.ITEM_STRING;
+                break;
+        }
+
+        if (dropType && this.game.drops) {
+             this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, dropType, count));
+        }
     }
 
     update(dt) {
