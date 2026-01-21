@@ -24,8 +24,9 @@ This document outlines features that future agents should implement to enhance t
 
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
-- [x] Recipes for tools, blocks, and items (Basic system in `js/crafting.js`)
+- [ ] Recipes for tools, blocks, and items (Basic block recipes implemented; Tools missing)
 - [x] Resource gathering requirements (Inventory consumption implemented)
+- [ ] Smelting System (Furnace)
 - [ ] Crafting animations
 - [ ] Recipe discovery system
 
@@ -38,24 +39,26 @@ This document outlines features that future agents should implement to enhance t
 - [x] Different breaking speeds based on tool and block
 
 ### 5. Mobs and AI
-- [x] Passive mobs (Cows, Pigs implemented; Sheep missing)
+- [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders) - *Note: All implemented*
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
 - [x] Day/night spawn cycles
-- [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string)
+- [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string, wool, mutton)
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
-- [x] Sheep Mob (Missing implementation)
+- [x] Sheep Mob (Fully implemented)
 
 ### 6. Core Mechanics
 - [x] Sprinting mechanic
 - [x] Fall damage
-- [x] Hunger system
+- [x] Hunger system (Decay and starvation implemented)
+- [ ] Eating/Food Consumption (Missing implementation)
 
 ## Medium Priority Features
 
 ### 7. Enhanced Building Blocks
 - [x] Additional block types (brick, concrete, wool colors)
+- [ ] Torches (Lighting system)
 - [ ] Slabs and stairs
 - [ ] Doors and gates
 - [ ] Windows and fences
@@ -85,7 +88,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Background music
 - [x] Block breaking sounds
 - [x] Footstep sounds
-- [x] Ambient sounds (water, wind) (Basic implementation in `SoundManager`)
+- [ ] Ambient sounds (water, wind) (Missing implementation)
 - [x] Sound effects for actions
 - [ ] Volume controls
 
@@ -182,11 +185,14 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Crouch Mechanics (Speed reduction implemented)
 - [x] Fix Crouch Mechanics (Visual height reduction implemented)
 - [x] Fix Block IDs (Dirt was 0/Air, making it invisible)
-- [x] Implement Sheep Mob (Missing in `Game.spawnMobs` and `Mob` class)
+- [x] Implement Sheep Mob (Implemented in `Game.spawnMobs` and `Mob` class)
 - [x] Fix Water Physics (Implemented simple player physics and visual overlay)
 - [x] Implement Fall Damage
 - [x] Implement Sprinting
 - [x] Fix Projectile Collision (Improved hit detection with AABB Raycast)
+- [ ] Implement Eating/Food Consumption
+- [ ] Implement Tool Crafting Recipes
+- [ ] Implement Ambient Sounds (Water, Wind)
 
 ## Technical Improvements
 
