@@ -187,11 +187,13 @@ class Player {
         const prevX = this.x;
         const prevY = this.y;
         const prevZ = this.z;
+        const oldVy = this.vy; // Capture vy before moveBy potentially resets it
+
         this.moveBy(this.vx * dt, this.vy * dt, this.vz * dt);
 
         // Fall Damage Logic
         if (!this.flying) {
-            if (this.vy < 0) {
+            if (oldVy < 0) {
                 this.fallDistance += (prevY - this.y);
             }
             if (this.onGround) {
@@ -248,7 +250,15 @@ class Player {
 
         // Y Axis
         if (physics.checkCollision({x: this.x, y: this.y + dy, z: this.z, width: this.width, height: this.height})) {
-            if (dy < 0) this.onGround = true;
+            if (dy < 0) {
+                this.onGround = true;
+                // Snap to block surface
+                // We collided at y+dy. The block we hit is below.
+                // We assume we hit the top of a block.
+                // The block's y coordinate is Math.floor(this.y + dy).
+                // So the surface is at Math.floor(this.y + dy) + 1.
+                this.y = Math.floor(this.y + dy) + 1;
+            }
             this.vy = 0;
         } else {
             this.y += dy;
