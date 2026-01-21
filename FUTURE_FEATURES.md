@@ -10,7 +10,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Chat system
 - [x] Player name tags
 - [x] Server infrastructure (Node.js + WebSocket)
-- [ ] Player spawn points
+- [x] Player spawn points
 - [x] Shared world state (Real-time sync only, no server-side persistence yet)
 
 ### 2. Advanced World Generation
@@ -45,12 +45,12 @@ This document outlines features that future agents should implement to enhance t
 - [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string)
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
-- [ ] Sheep Mob (Missing implementation)
+- [x] Sheep Mob (Missing implementation)
 
 ### 6. Core Mechanics
-- [ ] Sprinting mechanic
-- [ ] Fall damage
-- [ ] Hunger system
+- [x] Sprinting mechanic
+- [x] Fall damage
+- [x] Hunger system
 
 ## Medium Priority Features
 
@@ -182,11 +182,11 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Crouch Mechanics (Speed reduction implemented)
 - [x] Fix Crouch Mechanics (Visual height reduction implemented)
 - [x] Fix Block IDs (Dirt was 0/Air, making it invisible)
-- [ ] Implement Sheep Mob (Missing in `Game.spawnMobs` and `Mob` class)
-- [ ] Fix Water Physics (No flow logic)
-- [ ] Implement Fall Damage
-- [ ] Implement Sprinting
-- [ ] Fix Projectile Collision (Improve hit detection)
+- [x] Implement Sheep Mob (Missing in `Game.spawnMobs` and `Mob` class)
+- [x] Fix Water Physics (Implemented simple player physics and visual overlay)
+- [x] Implement Fall Damage
+- [x] Implement Sprinting
+- [x] Fix Projectile Collision (Improved hit detection with AABB Raycast)
 
 ## Technical Improvements
 

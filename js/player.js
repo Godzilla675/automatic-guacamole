@@ -37,10 +37,17 @@ class Player {
         // Stats
         this.health = 20;
         this.maxHealth = 20;
+        this.hunger = 20;
+        this.maxHunger = 20;
         this.lastDamageTime = 0;
+        this.spawnPoint = { x: 8, y: 40, z: 8 };
 
         // Movement state
         this.walkDistance = 0;
+        this.sprinting = false;
+        this.fallDistance = 0;
+        this.hungerTimer = 0;
+        this.regenTimer = 0;
     }
 
     takeDamage(amount) {
@@ -57,13 +64,15 @@ class Player {
     }
 
     respawn() {
-        this.x = 8;
-        this.y = 40;
-        this.z = 8;
+        this.x = this.spawnPoint.x;
+        this.y = this.spawnPoint.y;
+        this.z = this.spawnPoint.z;
         this.health = this.maxHealth;
+        this.hunger = this.maxHunger;
         this.vx = 0;
         this.vy = 0;
         this.vz = 0;
+        this.fallDistance = 0;
         if (this.game.chat) this.game.chat.addMessage("You died! Respawning...");
         if (this.game.updateHealthUI) this.game.updateHealthUI();
     }
@@ -71,8 +80,51 @@ class Player {
     update(dt) {
         const controls = this.game.controls;
 
+        // Hunger Logic
+        this.hungerTimer += dt;
+        if (this.hungerTimer > 30) { // Every 30 seconds lose 1 hunger passively
+             this.hunger = Math.max(0, this.hunger - 1);
+             this.hungerTimer = 0;
+             if (this.game.updateHealthUI) this.game.updateHealthUI();
+        }
+
+        // Regen / Starvation
+        if (this.hunger >= 18 && this.health < this.maxHealth) {
+             this.regenTimer += dt;
+             if (this.regenTimer > 4) {
+                 this.health = Math.min(this.maxHealth, this.health + 1);
+                 this.regenTimer = 0;
+                 if (this.game.updateHealthUI) this.game.updateHealthUI();
+             }
+        } else if (this.hunger === 0) {
+             this.regenTimer += dt;
+             if (this.regenTimer > 4) {
+                 this.takeDamage(1);
+                 this.regenTimer = 0;
+             }
+        } else {
+            this.regenTimer = 0;
+        }
+
         // Physics integration
         let moveSpeed = this.speed;
+
+        // Fluid Physics
+        const inWater = this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
+        if (inWater) {
+             moveSpeed *= 0.5;
+             this.fallDistance = 0;
+        }
+
+        // Sprinting
+        if (controls.sprint && !controls.sneak && this.onGround && controls.forward && this.hunger > 6) {
+             this.sprinting = true;
+             moveSpeed *= 1.3;
+             // Drain hunger faster while sprinting
+             this.hungerTimer += dt * 2;
+        } else {
+             this.sprinting = false;
+        }
 
         // Crouch Speed
         if (controls.sneak && !this.flying && this.onGround) {
@@ -106,9 +158,11 @@ class Player {
         this.vx = moveX * moveSpeed;
         this.vz = moveZ * moveSpeed;
 
-        if (controls.jump && (this.onGround || this.flying)) {
+        if (controls.jump && (this.onGround || this.flying || inWater)) {
             if (this.flying) {
                  this.vy = moveSpeed;
+            } else if (inWater) {
+                 this.vy = 2.0; // Swim up
             } else {
                  this.vy = this.jumpForce;
                  this.onGround = false;
@@ -119,22 +173,48 @@ class Player {
         }
 
         if (!this.flying) {
-            this.vy -= this.gravity * dt;
+            if (inWater) {
+                this.vy -= this.gravity * dt * 0.2; // Reduced gravity
+                this.vy *= 0.8; // Water drag
+            } else {
+                this.vy -= this.gravity * dt;
+            }
         } else {
             if (!controls.jump && !controls.sneak) this.vy = 0;
         }
 
         // Apply Velocity
         const prevX = this.x;
+        const prevY = this.y;
         const prevZ = this.z;
         this.moveBy(this.vx * dt, this.vy * dt, this.vz * dt);
+
+        // Fall Damage Logic
+        if (!this.flying) {
+            if (this.vy < 0) {
+                this.fallDistance += (prevY - this.y);
+            }
+            if (this.onGround) {
+                if (this.fallDistance > 3) {
+                    const damage = Math.floor(this.fallDistance - 3);
+                    if (damage > 0) {
+                        this.takeDamage(damage);
+                        window.soundManager.play('break'); // Fall sound (using break for now)
+                    }
+                }
+                this.fallDistance = 0;
+            }
+        } else {
+            this.fallDistance = 0;
+        }
 
         // Footstep sounds
         if (this.onGround && !this.flying) {
             const dist = Math.sqrt((this.x - prevX)**2 + (this.z - prevZ)**2);
             if (dist > 0) {
                 this.walkDistance += dist;
-                if (this.walkDistance > 2.5) { // Step every 2.5m
+                const stepLen = this.sprinting ? 1.5 : 2.5;
+                if (this.walkDistance > stepLen) {
                     this.walkDistance = 0;
                     window.soundManager.play('step');
                 }
@@ -177,8 +257,7 @@ class Player {
 
         // World Bounds (Respawn)
         if (this.y < -10) {
-            this.y = 40;
-            this.vy = 0;
+            this.takeDamage(100); // Kill player
         }
     }
 }

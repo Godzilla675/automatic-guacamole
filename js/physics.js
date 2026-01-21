@@ -84,6 +84,59 @@ class Physics {
         }
         return null;
     }
+
+    rayIntersectAABB(origin, dir, box) {
+        const min = { x: box.x - box.width/2, y: box.y, z: box.z - box.width/2 };
+        const max = { x: box.x + box.width/2, y: box.y + box.height, z: box.z + box.width/2 };
+
+        let tmin = (min.x - origin.x) / dir.x;
+        let tmax = (max.x - origin.x) / dir.x;
+
+        if (tmin > tmax) [tmin, tmax] = [tmax, tmin];
+
+        let tymin = (min.y - origin.y) / dir.y;
+        let tymax = (max.y - origin.y) / dir.y;
+
+        if (tymin > tymax) [tymin, tymax] = [tymax, tymin];
+
+        if ((tmin > tymax) || (tymin > tmax)) return null;
+
+        if (tymin > tmin) tmin = tymin;
+        if (tymax < tmax) tmax = tymax;
+
+        let tzmin = (min.z - origin.z) / dir.z;
+        let tzmax = (max.z - origin.z) / dir.z;
+
+        if (tzmin > tzmax) [tzmin, tzmax] = [tzmax, tzmin];
+
+        if ((tmin > tzmax) || (tzmin > tmax)) return null;
+
+        if (tzmin > tmin) tmin = tzmin;
+        if (tzmax < tmax) tmax = tzmax;
+
+        if (tmin < 0 && tmax < 0) return null;
+
+        return tmin > 0 ? tmin : tmax;
+    }
+
+    getFluidIntersection(box) {
+         const minX = Math.floor(box.x - box.width/2);
+        const maxX = Math.floor(box.x + box.width/2);
+        const minY = Math.floor(box.y);
+        const maxY = Math.floor(box.y + box.height);
+        const minZ = Math.floor(box.z - box.width/2);
+        const maxZ = Math.floor(box.z + box.width/2);
+
+        for (let x = minX; x <= maxX; x++) {
+            for (let y = minY; y <= maxY; y++) {
+                for (let z = minZ; z <= maxZ; z++) {
+                    const block = this.world.getBlock(x, y, z);
+                    if (block === BLOCK.WATER) return true;
+                }
+            }
+        }
+        return false;
+    }
 }
 
 window.Physics = Physics;
