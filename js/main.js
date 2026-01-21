@@ -715,6 +715,11 @@ class Game {
         for (let i = this.projectiles.length - 1; i >= 0; i--) {
             const p = this.projectiles[i];
             const dts = dt / 1000;
+
+            const prevX = p.x;
+            const prevY = p.y;
+            const prevZ = p.z;
+
             p.x += p.vx * dts;
             p.y += p.vy * dts;
             p.z += p.vz * dts;
@@ -725,16 +730,31 @@ class Game {
                 p.life = 0;
             }
 
-            // Collision with player (simple distance)
-            const dx = p.x - this.player.x;
-            const dy = p.y - (this.player.y + this.player.height/2);
-            const dz = p.z - this.player.z;
-            if (dx*dx + dy*dy + dz*dz < 1.0) {
-                 p.life = 0;
-                 // Push player
-                 this.player.vx += p.vx * 0.5;
-                 this.player.vz += p.vz * 0.5;
-                 this.player.takeDamage(2);
+            // Collision with player (AABB Raycast)
+            const box = {
+                x: this.player.x,
+                y: this.player.y,
+                z: this.player.z,
+                width: this.player.width,
+                height: this.player.height
+            };
+
+            const moveX = p.x - prevX;
+            const moveY = p.y - prevY;
+            const moveZ = p.z - prevZ;
+            const dist = Math.sqrt(moveX*moveX + moveY*moveY + moveZ*moveZ);
+
+            if (dist > 0) {
+                const dir = { x: moveX/dist, y: moveY/dist, z: moveZ/dist };
+                const t = this.physics.rayIntersectAABB({x: prevX, y: prevY, z: prevZ}, dir, box);
+
+                if (t !== null && t >= 0 && t <= dist) {
+                     p.life = 0;
+                     // Push player
+                     this.player.vx += p.vx * 0.5;
+                     this.player.vz += p.vz * 0.5;
+                     this.player.takeDamage(2);
+                }
             }
 
             if (p.life <= 0) {
