@@ -116,7 +116,11 @@ class Physics {
 
         if (tmin < 0 && tmax < 0) return null;
 
-        return tmin > 0 ? tmin : tmax;
+        // If tmin is negative, it means we started inside the box (or the origin is inside).
+        // In this case, the intersection point is effectively at the origin (t=0).
+        if (tmin < 0) return 0;
+
+        return tmin;
     }
 
     getFluidIntersection(box) {

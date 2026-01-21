@@ -158,21 +158,27 @@ class World {
     }
 
     generateTree(chunk, x, y, z) {
-        // Simple tree within chunk bounds (simplified for now)
-        // If tree crosses chunk boundary, it might be cut off.
-        // Proper solution requires multi-pass generation or checking neighbors.
-        // We will just draw safely inside.
-        if (x < 2 || x > 13 || z < 2 || z > 13) return;
+        // Convert chunk local coordinates to world coordinates
+        const wx = chunk.cx * this.chunkSize + x;
+        const wz = chunk.cz * this.chunkSize + z;
 
+        // Trunk
         for (let i = 0; i < 4; i++) {
-            chunk.setBlock(x, y + i, z, BLOCK.WOOD);
+            // Using setBlock to handle chunk boundaries safely
+            // Note: If neighbor chunk is not generated, the block might be lost.
+            // But usually we generate sequentially so previous chunks exist.
+            // Future improvement: Multi-pass generation.
+            this.setBlock(wx, y + i, wz, BLOCK.WOOD);
         }
+
+        // Leaves
         for (let lx = -2; lx <= 2; lx++) {
             for (let lz = -2; lz <= 2; lz++) {
                 for (let ly = 2; ly <= 4; ly++) {
                      if (Math.abs(lx) + Math.abs(lz) + (ly-2) < 4) {
-                         if (chunk.getBlock(x+lx, y+ly, z+lz) === BLOCK.AIR) {
-                             chunk.setBlock(x+lx, y+ly, z+lz, BLOCK.LEAVES);
+                         // Check if air using world coordinates
+                         if (this.getBlock(wx+lx, y+ly, wz+lz) === BLOCK.AIR) {
+                             this.setBlock(wx+lx, y+ly, wz+lz, BLOCK.LEAVES);
                          }
                      }
                 }
