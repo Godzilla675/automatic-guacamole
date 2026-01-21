@@ -44,7 +44,9 @@ const BLOCK = {
     ITEM_BONE: 201,
     ITEM_STRING: 202,
     ITEM_PORKCHOP: 203,
-    ITEM_LEATHER: 204
+    ITEM_LEATHER: 204,
+    ITEM_WOOL: 205,
+    ITEM_MUTTON: 206
 };
 
 const TOOLS = {
@@ -119,7 +121,9 @@ const BLOCKS = {
     [BLOCK.ITEM_BONE]: { name: 'Bone', color: '#F0F0F0', solid: false, isItem: true, icon: '🦴' },
     [BLOCK.ITEM_STRING]: { name: 'String', color: '#FFFFFF', solid: false, isItem: true, icon: '🕸️' },
     [BLOCK.ITEM_PORKCHOP]: { name: 'Porkchop', color: '#FFB6C1', solid: false, isItem: true, icon: '🥩' },
-    [BLOCK.ITEM_LEATHER]: { name: 'Leather', color: '#8B4513', solid: false, isItem: true, icon: '🟫' }
+    [BLOCK.ITEM_LEATHER]: { name: 'Leather', color: '#8B4513', solid: false, isItem: true, icon: '🟫' },
+    [BLOCK.ITEM_WOOL]: { name: 'White Wool', color: '#FFFFFF', solid: false, isItem: true, icon: '⬜' },
+    [BLOCK.ITEM_MUTTON]: { name: 'Raw Mutton', color: '#B22222', solid: false, isItem: true, icon: '🍖' }
 };
 
 window.BLOCK = BLOCK;

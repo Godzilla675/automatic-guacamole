@@ -3,7 +3,8 @@ const MOB_TYPE = {
     ZOMBIE: 'zombie',
     PIG: 'pig',
     SKELETON: 'skeleton',
-    SPIDER: 'spider'
+    SPIDER: 'spider',
+    SHEEP: 'sheep'
 };
 
 class Mob {
@@ -49,6 +50,12 @@ class Mob {
                 this.height = 0.9;
                 this.speed = 1.2;
                 this.maxHealth = 10;
+                break;
+            case MOB_TYPE.SHEEP:
+                this.color = '#FFFFFF'; // White
+                this.height = 1.3;
+                this.speed = 1.0;
+                this.maxHealth = 8;
                 break;
             case MOB_TYPE.ZOMBIE:
                 this.color = '#2E8B57'; // Green
@@ -105,6 +112,12 @@ class Mob {
             case MOB_TYPE.PIG:
                 dropType = BLOCK.ITEM_PORKCHOP;
                 break;
+            case MOB_TYPE.SHEEP:
+                dropType = BLOCK.ITEM_WOOL;
+                if (Math.random() < 0.5 && this.game.drops) {
+                     this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_MUTTON, 1));
+                }
+                break;
             case MOB_TYPE.ZOMBIE:
                 dropType = BLOCK.ITEM_ROTTEN_FLESH;
                 break;
@@ -125,7 +138,7 @@ class Mob {
     update(dt) {
         if (this.isDead) return;
 
-        if (this.type === MOB_TYPE.ZOMBIE) {
+        if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SKELETON || this.type === MOB_TYPE.SPIDER) {
             this.updateHostileAI(dt);
         } else {
             this.updatePassiveAI(dt);

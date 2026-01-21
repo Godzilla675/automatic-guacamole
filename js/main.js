@@ -93,7 +93,7 @@ class Game {
         this.controls = {
             forward: false, backward: false,
             left: false, right: false,
-            jump: false, sneak: false,
+            jump: false, sneak: false, sprint: false,
             enabled: true
         };
         this.mouse = { locked: false };
@@ -133,6 +133,7 @@ class Game {
         this.mobs.push(new Mob(this, 12, 40, 12, MOB_TYPE.PIG));
         this.mobs.push(new Mob(this, 20, 40, 20, MOB_TYPE.SKELETON));
         this.mobs.push(new Mob(this, 25, 40, 25, MOB_TYPE.SPIDER));
+        this.mobs.push(new Mob(this, 30, 40, 30, MOB_TYPE.SHEEP));
 
         // Connect Multiplayer
         this.network.connect('ws://localhost:8080');
@@ -216,6 +217,7 @@ class Game {
                 case 'KeyD': this.controls.right = true; break;
                 case 'Space': this.controls.jump = true; break;
                 case 'ShiftLeft': this.controls.sneak = true; break;
+                case 'ControlLeft': this.controls.sprint = true; break;
                 case 'KeyF': this.player.flying = !this.player.flying; break;
                 case 'KeyE': this.toggleInventory(); break;
                 case 'Escape': this.pauseGame(); break;
@@ -251,6 +253,7 @@ class Game {
                 case 'KeyD': this.controls.right = false; break;
                 case 'Space': this.controls.jump = false; break;
                 case 'ShiftLeft': this.controls.sneak = false; break;
+                case 'ControlLeft': this.controls.sprint = false; break;
             }
         });
 
@@ -397,25 +400,23 @@ class Game {
             z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
         };
 
+        const eyePos = {
+            x: this.player.x,
+            y: this.player.y + this.player.height * 0.9,
+            z: this.player.z
+        };
+
         // 1. Check Mobs
         let closestMob = null;
         let minMobDist = 4.0; // Melee range
 
         this.mobs.forEach(mob => {
             if (mob.isDead) return;
-            // Simplified ray-sphere/box intersection
-            // Project mob center onto ray
-            const dx = mob.x - this.player.x;
-            const dy = (mob.y + mob.height/2) - (this.player.y + this.player.height); // Eye to center
-            const dz = mob.z - this.player.z;
-
-            const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
-            if (dist > minMobDist) return;
-
-            // Check dot product (angle)
-            const dot = (dx*dir.x + dy*dir.y + dz*dir.z) / dist;
-            if (dot > 0.9) { // ~25 degrees
-                minMobDist = dist;
+            const mobBox = { x: mob.x, y: mob.y, z: mob.z, width: mob.width, height: mob.height };
+            // Use improved AABB raycast
+            const t = this.physics.rayIntersectAABB(eyePos, dir, mobBox);
+            if (t !== null && t < minMobDist) {
+                minMobDist = t;
                 closestMob = mob;
             }
         });
@@ -438,7 +439,7 @@ class Game {
         }
 
         // 2. Check Block
-        const hit = this.physics.raycast(this.player, dir, 5);
+        const hit = this.physics.raycast(eyePos, dir, 5);
         if (hit) {
             const blockType = this.world.getBlock(hit.x, hit.y, hit.z);
             if (blockType === BLOCK.AIR || blockType === BLOCK.WATER) return;
@@ -828,6 +829,13 @@ class Game {
         ctx.fillStyle = `rgb(${skyR},${skyG},${skyB})`;
         ctx.fillRect(0, 0, w, h);
 
+        // Water Overlay (Under water)
+        const headBlock = this.world.getBlock(Math.floor(this.player.x), Math.floor(this.player.y + this.player.height - 0.2), Math.floor(this.player.z));
+        if (headBlock === BLOCK.WATER) {
+            ctx.fillStyle = 'rgba(0, 50, 150, 0.5)';
+            ctx.fillRect(0, 0, w, h);
+        }
+
         // Render Blocks
         // Chunk-based rendering + Frustum/Distance Culling
 
@@ -1064,6 +1072,12 @@ class Game {
             bar.style.width = pct + '%';
         }
 
+        const hungerBar = document.getElementById('hunger-bar');
+        if (hungerBar) {
+            const pct = (this.player.hunger / this.player.maxHunger) * 100;
+            hungerBar.style.width = pct + '%';
+        }
+
         // Damage Overlay
         const overlay = document.getElementById('damage-overlay');
         if (overlay && this.player.health < this.player.maxHealth) {
@@ -1137,9 +1151,9 @@ class Game {
         if (isDay) {
             // Passive
             const r = Math.random();
-            if (r < 0.33) type = MOB_TYPE.COW;
-            else if (r < 0.66) type = MOB_TYPE.PIG;
-            // else Sheep? (Not implemented)
+            if (r < 0.3) type = MOB_TYPE.COW;
+            else if (r < 0.6) type = MOB_TYPE.PIG;
+            else type = MOB_TYPE.SHEEP;
         } else {
             // Hostile
             const r = Math.random();
