@@ -43,10 +43,10 @@ const dom = new JSDOM(`<!DOCTYPE html>
     url: "http://localhost/"
 });
 
-global.window = dom.window;
-global.document = dom.window.document;
-global.HTMLElement = dom.window.HTMLElement;
-global.navigator = { userAgent: "node" };
+// Mock globals on dom.window
+dom.window.document = dom.window.document;
+dom.window.HTMLElement = dom.window.HTMLElement;
+dom.window.navigator = { userAgent: "node" };
 
 // Mock WebSocket
 class MockWebSocket {
@@ -72,13 +72,12 @@ MockWebSocket.CONNECTING = 0;
 MockWebSocket.CLOSING = 2;
 MockWebSocket.CLOSED = 3;
 dom.window.WebSocket = MockWebSocket;
-global.WebSocket = MockWebSocket; // Keep global for external reference if needed
 
 // Mock AudioContext
 dom.window.AudioContext = class {
     createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
     createGain() { return { connect: () => {}, gain: { value: 0, setTargetAtTime: () => {}, setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
-    createBuffer() { return {}; }
+    createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
     createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
     createBiquadFilter() { return { connect: () => {} }; }
     resume() {}
@@ -86,7 +85,7 @@ dom.window.AudioContext = class {
 };
 
 // Mock Canvas
-const canvas = document.getElementById('game-canvas');
+const canvas = dom.window.document.getElementById('game-canvas');
 canvas.getContext = () => ({
     setTransform: () => {},
     fillStyle: '',
@@ -101,10 +100,16 @@ canvas.getContext = () => ({
     measureText: () => ({ width: 0 }),
 });
 canvas.requestPointerLock = () => {};
-document.exitPointerLock = () => {};
+dom.window.document.exitPointerLock = () => {};
 
 // Mock Perlin
-global.window.perlin = { noise: () => 0 };
+dom.window.perlin = { noise: () => 0 };
+
+// Mock localStorage
+dom.window.localStorage = {
+    getItem: () => null,
+    setItem: () => {}
+};
 
 // Load Code
 const load = (f) => {
@@ -120,11 +125,14 @@ const load = (f) => {
 describe('Feature Audit', () => {
     let game;
 
-    before((done) => {
+    before(function(done) {
+        this.timeout(5000); // Increase timeout for slower environments
+
         // Init game
-        game = new window.Game();
+        game = new dom.window.Game();
+        game.world.renderDistance = 1; // Speed up test
         // Mock prompt
-        window.prompt = () => "Tester";
+        dom.window.prompt = () => "Tester";
 
         // Init
         // We override init to avoid actual network call loop issues if any,
@@ -135,12 +143,18 @@ describe('Feature Audit', () => {
         // Mock gameLoop to run once and stop?
         game.gameLoop = () => {};
 
-        game.init();
+        try {
+            game.init();
+        } catch (e) {
+            console.error("game.init() failed:", e);
+            done(e);
+            return;
+        }
 
         // Wait for connection
         setTimeout(() => {
             done();
-        }, 200);
+        }, 500);
     });
 
     it('Multiplayer: Should connect and send position updates', () => {
@@ -167,14 +181,14 @@ describe('Feature Audit', () => {
         // Simulate receiving chat
         game.network.handleMessage({ type: 'chat', sender: 'Server', message: 'Hello' });
 
-        const messages = document.getElementById('chat-messages');
+        const messages = dom.window.document.getElementById('chat-messages');
         assert.ok(messages.innerHTML.includes('Server'), "Chat should display sender");
         assert.ok(messages.innerHTML.includes('Hello'), "Chat should display message");
     });
 
     it('Durability: Should decrease when block is broken', () => {
         // Give pickaxe
-        game.player.inventory[0] = { type: window.BLOCK.PICKAXE_DIAMOND, count: 1, durability: 100 };
+        game.player.inventory[0] = { type: dom.window.BLOCK.PICKAXE_DIAMOND, count: 1, durability: 100 };
         game.player.selectedSlot = 0;
 
         // Mock block breaking
@@ -194,7 +208,7 @@ describe('Feature Audit', () => {
         const cy = game.world.getHighestBlockY(cx, cz) + 1;
 
         // Place torch
-        game.world.setBlock(cx, cy, cz, window.BLOCK.TORCH);
+        game.world.setBlock(cx, cy, cz, dom.window.BLOCK.TORCH);
 
         // Check light
         const light = game.world.getLight(cx, cy, cz);

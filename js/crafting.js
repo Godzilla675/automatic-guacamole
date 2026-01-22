@@ -244,4 +244,3 @@ class CraftingSystem {
 }
 
 window.CraftingSystem = CraftingSystem;
-window.crafting = new CraftingSystem();
