@@ -193,6 +193,9 @@ This document outlines features that future agents should implement to enhance t
 - [x] Implement Eating/Food Consumption
 - [x] Implement Tool Crafting Recipes
 - [x] Implement Ambient Sounds (Water, Wind)
+- [x] Fix Physics Crash (Safe block access)
+- [x] Fix Fall Damage Logic (Reset fall distance in water)
+- [x] Fix Crafting System (Drop items if inventory full)
 
 ## Technical Improvements
 

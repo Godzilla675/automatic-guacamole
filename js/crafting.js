@@ -220,8 +220,23 @@ class CraftingSystem {
         }
 
         if (countToAdd > 0) {
-            alert("Inventory full! Some items dropped (logic not implemented for drops yet)");
-            // In a real game we would drop item entity
+            // Drop remaining items
+            const player = this.game.player;
+            // Throw slightly in front
+            const dirX = Math.sin(player.yaw);
+            const dirZ = Math.cos(player.yaw);
+
+            if (window.Drop) {
+                const drop = new window.Drop(this.game, player.x + dirX, player.y + 1.5, player.z + dirZ, typeToAdd, countToAdd);
+                // Add velocity away from player
+                drop.vx = dirX * 5;
+                drop.vz = dirZ * 5;
+                drop.vy = 5;
+                this.game.drops.push(drop);
+                alert(`Crafted ${recipe.name}! (Inventory full, items dropped)`);
+            } else {
+                alert("Inventory full! Items lost.");
+            }
         } else {
              alert(`Crafted ${recipe.name}!`);
         }
