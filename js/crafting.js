@@ -118,6 +118,11 @@ class CraftingSystem {
                 name: "Stone (1)",
                 result: { type: BLOCK.STONE, count: 1 },
                 ingredients: [ { type: BLOCK.COBBLESTONE, count: 1 } ]
+            },
+            {
+                name: "Torch (4)",
+                result: { type: BLOCK.TORCH, count: 4 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.ITEM_COAL, count: 1 } ]
             }
         ];
     }

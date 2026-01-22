@@ -11,6 +11,7 @@ class Chunk {
         // Let's assume max height 64.
         this.maxHeight = 64;
         this.blocks = new Uint8Array(this.size * this.size * this.maxHeight);
+        this.light = new Uint8Array(this.size * this.size * this.maxHeight);
         this.modified = true; // Start modified to trigger update
         this.visibleBlocks = []; // Cache of visible blocks
     }
@@ -26,12 +27,32 @@ class Chunk {
         return this.blocks[this.getIndex(x, y, z)];
     }
 
+    getLight(x, y, z) {
+        if (x < 0 || x >= this.size || z < 0 || z >= this.size || y < 0 || y >= this.maxHeight) {
+            return 15; // Sunlight default for out of bounds/air for now? Or 0?
+            // If it's daytime, outside is bright.
+        }
+        return this.light[this.getIndex(x, y, z)];
+    }
+
     setBlock(x, y, z, type) {
         if (x < 0 || x >= this.size || z < 0 || z >= this.size || y < 0 || y >= this.maxHeight) {
             return;
         }
         this.blocks[this.getIndex(x, y, z)] = type;
         this.modified = true;
+    }
+
+    setLight(x, y, z, val) {
+        if (x < 0 || x >= this.size || z < 0 || z >= this.size || y < 0 || y >= this.maxHeight) {
+            return;
+        }
+        this.light[this.getIndex(x, y, z)] = val;
+        // Light changes don't necessarily need a full mesh rebuild if we pass light via attributes,
+        // but for this simple engine we draw immediately in render(), so we don't need to flag 'modified' for geometry,
+        // but we might want to flag it if we were baking light into vertices.
+        // For now, render() reads light dynamically? No, that's too slow to read from chunk every frame for every block.
+        // Actually, render() iterates visible blocks.
     }
 
     updateVisibleBlocks(world) {

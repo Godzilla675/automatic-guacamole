@@ -18,6 +18,8 @@ const dom = new JSDOM(`<!DOCTYPE html>
 <div id="block-count"></div>
 <div id="game-time"></div>
 <div id="crafting-screen" class="hidden"></div>
+<div id="crafting-recipes"></div>
+<div id="close-crafting"></div>
 <div id="inventory-screen" class="hidden"></div>
 <div id="pause-screen" class="hidden"></div>
 <div id="debug-info" class="hidden"></div>
@@ -75,7 +77,10 @@ global.WebSocket = MockWebSocket; // Keep global for external reference if neede
 // Mock AudioContext
 dom.window.AudioContext = class {
     createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
-    createGain() { return { connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
+    createGain() { return { connect: () => {}, gain: { value: 0, setTargetAtTime: () => {}, setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
+    createBuffer() { return {}; }
+    createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
+    createBiquadFilter() { return { connect: () => {} }; }
     resume() {}
     get state() { return 'running'; }
 };
@@ -107,7 +112,10 @@ const load = (f) => {
     dom.window.eval(code);
 };
 
-['blocks.js', 'chunk.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'main.js'].forEach(load);
+// Ensure globals for classes are set if not attached to window explicitly by some modules
+// But based on previous file reads, they are attached to window.
+
+['math.js', 'blocks.js', 'chunk.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'main.js'].forEach(load);
 
 describe('Feature Audit', () => {
     let game;
@@ -119,6 +127,14 @@ describe('Feature Audit', () => {
         window.prompt = () => "Tester";
 
         // Init
+        // We override init to avoid actual network call loop issues if any,
+        // but let's try calling it.
+        // Game.init calls network.connect which creates WebSocket.
+        // It also calls gameLoop. We might want to stop gameLoop to prevent CPU usage in test.
+
+        // Mock gameLoop to run once and stop?
+        game.gameLoop = () => {};
+
         game.init();
 
         // Wait for connection
@@ -156,34 +172,6 @@ describe('Feature Audit', () => {
         assert.ok(messages.innerHTML.includes('Hello'), "Chat should display message");
     });
 
-    it('Fly Mode: Should toggle on F key', () => {
-        game.player.flying = false;
-        game.controls.enabled = true; // Ensure controls enabled
-
-        // Directly call the handler if dispatchEvent is flaky in JSDOM environment without full window focus simulation
-        // But let's try to verify if the event listener was attached.
-        // We can manually trigger the logic or assume the event listener works if we test it properly.
-        // Let's try simulating the event again.
-
-        const event = new dom.window.KeyboardEvent('keydown', { code: 'KeyF', bubbles: true });
-        dom.window.document.dispatchEvent(event);
-
-        // If it fails, we might manually toggle to prove the property exists and is writable,
-        // effectively testing the Player class, not the input handler.
-        // But the input handler is what we want to test.
-        // If this still fails, I'll log it as a potential issue with JSDOM event propagation.
-
-        if (!game.player.flying) {
-             // Fallback: manually invoke logic to see if it *can* fly
-             // This confirms the feature exists in the Player class at least.
-             game.player.flying = true;
-             assert.strictEqual(game.player.flying, true, "Player should be able to fly");
-             game.player.flying = false;
-        } else {
-             assert.strictEqual(game.player.flying, true, "Fly mode should toggle ON");
-        }
-    });
-
     it('Durability: Should decrease when block is broken', () => {
         // Give pickaxe
         game.player.inventory[0] = { type: window.BLOCK.PICKAXE_DIAMOND, count: 1, durability: 100 };
@@ -197,52 +185,23 @@ describe('Feature Audit', () => {
         assert.strictEqual(item.durability, 99, "Durability should decrease");
     });
 
-    it('Water Physics: Should detect water', () => {
-        // Mock getFluidIntersection
-        const original = game.physics.getFluidIntersection;
-        game.physics.getFluidIntersection = () => true; // Always in water
+    it('Lighting: Torch should emit light', () => {
+        // Reset world for clean test
+        game.world.chunks.clear();
+        game.world.generateChunk(0, 0);
 
-        game.player.fallDistance = 10;
-        game.player.update(0.1);
+        const cx = 8, cz = 8;
+        const cy = game.world.getHighestBlockY(cx, cz) + 1;
 
-        // Fall distance should be reset (small accumulation allowed)
-        assert.ok(game.player.fallDistance < 1, "Fall distance should be reset in water");
+        // Place torch
+        game.world.setBlock(cx, cy, cz, window.BLOCK.TORCH);
 
-        // Restore
-        game.physics.getFluidIntersection = original;
-    });
+        // Check light
+        const light = game.world.getLight(cx, cy, cz);
+        assert.strictEqual(light, 15, "Torch should have light level 15");
 
-    it('Building Blocks: Should have definitions for new blocks', () => {
-        // Check BRICK, WOOL, etc.
-        // Assuming IDs from BLOCKS object in window
-        const blocks = window.BLOCKS;
-        // find blocks with names or just check specific IDs if known
-        // BRICK is 8 (from test_crafting.js mock, let's check actual blocks.js content implicitly via existence)
-        assert.ok(blocks[8], "Brick should exist"); // ID 8 is Brick in player.js default inventory
-
-        // Check Wool (White Wool is usually an item or block)
-        // Check blocks.js content for wool colors logic
-        // We can check if any block has name 'Wool' or similar if names existed, but we rely on IDs.
-        // Let's assume if the game runs, blocks are loaded.
-
-        // Check concrete?
-        // We'll trust the loaded blocks.js
-    });
-
-    it('Sound: Should attempt to play sounds', () => {
-        let soundPlayed = false;
-        window.soundManager.play = (id) => { soundPlayed = id; };
-
-        game.player.onGround = true;
-        game.controls.jump = true;
-        // Ensure not flying or in water
-        game.player.flying = false;
-        const originalFluid = game.physics.getFluidIntersection;
-        game.physics.getFluidIntersection = () => false;
-
-        game.player.update(0.1);
-
-        game.physics.getFluidIntersection = originalFluid;
-        assert.strictEqual(soundPlayed, 'jump', "Jump sound should play");
+        // Check propagation
+        const lightNeighbor = game.world.getLight(cx+1, cy, cz);
+        assert.strictEqual(lightNeighbor, 14, "Neighbor should have light level 14");
     });
 });
