@@ -58,7 +58,7 @@ This document outlines features that future agents should implement to enhance t
 
 ### 7. Enhanced Building Blocks
 - [x] Additional block types (brick, concrete, wool colors)
-- [ ] Torches (Lighting system)
+- [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 - [ ] Slabs and stairs
 - [ ] Doors and gates
 - [ ] Windows and fences
@@ -74,8 +74,9 @@ This document outlines features that future agents should implement to enhance t
 
 ### 9. Advanced Graphics
 - [ ] Better shadows and lighting
+- [ ] Dynamic Lighting (Handheld torch light)
 - [ ] Particle effects (breaking blocks, water splash)
-- [ ] Block breaking animation (Basic progress bar implemented)
+- [x] Block breaking animation (Basic progress bar implemented)
 - [ ] Ambient occlusion
 - [ ] Water animations and flow
 - [ ] Weather effects (rain, snow)
@@ -95,7 +96,7 @@ This document outlines features that future agents should implement to enhance t
 ### 11. Inventory Enhancements
 - [ ] Larger inventory (3x9 grid)
 - [ ] Drag and drop items
-- [ ] Item stacking
+- [x] Item stacking (Simple stacking implemented in drops)
 - [x] Hotbar number indicators
 - [ ] Quick item swap
 - [ ] Inventory sorting
@@ -175,6 +176,7 @@ This document outlines features that future agents should implement to enhance t
 ## Bugs & Maintenance
 
 ### 20. Critical Fixes & Bugs
+- [ ] Fix Tree Generation at Chunk Boundaries (Trees can be cut off if neighbor chunk not generated)
 - [x] Fix memory management strategy (Implemented Chunk-based storage)
 - [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
 - [x] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)
