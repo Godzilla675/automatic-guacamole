@@ -390,6 +390,24 @@ class Game {
 
     startAction(isLeftClick) {
         if (!isLeftClick) {
+            // Check for food
+            const slot = this.player.inventory[this.player.selectedSlot];
+            if (slot && slot.count > 0) {
+                 const blockDef = BLOCKS[slot.type];
+                 if (blockDef && blockDef.food) {
+                     if (this.player.hunger < this.player.maxHunger) {
+                         if (this.player.eat(slot.type)) {
+                             slot.count--;
+                             if (slot.count <= 0) {
+                                 this.player.inventory[this.player.selectedSlot] = null;
+                             }
+                             this.updateHotbarUI();
+                             return;
+                         }
+                     }
+                 }
+            }
+
             this.placeBlock();
             return;
         }
@@ -485,8 +503,32 @@ class Game {
     }
 
     finalizeBreakBlock(x, y, z) {
+        const blockType = this.world.getBlock(x, y, z);
+
         this.world.setBlock(x, y, z, BLOCK.AIR);
         window.soundManager.play('break');
+
+        // Drop Logic
+        if (blockType !== BLOCK.AIR && blockType !== BLOCK.WATER) {
+            const blockDef = BLOCKS[blockType];
+            if (blockDef) {
+                let dropType = blockType;
+                let dropCount = 1;
+
+                if (blockDef.drop !== undefined) {
+                    if (blockDef.drop === null) {
+                        dropCount = 0;
+                    } else {
+                        dropType = blockDef.drop.type;
+                        dropCount = blockDef.drop.count;
+                    }
+                }
+
+                if (dropCount > 0) {
+                     this.drops.push(new Drop(this, x + 0.5, y + 0.5, z + 0.5, dropType, dropCount));
+                }
+            }
+        }
 
         // Tool Durability
         const slotIdx = this.player.selectedSlot;
@@ -833,6 +875,36 @@ class Game {
         // Multiplayer Sync
         if (this.frameCount % 3 === 0) { // Send every 3 frames (~20fps)
             this.network.sendPosition(this.player.x, this.player.y, this.player.z, this.player.yaw, this.player.pitch);
+        }
+
+        // Ambience Update
+        if (window.soundManager && this.player) {
+             let waterIntensity = 0;
+             let windIntensity = 0;
+
+             const cx = Math.floor(this.player.x);
+             const cy = Math.floor(this.player.y);
+             const cz = Math.floor(this.player.z);
+
+             // Check for water nearby
+             let waterCount = 0;
+             for (let dx = -2; dx <= 2; dx++) {
+                 for (let dy = -2; dy <= 2; dy++) {
+                     for (let dz = -2; dz <= 2; dz++) {
+                         if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
+                             waterCount++;
+                         }
+                     }
+                 }
+             }
+             waterIntensity = Math.min(1.0, waterCount / 20);
+
+             // Wind based on height
+             if (this.player.y > 32) {
+                 windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
+             }
+
+             window.soundManager.updateAmbience(waterIntensity, windIntensity);
         }
     }
 
