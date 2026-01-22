@@ -1,0 +1,632 @@
+class Game {
+    constructor() {
+        this.canvas = document.getElementById('game-canvas');
+        this.ctx = this.canvas.getContext('2d');
+
+        // Modules
+        this.world = new World();
+        this.physics = new Physics(this.world);
+        this.player = new Player(this);
+        this.mobs = [];
+        this.drops = [];
+        this.projectiles = [];
+        this.network = new NetworkManager(this);
+        this.crafting = new CraftingSystem(this);
+
+        // New Managers
+        this.chat = new ChatManager(this);
+        this.ui = new UIManager(this);
+        this.input = new InputManager(this);
+        this.renderer = new Renderer(this);
+
+        // Game State
+        this.lastTime = Date.now();
+        this.fps = 0;
+        this.frameCount = 0;
+        this.fpsTime = Date.now();
+        this.gameTime = 0;
+        this.dayLength = 120000;
+        this.sunBrightness = 1.0;
+
+        // Controls
+        this.controls = {
+            forward: false, backward: false,
+            left: false, right: false,
+            jump: false, sneak: false, sprint: false,
+            enabled: true
+        };
+
+        this.isMobile = this.detectMobile();
+
+        // Rendering state
+        this.fov = 60;
+        this.renderDistance = 60; // blocks
+
+        // Action State
+        this.breaking = null; // {x, y, z, progress, limit}
+    }
+
+    detectMobile() {
+        const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const hasTouchSupport = ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0);
+        const isSmallScreen = window.innerWidth < 768;
+        return (isMobileUserAgent && (hasTouchSupport || isSmallScreen)) || (hasTouchSupport && isSmallScreen);
+    }
+
+    async init() {
+        this.renderer.resize();
+        window.addEventListener('resize', () => this.renderer.resize());
+
+        // Generate initial world around player
+        this.updateChunks();
+
+        // Init Mobs
+        for (let i = 0; i < 3; i++) {
+            this.mobs.push(new Mob(this, 8 + i*2, 40, 8 + i*2, MOB_TYPE.COW));
+        }
+        for (let i = 0; i < 2; i++) {
+            this.mobs.push(new Mob(this, 15 + i*2, 40, 15 + i*2, MOB_TYPE.ZOMBIE));
+        }
+        this.mobs.push(new Mob(this, 12, 40, 12, MOB_TYPE.PIG));
+        this.mobs.push(new Mob(this, 20, 40, 20, MOB_TYPE.SKELETON));
+        this.mobs.push(new Mob(this, 25, 40, 25, MOB_TYPE.SPIDER));
+        this.mobs.push(new Mob(this, 30, 40, 30, MOB_TYPE.SHEEP));
+
+        // Connect Multiplayer
+        this.network.connect('ws://localhost:8080');
+
+        // Get Player Name
+        const savedName = localStorage.getItem('voxel_player_name');
+        let name = prompt("Enter your name:", savedName || "Player");
+        if (!name) name = "Guest" + Math.floor(Math.random()*1000);
+        localStorage.setItem('voxel_player_name', name);
+        this.player.name = name;
+
+        this.crafting.initUI();
+        this.updateHealthUI();
+        this.input.setupEventListeners();
+        this.updateHotbarUI();
+
+        if (this.isMobile) {
+            document.getElementById('mobile-controls').classList.remove('hidden');
+            this.input.setupMobileControls();
+        }
+
+        // Start Loop
+        this.gameLoop();
+    }
+
+    // Delegation methods for compatibility
+    updateHotbarUI() {
+        this.ui.updateHotbarUI();
+    }
+
+    updateHealthUI() {
+        this.ui.updateHealthUI();
+    }
+
+    toggleInventory() {
+        this.ui.toggleInventory();
+    }
+
+    craftingUI() {
+        this.ui.craftingUI();
+    }
+
+    resumeGame() {
+        this.ui.resumeGame();
+    }
+
+    resize() {
+        this.renderer.resize();
+    }
+
+    updateChunks() {
+        const centerChunkX = Math.floor(this.player.x / 16);
+        const centerChunkZ = Math.floor(this.player.z / 16);
+        const dist = this.world.renderDistance; // In chunks
+
+        // Unload far chunks
+        this.world.unloadFarChunks(this.player.x, this.player.z, dist);
+
+        for (let cx = centerChunkX - dist; cx <= centerChunkX + dist; cx++) {
+            for (let cz = centerChunkZ - dist; cz <= centerChunkZ + dist; cz++) {
+                this.world.generateChunk(cx, cz);
+            }
+        }
+    }
+
+    startAction(isLeftClick) {
+        if (!isLeftClick) {
+            // Check for food
+            const slot = this.player.inventory[this.player.selectedSlot];
+            if (slot && slot.count > 0) {
+                 const blockDef = BLOCKS[slot.type];
+                 if (blockDef && blockDef.food) {
+                     if (this.player.hunger < this.player.maxHunger) {
+                         if (this.player.eat(slot.type)) {
+                             slot.count--;
+                             if (slot.count <= 0) {
+                                 this.player.inventory[this.player.selectedSlot] = null;
+                             }
+                             this.updateHotbarUI();
+                             return;
+                         }
+                     }
+                 }
+            }
+
+            this.placeBlock();
+            return;
+        }
+
+        const dir = {
+            x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+            y: -Math.sin(this.player.pitch),
+            z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+        };
+
+        const eyePos = {
+            x: this.player.x,
+            y: this.player.y + this.player.height * 0.9,
+            z: this.player.z
+        };
+
+        // 1. Check Mobs
+        let closestMob = null;
+        let minMobDist = 4.0; // Melee range
+
+        this.mobs.forEach(mob => {
+            if (mob.isDead) return;
+            const mobBox = { x: mob.x, y: mob.y, z: mob.z, width: mob.width, height: mob.height };
+            // Use improved AABB raycast
+            const t = this.physics.rayIntersectAABB(eyePos, dir, mobBox);
+            if (t !== null && t < minMobDist) {
+                minMobDist = t;
+                closestMob = mob;
+            }
+        });
+
+        if (closestMob) {
+            // Attack Mob
+            const slot = this.player.inventory[this.player.selectedSlot];
+            let damage = 1;
+            if (slot && window.TOOLS[slot.type]) {
+                damage = window.TOOLS[slot.type].damage || 1;
+                // Reduce durability
+                 if (slot.durability !== undefined) slot.durability--;
+                 this.updateHotbarUI();
+            }
+
+            // Knockback direction
+            const kb = { x: dir.x, z: dir.z };
+            closestMob.takeDamage(damage, kb);
+            return;
+        }
+
+        // 2. Check Block
+        const hit = this.physics.raycast(eyePos, dir, 5);
+        if (hit) {
+            const blockType = this.world.getBlock(hit.x, hit.y, hit.z);
+            if (blockType === BLOCK.AIR || blockType === BLOCK.WATER) return;
+
+            const blockDef = BLOCKS[blockType];
+            const hardness = blockDef.hardness !== undefined ? blockDef.hardness : 1.0;
+
+            if (hardness < 0) return; // Unbreakable
+
+            // Calculate break time
+            let speedMultiplier = 1;
+            const slot = this.player.inventory[this.player.selectedSlot];
+            let canHarvest = true; // For now everything is harvestable, simplified
+
+            if (slot && window.TOOLS[slot.type]) {
+                 const tool = window.TOOLS[slot.type];
+                 if (blockDef.tool === tool.type) {
+                     speedMultiplier = tool.speed;
+                 } else {
+                     speedMultiplier = 1;
+                 }
+            } else {
+                // Hand speed?
+                speedMultiplier = 1;
+            }
+
+            const limit = (hardness * 1.5) / speedMultiplier;
+
+            this.breaking = {
+                x: hit.x, y: hit.y, z: hit.z,
+                progress: 0,
+                limit: limit,
+                lastTick: Date.now()
+            };
+        }
+    }
+
+    stopAction() {
+        this.breaking = null;
+    }
+
+    finalizeBreakBlock(x, y, z) {
+        const blockType = this.world.getBlock(x, y, z);
+
+        this.world.setBlock(x, y, z, BLOCK.AIR);
+        window.soundManager.play('break');
+
+        // Drop Logic
+        if (blockType !== BLOCK.AIR && blockType !== BLOCK.WATER) {
+            const blockDef = BLOCKS[blockType];
+            if (blockDef) {
+                let dropType = blockType;
+                let dropCount = 1;
+
+                if (blockDef.drop !== undefined) {
+                    if (blockDef.drop === null) {
+                        dropCount = 0;
+                    } else {
+                        dropType = blockDef.drop.type;
+                        dropCount = blockDef.drop.count;
+                    }
+                }
+
+                if (dropCount > 0) {
+                     this.drops.push(new Drop(this, x + 0.5, y + 0.5, z + 0.5, dropType, dropCount));
+                }
+            }
+        }
+
+        // Tool Durability
+        const slotIdx = this.player.selectedSlot;
+        const item = this.player.inventory[slotIdx];
+        if (item && window.TOOLS[item.type]) {
+            const toolDef = window.TOOLS[item.type];
+            if (item.durability === undefined) {
+                item.durability = toolDef.durability;
+            }
+            item.durability--;
+            if (item.durability <= 0) {
+                 this.player.inventory[slotIdx] = null;
+                 window.soundManager.play('break');
+            }
+            this.updateHotbarUI();
+        }
+
+        this.network.sendBlockUpdate(x, y, z, BLOCK.AIR);
+    }
+
+    placeBlock() {
+        const dir = {
+            x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+            y: -Math.sin(this.player.pitch),
+            z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+        };
+        const hit = this.physics.raycast(this.player, dir, 5);
+        if (hit && hit.face) {
+            const nx = hit.x + hit.face.x;
+            const ny = hit.y + hit.face.y;
+            const nz = hit.z + hit.face.z;
+
+            // Check player collision
+            const pBox = { x: this.player.x, y: this.player.y, z: this.player.z, width: this.player.width, height: this.player.height };
+            // Simple check if point is inside player box
+            if (this.physics.checkCollision({x: nx + 0.5, y: ny, z: nz + 0.5, width: 1, height: 1}) &&
+                Math.abs(nx + 0.5 - this.player.x) < 0.8 && // approximate check
+                Math.abs(nz + 0.5 - this.player.z) < 0.8 &&
+                (ny >= this.player.y && ny < this.player.y + this.player.height)) {
+                return; // Inside player
+            }
+
+            const slot = this.player.inventory[this.player.selectedSlot];
+            if (slot && slot.count > 0) {
+                 // Check if it's an item/tool, not a block
+                 const blockDef = BLOCKS[slot.type];
+                 if (blockDef && blockDef.isItem) return;
+
+                 this.world.setBlock(nx, ny, nz, slot.type);
+                 window.soundManager.play('place');
+                 this.network.sendBlockUpdate(nx, ny, nz, slot.type);
+            }
+        }
+    }
+
+    spawnProjectile(x, y, z, dir) {
+        this.projectiles.push({
+            x, y, z,
+            vx: dir.x * 15,
+            vy: dir.y * 15,
+            vz: dir.z * 15,
+            life: 2.0
+        });
+    }
+
+    spawnMobs() {
+        if (this.mobs.length >= 20) return;
+
+        const range = 40;
+        const minRange = 16;
+
+        // Attempt spawn
+        const angle = Math.random() * Math.PI * 2;
+        const dist = minRange + Math.random() * (range - minRange);
+
+        const x = this.player.x + Math.cos(angle) * dist;
+        const z = this.player.z + Math.sin(angle) * dist;
+
+        // Find ground
+        const floorX = Math.floor(x);
+        const floorZ = Math.floor(z);
+        const y = this.world.getHighestBlockY(floorX, floorZ);
+
+        if (y <= 0 || y > 60) return;
+
+        // Check if spawn position is valid
+        const groundBlock = this.world.getBlock(floorX, y-1, floorZ);
+        if (groundBlock === BLOCK.WATER) return; // Don't spawn in water for now
+
+        // Check light level (Day/Night)
+        const cycle = (this.gameTime % this.dayLength) / this.dayLength;
+        const isDay = cycle < 0.5; // 0 to 0.5 is day
+
+        let type = null;
+        if (isDay) {
+            // Passive
+            const r = Math.random();
+            if (r < 0.3) type = MOB_TYPE.COW;
+            else if (r < 0.6) type = MOB_TYPE.PIG;
+            else type = MOB_TYPE.SHEEP;
+        } else {
+            // Hostile
+            const r = Math.random();
+            if (r < 0.33) type = MOB_TYPE.ZOMBIE;
+            else if (r < 0.66) type = MOB_TYPE.SKELETON;
+            else type = MOB_TYPE.SPIDER;
+        }
+
+        if (type) {
+            this.mobs.push(new Mob(this, x, y, z, type));
+        }
+    }
+
+    update(dt) {
+        this.player.update(dt / 1000);
+
+        // Mobs
+        for (let i = this.mobs.length - 1; i >= 0; i--) {
+            const mob = this.mobs[i];
+            if (mob.isDead) {
+                this.mobs.splice(i, 1);
+                continue;
+            }
+            mob.update(dt / 1000);
+        }
+
+        // Spawn mobs
+        if (this.frameCount % 120 === 0) {
+            this.spawnMobs();
+        }
+
+        // Drops
+        for (let i = this.drops.length - 1; i >= 0; i--) {
+            const drop = this.drops[i];
+            drop.update(dt / 1000);
+
+            if (drop.lifeTime <= 0) {
+                this.drops.splice(i, 1);
+                continue;
+            }
+
+            // Collection
+            const dx = this.player.x - drop.x;
+            const dy = (this.player.y + 0.5) - drop.y;
+            const dz = this.player.z - drop.z;
+            if (dx*dx + dy*dy + dz*dz < 1.5) {
+                // Collect
+                // Add to inventory
+                // Find empty slot or stack
+                let added = false;
+                // Simple add to first empty or stack logic (simplified)
+                for (let j = 0; j < this.player.inventory.length; j++) {
+                    const slot = this.player.inventory[j];
+                    if (slot && slot.type === drop.type && slot.count < 64) {
+                        slot.count += drop.count;
+                        added = true;
+                        break;
+                    }
+                }
+                if (!added) {
+                     for (let j = 0; j < this.player.inventory.length; j++) {
+                         if (!this.player.inventory[j]) {
+                             this.player.inventory[j] = { type: drop.type, count: drop.count };
+                             added = true;
+                             break;
+                         }
+                     }
+                }
+
+                if (added) {
+                    window.soundManager.play('place'); // Pickup sound?
+                    this.drops.splice(i, 1);
+                    this.updateHotbarUI();
+                }
+            }
+        }
+
+        // Update Projectiles
+        for (let i = this.projectiles.length - 1; i >= 0; i--) {
+            const p = this.projectiles[i];
+            const dts = dt / 1000;
+
+            const prevX = p.x;
+            const prevY = p.y;
+            const prevZ = p.z;
+
+            p.x += p.vx * dts;
+            p.y += p.vy * dts;
+            p.z += p.vz * dts;
+            p.life -= dts;
+
+            // Collision with world
+            if (this.world.getBlock(Math.floor(p.x), Math.floor(p.y), Math.floor(p.z)) !== BLOCK.AIR) {
+                p.life = 0;
+            }
+
+            // Collision with player (AABB Raycast)
+            const box = {
+                x: this.player.x,
+                y: this.player.y,
+                z: this.player.z,
+                width: this.player.width,
+                height: this.player.height
+            };
+
+            const moveX = p.x - prevX;
+            const moveY = p.y - prevY;
+            const moveZ = p.z - prevZ;
+            const dist = Math.sqrt(moveX*moveX + moveY*moveY + moveZ*moveZ);
+
+            if (dist > 0) {
+                const dir = { x: moveX/dist, y: moveY/dist, z: moveZ/dist };
+                const t = this.physics.rayIntersectAABB({x: prevX, y: prevY, z: prevZ}, dir, box);
+
+                if (t !== null && t >= 0 && t <= dist) {
+                     p.life = 0;
+                     // Push player
+                     this.player.vx += p.vx * 0.5;
+                     this.player.vz += p.vz * 0.5;
+                     this.player.takeDamage(2);
+                }
+            }
+
+            if (p.life <= 0) {
+                this.projectiles.splice(i, 1);
+            }
+        }
+
+        this.gameTime += dt;
+        const cycle = (this.gameTime % this.dayLength) / this.dayLength;
+        const isDay = cycle < 0.5;
+        this.sunBrightness = isDay ? 0.8 + Math.sin(cycle * Math.PI) * 0.2 : 0.3;
+
+        // Chunk Loading
+        if (this.frameCount % 60 === 0) { // Check every second
+            this.updateChunks();
+        }
+
+        // Crosshair Interaction Update
+        const lookDir = {
+            x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+            y: -Math.sin(this.player.pitch),
+            z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+        };
+
+        let hasTarget = false;
+
+        // Check Mobs
+        for (let mob of this.mobs) {
+             if (mob.isDead) continue;
+             const dx = mob.x - this.player.x;
+             const dy = (mob.y + mob.height/2) - (this.player.y + this.player.height);
+             const dz = mob.z - this.player.z;
+             const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+             if (dist < 4.0) {
+                 const dot = (dx*lookDir.x + dy*lookDir.y + dz*lookDir.z) / dist;
+                 if (dot > 0.9) {
+                     hasTarget = true;
+                     break;
+                 }
+             }
+        }
+
+        if (!hasTarget) {
+            const hit = this.physics.raycast(this.player, lookDir, 5);
+            if (hit) {
+                const b = this.world.getBlock(hit.x, hit.y, hit.z);
+                if (b !== BLOCK.AIR && b !== BLOCK.WATER) hasTarget = true;
+            }
+        }
+
+        const crosshair = document.getElementById('crosshair');
+        if (crosshair) {
+            if (hasTarget) crosshair.classList.add('active');
+            else crosshair.classList.remove('active');
+        }
+
+        // Breaking Block Logic
+        if (this.breaking) {
+            const hit = this.physics.raycast(this.player, lookDir, 5); // Reuse lookDir
+
+            if (!hit || hit.x !== this.breaking.x || hit.y !== this.breaking.y || hit.z !== this.breaking.z) {
+                this.breaking = null; // Looked away
+            } else {
+                const now = Date.now();
+                const delta = (now - this.breaking.lastTick) / 1000;
+                this.breaking.lastTick = now;
+                this.breaking.progress += delta;
+
+                if (this.breaking.progress >= this.breaking.limit) {
+                    this.finalizeBreakBlock(this.breaking.x, this.breaking.y, this.breaking.z);
+                    this.breaking = null;
+                }
+            }
+        }
+
+        // Multiplayer Sync
+        if (this.frameCount % 3 === 0) { // Send every 3 frames (~20fps)
+            this.network.sendPosition(this.player.x, this.player.y, this.player.z, this.player.yaw, this.player.pitch);
+        }
+
+        // Ambience Update
+        if (window.soundManager && this.player) {
+             let waterIntensity = 0;
+             let windIntensity = 0;
+
+             const cx = Math.floor(this.player.x);
+             const cy = Math.floor(this.player.y);
+             const cz = Math.floor(this.player.z);
+
+             // Check for water nearby
+             let waterCount = 0;
+             for (let dx = -2; dx <= 2; dx++) {
+                 for (let dy = -2; dy <= 2; dy++) {
+                     for (let dz = -2; dz <= 2; dz++) {
+                         if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
+                             waterCount++;
+                         }
+                     }
+                 }
+             }
+             waterIntensity = Math.min(1.0, waterCount / 20);
+
+             // Wind based on height
+             if (this.player.y > 32) {
+                 windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
+             }
+
+             window.soundManager.updateAmbience(waterIntensity, windIntensity);
+        }
+    }
+
+    render() {
+        this.renderer.render();
+    }
+
+    gameLoop() {
+        const now = Date.now();
+        const dt = now - this.lastTime;
+        this.lastTime = now;
+
+        if (now - this.fpsTime >= 1000) {
+            this.fps = this.frameCount;
+            this.frameCount = 0;
+            this.fpsTime = now;
+        }
+        this.frameCount++;
+
+        this.update(dt);
+        this.render();
+
+        requestAnimationFrame(() => this.gameLoop());
+    }
+}
+
+window.Game = Game;
