@@ -24,7 +24,7 @@ This document outlines features that future agents should implement to enhance t
 
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
-- [ ] Recipes for tools, blocks, and items (Basic block recipes implemented; Tools missing)
+- [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
 - [x] Resource gathering requirements (Inventory consumption implemented)
 - [ ] Smelting System (Furnace)
 - [ ] Crafting animations
@@ -52,7 +52,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Sprinting mechanic
 - [x] Fall damage
 - [x] Hunger system (Decay and starvation implemented)
-- [ ] Eating/Food Consumption (Missing implementation)
+- [x] Eating/Food Consumption (Implemented)
 
 ## Medium Priority Features
 
@@ -88,7 +88,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Background music
 - [x] Block breaking sounds
 - [x] Footstep sounds
-- [ ] Ambient sounds (water, wind) (Missing implementation)
+- [x] Ambient sounds (water, wind) (Implemented in `js/audio.js`)
 - [x] Sound effects for actions
 - [ ] Volume controls
 
@@ -190,9 +190,9 @@ This document outlines features that future agents should implement to enhance t
 - [x] Implement Fall Damage
 - [x] Implement Sprinting
 - [x] Fix Projectile Collision (Improved hit detection with AABB Raycast)
-- [ ] Implement Eating/Food Consumption
-- [ ] Implement Tool Crafting Recipes
-- [ ] Implement Ambient Sounds (Water, Wind)
+- [x] Implement Eating/Food Consumption
+- [x] Implement Tool Crafting Recipes
+- [x] Implement Ambient Sounds (Water, Wind)
 
 ## Technical Improvements
 

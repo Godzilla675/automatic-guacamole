@@ -2,11 +2,113 @@ class CraftingSystem {
     constructor(game) {
         this.game = game;
         this.recipes = [
+            // Basics
             {
                 name: "Planks (4)",
                 result: { type: BLOCK.PLANK, count: 4 },
                 ingredients: [ { type: BLOCK.WOOD, count: 1 } ]
             },
+            {
+                name: "Stick (4)",
+                result: { type: BLOCK.ITEM_STICK, count: 4 },
+                ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
+            },
+            // Ingots (Manual Smelting)
+            {
+                name: "Iron Ingot",
+                result: { type: BLOCK.ITEM_IRON_INGOT, count: 1 },
+                ingredients: [ { type: BLOCK.ORE_IRON, count: 1 } ]
+            },
+            {
+                name: "Gold Ingot",
+                result: { type: BLOCK.ITEM_GOLD_INGOT, count: 1 },
+                ingredients: [ { type: BLOCK.ORE_GOLD, count: 1 } ]
+            },
+            // Tools - Wood
+            {
+                name: "Wood Pickaxe",
+                result: { type: BLOCK.PICKAXE_WOOD, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
+                name: "Wood Sword",
+                result: { type: BLOCK.SWORD_WOOD, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 2 }, { type: BLOCK.ITEM_STICK, count: 1 } ]
+            },
+            {
+                name: "Wood Axe",
+                result: { type: BLOCK.AXE_WOOD, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+             {
+                name: "Wood Shovel",
+                result: { type: BLOCK.SHOVEL_WOOD, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 1 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            // Tools - Stone
+            {
+                name: "Stone Pickaxe",
+                result: { type: BLOCK.PICKAXE_STONE, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
+                name: "Stone Sword",
+                result: { type: BLOCK.SWORD_STONE, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 2 }, { type: BLOCK.ITEM_STICK, count: 1 } ]
+            },
+            {
+                name: "Stone Axe",
+                result: { type: BLOCK.AXE_STONE, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+             {
+                name: "Stone Shovel",
+                result: { type: BLOCK.SHOVEL_STONE, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 1 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+             // Tools - Iron
+            {
+                name: "Iron Pickaxe",
+                result: { type: BLOCK.PICKAXE_IRON, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
+                name: "Iron Sword",
+                result: { type: BLOCK.SWORD_IRON, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 2 }, { type: BLOCK.ITEM_STICK, count: 1 } ]
+            },
+            {
+                name: "Iron Axe",
+                result: { type: BLOCK.AXE_IRON, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+             {
+                name: "Iron Shovel",
+                result: { type: BLOCK.SHOVEL_IRON, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 1 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            // Tools - Diamond
+            {
+                name: "Diamond Pickaxe",
+                result: { type: BLOCK.PICKAXE_DIAMOND, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_DIAMOND, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
+                name: "Diamond Sword",
+                result: { type: BLOCK.SWORD_DIAMOND, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_DIAMOND, count: 2 }, { type: BLOCK.ITEM_STICK, count: 1 } ]
+            },
+            {
+                name: "Diamond Axe",
+                result: { type: BLOCK.AXE_DIAMOND, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_DIAMOND, count: 3 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+             {
+                name: "Diamond Shovel",
+                result: { type: BLOCK.SHOVEL_DIAMOND, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_DIAMOND, count: 1 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            // Others
             {
                 name: "Bricks (1)",
                 result: { type: BLOCK.BRICK, count: 1 },
