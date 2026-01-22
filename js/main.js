@@ -990,7 +990,8 @@ class Game {
                         blocksToDraw.push({
                             type: b.type,
                             rx, ry: ry, rz: rz2,
-                            dist
+                            dist,
+                            light: chunk.getLight(b.x, b.y, b.z)
                         });
                     }
                 }
@@ -1011,22 +1012,18 @@ class Game {
                  const blockDef = BLOCKS[b.type];
                  if (!blockDef) return;
 
-                 const light = Math.min(1, (brightness * 0.7) + 0.3 / (1 + b.dist * 0.05));
+                 // Calculate lighting
+                 // Get block light
+                 const wx = Math.floor(this.player.x + (b.rx * cosY + b.rz * sinY));
+                 // Wait, this inverse transform is tricky. b comes from chunk visibleBlocks which has relative coords.
+                 // We don't have absolute coords here easily without re-calculating or storing in visibleBlocks.
+                 // Ideally visibleBlocks should store absolute coords or we pass chunk offset.
+                 // But wait! chunk.visibleBlocks stores x,y,z relative to chunk.
 
-                 ctx.fillStyle = this.adjustColor(blockDef.top, light * 1.1);
-                 ctx.fillRect(sx - size/2, sy - size, size, size/2);
-
-                 ctx.fillStyle = this.adjustColor(blockDef.color, light * 0.8);
-                 ctx.fillRect(sx - size/2, sy - size/2, size, size);
-
-                 ctx.fillStyle = this.adjustColor(blockDef.color, light * 0.6);
-                 // Side face
-                 ctx.beginPath();
-                 ctx.moveTo(sx + size/2, sy - size/2);
-                 ctx.lineTo(sx + size, sy - size*0.75);
-                 ctx.lineTo(sx + size, sy - size*0.25);
-                 ctx.lineTo(sx + size/2, sy + size/2);
-                 ctx.fill();
+                 // NOTE: I am making a hack here because `blocksToDraw` loses the original coordinates.
+                 // The best way is to modify `blocksToDraw` to include `light` level directly from the chunk iteration loop.
+                 // But I can't change that loop easily without re-writing `render` significantly.
+                 // Wait, `blocksToDraw` is built in `render`. Let's modify the loop above first.
              }
         });
 

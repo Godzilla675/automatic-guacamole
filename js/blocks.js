@@ -21,6 +21,7 @@ const BLOCK = {
     ORE_GOLD: 15,
     ORE_DIAMOND: 16,
     CACTUS: 17,
+    TORCH: 18,
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -102,6 +103,7 @@ const BLOCKS = {
     [BLOCK.ORE_DIAMOND]: { name: 'diamond_ore', color: '#808080', top: '#00FFFF', solid: true, icon: '💎', hardness: 3.0, tool: 'pickaxe', drop: { type: BLOCK.ITEM_DIAMOND, count: 1 } },
 
     [BLOCK.CACTUS]: { name: 'cactus', color: '#2E8B57', top: '#2E8B57', solid: true, icon: '🌵', hardness: 0.4 },
+    [BLOCK.TORCH]: { name: 'torch', color: '#FFD700', top: '#FFA500', solid: false, transparent: true, icon: '🔥', hardness: 0.1, light: 15, drop: { type: BLOCK.TORCH, count: 1 } },
 
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },

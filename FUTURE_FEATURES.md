@@ -52,7 +52,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Sprinting mechanic
 - [x] Fall damage
 - [x] Hunger system (Decay and starvation implemented)
-- [x] Eating/Food Consumption (Implemented)
+- [x] Eating/Food Consumption (Implemented, including sound)
 
 ## Medium Priority Features
 
@@ -116,7 +116,7 @@ This document outlines features that future agents should implement to enhance t
 ## Low Priority / Polish Features
 
 ### 13. Advanced Gameplay
-- [ ] Health regeneration
+- [x] Health regeneration (Implemented in `js/player.js`)
 - [ ] Experience points and levels
 - [ ] Enchanting system
 - [ ] Potions and brewing

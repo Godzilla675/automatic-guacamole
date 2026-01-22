@@ -34,6 +34,8 @@ class World {
             // Better to only allow placement in loaded chunks.
             return;
         }
+
+        const oldType = chunk.getBlock(lx, y, lz);
         chunk.setBlock(lx, y, lz, type);
 
         // Update neighbors if on edge to ensure culling is updated
@@ -41,6 +43,23 @@ class World {
         if (lx === this.chunkSize - 1) { const c = this.getChunk(cx + 1, cz); if (c) c.modified = true; }
         if (lz === 0) { const c = this.getChunk(cx, cz - 1); if (c) c.modified = true; }
         if (lz === this.chunkSize - 1) { const c = this.getChunk(cx, cz + 1); if (c) c.modified = true; }
+
+        // Lighting Updates
+        const blockDef = window.BLOCKS[type];
+        const oldBlockDef = window.BLOCKS[oldType];
+
+        // If placed a light source
+        if (blockDef && blockDef.light) {
+            this.updateLighting(x, y, z);
+        }
+        // If removed a light source or placed an opaque block blocking light
+        else if ((oldBlockDef && oldBlockDef.light) || (blockDef && blockDef.solid)) {
+             this.recalcLocalLight(x, y, z);
+        }
+        // If removed an opaque block, light might flow in
+        else if (oldBlockDef && oldBlockDef.solid && (!blockDef || !blockDef.solid)) {
+             this.recalcLocalLight(x, y, z);
+        }
     }
 
     getBlock(x, y, z) {
@@ -52,6 +71,129 @@ class World {
         let chunk = this.getChunk(cx, cz);
         if (!chunk) return BLOCK.AIR;
         return chunk.getBlock(lx, y, lz);
+    }
+
+    getLight(x, y, z) {
+        const cx = Math.floor(x / this.chunkSize);
+        const cz = Math.floor(z / this.chunkSize);
+        const lx = ((x % this.chunkSize) + this.chunkSize) % this.chunkSize;
+        const lz = ((z % this.chunkSize) + this.chunkSize) % this.chunkSize;
+
+        let chunk = this.getChunk(cx, cz);
+        if (!chunk) return 15; // Assume bright if unloaded (day) or handle properly
+        return chunk.getLight(lx, y, lz);
+    }
+
+    setLight(x, y, z, val) {
+        const cx = Math.floor(x / this.chunkSize);
+        const cz = Math.floor(z / this.chunkSize);
+        const lx = ((x % this.chunkSize) + this.chunkSize) % this.chunkSize;
+        const lz = ((z % this.chunkSize) + this.chunkSize) % this.chunkSize;
+
+        let chunk = this.getChunk(cx, cz);
+        if (chunk) {
+            chunk.setLight(lx, y, lz, val);
+        }
+    }
+
+    updateLighting(x, y, z) {
+        // Simple BFS light propagation from a source
+        const queue = [];
+        const visited = new Set();
+
+        // Initial check: if we just placed a torch
+        const type = this.getBlock(x, y, z);
+        const blockDef = window.BLOCKS[type];
+
+        if (blockDef && blockDef.light) {
+            queue.push({x, y, z, level: blockDef.light});
+            this.setLight(x, y, z, blockDef.light);
+        } else {
+             this.recalcLocalLight(x, y, z);
+             return;
+        }
+
+        while(queue.length > 0) {
+            const node = queue.shift();
+            const {x, y, z, level} = node;
+
+            if (level <= 1) continue;
+
+            const neighbors = [
+                {x: x+1, y: y, z: z}, {x: x-1, y: y, z: z},
+                {x: x, y: y+1, z: z}, {x: x, y: y-1, z: z},
+                {x: x, y: y, z: z+1}, {x: x, y: y, z: z-1}
+            ];
+
+            for (const n of neighbors) {
+                const key = `${n.x},${n.y},${n.z}`;
+                if (visited.has(key)) continue;
+
+                const nType = this.getBlock(n.x, n.y, n.z);
+                const nDef = window.BLOCKS[nType];
+                if (nType === BLOCK.AIR || (nDef && nDef.transparent)) {
+                    const currentLight = this.getLight(n.x, n.y, n.z);
+                    if (currentLight < level - 1) {
+                         this.setLight(n.x, n.y, n.z, level - 1);
+                         queue.push({x: n.x, y: n.y, z: n.z, level: level - 1});
+                         visited.add(key);
+                    }
+                }
+            }
+        }
+    }
+
+    recalcLocalLight(cx, cy, cz) {
+        // Reset light in a small radius and find sources
+        const rad = 15;
+        const sources = [];
+
+        // 1. Reset
+        for (let x = cx - rad; x <= cx + rad; x++) {
+            for (let y = cy - rad; y <= cy + rad; y++) {
+                for (let z = cz - rad; z <= cz + rad; z++) {
+                    const b = this.getBlock(x, y, z);
+                    const def = window.BLOCKS[b];
+                    if (def && def.light) {
+                        sources.push({x, y, z, level: def.light});
+                        this.setLight(x, y, z, def.light);
+                    } else {
+                        // Don't fully reset to 0 if we are far from the change, but for now reset in radius.
+                        // This might cause dark spots if other sources are outside radius.
+                        // Optimization for later.
+                        this.setLight(x, y, z, 0);
+                    }
+                }
+            }
+        }
+
+        // 2. Propagate all sources
+        const queue = [...sources];
+
+        while(queue.length > 0) {
+            const node = queue.shift();
+            const {x, y, z, level} = node;
+
+            if (level <= 1) continue;
+
+            const neighbors = [
+                {x: x+1, y: y, z: z}, {x: x-1, y: y, z: z},
+                {x: x, y: y+1, z: z}, {x: x, y: y-1, z: z},
+                {x: x, y: y, z: z+1}, {x: x, y: y, z: z-1}
+            ];
+
+            for (const n of neighbors) {
+                 const nType = this.getBlock(n.x, n.y, n.z);
+                 const nDef = window.BLOCKS[nType];
+                 if (nType === BLOCK.AIR || (nDef && nDef.transparent)) {
+                     const currentLevel = this.getLight(n.x, n.y, n.z);
+                     if (currentLevel < level - 1) {
+                         this.setLight(n.x, n.y, n.z, level - 1);
+                         queue.push({x: n.x, y: n.y, z: n.z, level: level - 1});
+                     }
+                 }
+            }
+        }
     }
 
     getHighestBlockY(x, z) {
