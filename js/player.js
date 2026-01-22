@@ -192,7 +192,7 @@ class Player {
         this.moveBy(this.vx * dt, this.vy * dt, this.vz * dt);
 
         // Fall Damage Logic
-        if (!this.flying) {
+        if (!this.flying && !inWater) {
             if (oldVy < 0) {
                 this.fallDistance += (prevY - this.y);
             }
@@ -207,6 +207,7 @@ class Player {
                 this.fallDistance = 0;
             }
         } else {
+            // Reset if flying or in water
             this.fallDistance = 0;
         }
 
