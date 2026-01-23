@@ -129,8 +129,8 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Instant block breaking
 - [ ] No collision mode (noclip)
 - [x] Fly mode toggle (Key 'F')
-- [ ] World edit tools (copy, paste, fill)
-- [ ] Time control
+- [x] World edit tools (copy, paste, fill) - Fill tool implemented
+- [x] Time control
 - [ ] Weather control
 
 ### 15. Performance Optimizations
@@ -176,7 +176,7 @@ This document outlines features that future agents should implement to enhance t
 ## Bugs & Maintenance
 
 ### 20. Critical Fixes & Bugs
-- [ ] Fix Tree Generation at Chunk Boundaries (Trees can be cut off if neighbor chunk not generated)
+- [x] Fix Tree Generation at Chunk Boundaries (Trees can be cut off if neighbor chunk not generated)
 - [x] Fix memory management strategy (Implemented Chunk-based storage)
 - [x] Optimize render loop (Implemented Frustum culling, Chunk iteration, and Exposed Face Culling)
 - [x] Remove dead code (Delete `game.js` in root, as `js/main.js` is the active entry point)

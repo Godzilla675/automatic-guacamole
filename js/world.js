@@ -1,6 +1,7 @@
 class World {
     constructor() {
         this.chunks = new Map();
+        this.pendingBlocks = new Map();
         this.chunkSize = 16;
         this.renderDistance = 6;
         this.worldHeight = 64;
@@ -29,9 +30,12 @@ class World {
 
         let chunk = this.getChunk(cx, cz);
         if (!chunk) {
-            // If setting a block in non-existent chunk, usually we ignore or generate
-            // But if player places it, we might need to create it?
-            // Better to only allow placement in loaded chunks.
+            // If setting a block in non-existent chunk, store it for later
+            const key = this.getChunkKey(cx, cz);
+            if (!this.pendingBlocks.has(key)) {
+                this.pendingBlocks.set(key, []);
+            }
+            this.pendingBlocks.get(key).push({x: lx, y, z: lz, type});
             return;
         }
 
@@ -296,7 +300,17 @@ class World {
             }
         }
 
-        this.chunks.set(this.getChunkKey(cx, cz), chunk);
+        const key = this.getChunkKey(cx, cz);
+        this.chunks.set(key, chunk);
+
+        // Apply pending blocks
+        if (this.pendingBlocks.has(key)) {
+            const pending = this.pendingBlocks.get(key);
+            for (const b of pending) {
+                chunk.setBlock(b.x, b.y, b.z, b.type);
+            }
+            this.pendingBlocks.delete(key);
+        }
     }
 
     generateTree(chunk, x, y, z) {
