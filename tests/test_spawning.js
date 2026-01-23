@@ -89,9 +89,12 @@ dom.window.Mob = class { constructor(g,x,y,z,t) { this.type=t; this.x=x; this.y=
 dom.window.NetworkManager = class { connect() {} sendPosition() {} };
 dom.window.CraftingSystem = class { initUI() {} };
 dom.window.ChatManager = class { constructor() {} };
+dom.window.UIManager = class { constructor() {} updateHotbarUI() {} updateHealthUI() {} };
+dom.window.InputManager = class { constructor() {} setupEventListeners() {} setupMobileControls() {} };
+dom.window.Renderer = class { constructor() {} resize() {} };
 
 // Mock SoundManager
-dom.window.soundManager = { play: () => {} };
+dom.window.soundManager = { play: () => {}, updateAmbience: () => {} };
 
 // Helper to load script
 function loadScript(path) {
@@ -99,8 +102,8 @@ function loadScript(path) {
     dom.window.eval(code);
 }
 
-// Load main.js
-loadScript('js/main.js');
+// Load game.js
+loadScript('js/game.js');
 const Game = dom.window.Game;
 
 describe('Mob Spawning', () => {
