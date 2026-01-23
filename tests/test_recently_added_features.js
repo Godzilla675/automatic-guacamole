@@ -170,13 +170,13 @@ describe('Recently Added Features Tests', () => {
             game.drops = []; // Clear existing drops
 
             // Mock random to ensure mutton drops (Math.random() < 0.5)
-            // We need to override Math.random temporarily
-            const originalRandom = Math.random;
-            Math.random = () => 0.1; // Force < 0.5
+            // We need to override dom.window.Math.random temporarily
+            const originalRandom = dom.window.Math.random;
+            dom.window.Math.random = () => 0.1; // Force < 0.5
 
             sheep.takeDamage(100); // Kill it
 
-            Math.random = originalRandom; // Restore
+            dom.window.Math.random = originalRandom; // Restore
 
             assert.strictEqual(sheep.isDead, true);
 
