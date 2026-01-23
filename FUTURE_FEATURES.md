@@ -113,7 +113,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] **Fishing**
 
 ### 13. Inventory Enhancements
-- [ ] Larger inventory (3x9 grid)
+- [ ] **Full Inventory UI** (Data implemented, UI missing)
 - [ ] Drag and drop items
 - [x] Item stacking (Simple stacking implemented in drops)
 - [x] Hotbar number indicators
@@ -178,7 +178,9 @@ This document outlines features that future agents should implement to enhance t
 ## Bugs & Maintenance
 
 ### 21. Critical Fixes & Bugs
-*No active critical bugs.*
+- [ ] **Fix Empty Inventory Screen** (Pressing 'E' opens empty overlay)
+- [ ] **Implement Furnace Block Logic** (Currently smelting is via Crafting Table)
+- [ ] **Water Flow Visuals** (Physics works, but water looks static)
 
 ### 22. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
