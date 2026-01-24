@@ -83,6 +83,7 @@ class Game {
         this.player.name = name;
 
         this.crafting.initUI();
+        this.ui.init();
         this.updateHealthUI();
         this.input.setupEventListeners();
         this.updateHotbarUI();
@@ -160,8 +161,9 @@ class Game {
         if (blockType === BLOCK.BED) {
             const time = this.gameTime % this.dayLength;
             if (time > this.dayLength * 0.5) { // Night
-                this.gameTime += (this.dayLength * 0.8 - time); // Skip to morning (simplified)
-                if (this.gameTime % this.dayLength < this.dayLength * 0.1) this.gameTime += this.dayLength * 0.1; // Ensure it's day
+                // Skip to next morning (e.g. 0.1 of next day)
+                const timeToMorning = this.dayLength - time + (this.dayLength * 0.1);
+                this.gameTime += timeToMorning;
 
                 this.player.spawnPoint = { x: this.player.x, y: this.player.y, z: this.player.z };
                 this.chat.addMessage("Sleeping... Spawn point set.");
