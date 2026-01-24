@@ -26,7 +26,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Crafting table interface (UI implemented)
 - [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
 - [x] Resource gathering requirements (Inventory consumption implemented)
-- [ ] **Smelting System (Furnace UI & Logic)**
+- [x] **Smelting System (Furnace UI & Logic)**
 - [ ] Crafting animations
 - [ ] Recipe discovery system
 
@@ -53,13 +53,13 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fall damage
 - [x] Hunger system (Decay and starvation implemented)
 - [x] Eating/Food Consumption (Implemented, including sound)
-- [ ] **Bed & Sleeping (Skip Night)**
+- [x] **Bed & Sleeping (Skip Night)**
 
 ## Medium Priority Features
 
 ### 7. User Interface Improvements
-- [ ] **Settings Menu (Controls, Sound, Graphics)**
-- [ ] **Volume Controls**
+- [x] **Settings Menu (Controls, Sound, Graphics)**
+- [x] **Volume Controls**
 - [ ] FOV Slider
 - [ ] Mouse Sensitivity Control
 - [ ] Minimap
@@ -108,13 +108,13 @@ This document outlines features that future agents should implement to enhance t
 - [x] Sound effects for actions
 
 ### 12. Farming & Nature
-- [ ] **Farming System (Hoe, Seeds, Wheat, Crops)**
+- [x] **Farming System (Hoe, Seeds, Wheat, Crops)**
 - [ ] **Animal Breeding**
 - [ ] **Fishing**
 
 ### 13. Inventory Enhancements
-- [ ] **Full Inventory UI** (Data implemented, UI missing)
-- [ ] Drag and drop items
+- [x] **Full Inventory UI** (Data implemented, UI missing)
+- [x] Drag and drop items
 - [x] Item stacking (Simple stacking implemented in drops)
 - [x] Hotbar number indicators
 - [ ] Quick item swap
@@ -178,8 +178,8 @@ This document outlines features that future agents should implement to enhance t
 ## Bugs & Maintenance
 
 ### 21. Critical Fixes & Bugs
-- [ ] **Fix Empty Inventory Screen** (Pressing 'E' opens empty overlay)
-- [ ] **Implement Furnace Block Logic** (Currently smelting is via Crafting Table)
+- [x] **Fix Empty Inventory Screen** (Pressing 'E' opens empty overlay)
+- [x] **Implement Furnace Block Logic** (Currently smelting is via Crafting Table)
 - [ ] **Water Flow Visuals** (Physics works, but water looks static)
 
 ### 22. Completed Fixes (History)
@@ -206,6 +206,12 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Physics Crash (Safe block access)
 - [x] Fix Fall Damage Logic (Reset fall distance in water)
 - [x] Fix Crafting System (Drop items if inventory full)
+- [x] Implement Block Entity Persistence (World save/load includes Furnace/Crop state)
+- [x] Implement Farming (Hoe, Seeds, Crops with Growth Stages)
+- [x] Implement Bed & Sleep Logic
+- [x] Implement Furnace UI & Smelting Logic
+- [x] Implement Settings UI & Volume Control
+- [x] Implement Full Inventory UI with Drag & Drop
 
 ## Technical Improvements
 

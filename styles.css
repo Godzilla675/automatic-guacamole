@@ -607,3 +607,104 @@ body {
         height: 60px;
     }
 }
+
+/* Furnace UI */
+#furnace-screen .menu-content {
+    background: #C6C6C6;
+    color: #333;
+    border: 4px solid #555;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+#furnace-screen h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+    text-shadow: none;
+}
+
+.furnace-ui {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.furnace-slot {
+    width: 60px;
+    height: 60px;
+    background: #8B8B8B;
+    border: 2px solid #373737;
+    border-right-color: #FFF;
+    border-bottom-color: #FFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.furnace-slot:hover {
+    background: #A0A0A0;
+}
+
+.furnace-arrow {
+    width: 40px;
+    height: 30px;
+    background: #C6C6C6;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.furnace-arrow::before {
+    content: '➔';
+    font-size: 24px;
+    color: #555;
+}
+
+#furnace-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: rgba(255, 255, 255, 0.5);
+    mix-blend-mode: overlay;
+    transition: width 0.1s;
+}
+
+.furnace-fuel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.fire-icon {
+    font-size: 24px;
+    height: 24px;
+    opacity: 0.2;
+    transition: opacity 0.2s;
+}
+.fire-icon.active {
+    opacity: 1.0;
+}
+
+/* Settings */
+#settings-screen .menu-content {
+    max-width: 400px;
+}
+.setting-item {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+}
+input[type=range] {
+    width: 60%;
+}

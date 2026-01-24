@@ -1,12 +1,27 @@
 class CraftingSystem {
     constructor(game) {
         this.game = game;
+
+        this.smeltingRecipes = [
+            { input: BLOCK.ORE_IRON, output: { type: BLOCK.ITEM_IRON_INGOT, count: 1 } },
+            { input: BLOCK.ORE_GOLD, output: { type: BLOCK.ITEM_GOLD_INGOT, count: 1 } },
+            { input: BLOCK.SAND, output: { type: BLOCK.GLASS, count: 1 } },
+            { input: BLOCK.COBBLESTONE, output: { type: BLOCK.STONE, count: 1 } },
+            { input: BLOCK.WOOD, output: { type: BLOCK.ITEM_COAL, count: 1 } }
+        ];
+
         this.recipes = [
             // Basics
             {
                 name: "Planks (4)",
                 result: { type: BLOCK.PLANK, count: 4 },
                 ingredients: [ { type: BLOCK.WOOD, count: 1 } ]
+            },
+            // Furnaces
+            {
+                name: "Furnace",
+                result: { type: BLOCK.FURNACE, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 8 } ]
             },
             {
                 name: "Stick (4)",
@@ -125,6 +140,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.ITEM_COAL, count: 1 } ]
             }
         ];
+    }
+
+    getSmeltingResult(inputType) {
+        const recipe = this.smeltingRecipes.find(r => r.input === inputType);
+        return recipe ? recipe.output : null;
     }
 
     initUI() {
