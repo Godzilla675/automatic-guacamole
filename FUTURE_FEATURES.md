@@ -17,16 +17,22 @@ This document outlines features that future agents should implement to enhance t
 - [x] Biomes (Implemented basic noise-based terrain)
 - [x] Caves and underground systems (3D Noise holes)
 - [x] Ore generation (Coal, Iron, Gold, Diamond)
-- [ ] Villages and structures
-- [ ] Rivers and lakes
 - [x] Better terrain generation using Perlin/Simplex noise
 - [x] World seeds for reproducible generation
+- [ ] **Implement Structure Manager** (System to spawn structures like Trees, Wells, Ruins)
+- [ ] **Implement Simple Structures** (Well, Small Ruins)
+- [ ] **Implement Village Generation** (Houses, Paths, Villagers)
+- [ ] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
+- [ ] **Implement Desert Biome** (Sand, Cactus, Dead Bushes)
+- [ ] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
+- [ ] Rivers and lakes
 
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
 - [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
 - [x] Resource gathering requirements (Inventory consumption implemented)
 - [x] **Smelting System (Furnace UI & Logic)**
+- [ ] **Implement Recipe Book UI** (Show available recipes visually)
 - [ ] Crafting animations
 - [ ] Recipe discovery system
 
