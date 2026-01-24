@@ -26,6 +26,8 @@ This document outlines features that future agents should implement to enhance t
 - [ ] **Implement Desert Biome** (Sand, Cactus, Dead Bushes)
 - [ ] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
 - [ ] Rivers and lakes
+- [ ] Implement Water Flow Logic (Spreading)
+- [ ] Implement Tree Generation Improvements
 
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
@@ -80,6 +82,7 @@ This document outlines features that future agents should implement to enhance t
 ### 8. Enhanced Building Blocks
 - [x] Additional block types (brick, concrete, wool colors)
 - [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
+- [ ] Implement Sand Gravity
 - [ ] Slabs and stairs
 - [ ] Doors and gates
 - [ ] Windows and fences
@@ -187,9 +190,10 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Fix Empty Inventory Screen** (Pressing 'E' opens empty overlay)
 - [x] **Implement Furnace Block Logic** (Currently smelting is via Crafting Table)
 - [ ] **Water Flow Visuals** (Physics works, but water looks static)
-- [ ] **Bug: Implement Concrete Blocks** (Claimed implemented but missing)
-- [ ] **Bug: Implement Colored Wool Blocks** (Claimed implemented but missing)
-- [ ] **Bug: Make Wool Placeable** (Currently only an item)
+- [x] **Bug: Implement Concrete Blocks** (Claimed implemented but missing)
+- [x] **Bug: Implement Colored Wool Blocks** (Claimed implemented but missing)
+- [x] **Bug: Make Wool Placeable** (Currently only an item)
+- [ ] **Bug: Implement Cactus Damage**
 
 ### 22. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
