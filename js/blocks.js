@@ -22,6 +22,13 @@ const BLOCK = {
     ORE_DIAMOND: 16,
     CACTUS: 17,
     TORCH: 18,
+    // New Features
+    FURNACE: 20,
+    HAY_BLOCK: 21,
+    FARMLAND: 22,
+    BED: 23,
+    WHEAT: 24,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -35,6 +42,10 @@ const BLOCK = {
     SHOVEL_STONE: 113,
     SHOVEL_IRON: 114,
     SHOVEL_DIAMOND: 115,
+    HOE_WOOD: 120,
+    HOE_STONE: 121,
+    HOE_IRON: 122,
+    HOE_DIAMOND: 123,
     SWORD_WOOD: 104,
     SWORD_STONE: 105,
     SWORD_IRON: 106,
@@ -55,7 +66,9 @@ const BLOCK = {
     ITEM_IRON_INGOT: 212,
     ITEM_GOLD_INGOT: 213,
     ITEM_DIAMOND: 214,
-    ITEM_APPLE: 215
+    ITEM_APPLE: 215,
+    ITEM_WHEAT_SEEDS: 220,
+    ITEM_WHEAT: 221
 };
 
 const TOOLS = {
@@ -73,6 +86,11 @@ const TOOLS = {
     [BLOCK.SHOVEL_STONE]: { type: 'shovel', speed: 4, damage: 2, durability: 132 },
     [BLOCK.SHOVEL_IRON]: { type: 'shovel', speed: 6, damage: 3, durability: 250 },
     [BLOCK.SHOVEL_DIAMOND]: { type: 'shovel', speed: 8, damage: 4, durability: 1561 },
+
+    [BLOCK.HOE_WOOD]: { type: 'hoe', speed: 2, damage: 1, durability: 60 },
+    [BLOCK.HOE_STONE]: { type: 'hoe', speed: 4, damage: 1, durability: 132 },
+    [BLOCK.HOE_IRON]: { type: 'hoe', speed: 6, damage: 1, durability: 250 },
+    [BLOCK.HOE_DIAMOND]: { type: 'hoe', speed: 8, damage: 1, durability: 1561 },
 
     [BLOCK.SWORD_WOOD]: { type: 'sword', speed: 1.5, damage: 4, durability: 60 },
     [BLOCK.SWORD_STONE]: { type: 'sword', speed: 1.5, damage: 5, durability: 132 },
@@ -105,6 +123,13 @@ const BLOCKS = {
     [BLOCK.CACTUS]: { name: 'cactus', color: '#2E8B57', top: '#2E8B57', solid: true, icon: '🌵', hardness: 0.4 },
     [BLOCK.TORCH]: { name: 'torch', color: '#FFD700', top: '#FFA500', solid: false, transparent: true, icon: '🔥', hardness: 0.1, light: 15, drop: { type: BLOCK.TORCH, count: 1 } },
 
+    // New Features Blocks
+    [BLOCK.FURNACE]: { name: 'furnace', color: '#696969', top: '#505050', solid: true, icon: '🔥', hardness: 3.5, tool: 'pickaxe', drop: { type: BLOCK.FURNACE, count: 1 } },
+    [BLOCK.HAY_BLOCK]: { name: 'hay_block', color: '#DAA520', top: '#FFD700', solid: true, icon: '🌾', hardness: 0.5, tool: 'hoe', drop: { type: BLOCK.ITEM_WHEAT, count: 9 } },
+    [BLOCK.FARMLAND]: { name: 'farmland', color: '#3E2723', top: '#4E342E', solid: true, icon: '🌱', hardness: 0.6, tool: 'shovel', drop: { type: BLOCK.DIRT, count: 1 } },
+    [BLOCK.BED]: { name: 'bed', color: '#8B0000', top: '#F0F0F0', solid: true, icon: '🛏️', hardness: 0.2, drop: { type: BLOCK.BED, count: 1 } },
+    [BLOCK.WHEAT]: { name: 'wheat', color: '#DAA520', solid: false, transparent: true, icon: '🌾', hardness: 0.0, drop: { type: BLOCK.ITEM_WHEAT, count: 1 } }, // Drop handled specially for seeds
+
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },
     [BLOCK.PICKAXE_STONE]: { name: 'Stone Pickaxe', color: '#808080', solid: false, isItem: true, icon: '⛏️' },
@@ -120,6 +145,11 @@ const BLOCKS = {
     [BLOCK.SHOVEL_STONE]: { name: 'Stone Shovel', color: '#808080', solid: false, isItem: true, icon: '🥄' },
     [BLOCK.SHOVEL_IRON]: { name: 'Iron Shovel', color: '#C0C0C0', solid: false, isItem: true, icon: '🥄' },
     [BLOCK.SHOVEL_DIAMOND]: { name: 'Diamond Shovel', color: '#00FFFF', solid: false, isItem: true, icon: '🥄' },
+
+    [BLOCK.HOE_WOOD]: { name: 'Wood Hoe', color: '#8B4513', solid: false, isItem: true, icon: '🏒' },
+    [BLOCK.HOE_STONE]: { name: 'Stone Hoe', color: '#808080', solid: false, isItem: true, icon: '🏒' },
+    [BLOCK.HOE_IRON]: { name: 'Iron Hoe', color: '#C0C0C0', solid: false, isItem: true, icon: '🏒' },
+    [BLOCK.HOE_DIAMOND]: { name: 'Diamond Hoe', color: '#00FFFF', solid: false, isItem: true, icon: '🏒' },
 
     [BLOCK.SWORD_WOOD]: { name: 'Wood Sword', color: '#8B4513', solid: false, isItem: true, icon: '⚔️' },
     [BLOCK.SWORD_STONE]: { name: 'Stone Sword', color: '#808080', solid: false, isItem: true, icon: '⚔️' },
@@ -141,7 +171,9 @@ const BLOCKS = {
     [BLOCK.ITEM_IRON_INGOT]: { name: 'Iron Ingot', color: '#C0C0C0', solid: false, isItem: true, icon: '⚪' },
     [BLOCK.ITEM_GOLD_INGOT]: { name: 'Gold Ingot', color: '#FFD700', solid: false, isItem: true, icon: '🟡' },
     [BLOCK.ITEM_DIAMOND]: { name: 'Diamond', color: '#00FFFF', solid: false, isItem: true, icon: '💎' },
-    [BLOCK.ITEM_APPLE]: { name: 'Apple', color: '#FF0000', solid: false, isItem: true, icon: '🍎', food: 4 }
+    [BLOCK.ITEM_APPLE]: { name: 'Apple', color: '#FF0000', solid: false, isItem: true, icon: '🍎', food: 4 },
+    [BLOCK.ITEM_WHEAT_SEEDS]: { name: 'Wheat Seeds', color: '#32CD32', solid: false, isItem: true, icon: '🌰' },
+    [BLOCK.ITEM_WHEAT]: { name: 'Wheat', color: '#DAA520', solid: false, isItem: true, icon: '🌾' }
 };
 
 window.BLOCK = BLOCK;

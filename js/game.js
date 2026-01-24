@@ -136,9 +136,60 @@ class Game {
         }
     }
 
+    interact(x, y, z) {
+        const blockType = this.world.getBlock(x, y, z);
+
+        // Furnace
+        if (blockType === BLOCK.FURNACE) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = {
+                    type: 'furnace',
+                    fuel: 0, maxFuel: 0,
+                    progress: 0, maxProgress: 100,
+                    input: null, fuelItem: null, output: null,
+                    burnTime: 0
+                };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            this.ui.openFurnace(entity);
+            return true;
+        }
+
+        // Bed
+        if (blockType === BLOCK.BED) {
+            const time = this.gameTime % this.dayLength;
+            if (time > this.dayLength * 0.5) { // Night
+                this.gameTime += (this.dayLength * 0.8 - time); // Skip to morning (simplified)
+                if (this.gameTime % this.dayLength < this.dayLength * 0.1) this.gameTime += this.dayLength * 0.1; // Ensure it's day
+
+                this.player.spawnPoint = { x: this.player.x, y: this.player.y, z: this.player.z };
+                this.chat.addMessage("Sleeping... Spawn point set.");
+            } else {
+                this.chat.addMessage("You can only sleep at night.");
+            }
+            return true;
+        }
+
+        return false;
+    }
+
     startAction(isLeftClick) {
         if (!isLeftClick) {
-            // Check for food
+            // Right Click Logic
+            const dir = {
+                x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                y: -Math.sin(this.player.pitch),
+                z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+            };
+            const hit = this.physics.raycast(this.player, dir, 5);
+
+            // 1. Interact with block (if hit)
+            if (hit) {
+                if (this.interact(hit.x, hit.y, hit.z)) return;
+            }
+
+            // 2. Use Item (Eat)
             const slot = this.player.inventory[this.player.selectedSlot];
             if (slot && slot.count > 0) {
                  const blockDef = BLOCKS[slot.type];
@@ -156,6 +207,7 @@ class Game {
                  }
             }
 
+            // 3. Place Block / Use Item on Block
             this.placeBlock();
             return;
         }
@@ -250,6 +302,24 @@ class Game {
     finalizeBreakBlock(x, y, z) {
         const blockType = this.world.getBlock(x, y, z);
 
+        // Check for Block Entity Drops (e.g. Furnace contents)
+        const entity = this.world.getBlockEntity(x, y, z);
+        if (entity) {
+             if (entity.type === 'furnace') {
+                 if (entity.input) this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, entity.input.type, entity.input.count));
+                 if (entity.fuelItem) this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, entity.fuelItem.type, entity.fuelItem.count));
+                 if (entity.output) this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, entity.output.type, entity.output.count));
+             } else if (entity.type === 'crop') {
+                 // Crop drops based on stage
+                 if (entity.stage >= 7) {
+                     this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT, 1));
+                     this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT_SEEDS, 1 + Math.floor(Math.random()*2)));
+                 } else {
+                     this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT_SEEDS, 1));
+                 }
+             }
+        }
+
         this.world.setBlock(x, y, z, BLOCK.AIR);
         window.soundManager.play('break');
 
@@ -318,9 +388,51 @@ class Game {
 
             const slot = this.player.inventory[this.player.selectedSlot];
             if (slot && slot.count > 0) {
-                 // Check if it's an item/tool, not a block
+                 // Check if it's an item/tool
                  const blockDef = BLOCKS[slot.type];
+                 const targetType = this.world.getBlock(hit.x, hit.y, hit.z);
+
+                 // Hoe Logic
+                 if (window.TOOLS && window.TOOLS[slot.type] && window.TOOLS[slot.type].type === 'hoe') {
+                     if (targetType === BLOCK.GRASS || targetType === BLOCK.DIRT) {
+                         this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.FARMLAND);
+                         window.soundManager.play('break'); // digging sound
+                         // Durability logic would go here
+                         return;
+                     }
+                 }
+
+                 // Seeds Logic
+                 if (slot.type === BLOCK.ITEM_WHEAT_SEEDS) {
+                     if (targetType === BLOCK.FARMLAND) {
+                         // Plant on top
+                         const up = { x: hit.x, y: hit.y + 1, z: hit.z };
+                         if (this.world.getBlock(up.x, up.y, up.z) === BLOCK.AIR) {
+                             this.world.setBlock(up.x, up.y, up.z, BLOCK.WHEAT);
+                             this.world.setBlockEntity(up.x, up.y, up.z, { type: 'crop', stage: 0 });
+                             slot.count--;
+                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             this.updateHotbarUI();
+                             return;
+                         }
+                     }
+                 }
+
                  if (blockDef && blockDef.isItem) return;
+
+                 const nx = hit.x + hit.face.x;
+                 const ny = hit.y + hit.face.y;
+                 const nz = hit.z + hit.face.z;
+
+                 // Check player collision
+                 const pBox = { x: this.player.x, y: this.player.y, z: this.player.z, width: this.player.width, height: this.player.height };
+                 // Simple check if point is inside player box
+                 if (this.physics.checkCollision({x: nx + 0.5, y: ny, z: nz + 0.5, width: 1, height: 1}) &&
+                    Math.abs(nx + 0.5 - this.player.x) < 0.8 && // approximate check
+                    Math.abs(nz + 0.5 - this.player.z) < 0.8 &&
+                    (ny >= this.player.y && ny < this.player.y + this.player.height)) {
+                    return; // Inside player
+                 }
 
                  this.world.setBlock(nx, ny, nz, slot.type);
                  window.soundManager.play('place');
@@ -387,8 +499,93 @@ class Game {
         }
     }
 
+    processFurnace(entity, dt) {
+        if (entity.burnTime > 0) {
+            entity.burnTime -= dt;
+            if (entity.burnTime <= 0) entity.burnTime = 0;
+
+            // Smelting
+            if (entity.input && this.canSmelt(entity)) {
+                entity.progress += dt * 10; // Speed
+                if (entity.progress >= entity.maxProgress) {
+                    this.smelt(entity);
+                    entity.progress = 0;
+                }
+            } else {
+                entity.progress = 0;
+            }
+        } else {
+            // Check for fuel
+            if (entity.input && this.canSmelt(entity) && entity.fuelItem) {
+                // Consume fuel
+                let fuelValue = 10;
+                if (entity.fuelItem.type === BLOCK.ITEM_COAL) fuelValue = 80;
+                if (entity.fuelItem.type === BLOCK.WOOD || entity.fuelItem.type === BLOCK.PLANK) fuelValue = 15;
+
+                entity.burnTime = fuelValue;
+                entity.maxBurnTime = fuelValue;
+
+                entity.fuelItem.count--;
+                if (entity.fuelItem.count <= 0) entity.fuelItem = null;
+            } else {
+                 if (entity.progress > 0) entity.progress = 0;
+            }
+        }
+
+        // Sync UI if open
+        if (this.ui.activeFurnace === entity) {
+            this.ui.updateFurnaceUI();
+        }
+    }
+
+    canSmelt(entity) {
+        const result = this.getSmeltingResult(entity.input.type);
+        if (!result) return false;
+
+        if (!entity.output) return true;
+        if (entity.output.type !== result.type) return false;
+        if (entity.output.count + result.count > 64) return false;
+        return true;
+    }
+
+    getSmeltingResult(inputType) {
+        if (this.crafting.getSmeltingResult) return this.crafting.getSmeltingResult(inputType);
+
+        if (inputType === BLOCK.ORE_IRON) return { type: BLOCK.ITEM_IRON_INGOT, count: 1 };
+        if (inputType === BLOCK.ORE_GOLD) return { type: BLOCK.ITEM_GOLD_INGOT, count: 1 };
+        if (inputType === BLOCK.SAND) return { type: BLOCK.GLASS, count: 1 };
+        if (inputType === BLOCK.COBBLESTONE) return { type: BLOCK.STONE, count: 1 };
+        return null;
+    }
+
+    smelt(entity) {
+        const result = this.getSmeltingResult(entity.input.type);
+        if (!entity.output) {
+            entity.output = { type: result.type, count: result.count };
+        } else {
+            entity.output.count += result.count;
+        }
+        entity.input.count--;
+        if (entity.input.count <= 0) entity.input = null;
+    }
+
     update(dt) {
         this.player.update(dt / 1000);
+
+        // Process Block Entities (Furnaces & Crops)
+        for (const [key, entity] of this.world.blockEntities) {
+            if (entity.type === 'furnace') {
+                this.processFurnace(entity, dt / 1000);
+            } else if (entity.type === 'crop') {
+                // Random growth (approx 1 per 2 secs per crop at 60fps? no, 0.001 per frame)
+                // Real MC is complicated. Simple: 1/1000 chance per frame.
+                if (Math.random() < 0.001) {
+                    if (entity.stage < 7) {
+                        entity.stage++;
+                    }
+                }
+            }
+        }
 
         // Mobs
         for (let i = this.mobs.length - 1; i >= 0; i--) {

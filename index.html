@@ -101,42 +101,29 @@
             </div>
         </div>
 
+        <div id="furnace-screen" class="hidden">
+            <div class="menu-content" style="max-width: 400px; text-align: center;">
+                <h2>Furnace</h2>
+                <div class="furnace-ui">
+                    <div class="furnace-slot" id="furnace-input" title="Input"></div>
+                    <div class="furnace-arrow">
+                        <div id="furnace-progress"></div>
+                    </div>
+                    <div class="furnace-slot" id="furnace-output" title="Output"></div>
+                </div>
+                <div class="furnace-fuel-container">
+                     <div class="furnace-slot" id="furnace-fuel" title="Fuel"></div>
+                     <div class="fire-icon" id="furnace-burn">🔥</div>
+                </div>
+                <button type="button" id="close-furnace" class="menu-button">Close</button>
+            </div>
+        </div>
+
         <div id="inventory-screen" class="hidden">
             <div class="inventory-content">
                 <h2>Inventory</h2>
-                <div class="inventory-grid">
-                    <div class="inventory-item" data-type="dirt">
-                        <span class="block-icon" style="background: #8B4513;">🟫</span>
-                        <span class="item-name">Dirt</span>
-                    </div>
-                    <div class="inventory-item" data-type="stone">
-                        <span class="block-icon" style="background: #808080;">🔲</span>
-                        <span class="item-name">Stone</span>
-                    </div>
-                    <div class="inventory-item" data-type="grass">
-                        <span class="block-icon" style="background: #228B22;">🟩</span>
-                        <span class="item-name">Grass</span>
-                    </div>
-                    <div class="inventory-item" data-type="wood">
-                        <span class="block-icon" style="background: #8B7355;">🪵</span>
-                        <span class="item-name">Wood</span>
-                    </div>
-                    <div class="inventory-item" data-type="leaves">
-                        <span class="block-icon" style="background: #90EE90;">🌿</span>
-                        <span class="item-name">Leaves</span>
-                    </div>
-                    <div class="inventory-item" data-type="sand">
-                        <span class="block-icon" style="background: #F4A460;">🏖️</span>
-                        <span class="item-name">Sand</span>
-                    </div>
-                    <div class="inventory-item" data-type="water">
-                        <span class="block-icon" style="background: #4169E1;">💧</span>
-                        <span class="item-name">Water</span>
-                    </div>
-                    <div class="inventory-item" data-type="glass">
-                        <span class="block-icon" style="background: rgba(173, 216, 230, 0.5);">🔷</span>
-                        <span class="item-name">Glass</span>
-                    </div>
+                <div class="inventory-grid" id="inventory-grid">
+                     <!-- Populated by JS -->
                 </div>
                 <button type="button" id="close-inventory" class="menu-button">Close (E)</button>
             </div>
@@ -151,7 +138,19 @@
             <button type="button" id="resume-game" class="menu-button">Resume</button>
             <button type="button" id="save-game" class="menu-button">Save World</button>
             <button type="button" id="load-game" class="menu-button">Load World</button>
+            <button type="button" id="settings-btn" class="menu-button">Settings</button>
             <button type="button" id="return-menu" class="menu-button">Return to Menu</button>
+        </div>
+    </div>
+
+    <div id="settings-screen" class="hidden">
+        <div class="menu-content">
+            <h2>Settings</h2>
+            <div class="setting-item">
+                <label for="volume-slider">Volume:</label>
+                <input type="range" id="volume-slider" min="0" max="100" value="50">
+            </div>
+            <button type="button" id="close-settings" class="menu-button">Back</button>
         </div>
     </div>
 

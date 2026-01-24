@@ -2,6 +2,7 @@ class World {
     constructor() {
         this.chunks = new Map();
         this.pendingBlocks = new Map();
+        this.blockEntities = new Map(); // Store complex data like Furnace state { "x,y,z": { ... } }
         this.chunkSize = 16;
         this.renderDistance = 6;
         this.worldHeight = 64;
@@ -20,6 +21,18 @@ class World {
         const cx = Math.floor(x / this.chunkSize);
         const cz = Math.floor(z / this.chunkSize);
         return this.getChunk(cx, cz);
+    }
+
+    getBlockEntity(x, y, z) {
+        return this.blockEntities.get(`${x},${y},${z}`);
+    }
+
+    setBlockEntity(x, y, z, data) {
+        this.blockEntities.set(`${x},${y},${z}`, data);
+    }
+
+    removeBlockEntity(x, y, z) {
+        this.blockEntities.delete(`${x},${y},${z}`);
     }
 
     setBlock(x, y, z, type) {
@@ -41,6 +54,9 @@ class World {
 
         const oldType = chunk.getBlock(lx, y, lz);
         chunk.setBlock(lx, y, lz, type);
+
+        // Remove old block entity if it exists
+        this.removeBlockEntity(x, y, z);
 
         // Update neighbors if on edge to ensure culling is updated
         if (lx === 0) { const c = this.getChunk(cx - 1, cz); if (c) c.modified = true; }
@@ -366,9 +382,15 @@ class World {
              });
         });
 
+        const blockEntitiesData = {};
+        for (const [key, value] of this.blockEntities) {
+            blockEntitiesData[key] = value;
+        }
+
         const data = {
             seed: this.seed,
-            chunks: chunksData
+            chunks: chunksData,
+            blockEntities: blockEntitiesData
         };
 
         try {
@@ -403,6 +425,11 @@ class World {
                         this.chunks.set(this.getChunkKey(cData.cx, cData.cz), chunk);
                     });
                 }
+
+                if (data.blockEntities) {
+                    this.blockEntities = new Map(Object.entries(data.blockEntities));
+                }
+
                 console.log("World loaded from slot:", slotName);
                 alert("World Loaded: " + slotName);
             } catch(e) {
