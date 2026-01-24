@@ -264,7 +264,7 @@ describe('Comprehensive Feature Test', () => {
             game.drops = [];
             mob.die();
 
-            const hasWool = game.drops.some(d => d.type === dom.window.BLOCK.ITEM_WOOL);
+            const hasWool = game.drops.some(d => d.type === dom.window.BLOCK.WOOL_WHITE);
             assert.strictEqual(hasWool, true, "Sheep dropped wool");
         });
     });

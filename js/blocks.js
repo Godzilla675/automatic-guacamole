@@ -29,6 +29,42 @@ const BLOCK = {
     BED: 23,
     WHEAT: 24,
 
+    // Concrete (30-45)
+    CONCRETE_WHITE: 30,
+    CONCRETE_ORANGE: 31,
+    CONCRETE_MAGENTA: 32,
+    CONCRETE_LIGHT_BLUE: 33,
+    CONCRETE_YELLOW: 34,
+    CONCRETE_LIME: 35,
+    CONCRETE_PINK: 36,
+    CONCRETE_GRAY: 37,
+    CONCRETE_LIGHT_GRAY: 38,
+    CONCRETE_CYAN: 39,
+    CONCRETE_PURPLE: 40,
+    CONCRETE_BLUE: 41,
+    CONCRETE_BROWN: 42,
+    CONCRETE_GREEN: 43,
+    CONCRETE_RED: 44,
+    CONCRETE_BLACK: 45,
+
+    // Wool (50-65)
+    WOOL_WHITE: 50,
+    WOOL_ORANGE: 51,
+    WOOL_MAGENTA: 52,
+    WOOL_LIGHT_BLUE: 53,
+    WOOL_YELLOW: 54,
+    WOOL_LIME: 55,
+    WOOL_PINK: 56,
+    WOOL_GRAY: 57,
+    WOOL_LIGHT_GRAY: 58,
+    WOOL_CYAN: 59,
+    WOOL_PURPLE: 60,
+    WOOL_BLUE: 61,
+    WOOL_BROWN: 62,
+    WOOL_GREEN: 63,
+    WOOL_RED: 64,
+    WOOL_BLACK: 65,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -57,7 +93,7 @@ const BLOCK = {
     ITEM_STRING: 202,
     ITEM_PORKCHOP: 203,
     ITEM_LEATHER: 204,
-    ITEM_WOOL: 205,
+    ITEM_WOOL: 205, // Deprecated, use WOOL_WHITE
     ITEM_MUTTON: 206,
 
     // Crafting Items
@@ -129,6 +165,42 @@ const BLOCKS = {
     [BLOCK.FARMLAND]: { name: 'farmland', color: '#3E2723', top: '#4E342E', solid: true, icon: '🌱', hardness: 0.6, tool: 'shovel', drop: { type: BLOCK.DIRT, count: 1 } },
     [BLOCK.BED]: { name: 'bed', color: '#8B0000', top: '#F0F0F0', solid: true, icon: '🛏️', hardness: 0.2, drop: { type: BLOCK.BED, count: 1 } },
     [BLOCK.WHEAT]: { name: 'wheat', color: '#DAA520', solid: false, transparent: true, icon: '🌾', hardness: 0.0, drop: { type: BLOCK.ITEM_WHEAT, count: 1 } }, // Drop handled specially for seeds
+
+    // Concrete
+    [BLOCK.CONCRETE_WHITE]: { name: 'White Concrete', color: '#FFFFFF', solid: true, icon: '⬜', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_ORANGE]: { name: 'Orange Concrete', color: '#FFA500', solid: true, icon: '🟧', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_MAGENTA]: { name: 'Magenta Concrete', color: '#FF00FF', solid: true, icon: '🟪', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_LIGHT_BLUE]: { name: 'Light Blue Concrete', color: '#ADD8E6', solid: true, icon: '🟦', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_YELLOW]: { name: 'Yellow Concrete', color: '#FFFF00', solid: true, icon: '🟨', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_LIME]: { name: 'Lime Concrete', color: '#00FF00', solid: true, icon: '🟩', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_PINK]: { name: 'Pink Concrete', color: '#FFC0CB', solid: true, icon: '🌸', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_GRAY]: { name: 'Gray Concrete', color: '#808080', solid: true, icon: '⬛', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_LIGHT_GRAY]: { name: 'Light Gray Concrete', color: '#D3D3D3', solid: true, icon: '⬜', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_CYAN]: { name: 'Cyan Concrete', color: '#00FFFF', solid: true, icon: '🟦', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_PURPLE]: { name: 'Purple Concrete', color: '#800080', solid: true, icon: '🟪', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_BLUE]: { name: 'Blue Concrete', color: '#0000FF', solid: true, icon: '🟦', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_BROWN]: { name: 'Brown Concrete', color: '#8B4513', solid: true, icon: '🟫', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_GREEN]: { name: 'Green Concrete', color: '#008000', solid: true, icon: '🟩', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_RED]: { name: 'Red Concrete', color: '#FF0000', solid: true, icon: '🟥', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CONCRETE_BLACK]: { name: 'Black Concrete', color: '#000000', solid: true, icon: '⬛', hardness: 1.5, tool: 'pickaxe' },
+
+    // Wool
+    [BLOCK.WOOL_WHITE]: { name: 'White Wool', color: '#FFFFFF', solid: true, icon: '⬜', hardness: 0.8 },
+    [BLOCK.WOOL_ORANGE]: { name: 'Orange Wool', color: '#FFA500', solid: true, icon: '🟧', hardness: 0.8 },
+    [BLOCK.WOOL_MAGENTA]: { name: 'Magenta Wool', color: '#FF00FF', solid: true, icon: '🟪', hardness: 0.8 },
+    [BLOCK.WOOL_LIGHT_BLUE]: { name: 'Light Blue Wool', color: '#ADD8E6', solid: true, icon: '🟦', hardness: 0.8 },
+    [BLOCK.WOOL_YELLOW]: { name: 'Yellow Wool', color: '#FFFF00', solid: true, icon: '🟨', hardness: 0.8 },
+    [BLOCK.WOOL_LIME]: { name: 'Lime Wool', color: '#00FF00', solid: true, icon: '🟩', hardness: 0.8 },
+    [BLOCK.WOOL_PINK]: { name: 'Pink Wool', color: '#FFC0CB', solid: true, icon: '🌸', hardness: 0.8 },
+    [BLOCK.WOOL_GRAY]: { name: 'Gray Wool', color: '#808080', solid: true, icon: '⬛', hardness: 0.8 },
+    [BLOCK.WOOL_LIGHT_GRAY]: { name: 'Light Gray Wool', color: '#D3D3D3', solid: true, icon: '⬜', hardness: 0.8 },
+    [BLOCK.WOOL_CYAN]: { name: 'Cyan Wool', color: '#00FFFF', solid: true, icon: '🟦', hardness: 0.8 },
+    [BLOCK.WOOL_PURPLE]: { name: 'Purple Wool', color: '#800080', solid: true, icon: '🟪', hardness: 0.8 },
+    [BLOCK.WOOL_BLUE]: { name: 'Blue Wool', color: '#0000FF', solid: true, icon: '🟦', hardness: 0.8 },
+    [BLOCK.WOOL_BROWN]: { name: 'Brown Wool', color: '#8B4513', solid: true, icon: '🟫', hardness: 0.8 },
+    [BLOCK.WOOL_GREEN]: { name: 'Green Wool', color: '#008000', solid: true, icon: '🟩', hardness: 0.8 },
+    [BLOCK.WOOL_RED]: { name: 'Red Wool', color: '#FF0000', solid: true, icon: '🟥', hardness: 0.8 },
+    [BLOCK.WOOL_BLACK]: { name: 'Black Wool', color: '#000000', solid: true, icon: '⬛', hardness: 0.8 },
 
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },

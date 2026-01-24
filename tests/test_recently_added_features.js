@@ -181,8 +181,8 @@ describe('Recently Added Features Tests', () => {
             assert.strictEqual(sheep.isDead, true);
 
             // Check drops
-            // Sheep drops Wool (ITEM_WOOL) and Mutton (ITEM_MUTTON)
-            const woolDrop = game.drops.find(d => d.type === dom.window.BLOCK.ITEM_WOOL);
+            // Sheep drops Wool (WOOL_WHITE) and Mutton (ITEM_MUTTON)
+            const woolDrop = game.drops.find(d => d.type === dom.window.BLOCK.WOOL_WHITE);
             const muttonDrop = game.drops.find(d => d.type === dom.window.BLOCK.ITEM_MUTTON);
 
             assert.ok(woolDrop, "Should drop Wool");

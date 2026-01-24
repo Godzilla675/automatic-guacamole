@@ -130,7 +130,14 @@ class Renderer {
                  // Basic lighting from chunk data + distance fog
                  // We don't have exact face lighting here easily without normal data
                  // Just use the block type color
-                 ctx.fillStyle = blockDef.color;
+                 if (b.type === window.BLOCK.WATER) {
+                     const time = Date.now() / 500;
+                     const shift = Math.sin(time + b.x * 0.2 + b.z * 0.2) * 20;
+                     // Base #4169E1 -> 65, 105, 225
+                     ctx.fillStyle = `rgb(${65 + shift/2}, ${105 + shift/2}, ${225 + shift})`;
+                 } else {
+                     ctx.fillStyle = blockDef.color;
+                 }
                  // We could adjust brightness by b.light (0-15)
                  // let lightMult = b.light / 15;
                  // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
