@@ -1,9 +1,18 @@
 {
-  "dependencies": {
-    "canvas": "^3.2.1",
-    "jsdom": "^27.4.0"
+  "name": "voxel-world-monorepo",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "lint": "turbo lint"
   },
   "devDependencies": {
-    "mocha": "^11.7.5"
-  }
+    "turbo": "latest"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }
