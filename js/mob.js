@@ -113,7 +113,7 @@ class Mob {
                 dropType = BLOCK.ITEM_PORKCHOP;
                 break;
             case MOB_TYPE.SHEEP:
-                dropType = BLOCK.ITEM_WOOL;
+                dropType = BLOCK.WOOL_WHITE;
                 if (Math.random() < 0.5 && this.game.drops) {
                      this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_MUTTON, 1));
                 }
