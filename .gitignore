@@ -24,4 +24,3 @@ dist/
 build/
 __pycache__/
 *.pyc
-.turbo
