@@ -187,6 +187,9 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Fix Empty Inventory Screen** (Pressing 'E' opens empty overlay)
 - [x] **Implement Furnace Block Logic** (Currently smelting is via Crafting Table)
 - [ ] **Water Flow Visuals** (Physics works, but water looks static)
+- [ ] **Bug: Implement Concrete Blocks** (Claimed implemented but missing)
+- [ ] **Bug: Implement Colored Wool Blocks** (Claimed implemented but missing)
+- [ ] **Bug: Make Wool Placeable** (Currently only an item)
 
 ### 22. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
