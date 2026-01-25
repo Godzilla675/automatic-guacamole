@@ -34,7 +34,28 @@ class Mob {
         this.lastDamageTime = 0;
         this.isDead = false;
 
+        // Breeding
+        this.loveTimer = 0;
+        this.breedingCooldown = 0;
+        this.isBaby = false;
+        this.growthTimer = 0;
+
         this.initType();
+    }
+
+    interact(itemType) {
+        if (this.breedingCooldown > 0 || this.isBaby) return false;
+
+        let food = null;
+        if (this.type === MOB_TYPE.COW || this.type === MOB_TYPE.SHEEP) food = BLOCK.WHEAT;
+        else if (this.type === MOB_TYPE.PIG) food = BLOCK.ITEM_APPLE; // Placeholder for carrot
+
+        if (food && itemType === food) {
+            this.loveTimer = 30; // 30 seconds
+            if (window.soundManager) window.soundManager.play('eat');
+            return true;
+        }
+        return false;
     }
 
     initType() {
@@ -183,6 +204,61 @@ class Mob {
     }
 
     updatePassiveAI(dt) {
+        // Breeding Logic
+        if (this.loveTimer > 0) {
+            this.loveTimer -= dt;
+            // Look for mate
+            if (this.loveTimer > 0) {
+                 // Find another mob of same type in love mode
+                 const mate = this.game.mobs.find(m =>
+                     m !== this &&
+                     m.type === this.type &&
+                     m.loveTimer > 0 &&
+                     !m.isDead &&
+                     !m.isBaby
+                 );
+
+                 if (mate) {
+                     // Move towards mate
+                     const dx = mate.x - this.x;
+                     const dz = mate.z - this.z;
+                     const dist = Math.sqrt(dx*dx + dz*dz);
+
+                     if (dist < 1.5) {
+                         // Breed
+                         this.loveTimer = 0;
+                         mate.loveTimer = 0;
+                         this.breedingCooldown = 60; // 1 min
+                         mate.breedingCooldown = 60;
+
+                         // Spawn Baby
+                         const baby = new Mob(this.game, this.x, this.y, this.z, this.type);
+                         baby.isBaby = true;
+                         baby.width *= 0.5;
+                         baby.height *= 0.5;
+                         baby.growthTimer = 300; // 5 mins to grow
+                         this.game.mobs.push(baby);
+
+                         if (window.soundManager) window.soundManager.play('place'); // Pop sound
+                     } else {
+                         this.yaw = Math.atan2(dx, dz);
+                         this.vx = Math.sin(this.yaw) * this.speed;
+                         this.vz = Math.cos(this.yaw) * this.speed;
+                         return; // Skip wander
+                     }
+                 }
+            }
+        }
+
+        // Growth
+        if (this.isBaby) {
+            this.growthTimer -= dt;
+            if (this.growthTimer <= 0) {
+                this.isBaby = false;
+                this.initType(); // Reset size
+            }
+        }
+
         this.moveTimer -= dt;
         if (this.moveTimer <= 0) {
             this.moveTimer = 2 + Math.random() * 5;

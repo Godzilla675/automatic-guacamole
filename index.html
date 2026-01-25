@@ -97,7 +97,20 @@
                 <div id="crafting-recipes" class="inventory-grid" style="max-height: 300px; overflow-y: auto;">
                     <!-- Recipes populated by JS -->
                 </div>
-                <button type="button" id="close-crafting" class="menu-button">Close (C)</button>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                    <button type="button" id="close-crafting" class="menu-button">Close (C)</button>
+                    <button type="button" id="open-recipe-book" class="menu-button">Recipe Book</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="recipe-book-screen" class="hidden">
+            <div class="menu-content" style="max-width: 700px;">
+                <h2>Recipe Book</h2>
+                <div id="recipe-list" class="inventory-grid" style="max-height: 400px; overflow-y: auto;">
+                    <!-- Populated by JS -->
+                </div>
+                <button type="button" id="close-recipe-book" class="menu-button">Back</button>
             </div>
         </div>
 
@@ -159,6 +172,8 @@
     <script src="js/audio.js"></script>
     <script src="js/network.js"></script>
     <script src="js/chunk.js"></script>
+    <script src="js/biome.js"></script>
+    <script src="js/structures.js"></script>
     <script src="js/world.js"></script>
     <script src="js/physics.js"></script>
     <script src="js/player.js"></script>

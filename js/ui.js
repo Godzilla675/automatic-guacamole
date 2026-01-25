@@ -46,6 +46,98 @@ class UIManager {
                 });
             }
         });
+
+        const openRecipeBook = document.getElementById('open-recipe-book');
+        if (openRecipeBook) {
+            openRecipeBook.addEventListener('click', () => {
+                this.toggleRecipeBook();
+            });
+        }
+
+        const closeRecipeBook = document.getElementById('close-recipe-book');
+        if (closeRecipeBook) {
+            closeRecipeBook.addEventListener('click', () => {
+                document.getElementById('recipe-book-screen').classList.add('hidden');
+                document.getElementById('crafting-screen').classList.remove('hidden');
+            });
+        }
+    }
+
+    toggleRecipeBook() {
+        document.getElementById('crafting-screen').classList.add('hidden');
+        document.getElementById('recipe-book-screen').classList.remove('hidden');
+        this.renderRecipeBook();
+    }
+
+    renderRecipeBook() {
+        const list = document.getElementById('recipe-list');
+        list.innerHTML = '';
+
+        if (!this.game.crafting || !this.game.crafting.recipes) return;
+
+        this.game.crafting.recipes.forEach(recipe => {
+             const container = document.createElement('div');
+             container.className = 'recipe-entry';
+             container.style.border = '1px solid #ccc';
+             container.style.padding = '5px';
+             container.style.margin = '5px';
+             container.style.background = 'rgba(0,0,0,0.5)';
+             container.style.display = 'flex';
+             container.style.flexDirection = 'column';
+             container.style.alignItems = 'center';
+             container.style.width = '120px';
+
+             // Result
+             const resDiv = document.createElement('div');
+             resDiv.style.display = 'flex';
+             resDiv.style.alignItems = 'center';
+             resDiv.style.marginBottom = '5px';
+
+             const icon = document.createElement('span');
+             icon.className = 'block-icon';
+             const blockDef = window.BLOCKS[recipe.result.type];
+             icon.textContent = blockDef ? blockDef.icon : '?';
+             icon.style.backgroundColor = blockDef ? blockDef.color : 'transparent';
+
+             const name = document.createElement('span');
+             name.textContent = recipe.result.count > 1 ? `x${recipe.result.count}` : '';
+             name.style.marginLeft = '5px';
+
+             resDiv.appendChild(icon);
+             resDiv.appendChild(name);
+             container.appendChild(resDiv);
+
+             // Label
+             const label = document.createElement('div');
+             label.textContent = recipe.name.split('(')[0];
+             label.style.fontSize = '12px';
+             label.style.marginBottom = '5px';
+             container.appendChild(label);
+
+             // Ingredients
+             const ingDiv = document.createElement('div');
+             ingDiv.style.display = 'flex';
+             ingDiv.style.flexWrap = 'wrap';
+             ingDiv.style.justifyContent = 'center';
+             ingDiv.style.gap = '2px';
+
+             recipe.ingredients.forEach(ing => {
+                 const iIcon = document.createElement('span');
+                 iIcon.className = 'block-icon';
+                 iIcon.style.width = '20px';
+                 iIcon.style.height = '20px';
+                 iIcon.style.fontSize = '14px';
+                 const iDef = window.BLOCKS[ing.type];
+                 iIcon.textContent = iDef ? iDef.icon : '?';
+                 iIcon.style.backgroundColor = iDef ? iDef.color : 'transparent';
+                 iIcon.title = `${iDef ? iDef.name : 'Unknown'} x${ing.count}`;
+
+                 ingDiv.appendChild(iIcon);
+             });
+             container.appendChild(ingDiv);
+
+             list.appendChild(container);
+        });
     }
 
     toggleInventory() {
