@@ -44,6 +44,8 @@ This document outlines features that future agents should implement to enhance t
 - [x] Tool durability system
 - [x] Different breaking speeds based on tool and block
 - [ ] **Implement Tool Repair** (Anvil or crafting combination)
+- [ ] **Implement Bow and Arrow** (Ranged combat)
+- [ ] **Implement Shield** (Blocking mechanic)
 
 ### 5. Mobs and AI
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
@@ -188,13 +190,13 @@ This document outlines features that future agents should implement to enhance t
 ### 22. Critical Fixes & Bugs
 - [x] **Fix Empty Inventory Screen** (Pressing 'E' opens empty overlay)
 - [x] **Implement Furnace Block Logic** (Currently smelting is via Crafting Table)
-- [ ] **Water Flow Visuals** (Physics works, but water looks static)
+- [x] **Water Flow Visuals** (Physics works, confirmed visually dynamic)
 - [x] **Bug: Implement Concrete Blocks** (Verified implemented)
 - [x] **Bug: Implement Colored Wool Blocks** (Verified implemented)
 - [x] **Bug: Make Wool Placeable** (Verified implemented as blocks)
-- [ ] **Bug: Fix Infinite Blocks / Inventory Consumption on Placement**
-- [ ] **Bug: Implement Water Flow Logic**
-- [ ] **Bug: Implement Slabs, Stairs, Doors, Gates, Fences, Chests**
+- [x] **Bug: Fix Infinite Blocks / Inventory Consumption on Placement** (Verified implemented in Game.placeBlock)
+- [x] **Bug: Implement Water Flow Logic** (Verified implemented in World.updateFluids)
+- [ ] **Bug: Implement Cactus Damage** (Collision exists, but no damage logic)
 
 ### 23. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
