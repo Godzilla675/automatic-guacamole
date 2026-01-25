@@ -19,6 +19,8 @@ dom.window.Chunk = class Chunk {
     updateVisibleBlocks() {}
 }
 dom.window.alert = (msg) => {};
+dom.window.BiomeManager = class BiomeManager { constructor() {} getBiome() { return {}; } };
+dom.window.StructureManager = class StructureManager { constructor() {} };
 
 // Load World code
 const worldCode = fs.readFileSync('js/world.js', 'utf8');

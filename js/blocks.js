@@ -29,6 +29,10 @@ const BLOCK = {
     BED: 23,
     WHEAT: 24,
 
+    // Biome Blocks
+    SNOW: 25,
+    ICE: 26,
+
     // Concrete (30-45)
     CONCRETE_WHITE: 30,
     CONCRETE_ORANGE: 31,
@@ -87,6 +91,8 @@ const BLOCK = {
     SWORD_IRON: 106,
     SWORD_DIAMOND: 107,
 
+    FISHING_ROD: 130,
+
     // Mob Drops
     ITEM_ROTTEN_FLESH: 200,
     ITEM_BONE: 201,
@@ -104,7 +110,8 @@ const BLOCK = {
     ITEM_DIAMOND: 214,
     ITEM_APPLE: 215,
     ITEM_WHEAT_SEEDS: 220,
-    ITEM_WHEAT: 221
+    ITEM_WHEAT: 221,
+    ITEM_RAW_FISH: 230
 };
 
 const TOOLS = {
@@ -165,6 +172,9 @@ const BLOCKS = {
     [BLOCK.FARMLAND]: { name: 'farmland', color: '#3E2723', top: '#4E342E', solid: true, icon: '🌱', hardness: 0.6, tool: 'shovel', drop: { type: BLOCK.DIRT, count: 1 } },
     [BLOCK.BED]: { name: 'bed', color: '#8B0000', top: '#F0F0F0', solid: true, icon: '🛏️', hardness: 0.2, drop: { type: BLOCK.BED, count: 1 } },
     [BLOCK.WHEAT]: { name: 'wheat', color: '#DAA520', solid: false, transparent: true, icon: '🌾', hardness: 0.0, drop: { type: BLOCK.ITEM_WHEAT, count: 1 } }, // Drop handled specially for seeds
+
+    [BLOCK.SNOW]: { name: 'snow', color: '#F0F0F0', top: '#FFFFFF', solid: true, icon: '❄️', hardness: 0.2 },
+    [BLOCK.ICE]: { name: 'ice', color: '#A5F2F3', top: '#A5F2F3', solid: true, transparent: true, icon: '🧊', hardness: 0.5 },
 
     // Concrete
     [BLOCK.CONCRETE_WHITE]: { name: 'White Concrete', color: '#FFFFFF', solid: true, icon: '⬜', hardness: 1.5, tool: 'pickaxe' },
@@ -228,6 +238,8 @@ const BLOCKS = {
     [BLOCK.SWORD_IRON]: { name: 'Iron Sword', color: '#C0C0C0', solid: false, isItem: true, icon: '⚔️' },
     [BLOCK.SWORD_DIAMOND]: { name: 'Diamond Sword', color: '#00FFFF', solid: false, isItem: true, icon: '⚔️' },
 
+    [BLOCK.FISHING_ROD]: { name: 'Fishing Rod', color: '#8B4513', solid: false, isItem: true, icon: '🎣', durability: 64 },
+
     // Mob Drop Items & Food
     [BLOCK.ITEM_ROTTEN_FLESH]: { name: 'Rotten Flesh', color: '#6B8E23', solid: false, isItem: true, icon: '🧟', food: 4 },
     [BLOCK.ITEM_BONE]: { name: 'Bone', color: '#F0F0F0', solid: false, isItem: true, icon: '🦴' },
@@ -245,7 +257,8 @@ const BLOCKS = {
     [BLOCK.ITEM_DIAMOND]: { name: 'Diamond', color: '#00FFFF', solid: false, isItem: true, icon: '💎' },
     [BLOCK.ITEM_APPLE]: { name: 'Apple', color: '#FF0000', solid: false, isItem: true, icon: '🍎', food: 4 },
     [BLOCK.ITEM_WHEAT_SEEDS]: { name: 'Wheat Seeds', color: '#32CD32', solid: false, isItem: true, icon: '🌰' },
-    [BLOCK.ITEM_WHEAT]: { name: 'Wheat', color: '#DAA520', solid: false, isItem: true, icon: '🌾' }
+    [BLOCK.ITEM_WHEAT]: { name: 'Wheat', color: '#DAA520', solid: false, isItem: true, icon: '🌾' },
+    [BLOCK.ITEM_RAW_FISH]: { name: 'Raw Fish', color: '#87CEEB', solid: false, isItem: true, icon: '🐟', food: 5 }
 };
 
 window.BLOCK = BLOCK;

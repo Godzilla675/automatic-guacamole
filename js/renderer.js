@@ -221,6 +221,39 @@ class Renderer {
              }
         });
 
+        // Draw Fishing Bobber
+        if (this.game.bobber) {
+             const b = this.game.bobber;
+             const dx = b.x - px;
+             const dy = b.y - py;
+             const dz = b.z - pz;
+
+             const rx = dx * cosY - dz * sinY;
+             const rz = dx * sinY + dz * cosY;
+             const ry = dy * cosP - rz * sinP;
+             const rz2 = dy * sinP + rz * cosP;
+
+             if (rz2 > 0.1) {
+                 const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                 const size = (scale / rz2) * 0.2;
+                 const sx = (rx / rz2) * scale + w / 2;
+                 const sy = (ry / rz2) * scale + h / 2;
+
+                 ctx.fillStyle = b.state === 'hooked' ? 'red' : 'white';
+                 ctx.fillRect(sx - size/2, sy - size/2, size, size);
+                 ctx.fillStyle = 'red';
+                 ctx.fillRect(sx - size/2, sy - size/2, size, size/2); // Top half red
+
+                 // Draw line from bottom right (hand approx) to bobber
+                 ctx.beginPath();
+                 ctx.moveTo(w * 0.7, h * 0.8); // Approx hand position
+                 ctx.lineTo(sx, sy);
+                 ctx.strokeStyle = '#FFFFFF';
+                 ctx.lineWidth = 1;
+                 ctx.stroke();
+             }
+        }
+
         // Draw Other Players
         if (this.game.network && this.game.network.otherPlayers) {
             this.game.network.otherPlayers.forEach(p => {

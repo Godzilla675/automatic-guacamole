@@ -7,6 +7,9 @@ class World {
         this.renderDistance = 6;
         this.worldHeight = 64;
         this.seed = Math.random() * 10000;
+
+        this.biomeManager = new window.BiomeManager(this.seed);
+        this.structureManager = new window.StructureManager(this);
     }
 
     getChunkKey(cx, cz) {
@@ -253,13 +256,16 @@ class World {
                 const worldX = baseX + x;
                 const worldZ = baseZ + z;
 
+                const biome = this.biomeManager.getBiome(worldX, worldZ);
+                const heightOffset = biome.heightOffset || 0;
+
                 // Terrain Height Noise
                 const scale = 0.03;
                 const noise = window.perlin.noise(worldX * scale, worldZ * scale, this.seed);
                 // Detail noise
                 const detail = window.perlin.noise(worldX * 0.1, worldZ * 0.1, this.seed) * 2;
 
-                const height = Math.floor(20 + noise * 10 + detail);
+                const height = Math.floor(20 + heightOffset + noise * 10 + detail);
 
                 // Bedrock
                 chunk.setBlock(x, 0, z, BLOCK.BEDROCK);
@@ -281,12 +287,14 @@ class World {
 
                 // Surface
                 if (height < this.worldHeight) {
-                    let topBlock = BLOCK.GRASS;
-                    let underBlock = BLOCK.DIRT;
+                    let topBlock = biome.topBlock || BLOCK.GRASS;
+                    let underBlock = biome.underBlock || BLOCK.DIRT;
 
                     if (height < 18) { // Beach/Water level
-                         topBlock = BLOCK.SAND;
-                         underBlock = BLOCK.SAND;
+                         if (biome.name !== 'Ocean') {
+                             topBlock = BLOCK.SAND;
+                             underBlock = BLOCK.SAND;
+                         }
                     }
 
                     chunk.setBlock(x, height, z, topBlock);
@@ -301,17 +309,26 @@ class World {
 
                 // Water
                 for (let y = height + 1; y <= 16; y++) {
-                    chunk.setBlock(x, y, z, BLOCK.WATER);
+                    if (biome.snow && y >= 16) {
+                        chunk.setBlock(x, y, z, BLOCK.ICE);
+                    } else {
+                        chunk.setBlock(x, y, z, BLOCK.WATER);
+                    }
                 }
 
-                // Trees
-                if (height > 18 && Math.random() < 0.02) {
-                    this.generateTree(chunk, x, height + 1, z);
-                }
-                // Cactus
-                if (height < 18 && height > 16 && Math.random() < 0.01) {
-                     chunk.setBlock(x, height+1, z, BLOCK.CACTUS);
-                     chunk.setBlock(x, height+2, z, BLOCK.CACTUS);
+                // Structures
+                if (height > 18) {
+                    if (biome.treeChance && Math.random() < biome.treeChance) {
+                        let type = 'oak';
+                        if (biome.snow) type = 'spruce';
+                        this.structureManager.generateTree(chunk, x, height + 1, z, type);
+                    }
+                    if (biome.cactusChance && Math.random() < biome.cactusChance) {
+                        this.structureManager.generateCactus(chunk, x, height + 1, z);
+                    }
+                    if (biome.structureChance && Math.random() < biome.structureChance) {
+                         this.structureManager.generateWell(chunk, x, height+1, z);
+                    }
                 }
             }
         }
@@ -326,35 +343,6 @@ class World {
                 chunk.setBlock(b.x, b.y, b.z, b.type);
             }
             this.pendingBlocks.delete(key);
-        }
-    }
-
-    generateTree(chunk, x, y, z) {
-        // Convert chunk local coordinates to world coordinates
-        const wx = chunk.cx * this.chunkSize + x;
-        const wz = chunk.cz * this.chunkSize + z;
-
-        // Trunk
-        for (let i = 0; i < 4; i++) {
-            // Using setBlock to handle chunk boundaries safely
-            // Note: If neighbor chunk is not generated, the block might be lost.
-            // But usually we generate sequentially so previous chunks exist.
-            // Future improvement: Multi-pass generation.
-            this.setBlock(wx, y + i, wz, BLOCK.WOOD);
-        }
-
-        // Leaves
-        for (let lx = -2; lx <= 2; lx++) {
-            for (let lz = -2; lz <= 2; lz++) {
-                for (let ly = 2; ly <= 4; ly++) {
-                     if (Math.abs(lx) + Math.abs(lz) + (ly-2) < 4) {
-                         // Check if air using world coordinates
-                         if (this.getBlock(wx+lx, y+ly, wz+lz) === BLOCK.AIR) {
-                             this.setBlock(wx+lx, y+ly, wz+lz, BLOCK.LEAVES);
-                         }
-                     }
-                }
-            }
         }
     }
 

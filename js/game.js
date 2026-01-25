@@ -44,6 +44,9 @@ class Game {
 
         // Action State
         this.breaking = null; // {x, y, z, progress, limit}
+
+        // Fishing State
+        this.bobber = null;
     }
 
     detectMobile() {
@@ -179,6 +182,18 @@ class Game {
     startAction(isLeftClick) {
         if (!isLeftClick) {
             // Right Click Logic
+
+            // Fishing Logic
+            const slot = this.player.inventory[this.player.selectedSlot];
+            if (slot && slot.type === BLOCK.FISHING_ROD) {
+                if (this.bobber) {
+                    this.reelInBobber();
+                } else {
+                    this.castBobber();
+                }
+                return;
+            }
+
             const dir = {
                 x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
                 y: -Math.sin(this.player.pitch),
@@ -192,7 +207,6 @@ class Game {
             }
 
             // 2. Use Item (Eat)
-            const slot = this.player.inventory[this.player.selectedSlot];
             if (slot && slot.count > 0) {
                  const blockDef = BLOCKS[slot.type];
                  if (blockDef && blockDef.food) {
@@ -242,8 +256,16 @@ class Game {
         });
 
         if (closestMob) {
-            // Attack Mob
+            // Check interaction first
             const slot = this.player.inventory[this.player.selectedSlot];
+            if (slot && closestMob.interact(slot.type)) {
+                 slot.count--;
+                 if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                 this.updateHotbarUI();
+                 return;
+            }
+
+            // Attack Mob
             let damage = 1;
             if (slot && window.TOOLS[slot.type]) {
                 damage = window.TOOLS[slot.type].damage || 1;
@@ -571,8 +593,90 @@ class Game {
         if (entity.input.count <= 0) entity.input = null;
     }
 
+    castBobber() {
+        const yaw = this.player.yaw;
+        const pitch = this.player.pitch;
+        const dir = {
+            x: Math.sin(yaw) * Math.cos(pitch),
+            y: -Math.sin(pitch),
+            z: Math.cos(yaw) * Math.cos(pitch)
+        };
+
+        this.bobber = {
+            x: this.player.x,
+            y: this.player.y + this.player.height * 0.8,
+            z: this.player.z,
+            vx: dir.x * 15,
+            vy: dir.y * 15,
+            vz: dir.z * 15,
+            state: 'flying',
+            waitTime: 0,
+            biteTimer: 0
+        };
+        window.soundManager.play('jump'); // Whoosh sound?
+    }
+
+    reelInBobber() {
+        if (!this.bobber) return;
+
+        if (this.bobber.state === 'hooked') {
+            // Catch fish
+            this.drops.push(new Drop(this, this.player.x, this.player.y, this.player.z, BLOCK.ITEM_RAW_FISH, 1));
+            this.chat.addMessage("You caught a fish!");
+            window.soundManager.play('place'); // Splash/Catch sound
+        }
+
+        this.bobber = null;
+    }
+
+    updateBobber(dt) {
+        if (!this.bobber) return;
+
+        const b = this.bobber;
+
+        if (b.state === 'flying') {
+            b.vy -= 25 * dt; // Gravity
+            b.x += b.vx * dt;
+            b.y += b.vy * dt;
+            b.z += b.vz * dt;
+            b.vx *= 0.99;
+            b.vz *= 0.99;
+
+            // Check collision with water
+            const block = this.world.getBlock(Math.floor(b.x), Math.floor(b.y), Math.floor(b.z));
+            if (block === BLOCK.WATER) {
+                b.state = 'floating';
+                b.vy = 0;
+                b.vx = 0;
+                b.vz = 0;
+                b.y = Math.floor(b.y) + 0.8; // Float on surface
+                b.waitTime = 2 + Math.random() * 5; // Wait 2-7 seconds
+                window.soundManager.play('step'); // Splash
+            } else if (block !== BLOCK.AIR) {
+                // Hit solid block
+                this.bobber = null; // Break
+            }
+        } else if (b.state === 'floating') {
+             b.waitTime -= dt;
+             if (b.waitTime <= 0) {
+                 b.state = 'hooked';
+                 b.biteTimer = 1.0; // 1 second to react
+                 window.soundManager.play('break'); // Bobber dip sound
+             }
+        } else if (b.state === 'hooked') {
+             b.y -= 0.5 * dt; // Dip visual
+             b.biteTimer -= dt;
+             if (b.biteTimer <= 0) {
+                 b.state = 'floating'; // Missed it
+                 b.y += 0.5; // Reset
+                 b.waitTime = 2 + Math.random() * 5;
+             }
+        }
+    }
+
     update(dt) {
         this.player.update(dt / 1000);
+        this.updateBobber(dt / 1000);
 
         // Process Block Entities (Furnaces & Crops)
         for (const [key, entity] of this.world.blockEntities) {
