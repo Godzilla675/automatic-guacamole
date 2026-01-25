@@ -45,6 +45,9 @@ class Game {
         // Action State
         this.breaking = null; // {x, y, z, progress, limit}
 
+        // Fluid State
+        this.fluidTick = 0;
+
         // Fishing State
         this.bobber = null;
     }
@@ -459,8 +462,18 @@ class Game {
                  }
 
                  this.world.setBlock(nx, ny, nz, slot.type);
+                 if (slot.type === BLOCK.WATER) {
+                     this.world.setMetadata(nx, ny, nz, 8);
+                 }
                  window.soundManager.play('place');
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);
+
+                 // Consume item
+                 slot.count--;
+                 if (slot.count <= 0) {
+                     this.player.inventory[this.player.selectedSlot] = null;
+                 }
+                 this.updateHotbarUI();
             }
         }
     }
@@ -677,6 +690,13 @@ class Game {
     update(dt) {
         this.player.update(dt / 1000);
         this.updateBobber(dt / 1000);
+
+        // Update Fluids
+        this.fluidTick += dt;
+        if (this.fluidTick > 100) { // Every 100ms
+            this.world.updateFluids();
+            this.fluidTick = 0;
+        }
 
         // Process Block Entities (Furnaces & Crops)
         for (const [key, entity] of this.world.blockEntities) {
