@@ -14,6 +14,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Shared world state (Real-time sync only, no server-side persistence yet)
 
 ### 2. Advanced World Generation
+- [ ] Rivers and lakes
 - [x] Biomes (Implemented basic noise-based terrain)
 - [x] Caves and underground systems (3D Noise holes)
 - [x] Ore generation (Coal, Iron, Gold, Diamond)
@@ -25,7 +26,6 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
 - [x] **Implement Desert Biome** (Sand, Cactus)
 - [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
-- [ ] Rivers and lakes
 
 ### 3. Crafting System
 - [x] Crafting table interface (UI implemented)
@@ -43,6 +43,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Swords for combat
 - [x] Tool durability system
 - [x] Different breaking speeds based on tool and block
+- [ ] **Implement Tool Repair** (Anvil or crafting combination)
 
 ### 5. Mobs and AI
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
@@ -61,9 +62,17 @@ This document outlines features that future agents should implement to enhance t
 - [x] Eating/Food Consumption (Implemented, including sound)
 - [x] **Bed & Sleeping (Skip Night)**
 
+### 7. Enhanced Building Blocks (Moved to High Priority)
+- [ ] **Implement Doors and Gates** (Open/Close logic, models)
+- [ ] **Implement Slabs and Stairs** (Placement logic, half-block physics)
+- [ ] **Implement Windows and Fences** (Connecting logic for fences)
+- [ ] **Implement Chests and Storage** (UI, persistence)
+- [x] Additional block types (brick, concrete, wool colors)
+- [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
+
 ## Medium Priority Features
 
-### 7. User Interface Improvements
+### 8. User Interface Improvements
 - [x] **Settings Menu (Controls, Sound, Graphics)**
 - [x] **Volume Controls**
 - [ ] FOV Slider
@@ -77,23 +86,18 @@ This document outlines features that future agents should implement to enhance t
 - [x] Dynamic Crosshair
 - [ ] Non-intrusive UI notifications (replace alerts)
 
-### 8. Enhanced Building Blocks
-- [x] Additional block types (brick, concrete, wool colors)
-- [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
-- [ ] Slabs and stairs
-- [ ] Doors and gates
-- [ ] Windows and fences
+### 9. Advanced Building Blocks (Remaining)
 - [ ] Decorative blocks
 - [ ] Redstone-like logic blocks
 
-### 9. World Saving/Loading
+### 10. World Saving/Loading
 - [x] Save world state to browser localStorage (Implemented in `js/world.js`)
 - [x] Load saved worlds
 - [x] Multiple world slots
 - [ ] Export/import world data
 - [ ] Auto-save functionality
 
-### 10. Advanced Graphics
+### 11. Advanced Graphics
 - [ ] Better shadows and lighting
 - [ ] Dynamic Lighting (Handheld torch light)
 - [ ] Particle effects (breaking blocks, water splash)
@@ -106,19 +110,19 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Head bobbing animation
 - [ ] Sun/Moon rendering
 
-### 11. Sound System
+### 12. Sound System
 - [ ] **Background Music**
 - [x] Block breaking sounds
 - [x] Footstep sounds
 - [x] Ambient sounds (water, wind) (Implemented in `js/audio.js`)
 - [x] Sound effects for actions
 
-### 12. Farming & Nature
+### 13. Farming & Nature
 - [x] **Farming System (Hoe, Seeds, Wheat, Crops)**
 - [x] **Animal Breeding**
 - [x] **Fishing**
 
-### 13. Inventory Enhancements
+### 14. Inventory Enhancements
 - [x] **Full Inventory UI** (Data implemented, UI missing)
 - [x] Drag and drop items
 - [x] Item stacking (Simple stacking implemented in drops)
@@ -128,13 +132,13 @@ This document outlines features that future agents should implement to enhance t
 
 ## Low Priority / Polish Features
 
-### 14. Advanced Gameplay
+### 15. Advanced Gameplay
 - [x] Health regeneration (Implemented in `js/player.js`)
 - [ ] Experience points and levels
 - [ ] Enchanting system
 - [ ] Potions and brewing
 
-### 15. Creative Mode Features
+### 16. Creative Mode Features
 - [ ] Unlimited blocks
 - [ ] Instant block breaking
 - [ ] No collision mode (noclip)
@@ -143,7 +147,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Time control
 - [ ] Weather control
 
-### 16. Performance Optimizations
+### 17. Performance Optimizations
 - [x] Chunk-based rendering optimization
 - [x] Frustum culling improvements
 - [ ] LOD (Level of Detail) system
@@ -152,28 +156,26 @@ This document outlines features that future agents should implement to enhance t
 - [x] Occlusion culling (Exposed Face Caching)
 - [ ] Greedy meshing for fewer draw calls
 
-### 17. Social Features
+### 18. Social Features
 - [ ] Screenshot system
 - [ ] Share world links
 - [ ] Leaderboards
 - [ ] World showcase gallery
 - [ ] Friends system
 
-### 18. Advanced Building
+### 19. Advanced Building Tools
 - [ ] Copy/paste structures
 - [ ] Symmetry mode
 - [ ] Fill tool
 - [ ] Replace tool
 - [ ] Undo/redo system
 
-### 19. World Interaction
-- [ ] Chests and storage
-- [ ] Furnaces for smelting (Logic)
+### 20. World Interaction (Misc)
 - [ ] Minecarts and rails
 - [ ] Boats
 - [ ] Signs and text
 
-### 20. Modding Support
+### 21. Modding Support
 - [ ] Plugin API
 - [ ] Custom block types
 - [ ] Custom mob types
@@ -183,7 +185,7 @@ This document outlines features that future agents should implement to enhance t
 
 ## Bugs & Maintenance
 
-### 21. Critical Fixes & Bugs
+### 22. Critical Fixes & Bugs
 - [x] **Fix Empty Inventory Screen** (Pressing 'E' opens empty overlay)
 - [x] **Implement Furnace Block Logic** (Currently smelting is via Crafting Table)
 - [ ] **Water Flow Visuals** (Physics works, but water looks static)
@@ -191,7 +193,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Bug: Implement Colored Wool Blocks** (Verified implemented)
 - [x] **Bug: Make Wool Placeable** (Verified implemented as blocks)
 
-### 22. Completed Fixes (History)
+### 23. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
 - [x] Fix Tree Generation at Chunk Boundaries (Trees can be cut off if neighbor chunk not generated)
 - [x] Fix memory management strategy (Implemented Chunk-based storage)
@@ -224,7 +226,7 @@ This document outlines features that future agents should implement to enhance t
 
 ## Technical Improvements
 
-### 23. Code Quality
+### 24. Code Quality
 - [x] Unit tests for core systems
 - [x] Integration tests (Implemented `tests/test_features.js` covering core gameplay loops)
 - [x] Code documentation
@@ -235,7 +237,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Improve raycast accuracy (Implemented DDA algorithm in `js/physics.js`)
 - [ ] Server-side world persistence
 
-### 24. Accessibility
+### 25. Accessibility
 - [ ] Keyboard navigation for menus
 - [ ] Screen reader support
 - [ ] Colorblind modes
