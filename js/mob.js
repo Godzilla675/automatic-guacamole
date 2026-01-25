@@ -47,7 +47,7 @@ class Mob {
         if (this.breedingCooldown > 0 || this.isBaby) return false;
 
         let food = null;
-        if (this.type === MOB_TYPE.COW || this.type === MOB_TYPE.SHEEP) food = BLOCK.WHEAT;
+        if (this.type === MOB_TYPE.COW || this.type === MOB_TYPE.SHEEP) food = BLOCK.ITEM_WHEAT;
         else if (this.type === MOB_TYPE.PIG) food = BLOCK.ITEM_APPLE; // Placeholder for carrot
 
         if (food && itemType === food) {
