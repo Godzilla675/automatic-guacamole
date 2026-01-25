@@ -11,6 +11,7 @@ class Chunk {
         // Let's assume max height 64.
         this.maxHeight = 64;
         this.blocks = new Uint8Array(this.size * this.size * this.maxHeight);
+        this.metadata = new Uint8Array(this.size * this.size * this.maxHeight);
         this.light = new Uint8Array(this.size * this.size * this.maxHeight);
         this.modified = true; // Start modified to trigger update
         this.visibleBlocks = []; // Cache of visible blocks
@@ -27,6 +28,13 @@ class Chunk {
         return this.blocks[this.getIndex(x, y, z)];
     }
 
+    getMetadata(x, y, z) {
+        if (x < 0 || x >= this.size || z < 0 || z >= this.size || y < 0 || y >= this.maxHeight) {
+            return 0;
+        }
+        return this.metadata[this.getIndex(x, y, z)];
+    }
+
     getLight(x, y, z) {
         if (x < 0 || x >= this.size || z < 0 || z >= this.size || y < 0 || y >= this.maxHeight) {
             return 15; // Sunlight default for out of bounds/air for now? Or 0?
@@ -40,7 +48,16 @@ class Chunk {
             return;
         }
         this.blocks[this.getIndex(x, y, z)] = type;
+        this.metadata[this.getIndex(x, y, z)] = 0; // Reset metadata on block change
         this.modified = true;
+    }
+
+    setMetadata(x, y, z, val) {
+        if (x < 0 || x >= this.size || z < 0 || z >= this.size || y < 0 || y >= this.maxHeight) {
+            return;
+        }
+        this.metadata[this.getIndex(x, y, z)] = val;
+        this.modified = true; // Metadata change might affect visuals
     }
 
     setLight(x, y, z, val) {

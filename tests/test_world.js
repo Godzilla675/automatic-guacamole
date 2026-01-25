@@ -14,6 +14,7 @@ dom.window.Chunk = class Chunk {
         this.cx = cx;
         this.cz = cz;
         this.blocks = new Uint8Array(10); // dummy
+        this.metadata = new Uint8Array(10); // dummy
         this.modified = false;
     }
     updateVisibleBlocks() {}

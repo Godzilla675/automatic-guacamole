@@ -103,7 +103,8 @@ class Renderer {
                             type: b.type,
                             rx, ry: ry, rz: rz2,
                             dist,
-                            light: chunk.getLight(b.x, b.y, b.z)
+                            light: chunk.getLight(b.x, b.y, b.z),
+                            metadata: chunk.getMetadata(b.x, b.y, b.z)
                         });
                     }
                 }
@@ -130,11 +131,22 @@ class Renderer {
                  // Basic lighting from chunk data + distance fog
                  // We don't have exact face lighting here easily without normal data
                  // Just use the block type color
+                 let drawHeight = size;
+                 let drawSy = sy;
+
                  if (b.type === window.BLOCK.WATER) {
                      const time = Date.now() / 500;
                      const shift = Math.sin(time + b.x * 0.2 + b.z * 0.2) * 20;
                      // Base #4169E1 -> 65, 105, 225
                      ctx.fillStyle = `rgb(${65 + shift/2}, ${105 + shift/2}, ${225 + shift})`;
+
+                     // Water Level
+                     const level = b.metadata || 8;
+                     const hFactor = level >= 8 ? 0.9 : (level / 9); // 1-7 -> 1/9 to 7/9
+                     drawHeight = size * hFactor;
+                     // Align bottom
+                     drawSy = sy + (size - drawHeight) / 2;
+
                  } else {
                      ctx.fillStyle = blockDef.color;
                  }
@@ -142,7 +154,7 @@ class Renderer {
                  // let lightMult = b.light / 15;
                  // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
 
-                 ctx.fillRect(Math.floor(sx - size/2), Math.floor(sy - size/2), Math.ceil(size), Math.ceil(size));
+                 ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
              }
         });
 

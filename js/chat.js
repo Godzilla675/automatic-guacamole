@@ -116,6 +116,9 @@ class ChatManager {
                         for (let y = minY; y <= maxY; y++) {
                             for (let z = minZ; z <= maxZ; z++) {
                                 this.game.world.setBlock(x, y, z, blockType);
+                                if (blockType === window.BLOCK.WATER) {
+                                    this.game.world.setMetadata(x, y, z, 8); // Source
+                                }
                                 this.game.network.sendBlockUpdate(x, y, z, blockType);
                                 count++;
                             }
