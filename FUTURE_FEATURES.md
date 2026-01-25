@@ -192,6 +192,9 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Bug: Implement Concrete Blocks** (Verified implemented)
 - [x] **Bug: Implement Colored Wool Blocks** (Verified implemented)
 - [x] **Bug: Make Wool Placeable** (Verified implemented as blocks)
+- [ ] **Bug: Fix Infinite Blocks / Inventory Consumption on Placement**
+- [ ] **Bug: Implement Water Flow Logic**
+- [ ] **Bug: Implement Slabs, Stairs, Doors, Gates, Fences, Chests**
 
 ### 23. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
