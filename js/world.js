@@ -124,7 +124,26 @@ class World {
             const type = this.getBlock(x, y, z);
             if (type !== BLOCK.WATER) continue;
 
-            const meta = this.getMetadata(x, y, z);
+            let meta = this.getMetadata(x, y, z);
+
+            // Infinite Source Creation
+            if (meta !== 8) {
+                let sourceNeighbors = 0;
+                const horizontal = [
+                    {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+                    {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+                ];
+                for (const n of horizontal) {
+                     if (this.getBlock(n.x, n.y, n.z) === BLOCK.WATER && this.getMetadata(n.x, n.y, n.z) === 8) {
+                         sourceNeighbors++;
+                     }
+                }
+                if (sourceNeighbors >= 2) {
+                    meta = 8;
+                    this.setMetadata(x, y, z, 8);
+                }
+            }
+
             const isSource = meta === 8; // Assuming 8 is source
 
             // Flow Logic
