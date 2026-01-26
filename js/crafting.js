@@ -151,6 +151,36 @@ class CraftingSystem {
         const container = document.getElementById('crafting-recipes');
         container.innerHTML = '';
 
+        // Clean up previous repair recipes
+        this.recipes = this.recipes.filter(r => !r.isRepair);
+
+        // Check for repairable items
+        const inventory = this.game.player.inventory;
+        const toolIndices = {};
+
+        inventory.forEach((item, index) => {
+            if (item && window.TOOLS && window.TOOLS[item.type]) {
+                const maxDurability = window.TOOLS[item.type].durability;
+                // Only consider if damaged
+                if (item.durability !== undefined && item.durability < maxDurability) {
+                    if (!toolIndices[item.type]) toolIndices[item.type] = [];
+                    toolIndices[item.type].push(index);
+                }
+            }
+        });
+
+        for (const type in toolIndices) {
+            if (toolIndices[type].length >= 2) {
+                const blockDef = window.BLOCKS[type];
+                this.recipes.push({
+                    name: `Repair ${blockDef ? blockDef.name : 'Tool'}`,
+                    result: { type: parseInt(type), count: 1 },
+                    ingredients: [ { type: parseInt(type), count: 2 } ], // Consumes 2
+                    isRepair: true
+                });
+            }
+        }
+
         this.recipes.forEach((recipe, index) => {
             const el = document.createElement('div');
             el.className = 'inventory-item';
@@ -178,6 +208,11 @@ class CraftingSystem {
         const recipe = this.recipes[index];
         const player = this.game.player;
         const inventory = player.inventory;
+
+        if (recipe.isRepair) {
+            this.craftRepair(recipe);
+            return;
+        }
 
         // 1. Check if player has all ingredients
         for (const ingredient of recipe.ingredients) {
@@ -260,6 +295,50 @@ class CraftingSystem {
         } else {
              alert(`Crafted ${recipe.name}!`);
         }
+    }
+
+    craftRepair(recipe) {
+        const player = this.game.player;
+        const inventory = player.inventory;
+        const type = recipe.result.type;
+        const toolDef = window.TOOLS[type];
+
+        // Find 2 damaged tools
+        const indices = [];
+        for (let i = 0; i < inventory.length; i++) {
+            const item = inventory[i];
+            if (item && item.type === type && item.durability < toolDef.durability) {
+                indices.push(i);
+                if (indices.length === 2) break;
+            }
+        }
+
+        if (indices.length < 2) {
+            alert("Not enough damaged tools to repair!");
+            return;
+        }
+
+        const item1 = inventory[indices[0]];
+        const item2 = inventory[indices[1]];
+
+        // Calculate new durability
+        // Bonus: 5% of max durability
+        const bonus = Math.floor(toolDef.durability * 0.05);
+        let newDurability = item1.durability + item2.durability + bonus;
+        newDurability = Math.min(newDurability, toolDef.durability);
+
+        // Remove input items
+        inventory[indices[0]] = null;
+        inventory[indices[1]] = null;
+
+        // Add result (put in first empty slot or indices[0])
+        const resultItem = { type: type, count: 1, durability: newDurability };
+        inventory[indices[0]] = resultItem; // Put it back in first slot
+
+        alert(`Repaired ${recipe.name}!`);
+
+        // Refresh UI if necessary (calling initUI again might be needed to remove the recipe if no longer valid)
+        this.initUI();
     }
 }
 

@@ -43,7 +43,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Swords for combat
 - [x] Tool durability system
 - [x] Different breaking speeds based on tool and block
-- [ ] **Implement Tool Repair** (Anvil or crafting combination)
+- [x] **Implement Tool Repair** (Crafting combination)
 - [ ] **Implement Bow and Arrow** (Ranged combat)
 - [ ] **Implement Shield** (Blocking mechanic)
 
@@ -65,10 +65,12 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Bed & Sleeping (Skip Night)**
 
 ### 7. Enhanced Building Blocks (Moved to High Priority)
-- [ ] **Implement Doors and Gates** (Open/Close logic, models)
-- [ ] **Implement Slabs and Stairs** (Placement logic, half-block physics)
+- [x] **Implement Doors** (Open/Close logic, models)
+- [ ] **Implement Gates** (Open/Close logic, models)
+- [x] **Implement Slabs** (Placement logic, half-block physics)
+- [ ] **Implement Stairs** (Placement logic, complex collision)
 - [ ] **Implement Windows and Fences** (Connecting logic for fences)
-- [ ] **Implement Chests and Storage** (UI, persistence)
+- [x] **Implement Chests and Storage** (UI, persistence)
 - [x] Additional block types (brick, concrete, wool colors)
 - [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 
@@ -196,7 +198,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Bug: Make Wool Placeable** (Verified implemented as blocks)
 - [x] **Bug: Fix Infinite Blocks / Inventory Consumption on Placement** (Verified implemented in Game.placeBlock)
 - [x] **Bug: Implement Water Flow Logic** (Verified implemented in World.updateFluids)
-- [ ] **Bug: Implement Cactus Damage** (Collision exists, but no damage logic)
+- [x] **Bug: Implement Cactus Damage** (Collision exists, but no damage logic)
 
 ### 23. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite

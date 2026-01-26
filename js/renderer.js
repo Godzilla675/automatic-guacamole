@@ -149,12 +149,25 @@ class Renderer {
 
                  } else {
                      ctx.fillStyle = blockDef.color;
+                     // Slabs
+                     if (blockDef.isSlab) {
+                         drawHeight = size * 0.5;
+                         drawSy = sy + (size - drawHeight) / 2;
+                     }
+                     // Doors
+                     if (blockDef.isDoor) {
+                         const meta = b.metadata;
+                         if (meta & 1) { // Open
+                             ctx.globalAlpha = 0.2; // Transparent
+                         }
+                     }
                  }
                  // We could adjust brightness by b.light (0-15)
                  // let lightMult = b.light / 15;
                  // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
 
                  ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
+                 ctx.globalAlpha = 1.0;
              }
         });
 

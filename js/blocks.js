@@ -69,6 +69,18 @@ const BLOCK = {
     WOOL_RED: 64,
     WOOL_BLACK: 65,
 
+    // Slabs
+    SLAB_WOOD: 70,
+    SLAB_STONE: 71,
+    SLAB_COBBLESTONE: 72,
+
+    // Doors
+    DOOR_WOOD_BOTTOM: 73,
+    DOOR_WOOD_TOP: 74,
+
+    // Chest
+    CHEST: 75,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -211,6 +223,18 @@ const BLOCKS = {
     [BLOCK.WOOL_GREEN]: { name: 'Green Wool', color: '#008000', solid: true, icon: '🟩', hardness: 0.8 },
     [BLOCK.WOOL_RED]: { name: 'Red Wool', color: '#FF0000', solid: true, icon: '🟥', hardness: 0.8 },
     [BLOCK.WOOL_BLACK]: { name: 'Black Wool', color: '#000000', solid: true, icon: '⬛', hardness: 0.8 },
+
+    // Slabs
+    [BLOCK.SLAB_WOOD]: { name: 'Wood Slab', color: '#5C4033', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe', isSlab: true },
+    [BLOCK.SLAB_STONE]: { name: 'Stone Slab', color: '#808080', solid: true, icon: '🔲', hardness: 1.5, tool: 'pickaxe', isSlab: true },
+    [BLOCK.SLAB_COBBLESTONE]: { name: 'Cobblestone Slab', color: '#696969', solid: true, icon: '🪨', hardness: 2.0, tool: 'pickaxe', isSlab: true },
+
+    // Doors
+    [BLOCK.DOOR_WOOD_BOTTOM]: { name: 'Wood Door', color: '#8B4513', solid: true, icon: '🚪', hardness: 3.0, tool: 'axe', isDoor: true },
+    [BLOCK.DOOR_WOOD_TOP]: { name: 'Wood Door', color: '#8B4513', solid: true, icon: '🚪', hardness: 3.0, tool: 'axe', isDoor: true },
+
+    // Chest
+    [BLOCK.CHEST]: { name: 'Chest', color: '#8B4513', top: '#A0522D', solid: true, icon: '📦', hardness: 2.5, tool: 'axe', drop: { type: BLOCK.CHEST, count: 1 } },
 
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },

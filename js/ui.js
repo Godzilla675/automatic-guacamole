@@ -3,10 +3,17 @@ class UIManager {
         this.game = game;
         this.cursorItem = null;
         this.activeFurnace = null;
+        this.activeChest = null;
     }
 
     init() {
         this.updateHotbarUI();
+
+        // Bind Chest Close
+        const closeChest = document.getElementById('close-chest');
+        if (closeChest) {
+            closeChest.addEventListener('click', () => this.closeChest());
+        }
 
         // Bind Settings
         const settingsBtn = document.getElementById('settings-btn');
@@ -175,6 +182,95 @@ class UIManager {
         this.activeFurnace = null;
         document.getElementById('furnace-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openChest(entity) {
+        this.activeChest = entity;
+        if (!entity.items) entity.items = new Array(27).fill(null);
+
+        const ui = document.getElementById('chest-screen');
+        ui.classList.remove('hidden');
+
+        // Open inventory too
+        const inv = document.getElementById('inventory-screen');
+        inv.classList.remove('hidden');
+
+        document.exitPointerLock();
+        this.refreshChestUI();
+        this.refreshInventoryUI(); // Ensure inventory events are bound and visible
+    }
+
+    closeChest() {
+        this.activeChest = null;
+        document.getElementById('chest-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    refreshChestUI() {
+        if (!this.activeChest) return;
+        const grid = document.getElementById('chest-grid');
+        grid.innerHTML = '';
+        const items = this.activeChest.items;
+
+        for (let i = 0; i < 27; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'inventory-item';
+            slot.dataset.index = i;
+
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            slot.appendChild(count);
+
+            this.renderSlotItem(slot, items[i]);
+
+            slot.addEventListener('click', () => {
+                this.handleChestClick(i);
+            });
+
+            grid.appendChild(slot);
+        }
+    }
+
+    handleChestClick(index) {
+        if (!this.activeChest) return;
+        const items = this.activeChest.items;
+        const clickedItem = items[index];
+        const cursor = this.cursorItem;
+
+        if (!cursor) {
+            if (clickedItem) {
+                this.cursorItem = clickedItem;
+                items[index] = null;
+            }
+        } else {
+            if (!clickedItem) {
+                items[index] = cursor;
+                this.cursorItem = null;
+            } else {
+                 if (clickedItem.type === cursor.type && clickedItem.count < 64) {
+                     const space = 64 - clickedItem.count;
+                     const toAdd = Math.min(space, cursor.count);
+                     clickedItem.count += toAdd;
+                     cursor.count -= toAdd;
+                     if (cursor.count <= 0) this.cursorItem = null;
+                 } else {
+                     items[index] = cursor;
+                     this.cursorItem = clickedItem;
+                 }
+            }
+        }
+        this.refreshChestUI();
+        this.updateCursorUI();
     }
 
     pauseGame() {
