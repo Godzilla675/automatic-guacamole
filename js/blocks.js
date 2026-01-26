@@ -81,6 +81,10 @@ const BLOCK = {
     // Chest
     CHEST: 75,
 
+    // Stairs
+    STAIRS_WOOD: 80,
+    STAIRS_COBBLESTONE: 81,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -235,6 +239,10 @@ const BLOCKS = {
 
     // Chest
     [BLOCK.CHEST]: { name: 'Chest', color: '#8B4513', top: '#A0522D', solid: true, icon: '📦', hardness: 2.5, tool: 'axe', drop: { type: BLOCK.CHEST, count: 1 } },
+
+    // Stairs
+    [BLOCK.STAIRS_WOOD]: { name: 'Wood Stairs', color: '#5C4033', solid: true, icon: '🪜', hardness: 2.0, tool: 'axe', isStair: true, transparent: true },
+    [BLOCK.STAIRS_COBBLESTONE]: { name: 'Cobblestone Stairs', color: '#696969', solid: true, icon: '🪜', hardness: 2.0, tool: 'pickaxe', isStair: true, transparent: true },
 
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },

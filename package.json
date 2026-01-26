@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "canvas": "^3.2.1",
-    "jsdom": "^27.4.0"
+    "jsdom": "^27.4.0",
+    "ws": "^8.19.0"
   },
   "devDependencies": {
     "mocha": "^11.7.5"
