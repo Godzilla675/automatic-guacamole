@@ -99,13 +99,60 @@ class Renderer {
                     const rz2 = dy * sinP + rz * cosP; // Depth
 
                     if (rz2 > 0.1) {
-                        blocksToDraw.push({
-                            type: b.type,
-                            rx, ry: ry, rz: rz2,
-                            dist,
-                            light: chunk.getLight(b.x, b.y, b.z),
-                            metadata: chunk.getMetadata(b.x, b.y, b.z)
-                        });
+                        const blockDef = window.BLOCKS[b.type];
+                        if (blockDef && blockDef.isStair) {
+                            // Stairs: Push 2 parts
+                            // 1. Bottom Half (Center at y - 0.25)
+                            const dy1 = dy - 0.25;
+                            const rx1 = dx * cosY - dz * sinY;
+                            const rz1 = dx * sinY + dz * cosY;
+                            const ry1 = dy1 * cosP - rz1 * sinP;
+                            const rz1_depth = dy1 * sinP + rz1 * cosP;
+
+                            blocksToDraw.push({
+                                type: b.type,
+                                rx: rx1, ry: ry1, rz: rz1_depth,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isStairPart: 'bottom'
+                            });
+
+                            // 2. Top Half (Center at y + 0.25, shifted X/Z)
+                            const meta = chunk.getMetadata(b.x, b.y, b.z);
+                            let offX = 0, offZ = 0;
+                            // 0=East (+X), 1=West (-X), 2=South (+Z), 3=North (-Z)
+                            if (meta === 0) offX = 0.25;
+                            else if (meta === 1) offX = -0.25;
+                            else if (meta === 2) offZ = 0.25;
+                            else if (meta === 3) offZ = -0.25;
+
+                            const dx2 = dx + offX;
+                            const dy2 = dy + 0.25;
+                            const dz2 = dz + offZ;
+
+                            const rx2 = dx2 * cosY - dz2 * sinY;
+                            const rz2_top = dx2 * sinY + dz2 * cosY;
+                            const ry2 = dy2 * cosP - rz2_top * sinP;
+                            const rz2_top_depth = dy2 * sinP + rz2_top * cosP;
+
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx: rx2, ry: ry2, rz: rz2_top_depth,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: meta,
+                                isStairPart: 'top'
+                            });
+                        } else {
+                            blocksToDraw.push({
+                                type: b.type,
+                                rx, ry: ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z)
+                            });
+                        }
                     }
                 }
             }
@@ -153,6 +200,11 @@ class Renderer {
                      if (blockDef.isSlab) {
                          drawHeight = size * 0.5;
                          drawSy = sy + (size - drawHeight) / 2;
+                     }
+                     // Stairs
+                     if (blockDef.isStair) {
+                         drawHeight = size * 0.5;
+                         drawSy = sy; // Already centered by loop calculation
                      }
                      // Doors
                      if (blockDef.isDoor) {

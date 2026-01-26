@@ -212,7 +212,13 @@ class Player {
         }
 
         // Cactus Damage
-        const box = { x: this.x, y: this.y, z: this.z, width: this.width, height: this.height };
+        const box = {
+            x: this.x,
+            y: this.y - 0.1,
+            z: this.z,
+            width: this.width + 0.2,
+            height: this.height + 0.1
+        };
         const collidingBlocks = this.game.physics.getCollidingBlocks(box);
         for (const block of collidingBlocks) {
             if (block.type === BLOCK.CACTUS) {

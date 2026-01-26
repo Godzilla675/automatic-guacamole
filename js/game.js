@@ -504,9 +504,10 @@ class Game {
 
                  if (blockDef && blockDef.isItem) return;
 
-                 const nx = hit.x + hit.face.x;
-                 const ny = hit.y + hit.face.y;
-                 const nz = hit.z + hit.face.z;
+                 // nx, ny, nz are already defined in outer scope
+                 // const nx = hit.x + hit.face.x;
+                 // const ny = hit.y + hit.face.y;
+                 // const nz = hit.z + hit.face.z;
 
                  // Check player collision
                  const pBox = { x: this.player.x, y: this.player.y, z: this.player.z, width: this.player.width, height: this.player.height };
@@ -521,6 +522,18 @@ class Game {
                  this.world.setBlock(nx, ny, nz, slot.type);
                  if (slot.type === BLOCK.WATER) {
                      this.world.setMetadata(nx, ny, nz, 8);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isStair) {
+                     // Stairs Logic
+                     let r = this.player.yaw % (2*Math.PI);
+                     if (r < 0) r += 2*Math.PI;
+
+                     let meta = 0;
+                     if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 2; // South
+                     else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
+                     else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
+                     else meta = 0; // East
+
+                     this.world.setMetadata(nx, ny, nz, meta);
                  }
                  window.soundManager.play('place');
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);

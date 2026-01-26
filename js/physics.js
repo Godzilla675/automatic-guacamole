@@ -24,6 +24,42 @@ class Physics {
                             if (meta & 1) return false; // Open -> No collision
                         }
 
+                        // Check for Stairs
+                        if (blockDef.isStair) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            // 1. Bottom Slab
+                            if (x < pMaxX && x + 1 > pMinX &&
+                                y < pMaxY && y + 0.5 > pMinY &&
+                                z < pMaxZ && z + 1 > pMinZ) {
+                                return true;
+                            }
+
+                            // 2. Top Half (Quadrant)
+                            let tMinX = x, tMaxX = x + 1;
+                            let tMinZ = z, tMaxZ = z + 1;
+                            const tMinY = y + 0.5;
+                            const tMaxY = y + 1.0;
+
+                            if (meta === 0) tMinX = x + 0.5; // East
+                            else if (meta === 1) tMaxX = x + 0.5; // West
+                            else if (meta === 2) tMinZ = z + 0.5; // South
+                            else if (meta === 3) tMaxZ = z + 0.5; // North
+
+                            if (tMinX < pMaxX && tMaxX > pMinX &&
+                                tMinY < pMaxY && tMaxY > pMinY &&
+                                tMinZ < pMaxZ && tMaxZ > pMinZ) {
+                                return true;
+                            }
+                            continue; // Next block
+                        }
+
                         // Check for Slabs
                         let bHeight = 1.0;
                         if (blockDef.isSlab) bHeight = 0.5;
@@ -85,6 +121,30 @@ class Physics {
                          return { x, y, z, type: block, face: lastFace, dist: t };
                     }
                     // Else, continue raycast (it passes through top half)
+                } else if (blockDef.isStair) {
+                    // Hit point
+                    const hx = origin.x + direction.x * t;
+                    const hy = origin.y + direction.y * t;
+                    const hz = origin.z + direction.z * t;
+
+                    const rx = hx - x;
+                    const ry = hy - y;
+                    const rz = hz - z;
+
+                    if (ry >= 0 && ry <= 0.5) {
+                        return { x, y, z, type: block, face: lastFace, dist: t };
+                    }
+                    if (ry > 0.5 && ry <= 1.0) {
+                         const meta = this.world.getMetadata(x, y, z);
+                         let hit = false;
+                         if (meta === 0 && rx >= 0.5) hit = true;
+                         else if (meta === 1 && rx <= 0.5) hit = true;
+                         else if (meta === 2 && rz >= 0.5) hit = true;
+                         else if (meta === 3 && rz <= 0.5) hit = true;
+
+                         if (hit) return { x, y, z, type: block, face: lastFace, dist: t };
+                    }
+                    // Else passes through empty part
                 } else {
                     return {
                         x, y, z,
