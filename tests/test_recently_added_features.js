@@ -253,6 +253,9 @@ describe('Recently Added Features Tests', () => {
                 return false;
             };
 
+            // Mock getCollidingBlocks to prevent interference from real world blocks
+            game.physics.getCollidingBlocks = () => [];
+
             player.fallDistance = 10; // Fallen 10 blocks
 
             // Mock takeDamage

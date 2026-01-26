@@ -163,6 +163,20 @@ class Game {
             return true;
         }
 
+        // Chest
+        if (blockType === BLOCK.CHEST) {
+             let entity = this.world.getBlockEntity(x, y, z);
+             if (!entity) {
+                 entity = {
+                     type: 'chest',
+                     items: new Array(27).fill(null)
+                 };
+                 this.world.setBlockEntity(x, y, z, entity);
+             }
+             this.ui.openChest(entity);
+             return true;
+        }
+
         // Bed
         if (blockType === BLOCK.BED) {
             const time = this.gameTime % this.dayLength;
@@ -177,6 +191,23 @@ class Game {
                 this.chat.addMessage("You can only sleep at night.");
             }
             return true;
+        }
+
+        // Doors
+        if (window.BLOCKS[blockType] && window.BLOCKS[blockType].isDoor) {
+             const meta = this.world.getMetadata(x, y, z);
+             const newMeta = meta ^ 1; // Toggle bit 0
+             this.world.setMetadata(x, y, z, newMeta);
+
+             // Update other half
+             if (blockType === BLOCK.DOOR_WOOD_BOTTOM) {
+                 this.world.setMetadata(x, y+1, z, newMeta);
+             } else if (blockType === BLOCK.DOOR_WOOD_TOP) {
+                 this.world.setMetadata(x, y-1, z, newMeta);
+             }
+
+             window.soundManager.play('break'); // Click sound
+             return true;
         }
 
         return false;
@@ -344,6 +375,10 @@ class Game {
                  } else {
                      this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT_SEEDS, 1));
                  }
+             } else if (entity.type === 'chest' && entity.items) {
+                 entity.items.forEach(item => {
+                     if (item) this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, item.type, item.count));
+                 });
              }
         }
 
@@ -442,6 +477,28 @@ class Game {
                              this.updateHotbarUI();
                              return;
                          }
+                     }
+                 }
+
+                 // Door Placement Logic
+                 if (slot.type === BLOCK.DOOR_WOOD_BOTTOM) {
+                     // Check vertical space (needs 2 blocks)
+                     // hit is the block we clicked on. nx,ny,nz is the neighbor (empty space usually).
+                     // We place bottom at nx,ny,nz. Top at nx,ny+1,nz.
+                     if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR && this.world.getBlock(nx, ny+1, nz) === BLOCK.AIR) {
+                         this.world.setBlock(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
+                         this.world.setBlock(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
+
+                         window.soundManager.play('place');
+                         this.network.sendBlockUpdate(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
+                         this.network.sendBlockUpdate(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
+
+                         slot.count--;
+                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         this.updateHotbarUI();
+                         return;
+                     } else {
+                         return; // Can't place
                      }
                  }
 

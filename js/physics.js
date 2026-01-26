@@ -16,8 +16,30 @@ class Physics {
             for (let y = minY; y <= maxY; y++) {
                 for (let z = minZ; z <= maxZ; z++) {
                     const block = this.world.getBlock(x, y, z);
-                    if (block !== BLOCK.AIR && BLOCKS[block] && BLOCKS[block].solid) {
-                        return true;
+                    const blockDef = BLOCKS[block];
+                    if (block !== BLOCK.AIR && blockDef && blockDef.solid) {
+                        // Check for Doors
+                        if (blockDef.isDoor) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            if (meta & 1) return false; // Open -> No collision
+                        }
+
+                        // Check for Slabs
+                        let bHeight = 1.0;
+                        if (blockDef.isSlab) bHeight = 0.5;
+
+                        const pMinX = box.x - box.width/2;
+                        const pMaxX = box.x + box.width/2;
+                        const pMinY = box.y;
+                        const pMaxY = box.y + box.height;
+                        const pMinZ = box.z - box.width/2;
+                        const pMaxZ = box.z + box.width/2;
+
+                        if (x < pMaxX && x + 1 > pMinX &&
+                            y < pMaxY && y + bHeight > pMinY &&
+                            z < pMaxZ && z + 1 > pMinZ) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -47,13 +69,30 @@ class Physics {
 
         while (t < maxDist) {
             const block = this.world.getBlock(x, y, z);
-            if (block !== BLOCK.AIR && BLOCKS[block] && BLOCKS[block].solid) {
-                return {
-                    x, y, z,
-                    type: block,
-                    face: lastFace,
-                    dist: t
-                };
+            const blockDef = BLOCKS[block];
+            if (block !== BLOCK.AIR && blockDef && blockDef.solid) {
+                // Check Slab Raycast
+                if (blockDef.isSlab) {
+                    // Check if hit point is within bottom 0.5
+                    // Hit point = origin + dir * t
+                    const hx = origin.x + direction.x * t;
+                    const hy = origin.y + direction.y * t;
+                    const hz = origin.z + direction.z * t;
+
+                    // Relative Y in block
+                    const ry = hy - y;
+                    if (ry >= 0 && ry <= 0.5) {
+                         return { x, y, z, type: block, face: lastFace, dist: t };
+                    }
+                    // Else, continue raycast (it passes through top half)
+                } else {
+                    return {
+                        x, y, z,
+                        type: block,
+                        face: lastFace,
+                        dist: t
+                    };
+                }
             }
 
             if (tMaxX < tMaxY) {
@@ -140,6 +179,28 @@ class Physics {
             }
         }
         return false;
+    }
+
+    getCollidingBlocks(box) {
+        const blocks = [];
+        const minX = Math.floor(box.x - box.width/2);
+        const maxX = Math.floor(box.x + box.width/2);
+        const minY = Math.floor(box.y);
+        const maxY = Math.floor(box.y + box.height);
+        const minZ = Math.floor(box.z - box.width/2);
+        const maxZ = Math.floor(box.z + box.width/2);
+
+        for (let x = minX; x <= maxX; x++) {
+            for (let y = minY; y <= maxY; y++) {
+                for (let z = minZ; z <= maxZ; z++) {
+                    const block = this.world.getBlock(x, y, z);
+                    if (block !== BLOCK.AIR) {
+                        blocks.push({x, y, z, type: block});
+                    }
+                }
+            }
+        }
+        return blocks;
     }
 }
 

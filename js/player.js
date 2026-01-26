@@ -211,6 +211,15 @@ class Player {
             this.fallDistance = 0;
         }
 
+        // Cactus Damage
+        const box = { x: this.x, y: this.y, z: this.z, width: this.width, height: this.height };
+        const collidingBlocks = this.game.physics.getCollidingBlocks(box);
+        for (const block of collidingBlocks) {
+            if (block.type === BLOCK.CACTUS) {
+                this.takeDamage(1);
+            }
+        }
+
         // Footstep sounds
         if (this.onGround && !this.flying) {
             const dist = Math.sqrt((this.x - prevX)**2 + (this.z - prevZ)**2);
@@ -271,12 +280,25 @@ class Player {
         if (physics.checkCollision({x: this.x, y: this.y + dy, z: this.z, width: this.width, height: this.height})) {
             if (dy < 0) {
                 this.onGround = true;
-                // Snap to block surface
-                // We collided at y+dy. The block we hit is below.
-                // We assume we hit the top of a block.
-                // The block's y coordinate is Math.floor(this.y + dy).
-                // So the surface is at Math.floor(this.y + dy) + 1.
-                this.y = Math.floor(this.y + dy) + 1;
+                // Find what we hit to snap correctly (slabs vs full blocks)
+                const box = {x: this.x, y: this.y + dy, z: this.z, width: this.width, height: this.height};
+                const blocks = physics.getCollidingBlocks(box);
+
+                let maxY = -Infinity;
+                for (const b of blocks) {
+                    let top = b.y + 1;
+                    const def = window.BLOCKS[b.type];
+                    if (def && def.isSlab) top = b.y + 0.5;
+
+                    if (top > maxY) maxY = top;
+                }
+
+                if (maxY > -Infinity) {
+                    this.y = maxY;
+                } else {
+                     // Fallback
+                     this.y = Math.floor(this.y + dy) + 1;
+                }
             }
             this.vy = 0;
         } else {
