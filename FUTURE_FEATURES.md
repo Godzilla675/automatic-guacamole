@@ -9,10 +9,12 @@ This document outlines features that future agents should implement to enhance t
 - [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [ ] **Implement Top Slabs** (Placement & Physics)
 
 ### 2. Advanced World Generation
 - [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
 - [ ] **Rivers and Lakes** (Hydrology system)
+- [ ] **Implement Birch Trees** (Blocks & Generation)
 - [x] Biomes (Implemented basic noise-based terrain)
 - [x] Caves and underground systems (3D Noise holes)
 - [x] Ore generation (Coal, Iron, Gold, Diamond)
@@ -45,6 +47,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Implement Tool Repair** (Crafting combination)
 
 ### 5. Mobs and AI
+- [ ] **Implement Villager Mob**
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
@@ -183,8 +186,8 @@ This document outlines features that future agents should implement to enhance t
 
 ### 22. Known Bugs & Issues
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [ ] **Implement Cow Beef Drops**: Cows currently only drop leather. Need to implement Beef item and drops.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
-- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
@@ -231,6 +234,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Infinite Blocks / Inventory Consumption on Placement
 - [x] Implement Water Flow Logic
 - [x] Implement Cactus Damage
+- [x] **Fix Spruce Tree Visuals**: Implemented in `js/structures.js` and `js/blocks.js`.
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.
