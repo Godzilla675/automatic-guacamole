@@ -18,7 +18,8 @@ class StructureManager {
 
         if (type === 'spruce') {
             height = 6 + Math.floor(Math.random() * 4);
-            // We can use same blocks for now as we don't have SPRUCE_WOOD
+            trunk = BLOCK.SPRUCE_WOOD;
+            leaves = BLOCK.SPRUCE_LEAVES;
         }
 
         // Trunk

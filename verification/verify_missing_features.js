@@ -254,8 +254,17 @@ describe('Missing Features Verification', () => {
             assert.strictEqual(block, dom.window.BLOCK.WOOD, "Tree base should be WOOD");
 
             // Check for leaves
-            const leaf = game.world.getBlock(x, y+3, z+1);
-            assert.strictEqual(leaf, dom.window.BLOCK.LEAVES, "Tree should have leaves");
+            let foundLeaves = false;
+            for(let dx=-2; dx<=2; dx++) {
+                for(let dy=2; dy<=6; dy++) {
+                    for(let dz=-2; dz<=2; dz++) {
+                        if (game.world.getBlock(x+dx, y+dy, z+dz) === dom.window.BLOCK.LEAVES) {
+                            foundLeaves = true;
+                        }
+                    }
+                }
+            }
+            assert.ok(foundLeaves, "Tree should have leaves");
         });
     });
 

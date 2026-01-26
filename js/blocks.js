@@ -32,6 +32,8 @@ const BLOCK = {
     // Biome Blocks
     SNOW: 25,
     ICE: 26,
+    SPRUCE_WOOD: 27,
+    SPRUCE_LEAVES: 28,
 
     // Concrete (30-45)
     CONCRETE_WHITE: 30,
@@ -191,6 +193,8 @@ const BLOCKS = {
 
     [BLOCK.SNOW]: { name: 'snow', color: '#F0F0F0', top: '#FFFFFF', solid: true, icon: '❄️', hardness: 0.2 },
     [BLOCK.ICE]: { name: 'ice', color: '#A5F2F3', top: '#A5F2F3', solid: true, transparent: true, icon: '🧊', hardness: 0.5 },
+    [BLOCK.SPRUCE_WOOD]: { name: 'Spruce Wood', color: '#3d2817', top: '#3d2817', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.SPRUCE_LEAVES]: { name: 'Spruce Leaves', color: '#2d4c2d', top: '#2d4c2d', solid: true, transparent: true, icon: '🌿', hardness: 0.2 },
 
     // Concrete
     [BLOCK.CONCRETE_WHITE]: { name: 'White Concrete', color: '#FFFFFF', solid: true, icon: '⬜', hardness: 1.5, tool: 'pickaxe' },
