@@ -45,7 +45,7 @@ const load = (f) => {
     }
 };
 
-['blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js'].forEach(load);
+['blocks.js', 'chunk.js', 'biome.js', 'structures/Tree.js', 'structures/Cactus.js', 'structures/Well.js', 'structures.js', 'world.js'].forEach(load);
 
 function verifyMetadata() {
     console.log("Verifying Metadata Persistence...");
