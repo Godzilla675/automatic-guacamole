@@ -78,17 +78,19 @@ describe('Implemented Features Tests', () => {
     it('Door Logic', () => {
         const x = 10, y = 30, z = 10;
         game.world.setBlock(x, y, z, BLOCK.DOOR_WOOD_BOTTOM);
-        game.world.setMetadata(x, y, z, 0); // Closed
+        game.world.setMetadata(x, y, z, 0); // Closed (East) -> Solid at x+0.8 to x+1.0
 
-        // Collide
-        assert.strictEqual(game.physics.checkCollision({x: 10.5, y: 30.5, z: 10.5, width: 0.6, height: 1.8}), true, "Closed door should collide");
+        // Collide (Check Solid Part)
+        assert.strictEqual(game.physics.checkCollision({x: 10.9, y: 30.5, z: 10.5, width: 0.1, height: 1.8}), true, "Closed door should collide at solid part");
+        // Collide (Check Empty Part)
+        assert.strictEqual(game.physics.checkCollision({x: 10.1, y: 30.5, z: 10.5, width: 0.1, height: 1.8}), false, "Closed door should not collide at empty part");
 
         // Interact
         game.interact(x, y, z);
-        assert.strictEqual(game.world.getMetadata(x, y, z), 1, "Door should open");
+        assert.strictEqual(game.world.getMetadata(x, y, z), 4, "Door should open (bit 2 set)");
 
-        // Collide
-        assert.strictEqual(game.physics.checkCollision({x: 10.5, y: 30.5, z: 10.5, width: 0.6, height: 1.8}), false, "Open door should not collide");
+        // Collide (Open)
+        assert.strictEqual(game.physics.checkCollision({x: 10.9, y: 30.5, z: 10.5, width: 0.1, height: 1.8}), false, "Open door should not collide");
     });
 
     it('Tool Repair', () => {
