@@ -2,75 +2,57 @@
 
 This document outlines features that future agents should implement to enhance the Minecraft clone game.
 
-## High Priority Features
+## 🚨 NEXT STEPS FOR AGENTS (Highest Priority)
 
-### 1. New Building Blocks (Highest Priority)
-- [x] **Implement Stairs** (Placement logic, complex collision, visual models)
-- [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
-- [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
-- [ ] **Implement Trapdoors** (Open/close logic, physics)
+These features are currently missing or incomplete and are the immediate next tasks.
 
-### 2. Advanced World Generation
-- [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
-- [ ] **Rivers and Lakes** (Hydrology system)
-- [x] Biomes (Implemented basic noise-based terrain)
-- [x] Caves and underground systems (3D Noise holes)
-- [x] Ore generation (Coal, Iron, Gold, Diamond)
-- [x] Better terrain generation using Perlin/Simplex noise
-- [x] World seeds for reproducible generation
-- [x] **Implement Structure Manager** (System to spawn structures like Trees, Wells, Ruins)
-- [x] **Implement Basic Structure Generation** (Wells, Trees, Cacti)
-- [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
-- [x] **Implement Desert Biome** (Sand, Cactus)
-- [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
+### 1. New Building Blocks (Missing Implementation)
+These blocks are currently unchecked or missing from `js/blocks.js`.
+- [ ] **Implement Fences**
+    - Add to `js/blocks.js` (ID ~90).
+    - Update `js/physics.js`: Collision box should be 1.5 blocks high.
+    - Update `js/renderer.js`: Visuals should connect to adjacent fences/blocks.
+- [ ] **Implement Fence Gates**
+    - Add to `js/blocks.js`.
+    - Update `js/physics.js`: Handle Open/Close state (no collision when open) and 1.5 height.
+    - Update `js/game.js`: Interaction logic to toggle open/close.
+- [ ] **Implement Glass Panes**
+    - Add to `js/blocks.js`.
+    - Update `js/physics.js`: Thin collision box (center aligned).
+    - Update `js/renderer.js`: Visuals should connect to neighbors.
+- [ ] **Implement Trapdoors**
+    - Add to `js/blocks.js`.
+    - Update `js/physics.js`: Handle Open/Close and Top/Bottom placement.
+    - Update `js/renderer.js`: Visuals.
 
-### 3. Crafting System
-- [ ] Crafting animations
-- [ ] Recipe discovery system
-- [x] Crafting table interface (UI implemented)
-- [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
-- [x] Resource gathering requirements (Inventory consumption implemented)
-- [x] **Smelting System (Furnace UI & Logic)**
-- [x] **Implement Recipe Book UI** (Show available recipes visually)
+### 2. Tools and Items (Missing Implementation)
+- [ ] **Implement Bow and Arrow**
+    - Add item to `js/blocks.js`.
+    - Implement `Projectile` class update for arrows.
+    - Add charging mechanic in `js/input.js` or `js/game.js`.
+- [ ] **Implement Shield**
+    - Add item.
+    - Implement blocking mechanic (reduce damage) in `js/player.js`.
 
-### 4. Tools and Items
-- [ ] **Implement Bow and Arrow** (Ranged combat)
-- [ ] **Implement Shield** (Blocking mechanic)
-- [x] Pickaxes (wood, stone, iron, diamond)
-- [x] Shovels for faster dirt/sand breaking
-- [x] Axes for faster wood breaking
-- [x] Swords for combat
-- [x] Tool durability system
-- [x] Different breaking speeds based on tool and block
-- [x] **Implement Tool Repair** (Crafting combination)
+### 3. Advanced World Generation (Expansion)
+- [ ] **Expand Village Generation**
+    - Current: Only generates Wells (`js/structures.js`).
+    - Task: Implement `StructureManager.generateHouse()` (5x5 wood/cobble).
+    - Task: Generate paths between buildings.
+- [ ] **Implement Rivers and Lakes**
+    - Improve hydration/fluid generation in `js/world.js`.
 
-### 5. Mobs and AI
-- [x] Passive mobs (Cows, Pigs, Sheep implemented)
-- [x] Hostile mobs (zombies, skeletons, spiders)
-- [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
-- [x] Day/night spawn cycles
-- [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string, wool, mutton)
-- [x] Health and combat system (Player health, Mob damage)
-- [x] Mob animations (Simple billboard rendering)
-- [x] Sheep Mob (Fully implemented)
+### 4. Mobs
+- [ ] **Implement Villagers**
+    - Add `MOB_TYPE.VILLAGER` to `js/mob.js`.
+    - Basic AI (wander, look at player).
+    - (Future) Trading UI.
 
-### 6. Core Mechanics
-- [x] Sprinting mechanic
-- [x] Fall damage
-- [x] Hunger system (Decay and starvation implemented)
-- [x] Eating/Food Consumption (Implemented, including sound)
-- [x] **Bed & Sleeping (Skip Night)**
-
-### 7. Enhanced Building Blocks (Completed)
-- [x] **Implement Doors** (Open/Close logic, models)
-- [x] **Implement Slabs** (Placement logic, half-block physics)
-- [x] **Implement Chests and Storage** (UI, persistence)
-- [x] Additional block types (brick, concrete, wool colors)
-- [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
+---
 
 ## Medium Priority Features
 
-### 8. User Interface Improvements
+### 5. User Interface Improvements
 - [ ] FOV Slider
 - [ ] Mouse Sensitivity Control
 - [ ] Minimap
@@ -82,18 +64,18 @@ This document outlines features that future agents should implement to enhance t
 - [x] Better mobile UI scaling
 - [x] Dynamic Crosshair
 
-### 9. Advanced Building Blocks (Remaining)
+### 6. Advanced Building Blocks (Remaining)
 - [ ] Decorative blocks
 - [ ] Redstone-like logic blocks
 
-### 10. World Saving/Loading
+### 7. World Saving/Loading
 - [ ] Export/import world data
 - [ ] Auto-save functionality
 - [x] Save world state to browser localStorage (Implemented in `js/world.js`)
 - [x] Load saved worlds
 - [x] Multiple world slots
 
-### 11. Advanced Graphics
+### 8. Advanced Graphics
 - [ ] Better shadows and lighting
 - [ ] Dynamic Lighting (Handheld torch light)
 - [ ] Particle effects (breaking blocks, water splash)
@@ -106,19 +88,14 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Sun/Moon rendering
 - [x] Block breaking animation (Basic progress bar implemented)
 
-### 12. Sound System
+### 9. Sound System
 - [ ] **Background Music**
 - [x] Block breaking sounds
 - [x] Footstep sounds
 - [x] Ambient sounds (water, wind) (Implemented in `js/audio.js`)
 - [x] Sound effects for actions
 
-### 13. Farming & Nature
-- [x] **Farming System (Hoe, Seeds, Wheat, Crops)**
-- [x] **Animal Breeding**
-- [x] **Fishing**
-
-### 14. Inventory Enhancements
+### 10. Inventory Enhancements
 - [ ] Quick item swap
 - [ ] Inventory sorting
 - [x] **Full Inventory UI** (Data implemented, UI missing)
@@ -128,13 +105,13 @@ This document outlines features that future agents should implement to enhance t
 
 ## Low Priority / Polish Features
 
-### 15. Advanced Gameplay
+### 11. Advanced Gameplay
 - [ ] Experience points and levels
 - [ ] Enchanting system
 - [ ] Potions and brewing
 - [x] Health regeneration (Implemented in `js/player.js`)
 
-### 16. Creative Mode Features
+### 12. Creative Mode Features
 - [ ] Unlimited blocks
 - [ ] Instant block breaking
 - [ ] No collision mode (noclip)
@@ -143,7 +120,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] World edit tools (copy, paste, fill) - Fill tool implemented
 - [x] Time control
 
-### 17. Performance Optimizations
+### 13. Performance Optimizations
 - [ ] LOD (Level of Detail) system
 - [ ] Worker threads for world generation
 - [ ] Better memory management
@@ -152,26 +129,26 @@ This document outlines features that future agents should implement to enhance t
 - [x] Frustum culling improvements
 - [x] Occlusion culling (Exposed Face Caching)
 
-### 18. Social Features
+### 14. Social Features
 - [ ] Screenshot system
 - [ ] Share world links
 - [ ] Leaderboards
 - [ ] World showcase gallery
 - [ ] Friends system
 
-### 19. Advanced Building Tools
+### 15. Advanced Building Tools
 - [ ] Copy/paste structures
 - [ ] Symmetry mode
 - [ ] Fill tool
 - [ ] Replace tool
 - [ ] Undo/redo system
 
-### 20. World Interaction (Misc)
+### 16. World Interaction (Misc)
 - [ ] Minecarts and rails
 - [ ] Boats
 - [ ] Signs and text
 
-### 21. Modding Support
+### 17. Modding Support
 - [ ] Plugin API
 - [ ] Custom block types
 - [ ] Custom mob types
@@ -181,21 +158,12 @@ This document outlines features that future agents should implement to enhance t
 
 ## Bugs & Maintenance
 
-### 22. Known Bugs & Issues
+### 18. Known Bugs & Issues
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 
-### 23. Multiplayer Support (Completed)
-- [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
-- [x] Player synchronization across clients
-- [x] Chat system
-- [x] Player name tags
-- [x] Server infrastructure (Node.js + WebSocket)
-- [x] Player spawn points
-- [x] Shared world state (Real-time sync only, no server-side persistence yet)
-
-### 24. Completed Fixes (History)
+### 19. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
 - [x] Fix Tree Generation at Chunk Boundaries
 - [x] Fix memory management strategy
@@ -231,6 +199,39 @@ This document outlines features that future agents should implement to enhance t
 - [x] Fix Infinite Blocks / Inventory Consumption on Placement
 - [x] Implement Water Flow Logic
 - [x] Implement Cactus Damage
+- [x] **Implement Stairs** (Placement logic, complex collision, visual models)
+- [x] **Implement Structure Manager** (System to spawn structures like Trees, Wells, Ruins)
+- [x] **Implement Basic Structure Generation** (Wells, Trees, Cacti)
+- [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
+- [x] **Implement Desert Biome** (Sand, Cactus)
+- [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
+- [x] **Smelting System (Furnace UI & Logic)**
+- [x] **Implement Recipe Book UI** (Show available recipes visually)
+- [x] Pickaxes (wood, stone, iron, diamond)
+- [x] Shovels for faster dirt/sand breaking
+- [x] Axes for faster wood breaking
+- [x] Swords for combat
+- [x] Tool durability system
+- [x] Different breaking speeds based on tool and block
+- [x] **Implement Tool Repair** (Crafting combination)
+- [x] Passive mobs (Cows, Pigs, Sheep implemented)
+- [x] Hostile mobs (zombies, skeletons, spiders)
+- [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
+- [x] Day/night spawn cycles
+- [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string, wool, mutton)
+- [x] Health and combat system (Player health, Mob damage)
+- [x] Mob animations (Simple billboard rendering)
+- [x] Sheep Mob (Fully implemented)
+- [x] Sprinting mechanic
+- [x] Fall damage
+- [x] Hunger system (Decay and starvation implemented)
+- [x] Eating/Food Consumption (Implemented, including sound)
+- [x] **Bed & Sleeping (Skip Night)**
+- [x] **Implement Doors** (Open/Close logic, models)
+- [x] **Implement Slabs** (Placement logic, half-block physics)
+- [x] **Implement Chests and Storage** (UI, persistence)
+- [x] Additional block types (brick, concrete, wool colors)
+- [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.
