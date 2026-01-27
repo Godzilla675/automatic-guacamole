@@ -7,7 +7,8 @@ class Physics {
         // Box: {x, y, z, width, height}
         const minX = Math.floor(box.x - box.width/2);
         const maxX = Math.floor(box.x + box.width/2);
-        const minY = Math.floor(box.y);
+        // Expand search down by 1 to catch 1.5 high fences
+        const minY = Math.floor(box.y) - 1;
         const maxY = Math.floor(box.y + box.height);
         const minZ = Math.floor(box.z - box.width/2);
         const maxZ = Math.floor(box.z + box.width/2);
@@ -22,6 +23,72 @@ class Physics {
                         if (blockDef.isDoor) {
                             const meta = this.world.getMetadata(x, y, z);
                             if (meta & 1) return false; // Open -> No collision
+                        }
+
+                        // Check for Trapdoors
+                        if (blockDef.isTrapdoor) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            if (meta & 1) return false; // Open -> No collision (simplified)
+                            // Closed -> Bottom 0.2 height
+                             const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            if (x < pMaxX && x + 1 > pMinX &&
+                                y < pMaxY && y + 0.2 > pMinY &&
+                                z < pMaxZ && z + 1 > pMinZ) {
+                                return true;
+                            }
+                            continue;
+                        }
+
+                        // Check for Fence/Gate
+                        if (blockDef.isFence || blockDef.isGate) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            if (blockDef.isGate && (meta & 1)) return false; // Open gate -> No collision
+
+                            // Fence/Closed Gate: 1.5 Height
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            // Center post collision approx (0.25 to 0.75)?
+                            // For simplicity, full width but 1.5 height for now to block movement effectively
+                            if (x < pMaxX && x + 1 > pMinX &&
+                                y < pMaxY && y + 1.5 > pMinY &&
+                                z < pMaxZ && z + 1 > pMinZ) {
+                                return true;
+                            }
+                            continue;
+                        }
+
+                        // Check for Glass Pane
+                        if (blockDef.isPane) {
+                             const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            // Center thin box (0.375 to 0.625)
+                            const tMinX = x + 0.375;
+                            const tMaxX = x + 0.625;
+                            const tMinZ = z + 0.375;
+                            const tMaxZ = z + 0.625;
+
+                            if (tMinX < pMaxX && tMaxX > pMinX &&
+                                y < pMaxY && y + 1 > pMinY &&
+                                tMinZ < pMaxZ && tMaxZ > pMinZ) {
+                                return true;
+                            }
+                            continue;
                         }
 
                         // Check for Stairs
@@ -145,6 +212,51 @@ class Physics {
                          if (hit) return { x, y, z, type: block, face: lastFace, dist: t };
                     }
                     // Else passes through empty part
+                } else if (blockDef.isTrapdoor) {
+                    const meta = this.world.getMetadata(x, y, z);
+                    const hx = origin.x + direction.x * t;
+                    const hy = origin.y + direction.y * t;
+                    const hz = origin.z + direction.z * t;
+                    const ry = hy - y;
+
+                    if (meta & 1) { // Open
+                        return { x, y, z, type: block, face: lastFace, dist: t }; // Full block for open for now
+                    } else { // Closed
+                        if (ry >= 0 && ry <= 0.2) return { x, y, z, type: block, face: lastFace, dist: t };
+                    }
+                } else if (blockDef.isFence || blockDef.isGate) {
+                    const meta = this.world.getMetadata(x, y, z);
+                    if (blockDef.isGate && (meta & 1)) {
+                         // Open gate - allow raycast to pass?
+                         // If we want to be able to close it, we must hit it.
+                         // But if we want to walk through and interact with blocks behind?
+                         // Let's treat it as side posts?
+                         // For simplicity, treat open gate as NO HIT (like air) except for the frame?
+                         // To close it, we might need to hit the frame.
+                         // Frame is at x or z edges.
+                         // Simplified: Treat open gate as AIR for raycast (interact with block below to close? No).
+                         // Treat as thin frame?
+                         return { x, y, z, type: block, face: lastFace, dist: t }; // Full Hit for now
+                    }
+                    const hx = origin.x + direction.x * t;
+                    const hz = origin.z + direction.z * t;
+                    const rx = hx - x;
+                    const rz = hz - z;
+                    // Center post 0.375 - 0.625
+                    if (rx >= 0.375 && rx <= 0.625 && rz >= 0.375 && rz <= 0.625) {
+                        return { x, y, z, type: block, face: lastFace, dist: t };
+                    }
+                    // TODO: Check connections?
+                    // For now, center post only.
+                } else if (blockDef.isPane) {
+                     const hx = origin.x + direction.x * t;
+                    const hz = origin.z + direction.z * t;
+                    const rx = hx - x;
+                    const rz = hz - z;
+                    // Center post/pane
+                    if ((rx >= 0.375 && rx <= 0.625) || (rz >= 0.375 && rz <= 0.625)) {
+                        return { x, y, z, type: block, face: lastFace, dist: t };
+                    }
                 } else {
                     return {
                         x, y, z,

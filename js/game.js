@@ -210,6 +210,26 @@ class Game {
              return true;
         }
 
+        // Trapdoors
+        if (blockDef.isTrapdoor) {
+            const meta = this.world.getMetadata(x, y, z);
+            const newMeta = meta ^ 1; // Toggle Bit 0
+            this.world.setMetadata(x, y, z, newMeta);
+            window.soundManager.play('break'); // Click sound
+            this.network.sendBlockUpdate(x, y, z, blockType);
+            return true;
+        }
+
+        // Fence Gates
+        if (blockDef.isGate) {
+            const meta = this.world.getMetadata(x, y, z);
+            const newMeta = meta ^ 1; // Toggle Bit 0
+            this.world.setMetadata(x, y, z, newMeta);
+            window.soundManager.play('break');
+            this.network.sendBlockUpdate(x, y, z, blockType);
+            return true;
+        }
+
         return false;
     }
 
@@ -534,6 +554,26 @@ class Game {
                      else meta = 0; // East
 
                      this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isGate) {
+                     // Gate Orientation
+                     let r = this.player.yaw % (2*Math.PI);
+                     if (r < 0) r += 2*Math.PI;
+                     // 0=South, PI/2=West, PI=North, 3PI/2=East
+                     // If looking North/South (Z axis), Gate should be East-West (X axis)?
+                     // Axis 0 = Z? Axis 1 = X?
+                     // Let's say Axis 0 = Z (along Z), Axis 1 = X (along X).
+                     // If looking North (PI), we want gate to block us, so gate runs East-West (X).
+                     // So if looking North/South, set Axis=1.
+                     let axis = 0;
+                     if ((r >= Math.PI/4 && r < 3*Math.PI/4) || (r >= 5*Math.PI/4 && r < 7*Math.PI/4)) {
+                         // Looking West or East -> Gate runs North-South (Z) -> Axis 0
+                         axis = 0;
+                     } else {
+                         // Looking North or South -> Gate runs East-West (X) -> Axis 1
+                         axis = 1;
+                     }
+                     // Bit 1 is axis
+                     this.world.setMetadata(nx, ny, nz, axis << 1);
                  }
                  window.soundManager.play('place');
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);

@@ -144,6 +144,126 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef.isFence) {
+                            // Center Post
+                            blocksToDraw.push({ type: b.type, rx, ry, rz: rz2, dist, light: chunk.getLight(b.x, b.y, b.z), metadata: 0, scaleX: 0.25, scaleY: 1, centered: true });
+
+                            // Check Neighbors
+                            const checkConnect = (nx, ny, nz) => {
+                                const nb = this.game.world.getBlock(nx, ny, nz);
+                                const nDef = BLOCKS[nb];
+                                return nDef && (nDef.solid || nDef.isFence || nDef.isGate);
+                            };
+
+                            // North (Z-1)
+                            if (checkConnect(wx, wy, wz - 1)) {
+                                const dz_off = -0.375;
+                                const rx_p = dx * cosY - (dz + dz_off) * sinY;
+                                const rz_p = dx * sinY + (dz + dz_off) * cosY;
+                                const ry_p = (dy + 0.25) * cosP - rz_p * sinP; // Raised slightly
+                                const rz2_p = (dy + 0.25) * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.2, scaleY: 0.2, isFenceConn: true });
+                            }
+                            // South (Z+1)
+                            if (checkConnect(wx, wy, wz + 1)) {
+                                const dz_off = 0.375;
+                                const rx_p = dx * cosY - (dz + dz_off) * sinY;
+                                const rz_p = dx * sinY + (dz + dz_off) * cosY;
+                                const ry_p = (dy + 0.25) * cosP - rz_p * sinP;
+                                const rz2_p = (dy + 0.25) * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.2, scaleY: 0.2, isFenceConn: true });
+                            }
+                            // West (X-1)
+                            if (checkConnect(wx - 1, wy, wz)) {
+                                const dx_off = -0.375;
+                                const rx_p = (dx + dx_off) * cosY - dz * sinY;
+                                const rz_p = (dx + dx_off) * sinY + dz * cosY;
+                                const ry_p = (dy + 0.25) * cosP - rz_p * sinP;
+                                const rz2_p = (dy + 0.25) * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.2, scaleY: 0.2, isFenceConn: true });
+                            }
+                            // East (X+1)
+                            if (checkConnect(wx + 1, wy, wz)) {
+                                const dx_off = 0.375;
+                                const rx_p = (dx + dx_off) * cosY - dz * sinY;
+                                const rz_p = (dx + dx_off) * sinY + dz * cosY;
+                                const ry_p = (dy + 0.25) * cosP - rz_p * sinP;
+                                const rz2_p = (dy + 0.25) * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.2, scaleY: 0.2, isFenceConn: true });
+                            }
+
+                        } else if (blockDef.isPane) {
+                             // Center Post
+                            blocksToDraw.push({ type: b.type, rx, ry, rz: rz2, dist, light: chunk.getLight(b.x, b.y, b.z), metadata: 0, scaleX: 0.25, scaleY: 1 });
+
+                            const checkConnect = (nx, ny, nz) => {
+                                const nb = this.game.world.getBlock(nx, ny, nz);
+                                const nDef = BLOCKS[nb];
+                                return nDef && (nDef.solid || nDef.isPane || nDef.isGlass);
+                            };
+
+                            // Draw extensions as flat panes (simplified as boxes)
+                            if (checkConnect(wx, wy, wz - 1)) {
+                                const dz_off = -0.375;
+                                const rx_p = dx * cosY - (dz + dz_off) * sinY;
+                                const rz_p = dx * sinY + (dz + dz_off) * cosY;
+                                const ry_p = dy * cosP - rz_p * sinP;
+                                const rz2_p = dy * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.1, scaleY: 1 });
+                            }
+                            if (checkConnect(wx, wy, wz + 1)) {
+                                const dz_off = 0.375;
+                                const rx_p = dx * cosY - (dz + dz_off) * sinY;
+                                const rz_p = dx * sinY + (dz + dz_off) * cosY;
+                                const ry_p = dy * cosP - rz_p * sinP;
+                                const rz2_p = dy * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.1, scaleY: 1 });
+                            }
+                             if (checkConnect(wx - 1, wy, wz)) {
+                                const dx_off = -0.375;
+                                const rx_p = (dx + dx_off) * cosY - dz * sinY;
+                                const rz_p = (dx + dx_off) * sinY + dz * cosY;
+                                const ry_p = dy * cosP - rz_p * sinP;
+                                const rz2_p = dy * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.1, scaleY: 1 });
+                            }
+                            if (checkConnect(wx + 1, wy, wz)) {
+                                const dx_off = 0.375;
+                                const rx_p = (dx + dx_off) * cosY - dz * sinY;
+                                const rz_p = (dx + dx_off) * sinY + dz * cosY;
+                                const ry_p = dy * cosP - rz_p * sinP;
+                                const rz2_p = dy * sinP + rz_p * cosP;
+                                if (rz2_p > 0.1) blocksToDraw.push({ type: b.type, rx: rx_p, ry: ry_p, rz: rz2_p, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.1, scaleY: 1 });
+                            }
+
+                        } else if (blockDef.isTrapdoor) {
+                             const meta = chunk.getMetadata(b.x, b.y, b.z);
+                             if (meta & 1) { // Open (Vertical)
+                                 // Shift to side? Simplified: Center vertical slab
+                                 blocksToDraw.push({ type: b.type, rx, ry, rz: rz2, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.2, scaleY: 1.0 });
+                             } else { // Closed (Bottom)
+                                 const ry_p = (dy - 0.4) * cosP - rz2 * sinP;
+                                 const rz2_p = (dy - 0.4) * sinP + rz2 * cosP;
+                                 blocksToDraw.push({ type: b.type, rx, ry: ry_p, rz: rz2, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 1.0, scaleY: 0.2 });
+                             }
+                        } else if (blockDef.isGate) {
+                             const meta = chunk.getMetadata(b.x, b.y, b.z);
+                             const open = meta & 1;
+                             const axis = (meta >> 1) & 1; // 0=X, 1=Z (Assumed)
+
+                             // Posts
+                             // Left/Right posts offset by 0.375
+                             // If axis=0 (X), posts at Z=-0.375 and Z=0.375? No, axis X means gate runs along X. Posts at X ends?
+                             // Usually gate connects to fences.
+                             // Let's assume Axis 0 = Aligned with Z (North/South), Axis 1 = Aligned with X.
+
+                             // Simplified: Just draw center part
+                             if (open) {
+                                 // Draw "open" doors
+                                 blocksToDraw.push({ type: b.type, rx, ry, rz: rz2, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 0.2, scaleY: 1.0 }); // Posts?
+                             } else {
+                                 blocksToDraw.push({ type: b.type, rx, ry, rz: rz2, dist, light: chunk.getLight(b.x, b.y, b.z), scaleX: 1.0, scaleY: 0.8 });
+                             }
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -179,7 +299,21 @@ class Renderer {
                  // We don't have exact face lighting here easily without normal data
                  // Just use the block type color
                  let drawHeight = size;
+                 let drawWidth = size; // Default width
                  let drawSy = sy;
+
+                 // Apply Scale
+                 if (b.scaleY) {
+                     drawHeight = size * b.scaleY;
+                     if (b.centered) {
+                         drawSy = sy;
+                     } else {
+                         drawSy = sy + (size - drawHeight) / 2; // Default bottom align
+                     }
+                 }
+                 if (b.scaleX) {
+                     drawWidth = size * b.scaleX;
+                 }
 
                  if (b.type === window.BLOCK.WATER) {
                      const time = Date.now() / 500;
@@ -218,7 +352,7 @@ class Renderer {
                  // let lightMult = b.light / 15;
                  // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
 
-                 ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
+                 ctx.fillRect(Math.floor(sx - drawWidth/2), Math.floor(drawSy - drawHeight/2), Math.ceil(drawWidth), Math.ceil(drawHeight));
                  ctx.globalAlpha = 1.0;
              }
         });

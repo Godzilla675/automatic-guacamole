@@ -87,6 +87,12 @@ const BLOCK = {
     STAIRS_WOOD: 80,
     STAIRS_COBBLESTONE: 81,
 
+    // New Features
+    FENCE: 90,
+    FENCE_GATE: 91,
+    GLASS_PANE: 92,
+    TRAPDOOR: 93,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -247,6 +253,12 @@ const BLOCKS = {
     // Stairs
     [BLOCK.STAIRS_WOOD]: { name: 'Wood Stairs', color: '#5C4033', solid: true, icon: '🪜', hardness: 2.0, tool: 'axe', isStair: true, transparent: true },
     [BLOCK.STAIRS_COBBLESTONE]: { name: 'Cobblestone Stairs', color: '#696969', solid: true, icon: '🪜', hardness: 2.0, tool: 'pickaxe', isStair: true, transparent: true },
+
+    // New Features
+    [BLOCK.FENCE]: { name: 'Fence', color: '#5C4033', solid: true, icon: '🚧', hardness: 2.0, tool: 'axe', isFence: true, transparent: true },
+    [BLOCK.FENCE_GATE]: { name: 'Fence Gate', color: '#5C4033', solid: true, icon: '🚪', hardness: 2.0, tool: 'axe', isGate: true, transparent: true },
+    [BLOCK.GLASS_PANE]: { name: 'Glass Pane', color: '#ADD8E6', solid: true, icon: '🪟', hardness: 0.3, isPane: true, transparent: true, drop: null },
+    [BLOCK.TRAPDOOR]: { name: 'Trapdoor', color: '#8B4513', solid: true, icon: '🚪', hardness: 3.0, tool: 'axe', isTrapdoor: true, transparent: true },
 
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },
