@@ -6,12 +6,12 @@ This document outlines features that future agents should implement to enhance t
 
 ### 1. New Building Blocks (Highest Priority)
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
-- [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
-- [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
-- [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
+- [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
+- [x] **Implement Trapdoors** (Open/close logic, physics)
 
 ### 2. Advanced World Generation
-- [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
+- [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
 - [ ] **Rivers and Lakes** (Hydrology system)
 - [x] Biomes (Implemented basic noise-based terrain)
 - [x] Caves and underground systems (3D Noise holes)
@@ -182,7 +182,7 @@ This document outlines features that future agents should implement to enhance t
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
-- [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 
