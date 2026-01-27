@@ -21,7 +21,33 @@ class Physics {
                         // Check for Doors
                         if (blockDef.isDoor) {
                             const meta = this.world.getMetadata(x, y, z);
-                            if (meta & 1) return false; // Open -> No collision
+                            if (meta & 4) continue; // Open -> No collision (Bit 2)
+
+                            // Closed Door Collision (Thin)
+                            const orientation = meta & 3;
+                            const thickness = 0.1875;
+
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            let dMinX = x, dMaxX = x + 1;
+                            let dMinZ = z, dMaxZ = z + 1;
+
+                            if (orientation === 0) dMinX = x + 1 - thickness; // East
+                            else if (orientation === 1) dMaxX = x + thickness; // West
+                            else if (orientation === 2) dMinZ = z + 1 - thickness; // South
+                            else if (orientation === 3) dMaxZ = z + thickness; // North
+
+                            if (dMinX < pMaxX && dMaxX > pMinX &&
+                                y < pMaxY && y + 1 > pMinY &&
+                                dMinZ < pMaxZ && dMaxZ > pMinZ) {
+                                return true;
+                            }
+                            continue; // Handled
                         }
 
                         // Check for Stairs

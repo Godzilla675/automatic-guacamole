@@ -144,6 +144,32 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef && blockDef.isDoor) {
+                             const meta = chunk.getMetadata(b.x, b.y, b.z);
+                             // Shift center based on orientation
+                             let offX = 0, offZ = 0;
+                             const orient = meta & 3;
+                             if (orient === 0) offX = 0.4; // East
+                             else if (orient === 1) offX = -0.4; // West
+                             else if (orient === 2) offZ = 0.4; // South
+                             else if (orient === 3) offZ = -0.4; // North
+
+                             const dx2 = dx + offX;
+                             const dz2 = dz + offZ;
+
+                             const rx2 = dx2 * cosY - dz2 * sinY;
+                             const rz2_door = dx2 * sinY + dz2 * cosY;
+                             const ry2 = dy * cosP - rz2_door * sinP;
+                             const rz2_door_depth = dy * sinP + rz2_door * cosP;
+
+                             blocksToDraw.push({
+                                 type: b.type,
+                                 rx: rx2, ry: ry2, rz: rz2_door_depth,
+                                 dist,
+                                 light: chunk.getLight(b.x, b.y, b.z),
+                                 metadata: meta,
+                                 isDoor: true
+                             });
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -209,7 +235,7 @@ class Renderer {
                      // Doors
                      if (blockDef.isDoor) {
                          const meta = b.metadata;
-                         if (meta & 1) { // Open
+                         if (meta & 4) { // Open (Bit 2)
                              ctx.globalAlpha = 0.2; // Transparent
                          }
                      }
