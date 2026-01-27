@@ -9,6 +9,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [ ] **Implement Birch Trees** (Wood, Leaves, Biome integration)
 
 ### 2. Advanced World Generation
 - [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
@@ -43,8 +44,10 @@ This document outlines features that future agents should implement to enhance t
 - [x] Tool durability system
 - [x] Different breaking speeds based on tool and block
 - [x] **Implement Tool Repair** (Crafting combination)
+- [ ] **Implement Tree Drops** (Saplings, Apples)
 
 ### 5. Mobs and AI
+- [ ] **Implement Villagers** (Model, AI, Trading interface)
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
@@ -185,6 +188,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
+- [ ] **Add `BLOCK.ITEM_BEEF` and update Cow drops**: Cows currently lack a meat drop.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
