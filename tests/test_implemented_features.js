@@ -32,7 +32,7 @@ function loadScript(filename) {
     dom.window.eval(content);
 }
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'drop.js', 'crafting.js', 'ui.js', 'input.js', 'chat.js', 'renderer.js', 'network.js', 'mob.js', 'player.js', 'game.js'].forEach(loadScript);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/Tree.js', 'structures/Cactus.js', 'structures/Well.js', 'structures.js', 'world.js', 'physics.js', 'drop.js', 'crafting.js', 'ui.js', 'input.js', 'chat.js', 'renderer.js', 'network.js', 'mob.js', 'player.js', 'game.js'].forEach(loadScript);
 
 describe('Implemented Features Tests', () => {
     let game;
