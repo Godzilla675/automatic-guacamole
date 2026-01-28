@@ -210,6 +210,16 @@ class Game {
              return true;
         }
 
+        // Fence Gates & Trapdoors
+        const def = window.BLOCKS[blockType];
+        if (def && (def.isFenceGate || def.isTrapdoor)) {
+            const meta = this.world.getMetadata(x, y, z);
+            const newMeta = meta ^ 4; // Toggle bit 2 (Open/Close)
+            this.world.setMetadata(x, y, z, newMeta);
+            window.soundManager.play('break'); // Click sound
+            return true;
+        }
+
         return false;
     }
 
@@ -522,8 +532,8 @@ class Game {
                  this.world.setBlock(nx, ny, nz, slot.type);
                  if (slot.type === BLOCK.WATER) {
                      this.world.setMetadata(nx, ny, nz, 8);
-                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isStair) {
-                     // Stairs Logic
+                 } else if (BLOCKS[slot.type] && (BLOCKS[slot.type].isStair || BLOCKS[slot.type].isFenceGate || BLOCKS[slot.type].isTrapdoor)) {
+                     // Orientation Logic (Stairs, Gates, Trapdoors)
                      let r = this.player.yaw % (2*Math.PI);
                      if (r < 0) r += 2*Math.PI;
 
