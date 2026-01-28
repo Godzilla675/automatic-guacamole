@@ -9,10 +9,13 @@ This document outlines features that future agents should implement to enhance t
 - [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [ ] **Implement Birch Wood & Leaves**
+- [ ] **Implement Top Slabs** (Placement logic & Physics)
 
 ### 2. Advanced World Generation
 - [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
 - [ ] **Rivers and Lakes** (Hydrology system)
+- [ ] **Generate Birch Trees**
 - [x] Biomes (Implemented basic noise-based terrain)
 - [x] Caves and underground systems (3D Noise holes)
 - [x] Ore generation (Coal, Iron, Gold, Diamond)
@@ -45,6 +48,8 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Implement Tool Repair** (Crafting combination)
 
 ### 5. Mobs and AI
+- [ ] **Implement Villagers**
+- [ ] **Implement Iron Golem**
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
