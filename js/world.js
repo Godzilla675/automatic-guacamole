@@ -162,9 +162,10 @@ class World {
                 // Don't flow sideways if falling? MC rule: if falling, doesn't spread sideways unless solid below.
                 continue;
             } else if (window.BLOCKS[belowType] && !window.BLOCKS[belowType].solid && belowType !== BLOCK.WATER) {
-                 // Wash away non-solid blocks (like grass)? For now just overwrite Air.
-                 // If it's not solid and not water, maybe replace it?
-                 // Simple version: only replace Air.
+                 // Wash away non-solid blocks (like grass, torches, flowers)
+                 this.setBlock(below.x, below.y, below.z, BLOCK.WATER);
+                 this.setMetadata(below.x, below.y, below.z, 7); // Falling water
+                 continue;
             }
 
             // 2. Flow Sideways (if blocked below)
