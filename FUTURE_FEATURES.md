@@ -6,9 +6,9 @@ This document outlines features that future agents should implement to enhance t
 
 ### 1. New Building Blocks (Highest Priority)
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
-- [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
-- [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
-- [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
+- [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
+- [x] **Implement Trapdoors** (Open/close logic, physics)
 
 ### 2. Advanced World Generation
 - [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)

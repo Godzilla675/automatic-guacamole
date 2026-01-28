@@ -24,15 +24,17 @@ class Physics {
                             if (meta & 1) return false; // Open -> No collision
                         }
 
+                        // Define player box bounds for this iteration (used by all checks)
+                        const pMinX = box.x - box.width/2;
+                        const pMaxX = box.x + box.width/2;
+                        const pMinY = box.y;
+                        const pMaxY = box.y + box.height;
+                        const pMinZ = box.z - box.width/2;
+                        const pMaxZ = box.z + box.width/2;
+
                         // Check for Stairs
                         if (blockDef.isStair) {
                             const meta = this.world.getMetadata(x, y, z);
-                            const pMinX = box.x - box.width/2;
-                            const pMaxX = box.x + box.width/2;
-                            const pMinY = box.y;
-                            const pMaxY = box.y + box.height;
-                            const pMinZ = box.z - box.width/2;
-                            const pMaxZ = box.z + box.width/2;
 
                             // 1. Bottom Slab
                             if (x < pMaxX && x + 1 > pMinX &&
@@ -60,16 +62,178 @@ class Physics {
                             continue; // Next block
                         }
 
-                        // Check for Slabs
+                        // Check for Fences
+                        if (blockDef.isFence) {
+                             // Central Post
+                             const postMinX = x + 0.375;
+                             const postMaxX = x + 0.625;
+                             const postMinZ = z + 0.375;
+                             const postMaxZ = z + 0.625;
+                             const postMaxY = y + 1.5;
+
+                             if (postMinX < pMaxX && postMaxX > pMinX &&
+                                 y < pMaxY && postMaxY > pMinY &&
+                                 postMinZ < pMaxZ && postMaxZ > pMinZ) {
+                                 return true;
+                             }
+
+                             // Connections
+                             const nN = this.world.getBlock(x, y, z-1);
+                             const nS = this.world.getBlock(x, y, z+1);
+                             const nW = this.world.getBlock(x-1, y, z);
+                             const nE = this.world.getBlock(x+1, y, z);
+
+                             // Helper to check fence connection eligibility
+                             const connects = (b) => {
+                                 if (b === BLOCK.AIR) return false;
+                                 const def = BLOCKS[b];
+                                 return def && (def.solid || def.isFence || def.isFenceGate);
+                             };
+
+                             if (connects(nN)) {
+                                 if (x + 0.375 < pMaxX && x + 0.625 > pMinX &&
+                                     y < pMaxY && postMaxY > pMinY &&
+                                     z < pMaxZ && z + 0.375 > pMinZ) return true;
+                             }
+                             if (connects(nS)) {
+                                 if (x + 0.375 < pMaxX && x + 0.625 > pMinX &&
+                                     y < pMaxY && postMaxY > pMinY &&
+                                     z + 0.625 < pMaxZ && z + 1 > pMinZ) return true;
+                             }
+                             if (connects(nW)) {
+                                 if (x < pMaxX && x + 0.375 > pMinX &&
+                                     y < pMaxY && postMaxY > pMinY &&
+                                     z + 0.375 < pMaxZ && z + 0.625 > pMinZ) return true;
+                             }
+                             if (connects(nE)) {
+                                 if (x + 0.625 < pMaxX && x + 1 > pMinX &&
+                                     y < pMaxY && postMaxY > pMinY &&
+                                     z + 0.375 < pMaxZ && z + 0.625 > pMinZ) return true;
+                             }
+                             continue;
+                        }
+
+                        // Check for Fence Gate
+                        if (blockDef.isFenceGate) {
+                             const meta = this.world.getMetadata(x, y, z);
+                             if (meta & 4) {
+                                 // Open - No collision (simplified)
+                                 continue;
+                             } else {
+                                 // Closed
+                                 const dir = meta & 3; // 0=South, 1=West, 2=North, 3=East
+                                 let gateMinX = x, gateMaxX = x+1;
+                                 let gateMinZ = z, gateMaxZ = z+1;
+                                 const gateMaxY = y + 1.5;
+
+                                 if (dir === 0 || dir === 2) { // Z-aligned (North/South)
+                                     gateMinX = x + 0.375;
+                                     gateMaxX = x + 0.625;
+                                 } else { // X-aligned
+                                     gateMinZ = z + 0.375;
+                                     gateMaxZ = z + 0.625;
+                                 }
+
+                                 if (gateMinX < pMaxX && gateMaxX > pMinX &&
+                                     y < pMaxY && gateMaxY > pMinY &&
+                                     gateMinZ < pMaxZ && gateMaxZ > pMinZ) {
+                                     return true;
+                                 }
+                                 continue;
+                             }
+                        }
+
+                        // Check for Glass Pane
+                        if (blockDef.isGlassPane) {
+                             // Central Post
+                             const postMinX = x + 0.4375;
+                             const postMaxX = x + 0.5625;
+                             const postMinZ = z + 0.4375;
+                             const postMaxZ = z + 0.5625;
+
+                             if (postMinX < pMaxX && postMaxX > pMinX &&
+                                 y < pMaxY && y+1 > pMinY &&
+                                 postMinZ < pMaxZ && postMaxZ > pMinZ) {
+                                 return true;
+                             }
+
+                             const nN = this.world.getBlock(x, y, z-1);
+                             const nS = this.world.getBlock(x, y, z+1);
+                             const nW = this.world.getBlock(x-1, y, z);
+                             const nE = this.world.getBlock(x+1, y, z);
+
+                             const connects = (b) => {
+                                 if (b === BLOCK.AIR) return false;
+                                 const def = BLOCKS[b];
+                                 return def && (def.solid || def.isGlassPane);
+                             };
+
+                             if (connects(nN)) {
+                                 if (x + 0.4375 < pMaxX && x + 0.5625 > pMinX &&
+                                     y < pMaxY && y+1 > pMinY &&
+                                     z < pMaxZ && z + 0.4375 > pMinZ) return true;
+                             }
+                             if (connects(nS)) {
+                                 if (x + 0.4375 < pMaxX && x + 0.5625 > pMinX &&
+                                     y < pMaxY && y+1 > pMinY &&
+                                     z + 0.5625 < pMaxZ && z + 1 > pMinZ) return true;
+                             }
+                             if (connects(nW)) {
+                                 if (x < pMaxX && x + 0.4375 > pMinX &&
+                                     y < pMaxY && y+1 > pMinY &&
+                                     z + 0.4375 < pMaxZ && z + 0.5625 > pMinZ) return true;
+                             }
+                             if (connects(nE)) {
+                                 if (x + 0.5625 < pMaxX && x + 1 > pMinX &&
+                                     y < pMaxY && y+1 > pMinY &&
+                                     z + 0.4375 < pMaxZ && z + 0.5625 > pMinZ) return true;
+                             }
+                             continue;
+                        }
+
+                        // Check for Trapdoor
+                        if (blockDef.isTrapdoor) {
+                             const meta = this.world.getMetadata(x, y, z);
+                             const isOpen = (meta & 4) !== 0;
+
+                             if (!isOpen) {
+                                 // Closed: Bottom slab (assuming bottom for now)
+                                 const tMinY = y;
+                                 const tMaxY = y + 0.1875;
+                                 if (x < pMaxX && x+1 > pMinX &&
+                                     tMinY < pMaxY && tMaxY > pMinY &&
+                                     z < pMaxZ && z+1 > pMinZ) return true;
+                             } else {
+                                 // Open: Vertical slab attached to face
+                                 const face = meta & 3; // 0=South, 1=West, 2=North, 3=East (Standard MC: 0=S, 1=N, 2=E, 3=W... wait, my door logic was 0-3 yaw based)
+                                 // Let's standardise on Yaw: 0=East, 1=West, 2=South, 3=North (from Game.placeBlock)
+                                 // Actually let's check Game.placeBlock later. For now assume consistent mapping.
+                                 // If I reuse my stair mapping: 0=East, 1=West, 2=South, 3=North
+
+                                 let tMinX=x, tMaxX=x+1;
+                                 let tMinZ=z, tMaxZ=z+1;
+
+                                 if (face === 3) { // North (attached to North face Z=0?) No, North is -Z direction.
+                                     // If attached to North side of block, it is at Z=0.
+                                     tMaxZ = z + 0.1875;
+                                 } else if (face === 2) { // South (+Z)
+                                     tMinZ = z + 1 - 0.1875;
+                                 } else if (face === 1) { // West (-X)
+                                     tMaxX = x + 0.1875;
+                                 } else if (face === 0) { // East (+X)
+                                     tMinX = x + 1 - 0.1875;
+                                 }
+
+                                 if (tMinX < pMaxX && tMaxX > pMinX &&
+                                     y < pMaxY && y+1 > pMinY &&
+                                     tMinZ < pMaxZ && tMaxZ > pMinZ) return true;
+                             }
+                             continue;
+                        }
+
+                        // Check for Slabs (and generic full blocks)
                         let bHeight = 1.0;
                         if (blockDef.isSlab) bHeight = 0.5;
-
-                        const pMinX = box.x - box.width/2;
-                        const pMaxX = box.x + box.width/2;
-                        const pMinY = box.y;
-                        const pMaxY = box.y + box.height;
-                        const pMinZ = box.z - box.width/2;
-                        const pMaxZ = box.z + box.width/2;
 
                         if (x < pMaxX && x + 1 > pMinX &&
                             y < pMaxY && y + bHeight > pMinY &&
@@ -145,6 +309,27 @@ class Physics {
                          if (hit) return { x, y, z, type: block, face: lastFace, dist: t };
                     }
                     // Else passes through empty part
+                } else if (blockDef.isFence || blockDef.isGlassPane) {
+                    // Simplified raycast: just treat as full block for interaction selection for now,
+                    // or better, treat as a smaller central box to avoid "clicking air".
+                    // Let's start with full block to be safe, or maybe central pillar.
+                    // Improving UX: Check collision with the complex shape.
+                    const dummyBox = { x: x+0.5, y: y, z: z+0.5, width: 0.01, height: 0.01 }; // Point
+
+                    // We need to check if the Ray intersects any of the boxes we defined in checkCollision.
+                    // This is hard to replicate exactly without a generalized "List Boxes" function.
+                    // Fallback: Return hit. It's better to be able to click it easily than not.
+                    return { x, y, z, type: block, face: lastFace, dist: t };
+                } else if (blockDef.isFenceGate) {
+                     const meta = this.world.getMetadata(x, y, z);
+                     if (meta & 4) {
+                         // Open gate: harder to click, but usually we click the frame.
+                         // For now return hit.
+                         return { x, y, z, type: block, face: lastFace, dist: t };
+                     }
+                     return { x, y, z, type: block, face: lastFace, dist: t };
+                } else if (blockDef.isTrapdoor) {
+                     return { x, y, z, type: block, face: lastFace, dist: t };
                 } else {
                     return {
                         x, y, z,

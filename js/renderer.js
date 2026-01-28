@@ -144,6 +144,104 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef && (blockDef.isFence || blockDef.isFenceGate || blockDef.isGlassPane || blockDef.isTrapdoor)) {
+                            // Complex Blocks
+
+                            const pushPart = (ox, oy, oz, sx, sy) => {
+                                const pdx = dx + ox;
+                                const pdy = dy + oy;
+                                const pdz = dz + oz;
+
+                                const prx = pdx * cosY - pdz * sinY;
+                                const prz = pdx * sinY + pdz * cosY;
+                                const pry = pdy * cosP - prz * sinP;
+                                const prz_d = pdy * sinP + prz * cosP;
+
+                                blocksToDraw.push({
+                                    type: b.type,
+                                    rx: prx, ry: pry, rz: prz_d,
+                                    dist: Math.sqrt(pdx*pdx + pdy*pdy + pdz*pdz),
+                                    light: chunk.getLight(b.x, b.y, b.z),
+                                    metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                    scaleX: sx, scaleY: sy
+                                });
+                            };
+
+                            if (blockDef.isFence) {
+                                // Post
+                                pushPart(0, 0, 0, 0.25, 1.0);
+
+                                // Connections
+                                const nN = this.game.world.getBlock(wx, wy, wz-1);
+                                const nS = this.game.world.getBlock(wx, wy, wz+1);
+                                const nW = this.game.world.getBlock(wx-1, wy, wz);
+                                const nE = this.game.world.getBlock(wx+1, wy, wz);
+
+                                const connects = (type) => {
+                                    if(!type) return false;
+                                    const d = window.BLOCKS[type];
+                                    return d && (d.solid || d.isFence || d.isFenceGate);
+                                };
+
+                                if (connects(nN)) pushPart(0, 0.25, -0.35, 0.2, 0.2);
+                                if (connects(nS)) pushPart(0, 0.25, 0.35, 0.2, 0.2);
+                                if (connects(nW)) pushPart(-0.35, 0.25, 0, 0.2, 0.2);
+                                if (connects(nE)) pushPart(0.35, 0.25, 0, 0.2, 0.2);
+                            }
+                            else if (blockDef.isGlassPane) {
+                                // Post
+                                pushPart(0, 0, 0, 0.15, 1.0);
+                                // Connections
+                                const nN = this.game.world.getBlock(wx, wy, wz-1);
+                                const nS = this.game.world.getBlock(wx, wy, wz+1);
+                                const nW = this.game.world.getBlock(wx-1, wy, wz);
+                                const nE = this.game.world.getBlock(wx+1, wy, wz);
+                                const connects = (type) => {
+                                    if(!type) return false;
+                                    const d = window.BLOCKS[type];
+                                    return d && (d.solid || d.isGlassPane);
+                                };
+                                if (connects(nN)) pushPart(0, 0, -0.35, 0.1, 0.8);
+                                if (connects(nS)) pushPart(0, 0, 0.35, 0.1, 0.8);
+                                if (connects(nW)) pushPart(-0.35, 0, 0, 0.1, 0.8);
+                                if (connects(nE)) pushPart(0.35, 0, 0, 0.1, 0.8);
+                            }
+                            else if (blockDef.isFenceGate) {
+                                const meta = chunk.getMetadata(b.x, b.y, b.z);
+                                const isOpen = meta & 4;
+                                const dir = meta & 3;
+
+                                if (dir === 1 || dir === 3) { // X-Axis
+                                     pushPart(-0.35, 0, 0, 0.2, 1.0);
+                                     pushPart(0.35, 0, 0, 0.2, 1.0);
+                                     if (!isOpen) pushPart(0, 0, 0, 0.5, 0.8);
+                                     else {
+                                         pushPart(-0.3, 0, 0.3, 0.2, 0.8);
+                                         pushPart(0.3, 0, 0.3, 0.2, 0.8);
+                                     }
+                                } else { // Z-Axis
+                                     pushPart(0, 0, -0.35, 0.2, 1.0);
+                                     pushPart(0, 0, 0.35, 0.2, 1.0);
+                                     if (!isOpen) pushPart(0, 0, 0, 0.5, 0.8);
+                                     else {
+                                          pushPart(0.3, 0, -0.3, 0.2, 0.8);
+                                          pushPart(0.3, 0, 0.3, 0.2, 0.8);
+                                     }
+                                }
+                            }
+                            else if (blockDef.isTrapdoor) {
+                                const meta = chunk.getMetadata(b.x, b.y, b.z);
+                                const isOpen = meta & 4;
+                                if (!isOpen) {
+                                    pushPart(0, -0.4, 0, 1.0, 0.2);
+                                } else {
+                                    const face = meta & 3;
+                                    if (face === 3) pushPart(0, 0, -0.4, 1.0, 1.0);
+                                    else if (face === 2) pushPart(0, 0, 0.4, 1.0, 1.0);
+                                    else if (face === 1) pushPart(-0.4, 0, 0, 1.0, 1.0);
+                                    else pushPart(0.4, 0, 0, 1.0, 1.0);
+                                }
+                            }
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -179,6 +277,10 @@ class Renderer {
                  // We don't have exact face lighting here easily without normal data
                  // Just use the block type color
                  let drawHeight = size;
+                 let drawWidth = size;
+                 if (b.scaleY !== undefined) drawHeight = size * b.scaleY;
+                 if (b.scaleX !== undefined) drawWidth = size * b.scaleX;
+
                  let drawSy = sy;
 
                  if (b.type === window.BLOCK.WATER) {
