@@ -182,9 +182,8 @@ This document outlines features that future agents should implement to enhance t
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
+- [ ] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
-- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
-- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
@@ -197,6 +196,8 @@ This document outlines features that future agents should implement to enhance t
 
 ### 24. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
+- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
+- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [x] Fix Tree Generation at Chunk Boundaries
 - [x] Fix memory management strategy
 - [x] Optimize render loop
