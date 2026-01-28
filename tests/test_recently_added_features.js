@@ -124,7 +124,7 @@ const load = (f) => {
     dom.window.eval(code);
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js', 'main.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/structure.js', 'structures/tree.js', 'structures/cactus.js', 'structures/well.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js', 'main.js'].forEach(load);
 
 describe('Recently Added Features Tests', () => {
     let game;
