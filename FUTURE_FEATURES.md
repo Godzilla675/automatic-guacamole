@@ -6,7 +6,7 @@ This document outlines features that future agents should implement to enhance t
 
 ### 1. New Building Blocks (Highest Priority)
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
-- [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
+- [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [ ] **Implement Trapdoors** (Open/close logic, physics)
 
