@@ -210,6 +210,15 @@ class Game {
              return true;
         }
 
+        // Fence Gates
+        if (window.BLOCKS[blockType] && window.BLOCKS[blockType].isFenceGate) {
+             const meta = this.world.getMetadata(x, y, z);
+             const newMeta = meta ^ 4; // Toggle bit 2
+             this.world.setMetadata(x, y, z, newMeta);
+             window.soundManager.play('break');
+             return true;
+        }
+
         return false;
     }
 
@@ -533,6 +542,23 @@ class Game {
                      else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
                      else meta = 0; // East
 
+                     this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isFenceGate) {
+                     // Fence Gate Logic
+                     let r = this.player.yaw % (2*Math.PI);
+                     if (r < 0) r += 2*Math.PI;
+
+                     let meta = 0;
+                     // East/West -> N-S aligned (0)
+                     // North/South -> E-W aligned (2)
+
+                     // East: PI/4 to 3PI/4
+                     // West: 5PI/4 to 7PI/4
+                     if ((r >= Math.PI/4 && r < 3*Math.PI/4) || (r >= 5*Math.PI/4 && r < 7*Math.PI/4)) {
+                         meta = 0;
+                     } else {
+                         meta = 2;
+                     }
                      this.world.setMetadata(nx, ny, nz, meta);
                  }
                  window.soundManager.play('place');

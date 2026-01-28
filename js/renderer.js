@@ -144,6 +144,69 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef.isFence) {
+                            // 1. Post
+                            blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                isFencePost: true
+                            });
+
+                            // Helper for connection
+                            // (Defined outside loop or inline optimized)
+                            const connects = (nx, ny, nz) => {
+                                const nb = this.game.world.getBlock(nx, ny, nz);
+                                if (nb === 0) return false;
+                                const ndef = window.BLOCKS[nb];
+                                if (!ndef) return false;
+                                if (ndef.isFence || ndef.isFenceGate) return true;
+                                if (ndef.solid && !ndef.transparent) return true;
+                                return false;
+                            };
+
+                            // 2. Connections
+                            // West (x-1)
+                            if (connects(wx-1, wy, wz)) {
+                                const dx2 = dx - 0.35;
+                                const rx2 = dx2 * cosY - dz * sinY;
+                                const rz2_c = dx2 * sinY + dz * cosY;
+                                blocksToDraw.push({ type: b.type, rx: rx2, ry, rz: rz2_c, dist, isFenceConn: true });
+                            }
+                            // East (x+1)
+                            if (connects(wx+1, wy, wz)) {
+                                const dx2 = dx + 0.35;
+                                const rx2 = dx2 * cosY - dz * sinY;
+                                const rz2_c = dx2 * sinY + dz * cosY;
+                                blocksToDraw.push({ type: b.type, rx: rx2, ry, rz: rz2_c, dist, isFenceConn: true });
+                            }
+                            // North (z-1)
+                            if (connects(wx, wy, wz-1)) {
+                                const dz2 = dz - 0.35;
+                                const rx2 = dx * cosY - dz2 * sinY;
+                                const rz2_c = dx * sinY + dz2 * cosY;
+                                blocksToDraw.push({ type: b.type, rx: rx2, ry, rz: rz2_c, dist, isFenceConn: true });
+                            }
+                            // South (z+1)
+                            if (connects(wx, wy, wz+1)) {
+                                const dz2 = dz + 0.35;
+                                const rx2 = dx * cosY - dz2 * sinY;
+                                const rz2_c = dx * sinY + dz2 * cosY;
+                                blocksToDraw.push({ type: b.type, rx: rx2, ry, rz: rz2_c, dist, isFenceConn: true });
+                            }
+
+                        } else if (blockDef.isFenceGate) {
+                             const meta = chunk.getMetadata(b.x, b.y, b.z);
+                             if (!(meta & 4)) { // Closed
+                                 blocksToDraw.push({
+                                    type: b.type,
+                                    rx, ry, rz: rz2,
+                                    dist,
+                                    light: chunk.getLight(b.x, b.y, b.z),
+                                    isFenceGate: true
+                                });
+                             }
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -212,6 +275,51 @@ class Renderer {
                          if (meta & 1) { // Open
                              ctx.globalAlpha = 0.2; // Transparent
                          }
+                     }
+                     // Fences
+                     if (b.isFencePost) {
+                         const dw = size * 0.25;
+                         ctx.fillRect(Math.floor(sx - dw/2), Math.floor(drawSy - drawHeight/2), Math.ceil(dw), Math.ceil(drawHeight));
+                         return;
+                     }
+                     if (b.isFenceConn) {
+                         const dw = size * 0.25; // Length of connection stub
+                         const dh = size * 0.15;
+                         // Shift Y down slightly (fence center is usually lower? No, middle)
+                         // 1.0 high post. Center is 0.5. Bar is at 0.5?
+                         // Current `sy` is center.
+                         const connSy = sy + size * 0.1; // Lower slightly
+                         ctx.fillRect(Math.floor(sx - dw/2), Math.floor(connSy - dh/2), Math.ceil(dw), Math.ceil(dh));
+                         return;
+                     }
+                     if (b.isFenceGate) {
+                         const meta = b.metadata;
+                         // 0,1 -> Z-aligned (runs N-S). Visual width (X) should be thin?
+                         // 2,3 -> X-aligned (runs E-W). Visual width (X) should be wide?
+                         // Wait, billboard always faces camera.
+                         // This engine draws 2D sprites.
+                         // If I look at a Z-aligned gate from the side (East), I see width 1.
+                         // If I look from front (South), I see width 1?
+                         // Actually, this billboard logic draws a square of size `size`.
+                         // `size` is based on distance.
+                         // It doesn't stretch based on view angle (no perspective distortion of shape).
+                         // So I can't make it look thin from side and wide from front easily.
+                         // I will just draw it slightly smaller/indented to look like a gate.
+
+                         const dw = size;
+                         const dh = size; // Full height
+
+                         // Draw a "Gate" pattern?
+                         // Or just draw it slightly transparent or different color?
+                         // It uses block color.
+
+                         // Let's just draw it as a block for now, but maybe with a hole?
+                         ctx.fillRect(Math.floor(sx - dw/2), Math.floor(drawSy - dh/2), Math.ceil(dw), Math.ceil(dh));
+
+                         // Draw a black line in middle to indicate opening split?
+                         ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                         ctx.fillRect(Math.floor(sx - 1), Math.floor(drawSy - dh/2), 2, Math.ceil(dh));
+                         return;
                      }
                  }
                  // We could adjust brightness by b.light (0-15)

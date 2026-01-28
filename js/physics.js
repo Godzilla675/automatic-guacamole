@@ -60,6 +60,85 @@ class Physics {
                             continue; // Next block
                         }
 
+                        // Check for Fences
+                        if (blockDef.isFence) {
+                            const cx = x + 0.5;
+                            const cz = z + 0.5;
+                            const hw = 0.125; // Half width of 0.25
+
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+
+                            // Height 1.5
+                            if (y < pMaxY && y + 1.5 > pMinY) {
+                                // Check Center Post
+                                if (box.x + box.width/2 > cx - hw && box.x - box.width/2 < cx + hw &&
+                                    box.z + box.width/2 > cz - hw && box.z - box.width/2 < cz + hw) {
+                                    return true;
+                                }
+
+                                // Check Connections
+                                // North (z-1)
+                                if (this.checkFenceConnection(x, y, z-1)) {
+                                     if (box.x + box.width/2 > cx - hw && box.x - box.width/2 < cx + hw &&
+                                         box.z + box.width/2 > z && box.z - box.width/2 < cz - hw) {
+                                         return true;
+                                     }
+                                }
+                                // South (z+1)
+                                if (this.checkFenceConnection(x, y, z+1)) {
+                                     if (box.x + box.width/2 > cx - hw && box.x - box.width/2 < cx + hw &&
+                                         box.z + box.width/2 > cz + hw && box.z - box.width/2 < z + 1) {
+                                         return true;
+                                     }
+                                }
+                                // West (x-1)
+                                if (this.checkFenceConnection(x-1, y, z)) {
+                                     if (box.x + box.width/2 > x && box.x - box.width/2 < cx - hw &&
+                                         box.z + box.width/2 > cz - hw && box.z - box.width/2 < cz + hw) {
+                                         return true;
+                                     }
+                                }
+                                // East (x+1)
+                                if (this.checkFenceConnection(x+1, y, z)) {
+                                     if (box.x + box.width/2 > cx + hw && box.x - box.width/2 < x + 1 &&
+                                         box.z + box.width/2 > cz - hw && box.z - box.width/2 < cz + hw) {
+                                         return true;
+                                     }
+                                }
+                            }
+                            continue;
+                        }
+
+                        // Check for Fence Gates
+                        if (blockDef.isFenceGate) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            if (meta & 4) continue; // Open -> No collision
+
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            if (y >= pMaxY || y + 1.5 <= pMinY) continue;
+
+                            const dir = meta & 3;
+                            let minBx, maxBx, minBz, maxBz;
+
+                            // 0=East, 1=West (Z-axis aligned gate)
+                            // 2=South, 3=North (X-axis aligned gate)
+                            if (dir === 0 || dir === 1) {
+                                minBx = x + 0.375; maxBx = x + 0.625;
+                                minBz = z; maxBz = z + 1;
+                            } else {
+                                minBx = x; maxBx = x + 1;
+                                minBz = z + 0.375; maxBz = z + 0.625;
+                            }
+
+                            if (box.x + box.width/2 > minBx && box.x - box.width/2 < maxBx &&
+                                box.z + box.width/2 > minBz && box.z - box.width/2 < maxBz) {
+                                return true;
+                            }
+                            continue;
+                        }
+
                         // Check for Slabs
                         let bHeight = 1.0;
                         if (blockDef.isSlab) bHeight = 0.5;
@@ -238,6 +317,16 @@ class Physics {
                 }
             }
         }
+        return false;
+    }
+
+    checkFenceConnection(x, y, z) {
+        const block = this.world.getBlock(x, y, z);
+        if (block === 0) return false;
+        const def = BLOCKS[block];
+        if (!def) return false;
+        if (def.isFence || def.isFenceGate) return true;
+        if (def.solid && !def.transparent) return true; // Connects to solid opaque blocks
         return false;
     }
 
