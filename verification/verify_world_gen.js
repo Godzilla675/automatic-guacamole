@@ -35,6 +35,10 @@ const scripts = [
     'js/blocks.js',
     'js/chunk.js',
     'js/biome.js',
+    'js/structures/structure.js',
+    'js/structures/tree.js',
+    'js/structures/cactus.js',
+    'js/structures/well.js',
     'js/structures.js',
     'js/world.js'
 ];

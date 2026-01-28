@@ -128,7 +128,9 @@ class Mob {
         switch(this.type) {
             case MOB_TYPE.COW:
                 if (Math.random() < 0.5) dropType = BLOCK.ITEM_LEATHER;
-                // else Meat? Not implemented yet
+                if (this.game.drops) {
+                     this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_BEEF, 1));
+                }
                 break;
             case MOB_TYPE.PIG:
                 dropType = BLOCK.ITEM_PORKCHOP;
