@@ -210,6 +210,17 @@ class Game {
              return true;
         }
 
+        // Fence Gates & Trapdoors
+        if ((window.BLOCKS[blockType] && window.BLOCKS[blockType].isFenceGate) ||
+            (window.BLOCKS[blockType] && window.BLOCKS[blockType].isTrapdoor)) {
+             const meta = this.world.getMetadata(x, y, z);
+             const newMeta = meta ^ 4; // Toggle bit 2
+             this.world.setMetadata(x, y, z, newMeta);
+
+             window.soundManager.play('break'); // Click sound (placeholder for open/close)
+             return true;
+        }
+
         return false;
     }
 
@@ -532,6 +543,31 @@ class Game {
                      else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
                      else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
                      else meta = 0; // East
+
+                     this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && (BLOCKS[slot.type].isFenceGate || BLOCKS[slot.type].isTrapdoor)) {
+                     // Gate/Trapdoor Logic
+                     let r = this.player.yaw % (2*Math.PI);
+                     if (r < 0) r += 2*Math.PI;
+
+                     let meta = 0;
+                     if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 2; // South
+                     else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
+                     else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
+                     else meta = 0; // East
+
+                     if (BLOCKS[slot.type].isTrapdoor) {
+                         // Check hit position for Top/Bottom
+                         // Reconstruct hit pos
+                         const eyePos = { x: this.player.x, y: this.player.y + this.player.height * 0.9, z: this.player.z };
+                         const hitPos = {
+                             x: eyePos.x + dir.x * hit.dist,
+                             y: eyePos.y + dir.y * hit.dist,
+                             z: eyePos.z + dir.z * hit.dist
+                         };
+                         const ry = hitPos.y - hit.y;
+                         if (ry > 0.5) meta |= 8; // Top half
+                     }
 
                      this.world.setMetadata(nx, ny, nz, meta);
                  }
