@@ -1,16 +1,17 @@
-# Future Features for Voxel World
+# Future Features & Tasks
 
-This document outlines features that future agents should implement to enhance the Minecraft clone game.
+This document outlines the priorities and workflow for all agents working on this repository.
 
-## High Priority Features
+## 1. High Priority: New Features
+*Focus on adding content and gameplay mechanics.*
 
-### 1. New Building Blocks (Highest Priority)
+### New Building Blocks
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
-- [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
+- [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
+- [x] **Implement Trapdoors** (Open/close logic, physics)
 - [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
-- [ ] **Implement Trapdoors** (Open/close logic, physics)
 
-### 2. Advanced World Generation
+### Advanced World Generation
 - [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
 - [ ] **Rivers and Lakes** (Hydrology system)
 - [x] Biomes (Implemented basic noise-based terrain)
@@ -24,7 +25,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Implement Desert Biome** (Sand, Cactus)
 - [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
 
-### 3. Crafting System
+### Crafting System
 - [ ] Crafting animations
 - [ ] Recipe discovery system
 - [x] Crafting table interface (UI implemented)
@@ -33,7 +34,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] **Smelting System (Furnace UI & Logic)**
 - [x] **Implement Recipe Book UI** (Show available recipes visually)
 
-### 4. Tools and Items
+### Tools and Items
 - [ ] **Implement Bow and Arrow** (Ranged combat)
 - [ ] **Implement Shield** (Blocking mechanic)
 - [x] Pickaxes (wood, stone, iron, diamond)
@@ -44,7 +45,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] Different breaking speeds based on tool and block
 - [x] **Implement Tool Repair** (Crafting combination)
 
-### 5. Mobs and AI
+### Mobs and AI
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
@@ -54,23 +55,32 @@ This document outlines features that future agents should implement to enhance t
 - [x] Mob animations (Simple billboard rendering)
 - [x] Sheep Mob (Fully implemented)
 
-### 6. Core Mechanics
+### Core Mechanics
 - [x] Sprinting mechanic
 - [x] Fall damage
 - [x] Hunger system (Decay and starvation implemented)
 - [x] Eating/Food Consumption (Implemented, including sound)
 - [x] **Bed & Sleeping (Skip Night)**
 
-### 7. Enhanced Building Blocks (Completed)
+### Enhanced Building Blocks
 - [x] **Implement Doors** (Open/Close logic, models)
 - [x] **Implement Slabs** (Placement logic, half-block physics)
 - [x] **Implement Chests and Storage** (UI, persistence)
 - [x] Additional block types (brick, concrete, wool colors)
 - [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 
-## Medium Priority Features
+## 2. Medium Priority: Bugs & Maintenance
+*Fix reported bugs and ensure stability.*
 
-### 8. User Interface Improvements
+- [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
+- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
+- [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
+
+## 3. Low Priority: Code Quality & Polish
+*Refactors, optimization, and minor UI improvements.*
+
+### User Interface Improvements
 - [ ] FOV Slider
 - [ ] Mouse Sensitivity Control
 - [ ] Minimap
@@ -82,59 +92,13 @@ This document outlines features that future agents should implement to enhance t
 - [x] Better mobile UI scaling
 - [x] Dynamic Crosshair
 
-### 9. Advanced Building Blocks (Remaining)
-- [ ] Decorative blocks
-- [ ] Redstone-like logic blocks
-
-### 10. World Saving/Loading
-- [ ] Export/import world data
-- [ ] Auto-save functionality
-- [x] Save world state to browser localStorage (Implemented in `js/world.js`)
-- [x] Load saved worlds
-- [x] Multiple world slots
-
-### 11. Advanced Graphics
-- [ ] Better shadows and lighting
-- [ ] Dynamic Lighting (Handheld torch light)
-- [ ] Particle effects (breaking blocks, water splash)
-- [ ] Ambient occlusion
-- [ ] Water animations and flow (Visuals implemented)
-- [ ] Weather effects (rain, snow)
-- [ ] Clouds
-- [ ] Better skybox
-- [ ] Head bobbing animation
-- [ ] Sun/Moon rendering
-- [x] Block breaking animation (Basic progress bar implemented)
-
-### 12. Sound System
-- [ ] **Background Music**
-- [x] Block breaking sounds
-- [x] Footstep sounds
-- [x] Ambient sounds (water, wind) (Implemented in `js/audio.js`)
-- [x] Sound effects for actions
-
-### 13. Farming & Nature
-- [x] **Farming System (Hoe, Seeds, Wheat, Crops)**
-- [x] **Animal Breeding**
-- [x] **Fishing**
-
-### 14. Inventory Enhancements
-- [ ] Quick item swap
-- [ ] Inventory sorting
-- [x] **Full Inventory UI** (Data implemented, UI missing)
-- [x] Drag and drop items
-- [x] Item stacking (Simple stacking implemented in drops)
-- [x] Hotbar number indicators
-
-## Low Priority / Polish Features
-
-### 15. Advanced Gameplay
+### Advanced Gameplay
 - [ ] Experience points and levels
 - [ ] Enchanting system
 - [ ] Potions and brewing
 - [x] Health regeneration (Implemented in `js/player.js`)
 
-### 16. Creative Mode Features
+### Creative Mode Features
 - [ ] Unlimited blocks
 - [ ] Instant block breaking
 - [ ] No collision mode (noclip)
@@ -143,7 +107,7 @@ This document outlines features that future agents should implement to enhance t
 - [x] World edit tools (copy, paste, fill) - Fill tool implemented
 - [x] Time control
 
-### 17. Performance Optimizations
+### Performance Optimizations
 - [ ] LOD (Level of Detail) system
 - [ ] Worker threads for world generation
 - [ ] Better memory management
@@ -152,26 +116,26 @@ This document outlines features that future agents should implement to enhance t
 - [x] Frustum culling improvements
 - [x] Occlusion culling (Exposed Face Caching)
 
-### 18. Social Features
+### Social Features
 - [ ] Screenshot system
 - [ ] Share world links
 - [ ] Leaderboards
 - [ ] World showcase gallery
 - [ ] Friends system
 
-### 19. Advanced Building Tools
+### Advanced Building Tools
 - [ ] Copy/paste structures
 - [ ] Symmetry mode
 - [ ] Fill tool
 - [ ] Replace tool
 - [ ] Undo/redo system
 
-### 20. World Interaction (Misc)
+### World Interaction (Misc)
 - [ ] Minecarts and rails
 - [ ] Boats
 - [ ] Signs and text
 
-### 21. Modding Support
+### Modding Support
 - [ ] Plugin API
 - [ ] Custom block types
 - [ ] Custom mob types
@@ -179,23 +143,7 @@ This document outlines features that future agents should implement to enhance t
 - [ ] Resource pack support
 - [ ] Texture customization
 
-## Bugs & Maintenance
-
-### 22. Known Bugs & Issues
-- [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
-- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
-- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
-
-### 23. Multiplayer Support (Completed)
-- [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
-- [x] Player synchronization across clients
-- [x] Chat system
-- [x] Player name tags
-- [x] Server infrastructure (Node.js + WebSocket)
-- [x] Player spawn points
-- [x] Shared world state (Real-time sync only, no server-side persistence yet)
-
-### 24. Completed Fixes (History)
+## Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
 - [x] Fix Tree Generation at Chunk Boundaries
 - [x] Fix memory management strategy
