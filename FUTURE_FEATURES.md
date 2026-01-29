@@ -183,6 +183,7 @@ This document outlines features that future agents should implement to enhance t
 
 ### 22. Known Bugs & Issues
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [ ] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 
