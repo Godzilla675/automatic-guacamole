@@ -144,6 +144,165 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef.isFence) {
+                            // Center Post
+                            blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                widthRatio: 0.25, heightRatio: 1.0
+                            });
+
+                            // Connections
+                            const neighbors = [
+                                { dx: 1, dz: 0, offX: 0.3, offZ: 0 }, // East
+                                { dx: -1, dz: 0, offX: -0.3, offZ: 0 }, // West
+                                { dx: 0, dz: 1, offX: 0, offZ: 0.3 }, // South
+                                { dx: 0, dz: -1, offX: 0, offZ: -0.3 } // North
+                            ];
+
+                            neighbors.forEach(n => {
+                                const nb = this.game.world.getBlock(wx + n.dx, wy, wz + n.dz);
+                                const nDef = window.BLOCKS[nb];
+                                if (nb !== 0 && (nDef.solid || nDef.isFence || nDef.isFenceGate)) {
+                                    // Draw connection
+                                    const cdx = dx + n.offX;
+                                    const cdy = dy - 0.2; // Slightly lower
+                                    const cdz = dz + n.offZ;
+
+                                    const crx = cdx * cosY - cdz * sinY;
+                                    const crz = cdx * sinY + cdz * cosY;
+                                    const cry = cdy * cosP - crz * sinP;
+                                    const crz2 = cdy * sinP + crz * cosP;
+
+                                    blocksToDraw.push({
+                                        type: b.type,
+                                        rx: crx, ry: cry, rz: crz2,
+                                        dist,
+                                        light: chunk.getLight(b.x, b.y, b.z),
+                                        widthRatio: 0.2, heightRatio: 0.2
+                                    });
+                                }
+                            });
+
+                        } else if (blockDef.isFenceGate) {
+                             const meta = chunk.getMetadata(b.x, b.y, b.z);
+                             const isOpen = meta & 4;
+                             const dir = meta & 3; // 0=S, 1=W, 2=N, 3=E (Orientation)
+
+                             // Draw Posts? Or just the gate?
+                             // Let's draw a central gate block
+                             let width = 1.0;
+                             let depth = 0.25;
+                             let offX = 0, offZ = 0;
+
+                             // If closed, it spans
+                             // If open, it swings
+                             if (!isOpen) {
+                                 // Closed
+                                 blocksToDraw.push({
+                                     type: b.type,
+                                     rx, ry, rz: rz2,
+                                     dist,
+                                     widthRatio: 1.0, heightRatio: 0.8 // Slightly shorter
+                                 });
+                             } else {
+                                 // Open - Draw shifted/rotated?
+                                 // We can't rotate geometry, so just draw it offset
+                                 // Shift to side
+                                 blocksToDraw.push({
+                                    type: b.type,
+                                    rx, ry, rz: rz2,
+                                    dist,
+                                    widthRatio: 0.25, heightRatio: 0.8
+                                });
+                             }
+
+                        } else if (blockDef.isTrapdoor) {
+                             const meta = chunk.getMetadata(b.x, b.y, b.z);
+                             const isOpen = meta & 4;
+                             const isTop = meta & 8;
+                             const dir = meta & 3;
+
+                             if (!isOpen) {
+                                 // Closed: Slab at top or bottom
+                                 let tdy = dy;
+                                 if (isTop) tdy = dy + 0.4; // Top
+                                 else tdy = dy - 0.4; // Bottom
+
+                                 const trx = dx * cosY - dz * sinY;
+                                 const trz = dx * sinY + dz * cosY;
+                                 const try_ = tdy * cosP - trz * sinP;
+                                 const trz2 = tdy * sinP + trz * cosP;
+
+                                 blocksToDraw.push({
+                                     type: b.type,
+                                     rx: trx, ry: try_, rz: trz2,
+                                     dist,
+                                     widthRatio: 1.0, heightRatio: 0.2
+                                 });
+                             } else {
+                                 // Open: Vertical slab on side
+                                 // Approximate with a thin vertical block
+                                 let tdx = dx, tdz = dz;
+                                 if (dir === 0) tdx += 0.4;
+                                 else if (dir === 1) tdx -= 0.4;
+                                 else if (dir === 2) tdz += 0.4;
+                                 else if (dir === 3) tdz -= 0.4;
+
+                                 const trx = tdx * cosY - tdz * sinY;
+                                 const trz = tdx * sinY + tdz * cosY;
+                                 const try_ = dy * cosP - trz * sinP;
+                                 const trz2 = dy * sinP + trz * cosP;
+
+                                 blocksToDraw.push({
+                                     type: b.type,
+                                     rx: trx, ry: try_, rz: trz2,
+                                     dist,
+                                     widthRatio: 0.2, heightRatio: 1.0
+                                 });
+                             }
+                        } else if (blockDef.isPane) {
+                             // Center
+                            blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                widthRatio: 0.25, heightRatio: 1.0
+                            });
+                             // Connections
+                            const neighbors = [
+                                { dx: 1, dz: 0, offX: 0.3, offZ: 0 },
+                                { dx: -1, dz: 0, offX: -0.3, offZ: 0 },
+                                { dx: 0, dz: 1, offX: 0, offZ: 0.3 },
+                                { dx: 0, dz: -1, offX: 0, offZ: -0.3 }
+                            ];
+                            neighbors.forEach(n => {
+                                const nb = this.game.world.getBlock(wx + n.dx, wy, wz + n.dz);
+                                const nDef = window.BLOCKS[nb];
+                                if (nb !== 0 && (nDef.solid || nDef.isPane)) {
+                                    const cdx = dx + n.offX;
+                                    const cdy = dy;
+                                    const cdz = dz + n.offZ;
+
+                                    const crx = cdx * cosY - cdz * sinY;
+                                    const crz = cdx * sinY + cdz * cosY;
+                                    const cry = cdy * cosP - crz * sinP;
+                                    const crz2 = cdy * sinP + crz * cosP;
+
+                                    blocksToDraw.push({
+                                        type: b.type,
+                                        rx: crx, ry: cry, rz: crz2,
+                                        dist,
+                                        light: chunk.getLight(b.x, b.y, b.z),
+                                        widthRatio: 0.25, heightRatio: 1.0
+                                    });
+                                }
+                            });
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -178,7 +337,8 @@ class Renderer {
                  // Basic lighting from chunk data + distance fog
                  // We don't have exact face lighting here easily without normal data
                  // Just use the block type color
-                 let drawHeight = size;
+                 let drawHeight = size * (b.heightRatio || 1.0);
+                 let drawWidth = size * (b.widthRatio || 1.0);
                  let drawSy = sy;
 
                  if (b.type === window.BLOCK.WATER) {
@@ -203,8 +363,15 @@ class Renderer {
                      }
                      // Stairs
                      if (blockDef.isStair) {
-                         drawHeight = size * 0.5;
-                         drawSy = sy; // Already centered by loop calculation
+                         // drawHeight calculated in logic above? No, logic above splits into parts.
+                         // But for existing code compat:
+                         if (b.isStairPart) {
+                              drawHeight = size * 0.5;
+                         } else {
+                             // Fallback for simple stair render if any
+                             drawHeight = size * 0.5;
+                             drawSy = sy;
+                         }
                      }
                      // Doors
                      if (blockDef.isDoor) {
@@ -218,7 +385,7 @@ class Renderer {
                  // let lightMult = b.light / 15;
                  // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
 
-                 ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
+                 ctx.fillRect(Math.floor(sx - drawWidth/2), Math.floor(drawSy - drawHeight/2), Math.ceil(drawWidth), Math.ceil(drawHeight));
                  ctx.globalAlpha = 1.0;
              }
         });
