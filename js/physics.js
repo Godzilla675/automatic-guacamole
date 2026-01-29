@@ -21,7 +21,34 @@ class Physics {
                         // Check for Doors
                         if (blockDef.isDoor) {
                             const meta = this.world.getMetadata(x, y, z);
-                            if (meta & 1) return false; // Open -> No collision
+                            if (meta & 4) return false; // Open -> No collision (Bit 2)
+
+                            // Closed Door Collision (Thin Slab)
+                            const thickness = 0.1875;
+                            const orient = meta & 3; // Bits 0-1
+
+                            // Default full block if unknown, but let's try to match orientation
+                            let dMinX = x, dMaxX = x + 1;
+                            let dMinZ = z, dMaxZ = z + 1;
+
+                            if (orient === 0) dMaxX = x + thickness; // West Side (Face East?)
+                            else if (orient === 1) dMinX = x + 1 - thickness; // East Side
+                            else if (orient === 2) dMaxZ = z + thickness; // North Side
+                            else if (orient === 3) dMinZ = z + 1 - thickness; // South Side
+
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            if (dMinX < pMaxX && dMaxX > pMinX &&
+                                y < pMaxY && y + 1 > pMinY &&
+                                dMinZ < pMaxZ && dMaxZ > pMinZ) {
+                                return true;
+                            }
+                            continue; // Processed door, move to next block
                         }
 
                         // Check for Stairs
