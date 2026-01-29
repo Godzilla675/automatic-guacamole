@@ -44,6 +44,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Tool durability system
 - [x] Different breaking speeds based on tool and block
 - [x] **Implement Tool Repair** (Crafting combination)
+- [x] **Implement Fishing Mechanic** (Fishing Rod, Bobber physics, catching fish)
 
 ### Mobs and AI
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
@@ -54,6 +55,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
 - [x] Sheep Mob (Fully implemented)
+- [ ] **Implement Taming** (Wolves, Ocelots)
 
 ### Core Mechanics
 - [x] Sprinting mechanic
@@ -97,6 +99,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] Enchanting system
 - [ ] Potions and brewing
 - [x] Health regeneration (Implemented in `js/player.js`)
+- [ ] **Implement Redstone Circuits** (Wire, Torch, Power logic)
 
 ### Creative Mode Features
 - [ ] Unlimited blocks
