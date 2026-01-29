@@ -210,6 +210,15 @@ class Game {
              return true;
         }
 
+        // Fence Gates & Trapdoors
+        if (window.BLOCKS[blockType] && (window.BLOCKS[blockType].isFenceGate || window.BLOCKS[blockType].isTrapdoor)) {
+             const meta = this.world.getMetadata(x, y, z);
+             const newMeta = meta ^ 4; // Toggle Bit 2 (Open/Close)
+             this.world.setMetadata(x, y, z, newMeta);
+             window.soundManager.play('break'); // Click sound
+             return true;
+        }
+
         return false;
     }
 
@@ -432,7 +441,12 @@ class Game {
             y: -Math.sin(this.player.pitch),
             z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
         };
-        const hit = this.physics.raycast(this.player, dir, 5);
+        const eyePos = {
+            x: this.player.x,
+            y: this.player.y + this.player.height * 0.9,
+            z: this.player.z
+        };
+        const hit = this.physics.raycast(eyePos, dir, 5);
         if (hit && hit.face) {
             const nx = hit.x + hit.face.x;
             const ny = hit.y + hit.face.y;
@@ -532,6 +546,46 @@ class Game {
                      else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
                      else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
                      else meta = 0; // East
+
+                     this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isFenceGate) {
+                     // Fence Gate Orientation
+                     let r = this.player.yaw % (2*Math.PI);
+                     if (r < 0) r += 2*Math.PI;
+                     let meta = 0;
+                     if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 2; // South
+                     else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
+                     else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
+                     else meta = 0; // East
+                     this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isTrapdoor) {
+                     // Trapdoor Orientation & Top/Bottom
+                     let r = this.player.yaw % (2*Math.PI);
+                     if (r < 0) r += 2*Math.PI;
+                     let meta = 0;
+                     if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 2; // South
+                     else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
+                     else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
+                     else meta = 0; // East
+
+                     // Determine Top/Bottom based on hit point
+                     // Re-calculate hit point
+                     const hitY = eyePos.y + dir.y * hit.dist;
+                     const relY = hitY - Math.floor(hitY);
+                     // If we hit the side of a block, relY is relevant.
+                     // If we hit the top/bottom of a block, relY is ~0 or ~1.
+                     // If we hit Top of block (face.y = 1), we are placing on top. usually bottom trapdoor.
+                     // If we hit Bottom of block (face.y = -1), we are placing on bottom. usually top trapdoor.
+
+                     if (hit.face.y === 1) {
+                         // Placed on top of block -> Bottom Trapdoor
+                     } else if (hit.face.y === -1) {
+                         // Placed on bottom of block -> Top Trapdoor
+                         meta |= 8;
+                     } else {
+                         // Placed on side
+                         if (relY > 0.5) meta |= 8; // Top half
+                     }
 
                      this.world.setMetadata(nx, ny, nz, meta);
                  }

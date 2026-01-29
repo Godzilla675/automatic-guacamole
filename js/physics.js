@@ -7,7 +7,7 @@ class Physics {
         // Box: {x, y, z, width, height}
         const minX = Math.floor(box.x - box.width/2);
         const maxX = Math.floor(box.x + box.width/2);
-        const minY = Math.floor(box.y);
+        const minY = Math.floor(box.y) - 1; // Check one block below for tall blocks (Fences)
         const maxY = Math.floor(box.y + box.height);
         const minZ = Math.floor(box.z - box.width/2);
         const maxZ = Math.floor(box.z + box.width/2);
@@ -22,6 +22,75 @@ class Physics {
                         if (blockDef.isDoor) {
                             const meta = this.world.getMetadata(x, y, z);
                             if (meta & 1) return false; // Open -> No collision
+                        }
+
+                        // Check for Fences and Fence Gates
+                        if (blockDef.isFence || blockDef.isFenceGate) {
+                             const meta = this.world.getMetadata(x, y, z);
+                             if (blockDef.isFenceGate && (meta & 4)) continue; // Open Gate -> Pass through
+
+                             const pMinY = box.y;
+                             const pMaxY = box.y + box.height;
+                             // Fence height is 1.5
+                             if (y < pMaxY && y + 1.5 > pMinY) {
+                                 const pMinX = box.x - box.width/2;
+                                 const pMaxX = box.x + box.width/2;
+                                 const pMinZ = box.z - box.width/2;
+                                 const pMaxZ = box.z + box.width/2;
+
+                                 // Full width collision for simplicity, effectively a 1.5 high block
+                                 if (x < pMaxX && x + 1 > pMinX &&
+                                     z < pMaxZ && z + 1 > pMinZ) {
+                                     return true;
+                                 }
+                             }
+                             continue;
+                        }
+
+                        // Check for Trapdoors
+                        if (blockDef.isTrapdoor) {
+                             const meta = this.world.getMetadata(x, y, z);
+                             const open = meta & 4;
+                             if (open) continue; // Simplified: Open trapdoor = no collision
+
+                             const top = meta & 8;
+                             const thickness = 0.1875;
+                             let tMinY = y;
+                             let tMaxY = y + thickness;
+                             if (top) {
+                                 tMinY = y + 1.0 - thickness;
+                                 tMaxY = y + 1.0;
+                             }
+
+                             const pMinY = box.y;
+                             const pMaxY = box.y + box.height;
+
+                             if (tMinY < pMaxY && tMaxY > pMinY) {
+                                 const pMinX = box.x - box.width/2;
+                                 const pMaxX = box.x + box.width/2;
+                                 const pMinZ = box.z - box.width/2;
+                                 const pMaxZ = box.z + box.width/2;
+                                 if (x < pMaxX && x + 1 > pMinX && z < pMaxZ && z + 1 > pMinZ) return true;
+                             }
+                             continue;
+                        }
+
+                        // Check for Panes
+                        if (blockDef.isPane) {
+                             const pMinX = box.x - box.width/2;
+                             const pMaxX = box.x + box.width/2;
+                             const pMinZ = box.z - box.width/2;
+                             const pMaxZ = box.z + box.width/2;
+                             const pMinY = box.y;
+                             const pMaxY = box.y + box.height;
+
+                             // Center collision only (0.25 thickness)
+                             if (x + 0.375 < pMaxX && x + 0.625 > pMinX &&
+                                 y < pMaxY && y + 1 > pMinY &&
+                                 z + 0.375 < pMaxZ && z + 0.625 > pMinZ) {
+                                 return true;
+                             }
+                             continue;
                         }
 
                         // Check for Stairs
@@ -121,6 +190,55 @@ class Physics {
                          return { x, y, z, type: block, face: lastFace, dist: t };
                     }
                     // Else, continue raycast (it passes through top half)
+                } else if (blockDef.isFence || blockDef.isFenceGate) {
+                     // Check height (1.5)
+                     const hy = origin.y + direction.y * t;
+                     const ry = hy - y;
+
+                     if (ry >= 0 && ry <= 1.5) {
+                         // Simplify to full block width for raycast selection for now
+                         return { x, y, z, type: block, face: lastFace, dist: t };
+                     }
+                } else if (blockDef.isTrapdoor) {
+                     const meta = this.world.getMetadata(x, y, z);
+                     const open = meta & 4;
+                     const top = meta & 8;
+
+                     // Raycast for trapdoor is complex if we want perfect shape match.
+                     // Simplified: Check full block if closed? No, let's try to match thickness.
+                     const thickness = 0.1875;
+                     let tMinY = 0, tMaxY = thickness;
+                     if (top) { tMinY = 1.0 - thickness; tMaxY = 1.0; }
+
+                     const hy = origin.y + direction.y * t;
+                     const ry = hy - y;
+
+                     if (open) {
+                         // Open trapdoor rests on side of block.
+                         // Too complex for simple raycast update right now without exact orientation logic.
+                         // Fallback to full block selection so it's usable.
+                         return { x, y, z, type: block, face: lastFace, dist: t };
+                     } else {
+                         if (ry >= tMinY && ry <= tMaxY) {
+                             return { x, y, z, type: block, face: lastFace, dist: t };
+                         }
+                     }
+                } else if (blockDef.isPane) {
+                     // Center pane check
+                     const hx = origin.x + direction.x * t;
+                     const hz = origin.z + direction.z * t;
+                     const rx = hx - x;
+                     const rz = hz - z;
+
+                     if (rx >= 0.375 && rx <= 0.625 && rz >= 0.375 && rz <= 0.625) {
+                         return { x, y, z, type: block, face: lastFace, dist: t };
+                     }
+                     // Also check connections?
+                     // For now, if you aim at the center post, you hit it.
+                     // Making it slightly easier to hit:
+                     if (rx >= 0.3 && rx <= 0.7 && rz >= 0.3 && rz <= 0.7) {
+                          return { x, y, z, type: block, face: lastFace, dist: t };
+                     }
                 } else if (blockDef.isStair) {
                     // Hit point
                     const hx = origin.x + direction.x * t;

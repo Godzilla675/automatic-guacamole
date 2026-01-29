@@ -144,6 +144,94 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef.isFence || blockDef.isFenceGate) {
+                             const meta = chunk.getMetadata(b.x, b.y, b.z);
+
+                             // Center Post
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: meta,
+                                isFencePart: 'center'
+                             });
+
+                             if (blockDef.isFence) {
+                                 const neighbors = [
+                                     {dx: 1, dz: 0}, {dx: -1, dz: 0},
+                                     {dx: 0, dz: 1}, {dx: 0, dz: -1}
+                                 ];
+                                 for(let n of neighbors) {
+                                     const nb = this.game.world.getBlock(wx + n.dx, wy, wz + n.dz);
+                                     const nbDef = window.BLOCKS[nb];
+                                     if (nbDef && (nbDef.solid || nbDef.isFence || nbDef.isFenceGate)) {
+                                         // Connection
+                                         const offX = n.dx * 0.35;
+                                         const offZ = n.dz * 0.35;
+                                         const dx3 = dx + offX;
+                                         const dz3 = dz + offZ;
+                                         const rx3 = dx3 * cosY - dz3 * sinY;
+                                         const rz3 = dx3 * sinY + dz3 * cosY;
+                                         const ry3 = dy * cosP - rz3 * sinP;
+                                         const rz3_depth = dy * sinP + rz3 * cosP;
+
+                                         blocksToDraw.push({
+                                            type: b.type,
+                                            rx: rx3, ry: ry3, rz: rz3_depth,
+                                            dist,
+                                            light: chunk.getLight(b.x, b.y, b.z),
+                                            isFencePart: 'connection'
+                                        });
+                                     }
+                                 }
+                             }
+                        } else if (blockDef.isPane) {
+                             // Center Pane
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                isPanePart: 'center'
+                             });
+
+                             const neighbors = [
+                                 {dx: 1, dz: 0}, {dx: -1, dz: 0},
+                                 {dx: 0, dz: 1}, {dx: 0, dz: -1}
+                             ];
+                             for(let n of neighbors) {
+                                 const nb = this.game.world.getBlock(wx + n.dx, wy, wz + n.dz);
+                                 const nbDef = window.BLOCKS[nb];
+                                 if (nbDef && (nbDef.solid || nbDef.isPane || nbDef.isFenceGate)) {
+                                     // Connection
+                                     const offX = n.dx * 0.35;
+                                     const offZ = n.dz * 0.35;
+                                     const dx3 = dx + offX;
+                                     const dz3 = dz + offZ;
+                                     const rx3 = dx3 * cosY - dz3 * sinY;
+                                     const rz3 = dx3 * sinY + dz3 * cosY;
+                                     const ry3 = dy * cosP - rz3 * sinP;
+                                     const rz3_depth = dy * sinP + rz3 * cosP;
+
+                                     blocksToDraw.push({
+                                        type: b.type,
+                                        rx: rx3, ry: ry3, rz: rz3_depth,
+                                        dist,
+                                        light: chunk.getLight(b.x, b.y, b.z),
+                                        isPanePart: 'connection'
+                                    });
+                                 }
+                             }
+                        } else if (blockDef.isTrapdoor) {
+                            blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isTrapdoor: true
+                            });
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -211,6 +299,69 @@ class Renderer {
                          const meta = b.metadata;
                          if (meta & 1) { // Open
                              ctx.globalAlpha = 0.2; // Transparent
+                         }
+                     }
+
+                     // Fences
+                     if (b.isFencePart) {
+                         if (b.isFencePart === 'center') {
+                             size *= 0.25; // Center post
+                             drawHeight = size * 4; // Back to 1.0 height relative to width? No.
+                             // Wait, size is derived from "scale / b.rz". That's the screen size of a 1x1 block.
+                             // So size is the full block size on screen.
+                             // For center post, we want width to be 0.25 * size.
+                             // Height is 1.0 * size.
+                             const fullSize = size;
+                             drawHeight = fullSize;
+                             size = fullSize * 0.25;
+                             drawSy = sy;
+                         } else {
+                             // Connection
+                             const fullSize = size;
+                             drawHeight = fullSize * 0.8; // Slightly lower
+                             size = fullSize * 0.2; // Thin connection
+                             drawSy = sy + (fullSize - drawHeight) / 2;
+                         }
+                     }
+
+                     // Panes
+                     if (b.isPanePart) {
+                         if (b.isPanePart === 'center') {
+                             const fullSize = size;
+                             drawHeight = fullSize;
+                             size = fullSize * 0.15; // Thin
+                             drawSy = sy;
+                         } else {
+                             const fullSize = size;
+                             drawHeight = fullSize;
+                             size = fullSize * 0.15;
+                             drawSy = sy;
+                         }
+                     }
+
+                     // Trapdoors
+                     if (b.isTrapdoor) {
+                         const meta = b.metadata;
+                         const open = meta & 4;
+                         const top = meta & 8;
+                         const fullSize = size;
+
+                         if (open) {
+                             // Vertical
+                             size = fullSize * 0.1875;
+                             drawHeight = fullSize;
+                             // Offset to side?
+                             // Simplified: just draw centered thin vertical
+                             drawSy = sy;
+                         } else {
+                             // Horizontal (Closed)
+                             drawHeight = fullSize * 0.1875;
+                             size = fullSize;
+                             if (top) {
+                                 drawSy = sy - (fullSize - drawHeight) / 2;
+                             } else {
+                                 drawSy = sy + (fullSize - drawHeight) / 2;
+                             }
                          }
                      }
                  }
