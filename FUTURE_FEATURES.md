@@ -10,6 +10,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [x] **Implement Trapdoors** (Open/close logic, physics)
 - [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
+- [ ] **Implement Birch Trees** (Blocks & Generation)
 
 ### Advanced World Generation
 - [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
@@ -24,6 +25,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
 - [x] **Implement Desert Biome** (Sand, Cactus)
 - [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
+- [ ] **Implement Jungle Biome** (Jungle Wood, Ocelots, Cocoa Beans)
 
 ### Crafting System
 - [ ] Crafting animations
@@ -55,7 +57,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
 - [x] Sheep Mob (Fully implemented)
-- [ ] **Implement Taming** (Wolves, Ocelots)
+- [ ] **Implement Taming** (Wolves)
+- [ ] **Implement Villagers & Trading** (Basic AI, GUI)
+- [ ] **Implement Iron Golems**
 
 ### Core Mechanics
 - [x] Sprinting mechanic
@@ -78,7 +82,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
-- [ ] **Complete Settings Menu**: Add missing Graphics (Render Distance, FOV) and Controls (Key remapping) configuration to the Settings screen. Currently only Volume is implemented.
+- [x] **Complete Settings Menu**: Add missing Graphics (Render Distance, FOV) and Controls (Key remapping) configuration to the Settings screen.
+- [ ] **Implement Village Layouts** (Roads, Houses, coherent generation)
+- [ ] **Fix Tree Generation Height Limit** (Trees cut off at world height)
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*
