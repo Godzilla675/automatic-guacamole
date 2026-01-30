@@ -138,6 +138,43 @@ class CraftingSystem {
                 name: "Torch (4)",
                 result: { type: BLOCK.TORCH, count: 4 },
                 ingredients: [ { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.ITEM_COAL, count: 1 } ]
+            },
+            // New Building Blocks
+            {
+                name: "Fence (2)",
+                result: { type: BLOCK.FENCE, count: 2 },
+                ingredients: [ { type: BLOCK.WOOD, count: 4 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
+                name: "Fence Gate",
+                result: { type: BLOCK.FENCE_GATE, count: 1 },
+                ingredients: [ { type: BLOCK.WOOD, count: 2 }, { type: BLOCK.ITEM_STICK, count: 4 } ]
+            },
+            {
+                name: "Trapdoor (2)",
+                result: { type: BLOCK.TRAPDOOR, count: 2 },
+                ingredients: [ { type: BLOCK.PLANK, count: 6 } ]
+            },
+            {
+                name: "Glass Pane (16)",
+                result: { type: BLOCK.GLASS_PANE, count: 16 },
+                ingredients: [ { type: BLOCK.GLASS, count: 6 } ]
+            },
+            // Combat Items
+            {
+                name: "Bow",
+                result: { type: BLOCK.BOW, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.ITEM_STRING, count: 3 } ]
+            },
+            {
+                name: "Shield",
+                result: { type: BLOCK.SHIELD, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 6 }, { type: BLOCK.ITEM_IRON_INGOT, count: 1 } ]
+            },
+            {
+                name: "Arrow (4)",
+                result: { type: BLOCK.ITEM_ARROW, count: 4 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.COBBLESTONE, count: 1 } ] // Simulating Flint with Cobblestone
             }
         ];
     }

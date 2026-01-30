@@ -9,10 +9,10 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
 - [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [x] **Implement Trapdoors** (Open/close logic, physics)
-- [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
+- [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 
 ### Advanced World Generation
-- [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
+- [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
 - [ ] **Rivers and Lakes** (Hydrology system)
 - [x] Biomes (Implemented basic noise-based terrain)
 - [x] Caves and underground systems (3D Noise holes)
@@ -35,8 +35,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Recipe Book UI** (Show available recipes visually)
 
 ### Tools and Items
-- [ ] **Implement Bow and Arrow** (Ranged combat)
-- [ ] **Implement Shield** (Blocking mechanic)
+- [x] **Implement Bow and Arrow** (Ranged combat)
+- [x] **Implement Shield** (Blocking mechanic)
 - [x] Pickaxes (wood, stone, iron, diamond)
 - [x] Shovels for faster dirt/sand breaking
 - [x] Axes for faster wood breaking
@@ -74,7 +74,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)

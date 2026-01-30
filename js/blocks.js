@@ -87,6 +87,12 @@ const BLOCK = {
     STAIRS_WOOD: 80,
     STAIRS_COBBLESTONE: 81,
 
+    // New Building Blocks
+    FENCE: 90,
+    FENCE_GATE: 91,
+    TRAPDOOR: 92,
+    GLASS_PANE: 93,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -110,6 +116,8 @@ const BLOCK = {
     SWORD_DIAMOND: 107,
 
     FISHING_ROD: 130,
+    BOW: 140,
+    SHIELD: 141,
 
     // Mob Drops
     ITEM_ROTTEN_FLESH: 200,
@@ -129,7 +137,8 @@ const BLOCK = {
     ITEM_APPLE: 215,
     ITEM_WHEAT_SEEDS: 220,
     ITEM_WHEAT: 221,
-    ITEM_RAW_FISH: 230
+    ITEM_RAW_FISH: 230,
+    ITEM_ARROW: 240
 };
 
 const TOOLS = {
@@ -156,7 +165,10 @@ const TOOLS = {
     [BLOCK.SWORD_WOOD]: { type: 'sword', speed: 1.5, damage: 4, durability: 60 },
     [BLOCK.SWORD_STONE]: { type: 'sword', speed: 1.5, damage: 5, durability: 132 },
     [BLOCK.SWORD_IRON]: { type: 'sword', speed: 1.5, damage: 6, durability: 250 },
-    [BLOCK.SWORD_DIAMOND]: { type: 'sword', speed: 1.5, damage: 7, durability: 1561 }
+    [BLOCK.SWORD_DIAMOND]: { type: 'sword', speed: 1.5, damage: 7, durability: 1561 },
+
+    [BLOCK.BOW]: { type: 'bow', speed: 1, damage: 4, durability: 384 },
+    [BLOCK.SHIELD]: { type: 'shield', durability: 336 }
 };
 
 const BLOCKS = {
@@ -248,6 +260,12 @@ const BLOCKS = {
     [BLOCK.STAIRS_WOOD]: { name: 'Wood Stairs', color: '#5C4033', solid: true, icon: '🪜', hardness: 2.0, tool: 'axe', isStair: true, transparent: true },
     [BLOCK.STAIRS_COBBLESTONE]: { name: 'Cobblestone Stairs', color: '#696969', solid: true, icon: '🪜', hardness: 2.0, tool: 'pickaxe', isStair: true, transparent: true },
 
+    // New Building Blocks
+    [BLOCK.FENCE]: { name: 'Fence', color: '#5C4033', solid: true, icon: 'fence', hardness: 2.0, tool: 'axe', isFence: true, transparent: true },
+    [BLOCK.FENCE_GATE]: { name: 'Fence Gate', color: '#5C4033', solid: true, icon: 'gate', hardness: 2.0, tool: 'axe', isGate: true, transparent: true },
+    [BLOCK.TRAPDOOR]: { name: 'Trapdoor', color: '#5C4033', solid: true, icon: '🚪', hardness: 3.0, tool: 'axe', isTrapdoor: true, transparent: true },
+    [BLOCK.GLASS_PANE]: { name: 'Glass Pane', color: '#ADD8E6', solid: true, icon: 'window', hardness: 0.3, isPane: true, transparent: true, drop: null },
+
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },
     [BLOCK.PICKAXE_STONE]: { name: 'Stone Pickaxe', color: '#808080', solid: false, isItem: true, icon: '⛏️' },
@@ -275,6 +293,8 @@ const BLOCKS = {
     [BLOCK.SWORD_DIAMOND]: { name: 'Diamond Sword', color: '#00FFFF', solid: false, isItem: true, icon: '⚔️' },
 
     [BLOCK.FISHING_ROD]: { name: 'Fishing Rod', color: '#8B4513', solid: false, isItem: true, icon: '🎣', durability: 64 },
+    [BLOCK.BOW]: { name: 'Bow', color: '#8B4513', solid: false, isItem: true, icon: '🏹', durability: 384 },
+    [BLOCK.SHIELD]: { name: 'Shield', color: '#C0C0C0', solid: false, isItem: true, icon: '🛡️', durability: 336 },
 
     // Mob Drop Items & Food
     [BLOCK.ITEM_ROTTEN_FLESH]: { name: 'Rotten Flesh', color: '#6B8E23', solid: false, isItem: true, icon: '🧟', food: 4 },
@@ -294,7 +314,8 @@ const BLOCKS = {
     [BLOCK.ITEM_APPLE]: { name: 'Apple', color: '#FF0000', solid: false, isItem: true, icon: '🍎', food: 4 },
     [BLOCK.ITEM_WHEAT_SEEDS]: { name: 'Wheat Seeds', color: '#32CD32', solid: false, isItem: true, icon: '🌰' },
     [BLOCK.ITEM_WHEAT]: { name: 'Wheat', color: '#DAA520', solid: false, isItem: true, icon: '🌾' },
-    [BLOCK.ITEM_RAW_FISH]: { name: 'Raw Fish', color: '#87CEEB', solid: false, isItem: true, icon: '🐟', food: 5 }
+    [BLOCK.ITEM_RAW_FISH]: { name: 'Raw Fish', color: '#87CEEB', solid: false, isItem: true, icon: '🐟', food: 5 },
+    [BLOCK.ITEM_ARROW]: { name: 'Arrow', color: '#D3D3D3', solid: false, isItem: true, icon: '➵' }
 };
 
 window.BLOCK = BLOCK;

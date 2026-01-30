@@ -509,7 +509,10 @@ class World {
                         this.structureManager.generateCactus(chunk, x, height + 1, z);
                     }
                     if (biome.structureChance && Math.random() < biome.structureChance) {
-                         this.structureManager.generateWell(chunk, x, height+1, z);
+                         // Random structure
+                         const r = Math.random();
+                         if (r < 0.5) this.structureManager.generateStructure(chunk, x, height+1, z, 'well');
+                         else this.structureManager.generateStructure(chunk, x, height+1, z, 'house');
                     }
                 }
             }

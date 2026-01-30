@@ -53,6 +53,64 @@ class StructureManager {
 
     generateStructure(chunk, x, y, z, structureName) {
         if (structureName === 'well') this.generateWell(chunk, x, y, z);
+        if (structureName === 'house') this.generateHouse(chunk, x, y, z);
+        if (structureName === 'path') this.generatePath(chunk, x, y, z);
+    }
+
+    generateHouse(chunk, x, y, z) {
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+
+        // 5x5 Wooden House with Cobblestone floor
+        const width = 5;
+        const depth = 5;
+        const height = 4;
+
+        for (let dx = 0; dx < width; dx++) {
+            for (let dz = 0; dz < depth; dz++) {
+                for (let dy = 0; dy < height; dy++) {
+                     const isWall = dx === 0 || dx === width-1 || dz === 0 || dz === depth-1;
+                     const isFloor = dy === 0;
+                     const isRoof = dy === height-1;
+
+                     let block = BLOCK.AIR;
+
+                     if (isFloor) block = BLOCK.COBBLESTONE;
+                     else if (isWall) {
+                         // Windows
+                         if (dy === 2 && (dx === 2 || dz === 2) && !(dx===2 && dz===0)) { // Avoid door side
+                             block = BLOCK.GLASS_PANE;
+                         } else {
+                             block = BLOCK.PLANK;
+                         }
+                     }
+                     else if (isRoof) block = BLOCK.WOOD;
+
+                     if (block !== BLOCK.AIR) {
+                         this.world.setBlock(wx+dx, y+dy, wz+dz, block);
+                     } else if (dy > 0 && dy < height-1) {
+                         // Clear inside
+                         this.world.setBlock(wx+dx, y+dy, wz+dz, BLOCK.AIR);
+                     }
+                }
+            }
+        }
+
+        // Door (Front Center, facing Z-)
+        this.world.setBlock(wx + 2, y + 1, wz, BLOCK.DOOR_WOOD_BOTTOM);
+        this.world.setBlock(wx + 2, y + 2, wz, BLOCK.DOOR_WOOD_TOP);
+
+        // Torch inside
+        this.world.setBlock(wx + 2, y + 2, wz + 2, BLOCK.TORCH);
+    }
+
+    generatePath(chunk, x, y, z) {
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        // Simple 3x1 path segment
+        for(let dx=-1; dx<=1; dx++) {
+            this.world.setBlock(wx+dx, y, wz, BLOCK.SAND); // Path block
+        }
     }
 
     generateWell(chunk, x, y, z) {

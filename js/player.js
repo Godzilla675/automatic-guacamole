@@ -48,10 +48,20 @@ class Player {
         this.fallDistance = 0;
         this.hungerTimer = 0;
         this.regenTimer = 0;
+
+        this.blocking = false;
     }
 
     takeDamage(amount) {
         if (Date.now() - this.lastDamageTime < 500) return; // Invulnerability frames
+
+        if (this.blocking) {
+            // Reduce damage (e.g. 50% or 100% block)
+            // Simplified: 100% block for now.
+            window.soundManager.play('place'); // Clang?
+            return;
+        }
+
         this.health -= amount;
         this.lastDamageTime = Date.now();
         // Knockback or sound?
