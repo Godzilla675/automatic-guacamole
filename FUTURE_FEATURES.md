@@ -78,6 +78,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
+- [ ] **Complete Settings Menu**: Add missing Graphics (Render Distance, FOV) and Controls (Key remapping) configuration to the Settings screen. Currently only Volume is implemented.
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*
