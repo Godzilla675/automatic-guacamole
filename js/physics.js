@@ -7,7 +7,7 @@ class Physics {
         // Box: {x, y, z, width, height}
         const minX = Math.floor(box.x - box.width/2);
         const maxX = Math.floor(box.x + box.width/2);
-        const minY = Math.floor(box.y);
+        const minY = Math.floor(box.y) - 1; // Check 1 block below for tall blocks (fences)
         const maxY = Math.floor(box.y + box.height);
         const minZ = Math.floor(box.z - box.width/2);
         const maxZ = Math.floor(box.z + box.width/2);
