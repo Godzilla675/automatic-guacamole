@@ -446,7 +446,17 @@ class World {
                 // Detail noise
                 const detail = window.perlin.noise(worldX * 0.1, worldZ * 0.1, this.seed) * 2;
 
-                const height = Math.floor(20 + heightOffset + noise * 10 + detail);
+                let height = Math.floor(20 + heightOffset + noise * 10 + detail);
+
+                // River Generation
+                // Use a different scale and offset for rivers
+                const riverNoise = window.perlin.noise(worldX * 0.005, worldZ * 0.005, this.seed + 100);
+                let isRiver = false;
+                if (Math.abs(riverNoise) < 0.06) {
+                    isRiver = true;
+                    // Clamp height for riverbed (below water level 16)
+                    if (height > 12) height = 12;
+                }
 
                 // Bedrock
                 chunk.setBlock(x, 0, z, BLOCK.BEDROCK);
