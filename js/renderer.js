@@ -144,6 +144,33 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef.isFence || blockDef.isPane) {
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isFencePost: true
+                             });
+                        } else if (blockDef.isTrapdoor) {
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isTrapdoor: true
+                             });
+                        } else if (blockDef.isGate) {
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isGate: true
+                             });
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -212,6 +239,48 @@ class Renderer {
                          if (meta & 1) { // Open
                              ctx.globalAlpha = 0.2; // Transparent
                          }
+                     }
+                     // Fences
+                     if (b.isFencePost) {
+                         drawHeight = size;
+                         const width = size * 0.25;
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
+
+                         // Simple bars (visual hack: just draw a wider thin bar in middle)
+                         ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - size*0.1), Math.ceil(size), Math.ceil(size*0.2));
+
+                         continue;
+                     }
+                     // Trapdoors
+                     if (b.isTrapdoor) {
+                         const meta = b.metadata;
+                         const open = (meta & 4) !== 0;
+                         const top = (meta & 8) !== 0;
+
+                         if (open) {
+                             drawHeight = size;
+                             const width = size * 0.1875;
+                             ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
+                         } else {
+                             drawHeight = size * 0.1875;
+                             let yOffset = 0;
+                             if (top) yOffset = -size/2 + drawHeight/2; // Top
+                             else yOffset = size/2 - drawHeight/2; // Bottom
+
+                             ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy + yOffset - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
+                         }
+                         continue;
+                     }
+                     // Gates
+                     if (b.isGate) {
+                         const meta = b.metadata;
+                         const open = (meta & 4) !== 0;
+                         drawHeight = size;
+                         const width = size * 0.25;
+                         if (open) ctx.globalAlpha = 0.2;
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
+                         ctx.globalAlpha = 1.0;
+                         continue;
                      }
                  }
                  // We could adjust brightness by b.light (0-15)

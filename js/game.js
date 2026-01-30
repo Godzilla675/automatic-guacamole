@@ -210,6 +210,15 @@ class Game {
              return true;
         }
 
+        // Trapdoors / Gates
+        if (window.BLOCKS[blockType] && (window.BLOCKS[blockType].isTrapdoor || window.BLOCKS[blockType].isGate)) {
+            const meta = this.world.getMetadata(x, y, z);
+            const newMeta = meta ^ 4; // Toggle Bit 2 (Open)
+            this.world.setMetadata(x, y, z, newMeta);
+            window.soundManager.play('break');
+            return true;
+        }
+
         return false;
     }
 
@@ -217,8 +226,52 @@ class Game {
         if (!isLeftClick) {
             // Right Click Logic
 
-            // Fishing Logic
             const slot = this.player.inventory[this.player.selectedSlot];
+
+            // Bow Logic
+            if (slot && slot.type === BLOCK.BOW) {
+                // Check for Arrows
+                let hasArrow = false;
+                let arrowIdx = -1;
+                for (let i=0; i<this.player.inventory.length; i++) {
+                     if (this.player.inventory[i] && this.player.inventory[i].type === BLOCK.ITEM_ARROW) {
+                         hasArrow = true;
+                         arrowIdx = i;
+                         break;
+                     }
+                }
+
+                if (hasArrow) {
+                     // Fire
+                     const dir = {
+                        x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                        y: -Math.sin(this.player.pitch),
+                        z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+                    };
+                    this.spawnProjectile(this.player.x, this.player.y + this.player.height*0.9, this.player.z, dir);
+                    window.soundManager.play('jump'); // Shoot sound
+
+                    // Consume arrow
+                    if (arrowIdx !== -1) {
+                        this.player.inventory[arrowIdx].count--;
+                        if (this.player.inventory[arrowIdx].count <= 0) {
+                            this.player.inventory[arrowIdx] = null;
+                        }
+                    }
+                    // Durability
+                    if (slot.durability) slot.durability--;
+                    this.updateHotbarUI();
+                }
+                return;
+            }
+
+            // Shield Logic
+            if (slot && slot.type === BLOCK.SHIELD) {
+                this.player.blocking = true;
+                return;
+            }
+
+            // Fishing Logic
             if (slot && slot.type === BLOCK.FISHING_ROD) {
                 if (this.bobber) {
                     this.reelInBobber();
@@ -355,6 +408,7 @@ class Game {
 
     stopAction() {
         this.breaking = null;
+        if (this.player.blocking) this.player.blocking = false;
     }
 
     finalizeBreakBlock(x, y, z) {
@@ -532,6 +586,25 @@ class Game {
                      else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
                      else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
                      else meta = 0; // East
+
+                     this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isTrapdoor) {
+                     // Trapdoor Logic
+                     // Check hit point relative Y
+                     let meta = 0;
+                     if ((hit.y - Math.floor(hit.y)) > 0.5) meta |= 8; // Top (Bit 3)
+
+                     this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isGate) {
+                     // Gate Logic: Orientation based on yaw
+                     let r = this.player.yaw % (2*Math.PI);
+                     if (r < 0) r += 2*Math.PI;
+
+                     let meta = 0;
+                     if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 1;
+                     else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 0;
+                     else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 1;
+                     else meta = 0;
 
                      this.world.setMetadata(nx, ny, nz, meta);
                  }

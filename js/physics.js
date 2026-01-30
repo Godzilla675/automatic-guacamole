@@ -60,6 +60,88 @@ class Physics {
                             continue; // Next block
                         }
 
+                        // Check for Fences / Panes
+                        if (blockDef.isFence || blockDef.isPane) {
+                            // Simplified: Center post collision
+                            // Assume 0.375 width (center 0.25 is 0.375 to 0.625)
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            const postMin = 0.375;
+                            const postMax = 0.625;
+
+                            if (x + postMin < pMaxX && x + postMax > pMinX &&
+                                y < pMaxY && y + 1.5 > pMinY && // Fences are often 1.5 high
+                                z + postMin < pMaxZ && z + postMax > pMinZ) {
+                                return true;
+                            }
+                            continue;
+                        }
+
+                        // Check for Trapdoors
+                        if (blockDef.isTrapdoor) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            const open = (meta & 4) !== 0;
+                            const top = (meta & 8) !== 0;
+
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            if (open) {
+                                // Open: attached to side, full height (1.0), thickness 0.1875
+                                return false; // Passable when open
+                            } else {
+                                // Closed: Flat slab at bottom or top
+                                const thickness = 0.1875;
+                                let bMinY = y;
+                                let bMaxY = y + thickness;
+                                if (top) {
+                                    bMinY = y + 1.0 - thickness;
+                                    bMaxY = y + 1.0;
+                                }
+
+                                if (x < pMaxX && x + 1 > pMinX &&
+                                    bMinY < pMaxY && bMaxY > pMinY &&
+                                    z < pMaxZ && z + 1 > pMinZ) {
+                                    return true;
+                                }
+                            }
+                            continue;
+                        }
+
+                        // Check for Fence Gates
+                        if (blockDef.isGate) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            const open = (meta & 4) !== 0;
+                            if (open) return false;
+
+                             // Closed: similar to fence
+                             const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            const postMin = 0.375;
+                            const postMax = 0.625;
+
+                            if (x + postMin < pMaxX && x + postMax > pMinX &&
+                                y < pMaxY && y + 1.5 > pMinY &&
+                                z + postMin < pMaxZ && z + postMax > pMinZ) {
+                                return true;
+                            }
+                            continue;
+                        }
+
                         // Check for Slabs
                         let bHeight = 1.0;
                         if (blockDef.isSlab) bHeight = 0.5;
@@ -145,6 +227,37 @@ class Physics {
                          if (hit) return { x, y, z, type: block, face: lastFace, dist: t };
                     }
                     // Else passes through empty part
+                } else if (blockDef.isFence || blockDef.isPane) {
+                    // Check Center Post
+                    const hx = origin.x + direction.x * t;
+                    const hz = origin.z + direction.z * t;
+                    const rx = hx - x;
+                    const rz = hz - z;
+
+                    if (rx >= 0.375 && rx <= 0.625 && rz >= 0.375 && rz <= 0.625) {
+                         return { x, y, z, type: block, face: lastFace, dist: t };
+                    }
+                    // Pass through side parts for now (simplified selection)
+                } else if (blockDef.isTrapdoor) {
+                    const hx = origin.x + direction.x * t;
+                    const hy = origin.y + direction.y * t;
+                    const hz = origin.z + direction.z * t;
+                    const ry = hy - y;
+
+                    const meta = this.world.getMetadata(x, y, z);
+                    const open = (meta & 4) !== 0;
+                    const top = (meta & 8) !== 0;
+
+                    if (open) {
+                        return { x, y, z, type: block, face: lastFace, dist: t };
+                    } else {
+                        const thickness = 0.1875;
+                        if (top) {
+                            if (ry >= 1.0 - thickness && ry <= 1.0) return { x, y, z, type: block, face: lastFace, dist: t };
+                        } else {
+                            if (ry >= 0 && ry <= thickness) return { x, y, z, type: block, face: lastFace, dist: t };
+                        }
+                    }
                 } else {
                     return {
                         x, y, z,
