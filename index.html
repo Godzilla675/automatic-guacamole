@@ -167,12 +167,32 @@
     </div>
 
     <div id="settings-screen" class="hidden">
-        <div class="menu-content">
+        <div class="menu-content" style="max-height: 80vh; overflow-y: auto;">
             <h2>Settings</h2>
+
+            <h3>Audio</h3>
             <div class="setting-item">
                 <label for="volume-slider">Volume:</label>
                 <input type="range" id="volume-slider" min="0" max="100" value="50">
             </div>
+
+            <h3>Graphics</h3>
+            <div class="setting-item">
+                <label for="fov-slider">FOV: <span id="fov-value">60</span></label>
+                <input type="range" id="fov-slider" min="30" max="110" value="60">
+            </div>
+            <div class="setting-item">
+                <label for="render-dist-slider">Render Distance: <span id="render-dist-value">50</span></label>
+                <input type="range" id="render-dist-slider" min="16" max="128" step="16" value="50">
+            </div>
+
+            <h3>Controls</h3>
+            <div id="keybinds-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                <!-- Dynamically populated -->
+            </div>
+            <button type="button" id="reset-controls" class="menu-button" style="font-size: 14px; padding: 5px 10px;">Reset Defaults</button>
+
+            <hr style="margin: 20px 0; border-color: #555;">
             <button type="button" id="close-settings" class="menu-button">Back</button>
         </div>
     </div>
