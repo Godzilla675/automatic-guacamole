@@ -55,7 +55,7 @@ class Renderer {
         const sinP = Math.sin(-pitch);
         const cosP = Math.cos(-pitch);
 
-        const renderDist = 50; // View distance in blocks
+        const renderDist = this.game.renderDistance; // View distance in blocks
 
         // We should iterate chunks, but for now let's iterate blocks in loaded chunks nearby
         // Optimization: Only iterate chunks within renderDist

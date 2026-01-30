@@ -39,8 +39,9 @@ class Game {
         this.isMobile = this.detectMobile();
 
         // Rendering state
-        this.fov = 60;
-        this.renderDistance = 60; // blocks
+        this.fov = parseInt(localStorage.getItem('voxel_fov')) || 60;
+        this.renderDistance = parseInt(localStorage.getItem('voxel_renderDistance')) || 50; // blocks
+        this.world.renderDistance = Math.ceil(this.renderDistance / 16);
 
         // Action State
         this.breaking = null; // {x, y, z, progress, limit}
@@ -57,6 +58,18 @@ class Game {
         const hasTouchSupport = ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0);
         const isSmallScreen = window.innerWidth < 768;
         return (isMobileUserAgent && (hasTouchSupport || isSmallScreen)) || (hasTouchSupport && isSmallScreen);
+    }
+
+    setRenderDistance(val) {
+        this.renderDistance = val;
+        this.world.renderDistance = Math.ceil(val / 16);
+        localStorage.setItem('voxel_renderDistance', val);
+        this.updateChunks();
+    }
+
+    setFOV(val) {
+        this.fov = val;
+        localStorage.setItem('voxel_fov', val);
     }
 
     async init() {

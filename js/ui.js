@@ -36,6 +36,59 @@ class UIManager {
             });
         }
 
+        // Graphics Settings
+        const fovSlider = document.getElementById('fov-slider');
+        if (fovSlider) {
+            fovSlider.addEventListener('input', (e) => {
+                const val = parseInt(e.target.value);
+                this.game.setFOV(val);
+                document.getElementById('fov-value').textContent = val;
+            });
+        }
+
+        const renderDistSlider = document.getElementById('render-dist-slider');
+        if (renderDistSlider) {
+            renderDistSlider.addEventListener('change', (e) => {
+                const val = parseInt(e.target.value);
+                this.game.setRenderDistance(val);
+            });
+            renderDistSlider.addEventListener('input', (e) => {
+                document.getElementById('render-dist-value').textContent = e.target.value;
+            });
+        }
+
+        // Controls Reset
+        const resetBtn = document.getElementById('reset-controls');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                if (confirm("Reset all keybinds to default?")) {
+                    localStorage.removeItem('voxel_keybinds');
+                    this.game.input.keybinds = {
+                        forward: 'KeyW',
+                        backward: 'KeyS',
+                        left: 'KeyA',
+                        right: 'KeyD',
+                        jump: 'Space',
+                        sneak: 'ShiftLeft',
+                        sprint: 'ControlLeft',
+                        inventory: 'KeyE',
+                        fly: 'KeyF',
+                        chat: 'KeyT',
+                        crafting: 'KeyC'
+                    };
+                    this.renderSettings();
+                }
+            });
+        }
+
+        // Bind Pause Button
+        const pauseBtn = document.getElementById('pause-btn');
+        if (pauseBtn) {
+            pauseBtn.addEventListener('click', () => {
+                this.pauseGame();
+            });
+        }
+
         // Bind Furnace Close
         const closeFurnace = document.getElementById('close-furnace');
         if (closeFurnace) {
@@ -162,6 +215,76 @@ class UIManager {
         const ui = document.getElementById('settings-screen');
         ui.classList.remove('hidden');
         document.getElementById('pause-screen').classList.add('hidden'); // Hide pause menu
+
+        // Sync sliders
+        if (this.game) {
+            const fovSlider = document.getElementById('fov-slider');
+            if (fovSlider) {
+                fovSlider.value = this.game.fov;
+                const fovVal = document.getElementById('fov-value');
+                if (fovVal) fovVal.textContent = this.game.fov;
+            }
+            const renderDistSlider = document.getElementById('render-dist-slider');
+            if (renderDistSlider) {
+                renderDistSlider.value = this.game.renderDistance;
+                const rdVal = document.getElementById('render-dist-value');
+                if (rdVal) rdVal.textContent = this.game.renderDistance;
+            }
+        }
+
+        this.renderSettings();
+    }
+
+    renderSettings() {
+        const list = document.getElementById('keybinds-list');
+        if (!list) return;
+        list.innerHTML = '';
+
+        const binds = this.game.input.keybinds;
+        for (const action in binds) {
+            const row = document.createElement('div');
+            row.style.display = 'flex';
+            row.style.justifyContent = 'space-between';
+            row.style.alignItems = 'center';
+            row.style.padding = '5px';
+            row.style.background = 'rgba(0,0,0,0.3)';
+            row.style.borderRadius = '4px';
+
+            const label = document.createElement('span');
+            label.textContent = action.charAt(0).toUpperCase() + action.slice(1);
+
+            const btn = document.createElement('button');
+            btn.className = 'menu-button';
+            btn.style.fontSize = '12px';
+            btn.style.padding = '2px 8px';
+            btn.style.width = '100px';
+            btn.textContent = this.formatKeyName(binds[action]);
+
+            btn.addEventListener('click', () => {
+                btn.textContent = 'Press key...';
+                const handler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (e.code !== 'Escape') {
+                        this.game.input.bindKey(action, e.code);
+                    }
+                    document.removeEventListener('keydown', handler, true);
+                    this.renderSettings();
+                };
+                document.addEventListener('keydown', handler, true);
+            });
+
+            row.appendChild(label);
+            row.appendChild(btn);
+            list.appendChild(row);
+        }
+    }
+
+    formatKeyName(code) {
+        if (!code) return 'None';
+        if (code.startsWith('Key')) return code.replace('Key', '');
+        if (code.startsWith('Digit')) return code.replace('Digit', '');
+        return code;
     }
 
     craftingUI() {
