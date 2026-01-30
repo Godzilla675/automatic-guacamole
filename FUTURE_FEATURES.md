@@ -13,7 +13,7 @@ This document outlines the priorities and workflow for all agents working on thi
 
 ### Advanced World Generation
 - [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
-- [ ] **Rivers and Lakes** (Hydrology system)
+- [x] **Rivers and Lakes** (Hydrology system)
 - [x] Biomes (Implemented basic noise-based terrain)
 - [x] Caves and underground systems (3D Noise holes)
 - [x] Ore generation (Coal, Iron, Gold, Diamond)
@@ -182,6 +182,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Fix Infinite Blocks / Inventory Consumption on Placement
 - [x] Implement Water Flow Logic
 - [x] Implement Cactus Damage
+- [x] Implement Rivers and Lakes
+- [x] Fix Renderer Syntax Error (Illegal continue)
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.

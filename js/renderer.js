@@ -249,7 +249,7 @@ class Renderer {
                          // Simple bars (visual hack: just draw a wider thin bar in middle)
                          ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - size*0.1), Math.ceil(size), Math.ceil(size*0.2));
 
-                         continue;
+                         return;
                      }
                      // Trapdoors
                      if (b.isTrapdoor) {
@@ -269,7 +269,7 @@ class Renderer {
 
                              ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy + yOffset - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
                          }
-                         continue;
+                         return;
                      }
                      // Gates
                      if (b.isGate) {
@@ -280,7 +280,7 @@ class Renderer {
                          if (open) ctx.globalAlpha = 0.2;
                          ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
                          ctx.globalAlpha = 1.0;
-                         continue;
+                         return;
                      }
                  }
                  // We could adjust brightness by b.light (0-15)
