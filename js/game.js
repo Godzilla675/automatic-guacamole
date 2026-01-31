@@ -605,7 +605,9 @@ class Game {
                      // Trapdoor Logic
                      // Check hit point relative Y
                      let meta = 0;
-                     if ((hit.y - Math.floor(hit.y)) > 0.5) meta |= 8; // Top (Bit 3)
+                     // hit.point might be undefined if hit logic didn't return it (e.g. from old Physics), but we updated Physics.
+                     // Fallback to 0 if point is missing, or check if hit.point exists.
+                     if (hit.point && (hit.point.y - Math.floor(hit.point.y)) > 0.5) meta |= 8; // Top (Bit 3)
 
                      this.world.setMetadata(nx, ny, nz, meta);
                  } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isGate) {

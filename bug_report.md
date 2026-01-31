@@ -1,21 +1,19 @@
-# Bug Report
+# Bug Report (Updated)
 
 ## 1. Physics Collision Bug for Tall Blocks (Fences)
-**Severity**: High
-**Description**: The `Physics.checkCollision` method fails to detect collisions with blocks that are taller than 1.0 block (like Fences, which are 1.5 blocks high) if the collision AABB's bottom `y` is above the block's base `y`.
-**Reproduction**:
-1. Place a Fence at `y=10`.
-2. Move player/entity to `y=11.2`.
-3. Check collision.
-**Expected**: Collision detected (Fence extends to `y=11.5`).
-**Actual**: No collision detected.
-**Root Cause**: The collision loop calculates `minY` based on `Math.floor(box.y)`. If `box.y` is 11.2, `minY` is 11. The loop checks blocks starting at `y=11`. It misses the fence rooted at `y=10` that extends upwards.
-**Fix**: Adjust `minY` in the loop to look one block below (`Math.floor(box.y) - 1`) to catch tall blocks.
+**Status**: FIXED / INVALID
+**Verification**: Tested with `verification/verify_bug_fixes_v2.js`. Collision is correctly detected. The code in `js/physics.js` correctly offsets `minY` by -1.
 
 ## 2. Trapdoor Placement Anomaly
-**Severity**: Low/Unconfirmed
-**Description**: In verification tests, `placeBlock()` failed to place a Trapdoor when simulating a click on the top half of a neighbor face.
-**Observations**:
-- `Glass Pane` placed correctly using `world.setBlock`.
-- `Trapdoor` failed using `game.placeBlock`.
-- Requires further investigation into `Game.placeBlock` logic or test harness setup.
+**Status**: FIXED
+**Severity**: Low
+**Description**: `Game.placeBlock` failed to correctly identify the top half of a block face because `Physics.raycast` returned integer coordinates instead of the exact intersection point.
+**Fix**:
+- Updated `Physics.raycast` in `js/physics.js` to return `point: {x, y, z}`.
+- Updated `Game.placeBlock` in `js/game.js` to use `hit.point.y` for sub-block placement logic.
+**Verification**: Verified with `verification/verify_bug_fixes_v2.js`. Trapdoors are now placed on the top half when aiming at the top half.
+
+## 3. Other Feature Verification
+**Status**: VERIFIED
+- **Iron Golem**: Verified AI targeting Zombies (`verification/verify_mobs_advanced.js`).
+- **Villager**: Verified Trading UI interaction (`verification/verify_mobs_advanced.js`).
