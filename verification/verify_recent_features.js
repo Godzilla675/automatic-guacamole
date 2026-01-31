@@ -6,6 +6,7 @@ const path = require('path');
 const dom = new JSDOM(`<!DOCTYPE html><body></body>`, {
     runScripts: "dangerously",
     resources: "usable",
+    url: "http://localhost/"
 });
 
 // Add UI Elements
@@ -106,6 +107,7 @@ async function testRecentFeatures() {
         closePath: ()=>{},
         fillText: ()=>{},
         measureText: ()=>({width:0}),
+        setTransform: ()=>{},
     });
 
     // Create Game
