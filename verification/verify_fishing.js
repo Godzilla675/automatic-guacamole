@@ -3,7 +3,7 @@ const path = require('path');
 const { JSDOM } = require('jsdom');
 
 const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
-    url: 'http://localhost/',
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });

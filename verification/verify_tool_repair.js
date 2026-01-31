@@ -8,6 +8,7 @@ const dom = new JSDOM(`<!DOCTYPE html><body>
     <div id="crafting-screen"></div>
     <div id="close-crafting"></div>
 </body>`, {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });

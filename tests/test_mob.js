@@ -3,6 +3,7 @@ const { JSDOM } = require('jsdom');
 const fs = require('fs');
 
 const dom = new JSDOM(`<!DOCTYPE html>`, {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });

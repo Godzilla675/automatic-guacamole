@@ -27,6 +27,7 @@ const dom = new JSDOM(`<!DOCTYPE html><body>
     <div id="crafting-screen" class="hidden"></div>
     <div id="crosshair"></div>
 </body>`, {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });
