@@ -31,6 +31,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Fix reported bugs and ensure stability.*
 
 - [ ] **Audit and Verify All Features** (Run full regression suite)
+- [ ] **Fix verify_blocks.js logic error**: Case sensitivity check for Concrete blocks causes false positives.
 - [x] **Fix Lighting Cleanup**: Torch removal does not fully reset light levels (leaves residual light level 4).
 - [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
@@ -44,7 +45,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Refactors, optimization, and minor UI improvements.*
 
 ### User Interface Improvements
-- [ ] FOV Slider (Backend done, needs UI hook verification)
+- [x] FOV Slider (Backend done, verified UI hook)
 - [ ] Mouse Sensitivity Control
 - [ ] Minimap
 - [ ] Achievement system
