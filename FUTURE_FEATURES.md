@@ -31,7 +31,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Fix reported bugs and ensure stability.*
 
 - [ ] **Audit and Verify All Features** (Run full regression suite)
-- [ ] **Fix Lighting Cleanup**: Torch removal does not fully reset light levels (leaves residual light level 4).
+- [x] **Fix Lighting Cleanup**: Torch removal does not fully reset light levels (leaves residual light level 4).
 - [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.

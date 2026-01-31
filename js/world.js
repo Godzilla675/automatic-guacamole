@@ -367,6 +367,32 @@ class World {
                         // Optimization for later.
                         this.setLight(x, y, z, 0);
                     }
+
+                    // Check boundary for external light sources to propagate back in
+                    if (x === cx - rad) {
+                         const l = this.getLight(x - 1, y, z);
+                         if (l > 0) sources.push({x: x-1, y, z, level: l});
+                    }
+                    if (x === cx + rad) {
+                         const l = this.getLight(x + 1, y, z);
+                         if (l > 0) sources.push({x: x+1, y, z, level: l});
+                    }
+                    if (y === cy - rad) {
+                         const l = this.getLight(x, y - 1, z);
+                         if (l > 0) sources.push({x, y: y-1, z, level: l});
+                    }
+                    if (y === cy + rad) {
+                         const l = this.getLight(x, y + 1, z);
+                         if (l > 0) sources.push({x, y: y+1, z, level: l});
+                    }
+                    if (z === cz - rad) {
+                         const l = this.getLight(x, y, z - 1);
+                         if (l > 0) sources.push({x, y, z: z-1, level: l});
+                    }
+                    if (z === cz + rad) {
+                         const l = this.getLight(x, y, z + 1);
+                         if (l > 0) sources.push({x, y, z: z+1, level: l});
+                    }
                 }
             }
         }
