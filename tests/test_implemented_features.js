@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const dom = new JSDOM('<!DOCTYPE html><html><body><canvas id="game-canvas"></canvas><div id="chest-screen" class="hidden"></div><div id="inventory-screen" class="hidden"></div><div id="chest-grid"></div><div id="inventory-grid"></div><div id="hotbar"></div><input id="chat-input" class="hidden"><div id="crafting-recipes"></div><div id="close-crafting"></div></body></html>', {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });

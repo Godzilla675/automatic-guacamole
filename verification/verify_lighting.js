@@ -50,6 +50,8 @@ loadScript('blocks.js');
 if (!global.BLOCK && window.BLOCK) global.BLOCK = window.BLOCK;
 if (!global.BLOCKS && window.BLOCKS) global.BLOCKS = window.BLOCKS;
 
+loadScript('biome.js');
+loadScript('structures.js');
 loadScript('chunk.js');
 // Ensure global Chunk is available if it's not attached to window in file (it is window.Chunk = Chunk)
 if (!global.Chunk && window.Chunk) global.Chunk = window.Chunk;

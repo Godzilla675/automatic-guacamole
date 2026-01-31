@@ -45,6 +45,8 @@ const load = (path) => {
 };
 
 load('js/blocks.js');
+load('js/biome.js');
+load('js/structures.js');
 load('js/chunk.js');
 load('js/world.js');
 load('js/physics.js');
