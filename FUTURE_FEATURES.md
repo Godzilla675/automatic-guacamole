@@ -10,7 +10,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [x] **Implement Trapdoors** (Open/close logic, physics)
 - [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
-- [ ] **Implement Birch Trees** (Blocks & Generation)
+- [x] **Implement Birch Trees** (Blocks & Generation)
 
 ### Advanced World Generation
 - [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
@@ -25,7 +25,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
 - [x] **Implement Desert Biome** (Sand, Cactus)
 - [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
-- [ ] **Implement Jungle Biome** (Jungle Wood, Ocelots, Cocoa Beans)
+- [x] **Implement Jungle Biome** (Jungle Wood, Ocelots, Cocoa Beans)
 
 ### Crafting System
 - [ ] Crafting animations
@@ -57,9 +57,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Health and combat system (Player health, Mob damage)
 - [x] Mob animations (Simple billboard rendering)
 - [x] Sheep Mob (Fully implemented)
-- [ ] **Implement Taming** (Wolves)
-- [ ] **Implement Villagers & Trading** (Basic AI, GUI)
-- [ ] **Implement Iron Golems**
+- [x] **Implement Taming** (Wolves)
+- [x] **Implement Villagers & Trading** (Basic AI, GUI)
+- [x] **Implement Iron Golems**
 
 ### Core Mechanics
 - [x] Sprinting mechanic
@@ -83,8 +83,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
 - [x] **Complete Settings Menu**: Add missing Graphics (Render Distance, FOV) and Controls (Key remapping) configuration to the Settings screen.
-- [ ] **Implement Village Layouts** (Roads, Houses, coherent generation)
-- [ ] **Fix Tree Generation Height Limit** (Trees cut off at world height)
+- [x] **Implement Village Layouts** (Roads, Houses, coherent generation)
+- [x] **Fix Tree Generation Height Limit** (Trees cut off at world height)
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*

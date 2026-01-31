@@ -9,7 +9,7 @@ class Chunk {
         // Let's use a Map for sparse storage or Uint8Array for dense.
         // Uint8Array is much better for memory. 16*16*64 = 16384 bytes per chunk.
         // Let's assume max height 64.
-        this.maxHeight = 64;
+        this.maxHeight = 128;
         this.blocks = new Uint8Array(this.size * this.size * this.maxHeight);
         this.metadata = new Uint8Array(this.size * this.size * this.maxHeight);
         this.light = new Uint8Array(this.size * this.size * this.maxHeight);

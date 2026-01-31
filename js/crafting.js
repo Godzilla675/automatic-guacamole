@@ -7,7 +7,8 @@ class CraftingSystem {
             { input: BLOCK.ORE_GOLD, output: { type: BLOCK.ITEM_GOLD_INGOT, count: 1 } },
             { input: BLOCK.SAND, output: { type: BLOCK.GLASS, count: 1 } },
             { input: BLOCK.COBBLESTONE, output: { type: BLOCK.STONE, count: 1 } },
-            { input: BLOCK.WOOD, output: { type: BLOCK.ITEM_COAL, count: 1 } }
+            { input: BLOCK.WOOD, output: { type: BLOCK.ITEM_COAL, count: 1 } },
+            { input: BLOCK.ITEM_RAW_FISH, output: { type: BLOCK.ITEM_COOKED_FISH, count: 1 } }
         ];
 
         this.recipes = [
@@ -27,6 +28,34 @@ class CraftingSystem {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
+            },
+            // New Planks
+            {
+                name: "Birch Planks (4)",
+                result: { type: BLOCK.BIRCH_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.BIRCH_WOOD, count: 1 } ]
+            },
+            {
+                name: "Jungle Planks (4)",
+                result: { type: BLOCK.JUNGLE_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.JUNGLE_WOOD, count: 1 } ]
+            },
+            // Sticks from new planks
+            {
+                name: "Stick (4)",
+                result: { type: BLOCK.ITEM_STICK, count: 4 },
+                ingredients: [ { type: BLOCK.BIRCH_PLANK, count: 2 } ]
+            },
+            {
+                name: "Stick (4)",
+                result: { type: BLOCK.ITEM_STICK, count: 4 },
+                ingredients: [ { type: BLOCK.JUNGLE_PLANK, count: 2 } ]
+            },
+            // Dyes
+            {
+                name: "Brown Wool",
+                result: { type: BLOCK.WOOL_BROWN, count: 1 },
+                ingredients: [ { type: BLOCK.WOOL_WHITE, count: 1 }, { type: BLOCK.ITEM_COCOA_BEANS, count: 1 } ]
             },
             // Ingots (Manual Smelting)
             {

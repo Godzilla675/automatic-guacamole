@@ -5,7 +5,7 @@ class World {
         this.blockEntities = new Map(); // Store complex data like Furnace state { "x,y,z": { ... } }
         this.chunkSize = 16;
         this.renderDistance = 6;
-        this.worldHeight = 64;
+        this.worldHeight = 128;
         this.seed = Math.random() * 10000;
 
         this.biomeManager = new window.BiomeManager(this.seed);
@@ -513,12 +513,27 @@ class World {
                     if (biome.treeChance && Math.random() < biome.treeChance) {
                         let type = 'oak';
                         if (biome.snow) type = 'spruce';
+                        else if (biome.name === 'Jungle') type = 'jungle';
+                        else if (biome.name === 'Forest' && Math.random() < 0.2) type = 'birch';
+
                         this.structureManager.generateTree(chunk, x, height + 1, z, type);
                     }
                     if (biome.cactusChance && Math.random() < biome.cactusChance) {
                         this.structureManager.generateCactus(chunk, x, height + 1, z);
                     }
-                    if (biome.structureChance && Math.random() < biome.structureChance) {
+
+                    // Village Check
+                    let spawnedVillage = false;
+                    if (biome.name === 'Plains') {
+                         if (Math.abs(chunk.cx % 10) === 0 && Math.abs(chunk.cz % 10) === 0) {
+                             if (x === 8 && z === 8) { // Center of chunk
+                                 this.structureManager.generateVillage(chunk, x, height+1, z);
+                                 spawnedVillage = true;
+                             }
+                         }
+                    }
+
+                    if (!spawnedVillage && biome.structureChance && Math.random() < biome.structureChance) {
                          // Random structure
                          const r = Math.random();
                          if (r < 0.5) this.structureManager.generateStructure(chunk, x, height+1, z, 'well');

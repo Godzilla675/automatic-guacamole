@@ -93,6 +93,17 @@ const BLOCK = {
     TRAPDOOR: 92,
     GLASS_PANE: 93,
 
+    // New Wood Types
+    BIRCH_WOOD: 94,
+    BIRCH_LEAVES: 95,
+    BIRCH_PLANK: 96,
+    JUNGLE_WOOD: 97,
+    JUNGLE_LEAVES: 98,
+    JUNGLE_PLANK: 99,
+
+    COCOA_BLOCK: 150,
+    SANDSTONE: 151,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -138,7 +149,12 @@ const BLOCK = {
     ITEM_WHEAT_SEEDS: 220,
     ITEM_WHEAT: 221,
     ITEM_RAW_FISH: 230,
-    ITEM_ARROW: 240
+    ITEM_ARROW: 240,
+
+    // New Items
+    ITEM_COCOA_BEANS: 250,
+    ITEM_COOKED_FISH: 251,
+    ITEM_EMERALD: 252
 };
 
 const TOOLS = {
@@ -266,6 +282,18 @@ const BLOCKS = {
     [BLOCK.TRAPDOOR]: { name: 'Trapdoor', color: '#5C4033', solid: true, icon: '🚪', hardness: 3.0, tool: 'axe', isTrapdoor: true, transparent: true },
     [BLOCK.GLASS_PANE]: { name: 'Glass Pane', color: '#ADD8E6', solid: true, icon: 'window', hardness: 0.3, isPane: true, transparent: true, drop: null },
 
+    // New Wood Types
+    [BLOCK.BIRCH_WOOD]: { name: 'Birch Wood', color: '#e3dcd3', top: '#e3dcd3', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.BIRCH_LEAVES]: { name: 'Birch Leaves', color: '#80a755', top: '#80a755', solid: true, transparent: true, icon: '🌿', hardness: 0.2 },
+    [BLOCK.BIRCH_PLANK]: { name: 'Birch Plank', color: '#c4b07d', top: '#c4b07d', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
+
+    [BLOCK.JUNGLE_WOOD]: { name: 'Jungle Wood', color: '#56441d', top: '#56441d', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.JUNGLE_LEAVES]: { name: 'Jungle Leaves', color: '#30bb0b', top: '#30bb0b', solid: true, transparent: true, icon: '🌿', hardness: 0.2 },
+    [BLOCK.JUNGLE_PLANK]: { name: 'Jungle Plank', color: '#a07350', top: '#a07350', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
+
+    [BLOCK.COCOA_BLOCK]: { name: 'Cocoa Pod', color: '#915325', solid: true, icon: '🌰', hardness: 0.2, drop: { type: BLOCK.ITEM_COCOA_BEANS, count: 2 } },
+    [BLOCK.SANDSTONE]: { name: 'Sandstone', color: '#dbd3a0', top: '#dbd3a0', solid: true, icon: '🟫', hardness: 0.8, tool: 'pickaxe' },
+
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },
     [BLOCK.PICKAXE_STONE]: { name: 'Stone Pickaxe', color: '#808080', solid: false, isItem: true, icon: '⛏️' },
@@ -315,7 +343,11 @@ const BLOCKS = {
     [BLOCK.ITEM_WHEAT_SEEDS]: { name: 'Wheat Seeds', color: '#32CD32', solid: false, isItem: true, icon: '🌰' },
     [BLOCK.ITEM_WHEAT]: { name: 'Wheat', color: '#DAA520', solid: false, isItem: true, icon: '🌾' },
     [BLOCK.ITEM_RAW_FISH]: { name: 'Raw Fish', color: '#87CEEB', solid: false, isItem: true, icon: '🐟', food: 5 },
-    [BLOCK.ITEM_ARROW]: { name: 'Arrow', color: '#D3D3D3', solid: false, isItem: true, icon: '➵' }
+    [BLOCK.ITEM_ARROW]: { name: 'Arrow', color: '#D3D3D3', solid: false, isItem: true, icon: '➵' },
+
+    [BLOCK.ITEM_COCOA_BEANS]: { name: 'Cocoa Beans', color: '#915325', solid: false, isItem: true, icon: '🌰' },
+    [BLOCK.ITEM_COOKED_FISH]: { name: 'Cooked Fish', color: '#D2691E', solid: false, isItem: true, icon: '🐟', food: 8 },
+    [BLOCK.ITEM_EMERALD]: { name: 'Emerald', color: '#50C878', solid: false, isItem: true, icon: '💎' }
 };
 
 window.BLOCK = BLOCK;
