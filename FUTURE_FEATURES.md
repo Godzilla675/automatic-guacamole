@@ -5,6 +5,59 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 1. High Priority: New Features
 *Focus on adding content and gameplay mechanics.*
 
+### Missing Mobs
+- [ ] **Implement Chicken Mob** (Passive, drops Feathers/Chicken, lays eggs)
+- [ ] **Implement Creeper Mob** (Hostile, explodes)
+- [ ] **Implement Enderman Mob** (Neutral, teleports, picks up blocks)
+
+### Advanced Mechanics
+- [ ] **Implement Weather System** (Rain, Snow, Thunderstorms)
+- [ ] **Implement Redstone Circuits** (Wire, Torch, Power logic, Pistons)
+- [ ] **Implement TNT & Explosions** (Physics, Damage)
+- [ ] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
+- [ ] **Implement Experience & Enchanting**
+
+### Crafting & Inventory
+- [ ] **Implement Crafting Animations**
+- [ ] **Implement Recipe Discovery System**
+- [ ] **Implement Brewing**
+
+### Nether Dimension
+- [ ] **Implement Nether Portal**
+- [ ] **Implement Nether World Generation**
+- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze)
+
+## 2. Medium Priority: Bugs & Maintenance
+*Fix reported bugs and ensure stability.*
+
+- [ ] **Audit and Verify All Features** (Run full regression suite)
+- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
+- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
+- [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
+- [x] **Complete Settings Menu**: Add missing Graphics (Render Distance, FOV) and Controls (Key remapping) configuration to the Settings screen.
+- [x] **Implement Village Layouts** (Roads, Houses, coherent generation)
+- [x] **Fix Tree Generation Height Limit** (Trees cut off at world height)
+
+## 3. Low Priority: Code Quality & Polish
+*Refactors, optimization, and minor UI improvements.*
+
+### User Interface Improvements
+- [ ] FOV Slider (Backend done, needs UI hook verification)
+- [ ] Mouse Sensitivity Control
+- [ ] Minimap
+- [ ] Achievement system
+- [ ] Tutorial/help system
+
+### Misc
+- [ ] Minecarts and rails
+- [ ] Boats
+- [ ] Signs and text
+- [ ] Plugin API
+
+## Completed Features
+*Keep a record of what works.*
+
 ### New Building Blocks
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
 - [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
@@ -28,8 +81,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Jungle Biome** (Jungle Wood, Ocelots, Cocoa Beans)
 
 ### Crafting System
-- [ ] Crafting animations
-- [ ] Recipe discovery system
 - [x] Crafting table interface (UI implemented)
 - [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
 - [x] Resource gathering requirements (Inventory consumption implemented)
@@ -75,85 +126,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Additional block types (brick, concrete, wool colors)
 - [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 
-## 2. Medium Priority: Bugs & Maintenance
-*Fix reported bugs and ensure stability.*
-
-- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
-- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
-- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
-- [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
-- [x] **Complete Settings Menu**: Add missing Graphics (Render Distance, FOV) and Controls (Key remapping) configuration to the Settings screen.
-- [x] **Implement Village Layouts** (Roads, Houses, coherent generation)
-- [x] **Fix Tree Generation Height Limit** (Trees cut off at world height)
-
-## 3. Low Priority: Code Quality & Polish
-*Refactors, optimization, and minor UI improvements.*
-
-### User Interface Improvements
-- [ ] FOV Slider
-- [ ] Mouse Sensitivity Control
-- [ ] Minimap
-- [ ] Achievement system
-- [ ] Tutorial/help system
-- [x] **Settings Menu (Controls, Sound, Graphics)**
-- [x] **Volume Controls**
-- [x] Coordinates toggle (F3)
-- [x] Better mobile UI scaling
-- [x] Dynamic Crosshair
-
-### Advanced Gameplay
-- [ ] Experience points and levels
-- [ ] Enchanting system
-- [ ] Potions and brewing
-- [x] Health regeneration (Implemented in `js/player.js`)
-- [ ] **Implement Redstone Circuits** (Wire, Torch, Power logic)
-
-### Creative Mode Features
-- [ ] Unlimited blocks
-- [ ] Instant block breaking
-- [ ] No collision mode (noclip)
-- [ ] Weather control
-- [x] Fly mode toggle (Key 'F')
-- [x] World edit tools (copy, paste, fill) - Fill tool implemented
-- [x] Time control
-
-### Performance Optimizations
-- [ ] LOD (Level of Detail) system
-- [ ] Worker threads for world generation
-- [ ] Better memory management
-- [ ] Greedy meshing for fewer draw calls
-- [x] Chunk-based rendering optimization
-- [x] Frustum culling improvements
-- [x] Occlusion culling (Exposed Face Caching)
-
-### Social Features
-- [ ] Screenshot system
-- [ ] Share world links
-- [ ] Leaderboards
-- [ ] World showcase gallery
-- [ ] Friends system
-
-### Advanced Building Tools
-- [ ] Copy/paste structures
-- [ ] Symmetry mode
-- [ ] Fill tool
-- [ ] Replace tool
-- [ ] Undo/redo system
-
-### World Interaction (Misc)
-- [ ] Minecarts and rails
-- [ ] Boats
-- [ ] Signs and text
-
-### Modding Support
-- [ ] Plugin API
-- [ ] Custom block types
-- [ ] Custom mob types
-- [ ] Event hooks
-- [ ] Resource pack support
-- [ ] Texture customization
-
-## Completed Fixes (History)
+### General Fixes & Improvements
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
 - [x] Fix Tree Generation at Chunk Boundaries
 - [x] Fix memory management strategy
@@ -163,21 +136,13 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Fix Footstep Sounds
 - [x] Fix Crouch Mechanics
 - [x] Fix Block IDs
-- [x] Implement Sheep Mob
 - [x] Fix Water Physics
-- [x] Implement Fall Damage
-- [x] Implement Sprinting
 - [x] Fix Projectile Collision
-- [x] Implement Eating/Food Consumption
-- [x] Implement Tool Crafting Recipes
 - [x] Implement Ambient Sounds
 - [x] Fix Physics Crash
 - [x] Fix Fall Damage Logic
-- [x] Fix Crafting System
 - [x] Implement Block Entity Persistence
 - [x] Implement Farming
-- [x] Implement Bed & Sleep Logic
-- [x] Implement Furnace UI & Smelting Logic
 - [x] Implement Settings UI & Volume Control
 - [x] Implement Full Inventory UI with Drag & Drop
 - [x] Fix Empty Inventory Screen
