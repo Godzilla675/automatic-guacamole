@@ -4,7 +4,11 @@ const MOB_TYPE = {
     PIG: 'pig',
     SKELETON: 'skeleton',
     SPIDER: 'spider',
-    SHEEP: 'sheep'
+    SHEEP: 'sheep',
+    WOLF: 'wolf',
+    OCELOT: 'ocelot',
+    VILLAGER: 'villager',
+    IRON_GOLEM: 'iron_golem'
 };
 
 class Mob {
@@ -40,15 +44,56 @@ class Mob {
         this.isBaby = false;
         this.growthTimer = 0;
 
+        // Taming
+        this.isTamed = false;
+        this.owner = null; // Could store player ID
+        this.isSitting = false;
+
         this.initType();
     }
 
     interact(itemType) {
         if (this.breedingCooldown > 0 || this.isBaby) return false;
 
+        // Villager Trading
+        if (this.type === MOB_TYPE.VILLAGER) {
+             if (this.game.ui && this.game.ui.openTrading) {
+                 this.game.ui.openTrading(this);
+                 return true;
+             }
+             return false;
+        }
+
+        // Taming Wolf
+        if (this.type === MOB_TYPE.WOLF && !this.isTamed && itemType === BLOCK.ITEM_BONE) {
+            if (Math.random() < 0.3) {
+                this.isTamed = true;
+                this.color = '#FFFFFF'; // White collar indication
+                if (window.soundManager) window.soundManager.play('place');
+            }
+            return true;
+        }
+
+        // Toggle Sit for Tamed Wolf/Cat
+        if ((this.type === MOB_TYPE.WOLF || this.type === MOB_TYPE.OCELOT) && this.isTamed && itemType === 0) { // Empty hand
+            this.isSitting = !this.isSitting;
+            return true;
+        }
+
+        // Taming Ocelot
+        if (this.type === MOB_TYPE.OCELOT && !this.isTamed && itemType === BLOCK.ITEM_RAW_FISH) {
+             if (Math.random() < 0.3) {
+                this.isTamed = true;
+                this.color = '#000000'; // Black cat
+                if (window.soundManager) window.soundManager.play('place');
+             }
+             return true;
+        }
+
         let food = null;
         if (this.type === MOB_TYPE.COW || this.type === MOB_TYPE.SHEEP) food = BLOCK.ITEM_WHEAT;
         else if (this.type === MOB_TYPE.PIG) food = BLOCK.ITEM_APPLE; // Placeholder for carrot
+        else if (this.type === MOB_TYPE.WOLF && this.isTamed) food = BLOCK.ITEM_PORKCHOP; // Heal wolf
 
         if (food && itemType === food) {
             this.loveTimer = 30; // 30 seconds
@@ -96,6 +141,31 @@ class Mob {
                 this.width = 1.2;
                 this.speed = 3.5; // Very Fast
                 this.maxHealth = 16;
+                break;
+            case MOB_TYPE.WOLF:
+                this.color = '#A9A9A9';
+                this.height = 0.85;
+                this.speed = 1.5;
+                this.maxHealth = 8;
+                break;
+            case MOB_TYPE.OCELOT:
+                this.color = '#FFFF00';
+                this.height = 0.7;
+                this.speed = 1.8;
+                this.maxHealth = 10;
+                break;
+            case MOB_TYPE.VILLAGER:
+                this.color = '#8B4513';
+                this.height = 1.8;
+                this.speed = 1.0;
+                this.maxHealth = 20;
+                break;
+            case MOB_TYPE.IRON_GOLEM:
+                this.color = '#C0C0C0';
+                this.height = 2.7;
+                this.width = 1.4;
+                this.speed = 0.8;
+                this.maxHealth = 100;
                 break;
         }
         this.health = this.maxHealth;
@@ -159,11 +229,7 @@ class Mob {
     update(dt) {
         if (this.isDead) return;
 
-        if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SKELETON || this.type === MOB_TYPE.SPIDER) {
-            this.updateHostileAI(dt);
-        } else {
-            this.updatePassiveAI(dt);
-        }
+        this.updateAI(dt);
 
         // Gravity
         this.vy -= 25 * dt;
@@ -201,6 +267,82 @@ class Mob {
             this.y = 50;
             this.vy = 0;
         }
+    }
+
+    updateAI(dt) {
+        // Tamed Wolf
+        if (this.type === MOB_TYPE.WOLF && this.isTamed) {
+             this.updateTamedWolfAI(dt);
+             return;
+        }
+
+        // Iron Golem
+        if (this.type === MOB_TYPE.IRON_GOLEM) {
+            this.updateIronGolemAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SKELETON || this.type === MOB_TYPE.SPIDER) {
+            this.updateHostileAI(dt);
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updateTamedWolfAI(dt) {
+        if (this.isSitting) {
+            this.vx = 0;
+            this.vz = 0;
+            return;
+        }
+
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.sqrt(dx*dx + dz*dz);
+
+        if (dist > 10) {
+            // Teleport
+            this.x = player.x;
+            this.y = player.y;
+            this.z = player.z;
+        } else if (dist > 3) {
+            // Follow
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+        } else {
+            // Stay
+            this.vx = 0;
+            this.vz = 0;
+        }
+
+        // Check for targets (TODO: Attack what player hits)
+    }
+
+    updateIronGolemAI(dt) {
+        // Find nearest Zombie
+        const target = this.game.mobs.find(m => m.type === MOB_TYPE.ZOMBIE && !m.isDead);
+        if (target) {
+            const dx = target.x - this.x;
+            const dz = target.z - this.z;
+            const dist = Math.sqrt(dx*dx + dz*dz);
+
+            if (dist < 10) {
+                 this.yaw = Math.atan2(dx, dz);
+                 this.vx = Math.sin(this.yaw) * this.speed;
+                 this.vz = Math.cos(this.yaw) * this.speed;
+
+                 if (dist < 1.5 && this.attackCooldown <= 0) {
+                     target.takeDamage(10, {x: Math.sin(this.yaw), z: Math.cos(this.yaw)});
+                     target.vy += 10; // Toss up
+                     this.attackCooldown = 1.0;
+                 }
+                 this.attackCooldown -= dt;
+                 return;
+            }
+        }
+        this.updatePassiveAI(dt);
     }
 
     updatePassiveAI(dt) {

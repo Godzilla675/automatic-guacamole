@@ -21,6 +21,14 @@ class StructureManager {
             trunk = BLOCK.SPRUCE_WOOD;
             leaves = BLOCK.SPRUCE_LEAVES;
         }
+        if (type === 'birch') {
+            trunk = BLOCK.BIRCH_WOOD;
+            leaves = BLOCK.BIRCH_LEAVES;
+        }
+        if (type === 'jungle') {
+            this.generateJungleTree(chunk, x, y, z);
+            return;
+        }
 
         // Trunk
         for (let i = 0; i < height; i++) {
@@ -55,6 +63,64 @@ class StructureManager {
         if (structureName === 'well') this.generateWell(chunk, x, y, z);
         if (structureName === 'house') this.generateHouse(chunk, x, y, z);
         if (structureName === 'path') this.generatePath(chunk, x, y, z);
+        if (structureName === 'village') this.generateVillage(chunk, x, y, z);
+    }
+
+    generateJungleTree(chunk, x, y, z) {
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        const height = 12 + Math.floor(Math.random() * 8);
+
+        // 2x2 Trunk
+        for(let i=0; i<height; i++) {
+             this.world.setBlock(wx, y+i, wz, BLOCK.JUNGLE_WOOD);
+             this.world.setBlock(wx+1, y+i, wz, BLOCK.JUNGLE_WOOD);
+             this.world.setBlock(wx, y+i, wz+1, BLOCK.JUNGLE_WOOD);
+             this.world.setBlock(wx+1, y+i, wz+1, BLOCK.JUNGLE_WOOD);
+
+             // Cocoa
+             if (i > 3 && i < height - 3 && Math.random() < 0.2) {
+                 if (Math.random() < 0.25) this.world.setBlock(wx-1, y+i, wz, BLOCK.COCOA_BLOCK);
+                 else if (Math.random() < 0.5) this.world.setBlock(wx+2, y+i, wz, BLOCK.COCOA_BLOCK);
+                 else if (Math.random() < 0.75) this.world.setBlock(wx, y+i, wz-1, BLOCK.COCOA_BLOCK);
+                 else this.world.setBlock(wx, y+i, wz+2, BLOCK.COCOA_BLOCK);
+             }
+        }
+
+        // Leaves (Canopy)
+        for (let lx = -2; lx <= 3; lx++) {
+            for (let lz = -2; lz <= 3; lz++) {
+                 this.world.setBlock(wx+lx, y+height, wz+lz, BLOCK.JUNGLE_LEAVES);
+                 if (Math.abs(lx) <= 1 && Math.abs(lz) <= 1) {
+                      this.world.setBlock(wx+lx, y+height+1, wz+lz, BLOCK.JUNGLE_LEAVES);
+                 }
+            }
+        }
+    }
+
+    generateVillage(chunk, x, y, z) {
+        // Center Well
+        this.generateWell(chunk, x, y, z);
+
+        // Houses around
+        this.generateHouse(chunk, x+8, y, z);
+        this.generateHouse(chunk, x-8, y, z);
+        this.generateHouse(chunk, x, y, z+8);
+        this.generateHouse(chunk, x, y, z-8);
+
+        // Paths connecting
+        for(let i=1; i<8; i++) {
+            this.world.setBlock(chunk.cx*16+x+i, y, chunk.cz*16+z, BLOCK.SANDSTONE);
+            this.world.setBlock(chunk.cx*16+x-i, y, chunk.cz*16+z, BLOCK.SANDSTONE);
+            this.world.setBlock(chunk.cx*16+x, y, chunk.cz*16+z+i, BLOCK.SANDSTONE);
+            this.world.setBlock(chunk.cx*16+x, y, chunk.cz*16+z-i, BLOCK.SANDSTONE);
+        }
+
+        // Spawn Villager if possible
+        if (window.Mob && this.world.game) {
+             const v = new window.Mob(this.world.game, chunk.cx*16+x+2, y+1, chunk.cz*16+z+2, window.MOB_TYPE.VILLAGER);
+             this.world.game.mobs.push(v);
+        }
     }
 
     generateHouse(chunk, x, y, z) {

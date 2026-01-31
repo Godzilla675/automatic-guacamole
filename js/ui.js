@@ -4,6 +4,7 @@ class UIManager {
         this.cursorItem = null;
         this.activeFurnace = null;
         this.activeChest = null;
+        this.activeVillager = null;
     }
 
     init() {
@@ -119,6 +120,13 @@ class UIManager {
             closeRecipeBook.addEventListener('click', () => {
                 document.getElementById('recipe-book-screen').classList.add('hidden');
                 document.getElementById('crafting-screen').classList.remove('hidden');
+            });
+        }
+
+        const closeTrading = document.getElementById('close-trading');
+        if (closeTrading) {
+            closeTrading.addEventListener('click', () => {
+                this.closeTrading();
             });
         }
     }
@@ -328,6 +336,145 @@ class UIManager {
         document.getElementById('chest-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openTrading(villager) {
+        this.activeVillager = villager;
+        // Generate random trades if not present
+        if (!villager.trades) {
+            villager.trades = [];
+            // Simple: 1 Emerald <-> Random Food/Item
+            const options = [
+                { cost: {type: BLOCK.ITEM_EMERALD, count: 1}, reward: {type: BLOCK.ITEM_APPLE, count: 3} },
+                { cost: {type: BLOCK.ITEM_EMERALD, count: 1}, reward: {type: BLOCK.ITEM_COOKED_FISH, count: 2} },
+                { cost: {type: BLOCK.ITEM_WHEAT, count: 10}, reward: {type: BLOCK.ITEM_EMERALD, count: 1} },
+                { cost: {type: BLOCK.ITEM_RAW_FISH, count: 5}, reward: {type: BLOCK.ITEM_EMERALD, count: 1} },
+                { cost: {type: BLOCK.ITEM_COAL, count: 10}, reward: {type: BLOCK.ITEM_EMERALD, count: 1} }
+            ];
+            // Pick 3 random
+            for(let i=0; i<3; i++) {
+                villager.trades.push(options[Math.floor(Math.random() * options.length)]);
+            }
+        }
+
+        document.getElementById('trading-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden'); // Show inventory
+        document.exitPointerLock();
+        this.renderTrading();
+        this.refreshInventoryUI();
+    }
+
+    closeTrading() {
+        this.activeVillager = null;
+        document.getElementById('trading-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    renderTrading() {
+        if (!this.activeVillager) return;
+        const list = document.getElementById('trading-list');
+        list.innerHTML = '';
+
+        this.activeVillager.trades.forEach((trade, index) => {
+            const row = document.createElement('div');
+            row.style.display = 'flex';
+            row.style.alignItems = 'center';
+            row.style.background = 'rgba(0,0,0,0.5)';
+            row.style.padding = '5px';
+            row.style.borderRadius = '4px';
+
+            const createIcon = (item) => {
+                const span = document.createElement('span');
+                const def = window.BLOCKS[item.type];
+                span.textContent = (def ? def.icon : '?') + ' x' + item.count;
+                span.style.marginRight = '10px';
+                span.style.fontSize = '20px';
+                return span;
+            }
+
+            row.appendChild(createIcon(trade.cost));
+
+            const arrow = document.createElement('span');
+            arrow.textContent = '➔';
+            arrow.style.marginRight = '10px';
+            row.appendChild(arrow);
+
+            row.appendChild(createIcon(trade.reward));
+
+            const btn = document.createElement('button');
+            btn.className = 'menu-button';
+            btn.textContent = 'Trade';
+            btn.style.marginLeft = 'auto';
+            btn.onclick = () => this.trade(index);
+
+            row.appendChild(btn);
+            list.appendChild(row);
+        });
+    }
+
+    trade(index) {
+        if (!this.activeVillager) return;
+        const trade = this.activeVillager.trades[index];
+        const player = this.game.player;
+
+        // Check cost
+        let total = 0;
+        player.inventory.forEach(slot => {
+            if (slot && slot.type === trade.cost.type) total += slot.count;
+        });
+
+        if (total >= trade.cost.count) {
+            // Deduct
+            let remaining = trade.cost.count;
+            for(let i=0; i<player.inventory.length; i++) {
+                const slot = player.inventory[i];
+                if (slot && slot.type === trade.cost.type) {
+                    if (slot.count >= remaining) {
+                        slot.count -= remaining;
+                        remaining = 0;
+                        if (slot.count === 0) player.inventory[i] = null;
+                    } else {
+                        remaining -= slot.count;
+                        player.inventory[i] = null;
+                    }
+                    if (remaining === 0) break;
+                }
+            }
+
+            // Add Reward
+            let toAdd = trade.reward.count;
+             for (let i = 0; i < player.inventory.length; i++) {
+                const slot = player.inventory[i];
+                if (slot && slot.type === trade.reward.type && slot.count < 64) {
+                    const space = 64 - slot.count;
+                    const add = Math.min(space, toAdd);
+                    slot.count += add;
+                    toAdd -= add;
+                    if (toAdd === 0) break;
+                }
+            }
+            if (toAdd > 0) {
+                 for (let i = 0; i < player.inventory.length; i++) {
+                    if (!player.inventory[i]) {
+                        player.inventory[i] = {type: trade.reward.type, count: toAdd};
+                        toAdd = 0;
+                        break;
+                    }
+                }
+            }
+            if (toAdd > 0) {
+                 // Drop
+                 if (window.Drop) {
+                     this.game.drops.push(new window.Drop(this.game, player.x, player.y+1, player.z, trade.reward.type, toAdd));
+                 }
+            }
+
+            if (window.soundManager) window.soundManager.play('place');
+            this.refreshInventoryUI();
+        } else {
+            alert("Not enough resources!");
+        }
     }
 
     refreshChestUI() {
