@@ -8,7 +8,10 @@ const MOB_TYPE = {
     WOLF: 'wolf',
     OCELOT: 'ocelot',
     VILLAGER: 'villager',
-    IRON_GOLEM: 'iron_golem'
+    IRON_GOLEM: 'iron_golem',
+    CHICKEN: 'chicken',
+    CREEPER: 'creeper',
+    ENDERMAN: 'enderman'
 };
 
 class Mob {
@@ -37,6 +40,9 @@ class Mob {
         this.maxHealth = 20;
         this.lastDamageTime = 0;
         this.isDead = false;
+
+        // Special timers
+        this.fuseTimer = 0; // For Creeper
 
         // Breeding
         this.loveTimer = 0;
@@ -94,6 +100,7 @@ class Mob {
         if (this.type === MOB_TYPE.COW || this.type === MOB_TYPE.SHEEP) food = BLOCK.ITEM_WHEAT;
         else if (this.type === MOB_TYPE.PIG) food = BLOCK.ITEM_APPLE; // Placeholder for carrot
         else if (this.type === MOB_TYPE.WOLF && this.isTamed) food = BLOCK.ITEM_PORKCHOP; // Heal wolf
+        else if (this.type === MOB_TYPE.CHICKEN) food = BLOCK.ITEM_WHEAT_SEEDS;
 
         if (food && itemType === food) {
             this.loveTimer = 30; // 30 seconds
@@ -123,6 +130,13 @@ class Mob {
                 this.speed = 1.0;
                 this.maxHealth = 8;
                 break;
+            case MOB_TYPE.CHICKEN:
+                this.color = '#FFFFFF';
+                this.height = 0.7;
+                this.width = 0.4;
+                this.speed = 1.5;
+                this.maxHealth = 4;
+                break;
             case MOB_TYPE.ZOMBIE:
                 this.color = '#2E8B57'; // Green
                 this.height = 1.8;
@@ -141,6 +155,18 @@ class Mob {
                 this.width = 1.2;
                 this.speed = 3.5; // Very Fast
                 this.maxHealth = 16;
+                break;
+            case MOB_TYPE.CREEPER:
+                this.color = '#00FF00'; // Bright Green
+                this.height = 1.7;
+                this.speed = 1.8;
+                this.maxHealth = 20;
+                break;
+            case MOB_TYPE.ENDERMAN:
+                this.color = '#000000'; // Black
+                this.height = 2.9;
+                this.speed = 3.0;
+                this.maxHealth = 40;
                 break;
             case MOB_TYPE.WOLF:
                 this.color = '#A9A9A9';
@@ -173,6 +199,16 @@ class Mob {
 
     takeDamage(amount, knockbackDir) {
         if (this.isDead) return;
+
+        // Enderman Teleport
+        if (this.type === MOB_TYPE.ENDERMAN) {
+            // Teleport randomly
+            this.x += (Math.random() - 0.5) * 16;
+            this.z += (Math.random() - 0.5) * 16;
+            this.y = this.world.getHighestBlockY(Math.floor(this.x), Math.floor(this.z));
+            window.soundManager.play('place'); // Teleport sound
+            return; // Dodge
+        }
 
         this.health -= amount;
         this.lastDamageTime = Date.now();
@@ -209,6 +245,12 @@ class Mob {
                      this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_MUTTON, 1));
                 }
                 break;
+            case MOB_TYPE.CHICKEN:
+                dropType = BLOCK.ITEM_FEATHER;
+                if (Math.random() < 0.5 && this.game.drops) {
+                     this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_CHICKEN, 1));
+                }
+                break;
             case MOB_TYPE.ZOMBIE:
                 dropType = BLOCK.ITEM_ROTTEN_FLESH;
                 break;
@@ -218,6 +260,12 @@ class Mob {
                 break;
             case MOB_TYPE.SPIDER:
                 dropType = BLOCK.ITEM_STRING;
+                break;
+            case MOB_TYPE.CREEPER:
+                dropType = BLOCK.ITEM_GUNPOWDER;
+                break;
+            case MOB_TYPE.ENDERMAN:
+                dropType = BLOCK.ITEM_ENDER_PEARL;
                 break;
         }
 
@@ -282,7 +330,11 @@ class Mob {
             return;
         }
 
-        if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SKELETON || this.type === MOB_TYPE.SPIDER) {
+        if (this.type === MOB_TYPE.ZOMBIE ||
+            this.type === MOB_TYPE.SKELETON ||
+            this.type === MOB_TYPE.SPIDER ||
+            this.type === MOB_TYPE.CREEPER ||
+            this.type === MOB_TYPE.ENDERMAN) {
             this.updateHostileAI(dt);
         } else {
             this.updatePassiveAI(dt);
@@ -316,13 +368,15 @@ class Mob {
             this.vx = 0;
             this.vz = 0;
         }
-
-        // Check for targets (TODO: Attack what player hits)
     }
 
     updateIronGolemAI(dt) {
-        // Find nearest Zombie
-        const target = this.game.mobs.find(m => m.type === MOB_TYPE.ZOMBIE && !m.isDead);
+        // Find nearest Zombie or Skeleton or Spider
+        const target = this.game.mobs.find(m =>
+            (m.type === MOB_TYPE.ZOMBIE || m.type === MOB_TYPE.SKELETON || m.type === MOB_TYPE.SPIDER)
+            && !m.isDead
+        );
+
         if (target) {
             const dx = target.x - this.x;
             const dz = target.z - this.z;
@@ -418,13 +472,49 @@ class Mob {
         const dz = player.z - this.z;
         const dist = Math.sqrt(dx*dx + dz*dz);
 
+        // Enderman only attacks if hit (neutral) - for now simplified to hostile as per prompt "Implement Enderman Mob" usually implies standard behavior
+        // But let's make it neutral if distance is far, only hostile if close?
+        // Actually, let's keep it simple: Hostile within range.
+
         if (dist < 20) { // Detect range
             this.yaw = Math.atan2(dx, dz);
 
+            if (this.type === MOB_TYPE.CREEPER) {
+                // Creeper Logic
+                this.vx = Math.sin(this.yaw) * this.speed;
+                this.vz = Math.cos(this.yaw) * this.speed;
+
+                if (dist < 2.5) {
+                    // Stop moving, fuse
+                    this.vx = 0;
+                    this.vz = 0;
+                    this.fuseTimer += dt;
+                    if (this.fuseTimer > 1.5) {
+                        // Explode!
+                        this.game.explode(this.x, this.y, this.z, 4);
+                        this.isDead = true;
+                        this.health = 0;
+                        this.game.mobs = this.game.mobs.filter(m => m !== this);
+                    } else {
+                        // Visual: Pulse? (Not implemented here, handled in renderer potentially if we had one)
+                        // Make color flash
+                        if (Math.floor(this.fuseTimer * 10) % 2 === 0) {
+                            this.color = '#FFFFFF';
+                        } else {
+                            this.color = '#00FF00';
+                        }
+                    }
+                } else {
+                    this.fuseTimer = Math.max(0, this.fuseTimer - dt);
+                    this.color = '#00FF00';
+                }
+                return;
+            }
+
             if (dist < 1.5 && this.attackCooldown <= 0) {
                 // Melee Attack
-                 if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SPIDER) {
-                     this.game.player.takeDamage(3); // Damage player
+                 if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SPIDER || this.type === MOB_TYPE.ENDERMAN) {
+                     this.game.player.takeDamage(this.type === MOB_TYPE.ENDERMAN ? 6 : 3); // Damage player
 
                      // Knockback player
                      const dirX = Math.sin(this.yaw);
@@ -460,24 +550,24 @@ class Mob {
                      }
                  }
                 } else {
-                // Zombie & Spider
-                this.vx = Math.sin(this.yaw) * this.speed;
-                this.vz = Math.cos(this.yaw) * this.speed;
+                    // Zombie, Spider, Enderman move towards player
+                    this.vx = Math.sin(this.yaw) * this.speed;
+                    this.vz = Math.cos(this.yaw) * this.speed;
 
-                // Jump if wall (simple)
-                const bx = Math.floor(this.x + this.vx * 0.5);
-                const bz = Math.floor(this.z + this.vz * 0.5);
-                const by = Math.floor(this.y);
-                const blockInFront = this.world.getBlock(bx, by, bz);
+                    // Jump if wall (simple)
+                    const bx = Math.floor(this.x + this.vx * 0.5);
+                    const bz = Math.floor(this.z + this.vz * 0.5);
+                    const by = Math.floor(this.y);
+                    const blockInFront = this.world.getBlock(bx, by, bz);
 
-                if (blockInFront !== BLOCK.AIR && !BLOCKS[blockInFront].liquid) {
-                    if (this.type === MOB_TYPE.SPIDER) {
-                        this.vy = 5; // Climb/Super jump
-                    } else if (this.vy === 0) {
-                        this.vy = 6;
+                    if (blockInFront !== BLOCK.AIR && !BLOCKS[blockInFront].liquid) {
+                        if (this.type === MOB_TYPE.SPIDER) {
+                            this.vy = 5; // Climb/Super jump
+                        } else if (this.vy === 0) {
+                            this.vy = 6;
+                        }
                     }
                 }
-            }
             }
         } else {
             this.updatePassiveAI(dt); // Wander if lost

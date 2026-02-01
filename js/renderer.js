@@ -345,6 +345,31 @@ class Renderer {
              }
         });
 
+        // Draw TNT
+        this.game.tntPrimed.forEach(tnt => {
+             const dx = tnt.x - px;
+             const dy = tnt.y - py;
+             const dz = tnt.z - pz;
+
+             const rx = dx * cosY - dz * sinY;
+             const rz = dx * sinY + dz * cosY;
+             const ry = dy * cosP - rz * sinP;
+             const rz2 = dy * sinP + rz * cosP;
+
+             if (rz2 > 0.1) {
+                 const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                 const size = (scale / rz2);
+                 const sx = (rx / rz2) * scale + w / 2;
+                 const sy = (ry / rz2) * scale + h / 2;
+
+                 // Flash white
+                 if (Math.floor(tnt.fuse * 5) % 2 === 0) ctx.fillStyle = 'white';
+                 else ctx.fillStyle = 'red';
+
+                 ctx.fillRect(sx - size/2, sy - size/2, size, size);
+             }
+        });
+
         // Draw Projectiles
         this.game.projectiles.forEach(p => {
              const dx = p.x - px;
@@ -429,6 +454,31 @@ class Renderer {
                      ctx.textAlign = 'left'; // Reset
                  }
             });
+        }
+
+        // Draw Weather
+        if (this.game.world.weather !== 'clear') {
+            const isRain = this.game.world.weather === 'rain';
+            ctx.strokeStyle = isRain ? 'rgba(100, 100, 255, 0.6)' : 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = isRain ? 1 : 2;
+            ctx.beginPath();
+
+            // Simple screen-space particles (random every frame = static noise effect, better to animate)
+            // For simplicity, just random lines.
+            const count = 100;
+            for (let i = 0; i < count; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const len = isRain ? 20 : 5;
+
+                ctx.moveTo(x, y);
+                ctx.lineTo(x - (isRain ? 2 : 1), y + len);
+            }
+            ctx.stroke();
+
+            // Darken sky
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, w, h);
         }
 
         // HUD Updates

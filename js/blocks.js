@@ -28,6 +28,13 @@ const BLOCK = {
     FARMLAND: 22,
     BED: 23,
     WHEAT: 24,
+    CARROTS: 241, // Using high ID to avoid conflict? No, let's keep it close if possible, or just append
+    POTATOES: 242,
+    MELON_BLOCK: 243,
+    PUMPKIN: 244,
+    MELON_STEM: 245,
+    PUMPKIN_STEM: 246,
+    TNT: 247,
 
     // Biome Blocks
     SNOW: 25,
@@ -148,8 +155,20 @@ const BLOCK = {
     ITEM_APPLE: 215,
     ITEM_WHEAT_SEEDS: 220,
     ITEM_WHEAT: 221,
+    ITEM_CARROT: 222,
+    ITEM_POTATO: 223,
+    ITEM_MELON_SEEDS: 224,
+    ITEM_PUMPKIN_SEEDS: 225,
+    ITEM_MELON_SLICE: 226,
+
     ITEM_RAW_FISH: 230,
     ITEM_ARROW: 240,
+
+    // Mob Drops (New)
+    ITEM_FEATHER: 260,
+    ITEM_CHICKEN: 261, // Raw Chicken
+    ITEM_GUNPOWDER: 262,
+    ITEM_ENDER_PEARL: 263,
 
     // New Items
     ITEM_COCOA_BEANS: 250,
@@ -333,6 +352,11 @@ const BLOCKS = {
     [BLOCK.ITEM_WOOL]: { name: 'White Wool', color: '#FFFFFF', solid: false, isItem: true, icon: '⬜' },
     [BLOCK.ITEM_MUTTON]: { name: 'Raw Mutton', color: '#B22222', solid: false, isItem: true, icon: '🍖', food: 6 },
 
+    [BLOCK.ITEM_FEATHER]: { name: 'Feather', color: '#FFFFFF', solid: false, isItem: true, icon: '🪶' },
+    [BLOCK.ITEM_CHICKEN]: { name: 'Raw Chicken', color: '#FFDAB9', solid: false, isItem: true, icon: '🍗', food: 4 },
+    [BLOCK.ITEM_GUNPOWDER]: { name: 'Gunpowder', color: '#696969', solid: false, isItem: true, icon: '🌑' },
+    [BLOCK.ITEM_ENDER_PEARL]: { name: 'Ender Pearl', color: '#008B8B', solid: false, isItem: true, icon: '🔮' },
+
     // Crafting Items
     [BLOCK.ITEM_STICK]: { name: 'Stick', color: '#8B4513', solid: false, isItem: true, icon: '🥢' },
     [BLOCK.ITEM_COAL]: { name: 'Coal', color: '#000000', solid: false, isItem: true, icon: '⚫' },
@@ -340,8 +364,22 @@ const BLOCKS = {
     [BLOCK.ITEM_GOLD_INGOT]: { name: 'Gold Ingot', color: '#FFD700', solid: false, isItem: true, icon: '🟡' },
     [BLOCK.ITEM_DIAMOND]: { name: 'Diamond', color: '#00FFFF', solid: false, isItem: true, icon: '💎' },
     [BLOCK.ITEM_APPLE]: { name: 'Apple', color: '#FF0000', solid: false, isItem: true, icon: '🍎', food: 4 },
+    [BLOCK.CARROTS]: { name: 'carrots', color: '#FFA500', solid: false, transparent: true, icon: '🥕', hardness: 0.0 },
+    [BLOCK.POTATOES]: { name: 'potatoes', color: '#F4A460', solid: false, transparent: true, icon: '🥔', hardness: 0.0 },
+    [BLOCK.MELON_BLOCK]: { name: 'Melon', color: '#00FF00', top: '#00FF00', solid: true, icon: '🍉', hardness: 1.0, tool: 'axe' },
+    [BLOCK.PUMPKIN]: { name: 'Pumpkin', color: '#FF8C00', top: '#FF8C00', solid: true, icon: '🎃', hardness: 1.0, tool: 'axe' },
+    [BLOCK.MELON_STEM]: { name: 'Melon Stem', color: '#32CD32', solid: false, transparent: true, icon: '🌱', hardness: 0.0 },
+    [BLOCK.PUMPKIN_STEM]: { name: 'Pumpkin Stem', color: '#32CD32', solid: false, transparent: true, icon: '🌱', hardness: 0.0 },
+    [BLOCK.TNT]: { name: 'TNT', color: '#DB7093', top: '#FF0000', solid: true, icon: '🧨', hardness: 0.0 },
+
     [BLOCK.ITEM_WHEAT_SEEDS]: { name: 'Wheat Seeds', color: '#32CD32', solid: false, isItem: true, icon: '🌰' },
     [BLOCK.ITEM_WHEAT]: { name: 'Wheat', color: '#DAA520', solid: false, isItem: true, icon: '🌾' },
+    [BLOCK.ITEM_CARROT]: { name: 'Carrot', color: '#FFA500', solid: false, isItem: true, icon: '🥕', food: 3 },
+    [BLOCK.ITEM_POTATO]: { name: 'Potato', color: '#F4A460', solid: false, isItem: true, icon: '🥔', food: 1 },
+    [BLOCK.ITEM_MELON_SEEDS]: { name: 'Melon Seeds', color: '#000000', solid: false, isItem: true, icon: '⚫' },
+    [BLOCK.ITEM_PUMPKIN_SEEDS]: { name: 'Pumpkin Seeds', color: '#F5DEB3', solid: false, isItem: true, icon: '🎃' },
+    [BLOCK.ITEM_MELON_SLICE]: { name: 'Melon Slice', color: '#FF6347', solid: false, isItem: true, icon: '🍉', food: 2 },
+
     [BLOCK.ITEM_RAW_FISH]: { name: 'Raw Fish', color: '#87CEEB', solid: false, isItem: true, icon: '🐟', food: 5 },
     [BLOCK.ITEM_ARROW]: { name: 'Arrow', color: '#D3D3D3', solid: false, isItem: true, icon: '➵' },
 
