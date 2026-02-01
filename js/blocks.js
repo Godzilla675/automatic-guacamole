@@ -116,6 +116,7 @@ const BLOCK = {
     REDSTONE_TORCH: 161,
     REDSTONE_LAMP: 162,
     REDSTONE_LAMP_ACTIVE: 163,
+    REDSTONE_TORCH_OFF: 164,
 
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
@@ -326,6 +327,7 @@ const BLOCKS = {
     [BLOCK.REDSTONE_TORCH]: { name: 'Redstone Torch', color: '#FF0000', solid: false, transparent: true, icon: '📍', hardness: 0.0, light: 7, isTorch: true, drop: { type: BLOCK.REDSTONE_TORCH, count: 1 } },
     [BLOCK.REDSTONE_LAMP]: { name: 'Redstone Lamp', color: '#4A2B2B', solid: true, icon: '🔲', hardness: 0.3, tool: 'pickaxe' },
     [BLOCK.REDSTONE_LAMP_ACTIVE]: { name: 'Redstone Lamp', color: '#8B4513', top: '#FFD700', solid: true, icon: '💡', hardness: 0.3, light: 15, tool: 'pickaxe', drop: { type: BLOCK.REDSTONE_LAMP, count: 1 } },
+    [BLOCK.REDSTONE_TORCH_OFF]: { name: 'Redstone Torch (Off)', color: '#550000', solid: false, transparent: true, icon: '📍', hardness: 0.0, isTorch: true, drop: { type: BLOCK.REDSTONE_TORCH, count: 1 } },
 
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },

@@ -165,6 +165,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Weather System**
 - [x] **Implement TNT & Explosions**
 - [x] **Implement Farming Extensions**
+- [x] **Fix Redstone NOT Gate Logic** (Implemented signal inversion and signal cutoff)
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.

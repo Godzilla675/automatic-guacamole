@@ -131,6 +131,24 @@ class World {
         }
     }
 
+    isBlockPowered(x, y, z) {
+        const neighbors = [
+            {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+            {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z},
+            {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+        ];
+        for (const n of neighbors) {
+            const type = this.getBlock(n.x, n.y, n.z);
+            const def = window.BLOCKS[type];
+            if (def) {
+                if (def.isWire && this.getMetadata(n.x, n.y, n.z) > 0) return true;
+                if (def.isTorch && def.id !== window.BLOCK.TORCH && type !== window.BLOCK.REDSTONE_TORCH_OFF) return true; // Repeater/Torch (excluding OFF torch)
+                if (type === window.BLOCK.REDSTONE_LAMP_ACTIVE) return false;
+            }
+        }
+        return false;
+    }
+
     updateRedstone() {
         if (this.activeRedstone.size === 0) return;
 
@@ -160,7 +178,7 @@ class World {
                     const nDef = window.BLOCKS[nType];
                     if (!nDef) continue;
 
-                    if (nDef.isTorch) {
+                    if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) {
                         newPower = 15;
                     } else if (nDef.isWire) {
                         const nPower = this.getMetadata(n.x, n.y, n.z);
@@ -202,6 +220,21 @@ class World {
                 } else if (!powered && type === window.BLOCK.REDSTONE_LAMP_ACTIVE) {
                     this.setBlock(x, y, z, window.BLOCK.REDSTONE_LAMP);
                 }
+            } else if (blockDef.isTorch && blockDef.id !== window.BLOCK.TORCH) { // Redstone Torch
+                 // Check block below
+                 const supportPos = {x, y: y-1, z};
+                 const supportType = this.getBlock(supportPos.x, supportPos.y, supportPos.z);
+
+                 // Check if support block is receiving power
+                 const isPowered = this.isBlockPowered(supportPos.x, supportPos.y, supportPos.z);
+
+                 if (isPowered && type === window.BLOCK.REDSTONE_TORCH) {
+                     this.setBlock(x, y, z, window.BLOCK.REDSTONE_TORCH_OFF);
+                     this.scheduleNeighborRedstoneUpdates(x, y, z); // Notify neighbors (wire above/side)
+                 } else if (!isPowered && type === window.BLOCK.REDSTONE_TORCH_OFF) {
+                     this.setBlock(x, y, z, window.BLOCK.REDSTONE_TORCH);
+                     this.scheduleNeighborRedstoneUpdates(x, y, z);
+                 }
             }
         }
     }
