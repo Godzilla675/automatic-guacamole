@@ -18,10 +18,11 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
 - [x] **Implement Saplings and Tree Propagation**
 - [ ] **Implement Experience & Enchanting**
+- [ ] **Implement Save/Load UI** (Buttons in Pause/Main Menu to trigger world save/load)
 
 ### Crafting & Inventory
 - [ ] **Implement Crafting Animations**
-- [ ] **Implement Recipe Discovery System**
+- [ ] **Implement Recipe Discovery System** (Unlock recipes as items are gathered, currently shows all)
 - [ ] **Implement Potion Brewing**
 
 ### Nether Dimension
@@ -33,15 +34,19 @@ This document outlines the priorities and workflow for all agents working on thi
 *Fix reported bugs and ensure stability.*
 
 - [x] **Audit and Verify All Features** (Run full regression suite)
-- [x] **Fix verify_blocks.js logic error**: Case sensitivity check for Concrete blocks causes false positives.
-- [x] **Fix Lighting Cleanup**: Torch removal does not fully reset light levels (leaves residual light level 4).
-- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
-- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
-- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
-- [x] **Multiplayer Support**: WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
-- [x] **Complete Settings Menu**: Add missing Graphics (Render Distance, FOV) and Controls (Key remapping) configuration to the Settings screen.
-- [x] **Implement Village Layouts** (Roads, Houses, coherent generation)
-- [x] **Fix Tree Generation Height Limit** (Trees cut off at world height)
+- [x] **Fix verify_blocks.js logic error**
+- [x] **Fix Lighting Cleanup**
+- [x] **Refactor Structure Manager**
+- [x] **Fix Water Flow Logic**
+- [x] **Fix Spruce Tree Visuals**
+- [x] **Multiplayer Support**
+- [x] **Complete Settings Menu**
+- [x] **Implement Village Layouts**
+- [x] **Fix Tree Generation Height Limit**
+- [ ] **Fix Redstone/Torch Structural Integrity** (Components like Torches/Wire do not break when support block is removed)
+- [ ] **Fix Projectile Collision** (Arrows collide with non-solid blocks like Water, Wheat, Grass instead of passing through)
+- [ ] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
+- [ ] **Implement Particle System** (Visuals for breaking blocks, explosions, smoke)
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*
