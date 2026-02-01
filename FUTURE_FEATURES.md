@@ -16,7 +16,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Pistons**
 - [x] **Implement TNT & Explosions** (Physics, Damage)
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
-- [ ] **Implement Saplings and Tree Propagation**
+- [x] **Implement Saplings and Tree Propagation**
 - [ ] **Implement Experience & Enchanting**
 
 ### Crafting & Inventory

@@ -118,6 +118,12 @@ const BLOCK = {
     REDSTONE_LAMP_ACTIVE: 163,
     REDSTONE_TORCH_OFF: 164,
 
+    // Saplings
+    OAK_SAPLING: 170,
+    BIRCH_SAPLING: 171,
+    SPRUCE_SAPLING: 172,
+    JUNGLE_SAPLING: 173,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -220,7 +226,7 @@ const BLOCKS = {
     [BLOCK.STONE]: { name: 'stone', color: '#808080', top: '#909090', solid: true, icon: '🔲', hardness: 1.5, tool: 'pickaxe', drop: { type: BLOCK.COBBLESTONE, count: 1 } },
     [BLOCK.GRASS]: { name: 'grass', color: '#228B22', top: '#32CD32', solid: true, icon: '🟩', hardness: 0.6, tool: 'shovel', drop: { type: BLOCK.DIRT, count: 1 } },
     [BLOCK.WOOD]: { name: 'wood', color: '#5C4033', top: '#5C4033', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
-    [BLOCK.LEAVES]: { name: 'leaves', color: '#90EE90', top: '#98FB98', solid: true, transparent: true, icon: '🌿', hardness: 0.2 },
+    [BLOCK.LEAVES]: { name: 'leaves', color: '#90EE90', top: '#98FB98', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.OAK_SAPLING, count: 1, chance: 0.05 } },
     [BLOCK.SAND]: { name: 'sand', color: '#F4A460', top: '#FFE4B5', solid: true, icon: '🏖️', hardness: 0.5, tool: 'shovel' },
     [BLOCK.WATER]: { name: 'water', color: '#4169E1', top: '#6495ED', solid: false, transparent: true, liquid: true, icon: '💧', hardness: 100 },
     [BLOCK.GLASS]: { name: 'glass', color: '#ADD8E6', top: '#B0E0E6', solid: true, transparent: true, icon: '🔷', hardness: 0.3, drop: null },
@@ -250,7 +256,7 @@ const BLOCKS = {
     [BLOCK.SNOW]: { name: 'snow', color: '#F0F0F0', top: '#FFFFFF', solid: true, icon: '❄️', hardness: 0.2 },
     [BLOCK.ICE]: { name: 'ice', color: '#A5F2F3', top: '#A5F2F3', solid: true, transparent: true, icon: '🧊', hardness: 0.5 },
     [BLOCK.SPRUCE_WOOD]: { name: 'Spruce Wood', color: '#3d2817', top: '#3d2817', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
-    [BLOCK.SPRUCE_LEAVES]: { name: 'Spruce Leaves', color: '#2d4c2d', top: '#2d4c2d', solid: true, transparent: true, icon: '🌿', hardness: 0.2 },
+    [BLOCK.SPRUCE_LEAVES]: { name: 'Spruce Leaves', color: '#2d4c2d', top: '#2d4c2d', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.SPRUCE_SAPLING, count: 1, chance: 0.05 } },
 
     // Concrete
     [BLOCK.CONCRETE_WHITE]: { name: 'White Concrete', color: '#FFFFFF', solid: true, icon: '⬜', hardness: 1.5, tool: 'pickaxe' },
@@ -312,11 +318,11 @@ const BLOCKS = {
 
     // New Wood Types
     [BLOCK.BIRCH_WOOD]: { name: 'Birch Wood', color: '#e3dcd3', top: '#e3dcd3', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
-    [BLOCK.BIRCH_LEAVES]: { name: 'Birch Leaves', color: '#80a755', top: '#80a755', solid: true, transparent: true, icon: '🌿', hardness: 0.2 },
+    [BLOCK.BIRCH_LEAVES]: { name: 'Birch Leaves', color: '#80a755', top: '#80a755', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.BIRCH_SAPLING, count: 1, chance: 0.05 } },
     [BLOCK.BIRCH_PLANK]: { name: 'Birch Plank', color: '#c4b07d', top: '#c4b07d', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
 
     [BLOCK.JUNGLE_WOOD]: { name: 'Jungle Wood', color: '#56441d', top: '#56441d', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
-    [BLOCK.JUNGLE_LEAVES]: { name: 'Jungle Leaves', color: '#30bb0b', top: '#30bb0b', solid: true, transparent: true, icon: '🌿', hardness: 0.2 },
+    [BLOCK.JUNGLE_LEAVES]: { name: 'Jungle Leaves', color: '#30bb0b', top: '#30bb0b', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.JUNGLE_SAPLING, count: 1, chance: 0.05 } },
     [BLOCK.JUNGLE_PLANK]: { name: 'Jungle Plank', color: '#a07350', top: '#a07350', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
 
     [BLOCK.COCOA_BLOCK]: { name: 'Cocoa Pod', color: '#915325', solid: true, icon: '🌰', hardness: 0.2, drop: { type: BLOCK.ITEM_COCOA_BEANS, count: 2 } },
@@ -328,6 +334,12 @@ const BLOCKS = {
     [BLOCK.REDSTONE_LAMP]: { name: 'Redstone Lamp', color: '#4A2B2B', solid: true, icon: '🔲', hardness: 0.3, tool: 'pickaxe' },
     [BLOCK.REDSTONE_LAMP_ACTIVE]: { name: 'Redstone Lamp', color: '#8B4513', top: '#FFD700', solid: true, icon: '💡', hardness: 0.3, light: 15, tool: 'pickaxe', drop: { type: BLOCK.REDSTONE_LAMP, count: 1 } },
     [BLOCK.REDSTONE_TORCH_OFF]: { name: 'Redstone Torch (Off)', color: '#550000', solid: false, transparent: true, icon: '📍', hardness: 0.0, isTorch: true, drop: { type: BLOCK.REDSTONE_TORCH, count: 1 } },
+
+    // Saplings
+    [BLOCK.OAK_SAPLING]: { name: 'Oak Sapling', color: '#228B22', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.OAK_SAPLING, count: 1 } },
+    [BLOCK.BIRCH_SAPLING]: { name: 'Birch Sapling', color: '#80a755', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.BIRCH_SAPLING, count: 1 } },
+    [BLOCK.SPRUCE_SAPLING]: { name: 'Spruce Sapling', color: '#2d4c2d', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.SPRUCE_SAPLING, count: 1 } },
+    [BLOCK.JUNGLE_SAPLING]: { name: 'Jungle Sapling', color: '#30bb0b', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.JUNGLE_SAPLING, count: 1 } },
 
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },
