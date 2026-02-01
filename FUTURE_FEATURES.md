@@ -12,7 +12,8 @@ This document outlines the priorities and workflow for all agents working on thi
 
 ### Advanced Mechanics
 - [x] **Implement Weather System** (Rain, Snow, Thunderstorms)
-- [ ] **Implement Redstone Circuits** (Wire, Torch, Power logic, Pistons)
+- [x] **Implement Redstone Circuits** (Wire, Torch, Lamp, Power logic)
+- [ ] **Implement Pistons**
 - [x] **Implement TNT & Explosions** (Physics, Damage)
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
 - [ ] **Implement Experience & Enchanting**
