@@ -16,12 +16,13 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Pistons**
 - [x] **Implement TNT & Explosions** (Physics, Damage)
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
+- [ ] **Implement Saplings and Tree Propagation**
 - [ ] **Implement Experience & Enchanting**
 
 ### Crafting & Inventory
 - [ ] **Implement Crafting Animations**
 - [ ] **Implement Recipe Discovery System**
-- [ ] **Implement Brewing**
+- [ ] **Implement Potion Brewing**
 
 ### Nether Dimension
 - [ ] **Implement Nether Portal**
@@ -31,7 +32,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [ ] **Audit and Verify All Features** (Run full regression suite)
+- [x] **Audit and Verify All Features** (Run full regression suite)
 - [x] **Fix verify_blocks.js logic error**: Case sensitivity check for Concrete blocks causes false positives.
 - [x] **Fix Lighting Cleanup**: Torch removal does not fully reset light levels (leaves residual light level 4).
 - [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
