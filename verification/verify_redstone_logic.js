@@ -1,106 +1,201 @@
-const assert = require('assert');
-const { JSDOM } = require('jsdom');
 const fs = require('fs');
 
-// Setup JSDOM
-const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
-global.window = dom.window;
-global.document = dom.window.document;
-
-// Mocks
-window.perlin = { noise: () => 0 };
-window.BiomeManager = class {
-    constructor() {}
-    getBiome() { return { name: 'Plains', heightOffset: 0 }; }
-};
-window.StructureManager = class {
-    constructor() {}
-    generateTree() {}
-    generateCactus() {}
-    generateVillage() {}
-    generateStructure() {}
+// 1. Setup Global Mocks
+global.window = {};
+global.document = {
+    getElementById: () => ({ getContext: () => ({}) })
 };
 
-// Load Code
-require('../js/blocks.js');
+// Mock Perlin for BiomeManager
+window.perlin = {
+    noise: (x, y, z) => 0.5
+};
+
+// 2. Load Modules
+// We need to load them in order of dependency
+
+// Load Blocks
+const blocksContent = fs.readFileSync('js/blocks.js', 'utf8');
+eval(blocksContent);
 global.BLOCK = window.BLOCK;
 global.BLOCKS = window.BLOCKS;
+global.TOOLS = window.TOOLS;
 
-const chunkCode = fs.readFileSync('js/chunk.js', 'utf8');
-eval(chunkCode);
-global.Chunk = window.Chunk;
+// Mock Managers required by World
+window.BiomeManager = class {
+    constructor(seed) {}
+    getBiome(x, z) { return { name: 'Plains', heightOffset: 0, topBlock: window.BLOCK.GRASS, underBlock: window.BLOCK.DIRT }; }
+};
 
-const worldCode = fs.readFileSync('js/world.js', 'utf8');
-eval(worldCode);
+window.StructureManager = class {
+    constructor(world) {}
+    generateTree() {}
+    generateStructure() {}
+    generateVillage() {}
+};
 
-// Test
-const world = new window.World();
+// Load Chunk
+const chunkContent = fs.readFileSync('js/chunk.js', 'utf8');
+eval(chunkContent);
+global.Chunk = window.Chunk; // Ensure Chunk is globally available for World
 
-console.log("Starting Redstone Logic Verification...");
+// Load World
+const worldContent = fs.readFileSync('js/world.js', 'utf8');
+eval(worldContent);
 
-// Force generation of chunk 0,0
-world.generateChunk(0, 0);
+// 3. Test Suite
+const assert = require('assert');
 
-// 1. Test Source (Torch) + Wire
-console.log("Test 1: Torch powers adjacent wire");
-world.setBlock(0, 50, 0, window.BLOCK.REDSTONE_TORCH);
-world.setBlock(1, 50, 0, window.BLOCK.REDSTONE_WIRE);
+function runTests() {
+    console.log("Running Redstone Logic Tests...");
+    const world = new window.World();
 
-console.log("Active Redstone size:", world.activeRedstone.size);
+    // Ensure we are in a loaded chunk
+    // World generates chunks on demand in setBlock?
+    // world.generateChunk(0, 0); // Manually generate if needed, but setBlock calls getChunk which calls generateChunk?
+    // No, setBlock calls getChunk, if null it adds to pending. We need to force generation.
+    world.generateChunk(0, 0);
 
-// Trigger updates
-let loops = 0;
-while(world.activeRedstone.size > 0 && loops < 20) {
+    const checkBlock = (x, y, z, type, msg) => {
+        const actual = world.getBlock(x, y, z);
+        assert.strictEqual(actual, type, `${msg}: Expected ${type}, got ${actual}`);
+    };
+
+    const checkMeta = (x, y, z, val, msg) => {
+         const actual = world.getMetadata(x, y, z);
+         assert.strictEqual(actual, val, `${msg}: Expected metadata ${val}, got ${actual}`);
+    };
+
+    // Test 1: Redstone Wire Connectivity & Decay
+    console.log("Test 1: Wire Connectivity");
+    // Place wire at 0, 50, 0
+    world.setBlock(0, 50, 0, window.BLOCK.REDSTONE_WIRE);
+    world.setMetadata(0, 50, 0, 15); // Power it manually
+
+    // Place neighbor wire at 1, 50, 0
+    world.setBlock(1, 50, 0, window.BLOCK.REDSTONE_WIRE);
+
+    // Update redstone
     world.updateRedstone();
-    loops++;
+
+    // Check neighbor power (should be 14)
+    checkMeta(1, 50, 0, 14, "Neighbor wire should have power 14");
+
+    // Place another neighbor at 2, 50, 0
+    world.setBlock(2, 50, 0, window.BLOCK.REDSTONE_WIRE);
+    world.updateRedstone();
+    checkMeta(2, 50, 0, 13, "Second neighbor should have power 13");
+
+    console.log("Passed: Wire Connectivity");
+
+    // Test 2: Redstone Torch Powering Wire
+    console.log("Test 2: Torch Powering Wire");
+    world.setBlock(10, 50, 10, window.BLOCK.REDSTONE_TORCH);
+    world.setBlock(11, 50, 10, window.BLOCK.REDSTONE_WIRE);
+    world.updateRedstone();
+
+    checkMeta(11, 50, 10, 15, "Wire next to torch should be fully powered (15)");
+    console.log("Passed: Torch Powering Wire");
+
+    // Test 3: Lamp Activation
+    console.log("Test 3: Lamp Activation");
+    world.setBlock(5, 50, 5, window.BLOCK.REDSTONE_TORCH);
+    world.setBlock(6, 50, 5, window.BLOCK.REDSTONE_LAMP);
+
+    // Update Redstone should trigger lamp update
+    world.updateRedstone();
+
+    checkBlock(6, 50, 5, window.BLOCK.REDSTONE_LAMP_ACTIVE, "Lamp next to torch should turn ON");
+
+    // Remove torch
+    world.setBlock(5, 50, 5, window.BLOCK.AIR);
+    world.updateRedstone();
+
+    checkBlock(6, 50, 5, window.BLOCK.REDSTONE_LAMP, "Lamp should turn OFF when power removed");
+    console.log("Passed: Lamp Activation");
+
+    // Test 4: NOT Gate (Inversion) logic
+    console.log("Test 4: NOT Gate (Inversion)");
+
+    // Setup:
+    // [Wire (PowerSource)] -> [Stone Block] -> [Redstone Torch]
+    // 8,50,8 (Wire, Power 15) -> 9,50,8 (Stone) -> 9,51,8 (Torch on top of Stone)
+
+    world.setBlock(8, 50, 8, window.BLOCK.REDSTONE_WIRE);
+    world.setMetadata(8, 50, 8, 15); // Power source
+
+    world.setBlock(9, 50, 8, window.BLOCK.STONE); // Conductive block
+
+    // Torch on top
+    world.setBlock(9, 51, 8, window.BLOCK.REDSTONE_TORCH);
+
+    // Update
+    world.updateRedstone();
+
+    // Check if torch is OFF
+    const torchType = world.getBlock(9, 51, 8);
+    const torchMeta = world.getMetadata(9, 51, 8);
+
+    console.log(`Torch State: ID=${torchType}, Meta=${torchMeta}`);
+
+    // Expect REDSTONE_TORCH_OFF (164)
+    if (torchType === window.BLOCK.REDSTONE_TORCH_OFF) {
+        console.log("Passed: NOT Gate (Inversion) - Torch turned OFF");
+    } else {
+        assert.strictEqual(torchType, window.BLOCK.REDSTONE_TORCH_OFF, "Torch should turn OFF (become REDSTONE_TORCH_OFF)");
+    }
+
+    // Test 5: Signal Propagation Cutoff
+    // Verify that an OFF torch does not power adjacent wire
+    console.log("Test 5: Signal Propagation Cutoff");
+
+    // Setup:
+    // [Torch Source] -> [Wire 1] -> [Block 1] -> [Torch 1] -> [Wire 2]
+    // 9,50,10 (Source) -> 10,50,10 (Wire) -> 11,50,10 (Stone) -> 11,51,10 (Torch) -> 12,51,10 (Wire 2)
+
+    world.setBlock(9, 50, 10, window.BLOCK.REDSTONE_TORCH);
+    world.setBlock(10, 50, 10, window.BLOCK.REDSTONE_WIRE);
+    // Wire connects to torch auto-magically? updateRedstone should handle it.
+
+    world.setBlock(11, 50, 10, window.BLOCK.STONE);
+
+    // Place Torch (initially ON)
+    world.setBlock(11, 51, 10, window.BLOCK.REDSTONE_TORCH);
+
+    // Place Wire 2
+    world.setBlock(12, 51, 10, window.BLOCK.REDSTONE_WIRE);
+
+    console.log("Active Redstone Set:", Array.from(world.activeRedstone));
+
+    // Check Wire 1 Metadata
+    console.log("Wire 1 Metadata:", world.getMetadata(10, 50, 10));
+
+    // Update
+    world.updateRedstone();
+    if (world.activeRedstone.size > 0) {
+        console.log("Running second update pass...");
+        world.updateRedstone();
+    }
+
+    // Check Torch is OFF
+    const t5Torch = world.getBlock(11, 51, 10);
+    assert.strictEqual(t5Torch, window.BLOCK.REDSTONE_TORCH_OFF, "Torch should be OFF");
+
+    // Check Wire 2 is NOT powered
+    const wire2Meta = world.getMetadata(12, 51, 10);
+    console.log(`Wire 2 Power: ${wire2Meta}`);
+
+    if (wire2Meta === 0) {
+        console.log("Passed: Wire 2 has 0 power (OFF torch did not power it)");
+    } else {
+        assert.fail(`Wire 2 should have 0 power, got ${wire2Meta}. OFF Torch is still powering it!`);
+    }
 }
 
-let wireMeta = world.getMetadata(1, 50, 0);
-console.log("Final Wire Meta:", wireMeta);
-assert.strictEqual(wireMeta, 15, `Wire next to torch should have power 15, got ${wireMeta}`);
-
-// 2. Test Propagation
-console.log("Test 2: Wire propagates power");
-world.setBlock(2, 50, 0, window.BLOCK.REDSTONE_WIRE);
-world.setBlock(3, 50, 0, window.BLOCK.REDSTONE_WIRE);
-
-loops = 0;
-while(world.activeRedstone.size > 0 && loops < 50) {
-    world.updateRedstone();
-    loops++;
+try {
+    runTests();
+    console.log("All Redstone Tests Completed.");
+} catch (e) {
+    console.error("Test Failed:", e);
+    process.exit(1);
 }
-
-assert.strictEqual(world.getMetadata(2, 50, 0), 14, `Wire at dist 2 should be 14, got ${world.getMetadata(2, 50, 0)}`);
-assert.strictEqual(world.getMetadata(3, 50, 0), 13, `Wire at dist 3 should be 13, got ${world.getMetadata(3, 50, 0)}`);
-
-// 3. Test Lamp
-console.log("Test 3: Wire powers Lamp");
-world.setBlock(4, 50, 0, window.BLOCK.REDSTONE_LAMP);
-// Connect wire
-world.setBlock(3, 50, 0, window.BLOCK.REDSTONE_WIRE); // Reset just in case
-
-loops = 0;
-while(world.activeRedstone.size > 0 && loops < 50) {
-    world.updateRedstone();
-    loops++;
-}
-
-let lampType = world.getBlock(4, 50, 0);
-assert.strictEqual(lampType, window.BLOCK.REDSTONE_LAMP_ACTIVE, `Lamp should be active (ID ${window.BLOCK.REDSTONE_LAMP_ACTIVE}), got ${lampType}`);
-
-// 4. Test Turning Off
-console.log("Test 4: Removing Torch turns off power");
-world.setBlock(0, 50, 0, window.BLOCK.AIR);
-
-loops = 0;
-while(world.activeRedstone.size > 0 && loops < 100) {
-    world.updateRedstone();
-    loops++;
-}
-
-assert.strictEqual(world.getMetadata(1, 50, 0), 0, "Wire 1 should be 0");
-assert.strictEqual(world.getMetadata(2, 50, 0), 0, "Wire 2 should be 0");
-assert.strictEqual(world.getMetadata(3, 50, 0), 0, "Wire 3 should be 0");
-assert.strictEqual(world.getBlock(4, 50, 0), window.BLOCK.REDSTONE_LAMP, "Lamp should be inactive");
-
-console.log("Redstone Logic Verified Successfully!");
