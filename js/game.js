@@ -5,6 +5,7 @@ class Game {
 
         // Modules
         this.world = new World();
+        this.world.game = this;
         this.physics = new Physics(this.world);
         this.player = new Player(this);
         this.mobs = [];
@@ -330,6 +331,7 @@ class Game {
                          }
                      }
                  }
+
             }
 
             // 3. Place Block / Use Item on Block
@@ -483,6 +485,11 @@ class Game {
                     } else {
                         dropType = blockDef.drop.type;
                         dropCount = blockDef.drop.count;
+                        if (blockDef.drop.chance !== undefined) {
+                            if (Math.random() > blockDef.drop.chance) {
+                                dropCount = 0;
+                            }
+                        }
                     }
                 }
 
@@ -588,6 +595,35 @@ class Game {
                              this.updateHotbarUI();
                              return;
                          }
+                     }
+                 }
+
+                 // Sapling Logic
+                 if (BLOCKS[slot.type].isSapling) {
+                     // Check block below
+                     // nx, ny, nz is the target block coords
+                     const below = this.world.getBlock(nx, ny-1, nz);
+                     if (below === BLOCK.DIRT || below === BLOCK.GRASS || below === BLOCK.FARMLAND) {
+                         if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR) {
+                             this.world.setBlock(nx, ny, nz, slot.type);
+
+                             let treeType = 'oak';
+                             if (slot.type === BLOCK.BIRCH_SAPLING) treeType = 'birch';
+                             else if (slot.type === BLOCK.SPRUCE_SAPLING) treeType = 'spruce';
+                             else if (slot.type === BLOCK.JUNGLE_SAPLING) treeType = 'jungle';
+
+                             this.world.setBlockEntity(nx, ny, nz, { type: 'sapling', stage: 0, treeType: treeType });
+
+                             window.soundManager.play('place');
+                             this.network.sendBlockUpdate(nx, ny, nz, slot.type);
+
+                             slot.count--;
+                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             this.updateHotbarUI();
+                             return;
+                         }
+                     } else {
+                         return; // Can't place
                      }
                  }
 
@@ -978,6 +1014,28 @@ class Game {
                                     this.world.setBlock(target.x, target.y, target.z, b === BLOCK.MELON_STEM ? BLOCK.MELON_BLOCK : BLOCK.PUMPKIN);
                                 }
                             }
+                        }
+                    }
+                }
+            } else if (entity.type === 'sapling') {
+                // Random growth
+                if (Math.random() < 0.001) {
+                    if (entity.stage < 7) {
+                        entity.stage++;
+                    } else {
+                        // Grow Tree
+                        const [x, y, z] = key.split(',').map(Number);
+                        const chunk = this.world.getChunkAt(x, z);
+                        if (chunk) {
+                            // Calculate local coords for StructureManager
+                            const lx = x - chunk.cx * 16;
+                            const lz = z - chunk.cz * 16;
+
+                            // Remove block entity first
+                            this.world.setBlockEntity(x, y, z, null);
+                            this.world.setBlock(x, y, z, BLOCK.AIR); // Remove sapling block (replaced by tree trunk)
+
+                            this.world.structureManager.generateTree(chunk, lx, y, lz, entity.treeType || 'oak', true);
                         }
                     }
                 }
