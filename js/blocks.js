@@ -111,6 +111,12 @@ const BLOCK = {
     COCOA_BLOCK: 150,
     SANDSTONE: 151,
 
+    // Redstone
+    REDSTONE_WIRE: 160,
+    REDSTONE_TORCH: 161,
+    REDSTONE_LAMP: 162,
+    REDSTONE_LAMP_ACTIVE: 163,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -173,7 +179,9 @@ const BLOCK = {
     // New Items
     ITEM_COCOA_BEANS: 250,
     ITEM_COOKED_FISH: 251,
-    ITEM_EMERALD: 252
+    ITEM_EMERALD: 252,
+
+    ITEM_REDSTONE_DUST: 300
 };
 
 const TOOLS = {
@@ -313,6 +321,12 @@ const BLOCKS = {
     [BLOCK.COCOA_BLOCK]: { name: 'Cocoa Pod', color: '#915325', solid: true, icon: '🌰', hardness: 0.2, drop: { type: BLOCK.ITEM_COCOA_BEANS, count: 2 } },
     [BLOCK.SANDSTONE]: { name: 'Sandstone', color: '#dbd3a0', top: '#dbd3a0', solid: true, icon: '🟫', hardness: 0.8, tool: 'pickaxe' },
 
+    // Redstone Blocks
+    [BLOCK.REDSTONE_WIRE]: { name: 'Redstone Wire', color: '#FF0000', solid: false, transparent: true, icon: '❤️', hardness: 0.0, isWire: true, drop: { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 } },
+    [BLOCK.REDSTONE_TORCH]: { name: 'Redstone Torch', color: '#FF0000', solid: false, transparent: true, icon: '📍', hardness: 0.0, light: 7, isTorch: true, drop: { type: BLOCK.REDSTONE_TORCH, count: 1 } },
+    [BLOCK.REDSTONE_LAMP]: { name: 'Redstone Lamp', color: '#4A2B2B', solid: true, icon: '🔲', hardness: 0.3, tool: 'pickaxe' },
+    [BLOCK.REDSTONE_LAMP_ACTIVE]: { name: 'Redstone Lamp', color: '#8B4513', top: '#FFD700', solid: true, icon: '💡', hardness: 0.3, light: 15, tool: 'pickaxe', drop: { type: BLOCK.REDSTONE_LAMP, count: 1 } },
+
     // Tools Visuals
     [BLOCK.PICKAXE_WOOD]: { name: 'Wood Pickaxe', color: '#8B4513', solid: false, isItem: true, icon: '⛏️' },
     [BLOCK.PICKAXE_STONE]: { name: 'Stone Pickaxe', color: '#808080', solid: false, isItem: true, icon: '⛏️' },
@@ -385,7 +399,9 @@ const BLOCKS = {
 
     [BLOCK.ITEM_COCOA_BEANS]: { name: 'Cocoa Beans', color: '#915325', solid: false, isItem: true, icon: '🌰' },
     [BLOCK.ITEM_COOKED_FISH]: { name: 'Cooked Fish', color: '#D2691E', solid: false, isItem: true, icon: '🐟', food: 8 },
-    [BLOCK.ITEM_EMERALD]: { name: 'Emerald', color: '#50C878', solid: false, isItem: true, icon: '💎' }
+    [BLOCK.ITEM_EMERALD]: { name: 'Emerald', color: '#50C878', solid: false, isItem: true, icon: '💎' },
+
+    [BLOCK.ITEM_REDSTONE_DUST]: { name: 'Redstone Dust', color: '#FF0000', solid: false, isItem: true, icon: '🔴' }
 };
 
 window.BLOCK = BLOCK;

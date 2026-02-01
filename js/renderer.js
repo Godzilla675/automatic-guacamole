@@ -282,6 +282,84 @@ class Renderer {
                          ctx.globalAlpha = 1.0;
                          return;
                      }
+                     // Torches (Normal & Redstone)
+                     if (blockDef.isTorch) {
+                         drawHeight = size * 0.6;
+                         const width = size * 0.15;
+                         // Stick
+                         ctx.fillStyle = '#8B4513';
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy + size/2 - drawHeight), Math.ceil(width), Math.ceil(drawHeight));
+                         // Head
+                         ctx.fillStyle = blockDef.color; // Gold or Red
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy + size/2 - drawHeight), Math.ceil(width), Math.ceil(width));
+                         return;
+                     }
+                     // Redstone Wire
+                     if (blockDef.isWire) {
+                         const power = b.metadata; // 0-15
+                         const intensity = Math.max(60, power * 17); // 60 to 255
+                         ctx.fillStyle = `rgb(${intensity}, 0, 0)`;
+
+                         drawHeight = size * 0.1; // Flat
+                         const drawSyWire = sy + size/2 - drawHeight/2; // Bottom
+
+                         const centerSize = size * 0.3;
+
+                         // Draw Center
+                         ctx.fillRect(Math.floor(sx - centerSize/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(centerSize), Math.ceil(drawHeight));
+
+                         // Draw Connections
+                         // We need to check neighbors. 'b' has local coords x,y,z.
+                         // Using chunk.getBlock handles out of bounds by returning AIR (in my memory, let's verify)
+                         // Actually Chunk.getBlock checks bounds and returns AIR.
+                         // To see across chunks we need world.getBlock but we only have 'chunk' easily here.
+                         // We can compute world coords.
+                         const wx = cx * 16 + b.x;
+                         const wz = cz * 16 + b.z;
+
+                         const checkConnect = (dx, dz) => {
+                             const nb = this.game.world.getBlock(wx + dx, b.y, wz + dz);
+                             const nd = window.BLOCKS[nb];
+                             // Connect to Wire, Torch, or Power Source
+                             // Simplified: Connect to anything that is Wire or Torch or Lamp
+                             return (nd && (nd.isWire || nd.isTorch || nd.id === window.BLOCK.REDSTONE_LAMP || nd.id === window.BLOCK.REDSTONE_LAMP_ACTIVE));
+                         };
+
+                         const armLen = (size - centerSize) / 2;
+                         const armWidth = centerSize; // Wire width
+
+                         if (checkConnect(1, 0)) { // East (+X)
+                              // 2D projection is tricky.
+                              // sx is screen X. As we rotate, +X direction changes on screen.
+                              // We already calculated rotated coordinates: rx, rz.
+                              // We need to draw lines in 3D space projected to 2D.
+                              // But here we are just drawing rects at 'sx, sy'.
+                              // Doing proper 3D lines with fillRect is hard without proper projection of endpoints.
+
+                              // Fallback: Just draw a cross always for now?
+                              // Or better: Draw arms based on screen-projected directions?
+                              // That's too complex for this "fake 3D" renderer which just scales sprites.
+
+                              // Alternative: Just draw a larger flat square if connected?
+                         }
+
+                         // For this engine (billboard/sprite scaling), we can't easily draw directional arms
+                         // because we don't know which way is "East" on the screen easily (we do, but it requires math).
+
+                         // Hack: Draw a cross always. It looks like wire.
+                         ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight)); // Horizontal bar
+                         ctx.fillRect(Math.floor(sx - centerSize/2), Math.floor(drawSyWire - size/2 + drawHeight/2), Math.ceil(centerSize), Math.ceil(size/2 + drawHeight/2)); // Vertical bar (approx)
+                         // Actually, this just draws a cross on screen, which rotates with player view (billboarding).
+                         // Real wire should lay on ground.
+                         // Since we don't have true geometry, let's just draw a red flat square on the floor.
+
+                         // Reset and just draw flat square
+                         ctx.fillStyle = `rgb(${intensity}, 0, 0)`;
+                         const wireSize = size * 0.8;
+                         ctx.fillRect(Math.floor(sx - wireSize/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(wireSize), Math.ceil(drawHeight));
+
+                         return;
+                     }
                  }
                  // We could adjust brightness by b.light (0-15)
                  // let lightMult = b.light / 15;

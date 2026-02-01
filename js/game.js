@@ -549,6 +549,25 @@ class Game {
                      }
                  }
 
+                 // Redstone Dust Placement
+                 if (slot.type === BLOCK.ITEM_REDSTONE_DUST) {
+                     // Must place on top of a solid block
+                     const below = this.world.getBlock(nx, ny-1, nz);
+                     const belowDef = BLOCKS[below];
+                     if (belowDef && belowDef.solid) {
+                         this.world.setBlock(nx, ny, nz, BLOCK.REDSTONE_WIRE);
+                         window.soundManager.play('place');
+                         this.network.sendBlockUpdate(nx, ny, nz, BLOCK.REDSTONE_WIRE);
+
+                         slot.count--;
+                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         this.updateHotbarUI();
+                         return;
+                     } else {
+                         return; // Can't place
+                     }
+                 }
+
                  // Seeds Logic
                  const seedMap = {
                      [BLOCK.ITEM_WHEAT_SEEDS]: BLOCK.WHEAT,

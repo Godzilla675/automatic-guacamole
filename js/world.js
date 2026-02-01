@@ -12,6 +12,7 @@ class World {
         this.structureManager = new window.StructureManager(this);
 
         this.activeFluids = new Set();
+        this.activeRedstone = new Set();
         this.fluidTickTimer = 0;
 
         this.weather = 'clear'; // 'clear', 'rain', 'snow'
@@ -104,6 +105,104 @@ class World {
         // If removed an opaque block, light might flow in
         else if (oldBlockDef && oldBlockDef.solid && (!blockDef || !blockDef.solid)) {
              this.recalcLocalLight(x, y, z);
+        }
+
+        // Redstone Updates
+        // If we placed or removed something that interacts with redstone
+        if ((blockDef && (blockDef.isWire || blockDef.isTorch || blockDef.id === window.BLOCK.REDSTONE_LAMP || blockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE)) ||
+            (oldBlockDef && (oldBlockDef.isWire || oldBlockDef.isTorch || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE))) {
+            this.scheduleNeighborRedstoneUpdates(x, y, z);
+            this.activeRedstone.add(`${x},${y},${z}`);
+        } else {
+            // Placing a block might connect/disconnect wire, or block a signal?
+            // For now, simple neighbor check
+             this.scheduleNeighborRedstoneUpdates(x, y, z);
+        }
+    }
+
+    scheduleNeighborRedstoneUpdates(x, y, z) {
+        const neighbors = [
+            {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+            {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z},
+            {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+        ];
+        for (const n of neighbors) {
+            this.activeRedstone.add(`${n.x},${n.y},${n.z}`);
+        }
+    }
+
+    updateRedstone() {
+        if (this.activeRedstone.size === 0) return;
+
+        // Process a batch (breadth-firstish)
+        // We iterate current set, clear it. Any new updates go to next frame/tick.
+        const processing = Array.from(this.activeRedstone);
+        this.activeRedstone.clear();
+
+        for (const key of processing) {
+            const [x, y, z] = key.split(',').map(Number);
+            const type = this.getBlock(x, y, z);
+            const blockDef = window.BLOCKS[type];
+            if (!blockDef) continue;
+
+            if (blockDef.isWire) {
+                const currentPower = this.getMetadata(x, y, z);
+                let newPower = 0;
+
+                const neighbors = [
+                    {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+                    {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1},
+                    {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z}
+                ];
+
+                for (const n of neighbors) {
+                    const nType = this.getBlock(n.x, n.y, n.z);
+                    const nDef = window.BLOCKS[nType];
+                    if (!nDef) continue;
+
+                    if (nDef.isTorch) {
+                        newPower = 15;
+                    } else if (nDef.isWire) {
+                        const nPower = this.getMetadata(n.x, n.y, n.z);
+                        if (nPower - 1 > newPower) {
+                            newPower = nPower - 1;
+                        }
+                    } else if (nType === window.BLOCK.REDSTONE_LAMP_ACTIVE) {
+                         // Active lamp doesn't power wire back unless it's a source block?
+                         // In MC, Lamps are consumers.
+                    }
+                    // TODO: Levers, Buttons, etc.
+                }
+
+                if (newPower !== currentPower) {
+                    this.setMetadata(x, y, z, newPower);
+                    // Notify neighbors of change
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+            } else if (type === window.BLOCK.REDSTONE_LAMP || type === window.BLOCK.REDSTONE_LAMP_ACTIVE) {
+                 let powered = false;
+                 const neighbors = [
+                    {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+                    {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1},
+                    {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z}
+                ];
+
+                for (const n of neighbors) {
+                     const nType = this.getBlock(n.x, n.y, n.z);
+                     const nDef = window.BLOCKS[nType];
+                     if (nDef) {
+                         if (nDef.isTorch) powered = true;
+                         else if (nDef.isWire && this.getMetadata(n.x, n.y, n.z) > 0) powered = true;
+                     }
+                }
+
+                if (powered && type === window.BLOCK.REDSTONE_LAMP) {
+                    this.setBlock(x, y, z, window.BLOCK.REDSTONE_LAMP_ACTIVE);
+                    // setBlock triggers scheduleNeighborRedstoneUpdates, so neighbors will know lamp changed
+                } else if (!powered && type === window.BLOCK.REDSTONE_LAMP_ACTIVE) {
+                    this.setBlock(x, y, z, window.BLOCK.REDSTONE_LAMP);
+                }
+            }
         }
     }
 
