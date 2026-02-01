@@ -10,6 +10,7 @@ class Game {
         this.mobs = [];
         this.drops = [];
         this.projectiles = [];
+        this.tntPrimed = [];
         this.network = new NetworkManager(this);
         this.crafting = new CraftingSystem(this);
 
@@ -232,6 +233,14 @@ class Game {
             return true;
         }
 
+        // TNT
+        if (blockType === BLOCK.TNT) {
+            this.world.setBlock(x, y, z, BLOCK.AIR);
+            this.tntPrimed.push({ x: x+0.5, y: y+0.5, z: z+0.5, fuse: 4.0, vy: 5 }); // 4 seconds fuse, slight jump
+            window.soundManager.play('fuse'); // Need to ensure sound exists or fallback
+            return true;
+        }
+
         return false;
     }
 
@@ -435,12 +444,19 @@ class Game {
                  if (entity.fuelItem) this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, entity.fuelItem.type, entity.fuelItem.count));
                  if (entity.output) this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, entity.output.type, entity.output.count));
              } else if (entity.type === 'crop') {
-                 // Crop drops based on stage
-                 if (entity.stage >= 7) {
-                     this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT, 1));
-                     this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT_SEEDS, 1 + Math.floor(Math.random()*2)));
-                 } else {
-                     this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT_SEEDS, 1));
+                 if (blockType === BLOCK.WHEAT) {
+                    if (entity.stage >= 7) {
+                        this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT, 1));
+                        this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT_SEEDS, 1 + Math.floor(Math.random()*2)));
+                    } else {
+                        this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_WHEAT_SEEDS, 1));
+                    }
+                 } else if (blockType === BLOCK.CARROTS) {
+                    this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_CARROT, entity.stage >= 7 ? 1 + Math.floor(Math.random()*3) : 1));
+                 } else if (blockType === BLOCK.POTATOES) {
+                    this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_POTATO, entity.stage >= 7 ? 1 + Math.floor(Math.random()*3) : 1));
+                 } else if (blockType === BLOCK.MELON_STEM || blockType === BLOCK.PUMPKIN_STEM) {
+                     this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, blockType === BLOCK.MELON_STEM ? BLOCK.ITEM_MELON_SEEDS : BLOCK.ITEM_PUMPKIN_SEEDS, 1));
                  }
              } else if (entity.type === 'chest' && entity.items) {
                  entity.items.forEach(item => {
@@ -453,7 +469,9 @@ class Game {
         window.soundManager.play('break');
 
         // Drop Logic
-        if (blockType !== BLOCK.AIR && blockType !== BLOCK.WATER) {
+        if (blockType === BLOCK.MELON_BLOCK) {
+            this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_MELON_SLICE, 3 + Math.floor(Math.random()*5)));
+        } else if (blockType !== BLOCK.AIR && blockType !== BLOCK.WATER) {
             const blockDef = BLOCKS[blockType];
             if (blockDef) {
                 let dropType = blockType;
@@ -532,12 +550,19 @@ class Game {
                  }
 
                  // Seeds Logic
-                 if (slot.type === BLOCK.ITEM_WHEAT_SEEDS) {
+                 const seedMap = {
+                     [BLOCK.ITEM_WHEAT_SEEDS]: BLOCK.WHEAT,
+                     [BLOCK.ITEM_CARROT]: BLOCK.CARROTS,
+                     [BLOCK.ITEM_POTATO]: BLOCK.POTATOES,
+                     [BLOCK.ITEM_MELON_SEEDS]: BLOCK.MELON_STEM,
+                     [BLOCK.ITEM_PUMPKIN_SEEDS]: BLOCK.PUMPKIN_STEM
+                 };
+
+                 if (seedMap[slot.type]) {
                      if (targetType === BLOCK.FARMLAND) {
-                         // Plant on top
                          const up = { x: hit.x, y: hit.y + 1, z: hit.z };
                          if (this.world.getBlock(up.x, up.y, up.z) === BLOCK.AIR) {
-                             this.world.setBlock(up.x, up.y, up.z, BLOCK.WHEAT);
+                             this.world.setBlock(up.x, up.y, up.z, seedMap[slot.type]);
                              this.world.setBlockEntity(up.x, up.y, up.z, { type: 'crop', stage: 0 });
                              slot.count--;
                              if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
@@ -678,19 +703,72 @@ class Game {
         if (isDay) {
             // Passive
             const r = Math.random();
-            if (r < 0.3) type = MOB_TYPE.COW;
-            else if (r < 0.6) type = MOB_TYPE.PIG;
-            else type = MOB_TYPE.SHEEP;
+            if (r < 0.25) type = MOB_TYPE.COW;
+            else if (r < 0.5) type = MOB_TYPE.PIG;
+            else if (r < 0.75) type = MOB_TYPE.SHEEP;
+            else type = MOB_TYPE.CHICKEN;
         } else {
             // Hostile
             const r = Math.random();
-            if (r < 0.33) type = MOB_TYPE.ZOMBIE;
-            else if (r < 0.66) type = MOB_TYPE.SKELETON;
-            else type = MOB_TYPE.SPIDER;
+            if (r < 0.25) type = MOB_TYPE.ZOMBIE;
+            else if (r < 0.5) type = MOB_TYPE.SKELETON;
+            else if (r < 0.75) type = MOB_TYPE.SPIDER;
+            else {
+                if (Math.random() < 0.5) type = MOB_TYPE.CREEPER;
+                else type = MOB_TYPE.ENDERMAN;
+            }
         }
 
         if (type) {
             this.mobs.push(new Mob(this, x, y, z, type));
+        }
+    }
+
+    explode(x, y, z, radius) {
+        window.soundManager.play('break'); // Boom sound
+        const r2 = radius * radius;
+        for (let dx = -radius; dx <= radius; dx++) {
+            for (let dy = -radius; dy <= radius; dy++) {
+                 for (let dz = -radius; dz <= radius; dz++) {
+                     if (dx*dx + dy*dy + dz*dz <= r2) {
+                         const bx = Math.floor(x + dx);
+                         const by = Math.floor(y + dy);
+                         const bz = Math.floor(z + dz);
+                         const block = this.world.getBlock(bx, by, bz);
+                         if (block !== BLOCK.AIR && block !== BLOCK.BEDROCK && block !== BLOCK.WATER) {
+                             this.world.setBlock(bx, by, bz, BLOCK.AIR);
+                             this.network.sendBlockUpdate(bx, by, bz, BLOCK.AIR);
+                         }
+                     }
+                 }
+            }
+        }
+
+        // Damage entities
+        this.mobs.forEach(mob => {
+             const dist = Math.sqrt((mob.x-x)**2 + (mob.y-y)**2 + (mob.z-z)**2);
+             if (dist < radius * 2) {
+                 const damage = Math.floor((1 - dist/(radius*2)) * 20);
+                 if (damage > 0) mob.takeDamage(damage, {x: (mob.x-x)/dist, z: (mob.z-z)/dist});
+             }
+        });
+
+        // Damage Player
+        const pDist = Math.sqrt((this.player.x-x)**2 + (this.player.y-y)**2 + (this.player.z-z)**2);
+        if (pDist < radius * 2) {
+            const damage = Math.floor((1 - pDist/(radius*2)) * 20);
+            if (damage > 0) {
+                 this.player.takeDamage(damage);
+                 // Knockback
+                 const dx = this.player.x - x;
+                 const dz = this.player.z - z;
+                 const len = Math.sqrt(dx*dx + dz*dz);
+                 if (len > 0) {
+                     this.player.vx += (dx/len) * 10;
+                     this.player.vz += (dz/len) * 10;
+                     this.player.vy += 5;
+                 }
+            }
         }
     }
 
@@ -861,11 +939,27 @@ class Game {
             if (entity.type === 'furnace') {
                 this.processFurnace(entity, dt / 1000);
             } else if (entity.type === 'crop') {
-                // Random growth (approx 1 per 2 secs per crop at 60fps? no, 0.001 per frame)
-                // Real MC is complicated. Simple: 1/1000 chance per frame.
+                // Random growth
                 if (Math.random() < 0.001) {
                     if (entity.stage < 7) {
                         entity.stage++;
+                    } else {
+                        // Spread logic for stems
+                        const [x, y, z] = key.split(',').map(Number);
+                        const b = this.world.getBlock(x, y, z);
+                        if (b === BLOCK.MELON_STEM || b === BLOCK.PUMPKIN_STEM) {
+                            // Try spawn fruit
+                            const dirs = [{x:1,z:0}, {x:-1,z:0}, {x:0,z:1}, {x:0,z:-1}];
+                            const dir = dirs[Math.floor(Math.random()*4)];
+                            const target = {x: x+dir.x, y: y, z: z+dir.z};
+                            if (this.world.getBlock(target.x, target.y, target.z) === BLOCK.AIR) {
+                                // Check block below is dirt/grass/farmland
+                                const below = this.world.getBlock(target.x, target.y-1, target.z);
+                                if (below === BLOCK.DIRT || below === BLOCK.GRASS || below === BLOCK.FARMLAND) {
+                                    this.world.setBlock(target.x, target.y, target.z, b === BLOCK.MELON_STEM ? BLOCK.MELON_BLOCK : BLOCK.PUMPKIN);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -932,6 +1026,26 @@ class Game {
             }
         }
 
+        // Update TNT
+        for (let i = this.tntPrimed.length - 1; i >= 0; i--) {
+            const tnt = this.tntPrimed[i];
+            const dts = dt / 1000;
+            tnt.fuse -= dts;
+            // Physics
+            tnt.vy -= 25 * dts;
+            tnt.y += tnt.vy * dts;
+            // Simple collision
+            if (this.world.getBlock(Math.floor(tnt.x), Math.floor(tnt.y), Math.floor(tnt.z)) !== BLOCK.AIR) {
+                tnt.y = Math.floor(tnt.y) + 1;
+                tnt.vy = 0;
+            }
+
+            if (tnt.fuse <= 0) {
+                this.explode(tnt.x, tnt.y, tnt.z, 4);
+                this.tntPrimed.splice(i, 1);
+            }
+        }
+
         // Update Projectiles
         for (let i = this.projectiles.length - 1; i >= 0; i--) {
             const p = this.projectiles[i];
@@ -987,6 +1101,13 @@ class Game {
         const cycle = (this.gameTime % this.dayLength) / this.dayLength;
         const isDay = cycle < 0.5;
         this.sunBrightness = isDay ? 0.8 + Math.sin(cycle * Math.PI) * 0.2 : 0.3;
+
+        // Weather Cycle
+        if (Math.random() < 0.0001) { // Rare change
+            const types = ['clear', 'rain', 'snow'];
+            const next = types[Math.floor(Math.random() * types.length)];
+            if (next !== this.world.weather) this.world.setWeather(next);
+        }
 
         // Chunk Loading
         if (this.frameCount % 60 === 0) { // Check every second

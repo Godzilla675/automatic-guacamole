@@ -13,6 +13,14 @@ class World {
 
         this.activeFluids = new Set();
         this.fluidTickTimer = 0;
+
+        this.weather = 'clear'; // 'clear', 'rain', 'snow'
+        this.weatherTimer = 0;
+    }
+
+    setWeather(type) {
+        this.weather = type;
+        if (window.game && window.game.chat) window.game.chat.addMessage(`Weather changed to ${type}`);
     }
 
     getChunkKey(cx, cz) {

@@ -6,15 +6,15 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Missing Mobs
-- [ ] **Implement Chicken Mob** (Passive, drops Feathers/Chicken, lays eggs)
-- [ ] **Implement Creeper Mob** (Hostile, explodes)
-- [ ] **Implement Enderman Mob** (Neutral, teleports, picks up blocks)
+- [x] **Implement Chicken Mob** (Passive, drops Feathers/Chicken, lays eggs)
+- [x] **Implement Creeper Mob** (Hostile, explodes)
+- [x] **Implement Enderman Mob** (Neutral, teleports, picks up blocks)
 
 ### Advanced Mechanics
-- [ ] **Implement Weather System** (Rain, Snow, Thunderstorms)
+- [x] **Implement Weather System** (Rain, Snow, Thunderstorms)
 - [ ] **Implement Redstone Circuits** (Wire, Torch, Power logic, Pistons)
-- [ ] **Implement TNT & Explosions** (Physics, Damage)
-- [ ] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
+- [x] **Implement TNT & Explosions** (Physics, Damage)
+- [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
 - [ ] **Implement Experience & Enchanting**
 
 ### Crafting & Inventory
@@ -31,7 +31,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Fix reported bugs and ensure stability.*
 
 - [ ] **Audit and Verify All Features** (Run full regression suite)
-- [ ] **Fix verify_blocks.js logic error**: Case sensitivity check for Concrete blocks causes false positives.
+- [x] **Fix verify_blocks.js logic error**: Case sensitivity check for Concrete blocks causes false positives.
 - [x] **Fix Lighting Cleanup**: Torch removal does not fully reset light levels (leaves residual light level 4).
 - [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
@@ -113,6 +113,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Taming** (Wolves)
 - [x] **Implement Villagers & Trading** (Basic AI, GUI)
 - [x] **Implement Iron Golems**
+- [x] **Implement Chicken Mob**
+- [x] **Implement Creeper Mob**
+- [x] **Implement Enderman Mob**
 
 ### Core Mechanics
 - [x] Sprinting mechanic
@@ -158,6 +161,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Implement Cactus Damage
 - [x] Implement Rivers and Lakes
 - [x] Fix Renderer Syntax Error (Illegal continue)
+- [x] **Implement Weather System**
+- [x] **Implement TNT & Explosions**
+- [x] **Implement Farming Extensions**
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.
