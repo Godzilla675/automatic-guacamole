@@ -34,6 +34,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Fix reported bugs and ensure stability.*
 
 - [ ] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
+- [ ] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
 - [x] **Audit and Verify All Features** (Run full regression suite)
 - [x] **Fix verify_blocks.js logic error**
 - [x] **Fix Lighting Cleanup**
