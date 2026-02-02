@@ -55,6 +55,13 @@ class Player {
         this.xp = 0; // 0 to 1 progress
         this.level = 0;
         this.totalXP = 0;
+
+        // Recipe Discovery
+        this.unlockedRecipes = new Set();
+        // Unlock Basics
+        this.unlockedRecipes.add("Planks (4)");
+        this.unlockedRecipes.add("Stick (4)");
+        this.unlockedRecipes.add("Furnace");
     }
 
     addXP(amount) {

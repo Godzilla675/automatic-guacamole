@@ -213,6 +213,30 @@ class CraftingSystem {
         return recipe ? recipe.output : null;
     }
 
+    checkUnlock(itemType) {
+        if (!this.game || !this.game.player) return;
+        const player = this.game.player;
+
+        this.recipes.forEach(recipe => {
+            if (player.unlockedRecipes.has(recipe.name)) return;
+
+            // Check ingredients
+            const hasIngredient = recipe.ingredients.some(ing => ing.type === itemType);
+            if (hasIngredient) {
+                this.unlockRecipe(recipe.name);
+            }
+        });
+    }
+
+    unlockRecipe(name) {
+        if (!this.game.player.unlockedRecipes.has(name)) {
+            this.game.player.unlockedRecipes.add(name);
+            if (this.game.ui && this.game.ui.showNotification) {
+                this.game.ui.showNotification("New Recipe: " + name);
+            }
+        }
+    }
+
     initUI() {
         const container = document.getElementById('crafting-recipes');
         container.innerHTML = '';
@@ -248,6 +272,9 @@ class CraftingSystem {
         }
 
         this.recipes.forEach((recipe, index) => {
+            // Filter unlocked
+            if (this.game.player && !this.game.player.unlockedRecipes.has(recipe.name) && !recipe.isRepair) return;
+
             const el = document.createElement('div');
             el.className = 'inventory-item';
 

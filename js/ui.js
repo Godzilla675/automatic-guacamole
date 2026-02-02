@@ -186,6 +186,8 @@ class UIManager {
         if (!this.game.crafting || !this.game.crafting.recipes) return;
 
         this.game.crafting.recipes.forEach(recipe => {
+             if (this.game.player && !this.game.player.unlockedRecipes.has(recipe.name) && !recipe.isRepair) return;
+
              const container = document.createElement('div');
              container.className = 'recipe-entry';
              container.style.border = '1px solid #ccc';
@@ -907,6 +909,44 @@ class UIManager {
         // Note: This requires re-binding every update which is bad.
         // Better to bind once in init, but we need entity reference.
         // Actually, we can use binding in init that references this.activeFurnace.
+    }
+
+    showNotification(message) {
+        let container = document.getElementById('notifications-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notifications-container';
+            container.style.position = 'fixed';
+            container.style.top = '100px';
+            container.style.left = '50%';
+            container.style.transform = 'translateX(-50%)';
+            container.style.zIndex = '1000';
+            container.style.pointerEvents = 'none';
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.alignItems = 'center';
+            container.style.gap = '5px';
+            document.body.appendChild(container);
+        }
+
+        const div = document.createElement('div');
+        div.className = 'notification';
+        div.textContent = message;
+        div.style.background = 'rgba(0, 0, 0, 0.7)';
+        div.style.color = 'white';
+        div.style.padding = '10px 20px';
+        div.style.borderRadius = '5px';
+        div.style.transition = 'opacity 1s';
+        div.style.opacity = '1';
+
+        container.appendChild(div);
+
+        setTimeout(() => {
+            div.style.opacity = '0';
+            setTimeout(() => {
+                if (div.parentNode) div.parentNode.removeChild(div);
+            }, 1000);
+        }, 3000);
     }
 
     updateHealthUI() {
