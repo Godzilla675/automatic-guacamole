@@ -65,6 +65,7 @@ describe('Sapling Verification', () => {
         };
 
         loadScript('js/blocks.js');
+        loadScript('js/particles.js');
         loadScript('js/math.js');
         loadScript('js/chunk.js');
         loadScript('js/drop.js');

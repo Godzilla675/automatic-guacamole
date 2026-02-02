@@ -64,6 +64,10 @@ global.Mob = window.Mob;
 window.Drop = class {};
 global.Drop = window.Drop;
 
+const particlesCode = fs.readFileSync('js/particles.js', 'utf8');
+eval(particlesCode);
+global.ParticleSystem = window.ParticleSystem;
+
 eval(gameCode);
 
 // Test
