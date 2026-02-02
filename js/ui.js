@@ -37,6 +37,48 @@ class UIManager {
             });
         }
 
+        // Sensitivity
+        const sensitivitySlider = document.getElementById('sensitivity-slider');
+        if (sensitivitySlider) {
+            sensitivitySlider.value = this.game.input.sensitivity;
+            document.getElementById('sensitivity-value').textContent = this.game.input.sensitivity.toFixed(1);
+            sensitivitySlider.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                this.game.input.sensitivity = val;
+                localStorage.setItem('voxel_sensitivity', val);
+                document.getElementById('sensitivity-value').textContent = val.toFixed(1);
+            });
+        }
+
+        // Save/Load
+        const saveBtn = document.getElementById('save-game');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                const name = prompt("Save World Name:", "default");
+                if (name) this.game.world.saveWorld(name);
+            });
+        }
+        const loadBtn = document.getElementById('load-game');
+        if (loadBtn) {
+            loadBtn.addEventListener('click', () => {
+                const name = prompt("Load World Name:", "default");
+                if (name) {
+                    this.game.world.loadWorld(name);
+                    this.resumeGame();
+                }
+            });
+        }
+        const resumeBtn = document.getElementById('resume-game');
+        if (resumeBtn) {
+            resumeBtn.addEventListener('click', () => this.resumeGame());
+        }
+        const returnMenuBtn = document.getElementById('return-menu');
+        if (returnMenuBtn) {
+            returnMenuBtn.addEventListener('click', () => {
+                location.reload();
+            });
+        }
+
         // Graphics Settings
         const fovSlider = document.getElementById('fov-slider');
         if (fovSlider) {
@@ -878,6 +920,14 @@ class UIManager {
         if (hungerBar) {
             const pct = (this.game.player.hunger / this.game.player.maxHunger) * 100;
             hungerBar.style.width = pct + '%';
+        }
+
+        const xpBar = document.getElementById('xp-bar');
+        const xpLevel = document.getElementById('xp-level');
+        if (xpBar && xpLevel) {
+            const pct = this.game.player.xp * 100;
+            xpBar.style.width = pct + '%';
+            xpLevel.textContent = this.game.player.level;
         }
 
         // Damage Overlay

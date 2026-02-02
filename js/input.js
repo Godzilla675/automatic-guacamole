@@ -5,6 +5,8 @@ class InputManager {
         this.joystick = { active: false, x: 0, y: 0 };
         this.lookTouch = { active: false, startX: 0, startY: 0 };
 
+        this.sensitivity = parseFloat(localStorage.getItem('voxel_sensitivity')) || 1.0;
+
         // Default Keybinds
         this.keybinds = {
             forward: 'KeyW',
@@ -124,8 +126,9 @@ class InputManager {
 
         document.addEventListener('mousemove', (e) => {
             if (this.mouse.locked) {
-                this.game.player.yaw -= e.movementX * 0.003;
-                this.game.player.pitch -= e.movementY * 0.003;
+                const sensitivity = this.sensitivity * 0.003;
+                this.game.player.yaw -= e.movementX * sensitivity;
+                this.game.player.pitch -= e.movementY * sensitivity;
                 this.game.player.pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.game.player.pitch));
             }
         });

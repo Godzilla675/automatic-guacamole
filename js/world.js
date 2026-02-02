@@ -107,6 +107,9 @@ class World {
              this.recalcLocalLight(x, y, z);
         }
 
+        // Check Structural Integrity of neighbors
+        this.checkNeighborIntegrity(x, y, z);
+
         // Redstone Updates
         // If we placed or removed something that interacts with redstone
         if ((blockDef && (blockDef.isWire || blockDef.isTorch || blockDef.id === window.BLOCK.REDSTONE_LAMP || blockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE)) ||
@@ -117,6 +120,51 @@ class World {
             // Placing a block might connect/disconnect wire, or block a signal?
             // For now, simple neighbor check
              this.scheduleNeighborRedstoneUpdates(x, y, z);
+        }
+    }
+
+    checkNeighborIntegrity(x, y, z) {
+        const neighbors = [
+            {x:x, y:y+1, z:z},
+            {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+            {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+        ];
+        for (const n of neighbors) {
+            this.checkStructuralIntegrity(n.x, n.y, n.z);
+        }
+    }
+
+    checkStructuralIntegrity(x, y, z) {
+        const type = this.getBlock(x, y, z);
+        if (type === BLOCK.AIR) return;
+        const def = window.BLOCKS[type];
+        if (!def) return;
+
+        // Check if block needs support
+        if (def.isTorch || def.isWire || type === BLOCK.REDSTONE_TORCH_OFF || type === BLOCK.REDSTONE_TORCH || type === BLOCK.TORCH || type === BLOCK.RAIL || type === BLOCK.POWERED_RAIL || type === BLOCK.DETECTOR_RAIL || type === BLOCK.BREWING_STAND || type === BLOCK.WHEAT || type === BLOCK.CARROTS || type === BLOCK.POTATOES) {
+             const below = this.getBlock(x, y-1, z);
+             const belowDef = window.BLOCKS[below];
+             // Must be on solid block (or farmland for crops)
+             // Simplified: just check if below is solid.
+             // Crops strictly need farmland.
+             let valid = false;
+             if (type === BLOCK.WHEAT || type === BLOCK.CARROTS || type === BLOCK.POTATOES) {
+                 if (below === BLOCK.FARMLAND) valid = true;
+             } else {
+                 if (belowDef && belowDef.solid) valid = true;
+             }
+
+             if (!valid) {
+                 this.setBlock(x, y, z, BLOCK.AIR);
+                 // Drop item
+                 if (this.game && this.game.drops) {
+                     const dropType = def.drop ? def.drop.type : type;
+                     const dropCount = def.drop ? def.drop.count : 1;
+                     if (dropCount > 0) {
+                         this.game.drops.push(new window.Drop(this.game, x+0.5, y+0.5, z+0.5, dropType, dropCount));
+                     }
+                 }
+             }
         }
     }
 
@@ -235,7 +283,136 @@ class World {
                      this.setBlock(x, y, z, window.BLOCK.REDSTONE_TORCH);
                      this.scheduleNeighborRedstoneUpdates(x, y, z);
                  }
+            } else if (blockDef.isPiston) {
+                const powered = this.isBlockPowered(x, y, z);
+                const meta = this.getMetadata(x, y, z);
+                const extended = (meta & 8) !== 0;
+
+                if (powered && !extended) {
+                    this.extendPiston(x, y, z, meta);
+                } else if (!powered && extended) {
+                    this.retractPiston(x, y, z, meta);
+                }
             }
+        }
+    }
+
+    getDirectionVector(orientation) {
+        const dirs = [
+            {x:0, y:-1, z:0}, {x:0, y:1, z:0}, // 0: Down, 1: Up
+            {x:0, y:0, z:-1}, {x:0, y:0, z:1}, // 2: North (Z-), 3: South (Z+)
+            {x:-1, y:0, z:0}, {x:1, y:0, z:0}  // 4: West (X-), 5: East (X+)
+        ];
+        return dirs[orientation & 7] || {x:0,y:1,z:0};
+    }
+
+    extendPiston(x, y, z, meta) {
+        const orientation = meta & 7;
+        const dir = this.getDirectionVector(orientation);
+        const headPos = {x: x+dir.x, y: y+dir.y, z: z+dir.z};
+
+        // Check collision/push
+        // We need to push blocks starting from headPos
+        // Max 12 blocks.
+
+        const toPush = [];
+        let curr = { ...headPos };
+        let possible = true;
+
+        for(let i=0; i<12; i++) {
+             const b = this.getBlock(curr.x, curr.y, curr.z);
+             if (b === BLOCK.AIR) break;
+
+             const def = window.BLOCKS[b];
+             // Immovable checks
+             if (!def) { possible = false; break; }
+             if (b === BLOCK.BEDROCK || b === BLOCK.OBSIDIAN || b === BLOCK.PISTON_HEAD || b === BLOCK.STICKY_PISTON_HEAD) {
+                 possible = false; break;
+             }
+             if (def.isPiston && (this.getMetadata(curr.x, curr.y, curr.z) & 8)) {
+                 // Extended piston is immovable
+                 possible = false; break;
+             }
+             // Add to list
+             toPush.push({x: curr.x, y: curr.y, z: curr.z, type: b, meta: this.getMetadata(curr.x, curr.y, curr.z)});
+
+             curr.x += dir.x;
+             curr.y += dir.y;
+             curr.z += dir.z;
+        }
+
+        // Check if last block can be pushed into empty space
+        if (possible) {
+             const endBlock = this.getBlock(curr.x, curr.y, curr.z);
+             if (endBlock !== BLOCK.AIR) {
+                 const endDef = window.BLOCKS[endBlock];
+                 // If we stopped because of non-air, check if it's replacable.
+                 // Actually the loop stops if AIR. So endBlock should be AIR if successful push chain ends in AIR.
+                 // If loop ran 12 times, endBlock is the 13th block. It MUST be AIR or replaceable liquid.
+                 if (endDef && (endDef.solid || endDef.isPiston)) possible = false;
+             }
+        }
+
+        if (possible) {
+             // Push blocks in reverse order
+             // curr is the empty spot
+             let target = { ...curr };
+
+             for(let i=toPush.length-1; i>=0; i--) {
+                 const block = toPush[i];
+                 // Move block to target
+                 this.setBlock(target.x, target.y, target.z, block.type);
+                 this.setMetadata(target.x, target.y, target.z, block.meta);
+
+                 // Update target to be this block's old pos
+                 target = {x: block.x, y: block.y, z: block.z};
+             }
+
+             // Place Piston Head
+             this.setBlock(headPos.x, headPos.y, headPos.z, (this.getBlock(x,y,z) === BLOCK.STICKY_PISTON) ? BLOCK.STICKY_PISTON_HEAD : BLOCK.PISTON_HEAD);
+             this.setMetadata(headPos.x, headPos.y, headPos.z, orientation | 8);
+
+             // Update Piston Base to Extended
+             this.setMetadata(x, y, z, meta | 8);
+
+             if (window.soundManager) window.soundManager.play('place');
+        }
+    }
+
+    retractPiston(x, y, z, meta) {
+        const orientation = meta & 7;
+        const dir = this.getDirectionVector(orientation);
+        const headPos = {x: x+dir.x, y: y+dir.y, z: z+dir.z};
+
+        // Remove Head
+        const headType = this.getBlock(headPos.x, headPos.y, headPos.z);
+        if (headType === BLOCK.PISTON_HEAD || headType === BLOCK.STICKY_PISTON_HEAD) {
+            this.setBlock(headPos.x, headPos.y, headPos.z, BLOCK.AIR);
+        }
+
+        // Update Base
+        this.setMetadata(x, y, z, meta & 7); // Clear bit 3
+
+        if (window.soundManager) window.soundManager.play('place');
+
+        // Sticky Logic
+        const isSticky = (this.getBlock(x,y,z) === BLOCK.STICKY_PISTON);
+        if (isSticky) {
+             const pullPos = {x: headPos.x + dir.x, y: headPos.y + dir.y, z: headPos.z + dir.z};
+             const pullBlock = this.getBlock(pullPos.x, pullPos.y, pullPos.z);
+
+             if (pullBlock !== BLOCK.AIR && pullBlock !== BLOCK.BEDROCK && pullBlock !== BLOCK.OBSIDIAN) {
+                 // Check if movable
+                 const def = window.BLOCKS[pullBlock];
+                 if (def && !def.isPiston && !def.isTileEntity) {
+                      const metaPull = this.getMetadata(pullPos.x, pullPos.y, pullPos.z);
+
+                      this.setBlock(headPos.x, headPos.y, headPos.z, pullBlock);
+                      this.setMetadata(headPos.x, headPos.y, headPos.z, metaPull);
+
+                      this.setBlock(pullPos.x, pullPos.y, pullPos.z, BLOCK.AIR);
+                 }
+             }
         }
     }
 
