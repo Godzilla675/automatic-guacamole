@@ -937,6 +937,18 @@ class World {
             blockEntities: blockEntitiesData
         };
 
+        if (this.game && this.game.player) {
+            const p = this.game.player;
+            data.player = {
+                x: p.x, y: p.y, z: p.z,
+                yaw: p.yaw, pitch: p.pitch,
+                health: p.health, hunger: p.hunger,
+                xp: p.xp, level: p.level,
+                inventory: p.inventory,
+                unlockedRecipes: Array.from(p.unlockedRecipes)
+            };
+        }
+
         try {
             localStorage.setItem('voxelWorldSave_' + slotName, JSON.stringify(data));
             console.log("World saved to slot:", slotName, chunksData.length, "chunks");
@@ -982,6 +994,20 @@ class World {
 
                 if (data.blockEntities) {
                     this.blockEntities = new Map(Object.entries(data.blockEntities));
+                }
+
+                if (data.player && this.game && this.game.player) {
+                    const p = this.game.player;
+                    const dp = data.player;
+                    p.x = dp.x; p.y = dp.y; p.z = dp.z;
+                    p.yaw = dp.yaw; p.pitch = dp.pitch;
+                    p.health = dp.health; p.hunger = dp.hunger;
+                    p.xp = dp.xp; p.level = dp.level;
+                    if (dp.inventory) p.inventory = dp.inventory;
+                    if (dp.unlockedRecipes) p.unlockedRecipes = new Set(dp.unlockedRecipes);
+
+                    if (this.game.updateHealthUI) this.game.updateHealthUI();
+                    if (this.game.updateHotbarUI) this.game.updateHotbarUI();
                 }
 
                 console.log("World loaded from slot:", slotName);

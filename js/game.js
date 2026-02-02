@@ -1137,6 +1137,11 @@ class Game {
                     window.soundManager.play('place'); // Pickup sound?
                     this.drops.splice(i, 1);
                     this.updateHotbarUI();
+
+                    // Check Recipe Unlock
+                    if (this.crafting && this.crafting.checkUnlock) {
+                         this.crafting.checkUnlock(drop.type);
+                    }
                 }
             }
         }

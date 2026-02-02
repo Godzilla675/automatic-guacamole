@@ -5,6 +5,16 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 1. High Priority: New Features
 *Focus on adding content and gameplay mechanics.*
 
+### Crafting & Inventory
+- [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered, currently shows all)
+- [ ] **Implement Crafting Animations**
+- [ ] **Implement Potion Brewing Logic & UI** (Blocks/Items added, functionality pending)
+
+### Nether Dimension
+- [ ] **Implement Nether World Generation** (Pending generator logic)
+- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets pending)
+- [x] **Implement Nether Portal** (Block added)
+
 ### Missing Mobs
 - [x] **Implement Chicken Mob** (Passive, drops Feathers/Chicken, lays eggs)
 - [x] **Implement Creeper Mob** (Hostile, explodes)
@@ -17,22 +27,13 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement TNT & Explosions** (Physics, Damage)
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
 - [x] **Implement Saplings and Tree Propagation**
-- [x] **Implement Experience & Enchanting** (XP Bar, Drops, Enchanting Table Block added - UI/Logic pending)
+- [x] **Implement Experience & Enchanting** (XP Bar, Drops. Enchanting Table Block added - UI/Logic pending)
 - [x] **Implement Save/Load UI** (Buttons in Pause/Main Menu to trigger world save/load)
-
-### Crafting & Inventory
-- [ ] **Implement Crafting Animations**
-- [ ] **Implement Recipe Discovery System** (Unlock recipes as items are gathered, currently shows all)
-- [x] **Implement Potion Brewing** (Blocks/Items added, UI/Logic pending)
-
-### Nether Dimension
-- [x] **Implement Nether Portal** (Block added)
-- [ ] **Implement Nether World Generation** (Pending generator logic)
-- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - IDs added, AI pending)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
+- [ ] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
 - [x] **Audit and Verify All Features** (Run full regression suite)
 - [x] **Fix verify_blocks.js logic error**
 - [x] **Fix Lighting Cleanup**
@@ -45,7 +46,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Tree Generation Height Limit**
 - [x] **Fix Redstone/Torch Structural Integrity** (Implemented integrity checks)
 - [x] **Fix Projectile Collision** (Arrows ignore non-solid blocks)
-- [ ] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
 - [x] **Implement Particle System** (Visuals for breaking blocks, explosions)
 
 ## 3. Low Priority: Code Quality & Polish
