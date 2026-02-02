@@ -76,7 +76,7 @@ class Mob {
             if (Math.random() < 0.3) {
                 this.isTamed = true;
                 this.color = '#FFFFFF'; // White collar indication
-                if (window.soundManager) window.soundManager.play('place');
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
             }
             return true;
         }
@@ -92,7 +92,7 @@ class Mob {
              if (Math.random() < 0.3) {
                 this.isTamed = true;
                 this.color = '#000000'; // Black cat
-                if (window.soundManager) window.soundManager.play('place');
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
              }
              return true;
         }
@@ -105,7 +105,7 @@ class Mob {
 
         if (food && itemType === food) {
             this.loveTimer = 30; // 30 seconds
-            if (window.soundManager) window.soundManager.play('eat');
+            if (window.soundManager) window.soundManager.play('eat', {x: this.x, y: this.y, z: this.z});
             return true;
         }
         return false;
@@ -220,13 +220,13 @@ class Mob {
             this.x += (Math.random() - 0.5) * 16;
             this.z += (Math.random() - 0.5) * 16;
             this.y = this.world.getHighestBlockY(Math.floor(this.x), Math.floor(this.z));
-            window.soundManager.play('place'); // Teleport sound
+            window.soundManager.play('place', {x: this.x, y: this.y, z: this.z}); // Teleport sound
             return; // Dodge
         }
 
         this.health -= amount;
         this.lastDamageTime = Date.now();
-        window.soundManager.play('break'); // Hit sound
+        window.soundManager.play('break', {x: this.x, y: this.y, z: this.z}); // Hit sound
 
         if (knockbackDir) {
             this.vx += knockbackDir.x * 10;
@@ -453,7 +453,7 @@ class Mob {
                          baby.growthTimer = 300; // 5 mins to grow
                          this.game.mobs.push(baby);
 
-                         if (window.soundManager) window.soundManager.play('place'); // Pop sound
+                         if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z}); // Pop sound
                      } else {
                          this.yaw = Math.atan2(dx, dz);
                          this.vx = Math.sin(this.yaw) * this.speed;

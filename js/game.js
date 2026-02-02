@@ -161,6 +161,7 @@ class Game {
 
     interact(x, y, z) {
         const blockType = this.world.getBlock(x, y, z);
+        const pos = { x: x + 0.5, y: y + 0.5, z: z + 0.5 };
 
         // Furnace
         if (blockType === BLOCK.FURNACE) {
@@ -222,7 +223,7 @@ class Game {
                  this.world.setMetadata(x, y-1, z, newMeta);
              }
 
-             window.soundManager.play('break'); // Click sound
+             window.soundManager.play('break', pos); // Click sound
              return true;
         }
 
@@ -231,7 +232,7 @@ class Game {
             const meta = this.world.getMetadata(x, y, z);
             const newMeta = meta ^ 4; // Toggle Bit 2 (Open)
             this.world.setMetadata(x, y, z, newMeta);
-            window.soundManager.play('break');
+            window.soundManager.play('break', pos);
             return true;
         }
 
@@ -239,7 +240,7 @@ class Game {
         if (blockType === BLOCK.TNT) {
             this.world.setBlock(x, y, z, BLOCK.AIR);
             this.tntPrimed.push({ x: x+0.5, y: y+0.5, z: z+0.5, fuse: 4.0, vy: 5 }); // 4 seconds fuse, slight jump
-            window.soundManager.play('fuse'); // Need to ensure sound exists or fallback
+            window.soundManager.play('fuse', pos); // Need to ensure sound exists or fallback
             return true;
         }
 
@@ -273,7 +274,7 @@ class Game {
                         z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
                     };
                     this.spawnProjectile(this.player.x, this.player.y + this.player.height*0.9, this.player.z, dir);
-                    window.soundManager.play('jump'); // Shoot sound
+                    window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z}); // Shoot sound
 
                     // Consume arrow
                     if (arrowIdx !== -1) {
@@ -438,6 +439,7 @@ class Game {
 
     finalizeBreakBlock(x, y, z) {
         const blockType = this.world.getBlock(x, y, z);
+        const pos = { x: x + 0.5, y: y + 0.5, z: z + 0.5 };
 
         // Check for Block Entity Drops (e.g. Furnace contents)
         const entity = this.world.getBlockEntity(x, y, z);
@@ -473,7 +475,7 @@ class Game {
              const def = BLOCKS[blockType];
              if (def) this.particles.spawn(x+0.5, y+0.5, z+0.5, def.color, 10);
         }
-        window.soundManager.play('break');
+        window.soundManager.play('break', pos);
 
         // XP Drops for Ores
         if (blockType === BLOCK.ORE_COAL) this.spawnXP(x, y, z, 1);
@@ -520,7 +522,7 @@ class Game {
             item.durability--;
             if (item.durability <= 0) {
                  this.player.inventory[slotIdx] = null;
-                 window.soundManager.play('break');
+                 window.soundManager.play('break', pos);
             }
             this.updateHotbarUI();
         }
@@ -539,6 +541,7 @@ class Game {
             const nx = hit.x + hit.face.x;
             const ny = hit.y + hit.face.y;
             const nz = hit.z + hit.face.z;
+            const pos = { x: nx + 0.5, y: ny + 0.5, z: nz + 0.5 };
 
             // Check player collision
             const pBox = { x: this.player.x, y: this.player.y, z: this.player.z, width: this.player.width, height: this.player.height };
@@ -560,7 +563,7 @@ class Game {
                  if (window.TOOLS && window.TOOLS[slot.type] && window.TOOLS[slot.type].type === 'hoe') {
                      if (targetType === BLOCK.GRASS || targetType === BLOCK.DIRT) {
                          this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.FARMLAND);
-                         window.soundManager.play('break'); // digging sound
+                         window.soundManager.play('break', {x:hit.x+0.5, y:hit.y+0.5, z:hit.z+0.5}); // digging sound
                          // Durability logic would go here
                          return;
                      }
@@ -573,7 +576,7 @@ class Game {
                      const belowDef = BLOCKS[below];
                      if (belowDef && belowDef.solid) {
                          this.world.setBlock(nx, ny, nz, BLOCK.REDSTONE_WIRE);
-                         window.soundManager.play('place');
+                         window.soundManager.play('place', pos);
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.REDSTONE_WIRE);
 
                          slot.count--;
@@ -624,7 +627,7 @@ class Game {
 
                              this.world.setBlockEntity(nx, ny, nz, { type: 'sapling', stage: 0, treeType: treeType });
 
-                             window.soundManager.play('place');
+                             window.soundManager.play('place', pos);
                              this.network.sendBlockUpdate(nx, ny, nz, slot.type);
 
                              slot.count--;
@@ -646,7 +649,7 @@ class Game {
                          this.world.setBlock(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
                          this.world.setBlock(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
 
-                         window.soundManager.play('place');
+                         window.soundManager.play('place', pos);
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
                          this.network.sendBlockUpdate(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
 
@@ -727,7 +730,7 @@ class Game {
 
                      this.world.setMetadata(nx, ny, nz, meta);
                  }
-                 window.soundManager.play('place');
+                 window.soundManager.play('place', pos);
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);
 
                  // Consume item
@@ -809,7 +812,7 @@ class Game {
 
     explode(x, y, z, radius) {
         if (this.particles) this.particles.spawn(x, y, z, '#FFA500', 50);
-        window.soundManager.play('break'); // Boom sound
+        window.soundManager.play('break', {x,y,z}); // Boom sound
         const r2 = radius * radius;
         for (let dx = -radius; dx <= radius; dx++) {
             for (let dy = -radius; dy <= radius; dy++) {
@@ -946,7 +949,7 @@ class Game {
             waitTime: 0,
             biteTimer: 0
         };
-        window.soundManager.play('jump'); // Whoosh sound?
+        window.soundManager.play('jump', {x:this.player.x, y:this.player.y, z:this.player.z}); // Whoosh sound?
     }
 
     reelInBobber() {
@@ -956,7 +959,7 @@ class Game {
             // Catch fish
             this.drops.push(new Drop(this, this.player.x, this.player.y, this.player.z, BLOCK.ITEM_RAW_FISH, 1));
             this.chat.addMessage("You caught a fish!");
-            window.soundManager.play('place'); // Splash/Catch sound
+            window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z}); // Splash/Catch sound
         }
 
         this.bobber = null;
@@ -984,7 +987,7 @@ class Game {
                 b.vz = 0;
                 b.y = Math.floor(b.y) + 0.8; // Float on surface
                 b.waitTime = 2 + Math.random() * 5; // Wait 2-7 seconds
-                window.soundManager.play('step'); // Splash
+                window.soundManager.play('step', {x:b.x, y:b.y, z:b.z}); // Splash
             } else if (block !== BLOCK.AIR) {
                 // Hit solid block
                 this.bobber = null; // Break
@@ -994,7 +997,7 @@ class Game {
              if (b.waitTime <= 0) {
                  b.state = 'hooked';
                  b.biteTimer = 1.0; // 1 second to react
-                 window.soundManager.play('break'); // Bobber dip sound
+                 window.soundManager.play('break', {x:b.x, y:b.y, z:b.z}); // Bobber dip sound
              }
         } else if (b.state === 'hooked') {
              b.y -= 0.5 * dt; // Dip visual
@@ -1008,6 +1011,11 @@ class Game {
     }
 
     update(dt) {
+        // Update Listener
+        if (window.soundManager && this.player) {
+            window.soundManager.updateListener(this.player.x, this.player.y + this.player.height, this.player.z, this.player.yaw, this.player.pitch);
+        }
+
         this.player.update(dt / 1000);
         this.updateBobber(dt / 1000);
         if (this.particles) this.particles.update(dt / 1000);
@@ -1105,7 +1113,7 @@ class Game {
                 // Collect XP
                 if (drop.type === 'xp') {
                     this.player.addXP(drop.count);
-                    if (window.soundManager) window.soundManager.play('place');
+                    if (window.soundManager) window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z});
                     this.drops.splice(i, 1);
                     continue;
                 }
@@ -1134,7 +1142,7 @@ class Game {
                 }
 
                 if (added) {
-                    window.soundManager.play('place'); // Pickup sound?
+                    window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z}); // Pickup sound?
                     this.drops.splice(i, 1);
                     this.updateHotbarUI();
 
