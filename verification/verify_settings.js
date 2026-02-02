@@ -134,7 +134,7 @@ canvas.getContext = () => ({ setTransform: () => {}, fillRect: () => {} });
 // Load source files
 const files = [
     'js/input.js',
-    'js/ui.js',
+    'js/ui.js', 'js/particles.js',
     'js/game.js'
 ];
 
@@ -142,6 +142,9 @@ files.forEach(file => {
     const content = fs.readFileSync(file, 'utf8');
     try {
         eval(content);
+        if (file.includes('particles.js')) {
+            global.ParticleSystem = window.ParticleSystem;
+        }
     } catch (e) {
         console.error(`Error loading ${file}:`, e);
     }
