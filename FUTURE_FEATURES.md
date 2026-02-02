@@ -5,38 +5,64 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 1. High Priority: New Features
 *Focus on adding content and gameplay mechanics.*
 
-### Crafting & Inventory
-- [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered, currently shows all)
+### Gameplay Modes
+- [ ] **Implement Creative Mode** (Infinite items, instant break, flying, God mode, toggle via command)
+
+### Visuals & Immersion
+- [ ] **Implement Smooth Lighting** (Ambient Occlusion for block corners)
 - [ ] **Implement Crafting Animations**
-- [ ] **Implement Potion Brewing Logic & UI** (Blocks/Items added, functionality pending)
+
+### Magic & Alchemy
+- [ ] **Implement Enchanting Table UI & Logic** (XP cost, random enchantments)
+- [ ] **Implement Potion Brewing Logic & UI** (Brewing Stand interaction, potion effects)
 
 ### Nether Dimension
 - [ ] **Implement Nether World Generation** (Pending generator logic)
 - [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets pending)
-- [x] **Implement Nether Portal** (Block added)
 
-### Missing Mobs
-- [x] **Implement Chicken Mob** (Passive, drops Feathers/Chicken, lays eggs)
-- [x] **Implement Creeper Mob** (Hostile, explodes)
-- [x] **Implement Enderman Mob** (Neutral, teleports, picks up blocks)
+### UI & Systems
+- [ ] **Minimap**
+- [ ] **Achievement system**
+- [ ] **Tutorial/help system**
 
-### Advanced Mechanics
+## 2. Medium Priority: Bugs & Maintenance
+*Fix reported bugs and ensure stability.*
+
+- [ ] **Optimize World Save System** (Use compression or delta updates to avoid localStorage quota limits)
+- [ ] **Plugin API**
+
+## 3. Low Priority: Code Quality & Polish
+*Refactors, optimization, and minor UI improvements.*
+
+- [ ] Refactor Renderer for performance (reduce draw calls if possible)
+
+## Completed Features
+*Keep a record of what works.*
+
+### New Features & Mechanics
+- [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered)
+- [x] **Implement Experience System** (XP Bar, Drops, Leveling)
 - [x] **Implement Weather System** (Rain, Snow, Thunderstorms)
 - [x] **Implement Redstone Circuits** (Wire, Torch, Lamp, Power logic)
 - [x] **Implement Pistons** (Push/Pull logic, Sticky Pistons)
 - [x] **Implement TNT & Explosions** (Physics, Damage)
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
 - [x] **Implement Saplings and Tree Propagation**
-- [x] **Implement Experience & Enchanting** (XP Bar, Drops. Enchanting Table Block added - UI/Logic pending)
 - [x] **Implement Save/Load UI** (Buttons in Pause/Main Menu to trigger world save/load)
-
-## 2. Medium Priority: Bugs & Maintenance
-*Fix reported bugs and ensure stability.*
-
+- [x] **Implement Nether Portal** (Block added)
 - [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
-- [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
-- [x] **Audit and Verify All Features** (Run full regression suite)
-- [x] **Fix verify_blocks.js logic error**
+
+### Mobs
+- [x] **Implement Chicken Mob** (Passive, drops Feathers/Chicken, lays eggs)
+- [x] **Implement Creeper Mob** (Hostile, explodes)
+- [x] **Implement Enderman Mob** (Neutral, teleports, picks up blocks)
+- [x] **Implement Iron Golems**
+- [x] **Implement Taming** (Wolves)
+- [x] **Implement Villagers & Trading** (Basic AI, GUI)
+
+### Maintenance & Fixes
+- [x] **Fix Verification Suite**
+- [x] **Audit and Verify All Features**
 - [x] **Fix Lighting Cleanup**
 - [x] **Refactor Structure Manager**
 - [x] **Fix Water Flow Logic**
@@ -45,140 +71,40 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Complete Settings Menu**
 - [x] **Implement Village Layouts**
 - [x] **Fix Tree Generation Height Limit**
-- [x] **Fix Redstone/Torch Structural Integrity** (Implemented integrity checks)
-- [x] **Fix Projectile Collision** (Arrows ignore non-solid blocks)
-- [x] **Implement Particle System** (Visuals for breaking blocks, explosions)
-
-## 3. Low Priority: Code Quality & Polish
-*Refactors, optimization, and minor UI improvements.*
-
-### User Interface Improvements
-- [x] FOV Slider (Backend done, verified UI hook)
-- [x] Mouse Sensitivity Control
-- [ ] Minimap
-- [ ] Achievement system
-- [ ] Tutorial/help system
-
-### Misc
-- [x] Minecarts and rails (Blocks added)
-- [x] Boats (Item added)
-- [x] Signs and text (Item added)
-- [ ] Plugin API
-
-## Completed Features
-*Keep a record of what works.*
-
-### New Building Blocks
-- [x] **Implement Stairs** (Placement logic, complex collision, visual models)
-- [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
-- [x] **Implement Trapdoors** (Open/close logic, physics)
-- [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
-- [x] **Implement Birch Trees** (Blocks & Generation)
-- [x] **Implement Pistons** (Logic & Blocks)
-
-### Advanced World Generation
-- [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
-- [x] **Rivers and Lakes** (Hydrology system)
-- [x] Biomes (Implemented basic noise-based terrain)
-- [x] Caves and underground systems (3D Noise holes)
-- [x] Ore generation (Coal, Iron, Gold, Diamond)
-- [x] Better terrain generation using Perlin/Simplex noise
-- [x] World seeds for reproducible generation
-- [x] **Implement Structure Manager** (System to spawn structures like Trees, Wells, Ruins)
-- [x] **Implement Basic Structure Generation** (Wells, Trees, Cacti)
-- [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
-- [x] **Implement Desert Biome** (Sand, Cactus)
-- [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
-- [x] **Implement Jungle Biome** (Jungle Wood, Ocelots, Cocoa Beans)
-
-### Crafting System
-- [x] Crafting table interface (UI implemented)
-- [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
-- [x] Resource gathering requirements (Inventory consumption implemented)
-- [x] **Smelting System (Furnace UI & Logic)**
-- [x] **Implement Recipe Book UI** (Show available recipes visually)
-
-### Tools and Items
-- [x] **Implement Bow and Arrow** (Ranged combat)
-- [x] **Implement Shield** (Blocking mechanic)
-- [x] Pickaxes (wood, stone, iron, diamond)
-- [x] Shovels for faster dirt/sand breaking
-- [x] Axes for faster wood breaking
-- [x] Swords for combat
-- [x] Tool durability system
-- [x] Different breaking speeds based on tool and block
-- [x] **Implement Tool Repair** (Crafting combination)
-- [x] **Implement Fishing Mechanic** (Fishing Rod, Bobber physics, catching fish)
-
-### Mobs and AI
-- [x] Passive mobs (Cows, Pigs, Sheep implemented)
-- [x] Hostile mobs (zombies, skeletons, spiders)
-- [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
-- [x] Day/night spawn cycles
-- [x] Mob drops and loot (Drops implemented: leather, porkchop, rotten flesh, bones, string, wool, mutton)
-- [x] Health and combat system (Player health, Mob damage)
-- [x] Mob animations (Simple billboard rendering)
-- [x] Sheep Mob (Fully implemented)
-- [x] **Implement Taming** (Wolves)
-- [x] **Implement Villagers & Trading** (Basic AI, GUI)
-- [x] **Implement Iron Golems**
-- [x] **Implement Chicken Mob**
-- [x] **Implement Creeper Mob**
-- [x] **Implement Enderman Mob**
-
-### Core Mechanics
-- [x] Sprinting mechanic
-- [x] Fall damage
-- [x] Hunger system (Decay and starvation implemented)
-- [x] Eating/Food Consumption (Implemented, including sound)
-- [x] **Bed & Sleeping (Skip Night)**
-- [x] **Experience System** (XP Drops & Leveling)
-
-### Enhanced Building Blocks
-- [x] **Implement Doors** (Open/Close logic, models)
-- [x] **Implement Slabs** (Placement logic, half-block physics)
-- [x] **Implement Chests and Storage** (UI, persistence)
-- [x] Additional block types (brick, concrete, wool colors)
-- [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
-
-### General Fixes & Improvements
-- [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
-- [x] Fix Tree Generation at Chunk Boundaries
-- [x] Fix memory management strategy
-- [x] Optimize render loop
-- [x] Remove dead code
-- [x] Fix Crafting System
-- [x] Fix Footstep Sounds
-- [x] Fix Crouch Mechanics
-- [x] Fix Block IDs
-- [x] Fix Water Physics
-- [x] Fix Projectile Collision
-- [x] Implement Ambient Sounds
-- [x] Fix Physics Crash
-- [x] Fix Fall Damage Logic
-- [x] Implement Block Entity Persistence
-- [x] Implement Farming
-- [x] Implement Settings UI & Volume Control
-- [x] Implement Full Inventory UI with Drag & Drop
-- [x] Fix Empty Inventory Screen
-- [x] Implement Furnace Block Logic
-- [x] Water Flow Visuals
-- [x] Implement Concrete Blocks
-- [x] Implement Colored Wool Blocks
-- [x] Make Wool Placeable
-- [x] Fix Infinite Blocks / Inventory Consumption on Placement
-- [x] Implement Water Flow Logic
-- [x] Implement Cactus Damage
-- [x] Implement Rivers and Lakes
-- [x] Fix Renderer Syntax Error (Illegal continue)
-- [x] **Implement Weather System**
-- [x] **Implement TNT & Explosions**
-- [x] **Implement Farming Extensions**
-- [x] **Fix Redstone NOT Gate Logic** (Implemented signal inversion and signal cutoff)
+- [x] **Fix Redstone/Torch Structural Integrity**
+- [x] **Fix Projectile Collision**
 - [x] **Implement Particle System**
-- [x] **Fix Redstone Integrity**
+- [x] **Fix verify_blocks.js logic error**
 
-## Contribution Guidelines
-* When adding a new feature, please update this file.
-* Ensure all tests pass before submitting.
-* Follow the code style of the existing project.
+### Building & World
+- [x] **Implement Stairs**
+- [x] **Implement Fences and Fence Gates**
+- [x] **Implement Trapdoors**
+- [x] **Implement Glass Panes / Windows**
+- [x] **Implement Birch Trees**
+- [x] **Expand Village Generation**
+- [x] **Rivers and Lakes**
+- [x] **Biomes**
+- [x] **Caves and underground systems**
+- [x] **Ore generation**
+- [x] **Structure Manager**
+- [x] **Biome Manager**
+- [x] **Desert, Snow, Jungle Biomes**
+
+### Crafting & Items
+- [x] **Smelting System (Furnace UI & Logic)**
+- [x] **Implement Recipe Book UI**
+- [x] **Implement Tool Repair**
+- [x] **Implement Fishing Mechanic**
+- [x] **Implement Bow and Arrow**
+- [x] **Implement Shield**
+- [x] **Implement Doors**
+- [x] **Implement Slabs**
+- [x] **Implement Chests and Storage**
+
+### UI
+- [x] **FOV Slider**
+- [x] **Mouse Sensitivity Control**
+- [x] **Minecarts and rails** (Blocks added)
+- [x] **Boats** (Item added)
+- [x] **Signs and text** (Item added)
