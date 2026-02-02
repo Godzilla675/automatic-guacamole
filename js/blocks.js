@@ -124,6 +124,29 @@ const BLOCK = {
     SPRUCE_SAPLING: 172,
     JUNGLE_SAPLING: 173,
 
+    // Pistons
+    PISTON: 180,
+    PISTON_HEAD: 181,
+    STICKY_PISTON: 182,
+    STICKY_PISTON_HEAD: 183,
+
+    // Nether Blocks
+    NETHERRACK: 190,
+    SOUL_SAND: 191,
+    GLOWSTONE: 192,
+    NETHER_BRICK: 193,
+    QUARTZ_ORE: 194,
+    OBSIDIAN: 195,
+    PORTAL: 196,
+
+    // Functional Blocks
+    BREWING_STAND: 200,
+    CAULDRON: 201,
+    ENCHANTING_TABLE: 202,
+    RAIL: 203,
+    POWERED_RAIL: 204,
+    DETECTOR_RAIL: 205,
+
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
     PICKAXE_STONE: 101,
@@ -188,7 +211,24 @@ const BLOCK = {
     ITEM_COOKED_FISH: 251,
     ITEM_EMERALD: 252,
 
-    ITEM_REDSTONE_DUST: 300
+    ITEM_REDSTONE_DUST: 300,
+
+    // New Items
+    ITEM_QUARTZ: 310,
+    ITEM_BLAZE_ROD: 311,
+    ITEM_GHAST_TEAR: 312,
+    ITEM_NETHER_WART: 313,
+    ITEM_GLOWSTONE_DUST: 314,
+    ITEM_GLASS_BOTTLE: 315,
+    ITEM_POTION: 316,
+    ITEM_ENCHANTED_BOOK: 317,
+    ITEM_LAPIS_LAZULI: 318,
+    ITEM_MINECART: 320,
+    ITEM_BOAT: 321,
+    ITEM_SIGN: 322,
+    ITEM_BUCKET: 323,
+    ITEM_WATER_BUCKET: 324,
+    ITEM_LAVA_BUCKET: 325
 };
 
 const TOOLS = {
@@ -335,6 +375,27 @@ const BLOCKS = {
     [BLOCK.REDSTONE_LAMP_ACTIVE]: { name: 'Redstone Lamp', color: '#8B4513', top: '#FFD700', solid: true, icon: '💡', hardness: 0.3, light: 15, tool: 'pickaxe', drop: { type: BLOCK.REDSTONE_LAMP, count: 1 } },
     [BLOCK.REDSTONE_TORCH_OFF]: { name: 'Redstone Torch (Off)', color: '#550000', solid: false, transparent: true, icon: '📍', hardness: 0.0, isTorch: true, drop: { type: BLOCK.REDSTONE_TORCH, count: 1 } },
 
+    // Pistons
+    [BLOCK.PISTON]: { name: 'Piston', color: '#808080', top: '#A0522D', solid: true, icon: '🚜', hardness: 1.5, tool: 'pickaxe', isPiston: true },
+    [BLOCK.PISTON_HEAD]: { name: 'Piston Head', color: '#A0522D', solid: true, transparent: true, icon: '🪵', hardness: 1.5, tool: 'pickaxe', drop: null },
+    [BLOCK.STICKY_PISTON]: { name: 'Sticky Piston', color: '#808080', top: '#006400', solid: true, icon: '🚜', hardness: 1.5, tool: 'pickaxe', isPiston: true, sticky: true },
+    [BLOCK.STICKY_PISTON_HEAD]: { name: 'Sticky Piston Head', color: '#A0522D', solid: true, transparent: true, icon: '🪵', hardness: 1.5, tool: 'pickaxe', drop: null },
+
+    // Nether Blocks
+    [BLOCK.NETHERRACK]: { name: 'Netherrack', color: '#800000', solid: true, icon: '🟥', hardness: 0.4, tool: 'pickaxe' },
+    [BLOCK.SOUL_SAND]: { name: 'Soul Sand', color: '#503030', solid: true, icon: '🟫', hardness: 0.5, tool: 'shovel', slow: true },
+    [BLOCK.GLOWSTONE]: { name: 'Glowstone', color: '#FFD700', solid: true, icon: '✨', hardness: 0.3, light: 15, drop: { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } },
+    [BLOCK.NETHER_BRICK]: { name: 'Nether Brick', color: '#400000', solid: true, icon: '🧱', hardness: 2.0, tool: 'pickaxe' },
+    [BLOCK.QUARTZ_ORE]: { name: 'Quartz Ore', color: '#800000', top: '#FFFFFF', solid: true, icon: '💎', hardness: 3.0, tool: 'pickaxe', drop: { type: BLOCK.ITEM_QUARTZ, count: 1 } },
+    [BLOCK.OBSIDIAN]: { name: 'Obsidian', color: '#1a1120', solid: true, icon: '⬛', hardness: 50.0, tool: 'pickaxe' }, // Only diamond
+    [BLOCK.PORTAL]: { name: 'Portal', color: '#800080', solid: false, transparent: true, icon: '🌀', hardness: -1, light: 11 },
+
+    // Functional Blocks
+    [BLOCK.BREWING_STAND]: { name: 'Brewing Stand', color: '#808080', solid: false, transparent: true, icon: '🧪', hardness: 0.5, tool: 'pickaxe' },
+    [BLOCK.CAULDRON]: { name: 'Cauldron', color: '#404040', solid: false, transparent: true, icon: '🍲', hardness: 2.0, tool: 'pickaxe' },
+    [BLOCK.ENCHANTING_TABLE]: { name: 'Enchanting Table', color: '#800000', top: '#FFD700', solid: false, transparent: true, icon: '📖', hardness: 5.0, tool: 'pickaxe', light: 7 },
+    [BLOCK.RAIL]: { name: 'Rail', color: '#808080', solid: false, transparent: true, icon: '🛤️', hardness: 0.0 },
+
     // Saplings
     [BLOCK.OAK_SAPLING]: { name: 'Oak Sapling', color: '#228B22', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.OAK_SAPLING, count: 1 } },
     [BLOCK.BIRCH_SAPLING]: { name: 'Birch Sapling', color: '#80a755', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.BIRCH_SAPLING, count: 1 } },
@@ -415,7 +476,27 @@ const BLOCKS = {
     [BLOCK.ITEM_COOKED_FISH]: { name: 'Cooked Fish', color: '#D2691E', solid: false, isItem: true, icon: '🐟', food: 8 },
     [BLOCK.ITEM_EMERALD]: { name: 'Emerald', color: '#50C878', solid: false, isItem: true, icon: '💎' },
 
-    [BLOCK.ITEM_REDSTONE_DUST]: { name: 'Redstone Dust', color: '#FF0000', solid: false, isItem: true, icon: '🔴' }
+    [BLOCK.ITEM_REDSTONE_DUST]: { name: 'Redstone Dust', color: '#FF0000', solid: false, isItem: true, icon: '🔴' },
+
+    // New Items
+    [BLOCK.ITEM_QUARTZ]: { name: 'Nether Quartz', color: '#FFFFFF', solid: false, isItem: true, icon: '💎' },
+    [BLOCK.ITEM_BLAZE_ROD]: { name: 'Blaze Rod', color: '#FFA500', solid: false, isItem: true, icon: '🔥' },
+    [BLOCK.ITEM_GHAST_TEAR]: { name: 'Ghast Tear', color: '#F0F0F0', solid: false, isItem: true, icon: '💧' },
+    [BLOCK.ITEM_NETHER_WART]: { name: 'Nether Wart', color: '#800000', solid: false, isItem: true, icon: '🍄' },
+    [BLOCK.ITEM_GLOWSTONE_DUST]: { name: 'Glowstone Dust', color: '#FFD700', solid: false, isItem: true, icon: '✨' },
+    [BLOCK.ITEM_GLASS_BOTTLE]: { name: 'Glass Bottle', color: '#ADD8E6', solid: false, isItem: true, icon: '🍾' },
+    [BLOCK.ITEM_POTION]: { name: 'Potion', color: '#FF00FF', solid: false, isItem: true, icon: '🧪' },
+    [BLOCK.ITEM_ENCHANTED_BOOK]: { name: 'Enchanted Book', color: '#800080', solid: false, isItem: true, icon: '📘' },
+    [BLOCK.ITEM_LAPIS_LAZULI]: { name: 'Lapis Lazuli', color: '#00008B', solid: false, isItem: true, icon: '💙' },
+    [BLOCK.ITEM_MINECART]: { name: 'Minecart', color: '#808080', solid: false, isItem: true, icon: '🛒' },
+    [BLOCK.ITEM_BOAT]: { name: 'Boat', color: '#8B4513', solid: false, isItem: true, icon: '🛶' },
+    [BLOCK.ITEM_SIGN]: { name: 'Sign', color: '#DEB887', solid: false, isItem: true, icon: '🪧' },
+    [BLOCK.ITEM_BUCKET]: { name: 'Bucket', color: '#C0C0C0', solid: false, isItem: true, icon: '🪣' },
+    [BLOCK.ITEM_WATER_BUCKET]: { name: 'Water Bucket', color: '#0000FF', solid: false, isItem: true, icon: '🪣' },
+    [BLOCK.ITEM_LAVA_BUCKET]: { name: 'Lava Bucket', color: '#FF4500', solid: false, isItem: true, icon: '🪣' },
+
+    // XP Orb
+    'xp': { name: 'XP', color: '#7FFF00', solid: false, isItem: true, icon: '❇️' }
 };
 
 window.BLOCK = BLOCK;

@@ -14,6 +14,7 @@ class Game {
         this.tntPrimed = [];
         this.network = new NetworkManager(this);
         this.crafting = new CraftingSystem(this);
+        this.particles = new ParticleSystem(this); // Init Particles
 
         // New Managers
         this.chat = new ChatManager(this);
@@ -468,7 +469,16 @@ class Game {
         }
 
         this.world.setBlock(x, y, z, BLOCK.AIR);
+        if (this.particles) {
+             const def = BLOCKS[blockType];
+             if (def) this.particles.spawn(x+0.5, y+0.5, z+0.5, def.color, 10);
+        }
         window.soundManager.play('break');
+
+        // XP Drops for Ores
+        if (blockType === BLOCK.ORE_COAL) this.spawnXP(x, y, z, 1);
+        else if (blockType === BLOCK.ORE_DIAMOND) this.spawnXP(x, y, z, 5);
+        else if (blockType === BLOCK.QUARTZ_ORE) this.spawnXP(x, y, z, 3);
 
         // Drop Logic
         if (blockType === BLOCK.MELON_BLOCK) {
@@ -681,6 +691,20 @@ class Game {
                      else meta = 0; // East
 
                      this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isPiston) {
+                     let meta = 0;
+                     if (this.player.pitch > Math.PI/4) meta = 1; // Face Up
+                     else if (this.player.pitch < -Math.PI/4) meta = 0; // Face Down
+                     else {
+                         let r = this.player.yaw % (2*Math.PI);
+                         if (r < 0) r += 2*Math.PI;
+
+                         if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 4; // East -> West
+                         else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 3; // North -> South
+                         else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 5; // West -> East
+                         else meta = 2; // South -> North
+                     }
+                     this.world.setMetadata(nx, ny, nz, meta);
                  } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isTrapdoor) {
                      // Trapdoor Logic
                      // Check hit point relative Y
@@ -724,6 +748,10 @@ class Game {
             vz: dir.z * 15,
             life: 2.0
         });
+    }
+
+    spawnXP(x, y, z, amount) {
+        if (this.drops) this.drops.push(new Drop(this, x + 0.5, y + 0.5, z + 0.5, 'xp', amount));
     }
 
     spawnMobs() {
@@ -780,6 +808,7 @@ class Game {
     }
 
     explode(x, y, z, radius) {
+        if (this.particles) this.particles.spawn(x, y, z, '#FFA500', 50);
         window.soundManager.play('break'); // Boom sound
         const r2 = radius * radius;
         for (let dx = -radius; dx <= radius; dx++) {
@@ -981,6 +1010,7 @@ class Game {
     update(dt) {
         this.player.update(dt / 1000);
         this.updateBobber(dt / 1000);
+        if (this.particles) this.particles.update(dt / 1000);
 
         // Update Fluids
         this.fluidTick += dt;
@@ -1072,7 +1102,15 @@ class Game {
             const dy = (this.player.y + 0.5) - drop.y;
             const dz = this.player.z - drop.z;
             if (dx*dx + dy*dy + dz*dz < 1.5) {
-                // Collect
+                // Collect XP
+                if (drop.type === 'xp') {
+                    this.player.addXP(drop.count);
+                    if (window.soundManager) window.soundManager.play('place');
+                    this.drops.splice(i, 1);
+                    continue;
+                }
+
+                // Collect Item
                 // Add to inventory
                 // Find empty slot or stack
                 let added = false;
@@ -1138,7 +1176,9 @@ class Game {
             p.life -= dts;
 
             // Collision with world
-            if (this.world.getBlock(Math.floor(p.x), Math.floor(p.y), Math.floor(p.z)) !== BLOCK.AIR) {
+            const pb = this.world.getBlock(Math.floor(p.x), Math.floor(p.y), Math.floor(p.z));
+            const pbDef = window.BLOCKS[pb];
+            if (pb !== BLOCK.AIR && pbDef && pbDef.solid) {
                 p.life = 0;
             }
 

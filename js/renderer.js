@@ -423,6 +423,30 @@ class Renderer {
              }
         });
 
+        // Draw Particles
+        if (this.game.particles && this.game.particles.particles) {
+            this.game.particles.particles.forEach(p => {
+                 const dx = p.x - px;
+                 const dy = p.y - py;
+                 const dz = p.z - pz;
+
+                 const rx = dx * cosY - dz * sinY;
+                 const rz = dx * sinY + dz * cosY;
+                 const ry = dy * cosP - rz * sinP;
+                 const rz2 = dy * sinP + rz * cosP;
+
+                 if (rz2 > 0.1) {
+                     const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                     const size = (scale / rz2) * p.size;
+                     const sx = (rx / rz2) * scale + w / 2;
+                     const sy = (ry / rz2) * scale + h / 2;
+
+                     ctx.fillStyle = p.color || 'white';
+                     ctx.fillRect(sx - size/2, sy - size/2, size, size);
+                 }
+            });
+        }
+
         // Draw TNT
         this.game.tntPrimed.forEach(tnt => {
              const dx = tnt.x - px;

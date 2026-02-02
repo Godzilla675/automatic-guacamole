@@ -55,6 +55,7 @@ class Mob {
         this.owner = null; // Could store player ID
         this.isSitting = false;
 
+        this.xpValue = 0;
         this.initType();
     }
 
@@ -117,18 +118,21 @@ class Mob {
                 this.height = 1.4;
                 this.speed = 1.0;
                 this.maxHealth = 10;
+                this.xpValue = 2;
                 break;
             case MOB_TYPE.PIG:
                 this.color = '#FFC0CB'; // Pink
                 this.height = 0.9;
                 this.speed = 1.2;
                 this.maxHealth = 10;
+                this.xpValue = 2;
                 break;
             case MOB_TYPE.SHEEP:
                 this.color = '#FFFFFF'; // White
                 this.height = 1.3;
                 this.speed = 1.0;
                 this.maxHealth = 8;
+                this.xpValue = 2;
                 break;
             case MOB_TYPE.CHICKEN:
                 this.color = '#FFFFFF';
@@ -136,18 +140,21 @@ class Mob {
                 this.width = 0.4;
                 this.speed = 1.5;
                 this.maxHealth = 4;
+                this.xpValue = 1;
                 break;
             case MOB_TYPE.ZOMBIE:
                 this.color = '#2E8B57'; // Green
                 this.height = 1.8;
                 this.speed = 2.5; // Faster
                 this.maxHealth = 20;
+                this.xpValue = 5;
                 break;
             case MOB_TYPE.SKELETON:
                 this.color = '#DDDDDD'; // Light Grey
                 this.height = 1.8;
                 this.speed = 2.0;
                 this.maxHealth = 20;
+                this.xpValue = 5;
                 break;
             case MOB_TYPE.SPIDER:
                 this.color = '#330000'; // Dark Red/Black
@@ -155,36 +162,42 @@ class Mob {
                 this.width = 1.2;
                 this.speed = 3.5; // Very Fast
                 this.maxHealth = 16;
+                this.xpValue = 5;
                 break;
             case MOB_TYPE.CREEPER:
                 this.color = '#00FF00'; // Bright Green
                 this.height = 1.7;
                 this.speed = 1.8;
                 this.maxHealth = 20;
+                this.xpValue = 5;
                 break;
             case MOB_TYPE.ENDERMAN:
                 this.color = '#000000'; // Black
                 this.height = 2.9;
                 this.speed = 3.0;
                 this.maxHealth = 40;
+                this.xpValue = 10;
                 break;
             case MOB_TYPE.WOLF:
                 this.color = '#A9A9A9';
                 this.height = 0.85;
                 this.speed = 1.5;
                 this.maxHealth = 8;
+                this.xpValue = 2;
                 break;
             case MOB_TYPE.OCELOT:
                 this.color = '#FFFF00';
                 this.height = 0.7;
                 this.speed = 1.8;
                 this.maxHealth = 10;
+                this.xpValue = 2;
                 break;
             case MOB_TYPE.VILLAGER:
                 this.color = '#8B4513';
                 this.height = 1.8;
                 this.speed = 1.0;
                 this.maxHealth = 20;
+                this.xpValue = 0;
                 break;
             case MOB_TYPE.IRON_GOLEM:
                 this.color = '#C0C0C0';
@@ -192,6 +205,7 @@ class Mob {
                 this.width = 1.4;
                 this.speed = 0.8;
                 this.maxHealth = 100;
+                this.xpValue = 0;
                 break;
         }
         this.health = this.maxHealth;
@@ -271,6 +285,10 @@ class Mob {
 
         if (dropType && this.game.drops) {
              this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, dropType, count));
+        }
+        // Drop XP
+        if (this.xpValue > 0 && this.game.drops) {
+             this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, 'xp', this.xpValue));
         }
     }
 

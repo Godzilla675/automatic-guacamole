@@ -541,6 +541,39 @@ body {
     transition: width 0.2s;
 }
 
+/* XP Bar */
+#xp-bar-container {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 8px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    z-index: 55;
+    display: flex;
+    justify-content: flex-start;
+}
+#xp-bar {
+    height: 100%;
+    width: 0%;
+    background: #7FFF00;
+    transition: width 0.2s;
+    border-radius: 4px;
+}
+#xp-level {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #7FFF00;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black;
+}
+
 /* Damage Overlay */
 #damage-overlay {
     position: absolute;

@@ -50,6 +50,34 @@ class Player {
         this.regenTimer = 0;
 
         this.blocking = false;
+
+        // Experience
+        this.xp = 0; // 0 to 1 progress
+        this.level = 0;
+        this.totalXP = 0;
+    }
+
+    addXP(amount) {
+        // Simplified XP curve
+        // XP required for next level = 7 + level * 2 (approx MC)
+        let needed = 7 + this.level * 2;
+
+        // Add amount (converted to progress)
+        // Actually amount is usually integer points.
+        // We need to fill the bar.
+
+        let currentPoints = this.xp * needed;
+        currentPoints += amount;
+        this.totalXP += amount;
+
+        while (currentPoints >= needed) {
+            currentPoints -= needed;
+            this.level++;
+            needed = 7 + this.level * 2;
+            if (window.soundManager) window.soundManager.play('place'); // Level up sound
+        }
+
+        this.xp = currentPoints / needed;
     }
 
     takeDamage(amount) {

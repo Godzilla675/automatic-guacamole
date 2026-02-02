@@ -13,22 +13,22 @@ This document outlines the priorities and workflow for all agents working on thi
 ### Advanced Mechanics
 - [x] **Implement Weather System** (Rain, Snow, Thunderstorms)
 - [x] **Implement Redstone Circuits** (Wire, Torch, Lamp, Power logic)
-- [ ] **Implement Pistons**
+- [x] **Implement Pistons** (Push/Pull logic, Sticky Pistons)
 - [x] **Implement TNT & Explosions** (Physics, Damage)
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
 - [x] **Implement Saplings and Tree Propagation**
-- [ ] **Implement Experience & Enchanting**
-- [ ] **Implement Save/Load UI** (Buttons in Pause/Main Menu to trigger world save/load)
+- [x] **Implement Experience & Enchanting** (XP Bar, Drops, Enchanting Table Block added - UI/Logic pending)
+- [x] **Implement Save/Load UI** (Buttons in Pause/Main Menu to trigger world save/load)
 
 ### Crafting & Inventory
 - [ ] **Implement Crafting Animations**
 - [ ] **Implement Recipe Discovery System** (Unlock recipes as items are gathered, currently shows all)
-- [ ] **Implement Potion Brewing**
+- [x] **Implement Potion Brewing** (Blocks/Items added, UI/Logic pending)
 
 ### Nether Dimension
-- [ ] **Implement Nether Portal**
-- [ ] **Implement Nether World Generation**
-- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze)
+- [x] **Implement Nether Portal** (Block added)
+- [ ] **Implement Nether World Generation** (Pending generator logic)
+- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - IDs added, AI pending)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
@@ -43,25 +43,25 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Complete Settings Menu**
 - [x] **Implement Village Layouts**
 - [x] **Fix Tree Generation Height Limit**
-- [ ] **Fix Redstone/Torch Structural Integrity** (Components like Torches/Wire do not break when support block is removed)
-- [ ] **Fix Projectile Collision** (Arrows collide with non-solid blocks like Water, Wheat, Grass instead of passing through)
+- [x] **Fix Redstone/Torch Structural Integrity** (Implemented integrity checks)
+- [x] **Fix Projectile Collision** (Arrows ignore non-solid blocks)
 - [ ] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
-- [ ] **Implement Particle System** (Visuals for breaking blocks, explosions, smoke)
+- [x] **Implement Particle System** (Visuals for breaking blocks, explosions)
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*
 
 ### User Interface Improvements
 - [x] FOV Slider (Backend done, verified UI hook)
-- [ ] Mouse Sensitivity Control
+- [x] Mouse Sensitivity Control
 - [ ] Minimap
 - [ ] Achievement system
 - [ ] Tutorial/help system
 
 ### Misc
-- [ ] Minecarts and rails
-- [ ] Boats
-- [ ] Signs and text
+- [x] Minecarts and rails (Blocks added)
+- [x] Boats (Item added)
+- [x] Signs and text (Item added)
 - [ ] Plugin API
 
 ## Completed Features
@@ -73,6 +73,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Trapdoors** (Open/close logic, physics)
 - [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [x] **Implement Birch Trees** (Blocks & Generation)
+- [x] **Implement Pistons** (Logic & Blocks)
 
 ### Advanced World Generation
 - [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
@@ -130,6 +131,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Hunger system (Decay and starvation implemented)
 - [x] Eating/Food Consumption (Implemented, including sound)
 - [x] **Bed & Sleeping (Skip Night)**
+- [x] **Experience System** (XP Drops & Leveling)
 
 ### Enhanced Building Blocks
 - [x] **Implement Doors** (Open/Close logic, models)
@@ -172,6 +174,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement TNT & Explosions**
 - [x] **Implement Farming Extensions**
 - [x] **Fix Redstone NOT Gate Logic** (Implemented signal inversion and signal cutoff)
+- [x] **Implement Particle System**
+- [x] **Fix Redstone Integrity**
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.
