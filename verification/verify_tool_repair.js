@@ -35,7 +35,8 @@ const load = (f) => {
 class MockGame {
     constructor() {
         this.player = {
-            inventory: new Array(36).fill(null)
+            inventory: new Array(36).fill(null),
+            unlockedRecipes: new Set()
         };
         this.drops = [];
     }

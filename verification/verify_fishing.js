@@ -32,6 +32,7 @@ const scripts = [
     'js/ui.js',
     'js/input.js',
     'js/renderer.js',
+    'js/particles.js',
     'js/game.js'
 ];
 

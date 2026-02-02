@@ -78,7 +78,7 @@ const load = (f) => {
 
 // Load dependencies
 ['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js',
- 'player.js', 'mob.js', 'drop.js', 'crafting.js', 'chat.js', 'ui.js', 'network.js', 'input.js', 'renderer.js', 'game.js']
+ 'player.js', 'mob.js', 'drop.js', 'crafting.js', 'chat.js', 'ui.js', 'network.js', 'input.js', 'renderer.js', 'particles.js', 'game.js']
 .forEach(load);
 
 const { Game, Physics, World, BLOCK, Player } = dom.window;
