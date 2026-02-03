@@ -5,34 +5,20 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 1. High Priority: New Features
 *Focus on adding content and gameplay mechanics.*
 
-### Crafting & Inventory
-- [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered, currently shows all)
-- [x] **Implement Crafting Animations**
-- [x] **Implement Potion Brewing Logic & UI** (Blocks/Items added, functionality pending)
+### Gameplay Modes & Commands
+- [ ] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
+- [ ] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
 
-### Nether Dimension
-- [x] **Implement Nether World Generation** (Pending generator logic)
-- [x] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets pending)
-- [x] **Implement Nether Portal** (Block added)
+### Enchanting
+- [ ] **Implement Enchanting Table UI & Logic** (Block exists, UI and Interaction missing)
 
-### Missing Mobs
-- [x] **Implement Chicken Mob** (Passive, drops Feathers/Chicken, lays eggs)
-- [x] **Implement Creeper Mob** (Hostile, explodes)
-- [x] **Implement Enderman Mob** (Neutral, teleports, picks up blocks)
-
-### Advanced Mechanics
-- [x] **Implement Weather System** (Rain, Snow, Thunderstorms)
-- [x] **Implement Redstone Circuits** (Wire, Torch, Lamp, Power logic)
-- [x] **Implement Pistons** (Push/Pull logic, Sticky Pistons)
-- [x] **Implement TNT & Explosions** (Physics, Damage)
-- [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
-- [x] **Implement Saplings and Tree Propagation**
-- [x] **Implement Experience & Enchanting** (XP Bar, Drops. Enchanting Table Block added - UI/Logic pending)
-- [x] **Implement Save/Load UI** (Buttons in Pause/Main Menu to trigger world save/load)
+### Multiplayer Polish
+- [ ] **Implement Player Skins & Nametags** (Visual differentiation)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
+- [ ] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
 - [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
 - [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
 - [x] **Fix Redstone Wire Propagation** (Signal does not propagate between wire blocks)
@@ -70,13 +56,31 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Completed Features
 *Keep a record of what works.*
 
+### New Features (Recently Completed)
+- [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered)
+- [x] **Implement Crafting Animations**
+- [x] **Implement Potion Brewing Logic & UI**
+- [x] **Implement Nether World Generation** (Basic generation implemented)
+- [x] **Implement Nether Mobs** (Pigman, Ghast, Blaze implemented)
+- [x] **Implement Nether Portal**
+- [x] **Implement Chicken Mob**
+- [x] **Implement Creeper Mob**
+- [x] **Implement Enderman Mob**
+- [x] **Implement Weather System** (Rain, Snow)
+- [x] **Implement Redstone Circuits** (Wire, Torch, Lamp, Power logic)
+- [x] **Implement Pistons** (Push/Pull logic, Sticky Pistons)
+- [x] **Implement TNT & Explosions** (Physics, Damage)
+- [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
+- [x] **Implement Saplings and Tree Propagation**
+- [x] **Implement Experience System** (XP Drops & Leveling)
+- [x] **Implement Save/Load UI**
+
 ### New Building Blocks
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
 - [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [x] **Implement Trapdoors** (Open/close logic, physics)
 - [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [x] **Implement Birch Trees** (Blocks & Generation)
-- [x] **Implement Pistons** (Logic & Blocks)
 
 ### Advanced World Generation
 - [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
@@ -124,9 +128,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Taming** (Wolves)
 - [x] **Implement Villagers & Trading** (Basic AI, GUI)
 - [x] **Implement Iron Golems**
-- [x] **Implement Chicken Mob**
-- [x] **Implement Creeper Mob**
-- [x] **Implement Enderman Mob**
 
 ### Core Mechanics
 - [x] Sprinting mechanic
@@ -134,7 +135,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Hunger system (Decay and starvation implemented)
 - [x] Eating/Food Consumption (Implemented, including sound)
 - [x] **Bed & Sleeping (Skip Night)**
-- [x] **Experience System** (XP Drops & Leveling)
 
 ### Enhanced Building Blocks
 - [x] **Implement Doors** (Open/Close logic, models)
@@ -173,12 +173,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Implement Cactus Damage
 - [x] Implement Rivers and Lakes
 - [x] Fix Renderer Syntax Error (Illegal continue)
-- [x] **Implement Weather System**
-- [x] **Implement TNT & Explosions**
-- [x] **Implement Farming Extensions**
 - [x] **Fix Redstone NOT Gate Logic** (Implemented signal inversion and signal cutoff)
-- [x] **Implement Particle System**
-- [x] **Fix Redstone Integrity**
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.
