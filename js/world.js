@@ -15,6 +15,8 @@ class World {
         this.activeRedstone = new Set();
         this.fluidTickTimer = 0;
 
+        this.dimension = 'overworld'; // 'overworld', 'nether'
+
         this.weather = 'clear'; // 'clear', 'rain', 'snow'
         this.weatherTimer = 0;
     }
@@ -769,6 +771,69 @@ class World {
     }
 
     generateChunk(cx, cz) {
+        if (this.dimension === 'nether') {
+            this.generateNetherChunk(cx, cz);
+        } else {
+            this.generateOverworldChunk(cx, cz);
+        }
+    }
+
+    generateNetherChunk(cx, cz) {
+        if (this.chunks.has(this.getChunkKey(cx, cz))) return;
+
+        const chunk = new Chunk(cx, cz);
+        const baseX = cx * this.chunkSize;
+        const baseZ = cz * this.chunkSize;
+
+        for (let x = 0; x < this.chunkSize; x++) {
+            for (let z = 0; z < this.chunkSize; z++) {
+                const worldX = baseX + x;
+                const worldZ = baseZ + z;
+
+                // Bedrock
+                chunk.setBlock(x, 0, z, BLOCK.BEDROCK);
+                chunk.setBlock(x, 127, z, BLOCK.BEDROCK);
+
+                // Noise for Caves/Terrain
+                const scale = 0.05;
+
+                for (let y = 1; y < 127; y++) {
+                     const noise = window.perlin.noise(worldX * scale, y * scale, worldZ * scale);
+
+                     // In Nether, we want solid netherrack with open caves (cheese)
+                     // If noise < 0.2, solid. Else air.
+                     if (noise < 0.2) {
+                         chunk.setBlock(x, y, z, BLOCK.NETHERRACK);
+
+                         // Ores
+                         if (Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.QUARTZ_ORE);
+                         else if (Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.GLOWSTONE); // Clump logic simplified to random
+                     } else {
+                         // Air
+                         if (y <= 32) {
+                             chunk.setBlock(x, y, z, BLOCK.LAVA);
+                             chunk.setMetadata(x, y, z, 8); // Source
+                         } else {
+                             chunk.setBlock(x, y, z, BLOCK.AIR);
+                         }
+                     }
+                }
+            }
+        }
+
+        const key = this.getChunkKey(cx, cz);
+        this.chunks.set(key, chunk);
+
+        if (this.pendingBlocks.has(key)) {
+            const pending = this.pendingBlocks.get(key);
+            for (const b of pending) {
+                chunk.setBlock(b.x, b.y, b.z, b.type);
+            }
+            this.pendingBlocks.delete(key);
+        }
+    }
+
+    generateOverworldChunk(cx, cz) {
         if (this.chunks.has(this.getChunkKey(cx, cz))) return;
 
         const chunk = new Chunk(cx, cz);

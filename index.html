@@ -136,6 +136,23 @@
             </div>
         </div>
 
+        <div id="brewing-screen" class="hidden">
+            <div class="menu-content" style="max-width: 400px; text-align: center;">
+                <h2>Brewing Stand</h2>
+                <div style="display: flex; justify-content: center; margin-bottom: 20px; position: relative;">
+                    <div class="furnace-slot" id="brewing-ingredient" title="Ingredient" style="margin-bottom: 10px;"></div>
+                    <div style="width: 10px; height: 30px; background: #555; position: absolute; top: 40px; left: 50%; transform: translateX(-50%);"></div>
+                    <div id="brewing-progress" style="width: 10px; height: 0%; background: yellow; position: absolute; top: 40px; left: 50%; transform: translateX(-50%); transition: height 0.1s;"></div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 20px;">
+                    <div class="furnace-slot" id="brewing-bottle-1" title="Bottle 1"></div>
+                    <div class="furnace-slot" id="brewing-bottle-2" title="Bottle 2"></div>
+                    <div class="furnace-slot" id="brewing-bottle-3" title="Bottle 3"></div>
+                </div>
+                <button type="button" id="close-brewing" class="menu-button" style="margin-top: 20px;">Close</button>
+            </div>
+        </div>
+
         <div id="trading-screen" class="hidden">
             <div class="menu-content" style="max-width: 600px;">
                 <h2>Trading</h2>
@@ -228,6 +245,11 @@
     <script src="js/mob.js"></script>
     <script src="js/drop.js"></script>
     <script src="js/crafting.js"></script>
+
+    <script src="js/plugin.js"></script>
+    <script src="js/minimap.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/tutorial.js"></script>
 
     <script src="js/chat.js"></script>
     <script src="js/ui.js"></script>

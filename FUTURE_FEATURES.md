@@ -7,12 +7,12 @@ This document outlines the priorities and workflow for all agents working on thi
 
 ### Crafting & Inventory
 - [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered, currently shows all)
-- [ ] **Implement Crafting Animations**
-- [ ] **Implement Potion Brewing Logic & UI** (Blocks/Items added, functionality pending)
+- [x] **Implement Crafting Animations**
+- [x] **Implement Potion Brewing Logic & UI** (Blocks/Items added, functionality pending)
 
 ### Nether Dimension
-- [ ] **Implement Nether World Generation** (Pending generator logic)
-- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets pending)
+- [x] **Implement Nether World Generation** (Pending generator logic)
+- [x] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets pending)
 - [x] **Implement Nether Portal** (Block added)
 
 ### Missing Mobs
@@ -55,15 +55,15 @@ This document outlines the priorities and workflow for all agents working on thi
 ### User Interface Improvements
 - [x] FOV Slider (Backend done, verified UI hook)
 - [x] Mouse Sensitivity Control
-- [ ] Minimap
-- [ ] Achievement system
-- [ ] Tutorial/help system
+- [x] Minimap
+- [x] Achievement system
+- [x] Tutorial/help system
 
 ### Misc
 - [x] Minecarts and rails (Blocks added)
 - [x] Boats (Item added)
 - [x] Signs and text (Item added)
-- [ ] Plugin API
+- [x] Plugin API
 
 ## Completed Features
 *Keep a record of what works.*

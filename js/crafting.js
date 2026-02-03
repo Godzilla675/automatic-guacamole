@@ -287,7 +287,7 @@ class CraftingSystem {
                 <span class="item-name">${recipe.name}</span>
             `;
 
-            el.onclick = () => this.craft(index);
+            el.onclick = (e) => this.craft(index, e.currentTarget);
             container.appendChild(el);
         });
 
@@ -297,7 +297,7 @@ class CraftingSystem {
         };
     }
 
-    craft(index) {
+    craft(index, element) {
         const recipe = this.recipes[index];
         const player = this.game.player;
         const inventory = player.inventory;
@@ -386,7 +386,15 @@ class CraftingSystem {
                 alert("Inventory full! Items lost.");
             }
         } else {
-             alert(`Crafted ${recipe.name}!`);
+             // alert(`Crafted ${recipe.name}!`);
+             if (element) {
+                 element.classList.add('pulse');
+                 setTimeout(() => element.classList.remove('pulse'), 500);
+             }
+             if (this.game.ui && this.game.ui.showNotification) {
+                 this.game.ui.showNotification(`Crafted ${recipe.name}!`);
+             }
+             if (this.game.pluginAPI) this.game.pluginAPI.emit('craft', { recipe: recipe });
         }
     }
 

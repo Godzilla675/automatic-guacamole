@@ -5,6 +5,7 @@ class UIManager {
         this.activeFurnace = null;
         this.activeChest = null;
         this.activeVillager = null;
+        this.activeBrewingStand = null;
     }
 
     init() {
@@ -171,6 +172,15 @@ class UIManager {
                 this.closeTrading();
             });
         }
+
+        const closeBrewing = document.getElementById('close-brewing');
+        if (closeBrewing) {
+            closeBrewing.addEventListener('click', () => this.closeBrewing());
+        }
+        ['brewing-ingredient', 'brewing-bottle-1', 'brewing-bottle-2', 'brewing-bottle-3'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleBrewingClick(id));
+        });
     }
 
     toggleRecipeBook() {
@@ -413,6 +423,91 @@ class UIManager {
         document.getElementById('trading-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openBrewing(entity) {
+        this.activeBrewingStand = entity;
+        // Ensure entity structure
+        if (!entity.bottles) entity.bottles = [null, null, null];
+        if (!entity.brewTime) entity.brewTime = 0;
+
+        document.getElementById('brewing-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden'); // Show inventory
+        document.exitPointerLock();
+        this.updateBrewingUI();
+        this.refreshInventoryUI();
+    }
+
+    closeBrewing() {
+        this.activeBrewingStand = null;
+        document.getElementById('brewing-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    handleBrewingClick(slotId) {
+        if (!this.activeBrewingStand) return;
+        const entity = this.activeBrewingStand;
+        const cursor = this.cursorItem;
+        let slotName = '';
+        let index = -1;
+
+        if (slotId === 'brewing-ingredient') slotName = 'ingredient';
+        else if (slotId === 'brewing-bottle-1') { slotName = 'bottles'; index = 0; }
+        else if (slotId === 'brewing-bottle-2') { slotName = 'bottles'; index = 1; }
+        else if (slotId === 'brewing-bottle-3') { slotName = 'bottles'; index = 2; }
+
+        let slotItem = index === -1 ? entity[slotName] : entity[slotName][index];
+
+        if (!cursor) {
+            if (slotItem) {
+                this.cursorItem = slotItem;
+                if (index === -1) entity[slotName] = null;
+                else entity[slotName][index] = null;
+            }
+        } else {
+            if (!slotItem) {
+                if (index === -1) entity[slotName] = cursor;
+                else entity[slotName][index] = cursor;
+                this.cursorItem = null;
+            } else {
+                // Swap
+                if (index === -1) entity[slotName] = cursor;
+                else entity[slotName][index] = cursor;
+                this.cursorItem = slotItem;
+            }
+        }
+        this.updateBrewingUI();
+        this.updateCursorUI();
+    }
+
+    updateBrewingUI() {
+        if (!this.activeBrewingStand) return;
+        const entity = this.activeBrewingStand;
+
+        const renderSlot = (id, item) => {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            if (item) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[item.type];
+                icon.textContent = def ? def.icon : '';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                el.appendChild(icon);
+            }
+        };
+
+        renderSlot('brewing-ingredient', entity.ingredient);
+        renderSlot('brewing-bottle-1', entity.bottles[0]);
+        renderSlot('brewing-bottle-2', entity.bottles[1]);
+        renderSlot('brewing-bottle-3', entity.bottles[2]);
+
+        const progress = document.getElementById('brewing-progress');
+        if (progress) {
+            const pct = (entity.brewTime / 400) * 100;
+            progress.style.height = pct + '%';
+        }
     }
 
     renderTrading() {

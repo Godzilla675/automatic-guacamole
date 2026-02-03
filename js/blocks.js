@@ -138,6 +138,7 @@ const BLOCK = {
     QUARTZ_ORE: 194,
     OBSIDIAN: 195,
     PORTAL: 196,
+    LAVA: 197,
 
     // Functional Blocks
     BREWING_STAND: 200,
@@ -389,6 +390,7 @@ const BLOCKS = {
     [BLOCK.QUARTZ_ORE]: { name: 'Quartz Ore', color: '#800000', top: '#FFFFFF', solid: true, icon: '💎', hardness: 3.0, tool: 'pickaxe', drop: { type: BLOCK.ITEM_QUARTZ, count: 1 } },
     [BLOCK.OBSIDIAN]: { name: 'Obsidian', color: '#1a1120', solid: true, icon: '⬛', hardness: 50.0, tool: 'pickaxe' }, // Only diamond
     [BLOCK.PORTAL]: { name: 'Portal', color: '#800080', solid: false, transparent: true, icon: '🌀', hardness: -1, light: 11 },
+    [BLOCK.LAVA]: { name: 'Lava', color: '#FF4500', top: '#FF6347', solid: false, transparent: false, liquid: true, icon: '🔥', hardness: 100, light: 15 },
 
     // Functional Blocks
     [BLOCK.BREWING_STAND]: { name: 'Brewing Stand', color: '#808080', solid: false, transparent: true, icon: '🧪', hardness: 0.5, tool: 'pickaxe' },
