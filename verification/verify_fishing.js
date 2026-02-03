@@ -24,15 +24,20 @@ const scripts = [
     'js/structures.js',
     'js/world.js',
     'js/physics.js',
-    'js/player.js',
-    'js/mob.js',
     'js/drop.js',
+    'js/mob.js',
+    'js/player.js',
+    'js/plugin.js',
+    'js/particles.js',
+    'js/minimap.js',
+    'js/achievements.js',
+    'js/tutorial.js',
     'js/crafting.js',
     'js/chat.js',
     'js/ui.js',
     'js/input.js',
     'js/renderer.js',
-    'js/particles.js',
+    'js/audio.js',
     'js/game.js'
 ];
 

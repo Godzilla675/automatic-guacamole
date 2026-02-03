@@ -134,6 +134,7 @@ canvas.getContext = () => ({ setTransform: () => {}, fillRect: () => {} });
 // Load source files
 const files = [
     'js/input.js',
+    'js/plugin.js', 'js/minimap.js', 'js/achievements.js', 'js/tutorial.js',
     'js/ui.js', 'js/particles.js',
     'js/game.js'
 ];
