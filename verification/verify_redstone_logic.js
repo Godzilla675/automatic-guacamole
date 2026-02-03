@@ -55,6 +55,7 @@ function runTests() {
     // world.generateChunk(0, 0); // Manually generate if needed, but setBlock calls getChunk which calls generateChunk?
     // No, setBlock calls getChunk, if null it adds to pending. We need to force generation.
     world.generateChunk(0, 0);
+    world.generateChunk(0, 1); // For Z=20
 
     const checkBlock = (x, y, z, type, msg) => {
         const actual = world.getBlock(x, y, z);
@@ -68,6 +69,13 @@ function runTests() {
 
     // Test 1: Redstone Wire Connectivity & Decay
     console.log("Test 1: Wire Connectivity");
+
+    // Place Floor
+    for(let x=4; x<=20; x++) {
+        for(let z=4; z<=30; z++) {
+            world.setBlock(x, 49, z, window.BLOCK.STONE);
+        }
+    }
 
     // Place Torch as source at 5, 50, 5
     world.setBlock(5, 50, 5, window.BLOCK.REDSTONE_TORCH);
@@ -104,30 +112,33 @@ function runTests() {
 
     // Test 3: Lamp Activation
     console.log("Test 3: Lamp Activation");
-    world.setBlock(5, 50, 5, window.BLOCK.REDSTONE_TORCH);
-    world.setBlock(6, 50, 5, window.BLOCK.REDSTONE_LAMP);
+    // Use Z=20 to avoid interference from Test 1 wires
+    world.setBlock(5, 50, 20, window.BLOCK.REDSTONE_TORCH);
+    world.setBlock(6, 50, 20, window.BLOCK.REDSTONE_LAMP);
 
     // Update Redstone should trigger lamp update
     world.updateRedstone();
 
-    checkBlock(6, 50, 5, window.BLOCK.REDSTONE_LAMP_ACTIVE, "Lamp next to torch should turn ON");
+    checkBlock(6, 50, 20, window.BLOCK.REDSTONE_LAMP_ACTIVE, "Lamp next to torch should turn ON");
 
     // Remove torch
-    world.setBlock(5, 50, 5, window.BLOCK.AIR);
+    world.setBlock(5, 50, 20, window.BLOCK.AIR);
     world.updateRedstone();
 
-    checkBlock(6, 50, 5, window.BLOCK.REDSTONE_LAMP, "Lamp should turn OFF when power removed");
+    checkBlock(6, 50, 20, window.BLOCK.REDSTONE_LAMP, "Lamp should turn OFF when power removed");
     console.log("Passed: Lamp Activation");
 
     // Test 4: NOT Gate (Inversion) logic
     console.log("Test 4: NOT Gate (Inversion)");
 
     // Setup:
-    // [Wire (PowerSource)] -> [Stone Block] -> [Redstone Torch]
-    // 8,50,8 (Wire, Power 15) -> 9,50,8 (Stone) -> 9,51,8 (Torch on top of Stone)
+    // [Torch Source] -> [Wire] -> [Stone Block] -> [Redstone Torch]
+    // 7,50,8 (Torch) -> 8,50,8 (Wire) -> 9,50,8 (Stone) -> 9,51,8 (Torch on top of Stone)
+
+    world.setBlock(7, 50, 8, window.BLOCK.REDSTONE_TORCH);
 
     world.setBlock(8, 50, 8, window.BLOCK.REDSTONE_WIRE);
-    world.setMetadata(8, 50, 8, 15); // Power source
+    // world.setMetadata(8, 50, 8, 15); // Removed magic power source, using real torch
 
     world.setBlock(9, 50, 8, window.BLOCK.STONE); // Conductive block
 
