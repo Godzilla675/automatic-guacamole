@@ -3,8 +3,8 @@ class TutorialManager {
         this.game = game;
         this.step = 0;
         this.steps = [
-            { text: "Welcome! Use W,A,S,D to move.", check: () => this.game.input.keys['KeyW'] || this.game.input.keys['KeyS'] },
-            { text: "Press SPACE to jump.", check: () => this.game.input.keys['Space'] },
+            { text: "Welcome! Use W,A,S,D to move.", check: () => this.game.controls.forward || this.game.controls.backward || this.game.controls.left || this.game.controls.right },
+            { text: "Press SPACE to jump.", check: () => this.game.controls.jump },
             { text: "Hold Left Click to break blocks.", check: () => this.game.breaking },
             { text: "Press E to open Inventory.", check: () => !document.getElementById('inventory-screen').classList.contains('hidden') },
             { text: "Good luck!", timer: 3.0 }
