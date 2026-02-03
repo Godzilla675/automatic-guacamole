@@ -18,6 +18,8 @@ class ChatManager {
     }
 
     addMessage(text, sender) {
+        if (this.game.pluginAPI) this.game.pluginAPI.emit('chat', {text, sender});
+
         const line = document.createElement('div');
         line.className = 'message';
         line.textContent = sender ? `<${sender}> ${text}` : text;

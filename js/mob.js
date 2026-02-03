@@ -11,7 +11,10 @@ const MOB_TYPE = {
     IRON_GOLEM: 'iron_golem',
     CHICKEN: 'chicken',
     CREEPER: 'creeper',
-    ENDERMAN: 'enderman'
+    ENDERMAN: 'enderman',
+    PIGMAN: 'pigman',
+    GHAST: 'ghast',
+    BLAZE: 'blaze'
 };
 
 class Mob {
@@ -241,6 +244,7 @@ class Mob {
 
     die() {
         this.isDead = true;
+        if (this.game.pluginAPI) this.game.pluginAPI.emit('mobDeath', { mob: this });
         // Drop items
         let dropType = null;
         let count = 1;
@@ -348,6 +352,20 @@ class Mob {
             return;
         }
 
+        // Nether Mobs
+        if (this.type === MOB_TYPE.GHAST) {
+            this.updateGhastAI(dt);
+            return;
+        }
+        if (this.type === MOB_TYPE.BLAZE) {
+            this.updateBlazeAI(dt);
+            return;
+        }
+        if (this.type === MOB_TYPE.PIGMAN) {
+            this.updatePigmanAI(dt);
+            return;
+        }
+
         if (this.type === MOB_TYPE.ZOMBIE ||
             this.type === MOB_TYPE.SKELETON ||
             this.type === MOB_TYPE.SPIDER ||
@@ -356,6 +374,85 @@ class Mob {
             this.updateHostileAI(dt);
         } else {
             this.updatePassiveAI(dt);
+        }
+    }
+
+    updateGhastAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const dz = player.z - this.z;
+        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+        // Fly logic: maintain height above player or roam
+        const targetY = player.y + 10;
+        if (this.y < targetY) this.vy += 2 * dt;
+        else this.vy -= 2 * dt;
+
+        // Cap vy
+        if (this.vy > 2) this.vy = 2;
+        if (this.vy < -2) this.vy = -2;
+
+        if (dist < 30) {
+            this.yaw = Math.atan2(dx, dz);
+            // Move slowly towards
+            this.vx = Math.sin(this.yaw) * 2;
+            this.vz = Math.cos(this.yaw) * 2;
+
+            this.attackCooldown -= dt;
+            if (this.attackCooldown <= 0) {
+                // Shoot Fireball
+                const dir = { x: dx/dist, y: dy/dist, z: dz/dist };
+                this.game.spawnProjectile(this.x, this.y + this.height/2, this.z, dir, 'fireball');
+                this.attackCooldown = 5.0; // Slow rate
+                window.soundManager.play('fuse', {x: this.x, y: this.y, z: this.z}); // Screech
+            }
+        } else {
+            // Idle roam
+            this.moveTimer -= dt;
+            if (this.moveTimer <= 0) {
+                this.moveTimer = 5;
+                this.yaw = Math.random() * Math.PI * 2;
+                this.vx = Math.sin(this.yaw) * 2;
+                this.vz = Math.cos(this.yaw) * 2;
+            }
+        }
+    }
+
+    updateBlazeAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const dz = player.z - this.z;
+        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+        // Hover logic (fly but stay near ground or target)
+        if (this.y < player.y + 2) this.vy += 15 * dt; // Fly up
+
+        if (dist < 20) {
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * 3;
+            this.vz = Math.cos(this.yaw) * 3;
+
+            this.attackCooldown -= dt;
+            if (this.attackCooldown <= 0) {
+                // Shoot 3 small fireballs
+                const dir = { x: dx/dist, y: dy/dist, z: dz/dist };
+                this.game.spawnProjectile(this.x, this.y + this.height*0.8, this.z, dir, 'fireball');
+                this.attackCooldown = 0.5; // Burst
+                if (Math.random() < 0.2) this.attackCooldown = 4.0; // Reset burst
+            }
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updatePigmanAI(dt) {
+        // Neutral unless damaged
+        if (Date.now() - this.lastDamageTime < 10000) { // Hostile for 10s after hit
+             this.updateHostileAI(dt);
+        } else {
+             this.updatePassiveAI(dt);
         }
     }
 

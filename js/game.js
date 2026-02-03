@@ -21,6 +21,10 @@ class Game {
         this.ui = new UIManager(this);
         this.input = new InputManager(this);
         this.renderer = new Renderer(this);
+        this.pluginAPI = new window.PluginAPI(this);
+        this.minimap = new window.Minimap(this);
+        this.achievements = new window.AchievementManager(this);
+        this.tutorial = new window.TutorialManager(this);
 
         // Game State
         this.lastTime = Date.now();
@@ -54,6 +58,9 @@ class Game {
 
         // Fishing State
         this.bobber = null;
+
+        // Portal State
+        this.portalTimer = 0;
     }
 
     detectMobile() {
@@ -192,6 +199,22 @@ class Game {
              }
              this.ui.openChest(entity);
              return true;
+        }
+
+        // Brewing Stand
+        if (blockType === BLOCK.BREWING_STAND) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = {
+                    type: 'brewing_stand',
+                    ingredient: null,
+                    bottles: [null, null, null],
+                    brewTime: 0
+                };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            this.ui.openBrewing(entity);
+            return true;
         }
 
         // Bed
@@ -743,13 +766,15 @@ class Game {
         }
     }
 
-    spawnProjectile(x, y, z, dir) {
+    spawnProjectile(x, y, z, dir, type = 'arrow') {
+        const speed = type === 'fireball' ? 10 : 15;
         this.projectiles.push({
             x, y, z,
-            vx: dir.x * 15,
-            vy: dir.y * 15,
-            vz: dir.z * 15,
-            life: 2.0
+            vx: dir.x * speed,
+            vy: dir.y * speed,
+            vz: dir.z * speed,
+            life: type === 'fireball' ? 5.0 : 2.0,
+            type: type
         });
     }
 
@@ -773,35 +798,59 @@ class Game {
         // Find ground
         const floorX = Math.floor(x);
         const floorZ = Math.floor(z);
-        const y = this.world.getHighestBlockY(floorX, floorZ);
 
-        if (y <= 0 || y > 60) return;
+        let y;
+        if (this.world.dimension === 'nether') {
+             // Find any solid block in column, preferably lower half
+             // Or just spawn mid-air for Ghasts?
+             // Simplification: Try to find a surface.
+             y = 50; // default search start
+             for (let cy = 20; cy < 100; cy++) {
+                 if (this.world.getBlock(floorX, cy, floorZ) === BLOCK.AIR &&
+                     this.world.getBlock(floorX, cy-1, floorZ) !== BLOCK.AIR) {
+                     y = cy;
+                     break;
+                 }
+             }
+        } else {
+             y = this.world.getHighestBlockY(floorX, floorZ);
+        }
+
+        if (y <= 0 || (this.world.dimension !== 'nether' && y > 60)) return;
 
         // Check if spawn position is valid
         const groundBlock = this.world.getBlock(floorX, y-1, floorZ);
-        if (groundBlock === BLOCK.WATER) return; // Don't spawn in water for now
-
-        // Check light level (Day/Night)
-        const cycle = (this.gameTime % this.dayLength) / this.dayLength;
-        const isDay = cycle < 0.5; // 0 to 0.5 is day
+        if (groundBlock === BLOCK.WATER || groundBlock === BLOCK.LAVA) return;
 
         let type = null;
-        if (isDay) {
-            // Passive
+
+        if (this.world.dimension === 'nether') {
             const r = Math.random();
-            if (r < 0.25) type = MOB_TYPE.COW;
-            else if (r < 0.5) type = MOB_TYPE.PIG;
-            else if (r < 0.75) type = MOB_TYPE.SHEEP;
-            else type = MOB_TYPE.CHICKEN;
+            if (r < 0.5) type = MOB_TYPE.PIGMAN;
+            else if (r < 0.8) type = MOB_TYPE.BLAZE;
+            else type = MOB_TYPE.GHAST;
         } else {
-            // Hostile
-            const r = Math.random();
-            if (r < 0.25) type = MOB_TYPE.ZOMBIE;
-            else if (r < 0.5) type = MOB_TYPE.SKELETON;
-            else if (r < 0.75) type = MOB_TYPE.SPIDER;
-            else {
-                if (Math.random() < 0.5) type = MOB_TYPE.CREEPER;
-                else type = MOB_TYPE.ENDERMAN;
+            // Check light level (Day/Night)
+            const cycle = (this.gameTime % this.dayLength) / this.dayLength;
+            const isDay = cycle < 0.5; // 0 to 0.5 is day
+
+            if (isDay) {
+                // Passive
+                const r = Math.random();
+                if (r < 0.25) type = MOB_TYPE.COW;
+                else if (r < 0.5) type = MOB_TYPE.PIG;
+                else if (r < 0.75) type = MOB_TYPE.SHEEP;
+                else type = MOB_TYPE.CHICKEN;
+            } else {
+                // Hostile
+                const r = Math.random();
+                if (r < 0.25) type = MOB_TYPE.ZOMBIE;
+                else if (r < 0.5) type = MOB_TYPE.SKELETON;
+                else if (r < 0.75) type = MOB_TYPE.SPIDER;
+                else {
+                    if (Math.random() < 0.5) type = MOB_TYPE.CREEPER;
+                    else type = MOB_TYPE.ENDERMAN;
+                }
             }
         }
 
@@ -856,6 +905,46 @@ class Game {
                      this.player.vy += 5;
                  }
             }
+        }
+    }
+
+    processBrewing(entity, dt) {
+        const ingredient = entity.ingredient;
+        if (!ingredient || ingredient.type !== BLOCK.ITEM_NETHER_WART) {
+            entity.brewTime = 0;
+            if (this.ui.activeBrewingStand === entity) this.ui.updateBrewingUI();
+            return;
+        }
+
+        // Check bottles
+        let canBrew = false;
+        for(let i=0; i<3; i++) {
+            if (entity.bottles[i] && entity.bottles[i].type === BLOCK.ITEM_GLASS_BOTTLE) {
+                canBrew = true;
+                break;
+            }
+        }
+
+        if (canBrew) {
+            entity.brewTime += dt * 20;
+            if (entity.brewTime >= 400) {
+                entity.brewTime = 0;
+                entity.ingredient.count--;
+                if (entity.ingredient.count <= 0) entity.ingredient = null;
+
+                for(let i=0; i<3; i++) {
+                    if (entity.bottles[i] && entity.bottles[i].type === BLOCK.ITEM_GLASS_BOTTLE) {
+                        entity.bottles[i] = { type: BLOCK.ITEM_POTION, count: 1 };
+                    }
+                }
+                if (window.soundManager) window.soundManager.play('place');
+            }
+        } else {
+            entity.brewTime = 0;
+        }
+
+        if (this.ui.activeBrewingStand === entity) {
+            this.ui.updateBrewingUI();
         }
     }
 
@@ -965,6 +1054,26 @@ class Game {
         this.bobber = null;
     }
 
+    switchDimension(dimension) {
+        if (this.world.dimension === dimension) return;
+
+        this.world.chunks.clear();
+        this.world.dimension = dimension;
+
+        if (dimension === 'nether') {
+            this.player.x /= 8;
+            this.player.z /= 8;
+            this.player.y = 60; // Approximate safe height
+        } else {
+            this.player.x *= 8;
+            this.player.z *= 8;
+            this.player.y = 80; // Approximate safe height
+        }
+
+        this.chat.addMessage(`Switching to ${dimension}...`);
+        this.updateChunks();
+    }
+
     updateBobber(dt) {
         if (!this.bobber) return;
 
@@ -1020,6 +1129,21 @@ class Game {
         this.updateBobber(dt / 1000);
         if (this.particles) this.particles.update(dt / 1000);
 
+        // Portal Check
+        const pbx = Math.floor(this.player.x);
+        const pby = Math.floor(this.player.y);
+        const pbz = Math.floor(this.player.z);
+        if (this.world.getBlock(pbx, pby, pbz) === BLOCK.PORTAL) {
+            this.portalTimer += dt / 1000;
+            if (this.portalTimer > 3.0) {
+                this.portalTimer = 0;
+                const newDim = this.world.dimension === 'overworld' ? 'nether' : 'overworld';
+                this.switchDimension(newDim);
+            }
+        } else {
+            this.portalTimer = 0;
+        }
+
         // Update Fluids
         this.fluidTick += dt;
         if (this.fluidTick > 100) { // Every 100ms
@@ -1027,10 +1151,16 @@ class Game {
             this.fluidTick = 0;
         }
 
+        if (this.minimap) this.minimap.update();
+        if (this.achievements) this.achievements.update();
+        if (this.tutorial) this.tutorial.update(dt / 1000);
+
         // Process Block Entities (Furnaces & Crops)
         for (const [key, entity] of this.world.blockEntities) {
             if (entity.type === 'furnace') {
                 this.processFurnace(entity, dt / 1000);
+            } else if (entity.type === 'brewing_stand') {
+                this.processBrewing(entity, dt / 1000);
             } else if (entity.type === 'crop') {
                 // Random growth
                 if (Math.random() < 0.001) {
@@ -1193,6 +1323,7 @@ class Game {
             const pbDef = window.BLOCKS[pb];
             if (pb !== BLOCK.AIR && pbDef && pbDef.solid) {
                 p.life = 0;
+                if (p.type === 'fireball') this.explode(p.x, p.y, p.z, 3);
             }
 
             // Collision with player (AABB Raycast)
@@ -1215,10 +1346,14 @@ class Game {
 
                 if (t !== null && t >= 0 && t <= dist) {
                      p.life = 0;
-                     // Push player
-                     this.player.vx += p.vx * 0.5;
-                     this.player.vz += p.vz * 0.5;
-                     this.player.takeDamage(2);
+                     if (p.type === 'fireball') {
+                         this.explode(p.x, p.y, p.z, 3);
+                     } else {
+                         // Push player
+                         this.player.vx += p.vx * 0.5;
+                         this.player.vz += p.vz * 0.5;
+                         this.player.takeDamage(2);
+                     }
                 }
             }
 
