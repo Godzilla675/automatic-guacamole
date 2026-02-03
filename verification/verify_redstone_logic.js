@@ -68,23 +68,28 @@ function runTests() {
 
     // Test 1: Redstone Wire Connectivity & Decay
     console.log("Test 1: Wire Connectivity");
-    // Place wire at 0, 50, 0
-    world.setBlock(0, 50, 0, window.BLOCK.REDSTONE_WIRE);
-    world.setMetadata(0, 50, 0, 15); // Power it manually
 
-    // Place neighbor wire at 1, 50, 0
-    world.setBlock(1, 50, 0, window.BLOCK.REDSTONE_WIRE);
+    // Place Torch as source at 5, 50, 5
+    world.setBlock(5, 50, 5, window.BLOCK.REDSTONE_TORCH);
 
-    // Update redstone
+    // Place wire at 6, 50, 5 (Should become 15)
+    world.setBlock(6, 50, 5, window.BLOCK.REDSTONE_WIRE);
+
+    // Place neighbor wire at 7, 50, 5 (Should become 14)
+    world.setBlock(7, 50, 5, window.BLOCK.REDSTONE_WIRE);
+
+    // Update redstone (Multiple passes might be needed for propagation)
+    world.updateRedstone();
     world.updateRedstone();
 
     // Check neighbor power (should be 14)
-    checkMeta(1, 50, 0, 14, "Neighbor wire should have power 14");
+    checkMeta(7, 50, 5, 14, "Neighbor wire should have power 14");
 
-    // Place another neighbor at 2, 50, 0
-    world.setBlock(2, 50, 0, window.BLOCK.REDSTONE_WIRE);
+    // Place another neighbor at 8, 50, 5
+    world.setBlock(8, 50, 5, window.BLOCK.REDSTONE_WIRE);
     world.updateRedstone();
-    checkMeta(2, 50, 0, 13, "Second neighbor should have power 13");
+    world.updateRedstone();
+    checkMeta(8, 50, 5, 13, "Second neighbor should have power 13");
 
     console.log("Passed: Wire Connectivity");
 
