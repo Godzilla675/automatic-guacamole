@@ -92,6 +92,7 @@ dom.window.AudioContext = class {
     createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
     createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
     createBiquadFilter() { return { connect: () => {} }; }
+    createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } }; }
     resume() {}
     get state() { return 'running'; }
 };
