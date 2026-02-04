@@ -5,6 +5,11 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 1. High Priority: New Features
 *Focus on adding content and gameplay mechanics.*
 
+### Gameplay Mechanics
+- [ ] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity)
+- [ ] **Implement Boats** (Water physics, riding logic)
+- [x] **Implement Signs** (Placement, Text Input UI, Rendering Text)
+
 ### Gameplay Modes & Commands
 - [x] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
 - [x] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
@@ -18,6 +23,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
+- [ ] **Verify Multiplayer Sync** (Ensure positions/actions sync correctly across clients)
 - [x] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
 - [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
 - [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
@@ -29,7 +35,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Refactor Structure Manager**
 - [x] **Fix Water Flow Logic**
 - [x] **Fix Spruce Tree Visuals**
-- [x] **Multiplayer Support**
+- [x] **Multiplayer Support** (Basic WebSocket implementation exists)
 - [x] **Complete Settings Menu**
 - [x] **Implement Village Layouts**
 - [x] **Fix Tree Generation Height Limit**
@@ -48,10 +54,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Tutorial/help system
 
 ### Misc
-- [x] Minecarts and rails (Blocks added)
-- [x] Boats (Item added)
-- [x] Signs and text (Item added)
-- [x] Plugin API
+- [x] Plugin API (Basic event system implemented)
 
 ## Completed Features
 *Keep a record of what works.*

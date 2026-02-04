@@ -708,6 +708,41 @@ class Game {
                      }
                  }
 
+                 // Sign Placement Logic
+                 if (slot.type === BLOCK.ITEM_SIGN) {
+                     if (hit.face.y === 1) { // Top
+                         this.world.setBlock(nx, ny, nz, BLOCK.SIGN_POST);
+                         // Rotation 0-15 based on player yaw
+                         // Yaw 0 is South (+Z).
+                         // We want 16 steps.
+                         let rot = Math.floor((this.player.yaw / (Math.PI * 2)) * 16 + 8.5) & 15;
+                         this.world.setMetadata(nx, ny, nz, rot);
+                     } else if (hit.face.y === -1) {
+                         return; // Ceiling
+                     } else { // Wall
+                         this.world.setBlock(nx, ny, nz, BLOCK.WALL_SIGN);
+                         let meta = 2; // Default North
+                         if (hit.face.z === -1) meta = 2; // North
+                         else if (hit.face.z === 1) meta = 3; // South
+                         else if (hit.face.x === -1) meta = 4; // West
+                         else if (hit.face.x === 1) meta = 5; // East
+                         this.world.setMetadata(nx, ny, nz, meta);
+                     }
+
+                     window.soundManager.play('place', pos);
+                     this.network.sendBlockUpdate(nx, ny, nz, this.world.getBlock(nx, ny, nz));
+
+                     // Open UI
+                     this.ui.showSignEditor(nx, ny, nz);
+
+                     if (this.player.gamemode !== 1) {
+                         slot.count--;
+                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                     }
+                     this.updateHotbarUI();
+                     return;
+                 }
+
                  if (blockDef && blockDef.isItem) return;
 
                  // nx, ny, nz are already defined in outer scope

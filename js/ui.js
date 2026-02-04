@@ -6,10 +6,17 @@ class UIManager {
         this.activeChest = null;
         this.activeVillager = null;
         this.activeBrewingStand = null;
+        this.activeSign = null;
     }
 
     init() {
         this.updateHotbarUI();
+
+        // Bind Sign Close
+        const closeSign = document.getElementById('close-sign');
+        if (closeSign) {
+            closeSign.addEventListener('click', () => this.closeSign());
+        }
 
         // Bind Chest Close
         const closeChest = document.getElementById('close-chest');
@@ -412,6 +419,32 @@ class UIManager {
         this.activeChest = null;
         document.getElementById('chest-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    showSignEditor(x, y, z) {
+        this.activeSign = { x, y, z };
+        document.getElementById('sign-screen').classList.remove('hidden');
+        const input = document.getElementById('sign-input');
+        input.value = "";
+        input.focus();
+        document.exitPointerLock();
+    }
+
+    closeSign() {
+        if (!this.activeSign) return;
+        const input = document.getElementById('sign-input');
+        const text = input.value;
+        // Split into lines (max 4)
+        const lines = text.split('\n').slice(0, 4);
+
+        this.game.world.setBlockEntity(this.activeSign.x, this.activeSign.y, this.activeSign.z, {
+            type: 'sign',
+            text: lines
+        });
+
+        this.activeSign = null;
+        document.getElementById('sign-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
     }
 

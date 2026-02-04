@@ -228,6 +228,10 @@ const BLOCK = {
     ITEM_BOAT: 321,
     ITEM_SIGN: 322,
     ITEM_BUCKET: 323,
+
+    // Signs (Blocks)
+    SIGN_POST: 206,
+    WALL_SIGN: 207,
     ITEM_WATER_BUCKET: 324,
     ITEM_LAVA_BUCKET: 325
 };
@@ -493,6 +497,9 @@ const BLOCKS = {
     [BLOCK.ITEM_MINECART]: { name: 'Minecart', color: '#808080', solid: false, isItem: true, icon: '🛒' },
     [BLOCK.ITEM_BOAT]: { name: 'Boat', color: '#8B4513', solid: false, isItem: true, icon: '🛶' },
     [BLOCK.ITEM_SIGN]: { name: 'Sign', color: '#DEB887', solid: false, isItem: true, icon: '🪧' },
+
+    [BLOCK.SIGN_POST]: { name: 'Sign Post', color: '#DEB887', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: BLOCK.ITEM_SIGN, count: 1 } },
+    [BLOCK.WALL_SIGN]: { name: 'Wall Sign', color: '#DEB887', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: BLOCK.ITEM_SIGN, count: 1 } },
     [BLOCK.ITEM_BUCKET]: { name: 'Bucket', color: '#C0C0C0', solid: false, isItem: true, icon: '🪣' },
     [BLOCK.ITEM_WATER_BUCKET]: { name: 'Water Bucket', color: '#0000FF', solid: false, isItem: true, icon: '🪣' },
     [BLOCK.ITEM_LAVA_BUCKET]: { name: 'Lava Bucket', color: '#FF4500', solid: false, isItem: true, icon: '🪣' },

@@ -177,7 +177,8 @@ class Renderer {
                                 rx, ry: ry, rz: rz2,
                                 dist,
                                 light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z)
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                cx: cx, cz: cz, bx: b.x, by: b.y, bz: b.z
                             });
                         }
                     }
@@ -281,6 +282,59 @@ class Renderer {
                          ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
                          ctx.globalAlpha = 1.0;
                          return;
+                     }
+                     // Signs
+                     if (blockDef.isSign) {
+                         if (b.type === window.BLOCK.SIGN_POST) {
+                             // Draw Stick
+                             const stickW = size * 0.1;
+                             const stickH = size * 0.5;
+                             ctx.fillStyle = '#8B4513';
+                             ctx.fillRect(Math.floor(sx - stickW/2), Math.floor(drawSy + size/2 - stickH), Math.ceil(stickW), Math.ceil(stickH));
+
+                             // Draw Board
+                             const boardW = size * 0.8;
+                             const boardH = size * 0.5;
+                             ctx.fillStyle = blockDef.color;
+                             ctx.fillRect(Math.floor(sx - boardW/2), Math.floor(drawSy - size/2), Math.ceil(boardW), Math.ceil(boardH));
+
+                             // Draw Text
+                             if (b.cx !== undefined) {
+                                 const entity = this.game.world.getBlockEntity(b.cx * 16 + b.bx, b.by, b.cz * 16 + b.bz);
+                                 if (entity && entity.text) {
+                                     ctx.fillStyle = 'black';
+                                     ctx.font = `bold ${Math.max(8, Math.ceil(size * 0.12))}px Arial`;
+                                     ctx.textAlign = 'center';
+                                     let lineY = drawSy - size/2 + size*0.1 + size*0.12;
+                                     entity.text.forEach(line => {
+                                         ctx.fillText(line, sx, lineY);
+                                         lineY += size * 0.12;
+                                     });
+                                 }
+                             }
+                             return;
+                         } else {
+                             // Wall Sign
+                             const boardW = size * 0.8;
+                             const boardH = size * 0.5;
+                             ctx.fillStyle = blockDef.color;
+                             ctx.fillRect(Math.floor(sx - boardW/2), Math.floor(drawSy - size/4), Math.ceil(boardW), Math.ceil(boardH));
+
+                             if (b.cx !== undefined) {
+                                 const entity = this.game.world.getBlockEntity(b.cx * 16 + b.bx, b.by, b.cz * 16 + b.bz);
+                                 if (entity && entity.text) {
+                                     ctx.fillStyle = 'black';
+                                     ctx.font = `bold ${Math.max(8, Math.ceil(size * 0.12))}px Arial`;
+                                     ctx.textAlign = 'center';
+                                     let lineY = drawSy - size/4 + size*0.1 + size*0.12;
+                                     entity.text.forEach(line => {
+                                         ctx.fillText(line, sx, lineY);
+                                         lineY += size * 0.12;
+                                     });
+                                 }
+                             }
+                             return;
+                         }
                      }
                      // Torches (Normal & Redstone)
                      if (blockDef.isTorch) {
