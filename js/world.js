@@ -167,6 +167,39 @@ class World {
                      }
                  }
              }
+        } else if (type === BLOCK.SIGN_POST) {
+             const below = this.getBlock(x, y-1, z);
+             const belowDef = window.BLOCKS[below];
+             if (!belowDef || !belowDef.solid) {
+                 this.setBlock(x, y, z, BLOCK.AIR);
+                 if (this.game && this.game.drops) {
+                     this.game.drops.push(new window.Drop(this.game, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_SIGN, 1));
+                 }
+                 this.removeBlockEntity(x, y, z);
+             }
+        } else if (type === BLOCK.WALL_SIGN) {
+             const meta = this.getMetadata(x, y, z);
+             let supportPos = null;
+             // 2: North (attached to Z+1), 3: South (attached to Z-1), 4: West (attached to X+1), 5: East (attached to X-1)
+             if (meta === 2) supportPos = {x, y, z: z+1};
+             else if (meta === 3) supportPos = {x, y, z: z-1};
+             else if (meta === 4) supportPos = {x: x+1, y, z};
+             else if (meta === 5) supportPos = {x: x-1, y, z};
+
+             let valid = false;
+             if (supportPos) {
+                 const support = this.getBlock(supportPos.x, supportPos.y, supportPos.z);
+                 const supportDef = window.BLOCKS[support];
+                 if (supportDef && supportDef.solid) valid = true;
+             }
+
+             if (!valid) {
+                 this.setBlock(x, y, z, BLOCK.AIR);
+                 if (this.game && this.game.drops) {
+                     this.game.drops.push(new window.Drop(this.game, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_SIGN, 1));
+                 }
+                 this.removeBlockEntity(x, y, z);
+             }
         }
     }
 

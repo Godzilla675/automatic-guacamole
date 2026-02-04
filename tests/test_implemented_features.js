@@ -22,9 +22,39 @@ dom.window.HTMLCanvasElement.prototype.getContext = () => ({
 });
 dom.window.requestAnimationFrame = () => {};
 dom.window.cancelAnimationFrame = () => {};
-dom.window.AudioContext = class { createOscillator() { return { connect:()=>{}, start:()=>{}, stop:()=>{}, frequency:{setValueAtTime:()=>{}, exponentialRampToValueAtTime:()=>{}} }; } createGain() { return { connect:()=>{}, gain:{value:0, setTargetAtTime:()=>{}} }; } };
+dom.window.AudioContext = class {
+    constructor() { this.state = 'running'; this.currentTime = 0; }
+    resume() { this.state = 'running'; }
+    createOscillator() {
+        return {
+            type: 'sine',
+            connect:()=>{}, start:()=>{}, stop:()=>{},
+            frequency:{setValueAtTime:()=>{}, exponentialRampToValueAtTime:()=>{}, linearRampToValueAtTime:()=>{}}
+        };
+    }
+    createGain() {
+        return {
+            connect:()=>{},
+            gain:{
+                value:0,
+                setTargetAtTime:()=>{},
+                setValueAtTime:()=>{},
+                exponentialRampToValueAtTime:()=>{},
+                linearRampToValueAtTime:()=>{}
+            }
+        };
+    }
+    createPanner() {
+        return {
+            panningModel: '', distanceModel: '',
+            connect:()=>{}, setPosition:()=>{},
+            orientationX:{value:0}, orientationY:{value:0}, orientationZ:{value:0},
+            positionX:{value:0}, positionY:{value:0}, positionZ:{value:0}
+        };
+    }
+};
 dom.window.WebSocket = class { constructor() { setTimeout(()=>this.onopen&&this.onopen(),10); } send(){} };
-dom.window.soundManager = { play: () => {}, updateAmbience: () => {} };
+dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, updateListener: () => {} };
 dom.window.perlin = { noise: () => 0 };
 dom.window.alert = () => {};
 
