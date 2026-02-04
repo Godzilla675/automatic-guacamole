@@ -8,17 +8,6 @@ This document outlines the priorities and workflow for all agents working on thi
 ### Gameplay Mechanics
 - [ ] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity)
 - [ ] **Implement Boats** (Water physics, riding logic)
-- [x] **Implement Signs** (Placement, Text Input UI, Rendering Text)
-
-### Gameplay Modes & Commands
-- [x] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
-- [x] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
-
-### Enchanting
-- [x] **Implement Enchanting Table UI & Logic** (Block exists, UI and Interaction missing)
-
-### Multiplayer Polish
-- [x] **Implement Player Skins & Nametags** (Visual differentiation)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
@@ -60,6 +49,11 @@ This document outlines the priorities and workflow for all agents working on thi
 *Keep a record of what works.*
 
 ### New Features (Recently Completed)
+- [x] **Implement Signs** (Placement, Text Input UI, Rendering Text)
+- [x] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
+- [x] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
+- [x] **Implement Enchanting Table UI & Logic** (Fully Implemented)
+- [x] **Implement Player Skins & Nametags** (Visual differentiation)
 - [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered)
 - [x] **Implement Crafting Animations**
 - [x] **Implement Potion Brewing Logic & UI**
