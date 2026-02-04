@@ -56,6 +56,16 @@ class Player {
         this.level = 0;
         this.totalXP = 0;
 
+        // Gamemode
+        this.gamemode = 0; // 0: Survival, 1: Creative
+        this.lastJumpTime = 0;
+        this.wasJumpDown = false;
+
+        // Skin
+        this.skinColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        const savedSkin = localStorage.getItem('voxel_skin_color');
+        if (savedSkin) this.skinColor = savedSkin;
+
         // Recipe Discovery
         this.unlockedRecipes = new Set();
         // Unlock Basics
@@ -88,6 +98,7 @@ class Player {
     }
 
     takeDamage(amount) {
+        if (this.gamemode === 1) return; // Creative God Mode
         if (Date.now() - this.lastDamageTime < 500) return; // Invulnerability frames
 
         if (this.blocking) {
@@ -203,12 +214,25 @@ class Player {
         this.vx = moveX * moveSpeed;
         this.vz = moveZ * moveSpeed;
 
+        // Double Jump Logic for Creative Fly Toggle
+        if (controls.jump && !this.wasJumpDown) {
+            const now = Date.now();
+            if (this.gamemode === 1 && now - this.lastJumpTime < 400) {
+                this.flying = !this.flying;
+                this.lastJumpTime = 0;
+            } else {
+                this.lastJumpTime = now;
+            }
+        }
+        this.wasJumpDown = controls.jump;
+
         if (controls.jump && (this.onGround || this.flying || inWater)) {
             if (this.flying) {
                  this.vy = moveSpeed;
             } else if (inWater) {
                  this.vy = 2.0; // Swim up
             } else {
+                 // Only jump if we didn't just toggle flying
                  this.vy = this.jumpForce;
                  this.onGround = false;
                  window.soundManager.play('jump');

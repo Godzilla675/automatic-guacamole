@@ -133,6 +133,105 @@ class ChatManager {
             } else {
                 this.addMessage("Usage: /fill x1 y1 z1 x2 y2 z2 blockName");
             }
+        } else if (cmd === '/gamemode') {
+            if (args.length >= 1) {
+                const mode = args[0].toLowerCase();
+                let gm = -1;
+                if (mode === '0' || mode === 'survival' || mode === 's') gm = 0;
+                else if (mode === '1' || mode === 'creative' || mode === 'c') gm = 1;
+
+                if (gm !== -1) {
+                    this.game.player.gamemode = gm;
+                    this.addMessage(`Set gamemode to ${gm === 1 ? 'Creative' : 'Survival'}`);
+                    if (gm === 0) {
+                        this.game.player.flying = false;
+                    }
+                } else {
+                    this.addMessage("Unknown gamemode: " + mode);
+                }
+            } else {
+                this.addMessage("Usage: /gamemode <survival|creative>");
+            }
+        } else if (cmd === '/give') {
+            if (args.length >= 1) {
+                const itemName = args[0].toLowerCase();
+                const count = args.length >= 2 ? parseInt(args[1]) : 1;
+
+                let type = null;
+                // Try ID
+                if (!isNaN(parseInt(itemName))) {
+                    type = parseInt(itemName);
+                } else {
+                    // Try Name
+                    for (const key in window.BLOCKS) {
+                        if (window.BLOCKS[key].name && window.BLOCKS[key].name.toLowerCase() === itemName) {
+                            type = parseInt(key);
+                            break;
+                        }
+                    }
+                }
+
+                if (type !== null && window.BLOCKS[type]) {
+                    // Add to inventory
+                    const inventory = this.game.player.inventory;
+                    let added = false;
+
+                    // Stack first
+                    for(let i=0; i<inventory.length; i++) {
+                        if (inventory[i] && inventory[i].type === type && inventory[i].count < 64) {
+                            const space = 64 - inventory[i].count;
+                            const toAdd = Math.min(space, count);
+                            inventory[i].count += toAdd;
+                            // count -= toAdd; // Assume single stack give for simplicity
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added) {
+                        for(let i=0; i<inventory.length; i++) {
+                            if (!inventory[i]) {
+                                inventory[i] = { type: type, count: count };
+                                added = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (added) {
+                        this.addMessage(`Gave ${count} ${window.BLOCKS[type].name} to Player`);
+                        this.game.ui.updateHotbarUI();
+                    } else {
+                        this.addMessage("Inventory full");
+                    }
+                } else {
+                    this.addMessage("Unknown item: " + itemName);
+                }
+            } else {
+                this.addMessage("Usage: /give <item> [count]");
+            }
+        } else if (cmd === '/tp') {
+            if (args.length === 3) {
+                const x = parseFloat(args[0]);
+                const y = parseFloat(args[1]);
+                const z = parseFloat(args[2]);
+                if (!isNaN(x) && !isNaN(y) && !isNaN(z)) {
+                    this.game.player.x = x;
+                    this.game.player.y = y;
+                    this.game.player.z = z;
+                    this.game.player.vx = 0;
+                    this.game.player.vy = 0;
+                    this.game.player.vz = 0;
+                    this.addMessage(`Teleported to ${x}, ${y}, ${z}`);
+                } else {
+                    this.addMessage("Invalid coordinates");
+                }
+            } else {
+                this.addMessage("Usage: /tp <x> <y> <z>");
+            }
+        } else if (cmd === '/clear') {
+            this.game.player.inventory.fill(null);
+            this.game.ui.updateHotbarUI();
+            this.addMessage("Cleared inventory");
         } else {
             this.addMessage("Unknown command: " + cmd);
         }

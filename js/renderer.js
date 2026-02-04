@@ -545,7 +545,7 @@ class Renderer {
                      const sx = (rx / rz2) * scale + w / 2;
                      const sy = (ry / rz2) * scale + h / 2;
 
-                     ctx.fillStyle = 'blue';
+                     ctx.fillStyle = p.skinColor || 'blue';
                      ctx.fillRect(sx - size/4, sy - size, size/2, size);
 
                      // Name tag

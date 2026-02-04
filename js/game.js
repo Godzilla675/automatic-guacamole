@@ -217,6 +217,12 @@ class Game {
             return true;
         }
 
+        // Enchanting Table
+        if (blockType === BLOCK.ENCHANTING_TABLE) {
+            this.ui.openEnchanting();
+            return true;
+        }
+
         // Bed
         if (blockType === BLOCK.BED) {
             const time = this.gameTime % this.dayLength;
@@ -300,7 +306,7 @@ class Game {
                     window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z}); // Shoot sound
 
                     // Consume arrow
-                    if (arrowIdx !== -1) {
+                    if (arrowIdx !== -1 && this.player.gamemode !== 1) {
                         this.player.inventory[arrowIdx].count--;
                         if (this.player.inventory[arrowIdx].count <= 0) {
                             this.player.inventory[arrowIdx] = null;
@@ -347,9 +353,11 @@ class Game {
                  if (blockDef && blockDef.food) {
                      if (this.player.hunger < this.player.maxHunger) {
                          if (this.player.eat(slot.type)) {
-                             slot.count--;
-                             if (slot.count <= 0) {
-                                 this.player.inventory[this.player.selectedSlot] = null;
+                             if (this.player.gamemode !== 1) {
+                                 slot.count--;
+                                 if (slot.count <= 0) {
+                                     this.player.inventory[this.player.selectedSlot] = null;
+                                 }
                              }
                              this.updateHotbarUI();
                              return;
@@ -395,8 +403,10 @@ class Game {
             // Check interaction first
             const slot = this.player.inventory[this.player.selectedSlot];
             if (slot && closestMob.interact(slot.type)) {
-                 slot.count--;
-                 if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                 if (this.player.gamemode !== 1) {
+                     slot.count--;
+                     if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                 }
                  this.updateHotbarUI();
                  return;
             }
@@ -421,6 +431,11 @@ class Game {
         if (hit) {
             const blockType = this.world.getBlock(hit.x, hit.y, hit.z);
             if (blockType === BLOCK.AIR || blockType === BLOCK.WATER) return;
+
+            if (this.player.gamemode === 1) {
+                this.finalizeBreakBlock(hit.x, hit.y, hit.z);
+                return;
+            }
 
             const blockDef = BLOCKS[blockType];
             const hardness = blockDef.hardness !== undefined ? blockDef.hardness : 1.0;
@@ -602,8 +617,10 @@ class Game {
                          window.soundManager.play('place', pos);
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.REDSTONE_WIRE);
 
-                         slot.count--;
-                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         if (this.player.gamemode !== 1) {
+                             slot.count--;
+                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         }
                          this.updateHotbarUI();
                          return;
                      } else {
@@ -626,8 +643,10 @@ class Game {
                          if (this.world.getBlock(up.x, up.y, up.z) === BLOCK.AIR) {
                              this.world.setBlock(up.x, up.y, up.z, seedMap[slot.type]);
                              this.world.setBlockEntity(up.x, up.y, up.z, { type: 'crop', stage: 0 });
-                             slot.count--;
-                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             if (this.player.gamemode !== 1) {
+                                 slot.count--;
+                                 if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             }
                              this.updateHotbarUI();
                              return;
                          }
@@ -653,8 +672,10 @@ class Game {
                              window.soundManager.play('place', pos);
                              this.network.sendBlockUpdate(nx, ny, nz, slot.type);
 
-                             slot.count--;
-                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             if (this.player.gamemode !== 1) {
+                                 slot.count--;
+                                 if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             }
                              this.updateHotbarUI();
                              return;
                          }
@@ -676,8 +697,10 @@ class Game {
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
                          this.network.sendBlockUpdate(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
 
-                         slot.count--;
-                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         if (this.player.gamemode !== 1) {
+                             slot.count--;
+                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         }
                          this.updateHotbarUI();
                          return;
                      } else {
@@ -757,9 +780,11 @@ class Game {
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);
 
                  // Consume item
-                 slot.count--;
-                 if (slot.count <= 0) {
-                     this.player.inventory[this.player.selectedSlot] = null;
+                 if (this.player.gamemode !== 1) {
+                     slot.count--;
+                     if (slot.count <= 0) {
+                         this.player.inventory[this.player.selectedSlot] = null;
+                     }
                  }
                  this.updateHotbarUI();
             }

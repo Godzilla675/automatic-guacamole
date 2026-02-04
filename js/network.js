@@ -53,6 +53,7 @@ class NetworkManager {
                     yaw: data.yaw,
                     pitch: data.pitch,
                     name: data.name,
+                    skinColor: data.skinColor,
                     lastUpdate: Date.now()
                 });
                 break;
@@ -80,7 +81,8 @@ class NetworkManager {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify({
                 type: 'move', x, y, z, yaw, pitch,
-                name: this.game.player.name
+                name: this.game.player.name,
+                skinColor: this.game.player.skinColor
             }));
         }
     }
