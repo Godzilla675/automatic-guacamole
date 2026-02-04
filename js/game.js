@@ -1498,6 +1498,7 @@ class Game {
         }
 
         // Multiplayer Sync
+        if (this.network) this.network.update(dt / 1000);
         if (this.frameCount % 3 === 0) { // Send every 3 frames (~20fps)
             this.network.sendPosition(this.player.x, this.player.y, this.player.z, this.player.yaw, this.player.pitch);
         }
