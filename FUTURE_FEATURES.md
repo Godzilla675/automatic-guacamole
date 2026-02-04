@@ -6,31 +6,16 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Gameplay Mechanics
+- [ ] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.)
 - [ ] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity)
 - [ ] **Implement Boats** (Water physics, riding logic)
+- [ ] **Implement Anvils** (Repair/Rename items, combining enchantments)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [x] **Verify Multiplayer Sync** (Ensure positions/actions sync correctly across clients)
-- [x] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
-- [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
-- [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
-- [x] **Fix Redstone Wire Propagation** (Signal does not propagate between wire blocks)
-- [x] **Fix Verification Suite Mocks** (AudioContext mocks missing createPanner/createOscillator)
-- [x] **Audit and Verify All Features** (Run full regression suite)
-- [x] **Fix verify_blocks.js logic error**
-- [x] **Fix Lighting Cleanup**
-- [x] **Refactor Structure Manager**
-- [x] **Fix Water Flow Logic**
-- [x] **Fix Spruce Tree Visuals**
-- [x] **Multiplayer Support** (Basic WebSocket implementation exists)
-- [x] **Complete Settings Menu**
-- [x] **Implement Village Layouts**
-- [x] **Fix Tree Generation Height Limit**
-- [x] **Fix Redstone/Torch Structural Integrity** (Implemented integrity checks)
-- [x] **Fix Projectile Collision** (Arrows ignore non-solid blocks)
-- [x] **Implement Particle System** (Visuals for breaking blocks, explosions)
+- [ ] **Refactor Physics for Entities** (Raycast/Collision for non-block entities)
+- [ ] **Implement Jukebox & Music Discs**
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*
@@ -78,6 +63,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Trapdoors** (Open/close logic, physics)
 - [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [x] **Implement Birch Trees** (Blocks & Generation)
+- [x] **Implement Concrete Blocks**
+- [x] **Implement Colored Wool Blocks**
+- [x] Additional block types (brick, concrete, wool colors)
 
 ### Advanced World Generation
 - [x] **Expand Village Generation** (Generate Houses, Paths, and Layouts)
@@ -114,6 +102,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Fishing Mechanic** (Fishing Rod, Bobber physics, catching fish)
 
 ### Mobs and AI
+- [x] **Implement Animal Breeding** (Feeding animals to spawn babies)
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
@@ -137,10 +126,28 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Doors** (Open/Close logic, models)
 - [x] **Implement Slabs** (Placement logic, half-block physics)
 - [x] **Implement Chests and Storage** (UI, persistence)
-- [x] Additional block types (brick, concrete, wool colors)
 - [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 
 ### General Fixes & Improvements
+- [x] **Verify Multiplayer Sync** (Ensure positions/actions sync correctly across clients)
+- [x] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
+- [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
+- [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
+- [x] **Fix Redstone Wire Propagation** (Signal does not propagate between wire blocks)
+- [x] **Fix Verification Suite Mocks** (AudioContext mocks missing createPanner/createOscillator)
+- [x] **Audit and Verify All Features** (Run full regression suite)
+- [x] **Fix verify_blocks.js logic error**
+- [x] **Fix Lighting Cleanup**
+- [x] **Refactor Structure Manager**
+- [x] **Fix Water Flow Logic**
+- [x] **Fix Spruce Tree Visuals**
+- [x] **Multiplayer Support** (Basic WebSocket implementation exists)
+- [x] **Complete Settings Menu**
+- [x] **Implement Village Layouts**
+- [x] **Fix Tree Generation Height Limit**
+- [x] **Fix Redstone/Torch Structural Integrity** (Implemented integrity checks)
+- [x] **Fix Projectile Collision** (Arrows ignore non-solid blocks)
+- [x] **Implement Particle System** (Visuals for breaking blocks, explosions)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
 - [x] Fix Tree Generation at Chunk Boundaries
 - [x] Fix memory management strategy
@@ -162,8 +169,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Fix Empty Inventory Screen
 - [x] Implement Furnace Block Logic
 - [x] Water Flow Visuals
-- [x] Implement Concrete Blocks
-- [x] Implement Colored Wool Blocks
 - [x] Make Wool Placeable
 - [x] Fix Infinite Blocks / Inventory Consumption on Placement
 - [x] Implement Water Flow Logic
