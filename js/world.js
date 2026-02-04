@@ -979,22 +979,22 @@ class World {
 
         const chunksData = [];
         this.chunks.forEach((chunk) => {
-             // Convert Uint8Array to base64
-             let binary = '';
-             let metaBinary = '';
-             const len = chunk.blocks.byteLength;
-             for (let i = 0; i < len; i++) {
-                 binary += String.fromCharCode(chunk.blocks[i]);
-                 metaBinary += String.fromCharCode(chunk.metadata[i]);
+             const packed = chunk.pack();
+
+             // Convert Uint8Array to Binary String for Base64
+             const toBinaryString = (bytes) => {
+                 let binary = '';
+                 for (let i = 0; i < bytes.length; i++) {
+                     binary += String.fromCharCode(bytes[i]);
+                 }
+                 return binary;
              }
-             const base64 = btoa(binary);
-             const metaBase64 = btoa(metaBinary);
 
              chunksData.push({
                  cx: chunk.cx,
                  cz: chunk.cz,
-                 blocks: base64,
-                 metadata: metaBase64
+                 blocks: btoa(toBinaryString(packed.blocks)),
+                 metadata: btoa(toBinaryString(packed.metadata))
              });
         });
 
@@ -1045,19 +1045,19 @@ class World {
                     data.chunks.forEach(cData => {
                         const chunk = new Chunk(cData.cx, cData.cz);
 
-                        const binary = atob(cData.blocks);
-                        const len = binary.length;
-                        for (let i = 0; i < len; i++) {
-                            chunk.blocks[i] = binary.charCodeAt(i);
-                        }
+                        const fromBase64 = (str) => {
+                            const binary = atob(str);
+                            const bytes = new Uint8Array(binary.length);
+                            for(let i=0; i<binary.length; i++) {
+                                bytes[i] = binary.charCodeAt(i);
+                            }
+                            return bytes;
+                        };
 
-                        if (cData.metadata) {
-                             const metaBinary = atob(cData.metadata);
-                             const metaLen = metaBinary.length;
-                             for (let i = 0; i < metaLen; i++) {
-                                 chunk.metadata[i] = metaBinary.charCodeAt(i);
-                             }
-                        }
+                        chunk.unpack({
+                            blocks: fromBase64(cData.blocks),
+                            metadata: cData.metadata ? fromBase64(cData.metadata) : null
+                        });
 
                         chunk.modified = true; // Force visual update
                         this.chunks.set(this.getChunkKey(cData.cx, cData.cz), chunk);

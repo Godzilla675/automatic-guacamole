@@ -38,6 +38,16 @@ class UIManager {
             });
         }
 
+        const skinPicker = document.getElementById('skin-color-picker');
+        if (skinPicker) {
+            // Need to set initial value after player is ready, or update logic later
+            // We can set it in toggleSettings
+            skinPicker.addEventListener('change', (e) => {
+                this.game.player.skinColor = e.target.value;
+                localStorage.setItem('voxel_skin_color', e.target.value);
+            });
+        }
+
         // Sensitivity
         const sensitivitySlider = document.getElementById('sensitivity-slider');
         if (sensitivitySlider) {
@@ -181,6 +191,15 @@ class UIManager {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', () => this.handleBrewingClick(id));
         });
+
+        const closeEnchanting = document.getElementById('close-enchanting');
+        if (closeEnchanting) {
+            closeEnchanting.addEventListener('click', () => this.closeEnchanting());
+        }
+        const enchantItem = document.getElementById('enchanting-item');
+        if (enchantItem) {
+            enchantItem.addEventListener('click', () => this.handleEnchantingClick());
+        }
     }
 
     toggleRecipeBook() {
@@ -291,6 +310,10 @@ class UIManager {
                 renderDistSlider.value = this.game.renderDistance;
                 const rdVal = document.getElementById('render-dist-value');
                 if (rdVal) rdVal.textContent = this.game.renderDistance;
+            }
+            const skinPicker = document.getElementById('skin-color-picker');
+            if (skinPicker && this.game.player) {
+                skinPicker.value = this.game.player.skinColor;
             }
         }
 
@@ -443,6 +466,125 @@ class UIManager {
         document.getElementById('brewing-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openEnchanting(entity) {
+        this.activeEnchanting = entity || { item: null };
+        document.getElementById('enchanting-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateEnchantingUI();
+        this.refreshInventoryUI();
+    }
+
+    closeEnchanting() {
+        if (this.activeEnchanting && this.activeEnchanting.item) {
+             const item = this.activeEnchanting.item;
+             let added = false;
+             for(let i=0; i<this.game.player.inventory.length; i++) {
+                 if(!this.game.player.inventory[i]) {
+                     this.game.player.inventory[i] = item;
+                     added = true;
+                     break;
+                 }
+             }
+             if(!added) {
+                 if (this.game.drops && window.Drop) {
+                     this.game.drops.push(new window.Drop(this.game, this.game.player.x, this.game.player.y, this.game.player.z, item.type, item.count));
+                 }
+             }
+        }
+        this.activeEnchanting = null;
+        document.getElementById('enchanting-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    handleEnchantingClick() {
+        if (!this.activeEnchanting) return;
+
+        const cursor = this.cursorItem;
+        const slotItem = this.activeEnchanting.item;
+
+        if (!cursor) {
+            if (slotItem) {
+                this.cursorItem = slotItem;
+                this.activeEnchanting.item = null;
+            }
+        } else {
+            if (!slotItem) {
+                this.activeEnchanting.item = cursor;
+                this.cursorItem = null;
+            } else {
+                this.activeEnchanting.item = cursor;
+                this.cursorItem = slotItem;
+            }
+        }
+        this.updateEnchantingUI();
+        this.updateCursorUI();
+    }
+
+    updateEnchantingUI() {
+        if (!this.activeEnchanting) return;
+
+        const slot = document.getElementById('enchanting-item');
+        slot.innerHTML = '';
+        const item = this.activeEnchanting.item;
+
+        if (item) {
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            const blockDef = window.BLOCKS[item.type];
+            icon.textContent = blockDef ? blockDef.icon : '';
+            icon.style.backgroundColor = blockDef ? blockDef.color : 'transparent';
+            slot.appendChild(icon);
+        }
+
+        const list = document.getElementById('enchanting-options');
+        list.innerHTML = '';
+
+        if (item && !item.enchantments) {
+             const costs = [1, 2, 3];
+             costs.forEach((cost) => {
+                 const btn = document.createElement('button');
+                 btn.className = 'menu-button';
+                 btn.textContent = `Cost: ${cost} Levels`;
+                 btn.style.fontSize = '12px';
+
+                 if (this.game.player.level >= cost) {
+                     btn.onclick = () => this.enchant(cost);
+                 } else {
+                     btn.disabled = true;
+                     btn.style.opacity = '0.5';
+                 }
+                 list.appendChild(btn);
+             });
+        } else if (item && item.enchantments) {
+             const div = document.createElement('div');
+             div.textContent = "Already Enchanted";
+             div.style.color = "yellow";
+             list.appendChild(div);
+        }
+    }
+
+    enchant(cost) {
+        if (!this.activeEnchanting || !this.activeEnchanting.item) return;
+
+        if (this.game.player.level >= cost) {
+            this.game.player.level -= cost;
+
+            const item = this.activeEnchanting.item;
+            if (!item.enchantments) item.enchantments = [];
+
+            const enchants = ['Sharpness', 'Efficiency', 'Unbreaking', 'Power'];
+            const type = enchants[Math.floor(Math.random() * enchants.length)];
+
+            item.enchantments.push({ type: type, level: 1 });
+
+            if (window.soundManager) window.soundManager.play('place');
+            this.updateEnchantingUI();
+            this.updateHealthUI();
+        }
     }
 
     handleBrewingClick(slotId) {
@@ -867,6 +1009,12 @@ class UIManager {
                     barBg.appendChild(bar);
                     slotElement.appendChild(barBg);
                 }
+            }
+
+            if (item.enchantments && item.enchantments.length > 0) {
+                slotElement.style.boxShadow = 'inset 0 0 5px #b550e6';
+            } else {
+                slotElement.style.boxShadow = 'none';
             }
         } else {
             icon.style.backgroundColor = 'transparent';

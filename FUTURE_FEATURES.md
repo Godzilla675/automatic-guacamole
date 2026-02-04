@@ -6,19 +6,19 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Gameplay Modes & Commands
-- [ ] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
-- [ ] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
+- [x] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
+- [x] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
 
 ### Enchanting
-- [ ] **Implement Enchanting Table UI & Logic** (Block exists, UI and Interaction missing)
+- [x] **Implement Enchanting Table UI & Logic** (Block exists, UI and Interaction missing)
 
 ### Multiplayer Polish
-- [ ] **Implement Player Skins & Nametags** (Visual differentiation)
+- [x] **Implement Player Skins & Nametags** (Visual differentiation)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [ ] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
+- [x] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
 - [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
 - [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
 - [x] **Fix Redstone Wire Propagation** (Signal does not propagate between wire blocks)
