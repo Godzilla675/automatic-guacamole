@@ -8,11 +8,16 @@ This document outlines the priorities and workflow for all agents working on thi
 ### Gameplay Mechanics
 - [ ] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
 - [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic)
-- [ ] **Implement Hunger Effects** (Sprint limiting, health regeneration)
+- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates)
+- [ ] **Implement Cow Milking** (Use bucket on cow to get milk)
+- [ ] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
+- [ ] **Fix Node.js Test Environment** (Install/Configure jsdom for UI tests)
+- [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
+- [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
@@ -34,6 +39,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Keep a record of what works.*
 
 ### New Features (Recently Completed)
+- [x] **Implement Hunger Effects** (Sprint limiting, health regeneration) - *Verified*
 - [x] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.) - *Verified*
 - [x] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity) - *Verified*
 - [x] **Implement Boats** (Water physics, riding logic) - *Verified*
