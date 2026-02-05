@@ -6,21 +6,21 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Gameplay Mechanics
-- [x] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.)
-- [x] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity)
-- [x] **Implement Boats** (Water physics, riding logic)
-- [x] **Implement Anvils** (Repair/Rename items, combining enchantments)
+- [ ] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
+- [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic)
+- [ ] **Implement Hunger Effects** (Sprint limiting, health regeneration)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [x] **Refactor Physics for Entities** (Raycast/Collision for non-block entities)
-- [x] **Implement Jukebox & Music Discs**
+- [ ] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
+- [ ] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*
 
 ### User Interface Improvements
+- [ ] **Implement Save Compression** (Reduce save file size using pako/gzip)
 - [x] FOV Slider (Backend done, verified UI hook)
 - [x] Mouse Sensitivity Control
 - [x] Minimap
@@ -34,6 +34,12 @@ This document outlines the priorities and workflow for all agents working on thi
 *Keep a record of what works.*
 
 ### New Features (Recently Completed)
+- [x] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.) - *Verified*
+- [x] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity) - *Verified*
+- [x] **Implement Boats** (Water physics, riding logic) - *Verified*
+- [x] **Implement Anvils** (Repair/Rename items, combining enchantments) - *Verified*
+- [x] **Refactor Physics for Entities** (Raycast/Collision for non-block entities) - *Verified*
+- [x] **Implement Jukebox & Music Discs** - *Verified*
 - [x] **Implement Signs** (Placement, Text Input UI, Rendering Text)
 - [x] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
 - [x] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
