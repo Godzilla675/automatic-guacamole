@@ -87,6 +87,8 @@ load('js/player.js');
 global.Player = window.Player;
 load('js/crafting.js');
 global.CraftingSystem = window.CraftingSystem;
+load('js/entity.js');
+global.Entity = window.Entity;
 load('js/mob.js');
 global.Mob = window.Mob;
 global.MOB_TYPE = window.MOB_TYPE;
