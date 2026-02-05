@@ -72,6 +72,8 @@ class Player {
         this.unlockedRecipes.add("Planks (4)");
         this.unlockedRecipes.add("Stick (4)");
         this.unlockedRecipes.add("Furnace");
+
+        this.riding = null;
     }
 
     addXP(amount) {
@@ -160,6 +162,22 @@ class Player {
              }
         } else {
             this.regenTimer = 0;
+        }
+
+        // Riding Logic
+        if (this.riding) {
+            this.x = this.riding.x;
+            this.y = this.riding.y + this.riding.height * 0.75; // Sit slightly inside/on top
+            this.z = this.riding.z;
+            this.vx = this.riding.vx;
+            this.vy = this.riding.vy;
+            this.vz = this.riding.vz;
+
+            // Dismount with Sneak
+            if (controls.sneak) {
+                this.riding.interact(this); // Dismount
+            }
+            return;
         }
 
         // Physics integration

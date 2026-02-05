@@ -7,6 +7,7 @@ class UIManager {
         this.activeVillager = null;
         this.activeBrewingStand = null;
         this.activeSign = null;
+        this.activeAnvil = null;
     }
 
     init() {
@@ -206,6 +207,19 @@ class UIManager {
         const enchantItem = document.getElementById('enchanting-item');
         if (enchantItem) {
             enchantItem.addEventListener('click', () => this.handleEnchantingClick());
+        }
+
+        const closeAnvil = document.getElementById('close-anvil');
+        if (closeAnvil) {
+            closeAnvil.addEventListener('click', () => this.closeAnvil());
+        }
+        ['anvil-input-1', 'anvil-input-2', 'anvil-output'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleAnvilClick(id));
+        });
+        const anvilName = document.getElementById('anvil-rename');
+        if (anvilName) {
+            anvilName.addEventListener('input', () => this.updateAnvilUI());
         }
     }
 
@@ -531,6 +545,173 @@ class UIManager {
         document.getElementById('enchanting-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openAnvil() {
+        this.activeAnvil = {
+            input1: null,
+            input2: null,
+            output: null,
+            cost: 0
+        };
+        document.getElementById('anvil-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateAnvilUI();
+        this.refreshInventoryUI();
+    }
+
+    closeAnvil() {
+        // Drop items
+        if (this.activeAnvil) {
+            [this.activeAnvil.input1, this.activeAnvil.input2].forEach(item => {
+                if (item) {
+                    let added = false;
+                    for (let i = 0; i < this.game.player.inventory.length; i++) {
+                        if (!this.game.player.inventory[i]) {
+                            this.game.player.inventory[i] = item;
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added && window.Drop) {
+                        this.game.drops.push(new window.Drop(this.game, this.game.player.x, this.game.player.y, this.game.player.z, item.type, item.count));
+                    }
+                }
+            });
+        }
+        this.activeAnvil = null;
+        document.getElementById('anvil-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    handleAnvilClick(id) {
+        if (!this.activeAnvil) return;
+        const anvil = this.activeAnvil;
+        const cursor = this.cursorItem;
+
+        if (id === 'anvil-output') {
+            if (anvil.output && anvil.cost <= this.game.player.level) {
+                if (!cursor) {
+                    this.game.player.level -= anvil.cost;
+                    this.cursorItem = anvil.output;
+                    anvil.input1 = null;
+                    anvil.input2 = null;
+                    anvil.output = null;
+                    anvil.cost = 0;
+                    document.getElementById('anvil-rename').value = ""; // Reset name
+                    if (window.soundManager) window.soundManager.play('place'); // Anvil use sound
+                }
+            }
+        } else {
+            let slot = (id === 'anvil-input-1') ? 'input1' : 'input2';
+
+            if (!cursor) {
+                if (anvil[slot]) {
+                    this.cursorItem = anvil[slot];
+                    anvil[slot] = null;
+                }
+            } else {
+                if (!anvil[slot]) {
+                    anvil[slot] = cursor;
+                    this.cursorItem = null;
+                } else {
+                    // Swap
+                    const temp = anvil[slot];
+                    anvil[slot] = cursor;
+                    this.cursorItem = temp;
+                }
+            }
+        }
+        this.updateAnvilUI();
+        this.updateCursorUI();
+    }
+
+    updateAnvilUI() {
+        if (!this.activeAnvil) return;
+        const anvil = this.activeAnvil;
+
+        // Logic
+        anvil.output = null;
+        anvil.cost = 0;
+
+        const rename = document.getElementById('anvil-rename').value;
+
+        if (anvil.input1) {
+            let cost = 0;
+            let output = JSON.parse(JSON.stringify(anvil.input1)); // Clone
+
+            // Rename
+            if (rename && rename !== (output.name || window.BLOCKS[output.type].name)) {
+                output.name = rename;
+                cost += 1;
+            }
+
+            // Repair
+            if (anvil.input2) {
+                // Same item repair
+                if (anvil.input2.type === anvil.input1.type) {
+                    // Restore durability
+                    const def = window.TOOLS[output.type];
+                    if (def) {
+                        const max = def.durability;
+                        const d1 = output.durability !== undefined ? output.durability : max;
+                        const d2 = anvil.input2.durability !== undefined ? anvil.input2.durability : max;
+
+                        const damage1 = max - d1;
+                        const damage2 = max - d2;
+
+                        // Repair amount: damage2 + 12% of max
+                        // Actually Minecraft logic combines both durabilities + 12% bonus
+                        // Current durability = d1. Max - d1 = damage taken.
+                        // Wait, d1 is "remaining uses".
+                        // Uses1 + Uses2 + Bonus
+
+                        const repair = d2 + Math.floor(max * 0.12);
+                        const newDurability = Math.min(max, d1 + repair);
+
+                        if (newDurability > d1) {
+                            output.durability = newDurability;
+                            cost += 2;
+                        }
+                    }
+                }
+            }
+
+            if (cost > 0) {
+                anvil.output = output;
+                anvil.cost = cost;
+            }
+        }
+
+        // Render Slots
+        ['anvil-input-1', 'anvil-input-2', 'anvil-output'].forEach(id => {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            let item = null;
+            if (id === 'anvil-input-1') item = anvil.input1;
+            else if (id === 'anvil-input-2') item = anvil.input2;
+            else item = anvil.output;
+
+            if (item) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[item.type];
+                icon.textContent = def ? def.icon : '';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                el.appendChild(icon);
+            }
+        });
+
+        const costEl = document.getElementById('anvil-cost');
+        if (anvil.output) {
+            costEl.textContent = `Cost: ${anvil.cost}`;
+            costEl.style.color = (this.game.player.level >= anvil.cost) ? '#55FF55' : '#FF5555';
+        } else {
+            costEl.textContent = 'Cost: 0';
+            costEl.style.color = 'white';
+        }
     }
 
     handleEnchantingClick() {

@@ -233,7 +233,10 @@ const BLOCK = {
     SIGN_POST: 206,
     WALL_SIGN: 207,
     ITEM_WATER_BUCKET: 324,
-    ITEM_LAVA_BUCKET: 325
+    ITEM_LAVA_BUCKET: 325,
+    ANVIL: 208,
+    JUKEBOX: 209,
+    ITEM_MUSIC_DISC: 330
 };
 
 const TOOLS = {
@@ -503,6 +506,10 @@ const BLOCKS = {
     [BLOCK.ITEM_BUCKET]: { name: 'Bucket', color: '#C0C0C0', solid: false, isItem: true, icon: '🪣' },
     [BLOCK.ITEM_WATER_BUCKET]: { name: 'Water Bucket', color: '#0000FF', solid: false, isItem: true, icon: '🪣' },
     [BLOCK.ITEM_LAVA_BUCKET]: { name: 'Lava Bucket', color: '#FF4500', solid: false, isItem: true, icon: '🪣' },
+
+    [BLOCK.ANVIL]: { name: 'Anvil', color: '#404040', top: '#505050', solid: true, icon: '🛡️', hardness: 5.0, tool: 'pickaxe', drop: { type: BLOCK.ANVIL, count: 1 } },
+    [BLOCK.JUKEBOX]: { name: 'Jukebox', color: '#4A2B2B', top: '#8B4513', solid: true, icon: '🎵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.ITEM_MUSIC_DISC]: { name: 'Music Disc', color: '#000000', solid: false, isItem: true, icon: '💿' },
 
     // XP Orb
     'xp': { name: 'XP', color: '#7FFF00', solid: false, isItem: true, icon: '❇️' }
