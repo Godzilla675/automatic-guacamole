@@ -340,6 +340,23 @@ class Physics {
         return tmin;
     }
 
+    raycastEntities(origin, dir, entities) {
+        let closest = null;
+        let minDist = Infinity;
+
+        entities.forEach(entity => {
+            if (entity.isDead) return;
+            const box = { x: entity.x, y: entity.y, z: entity.z, width: entity.width, height: entity.height };
+            const t = this.rayIntersectAABB(origin, dir, box);
+            if (t !== null && t < minDist) {
+                minDist = t;
+                closest = entity;
+            }
+        });
+
+        return { entity: closest, dist: minDist };
+    }
+
     getFluidIntersection(box) {
          const minX = Math.floor(box.x - box.width/2);
         const maxX = Math.floor(box.x + box.width/2);

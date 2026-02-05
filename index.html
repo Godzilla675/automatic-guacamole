@@ -166,6 +166,22 @@
             </div>
         </div>
 
+        <div id="anvil-screen" class="hidden">
+            <div class="menu-content" style="max-width: 500px; text-align: center;">
+                <h2>Anvil & Repair</h2>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                    <div class="furnace-slot" id="anvil-input-1" title="Input"></div>
+                    <span>+</span>
+                    <div class="furnace-slot" id="anvil-input-2" title="Sacrifice"></div>
+                    <span>➜</span>
+                    <div class="furnace-slot" id="anvil-output" title="Output"></div>
+                </div>
+                <input type="text" id="anvil-rename" placeholder="Item Name" style="width: 80%; margin-bottom: 10px; padding: 5px;">
+                <div id="anvil-cost" style="color: #55FF55; font-weight: bold; margin-bottom: 10px;">Cost: 0</div>
+                <button type="button" id="close-anvil" class="menu-button">Close</button>
+            </div>
+        </div>
+
         <div id="trading-screen" class="hidden">
             <div class="menu-content" style="max-width: 600px;">
                 <h2>Trading</h2>
@@ -267,6 +283,8 @@
     <script src="js/structures.js"></script>
     <script src="js/world.js"></script>
     <script src="js/physics.js"></script>
+    <script src="js/entity.js"></script>
+    <script src="js/vehicle.js"></script>
     <script src="js/player.js"></script>
     <script src="js/mob.js"></script>
     <script src="js/drop.js"></script>

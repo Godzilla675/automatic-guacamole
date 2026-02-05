@@ -9,6 +9,7 @@ class Game {
         this.physics = new Physics(this.world);
         this.player = new Player(this);
         this.mobs = [];
+        this.vehicles = [];
         this.drops = [];
         this.projectiles = [];
         this.tntPrimed = [];
@@ -223,6 +224,44 @@ class Game {
             return true;
         }
 
+        // Anvil
+        if (blockType === BLOCK.ANVIL) {
+            this.ui.openAnvil();
+            return true;
+        }
+
+        // Jukebox
+        if (blockType === BLOCK.JUKEBOX) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: 'jukebox', disc: null };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+
+            const slot = this.player.inventory[this.player.selectedSlot];
+
+            if (entity.disc) {
+                // Eject
+                this.drops.push(new Drop(this, x+0.5, y+1, z+0.5, entity.disc, 1));
+                entity.disc = null;
+                if (window.soundManager) window.soundManager.play('break', pos); // Placeholder stop
+                this.chat.addMessage("Music stopped.");
+            } else {
+                // Insert
+                if (slot && slot.type === BLOCK.ITEM_MUSIC_DISC) {
+                    entity.disc = slot.type;
+                    if (this.player.gamemode !== 1) {
+                        slot.count--;
+                        if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                        this.updateHotbarUI();
+                    }
+                    if (window.soundManager) window.soundManager.play('place', pos); // Placeholder play
+                    this.chat.addMessage("Now Playing: Cat");
+                }
+            }
+            return true;
+        }
+
         // Bed
         if (blockType === BLOCK.BED) {
             const time = this.gameTime % this.dayLength;
@@ -384,34 +423,46 @@ class Game {
             z: this.player.z
         };
 
-        // 1. Check Mobs
+        // 1. Check Mobs and Vehicles
+        const hitMob = this.physics.raycastEntities(eyePos, dir, this.mobs);
+        const hitVehicle = this.physics.raycastEntities(eyePos, dir, this.vehicles);
+
         let closestMob = null;
         let minMobDist = 4.0; // Melee range
 
-        this.mobs.forEach(mob => {
-            if (mob.isDead) return;
-            const mobBox = { x: mob.x, y: mob.y, z: mob.z, width: mob.width, height: mob.height };
-            // Use improved AABB raycast
-            const t = this.physics.rayIntersectAABB(eyePos, dir, mobBox);
-            if (t !== null && t < minMobDist) {
-                minMobDist = t;
-                closestMob = mob;
-            }
-        });
+        if (hitMob.entity && hitMob.dist < minMobDist) {
+            closestMob = hitMob.entity;
+            minMobDist = hitMob.dist;
+        }
+        if (hitVehicle.entity && hitVehicle.dist < minMobDist) {
+            closestMob = hitVehicle.entity;
+            minMobDist = hitVehicle.dist;
+        }
 
         if (closestMob) {
             // Check interaction first
             const slot = this.player.inventory[this.player.selectedSlot];
-            if (slot && closestMob.interact(slot.type)) {
-                 if (this.player.gamemode !== 1) {
-                     slot.count--;
-                     if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                 }
-                 this.updateHotbarUI();
-                 return;
+
+            if (closestMob instanceof window.Vehicle) {
+                // If hitting with weapon, damage it. Else interact (ride).
+                if (!slot || !window.TOOLS[slot.type] || window.TOOLS[slot.type].type !== 'sword') {
+                     closestMob.interact(this.player);
+                     return;
+                }
+                // Fallthrough to damage logic
+            } else {
+                // Mob Interaction
+                if (slot && closestMob.interact(slot.type)) {
+                     if (this.player.gamemode !== 1) {
+                         slot.count--;
+                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                     }
+                     this.updateHotbarUI();
+                     return;
+                }
             }
 
-            // Attack Mob
+            // Attack Mob / Vehicle
             let damage = 1;
             if (slot && window.TOOLS[slot.type]) {
                 damage = window.TOOLS[slot.type].damage || 1;
@@ -1278,6 +1329,16 @@ class Game {
                 continue;
             }
             mob.update(dt / 1000);
+        }
+
+        // Vehicles
+        for (let i = this.vehicles.length - 1; i >= 0; i--) {
+            const v = this.vehicles[i];
+            v.update(dt / 1000);
+            // Despawn if out of world?
+            if (v.y < -10) {
+                this.vehicles.splice(i, 1);
+            }
         }
 
         // Spawn mobs

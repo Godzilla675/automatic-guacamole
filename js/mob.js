@@ -17,18 +17,11 @@ const MOB_TYPE = {
     BLAZE: 'blaze'
 };
 
-class Mob {
+class Mob extends Entity {
     constructor(game, x, y, z, type = MOB_TYPE.COW) {
-        this.game = game;
+        super(game, x, y, z);
         this.world = game.world;
-        this.x = x;
-        this.y = y;
-        this.z = z;
         this.type = type;
-
-        this.vx = 0;
-        this.vy = 0;
-        this.vz = 0;
 
         // Dimensions & Stats
         this.width = 0.6;
@@ -42,7 +35,6 @@ class Mob {
         this.health = 20;
         this.maxHealth = 20;
         this.lastDamageTime = 0;
-        this.isDead = false;
 
         // Special timers
         this.fuseTimer = 0; // For Creeper
@@ -690,5 +682,10 @@ class Mob {
     }
 }
 
-window.MOB_TYPE = MOB_TYPE;
-window.Mob = Mob;
+if (typeof window !== 'undefined') {
+    window.MOB_TYPE = MOB_TYPE;
+    window.Mob = Mob;
+} else {
+    global.MOB_TYPE = MOB_TYPE;
+    global.Mob = Mob;
+}

@@ -446,6 +446,35 @@ class Renderer {
              }
         });
 
+        // Draw Vehicles
+        if (this.game.vehicles) {
+            this.game.vehicles.forEach(v => {
+                 const dx = v.x - px;
+                 const dy = v.y - py;
+                 const dz = v.z - pz;
+
+                 const rx = dx * cosY - dz * sinY;
+                 const rz = dx * sinY + dz * cosY;
+                 const ry = dy * cosP - rz * sinP;
+                 const rz2 = dy * sinP + rz * cosP;
+
+                 if (rz2 > 0.1) {
+                     const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                     const size = (scale / rz2) * v.height; // Use height scaling
+                     const width = (scale / rz2) * v.width;
+                     const sx = (rx / rz2) * scale + w / 2;
+                     const sy = (ry / rz2) * scale + h / 2;
+
+                     if (v.type === 'minecart') ctx.fillStyle = '#808080';
+                     else if (v.type === 'boat') ctx.fillStyle = '#8B4513';
+                     else ctx.fillStyle = '#FFFFFF';
+
+                     // Center bottom
+                     ctx.fillRect(sx - width/2, sy - size, width, size);
+                 }
+            });
+        }
+
         // Draw Drops
         this.game.drops.forEach(drop => {
              const dx = drop.x - px;

@@ -6,16 +6,16 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Gameplay Mechanics
-- [ ] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.)
-- [ ] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity)
-- [ ] **Implement Boats** (Water physics, riding logic)
-- [ ] **Implement Anvils** (Repair/Rename items, combining enchantments)
+- [x] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.)
+- [x] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity)
+- [x] **Implement Boats** (Water physics, riding logic)
+- [x] **Implement Anvils** (Repair/Rename items, combining enchantments)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [ ] **Refactor Physics for Entities** (Raycast/Collision for non-block entities)
-- [ ] **Implement Jukebox & Music Discs**
+- [x] **Refactor Physics for Entities** (Raycast/Collision for non-block entities)
+- [x] **Implement Jukebox & Music Discs**
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*
