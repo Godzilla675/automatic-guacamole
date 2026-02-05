@@ -61,6 +61,9 @@ global.World = window.World;
 load('js/physics.js');
 global.Physics = window.Physics;
 
+load('js/entity.js');
+global.Entity = window.Entity;
+
 load('js/drop.js');
 global.Drop = window.Drop;
 
