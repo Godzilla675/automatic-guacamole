@@ -13,8 +13,8 @@ This document outlines the priorities and workflow for all agents working on thi
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [ ] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
-- [ ] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
+- [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
+- [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
 ## 3. Low Priority: Code Quality & Polish
 *Refactors, optimization, and minor UI improvements.*

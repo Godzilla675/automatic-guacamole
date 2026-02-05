@@ -642,19 +642,34 @@ class Mob extends Entity {
                      // Move closer
                      this.vx = Math.sin(this.yaw) * this.speed;
                      this.vz = Math.cos(this.yaw) * this.speed;
+                 } else if (dist < 3) {
+                     // Back away
+                     this.vx = -Math.sin(this.yaw) * this.speed;
+                     this.vz = -Math.cos(this.yaw) * this.speed;
                  } else {
-                     // Stop and shoot
-                     this.vx = 0;
-                     this.vz = 0;
-                     this.attackCooldown -= dt;
-                     if (this.attackCooldown <= 0) {
-                         if (this.game.spawnProjectile) {
-                             // Shoot at player height
-                             const dir = { x: dx/dist, y: (player.y + player.height*0.8 - (this.y + this.height*0.8))/dist, z: dz/dist };
-                             this.game.spawnProjectile(this.x, this.y + this.height * 0.8, this.z, dir);
-                         }
-                         this.attackCooldown = 3.0;
+                     // Strafe
+                     if (this.strafeTimer === undefined) this.strafeTimer = 0;
+                     if (this.strafeDir === undefined) this.strafeDir = 1;
+
+                     this.strafeTimer -= dt;
+                     if (this.strafeTimer <= 0) {
+                         this.strafeTimer = 1 + Math.random() * 2;
+                         this.strafeDir = Math.random() < 0.5 ? 1 : -1;
                      }
+
+                     const strafeYaw = this.yaw + (Math.PI / 2) * this.strafeDir;
+                     this.vx = Math.sin(strafeYaw) * this.speed * 0.5;
+                     this.vz = Math.cos(strafeYaw) * this.speed * 0.5;
+                 }
+
+                 // Shoot logic
+                 this.attackCooldown -= dt;
+                 if (this.attackCooldown <= 0) {
+                     if (this.game.spawnProjectile) {
+                         const dir = { x: dx/dist, y: (player.y + player.height*0.8 - (this.y + this.height*0.8))/dist, z: dz/dist };
+                         this.game.spawnProjectile(this.x, this.y + this.height * 0.8, this.z, dir);
+                     }
+                     this.attackCooldown = 3.0;
                  }
                 } else {
                     // Zombie, Spider, Enderman move towards player
