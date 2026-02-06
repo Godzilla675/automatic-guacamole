@@ -16,6 +16,14 @@ This document outlines the priorities and workflow for all agents working on thi
 *Fix reported bugs and ensure stability.*
 
 - [ ] **Fix Node.js Test Environment** (Install/Configure jsdom for UI tests)
+- [ ] **Fix Verification Suite** (Global Fix: Entity, AudioContext, ParticleSystem missing in tests)
+- [ ] **Fix World Saving / Chunk Serialization** (Test failed: chunk.pack is not a function)
+- [ ] **Fix Fall Damage Verification** (Test failed)
+- [ ] **Fix Signs Verification** (Test failed: AudioContext)
+- [ ] **Fix Projectiles Verification** (Test failed: Entity not defined)
+- [ ] **Fix Water Flow Verification** (Test failed)
+- [ ] **Fix Mobs & Drops Verification** (Test failed)
+- [ ] **Fix Cactus Damage Verification** (Test failed)
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
@@ -145,10 +153,10 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Verify Multiplayer Sync** (Ensure positions/actions sync correctly across clients)
 - [x] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
 - [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
-- [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
+- [ ] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
 - [x] **Fix Redstone Wire Propagation** (Signal does not propagate between wire blocks)
 - [x] **Fix Verification Suite Mocks** (AudioContext mocks missing createPanner/createOscillator)
-- [x] **Audit and Verify All Features** (Run full regression suite)
+- [ ] **Audit and Verify All Features** (Run full regression suite)
 - [x] **Fix verify_blocks.js logic error**
 - [x] **Fix Lighting Cleanup**
 - [x] **Refactor Structure Manager**
@@ -161,7 +169,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Redstone/Torch Structural Integrity** (Implemented integrity checks)
 - [x] **Fix Projectile Collision** (Arrows ignore non-solid blocks)
 - [x] **Implement Particle System** (Visuals for breaking blocks, explosions)
-- [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
+- [ ] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
 - [x] Fix Tree Generation at Chunk Boundaries
 - [x] Fix memory management strategy
 - [x] Optimize render loop
