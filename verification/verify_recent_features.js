@@ -50,6 +50,19 @@ dom.window.atob = (str) => Buffer.from(str, 'base64').toString('binary');
 dom.window.alert = console.log;
 dom.window.prompt = () => "Tester";
 dom.window.AudioContext = class {
+    resume() {}
+    createPanner() {
+        return {
+            connect: ()=>{},
+            setPosition: ()=>{},
+            positionX: { value: 0 },
+            positionY: { value: 0 },
+            positionZ: { value: 0 },
+            orientationX: { value: 0 },
+            orientationY: { value: 0 },
+            orientationZ: { value: 0 }
+        };
+    }
     createOscillator() {
         return {
             connect:()=>{}, start:()=>{}, stop:()=>{},
@@ -85,7 +98,7 @@ const load = (f) => {
 };
 
 // Load dependencies
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'player.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'mob.js', 'drop.js', 'particles.js', 'plugin.js', 'minimap.js', 'tutorial.js', 'achievements.js', 'player.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
 
 async function testRecentFeatures() {
     console.log("Starting Verification of Recent Features...");

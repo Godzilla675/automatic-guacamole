@@ -33,10 +33,32 @@ Added `load('js/entity.js')` (and `load('js/vehicle.js')` where appropriate) bef
 **Fix:**
 While the specific error in `verify_signs.js` was logged, the test passed. However, cleanup of dependencies in other files ensured cleaner execution.
 
-## anomalies
+### 3. Missing Dependencies in `verify_recent_features.js`
+**Affected Scripts:**
+- `verification/verify_recent_features.js`
+
+**Cause:**
+The script failed to load `particles.js`, `minimap.js`, `tutorial.js`, and `achievements.js`. These are required by the `Game` class constructor or `ParticleSystem` initialization.
+
+**Fix:**
+Added these files to the load list.
+
+### 4. Incomplete AudioContext Mock
+**Affected Scripts:**
+- `verification/verify_recent_features.js`
+- `verification/verify_hunger.js` (New script)
+
+**Cause:**
+The `SoundManager` uses `createPanner()` and `linearRampToValueAtTime()` (on `AudioParam`), which were missing from the `AudioContext` mock. This caused `TypeError` when `SoundManager.play()` was called (e.g., footstep sounds, eating sounds).
+
+**Fix:**
+Updated the `AudioContext` mock to include `createPanner()` (returning a dummy panner node) and added `linearRampToValueAtTime()` to `AudioParam` objects.
+
+## Anomalies
 
 - **Redstone Repeaters:** The `FUTURE_FEATURES.md` correctly lists them as unimplemented, but `verify_redstone_logic.js` output implies it tests logic without them. This is consistent but worth noting that no tests exist for repeaters because they don't exist yet.
 - **Nether Portal:** The `verify_nether.js` only checks block generation. The actual portal teleportation logic was found in `js/game.js` (timer based), but is not covered by a specific verification script.
+- **Player Death in Tests:** When testing logic that simulates time (like Hunger), care must be taken to ensure the player doesn't fall through the world due to physics/gravity simulation in an empty chunk. This was addressed in `verify_hunger.js` by mocking a platform and resetting player position.
 
 ## Conclusion
 All "Recently Completed" features in `FUTURE_FEATURES.md` have been verified to work (pass their tests) after fixing the test harness.
