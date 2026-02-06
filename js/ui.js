@@ -13,6 +13,21 @@ class UIManager {
     init() {
         this.updateHotbarUI();
 
+        // Inject Armor Grid
+        const invContent = document.querySelector('#inventory-screen .inventory-content');
+        if (invContent && !document.getElementById('armor-grid')) {
+            const armorGrid = document.createElement('div');
+            armorGrid.id = 'armor-grid';
+            armorGrid.style.display = 'flex';
+            armorGrid.style.justifyContent = 'center';
+            armorGrid.style.gap = '10px';
+            armorGrid.style.marginBottom = '10px';
+
+            // Insert before inventory grid
+            const grid = document.getElementById('inventory-grid');
+            if (grid) invContent.insertBefore(armorGrid, grid);
+        }
+
         // Bind Sign Close
         const closeSign = document.getElementById('close-sign');
         if (closeSign) {
@@ -1088,7 +1103,75 @@ class UIManager {
         }
     }
 
+    refreshArmorUI() {
+        const grid = document.getElementById('armor-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const placeholders = ['🧢', '👕', '👖', '👢'];
+
+        for (let i = 0; i < 4; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'inventory-item';
+            slot.dataset.armorSlot = i;
+            slot.style.position = 'relative'; // Ensure placeholder positioning works
+
+            // Placeholder bg if empty
+            if (!this.game.player.armor[i]) {
+                const ph = document.createElement('span');
+                ph.textContent = placeholders[i];
+                ph.style.opacity = '0.3';
+                ph.style.fontSize = '20px';
+                ph.style.position = 'absolute';
+                ph.style.top = '50%';
+                ph.style.left = '50%';
+                ph.style.transform = 'translate(-50%, -50%)';
+                ph.style.pointerEvents = 'none';
+                slot.appendChild(ph);
+            }
+
+            this.renderSlotItem(slot, this.game.player.armor[i]);
+
+            slot.addEventListener('click', () => {
+                this.handleArmorClick(i);
+            });
+
+            grid.appendChild(slot);
+        }
+    }
+
+    handleArmorClick(index) {
+        const player = this.game.player;
+        const cursor = this.cursorItem;
+        const slotItem = player.armor[index];
+
+        if (!cursor) {
+            // Unequip
+            if (slotItem) {
+                this.cursorItem = slotItem;
+                player.armor[index] = null;
+            }
+        } else {
+            // Equip
+            if (window.ARMOR && window.ARMOR[cursor.type] && window.ARMOR[cursor.type].slot === index) {
+                if (!slotItem) {
+                    player.armor[index] = cursor;
+                    this.cursorItem = null;
+                } else {
+                    // Swap
+                    player.armor[index] = cursor;
+                    this.cursorItem = slotItem;
+                }
+                if (window.soundManager) window.soundManager.play('place');
+            }
+        }
+        this.refreshArmorUI();
+        this.updateCursorUI();
+    }
+
     refreshInventoryUI() {
+        this.refreshArmorUI();
+
         const grid = document.getElementById('inventory-grid');
         grid.innerHTML = '';
 

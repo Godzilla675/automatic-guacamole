@@ -6,7 +6,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Gameplay Mechanics
-- [ ] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
+- [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
 - [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic)
 - [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates)
 - [ ] **Implement Cow Milking** (Use bucket on cow to get milk)
@@ -39,6 +39,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Keep a record of what works.*
 
 ### New Features (Recently Completed)
+- [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction) - *Verified*
 - [x] **Implement Hunger Effects** (Sprint limiting, health regeneration) - *Verified*
 - [x] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.) - *Verified*
 - [x] **Implement Minecarts and Rails** (Physics, riding logic, rail connectivity) - *Verified*
