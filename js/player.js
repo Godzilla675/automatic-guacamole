@@ -74,6 +74,21 @@ class Player {
         this.unlockedRecipes.add("Furnace");
 
         this.riding = null;
+
+        // Armor: [Helmet, Chestplate, Leggings, Boots]
+        this.armor = [null, null, null, null];
+    }
+
+    getDefensePoints() {
+        let defense = 0;
+        if (window.ARMOR) {
+            for (const item of this.armor) {
+                if (item && window.ARMOR[item.type]) {
+                    defense += window.ARMOR[item.type].defense;
+                }
+            }
+        }
+        return defense;
     }
 
     addXP(amount) {
@@ -106,14 +121,37 @@ class Player {
         if (this.blocking) {
             // Reduce damage (e.g. 50% or 100% block)
             // Simplified: 100% block for now.
-            window.soundManager.play('place'); // Clang?
+            if (window.soundManager) window.soundManager.play('place'); // Clang?
             return;
         }
 
-        this.health -= amount;
+        // Armor Reduction
+        const defense = this.getDefensePoints();
+        const reduction = Math.min(0.8, defense * 0.04); // Cap at 80%
+        let damage = amount * (1 - reduction);
+
+        // Damage Armor
+        if (window.ARMOR) {
+            for (let i = 0; i < 4; i++) {
+                const item = this.armor[i];
+                if (item && window.ARMOR[item.type]) {
+                    // Init durability if needed
+                    const maxDur = window.ARMOR[item.type].durability;
+                    if (item.durability === undefined) item.durability = maxDur;
+
+                    item.durability -= 1;
+                    if (item.durability <= 0) {
+                        this.armor[i] = null; // Break
+                        if (window.soundManager) window.soundManager.play('break');
+                    }
+                }
+            }
+        }
+
+        this.health -= damage;
         this.lastDamageTime = Date.now();
         // Knockback or sound?
-        window.soundManager.play('break'); // Placeholder damage sound
+        if (window.soundManager) window.soundManager.play('break'); // Placeholder damage sound
         if (this.health <= 0) {
             this.respawn();
         }
