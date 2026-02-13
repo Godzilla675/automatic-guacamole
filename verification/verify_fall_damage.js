@@ -17,7 +17,11 @@ global.navigator = { userAgent: "node" };
 // Mock AudioContext
 global.window.AudioContext = class {
     createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
-    createGain() { return { connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
+    createGain() { return { connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {}, setTargetAtTime: () => {} } }; }
+    createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } }; }
+    createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
+    createBiquadFilter() { return { connect: () => {} }; }
+    createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
     resume() {}
     get state() { return 'running'; }
 };

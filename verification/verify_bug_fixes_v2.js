@@ -35,9 +35,26 @@ dom.window.document = dom.window.document;
 dom.window.HTMLElement = dom.window.HTMLElement;
 dom.window.navigator = { userAgent: "node" };
 dom.window.localStorage = { getItem: () => null, setItem: () => {}, removeItem: () => {} };
-dom.window.AudioContext = class { createGain() { return { gain: { value: 1, linearRampToValueAtTime: () => {} }, connect: () => {} }; } };
+dom.window.AudioContext = class {
+    createGain() { return { gain: { value: 1, setValueAtTime: () => {}, linearRampToValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, setTargetAtTime: () => {} }, connect: () => {} }; }
+    createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
+    createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } }; }
+    createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
+    createBiquadFilter() { return { connect: () => {} }; }
+    createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
+    resume() {}
+    get state() { return 'running'; }
+};
 dom.window.requestAnimationFrame = (cb) => setTimeout(cb, 16);
-dom.window.soundManager = { play: () => {}, updateAmbience: () => {} };
+// Remove mock soundManager if we want to test audio calls, but verify_bug_fixes_v2 seems to overwrite it anyway?
+// Actually line 29: dom.window.soundManager = { play: () => {}, updateAmbience: () => {} };
+// So it mocks soundManager explicitly, overriding whatever loading audio.js does.
+// But wait, if audio.js is loaded, it creates window.soundManager.
+// Then line 29 overwrites it.
+// If we want to use the real AudioContext mock inside the real SoundManager, we should NOT overwrite soundManager.
+// But verify_bug_fixes_v2 might be testing Game logic that calls soundManager.
+// If the test fails because soundManager methods are missing, then we need to update the mock here.
+dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, updateListener: () => {} };
 
 // Mock Canvas
 dom.window.HTMLCanvasElement.prototype.getContext = () => ({
@@ -77,9 +94,7 @@ const load = (f) => {
 };
 
 // Load dependencies
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js',
- 'player.js', 'mob.js', 'drop.js', 'crafting.js', 'chat.js', 'ui.js', 'network.js', 'input.js', 'renderer.js', 'particles.js', 'game.js']
-.forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
 
 const { Game, Physics, World, BLOCK, Player } = dom.window;
 

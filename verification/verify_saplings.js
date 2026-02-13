@@ -46,7 +46,8 @@ describe('Sapling Verification', () => {
         // Mock soundManager
         window.soundManager = {
             play: () => {},
-            updateAmbience: () => {}
+            updateAmbience: () => {},
+            updateListener: () => {}
         };
 
         // Mock localStorage
@@ -68,6 +69,8 @@ describe('Sapling Verification', () => {
         loadScript('js/particles.js');
         loadScript('js/math.js');
         loadScript('js/chunk.js');
+        loadScript('js/entity.js');
+        loadScript('js/vehicle.js');
         loadScript('js/drop.js');
         loadScript('js/chat.js');
         loadScript('js/input.js');
@@ -81,6 +84,10 @@ describe('Sapling Verification', () => {
         loadScript('js/structures.js');
         loadScript('js/biome.js');
         loadScript('js/renderer.js');
+        loadScript('js/plugin.js');
+        loadScript('js/minimap.js');
+        loadScript('js/achievements.js');
+        loadScript('js/tutorial.js');
         loadScript('js/game.js');
 
         BLOCK = window.BLOCK;

@@ -68,6 +68,15 @@ const particlesCode = fs.readFileSync('js/particles.js', 'utf8');
 eval(particlesCode);
 global.ParticleSystem = window.ParticleSystem;
 
+const pluginCode = fs.readFileSync('js/plugin.js', 'utf8');
+eval(pluginCode);
+const minimapCode = fs.readFileSync('js/minimap.js', 'utf8');
+eval(minimapCode);
+const achievementsCode = fs.readFileSync('js/achievements.js', 'utf8');
+eval(achievementsCode);
+const tutorialCode = fs.readFileSync('js/tutorial.js', 'utf8');
+eval(tutorialCode);
+
 eval(gameCode);
 
 // Test

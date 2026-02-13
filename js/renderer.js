@@ -20,18 +20,88 @@ class Renderer {
         }
     }
 
+    drawSky(w, h) {
+        const ctx = this.ctx;
+        const cycle = (this.game.gameTime % this.game.dayLength) / this.game.dayLength;
+        const angle = cycle * 2 * Math.PI;
+
+        // Sky Gradient
+        const b = this.game.sunBrightness;
+        const gradient = ctx.createLinearGradient(0, 0, 0, h);
+
+        if (cycle > 0.45 && cycle < 0.55) { // Sunset
+             gradient.addColorStop(0, `rgb(20, 20, 60)`);
+             gradient.addColorStop(1, `rgb(255, 100, 50)`);
+        } else if (cycle > 0.95 || cycle < 0.05) { // Sunrise
+             gradient.addColorStop(0, `rgb(20, 20, 60)`);
+             gradient.addColorStop(1, `rgb(255, 150, 50)`);
+        } else if (b < 0.5) { // Night
+             gradient.addColorStop(0, `rgb(0, 0, 10)`);
+             gradient.addColorStop(1, `rgb(0, 0, 30)`);
+        } else { // Day
+             gradient.addColorStop(0, `rgb(100, 180, 255)`);
+             gradient.addColorStop(1, `rgb(200, 230, 255)`);
+        }
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, w, h);
+
+        // Sun/Moon Position
+        const r = 1000;
+        const sunX = Math.cos(angle) * r;
+        const sunY = Math.sin(angle) * r;
+
+        this.drawCelestialBody(w, h, sunX, sunY, 0, 'sun');
+        this.drawCelestialBody(w, h, -sunX, -sunY, 0, 'moon');
+    }
+
+    drawCelestialBody(w, h, x, y, z, type) {
+        const yaw = this.game.player.yaw;
+        const pitch = this.game.player.pitch;
+
+        const sinY = Math.sin(-yaw);
+        const cosY = Math.cos(-yaw);
+        const sinP = Math.sin(-pitch);
+        const cosP = Math.cos(-pitch);
+
+        const rx = x * cosY - z * sinY;
+        const rz = x * sinY + z * cosY;
+        const ry = y * cosP - rz * sinP;
+        const rz2 = y * sinP + rz * cosP;
+
+        if (rz2 > 0) {
+             const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+             const size = scale * 0.15;
+
+             const sx = (rx / rz2) * scale + w / 2;
+             const sy = (ry / rz2) * scale + h / 2;
+
+             this.ctx.beginPath();
+             if (type === 'sun') {
+                 this.ctx.fillStyle = '#FFFF00';
+                 this.ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                 this.ctx.fill();
+
+                 this.ctx.globalAlpha = 0.2;
+                 this.ctx.fillStyle = '#FFA500';
+                 this.ctx.beginPath();
+                 this.ctx.arc(sx, sy, size * 1.5, 0, Math.PI * 2);
+                 this.ctx.fill();
+                 this.ctx.globalAlpha = 1.0;
+             } else {
+                 this.ctx.fillStyle = '#F0F0F0';
+                 this.ctx.fillRect(sx - size, sy - size, size * 2, size * 2);
+             }
+        }
+    }
+
     render() {
         const w = this.canvas.width / (window.devicePixelRatio || 1);
         const h = this.canvas.height / (window.devicePixelRatio || 1);
         const ctx = this.ctx;
 
         // Sky
-        const brightness = this.game.sunBrightness;
-        const skyR = Math.floor(135 * brightness);
-        const skyG = Math.floor(206 * brightness);
-        const skyB = Math.floor(235 * brightness);
-        ctx.fillStyle = `rgb(${skyR},${skyG},${skyB})`;
-        ctx.fillRect(0, 0, w, h);
+        this.drawSky(w, h);
 
         // Water Overlay (Under water)
         const headBlock = this.game.world.getBlock(Math.floor(this.game.player.x), Math.floor(this.game.player.y + this.game.player.height - 0.2), Math.floor(this.game.player.z));
@@ -177,7 +247,8 @@ class Renderer {
                                 rx, ry: ry, rz: rz2,
                                 dist,
                                 light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z)
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                cx: cx, cz: cz, bx: b.x, by: b.y, bz: b.z
                             });
                         }
                     }
@@ -281,6 +352,59 @@ class Renderer {
                          ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
                          ctx.globalAlpha = 1.0;
                          return;
+                     }
+                     // Signs
+                     if (blockDef.isSign) {
+                         if (b.type === window.BLOCK.SIGN_POST) {
+                             // Draw Stick
+                             const stickW = size * 0.1;
+                             const stickH = size * 0.5;
+                             ctx.fillStyle = '#8B4513';
+                             ctx.fillRect(Math.floor(sx - stickW/2), Math.floor(drawSy + size/2 - stickH), Math.ceil(stickW), Math.ceil(stickH));
+
+                             // Draw Board
+                             const boardW = size * 0.8;
+                             const boardH = size * 0.5;
+                             ctx.fillStyle = blockDef.color;
+                             ctx.fillRect(Math.floor(sx - boardW/2), Math.floor(drawSy - size/2), Math.ceil(boardW), Math.ceil(boardH));
+
+                             // Draw Text
+                             if (b.cx !== undefined) {
+                                 const entity = this.game.world.getBlockEntity(b.cx * 16 + b.bx, b.by, b.cz * 16 + b.bz);
+                                 if (entity && entity.text) {
+                                     ctx.fillStyle = 'black';
+                                     ctx.font = `bold ${Math.max(8, Math.ceil(size * 0.12))}px Arial`;
+                                     ctx.textAlign = 'center';
+                                     let lineY = drawSy - size/2 + size*0.1 + size*0.12;
+                                     entity.text.forEach(line => {
+                                         ctx.fillText(line, sx, lineY);
+                                         lineY += size * 0.12;
+                                     });
+                                 }
+                             }
+                             return;
+                         } else {
+                             // Wall Sign
+                             const boardW = size * 0.8;
+                             const boardH = size * 0.5;
+                             ctx.fillStyle = blockDef.color;
+                             ctx.fillRect(Math.floor(sx - boardW/2), Math.floor(drawSy - size/4), Math.ceil(boardW), Math.ceil(boardH));
+
+                             if (b.cx !== undefined) {
+                                 const entity = this.game.world.getBlockEntity(b.cx * 16 + b.bx, b.by, b.cz * 16 + b.bz);
+                                 if (entity && entity.text) {
+                                     ctx.fillStyle = 'black';
+                                     ctx.font = `bold ${Math.max(8, Math.ceil(size * 0.12))}px Arial`;
+                                     ctx.textAlign = 'center';
+                                     let lineY = drawSy - size/4 + size*0.1 + size*0.12;
+                                     entity.text.forEach(line => {
+                                         ctx.fillText(line, sx, lineY);
+                                         lineY += size * 0.12;
+                                     });
+                                 }
+                             }
+                             return;
+                         }
                      }
                      // Torches (Normal & Redstone)
                      if (blockDef.isTorch) {
@@ -391,6 +515,35 @@ class Renderer {
                  ctx.fillRect(sx - size/4, sy - size, size/2, size);
              }
         });
+
+        // Draw Vehicles
+        if (this.game.vehicles) {
+            this.game.vehicles.forEach(v => {
+                 const dx = v.x - px;
+                 const dy = v.y - py;
+                 const dz = v.z - pz;
+
+                 const rx = dx * cosY - dz * sinY;
+                 const rz = dx * sinY + dz * cosY;
+                 const ry = dy * cosP - rz * sinP;
+                 const rz2 = dy * sinP + rz * cosP;
+
+                 if (rz2 > 0.1) {
+                     const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                     const size = (scale / rz2) * v.height; // Use height scaling
+                     const width = (scale / rz2) * v.width;
+                     const sx = (rx / rz2) * scale + w / 2;
+                     const sy = (ry / rz2) * scale + h / 2;
+
+                     if (v.type === 'minecart') ctx.fillStyle = '#808080';
+                     else if (v.type === 'boat') ctx.fillStyle = '#8B4513';
+                     else ctx.fillStyle = '#FFFFFF';
+
+                     // Center bottom
+                     ctx.fillRect(sx - width/2, sy - size, width, size);
+                 }
+            });
+        }
 
         // Draw Drops
         this.game.drops.forEach(drop => {
@@ -545,7 +698,7 @@ class Renderer {
                      const sx = (rx / rz2) * scale + w / 2;
                      const sy = (ry / rz2) * scale + h / 2;
 
-                     ctx.fillStyle = 'blue';
+                     ctx.fillStyle = p.skinColor || 'blue';
                      ctx.fillRect(sx - size/4, sy - size, size/2, size);
 
                      // Name tag

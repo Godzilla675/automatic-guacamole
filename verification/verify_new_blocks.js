@@ -85,7 +85,7 @@ const load = (f) => {
 };
 
 // Load dependencies
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'player.js', 'crafting.js', 'network.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
 
 describe('New Building Blocks Verification', () => {
     let game;
@@ -197,22 +197,8 @@ describe('New Building Blocks Verification', () => {
             assert.ok(meta & 4, "Trapdoor should be open");
         });
 
-        it.skip('should place at top if hit upper half', () => {
+        it('should place at top if hit upper half', () => {
             const x = 6, y = 10, z = 6;
-
-            // Mock Physics.raycast to return hit at y=10.8 (Upper half)
-            const oldRaycast = game.physics.raycast;
-            game.physics.raycast = () => ({
-                x: x, y: 10.8, z: z,
-                face: { x: 0, y: 1, z: 0 } // Top face of block below?
-                // Wait, placeBlock logic uses:
-                // hit = raycast(player, dir, 5);
-                // nx, ny, nz = hit.x + face.x...
-                // if we want to place AT x,y,z, we usually hit a neighbor.
-                // But Trapdoor placement logic checks `hit.y`.
-                // If we hit the side of a block at 10.8, we place neighbor.
-                // Let's assume we place against a wall.
-            });
 
             // We need to simulate placing against a wall to get the hit coordinates right.
             // Wall at x=5, y=10, z=6. We click East face.
@@ -220,8 +206,9 @@ describe('New Building Blocks Verification', () => {
             // New block at 6, 10, 6.
 
             game.physics.raycast = () => ({
-                x: 5, y: 10.8, z: 6,
-                face: { x: 1, y: 0, z: 0 }
+                x: 5, y: 10, z: 6,
+                face: { x: 1, y: 0, z: 0 },
+                point: { x: 5.9, y: 10.8, z: 6.5 }
             });
 
             game.player.inventory[game.player.selectedSlot] = { type: BLOCK.TRAPDOOR, count: 1 };

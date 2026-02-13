@@ -15,6 +15,8 @@ class World {
         this.activeRedstone = new Set();
         this.fluidTickTimer = 0;
 
+        this.dimension = 'overworld'; // 'overworld', 'nether'
+
         this.weather = 'clear'; // 'clear', 'rain', 'snow'
         this.weatherTimer = 0;
     }
@@ -165,6 +167,39 @@ class World {
                      }
                  }
              }
+        } else if (type === BLOCK.SIGN_POST) {
+             const below = this.getBlock(x, y-1, z);
+             const belowDef = window.BLOCKS[below];
+             if (!belowDef || !belowDef.solid) {
+                 this.setBlock(x, y, z, BLOCK.AIR);
+                 if (this.game && this.game.drops) {
+                     this.game.drops.push(new window.Drop(this.game, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_SIGN, 1));
+                 }
+                 this.removeBlockEntity(x, y, z);
+             }
+        } else if (type === BLOCK.WALL_SIGN) {
+             const meta = this.getMetadata(x, y, z);
+             let supportPos = null;
+             // 2: North (attached to Z+1), 3: South (attached to Z-1), 4: West (attached to X+1), 5: East (attached to X-1)
+             if (meta === 2) supportPos = {x, y, z: z+1};
+             else if (meta === 3) supportPos = {x, y, z: z-1};
+             else if (meta === 4) supportPos = {x: x+1, y, z};
+             else if (meta === 5) supportPos = {x: x-1, y, z};
+
+             let valid = false;
+             if (supportPos) {
+                 const support = this.getBlock(supportPos.x, supportPos.y, supportPos.z);
+                 const supportDef = window.BLOCKS[support];
+                 if (supportDef && supportDef.solid) valid = true;
+             }
+
+             if (!valid) {
+                 this.setBlock(x, y, z, BLOCK.AIR);
+                 if (this.game && this.game.drops) {
+                     this.game.drops.push(new window.Drop(this.game, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_SIGN, 1));
+                 }
+                 this.removeBlockEntity(x, y, z);
+             }
         }
     }
 
@@ -190,7 +225,14 @@ class World {
             const def = window.BLOCKS[type];
             if (def) {
                 if (def.isWire && this.getMetadata(n.x, n.y, n.z) > 0) return true;
-                if (def.isTorch && def.id !== window.BLOCK.TORCH && type !== window.BLOCK.REDSTONE_TORCH_OFF) return true; // Repeater/Torch (excluding OFF torch)
+                if (def.isTorch && def.id !== window.BLOCK.TORCH && type !== window.BLOCK.REDSTONE_TORCH_OFF) {
+                    // Torch powers neighbors EXCEPT the one it is attached to.
+                    // Assuming standing torch attached to block below (n.y - 1).
+                    // If the torch is at n.x, n.y, n.z, and we are checking x, y, z.
+                    // If n.y == y + 1, then the torch is above us, so we are the block below.
+                    if (n.y === y + 1) continue;
+                    return true;
+                }
                 if (type === window.BLOCK.REDSTONE_LAMP_ACTIVE) return false;
             }
         }
@@ -769,6 +811,69 @@ class World {
     }
 
     generateChunk(cx, cz) {
+        if (this.dimension === 'nether') {
+            this.generateNetherChunk(cx, cz);
+        } else {
+            this.generateOverworldChunk(cx, cz);
+        }
+    }
+
+    generateNetherChunk(cx, cz) {
+        if (this.chunks.has(this.getChunkKey(cx, cz))) return;
+
+        const chunk = new Chunk(cx, cz);
+        const baseX = cx * this.chunkSize;
+        const baseZ = cz * this.chunkSize;
+
+        for (let x = 0; x < this.chunkSize; x++) {
+            for (let z = 0; z < this.chunkSize; z++) {
+                const worldX = baseX + x;
+                const worldZ = baseZ + z;
+
+                // Bedrock
+                chunk.setBlock(x, 0, z, BLOCK.BEDROCK);
+                chunk.setBlock(x, 127, z, BLOCK.BEDROCK);
+
+                // Noise for Caves/Terrain
+                const scale = 0.05;
+
+                for (let y = 1; y < 127; y++) {
+                     const noise = window.perlin.noise(worldX * scale, y * scale, worldZ * scale);
+
+                     // In Nether, we want solid netherrack with open caves (cheese)
+                     // If noise < 0.2, solid. Else air.
+                     if (noise < 0.2) {
+                         chunk.setBlock(x, y, z, BLOCK.NETHERRACK);
+
+                         // Ores
+                         if (Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.QUARTZ_ORE);
+                         else if (Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.GLOWSTONE); // Clump logic simplified to random
+                     } else {
+                         // Air
+                         if (y <= 32) {
+                             chunk.setBlock(x, y, z, BLOCK.LAVA);
+                             chunk.setMetadata(x, y, z, 8); // Source
+                         } else {
+                             chunk.setBlock(x, y, z, BLOCK.AIR);
+                         }
+                     }
+                }
+            }
+        }
+
+        const key = this.getChunkKey(cx, cz);
+        this.chunks.set(key, chunk);
+
+        if (this.pendingBlocks.has(key)) {
+            const pending = this.pendingBlocks.get(key);
+            for (const b of pending) {
+                chunk.setBlock(b.x, b.y, b.z, b.type);
+            }
+            this.pendingBlocks.delete(key);
+        }
+    }
+
+    generateOverworldChunk(cx, cz) {
         if (this.chunks.has(this.getChunkKey(cx, cz))) return;
 
         const chunk = new Chunk(cx, cz);
@@ -907,22 +1012,22 @@ class World {
 
         const chunksData = [];
         this.chunks.forEach((chunk) => {
-             // Convert Uint8Array to base64
-             let binary = '';
-             let metaBinary = '';
-             const len = chunk.blocks.byteLength;
-             for (let i = 0; i < len; i++) {
-                 binary += String.fromCharCode(chunk.blocks[i]);
-                 metaBinary += String.fromCharCode(chunk.metadata[i]);
+             const packed = chunk.pack();
+
+             // Convert Uint8Array to Binary String for Base64
+             const toBinaryString = (bytes) => {
+                 let binary = '';
+                 for (let i = 0; i < bytes.length; i++) {
+                     binary += String.fromCharCode(bytes[i]);
+                 }
+                 return binary;
              }
-             const base64 = btoa(binary);
-             const metaBase64 = btoa(metaBinary);
 
              chunksData.push({
                  cx: chunk.cx,
                  cz: chunk.cz,
-                 blocks: base64,
-                 metadata: metaBase64
+                 blocks: btoa(toBinaryString(packed.blocks)),
+                 metadata: btoa(toBinaryString(packed.metadata))
              });
         });
 
@@ -973,19 +1078,19 @@ class World {
                     data.chunks.forEach(cData => {
                         const chunk = new Chunk(cData.cx, cData.cz);
 
-                        const binary = atob(cData.blocks);
-                        const len = binary.length;
-                        for (let i = 0; i < len; i++) {
-                            chunk.blocks[i] = binary.charCodeAt(i);
-                        }
+                        const fromBase64 = (str) => {
+                            const binary = atob(str);
+                            const bytes = new Uint8Array(binary.length);
+                            for(let i=0; i<binary.length; i++) {
+                                bytes[i] = binary.charCodeAt(i);
+                            }
+                            return bytes;
+                        };
 
-                        if (cData.metadata) {
-                             const metaBinary = atob(cData.metadata);
-                             const metaLen = metaBinary.length;
-                             for (let i = 0; i < metaLen; i++) {
-                                 chunk.metadata[i] = metaBinary.charCodeAt(i);
-                             }
-                        }
+                        chunk.unpack({
+                            blocks: fromBase64(cData.blocks),
+                            metadata: cData.metadata ? fromBase64(cData.metadata) : null
+                        });
 
                         chunk.modified = true; // Force visual update
                         this.chunks.set(this.getChunkKey(cData.cx, cData.cz), chunk);

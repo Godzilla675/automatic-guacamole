@@ -77,8 +77,8 @@ const load = (f) => {
 };
 
 // Load dependencies
-['math.js', 'blocks.js', 'particles.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js',
- 'player.js', 'mob.js', 'drop.js', 'crafting.js', 'chat.js', 'ui.js', 'network.js', 'input.js', 'renderer.js', 'game.js']
+['math.js', 'blocks.js', 'particles.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js',
+ 'player.js', 'mob.js', 'drop.js', 'crafting.js', 'chat.js', 'ui.js', 'network.js', 'input.js', 'renderer.js', 'plugin.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'game.js']
 .forEach(load);
 
 const { Game, Mob, MOB_TYPE, BLOCK } = dom.window;

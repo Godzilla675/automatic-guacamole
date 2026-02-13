@@ -5,10 +5,34 @@ class UIManager {
         this.activeFurnace = null;
         this.activeChest = null;
         this.activeVillager = null;
+        this.activeBrewingStand = null;
+        this.activeSign = null;
+        this.activeAnvil = null;
     }
 
     init() {
         this.updateHotbarUI();
+
+        // Inject Armor Grid
+        const invContent = document.querySelector('#inventory-screen .inventory-content');
+        if (invContent && !document.getElementById('armor-grid')) {
+            const armorGrid = document.createElement('div');
+            armorGrid.id = 'armor-grid';
+            armorGrid.style.display = 'flex';
+            armorGrid.style.justifyContent = 'center';
+            armorGrid.style.gap = '10px';
+            armorGrid.style.marginBottom = '10px';
+
+            // Insert before inventory grid
+            const grid = document.getElementById('inventory-grid');
+            if (grid) invContent.insertBefore(armorGrid, grid);
+        }
+
+        // Bind Sign Close
+        const closeSign = document.getElementById('close-sign');
+        if (closeSign) {
+            closeSign.addEventListener('click', () => this.closeSign());
+        }
 
         // Bind Chest Close
         const closeChest = document.getElementById('close-chest');
@@ -34,6 +58,16 @@ class UIManager {
             volumeSlider.addEventListener('input', (e) => {
                 const val = parseInt(e.target.value) / 100;
                 if(window.soundManager) window.soundManager.volume = val;
+            });
+        }
+
+        const skinPicker = document.getElementById('skin-color-picker');
+        if (skinPicker) {
+            // Need to set initial value after player is ready, or update logic later
+            // We can set it in toggleSettings
+            skinPicker.addEventListener('change', (e) => {
+                this.game.player.skinColor = e.target.value;
+                localStorage.setItem('voxel_skin_color', e.target.value);
             });
         }
 
@@ -171,6 +205,37 @@ class UIManager {
                 this.closeTrading();
             });
         }
+
+        const closeBrewing = document.getElementById('close-brewing');
+        if (closeBrewing) {
+            closeBrewing.addEventListener('click', () => this.closeBrewing());
+        }
+        ['brewing-ingredient', 'brewing-bottle-1', 'brewing-bottle-2', 'brewing-bottle-3'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleBrewingClick(id));
+        });
+
+        const closeEnchanting = document.getElementById('close-enchanting');
+        if (closeEnchanting) {
+            closeEnchanting.addEventListener('click', () => this.closeEnchanting());
+        }
+        const enchantItem = document.getElementById('enchanting-item');
+        if (enchantItem) {
+            enchantItem.addEventListener('click', () => this.handleEnchantingClick());
+        }
+
+        const closeAnvil = document.getElementById('close-anvil');
+        if (closeAnvil) {
+            closeAnvil.addEventListener('click', () => this.closeAnvil());
+        }
+        ['anvil-input-1', 'anvil-input-2', 'anvil-output'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleAnvilClick(id));
+        });
+        const anvilName = document.getElementById('anvil-rename');
+        if (anvilName) {
+            anvilName.addEventListener('input', () => this.updateAnvilUI());
+        }
     }
 
     toggleRecipeBook() {
@@ -282,6 +347,10 @@ class UIManager {
                 const rdVal = document.getElementById('render-dist-value');
                 if (rdVal) rdVal.textContent = this.game.renderDistance;
             }
+            const skinPicker = document.getElementById('skin-color-picker');
+            if (skinPicker && this.game.player) {
+                skinPicker.value = this.game.player.skinColor;
+            }
         }
 
         this.renderSettings();
@@ -382,6 +451,32 @@ class UIManager {
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
     }
 
+    showSignEditor(x, y, z) {
+        this.activeSign = { x, y, z };
+        document.getElementById('sign-screen').classList.remove('hidden');
+        const input = document.getElementById('sign-input');
+        input.value = "";
+        input.focus();
+        document.exitPointerLock();
+    }
+
+    closeSign() {
+        if (!this.activeSign) return;
+        const input = document.getElementById('sign-input');
+        const text = input.value;
+        // Split into lines (max 4)
+        const lines = text.split('\n').slice(0, 4);
+
+        this.game.world.setBlockEntity(this.activeSign.x, this.activeSign.y, this.activeSign.z, {
+            type: 'sign',
+            text: lines
+        });
+
+        this.activeSign = null;
+        document.getElementById('sign-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
     openTrading(villager) {
         this.activeVillager = villager;
         // Generate random trades if not present
@@ -413,6 +508,377 @@ class UIManager {
         document.getElementById('trading-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openBrewing(entity) {
+        this.activeBrewingStand = entity;
+        // Ensure entity structure
+        if (!entity.bottles) entity.bottles = [null, null, null];
+        if (!entity.brewTime) entity.brewTime = 0;
+
+        document.getElementById('brewing-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden'); // Show inventory
+        document.exitPointerLock();
+        this.updateBrewingUI();
+        this.refreshInventoryUI();
+    }
+
+    closeBrewing() {
+        this.activeBrewingStand = null;
+        document.getElementById('brewing-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openEnchanting(entity) {
+        this.activeEnchanting = entity || { item: null };
+        document.getElementById('enchanting-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateEnchantingUI();
+        this.refreshInventoryUI();
+    }
+
+    closeEnchanting() {
+        if (this.activeEnchanting && this.activeEnchanting.item) {
+             const item = this.activeEnchanting.item;
+             let added = false;
+             for(let i=0; i<this.game.player.inventory.length; i++) {
+                 if(!this.game.player.inventory[i]) {
+                     this.game.player.inventory[i] = item;
+                     added = true;
+                     break;
+                 }
+             }
+             if(!added) {
+                 if (this.game.drops && window.Drop) {
+                     this.game.drops.push(new window.Drop(this.game, this.game.player.x, this.game.player.y, this.game.player.z, item.type, item.count));
+                 }
+             }
+        }
+        this.activeEnchanting = null;
+        document.getElementById('enchanting-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openAnvil() {
+        this.activeAnvil = {
+            input1: null,
+            input2: null,
+            output: null,
+            cost: 0
+        };
+        document.getElementById('anvil-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateAnvilUI();
+        this.refreshInventoryUI();
+    }
+
+    closeAnvil() {
+        // Drop items
+        if (this.activeAnvil) {
+            [this.activeAnvil.input1, this.activeAnvil.input2].forEach(item => {
+                if (item) {
+                    let added = false;
+                    for (let i = 0; i < this.game.player.inventory.length; i++) {
+                        if (!this.game.player.inventory[i]) {
+                            this.game.player.inventory[i] = item;
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added && window.Drop) {
+                        this.game.drops.push(new window.Drop(this.game, this.game.player.x, this.game.player.y, this.game.player.z, item.type, item.count));
+                    }
+                }
+            });
+        }
+        this.activeAnvil = null;
+        document.getElementById('anvil-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    handleAnvilClick(id) {
+        if (!this.activeAnvil) return;
+        const anvil = this.activeAnvil;
+        const cursor = this.cursorItem;
+
+        if (id === 'anvil-output') {
+            if (anvil.output && anvil.cost <= this.game.player.level) {
+                if (!cursor) {
+                    this.game.player.level -= anvil.cost;
+                    this.cursorItem = anvil.output;
+                    anvil.input1 = null;
+                    anvil.input2 = null;
+                    anvil.output = null;
+                    anvil.cost = 0;
+                    document.getElementById('anvil-rename').value = ""; // Reset name
+                    if (window.soundManager) window.soundManager.play('place'); // Anvil use sound
+                }
+            }
+        } else {
+            let slot = (id === 'anvil-input-1') ? 'input1' : 'input2';
+
+            if (!cursor) {
+                if (anvil[slot]) {
+                    this.cursorItem = anvil[slot];
+                    anvil[slot] = null;
+                }
+            } else {
+                if (!anvil[slot]) {
+                    anvil[slot] = cursor;
+                    this.cursorItem = null;
+                } else {
+                    // Swap
+                    const temp = anvil[slot];
+                    anvil[slot] = cursor;
+                    this.cursorItem = temp;
+                }
+            }
+        }
+        this.updateAnvilUI();
+        this.updateCursorUI();
+    }
+
+    updateAnvilUI() {
+        if (!this.activeAnvil) return;
+        const anvil = this.activeAnvil;
+
+        // Logic
+        anvil.output = null;
+        anvil.cost = 0;
+
+        const rename = document.getElementById('anvil-rename').value;
+
+        if (anvil.input1) {
+            let cost = 0;
+            let output = JSON.parse(JSON.stringify(anvil.input1)); // Clone
+
+            // Rename
+            if (rename && rename !== (output.name || window.BLOCKS[output.type].name)) {
+                output.name = rename;
+                cost += 1;
+            }
+
+            // Repair
+            if (anvil.input2) {
+                // Same item repair
+                if (anvil.input2.type === anvil.input1.type) {
+                    // Restore durability
+                    const def = window.TOOLS[output.type];
+                    if (def) {
+                        const max = def.durability;
+                        const d1 = output.durability !== undefined ? output.durability : max;
+                        const d2 = anvil.input2.durability !== undefined ? anvil.input2.durability : max;
+
+                        const damage1 = max - d1;
+                        const damage2 = max - d2;
+
+                        // Repair amount: damage2 + 12% of max
+                        // Actually Minecraft logic combines both durabilities + 12% bonus
+                        // Current durability = d1. Max - d1 = damage taken.
+                        // Wait, d1 is "remaining uses".
+                        // Uses1 + Uses2 + Bonus
+
+                        const repair = d2 + Math.floor(max * 0.12);
+                        const newDurability = Math.min(max, d1 + repair);
+
+                        if (newDurability > d1) {
+                            output.durability = newDurability;
+                            cost += 2;
+                        }
+                    }
+                }
+            }
+
+            if (cost > 0) {
+                anvil.output = output;
+                anvil.cost = cost;
+            }
+        }
+
+        // Render Slots
+        ['anvil-input-1', 'anvil-input-2', 'anvil-output'].forEach(id => {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            let item = null;
+            if (id === 'anvil-input-1') item = anvil.input1;
+            else if (id === 'anvil-input-2') item = anvil.input2;
+            else item = anvil.output;
+
+            if (item) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[item.type];
+                icon.textContent = def ? def.icon : '';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                el.appendChild(icon);
+            }
+        });
+
+        const costEl = document.getElementById('anvil-cost');
+        if (anvil.output) {
+            costEl.textContent = `Cost: ${anvil.cost}`;
+            costEl.style.color = (this.game.player.level >= anvil.cost) ? '#55FF55' : '#FF5555';
+        } else {
+            costEl.textContent = 'Cost: 0';
+            costEl.style.color = 'white';
+        }
+    }
+
+    handleEnchantingClick() {
+        if (!this.activeEnchanting) return;
+
+        const cursor = this.cursorItem;
+        const slotItem = this.activeEnchanting.item;
+
+        if (!cursor) {
+            if (slotItem) {
+                this.cursorItem = slotItem;
+                this.activeEnchanting.item = null;
+            }
+        } else {
+            if (!slotItem) {
+                this.activeEnchanting.item = cursor;
+                this.cursorItem = null;
+            } else {
+                this.activeEnchanting.item = cursor;
+                this.cursorItem = slotItem;
+            }
+        }
+        this.updateEnchantingUI();
+        this.updateCursorUI();
+    }
+
+    updateEnchantingUI() {
+        if (!this.activeEnchanting) return;
+
+        const slot = document.getElementById('enchanting-item');
+        slot.innerHTML = '';
+        const item = this.activeEnchanting.item;
+
+        if (item) {
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            const blockDef = window.BLOCKS[item.type];
+            icon.textContent = blockDef ? blockDef.icon : '';
+            icon.style.backgroundColor = blockDef ? blockDef.color : 'transparent';
+            slot.appendChild(icon);
+        }
+
+        const list = document.getElementById('enchanting-options');
+        list.innerHTML = '';
+
+        if (item && !item.enchantments) {
+             const costs = [1, 2, 3];
+             costs.forEach((cost) => {
+                 const btn = document.createElement('button');
+                 btn.className = 'menu-button';
+                 btn.textContent = `Cost: ${cost} Levels`;
+                 btn.style.fontSize = '12px';
+
+                 if (this.game.player.level >= cost) {
+                     btn.onclick = () => this.enchant(cost);
+                 } else {
+                     btn.disabled = true;
+                     btn.style.opacity = '0.5';
+                 }
+                 list.appendChild(btn);
+             });
+        } else if (item && item.enchantments) {
+             const div = document.createElement('div');
+             div.textContent = "Already Enchanted";
+             div.style.color = "yellow";
+             list.appendChild(div);
+        }
+    }
+
+    enchant(cost) {
+        if (!this.activeEnchanting || !this.activeEnchanting.item) return;
+
+        if (this.game.player.level >= cost) {
+            this.game.player.level -= cost;
+
+            const item = this.activeEnchanting.item;
+            if (!item.enchantments) item.enchantments = [];
+
+            const enchants = ['Sharpness', 'Efficiency', 'Unbreaking', 'Power'];
+            const type = enchants[Math.floor(Math.random() * enchants.length)];
+
+            item.enchantments.push({ type: type, level: 1 });
+
+            if (window.soundManager) window.soundManager.play('place');
+            this.updateEnchantingUI();
+            this.updateHealthUI();
+        }
+    }
+
+    handleBrewingClick(slotId) {
+        if (!this.activeBrewingStand) return;
+        const entity = this.activeBrewingStand;
+        const cursor = this.cursorItem;
+        let slotName = '';
+        let index = -1;
+
+        if (slotId === 'brewing-ingredient') slotName = 'ingredient';
+        else if (slotId === 'brewing-bottle-1') { slotName = 'bottles'; index = 0; }
+        else if (slotId === 'brewing-bottle-2') { slotName = 'bottles'; index = 1; }
+        else if (slotId === 'brewing-bottle-3') { slotName = 'bottles'; index = 2; }
+
+        let slotItem = index === -1 ? entity[slotName] : entity[slotName][index];
+
+        if (!cursor) {
+            if (slotItem) {
+                this.cursorItem = slotItem;
+                if (index === -1) entity[slotName] = null;
+                else entity[slotName][index] = null;
+            }
+        } else {
+            if (!slotItem) {
+                if (index === -1) entity[slotName] = cursor;
+                else entity[slotName][index] = cursor;
+                this.cursorItem = null;
+            } else {
+                // Swap
+                if (index === -1) entity[slotName] = cursor;
+                else entity[slotName][index] = cursor;
+                this.cursorItem = slotItem;
+            }
+        }
+        this.updateBrewingUI();
+        this.updateCursorUI();
+    }
+
+    updateBrewingUI() {
+        if (!this.activeBrewingStand) return;
+        const entity = this.activeBrewingStand;
+
+        const renderSlot = (id, item) => {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            if (item) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[item.type];
+                icon.textContent = def ? def.icon : '';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                el.appendChild(icon);
+            }
+        };
+
+        renderSlot('brewing-ingredient', entity.ingredient);
+        renderSlot('brewing-bottle-1', entity.bottles[0]);
+        renderSlot('brewing-bottle-2', entity.bottles[1]);
+        renderSlot('brewing-bottle-3', entity.bottles[2]);
+
+        const progress = document.getElementById('brewing-progress');
+        if (progress) {
+            const pct = (entity.brewTime / 400) * 100;
+            progress.style.height = pct + '%';
+        }
     }
 
     renderTrading() {
@@ -637,7 +1103,75 @@ class UIManager {
         }
     }
 
+    refreshArmorUI() {
+        const grid = document.getElementById('armor-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const placeholders = ['🧢', '👕', '👖', '👢'];
+
+        for (let i = 0; i < 4; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'inventory-item';
+            slot.dataset.armorSlot = i;
+            slot.style.position = 'relative'; // Ensure placeholder positioning works
+
+            // Placeholder bg if empty
+            if (!this.game.player.armor[i]) {
+                const ph = document.createElement('span');
+                ph.textContent = placeholders[i];
+                ph.style.opacity = '0.3';
+                ph.style.fontSize = '20px';
+                ph.style.position = 'absolute';
+                ph.style.top = '50%';
+                ph.style.left = '50%';
+                ph.style.transform = 'translate(-50%, -50%)';
+                ph.style.pointerEvents = 'none';
+                slot.appendChild(ph);
+            }
+
+            this.renderSlotItem(slot, this.game.player.armor[i]);
+
+            slot.addEventListener('click', () => {
+                this.handleArmorClick(i);
+            });
+
+            grid.appendChild(slot);
+        }
+    }
+
+    handleArmorClick(index) {
+        const player = this.game.player;
+        const cursor = this.cursorItem;
+        const slotItem = player.armor[index];
+
+        if (!cursor) {
+            // Unequip
+            if (slotItem) {
+                this.cursorItem = slotItem;
+                player.armor[index] = null;
+            }
+        } else {
+            // Equip
+            if (window.ARMOR && window.ARMOR[cursor.type] && window.ARMOR[cursor.type].slot === index) {
+                if (!slotItem) {
+                    player.armor[index] = cursor;
+                    this.cursorItem = null;
+                } else {
+                    // Swap
+                    player.armor[index] = cursor;
+                    this.cursorItem = slotItem;
+                }
+                if (window.soundManager) window.soundManager.play('place');
+            }
+        }
+        this.refreshArmorUI();
+        this.updateCursorUI();
+    }
+
     refreshInventoryUI() {
+        this.refreshArmorUI();
+
         const grid = document.getElementById('inventory-grid');
         grid.innerHTML = '';
 
@@ -772,6 +1306,12 @@ class UIManager {
                     barBg.appendChild(bar);
                     slotElement.appendChild(barBg);
                 }
+            }
+
+            if (item.enchantments && item.enchantments.length > 0) {
+                slotElement.style.boxShadow = 'inset 0 0 5px #b550e6';
+            } else {
+                slotElement.style.boxShadow = 'none';
             }
         } else {
             icon.style.backgroundColor = 'transparent';

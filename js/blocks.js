@@ -138,6 +138,7 @@ const BLOCK = {
     QUARTZ_ORE: 194,
     OBSIDIAN: 195,
     PORTAL: 196,
+    LAVA: 197,
 
     // Functional Blocks
     BREWING_STAND: 200,
@@ -227,8 +228,58 @@ const BLOCK = {
     ITEM_BOAT: 321,
     ITEM_SIGN: 322,
     ITEM_BUCKET: 323,
+
+    // Signs (Blocks)
+    SIGN_POST: 206,
+    WALL_SIGN: 207,
     ITEM_WATER_BUCKET: 324,
-    ITEM_LAVA_BUCKET: 325
+    ITEM_LAVA_BUCKET: 325,
+    ANVIL: 208,
+    JUKEBOX: 209,
+    ITEM_MUSIC_DISC: 330,
+
+    // Armor
+    ITEM_HELMET_LEATHER: 340,
+    ITEM_CHESTPLATE_LEATHER: 341,
+    ITEM_LEGGINGS_LEATHER: 342,
+    ITEM_BOOTS_LEATHER: 343,
+
+    ITEM_HELMET_IRON: 344,
+    ITEM_CHESTPLATE_IRON: 345,
+    ITEM_LEGGINGS_IRON: 346,
+    ITEM_BOOTS_IRON: 347,
+
+    ITEM_HELMET_GOLD: 348,
+    ITEM_CHESTPLATE_GOLD: 349,
+    ITEM_LEGGINGS_GOLD: 350,
+    ITEM_BOOTS_GOLD: 351,
+
+    ITEM_HELMET_DIAMOND: 352,
+    ITEM_CHESTPLATE_DIAMOND: 353,
+    ITEM_LEGGINGS_DIAMOND: 354,
+    ITEM_BOOTS_DIAMOND: 355
+};
+
+const ARMOR = {
+    [BLOCK.ITEM_HELMET_LEATHER]: { defense: 1, durability: 55, slot: 0 },
+    [BLOCK.ITEM_CHESTPLATE_LEATHER]: { defense: 3, durability: 80, slot: 1 },
+    [BLOCK.ITEM_LEGGINGS_LEATHER]: { defense: 2, durability: 75, slot: 2 },
+    [BLOCK.ITEM_BOOTS_LEATHER]: { defense: 1, durability: 65, slot: 3 },
+
+    [BLOCK.ITEM_HELMET_IRON]: { defense: 2, durability: 165, slot: 0 },
+    [BLOCK.ITEM_CHESTPLATE_IRON]: { defense: 6, durability: 240, slot: 1 },
+    [BLOCK.ITEM_LEGGINGS_IRON]: { defense: 5, durability: 225, slot: 2 },
+    [BLOCK.ITEM_BOOTS_IRON]: { defense: 2, durability: 195, slot: 3 },
+
+    [BLOCK.ITEM_HELMET_GOLD]: { defense: 2, durability: 77, slot: 0 },
+    [BLOCK.ITEM_CHESTPLATE_GOLD]: { defense: 5, durability: 112, slot: 1 },
+    [BLOCK.ITEM_LEGGINGS_GOLD]: { defense: 3, durability: 105, slot: 2 },
+    [BLOCK.ITEM_BOOTS_GOLD]: { defense: 1, durability: 91, slot: 3 },
+
+    [BLOCK.ITEM_HELMET_DIAMOND]: { defense: 3, durability: 363, slot: 0 },
+    [BLOCK.ITEM_CHESTPLATE_DIAMOND]: { defense: 8, durability: 528, slot: 1 },
+    [BLOCK.ITEM_LEGGINGS_DIAMOND]: { defense: 6, durability: 495, slot: 2 },
+    [BLOCK.ITEM_BOOTS_DIAMOND]: { defense: 3, durability: 429, slot: 3 }
 };
 
 const TOOLS = {
@@ -389,6 +440,7 @@ const BLOCKS = {
     [BLOCK.QUARTZ_ORE]: { name: 'Quartz Ore', color: '#800000', top: '#FFFFFF', solid: true, icon: '💎', hardness: 3.0, tool: 'pickaxe', drop: { type: BLOCK.ITEM_QUARTZ, count: 1 } },
     [BLOCK.OBSIDIAN]: { name: 'Obsidian', color: '#1a1120', solid: true, icon: '⬛', hardness: 50.0, tool: 'pickaxe' }, // Only diamond
     [BLOCK.PORTAL]: { name: 'Portal', color: '#800080', solid: false, transparent: true, icon: '🌀', hardness: -1, light: 11 },
+    [BLOCK.LAVA]: { name: 'Lava', color: '#FF4500', top: '#FF6347', solid: false, transparent: false, liquid: true, icon: '🔥', hardness: 100, light: 15 },
 
     // Functional Blocks
     [BLOCK.BREWING_STAND]: { name: 'Brewing Stand', color: '#808080', solid: false, transparent: true, icon: '🧪', hardness: 0.5, tool: 'pickaxe' },
@@ -491,14 +543,43 @@ const BLOCKS = {
     [BLOCK.ITEM_MINECART]: { name: 'Minecart', color: '#808080', solid: false, isItem: true, icon: '🛒' },
     [BLOCK.ITEM_BOAT]: { name: 'Boat', color: '#8B4513', solid: false, isItem: true, icon: '🛶' },
     [BLOCK.ITEM_SIGN]: { name: 'Sign', color: '#DEB887', solid: false, isItem: true, icon: '🪧' },
+
+    [BLOCK.SIGN_POST]: { name: 'Sign Post', color: '#DEB887', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: BLOCK.ITEM_SIGN, count: 1 } },
+    [BLOCK.WALL_SIGN]: { name: 'Wall Sign', color: '#DEB887', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: BLOCK.ITEM_SIGN, count: 1 } },
     [BLOCK.ITEM_BUCKET]: { name: 'Bucket', color: '#C0C0C0', solid: false, isItem: true, icon: '🪣' },
     [BLOCK.ITEM_WATER_BUCKET]: { name: 'Water Bucket', color: '#0000FF', solid: false, isItem: true, icon: '🪣' },
     [BLOCK.ITEM_LAVA_BUCKET]: { name: 'Lava Bucket', color: '#FF4500', solid: false, isItem: true, icon: '🪣' },
 
+    [BLOCK.ANVIL]: { name: 'Anvil', color: '#404040', top: '#505050', solid: true, icon: '🛡️', hardness: 5.0, tool: 'pickaxe', drop: { type: BLOCK.ANVIL, count: 1 } },
+    [BLOCK.JUKEBOX]: { name: 'Jukebox', color: '#4A2B2B', top: '#8B4513', solid: true, icon: '🎵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.ITEM_MUSIC_DISC]: { name: 'Music Disc', color: '#000000', solid: false, isItem: true, icon: '💿' },
+
     // XP Orb
-    'xp': { name: 'XP', color: '#7FFF00', solid: false, isItem: true, icon: '❇️' }
+    'xp': { name: 'XP', color: '#7FFF00', solid: false, isItem: true, icon: '❇️' },
+
+    // Armor Visuals
+    [BLOCK.ITEM_HELMET_LEATHER]: { name: 'Leather Helmet', color: '#8B4513', solid: false, isItem: true, icon: '🧢' },
+    [BLOCK.ITEM_CHESTPLATE_LEATHER]: { name: 'Leather Tunic', color: '#8B4513', solid: false, isItem: true, icon: '👕' },
+    [BLOCK.ITEM_LEGGINGS_LEATHER]: { name: 'Leather Pants', color: '#8B4513', solid: false, isItem: true, icon: '👖' },
+    [BLOCK.ITEM_BOOTS_LEATHER]: { name: 'Leather Boots', color: '#8B4513', solid: false, isItem: true, icon: '👢' },
+
+    [BLOCK.ITEM_HELMET_IRON]: { name: 'Iron Helmet', color: '#C0C0C0', solid: false, isItem: true, icon: '🪖' },
+    [BLOCK.ITEM_CHESTPLATE_IRON]: { name: 'Iron Chestplate', color: '#C0C0C0', solid: false, isItem: true, icon: '🥋' },
+    [BLOCK.ITEM_LEGGINGS_IRON]: { name: 'Iron Leggings', color: '#C0C0C0', solid: false, isItem: true, icon: '👖' },
+    [BLOCK.ITEM_BOOTS_IRON]: { name: 'Iron Boots', color: '#C0C0C0', solid: false, isItem: true, icon: '👢' },
+
+    [BLOCK.ITEM_HELMET_GOLD]: { name: 'Gold Helmet', color: '#FFD700', solid: false, isItem: true, icon: '👑' },
+    [BLOCK.ITEM_CHESTPLATE_GOLD]: { name: 'Gold Chestplate', color: '#FFD700', solid: false, isItem: true, icon: '👘' },
+    [BLOCK.ITEM_LEGGINGS_GOLD]: { name: 'Gold Leggings', color: '#FFD700', solid: false, isItem: true, icon: '🩳' },
+    [BLOCK.ITEM_BOOTS_GOLD]: { name: 'Gold Boots', color: '#FFD700', solid: false, isItem: true, icon: '👢' },
+
+    [BLOCK.ITEM_HELMET_DIAMOND]: { name: 'Diamond Helmet', color: '#00FFFF', solid: false, isItem: true, icon: '💎' },
+    [BLOCK.ITEM_CHESTPLATE_DIAMOND]: { name: 'Diamond Chestplate', color: '#00FFFF', solid: false, isItem: true, icon: '👕' },
+    [BLOCK.ITEM_LEGGINGS_DIAMOND]: { name: 'Diamond Leggings', color: '#00FFFF', solid: false, isItem: true, icon: '👖' },
+    [BLOCK.ITEM_BOOTS_DIAMOND]: { name: 'Diamond Boots', color: '#00FFFF', solid: false, isItem: true, icon: '👢' }
 };
 
 window.BLOCK = BLOCK;
 window.BLOCKS = BLOCKS;
 window.TOOLS = TOOLS;
+window.ARMOR = ARMOR;
