@@ -7,7 +7,7 @@ class Physics {
         // Box: {x, y, z, width, height}
         const minX = Math.floor(box.x - box.width/2);
         const maxX = Math.floor(box.x + box.width/2);
-        const minY = Math.floor(box.y);
+        const minY = Math.floor(box.y) - 1; // Check 1 block below for tall blocks (fences)
         const maxY = Math.floor(box.y + box.height);
         const minZ = Math.floor(box.z - box.width/2);
         const maxZ = Math.floor(box.z + box.width/2);
@@ -87,6 +87,88 @@ class Physics {
                             continue; // Next block
                         }
 
+                        // Check for Fences / Panes
+                        if (blockDef.isFence || blockDef.isPane) {
+                            // Simplified: Center post collision
+                            // Assume 0.375 width (center 0.25 is 0.375 to 0.625)
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            const postMin = 0.375;
+                            const postMax = 0.625;
+
+                            if (x + postMin < pMaxX && x + postMax > pMinX &&
+                                y < pMaxY && y + 1.5 > pMinY && // Fences are often 1.5 high
+                                z + postMin < pMaxZ && z + postMax > pMinZ) {
+                                return true;
+                            }
+                            continue;
+                        }
+
+                        // Check for Trapdoors
+                        if (blockDef.isTrapdoor) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            const open = (meta & 4) !== 0;
+                            const top = (meta & 8) !== 0;
+
+                            const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            if (open) {
+                                // Open: attached to side, full height (1.0), thickness 0.1875
+                                return false; // Passable when open
+                            } else {
+                                // Closed: Flat slab at bottom or top
+                                const thickness = 0.1875;
+                                let bMinY = y;
+                                let bMaxY = y + thickness;
+                                if (top) {
+                                    bMinY = y + 1.0 - thickness;
+                                    bMaxY = y + 1.0;
+                                }
+
+                                if (x < pMaxX && x + 1 > pMinX &&
+                                    bMinY < pMaxY && bMaxY > pMinY &&
+                                    z < pMaxZ && z + 1 > pMinZ) {
+                                    return true;
+                                }
+                            }
+                            continue;
+                        }
+
+                        // Check for Fence Gates
+                        if (blockDef.isGate) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            const open = (meta & 4) !== 0;
+                            if (open) return false;
+
+                             // Closed: similar to fence
+                             const pMinX = box.x - box.width/2;
+                            const pMaxX = box.x + box.width/2;
+                            const pMinY = box.y;
+                            const pMaxY = box.y + box.height;
+                            const pMinZ = box.z - box.width/2;
+                            const pMaxZ = box.z + box.width/2;
+
+                            const postMin = 0.375;
+                            const postMax = 0.625;
+
+                            if (x + postMin < pMaxX && x + postMax > pMinX &&
+                                y < pMaxY && y + 1.5 > pMinY &&
+                                z + postMin < pMaxZ && z + postMax > pMinZ) {
+                                return true;
+                            }
+                            continue;
+                        }
+
                         // Check for Slabs
                         let bHeight = 1.0;
                         if (blockDef.isSlab) bHeight = 0.5;
@@ -145,7 +227,7 @@ class Physics {
                     // Relative Y in block
                     const ry = hy - y;
                     if (ry >= 0 && ry <= 0.5) {
-                         return { x, y, z, type: block, face: lastFace, dist: t };
+                         return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
                     }
                     // Else, continue raycast (it passes through top half)
                 } else if (blockDef.isStair) {
@@ -159,7 +241,7 @@ class Physics {
                     const rz = hz - z;
 
                     if (ry >= 0 && ry <= 0.5) {
-                        return { x, y, z, type: block, face: lastFace, dist: t };
+                        return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
                     }
                     if (ry > 0.5 && ry <= 1.0) {
                          const meta = this.world.getMetadata(x, y, z);
@@ -169,15 +251,51 @@ class Physics {
                          else if (meta === 2 && rz >= 0.5) hit = true;
                          else if (meta === 3 && rz <= 0.5) hit = true;
 
-                         if (hit) return { x, y, z, type: block, face: lastFace, dist: t };
+                         if (hit) return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
                     }
                     // Else passes through empty part
+                } else if (blockDef.isFence || blockDef.isPane) {
+                    // Check Center Post
+                    const hx = origin.x + direction.x * t;
+                    const hz = origin.z + direction.z * t;
+                    const rx = hx - x;
+                    const rz = hz - z;
+
+                    if (rx >= 0.375 && rx <= 0.625 && rz >= 0.375 && rz <= 0.625) {
+                         return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: origin.y + direction.y * t, z: hz} };
+                    }
+                    // Pass through side parts for now (simplified selection)
+                } else if (blockDef.isTrapdoor) {
+                    const hx = origin.x + direction.x * t;
+                    const hy = origin.y + direction.y * t;
+                    const hz = origin.z + direction.z * t;
+                    const ry = hy - y;
+
+                    const meta = this.world.getMetadata(x, y, z);
+                    const open = (meta & 4) !== 0;
+                    const top = (meta & 8) !== 0;
+
+                    if (open) {
+                        return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                    } else {
+                        const thickness = 0.1875;
+                        if (top) {
+                            if (ry >= 1.0 - thickness && ry <= 1.0) return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                        } else {
+                            if (ry >= 0 && ry <= thickness) return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                        }
+                    }
                 } else {
                     return {
                         x, y, z,
                         type: block,
                         face: lastFace,
-                        dist: t
+                        dist: t,
+                        point: {
+                            x: origin.x + direction.x * t,
+                            y: origin.y + direction.y * t,
+                            z: origin.z + direction.z * t
+                        }
                     };
                 }
             }
@@ -247,6 +365,23 @@ class Physics {
         if (tmin < 0) return 0;
 
         return tmin;
+    }
+
+    raycastEntities(origin, dir, entities) {
+        let closest = null;
+        let minDist = Infinity;
+
+        entities.forEach(entity => {
+            if (entity.isDead) return;
+            const box = { x: entity.x, y: entity.y, z: entity.z, width: entity.width, height: entity.height };
+            const t = this.rayIntersectAABB(origin, dir, box);
+            if (t !== null && t < minDist) {
+                minDist = t;
+                closest = entity;
+            }
+        });
+
+        return { entity: closest, dist: minDist };
     }
 
     getFluidIntersection(box) {
