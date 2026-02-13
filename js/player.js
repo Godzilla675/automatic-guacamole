@@ -48,14 +48,110 @@ class Player {
         this.fallDistance = 0;
         this.hungerTimer = 0;
         this.regenTimer = 0;
+
+        this.blocking = false;
+
+        // Experience
+        this.xp = 0; // 0 to 1 progress
+        this.level = 0;
+        this.totalXP = 0;
+
+        // Gamemode
+        this.gamemode = 0; // 0: Survival, 1: Creative
+        this.lastJumpTime = 0;
+        this.wasJumpDown = false;
+
+        // Skin
+        this.skinColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        const savedSkin = localStorage.getItem('voxel_skin_color');
+        if (savedSkin) this.skinColor = savedSkin;
+
+        // Recipe Discovery
+        this.unlockedRecipes = new Set();
+        // Unlock Basics
+        this.unlockedRecipes.add("Planks (4)");
+        this.unlockedRecipes.add("Stick (4)");
+        this.unlockedRecipes.add("Furnace");
+
+        this.riding = null;
+
+        // Armor: [Helmet, Chestplate, Leggings, Boots]
+        this.armor = [null, null, null, null];
+    }
+
+    getDefensePoints() {
+        let defense = 0;
+        if (window.ARMOR) {
+            for (const item of this.armor) {
+                if (item && window.ARMOR[item.type]) {
+                    defense += window.ARMOR[item.type].defense;
+                }
+            }
+        }
+        return defense;
+    }
+
+    addXP(amount) {
+        // Simplified XP curve
+        // XP required for next level = 7 + level * 2 (approx MC)
+        let needed = 7 + this.level * 2;
+
+        // Add amount (converted to progress)
+        // Actually amount is usually integer points.
+        // We need to fill the bar.
+
+        let currentPoints = this.xp * needed;
+        currentPoints += amount;
+        this.totalXP += amount;
+
+        while (currentPoints >= needed) {
+            currentPoints -= needed;
+            this.level++;
+            needed = 7 + this.level * 2;
+            if (window.soundManager) window.soundManager.play('place'); // Level up sound
+        }
+
+        this.xp = currentPoints / needed;
     }
 
     takeDamage(amount) {
+        if (this.gamemode === 1) return; // Creative God Mode
         if (Date.now() - this.lastDamageTime < 500) return; // Invulnerability frames
-        this.health -= amount;
+
+        if (this.blocking) {
+            // Reduce damage (e.g. 50% or 100% block)
+            // Simplified: 100% block for now.
+            if (window.soundManager) window.soundManager.play('place'); // Clang?
+            return;
+        }
+
+        // Armor Reduction
+        const defense = this.getDefensePoints();
+        const reduction = Math.min(0.8, defense * 0.04); // Cap at 80%
+        let damage = amount * (1 - reduction);
+
+        // Damage Armor
+        if (window.ARMOR) {
+            for (let i = 0; i < 4; i++) {
+                const item = this.armor[i];
+                if (item && window.ARMOR[item.type]) {
+                    // Init durability if needed
+                    const maxDur = window.ARMOR[item.type].durability;
+                    if (item.durability === undefined) item.durability = maxDur;
+
+                    item.durability -= 1;
+                    if (item.durability <= 0) {
+                        this.armor[i] = null; // Break
+                        if (window.soundManager) window.soundManager.play('break');
+                    }
+                }
+            }
+        }
+
+        this.health -= damage;
         this.lastDamageTime = Date.now();
         // Knockback or sound?
-        window.soundManager.play('break'); // Placeholder damage sound
+        if (window.soundManager) window.soundManager.play('break'); // Placeholder damage sound
         if (this.health <= 0) {
             this.respawn();
         }
@@ -104,6 +200,22 @@ class Player {
              }
         } else {
             this.regenTimer = 0;
+        }
+
+        // Riding Logic
+        if (this.riding) {
+            this.x = this.riding.x;
+            this.y = this.riding.y + this.riding.height * 0.75; // Sit slightly inside/on top
+            this.z = this.riding.z;
+            this.vx = this.riding.vx;
+            this.vy = this.riding.vy;
+            this.vz = this.riding.vz;
+
+            // Dismount with Sneak
+            if (controls.sneak) {
+                this.riding.interact(this); // Dismount
+            }
+            return;
         }
 
         // Physics integration
@@ -158,12 +270,25 @@ class Player {
         this.vx = moveX * moveSpeed;
         this.vz = moveZ * moveSpeed;
 
+        // Double Jump Logic for Creative Fly Toggle
+        if (controls.jump && !this.wasJumpDown) {
+            const now = Date.now();
+            if (this.gamemode === 1 && now - this.lastJumpTime < 400) {
+                this.flying = !this.flying;
+                this.lastJumpTime = 0;
+            } else {
+                this.lastJumpTime = now;
+            }
+        }
+        this.wasJumpDown = controls.jump;
+
         if (controls.jump && (this.onGround || this.flying || inWater)) {
             if (this.flying) {
                  this.vy = moveSpeed;
             } else if (inWater) {
                  this.vy = 2.0; // Swim up
             } else {
+                 // Only jump if we didn't just toggle flying
                  this.vy = this.jumpForce;
                  this.onGround = false;
                  window.soundManager.play('jump');
