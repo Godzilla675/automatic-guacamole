@@ -36,7 +36,8 @@ const dom = new JSDOM(`
     <button id="close-inventory"></button>
 </body>
 </html>
-`, { runScripts: "dangerously", resources: "usable" });
+`, {
+    url: "http://localhost/", runScripts: "dangerously", resources: "usable" });
 
 // Define globals on dom.window for the script to see
 dom.window.requestAnimationFrame = () => {};
