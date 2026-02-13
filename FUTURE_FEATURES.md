@@ -115,3 +115,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Redstone Integrity**
 - [x] **Fix Projectile Collision**
 - [x] **3D Positional Audio**
+
+## Contribution Guidelines
+* When adding a new feature, please update this file.
+* Ensure all tests pass before submitting.
+* Follow the code style of the existing project.
