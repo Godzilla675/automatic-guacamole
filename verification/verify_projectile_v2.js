@@ -51,7 +51,7 @@ global.window.AudioContext = class {
     createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
     createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {}, buffer: null, loop: false, playbackRate: { value: 1 } }; }
     createBiquadFilter() { return { connect: () => {}, frequency: { value: 0 } }; }
-    createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, panningModel: '', distanceModel: '', refDistance: 0, maxDistance: 0, rolloverFactor: 0 }; }
+    createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, panningModel: '', distanceModel: '', refDistance: 0, maxDistance: 0, rolloffFactor: 0 }; }
     resume() {}
     get state() { return 'running'; }
     get currentTime() { return 0; }
