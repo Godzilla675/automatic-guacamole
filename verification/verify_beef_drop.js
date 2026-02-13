@@ -46,16 +46,24 @@ const scripts = [
     'js/structures.js',
     'js/world.js',
     'js/physics.js',
-    'js/player.js',
-    'js/mob.js',
+    'js/entity.js',
+    'js/vehicle.js',
     'js/drop.js',
-    'js/crafting.js', // Needed for game init maybe
+    'js/mob.js',
+    'js/player.js',
+    'js/plugin.js',
+    'js/particles.js',
+    'js/minimap.js',
+    'js/achievements.js',
+    'js/tutorial.js',
+    'js/network.js',
+    'js/crafting.js',
     'js/chat.js',
     'js/ui.js',
     'js/input.js',
     'js/renderer.js',
-    'js/game.js',
-    'js/network.js' // Mob might need it or game init
+    'js/audio.js',
+    'js/game.js'
 ];
 
 scripts.forEach(script => {

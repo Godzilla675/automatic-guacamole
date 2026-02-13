@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
@@ -12,7 +13,6 @@ window.perlin = {
 };
 
 // Load scripts
-<<<<<<< HEAD
 const scripts = [
     'js/math.js',
     'js/blocks.js',
@@ -29,12 +29,6 @@ const scripts = [
 scripts.forEach(script => {
     const content = fs.readFileSync(path.join(__dirname, '../', script), 'utf8');
     dom.window.eval(content);
-=======
-const scripts = ['js/blocks.js', 'js/biome.js', 'js/structures.js', 'js/chunk.js', 'js/world.js'];
-scripts.forEach(s => {
-    const c = fs.readFileSync(s, 'utf8');
-    eval(c);
->>>>>>> origin/main
 });
 global.BLOCK = window.BLOCK;
 global.BLOCKS = window.BLOCKS;

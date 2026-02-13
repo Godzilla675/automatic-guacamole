@@ -139,7 +139,7 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/structure.js', 'structures/tree.js', 'structures/cactus.js', 'structures/well.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/structure.js', 'structures/tree.js', 'structures/cactus.js', 'structures/well.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
 
 describe('New Features Verification', () => {
     let game;
