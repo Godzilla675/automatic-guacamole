@@ -1280,8 +1280,20 @@ class UIManager {
         if (item) {
             const blockDef = window.BLOCKS[item.type];
             if (blockDef) {
-                icon.textContent = blockDef.icon || '';
-                icon.style.backgroundColor = blockDef.color || 'transparent';
+                // Try to use texture preview
+                const textureManager = this.game.renderer && this.game.renderer.textureManager;
+                const tex = textureManager ? textureManager.getBlockTexture(item.type) : null;
+                if (tex) {
+                    icon.textContent = '';
+                    icon.style.backgroundImage = `url(${tex.toDataURL()})`;
+                    icon.style.backgroundSize = 'cover';
+                    icon.style.backgroundColor = 'transparent';
+                    icon.style.imageRendering = 'pixelated';
+                } else {
+                    icon.textContent = blockDef.icon || '';
+                    icon.style.backgroundColor = blockDef.color || 'transparent';
+                    icon.style.backgroundImage = 'none';
+                }
             }
             if (count) count.textContent = item.count > 1 ? item.count : '';
 
@@ -1315,6 +1327,7 @@ class UIManager {
             }
         } else {
             icon.style.backgroundColor = 'transparent';
+            icon.style.backgroundImage = 'none';
             icon.textContent = '';
             if (count) count.textContent = '';
         }
