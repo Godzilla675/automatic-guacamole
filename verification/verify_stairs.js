@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const dom = new JSDOM(`<!DOCTYPE html><body></body>`, {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable",
 });
@@ -60,7 +61,7 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/Tree.js', 'structures/Cactus.js', 'structures/Well.js', 'structures.js', 'world.js', 'physics.js', 'player.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/Tree.js', 'structures/Cactus.js', 'structures/Well.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
 
 async function testStairs() {
     console.log("Starting Stair Verification...");

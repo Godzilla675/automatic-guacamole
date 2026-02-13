@@ -9,23 +9,20 @@ const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
 global.window = dom.window;
 global.document = dom.window.document;
 
+// Mock Perlin for deterministic biomes
+window.perlin = {
+    noise: () => 0.6
+};
+
 // Mock LocalStorage
-const localStorageMock = (function() {
-  let store = {};
-  return {
-    getItem: function(key) {
-      return store[key] || null;
-    },
-    setItem: function(key, value) {
-      store[key] = value.toString();
-    },
-    removeItem: function(key) {
-      delete store[key];
-    },
-    clear: function() {
-      store = {};
-    }
-  };
+const localStorageMock = (() => {
+    let store = {};
+    return {
+        getItem: key => store[key] || null,
+        setItem: (key, value) => { store[key] = value.toString(); },
+        removeItem: key => { delete store[key]; },
+        clear: () => { store = {}; }
+    };
 })();
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
@@ -50,7 +47,6 @@ scripts.forEach(script => {
 // Test Logic
 const World = dom.window.World;
 const BLOCK = dom.window.BLOCK;
-const BiomeManager = dom.window.BiomeManager;
 
 console.log('--- Verifying World Gen ---');
 
@@ -69,6 +65,12 @@ if (!world.structureManager) {
 }
 console.log('✅ StructureManager initialized.');
 
+if (typeof world.structureManager.generateJungleTree !== 'function' || typeof world.structureManager.generateVillage !== 'function') {
+    console.error('❌ StructureManager missing required generation methods.');
+    process.exit(1);
+}
+console.log('✅ StructureManager generation methods present.');
+
 // Helper to find specific biome
 function findBiome(type) {
     for (let x = 0; x < 20000; x+=100) {
@@ -84,14 +86,11 @@ function findBiome(type) {
 const desertPos = findBiome('Desert');
 if (desertPos) {
     console.log(`Found Desert at ${desertPos.x}, ${desertPos.z}`);
-    // Generate chunk
     const cx = Math.floor(desertPos.x / 16);
     const cz = Math.floor(desertPos.z / 16);
     world.generateChunk(cx, cz);
     const chunk = world.getChunk(cx, cz);
 
-    // Check top block
-    // We need to find height first
     let hasSand = false;
     let hasCactus = false;
 
@@ -108,7 +107,6 @@ if (desertPos) {
     if (hasSand) console.log('✅ Desert has Sand.');
     else console.error('❌ Desert missing Sand.');
 
-    // Cactus is chance-based, might fail if small chunk
     if (hasCactus) console.log('✅ Desert has Cactus.');
     else console.warn('⚠️ Desert missing Cactus (could be bad luck).');
 

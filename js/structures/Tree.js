@@ -1,7 +1,7 @@
 class TreeStructure {
     constructor() {}
 
-    generate(world, chunk, x, y, z, type = 'oak') {
+    generate(world, chunk, x, y, z, type = 'oak', sync = false) {
         const wx = chunk.cx * 16 + x;
         const wz = chunk.cz * 16 + z;
 
@@ -13,11 +13,15 @@ class TreeStructure {
             height = 6 + Math.floor(Math.random() * 4);
             trunk = BLOCK.SPRUCE_WOOD;
             leaves = BLOCK.SPRUCE_LEAVES;
+        } else if (type === 'birch') {
+            trunk = BLOCK.BIRCH_WOOD;
+            leaves = BLOCK.BIRCH_LEAVES;
         }
 
         // Trunk
         for (let i = 0; i < height; i++) {
             world.setBlock(wx, y + i, wz, trunk);
+            if (sync && world.game && world.game.network) world.game.network.sendBlockUpdate(wx, y + i, wz, trunk);
         }
 
         // Leaves
@@ -28,6 +32,7 @@ class TreeStructure {
                      if (Math.abs(lx) + Math.abs(lz) + (ly - (height-2)) < 4) {
                          if (world.getBlock(wx+lx, y+ly, wz+lz) === BLOCK.AIR) {
                              world.setBlock(wx+lx, y+ly, wz+lz, leaves);
+                             if (sync && world.game && world.game.network) world.game.network.sendBlockUpdate(wx+lx, y+ly, wz+lz, leaves);
                          }
                      }
                 }
