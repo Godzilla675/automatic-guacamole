@@ -281,7 +281,7 @@ class Game {
         // Doors
         if (window.BLOCKS[blockType] && window.BLOCKS[blockType].isDoor) {
              const meta = this.world.getMetadata(x, y, z);
-             const newMeta = meta ^ 1; // Toggle bit 0
+             const newMeta = meta ^ 4; // Toggle bit 2 (Value 4)
              this.world.setMetadata(x, y, z, newMeta);
 
              // Update other half
@@ -738,12 +738,24 @@ class Game {
                  // Door Placement Logic
                  if (slot.type === BLOCK.DOOR_WOOD_BOTTOM) {
                      // Check vertical space (needs 2 blocks)
-                     // hit is the block we clicked on. nx,ny,nz is the neighbor (empty space usually).
-                     // We place bottom at nx,ny,nz. Top at nx,ny+1,nz.
                      if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR && this.world.getBlock(nx, ny+1, nz) === BLOCK.AIR) {
                          this.world.setBlock(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
                          this.world.setBlock(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
 
+                         // Calculate orientation
+                         let r = this.player.yaw % (2*Math.PI);
+                         if (r < 0) r += 2*Math.PI;
+                         let meta = 0;
+                         // Match Stair orientation for consistency
+                         if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 2; // South
+                         else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
+                         else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
+                         else meta = 0; // East
+
+                         this.world.setMetadata(nx, ny, nz, meta);
+                         this.world.setMetadata(nx, ny+1, nz, meta);
+
+                         window.soundManager.play('place');
                          window.soundManager.play('place', pos);
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
                          this.network.sendBlockUpdate(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);

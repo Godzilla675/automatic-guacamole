@@ -307,7 +307,7 @@ class Renderer {
                      // Doors
                      if (blockDef.isDoor) {
                          const meta = b.metadata;
-                         if (meta & 1) { // Open
+                         if (meta & 4) { // Open (Bit 2)
                              ctx.globalAlpha = 0.2; // Transparent
                          }
                      }
