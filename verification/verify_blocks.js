@@ -23,7 +23,7 @@ if (!BLOCK) {
 console.log('--- Verification Report ---');
 
 // Check Concrete
-if (BLOCK.CONCRETE !== undefined || Object.values(BLOCKS).some(b => b.name && b.name.includes('concrete'))) {
+if (BLOCK.CONCRETE !== undefined || Object.values(BLOCKS).some(b => b.name && b.name.toLowerCase().includes('concrete'))) {
     console.log('✅ Concrete Block found.');
 } else {
     console.log('❌ Concrete Block MISSING.');

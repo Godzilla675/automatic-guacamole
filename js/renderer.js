@@ -20,18 +20,88 @@ class Renderer {
         }
     }
 
+    drawSky(w, h) {
+        const ctx = this.ctx;
+        const cycle = (this.game.gameTime % this.game.dayLength) / this.game.dayLength;
+        const angle = cycle * 2 * Math.PI;
+
+        // Sky Gradient
+        const b = this.game.sunBrightness;
+        const gradient = ctx.createLinearGradient(0, 0, 0, h);
+
+        if (cycle > 0.45 && cycle < 0.55) { // Sunset
+             gradient.addColorStop(0, `rgb(20, 20, 60)`);
+             gradient.addColorStop(1, `rgb(255, 100, 50)`);
+        } else if (cycle > 0.95 || cycle < 0.05) { // Sunrise
+             gradient.addColorStop(0, `rgb(20, 20, 60)`);
+             gradient.addColorStop(1, `rgb(255, 150, 50)`);
+        } else if (b < 0.5) { // Night
+             gradient.addColorStop(0, `rgb(0, 0, 10)`);
+             gradient.addColorStop(1, `rgb(0, 0, 30)`);
+        } else { // Day
+             gradient.addColorStop(0, `rgb(100, 180, 255)`);
+             gradient.addColorStop(1, `rgb(200, 230, 255)`);
+        }
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, w, h);
+
+        // Sun/Moon Position
+        const r = 1000;
+        const sunX = Math.cos(angle) * r;
+        const sunY = Math.sin(angle) * r;
+
+        this.drawCelestialBody(w, h, sunX, sunY, 0, 'sun');
+        this.drawCelestialBody(w, h, -sunX, -sunY, 0, 'moon');
+    }
+
+    drawCelestialBody(w, h, x, y, z, type) {
+        const yaw = this.game.player.yaw;
+        const pitch = this.game.player.pitch;
+
+        const sinY = Math.sin(-yaw);
+        const cosY = Math.cos(-yaw);
+        const sinP = Math.sin(-pitch);
+        const cosP = Math.cos(-pitch);
+
+        const rx = x * cosY - z * sinY;
+        const rz = x * sinY + z * cosY;
+        const ry = y * cosP - rz * sinP;
+        const rz2 = y * sinP + rz * cosP;
+
+        if (rz2 > 0) {
+             const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+             const size = scale * 0.15;
+
+             const sx = (rx / rz2) * scale + w / 2;
+             const sy = (ry / rz2) * scale + h / 2;
+
+             this.ctx.beginPath();
+             if (type === 'sun') {
+                 this.ctx.fillStyle = '#FFFF00';
+                 this.ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                 this.ctx.fill();
+
+                 this.ctx.globalAlpha = 0.2;
+                 this.ctx.fillStyle = '#FFA500';
+                 this.ctx.beginPath();
+                 this.ctx.arc(sx, sy, size * 1.5, 0, Math.PI * 2);
+                 this.ctx.fill();
+                 this.ctx.globalAlpha = 1.0;
+             } else {
+                 this.ctx.fillStyle = '#F0F0F0';
+                 this.ctx.fillRect(sx - size, sy - size, size * 2, size * 2);
+             }
+        }
+    }
+
     render() {
         const w = this.canvas.width / (window.devicePixelRatio || 1);
         const h = this.canvas.height / (window.devicePixelRatio || 1);
         const ctx = this.ctx;
 
         // Sky
-        const brightness = this.game.sunBrightness;
-        const skyR = Math.floor(135 * brightness);
-        const skyG = Math.floor(206 * brightness);
-        const skyB = Math.floor(235 * brightness);
-        ctx.fillStyle = `rgb(${skyR},${skyG},${skyB})`;
-        ctx.fillRect(0, 0, w, h);
+        this.drawSky(w, h);
 
         // Water Overlay (Under water)
         const headBlock = this.game.world.getBlock(Math.floor(this.game.player.x), Math.floor(this.game.player.y + this.game.player.height - 0.2), Math.floor(this.game.player.z));
@@ -55,7 +125,7 @@ class Renderer {
         const sinP = Math.sin(-pitch);
         const cosP = Math.cos(-pitch);
 
-        const renderDist = 50; // View distance in blocks
+        const renderDist = this.game.renderDistance; // View distance in blocks
 
         // We should iterate chunks, but for now let's iterate blocks in loaded chunks nearby
         // Optimization: Only iterate chunks within renderDist
@@ -144,13 +214,41 @@ class Renderer {
                                 metadata: meta,
                                 isStairPart: 'top'
                             });
+                        } else if (blockDef.isFence || blockDef.isPane) {
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isFencePost: true
+                             });
+                        } else if (blockDef.isTrapdoor) {
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isTrapdoor: true
+                             });
+                        } else if (blockDef.isGate) {
+                             blocksToDraw.push({
+                                type: b.type,
+                                rx, ry, rz: rz2,
+                                dist,
+                                light: chunk.getLight(b.x, b.y, b.z),
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                isGate: true
+                             });
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
                                 rx, ry: ry, rz: rz2,
                                 dist,
                                 light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z)
+                                metadata: chunk.getMetadata(b.x, b.y, b.z),
+                                cx: cx, cz: cz, bx: b.x, by: b.y, bz: b.z
                             });
                         }
                     }
@@ -209,9 +307,182 @@ class Renderer {
                      // Doors
                      if (blockDef.isDoor) {
                          const meta = b.metadata;
-                         if (meta & 1) { // Open
+                         if (meta & 4) { // Open (Bit 2)
                              ctx.globalAlpha = 0.2; // Transparent
                          }
+                     }
+                     // Fences
+                     if (b.isFencePost) {
+                         drawHeight = size;
+                         const width = size * 0.25;
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
+
+                         // Simple bars (visual hack: just draw a wider thin bar in middle)
+                         ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - size*0.1), Math.ceil(size), Math.ceil(size*0.2));
+
+                         return;
+                     }
+                     // Trapdoors
+                     if (b.isTrapdoor) {
+                         const meta = b.metadata;
+                         const open = (meta & 4) !== 0;
+                         const top = (meta & 8) !== 0;
+
+                         if (open) {
+                             drawHeight = size;
+                             const width = size * 0.1875;
+                             ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
+                         } else {
+                             drawHeight = size * 0.1875;
+                             let yOffset = 0;
+                             if (top) yOffset = -size/2 + drawHeight/2; // Top
+                             else yOffset = size/2 - drawHeight/2; // Bottom
+
+                             ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy + yOffset - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
+                         }
+                         return;
+                     }
+                     // Gates
+                     if (b.isGate) {
+                         const meta = b.metadata;
+                         const open = (meta & 4) !== 0;
+                         drawHeight = size;
+                         const width = size * 0.25;
+                         if (open) ctx.globalAlpha = 0.2;
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
+                         ctx.globalAlpha = 1.0;
+                         return;
+                     }
+                     // Signs
+                     if (blockDef.isSign) {
+                         if (b.type === window.BLOCK.SIGN_POST) {
+                             // Draw Stick
+                             const stickW = size * 0.1;
+                             const stickH = size * 0.5;
+                             ctx.fillStyle = '#8B4513';
+                             ctx.fillRect(Math.floor(sx - stickW/2), Math.floor(drawSy + size/2 - stickH), Math.ceil(stickW), Math.ceil(stickH));
+
+                             // Draw Board
+                             const boardW = size * 0.8;
+                             const boardH = size * 0.5;
+                             ctx.fillStyle = blockDef.color;
+                             ctx.fillRect(Math.floor(sx - boardW/2), Math.floor(drawSy - size/2), Math.ceil(boardW), Math.ceil(boardH));
+
+                             // Draw Text
+                             if (b.cx !== undefined) {
+                                 const entity = this.game.world.getBlockEntity(b.cx * 16 + b.bx, b.by, b.cz * 16 + b.bz);
+                                 if (entity && entity.text) {
+                                     ctx.fillStyle = 'black';
+                                     ctx.font = `bold ${Math.max(8, Math.ceil(size * 0.12))}px Arial`;
+                                     ctx.textAlign = 'center';
+                                     let lineY = drawSy - size/2 + size*0.1 + size*0.12;
+                                     entity.text.forEach(line => {
+                                         ctx.fillText(line, sx, lineY);
+                                         lineY += size * 0.12;
+                                     });
+                                 }
+                             }
+                             return;
+                         } else {
+                             // Wall Sign
+                             const boardW = size * 0.8;
+                             const boardH = size * 0.5;
+                             ctx.fillStyle = blockDef.color;
+                             ctx.fillRect(Math.floor(sx - boardW/2), Math.floor(drawSy - size/4), Math.ceil(boardW), Math.ceil(boardH));
+
+                             if (b.cx !== undefined) {
+                                 const entity = this.game.world.getBlockEntity(b.cx * 16 + b.bx, b.by, b.cz * 16 + b.bz);
+                                 if (entity && entity.text) {
+                                     ctx.fillStyle = 'black';
+                                     ctx.font = `bold ${Math.max(8, Math.ceil(size * 0.12))}px Arial`;
+                                     ctx.textAlign = 'center';
+                                     let lineY = drawSy - size/4 + size*0.1 + size*0.12;
+                                     entity.text.forEach(line => {
+                                         ctx.fillText(line, sx, lineY);
+                                         lineY += size * 0.12;
+                                     });
+                                 }
+                             }
+                             return;
+                         }
+                     }
+                     // Torches (Normal & Redstone)
+                     if (blockDef.isTorch) {
+                         drawHeight = size * 0.6;
+                         const width = size * 0.15;
+                         // Stick
+                         ctx.fillStyle = '#8B4513';
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy + size/2 - drawHeight), Math.ceil(width), Math.ceil(drawHeight));
+                         // Head
+                         ctx.fillStyle = blockDef.color; // Gold or Red
+                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy + size/2 - drawHeight), Math.ceil(width), Math.ceil(width));
+                         return;
+                     }
+                     // Redstone Wire
+                     if (blockDef.isWire) {
+                         const power = b.metadata; // 0-15
+                         const intensity = Math.max(60, power * 17); // 60 to 255
+                         ctx.fillStyle = `rgb(${intensity}, 0, 0)`;
+
+                         drawHeight = size * 0.1; // Flat
+                         const drawSyWire = sy + size/2 - drawHeight/2; // Bottom
+
+                         const centerSize = size * 0.3;
+
+                         // Draw Center
+                         ctx.fillRect(Math.floor(sx - centerSize/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(centerSize), Math.ceil(drawHeight));
+
+                         // Draw Connections
+                         // We need to check neighbors. 'b' has local coords x,y,z.
+                         // Using chunk.getBlock handles out of bounds by returning AIR (in my memory, let's verify)
+                         // Actually Chunk.getBlock checks bounds and returns AIR.
+                         // To see across chunks we need world.getBlock but we only have 'chunk' easily here.
+                         // We can compute world coords.
+                         const wx = cx * 16 + b.x;
+                         const wz = cz * 16 + b.z;
+
+                         const checkConnect = (dx, dz) => {
+                             const nb = this.game.world.getBlock(wx + dx, b.y, wz + dz);
+                             const nd = window.BLOCKS[nb];
+                             // Connect to Wire, Torch, or Power Source
+                             // Simplified: Connect to anything that is Wire or Torch or Lamp
+                             return (nd && (nd.isWire || nd.isTorch || nd.id === window.BLOCK.REDSTONE_LAMP || nd.id === window.BLOCK.REDSTONE_LAMP_ACTIVE));
+                         };
+
+                         const armLen = (size - centerSize) / 2;
+                         const armWidth = centerSize; // Wire width
+
+                         if (checkConnect(1, 0)) { // East (+X)
+                              // 2D projection is tricky.
+                              // sx is screen X. As we rotate, +X direction changes on screen.
+                              // We already calculated rotated coordinates: rx, rz.
+                              // We need to draw lines in 3D space projected to 2D.
+                              // But here we are just drawing rects at 'sx, sy'.
+                              // Doing proper 3D lines with fillRect is hard without proper projection of endpoints.
+
+                              // Fallback: Just draw a cross always for now?
+                              // Or better: Draw arms based on screen-projected directions?
+                              // That's too complex for this "fake 3D" renderer which just scales sprites.
+
+                              // Alternative: Just draw a larger flat square if connected?
+                         }
+
+                         // For this engine (billboard/sprite scaling), we can't easily draw directional arms
+                         // because we don't know which way is "East" on the screen easily (we do, but it requires math).
+
+                         // Hack: Draw a cross always. It looks like wire.
+                         ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight)); // Horizontal bar
+                         ctx.fillRect(Math.floor(sx - centerSize/2), Math.floor(drawSyWire - size/2 + drawHeight/2), Math.ceil(centerSize), Math.ceil(size/2 + drawHeight/2)); // Vertical bar (approx)
+                         // Actually, this just draws a cross on screen, which rotates with player view (billboarding).
+                         // Real wire should lay on ground.
+                         // Since we don't have true geometry, let's just draw a red flat square on the floor.
+
+                         // Reset and just draw flat square
+                         ctx.fillStyle = `rgb(${intensity}, 0, 0)`;
+                         const wireSize = size * 0.8;
+                         ctx.fillRect(Math.floor(sx - wireSize/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(wireSize), Math.ceil(drawHeight));
+
+                         return;
                      }
                  }
                  // We could adjust brightness by b.light (0-15)
@@ -245,6 +516,35 @@ class Renderer {
              }
         });
 
+        // Draw Vehicles
+        if (this.game.vehicles) {
+            this.game.vehicles.forEach(v => {
+                 const dx = v.x - px;
+                 const dy = v.y - py;
+                 const dz = v.z - pz;
+
+                 const rx = dx * cosY - dz * sinY;
+                 const rz = dx * sinY + dz * cosY;
+                 const ry = dy * cosP - rz * sinP;
+                 const rz2 = dy * sinP + rz * cosP;
+
+                 if (rz2 > 0.1) {
+                     const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                     const size = (scale / rz2) * v.height; // Use height scaling
+                     const width = (scale / rz2) * v.width;
+                     const sx = (rx / rz2) * scale + w / 2;
+                     const sy = (ry / rz2) * scale + h / 2;
+
+                     if (v.type === 'minecart') ctx.fillStyle = '#808080';
+                     else if (v.type === 'boat') ctx.fillStyle = '#8B4513';
+                     else ctx.fillStyle = '#FFFFFF';
+
+                     // Center bottom
+                     ctx.fillRect(sx - width/2, sy - size, width, size);
+                 }
+            });
+        }
+
         // Draw Drops
         this.game.drops.forEach(drop => {
              const dx = drop.x - px;
@@ -273,6 +573,55 @@ class Renderer {
                  ctx.strokeStyle = 'black';
                  ctx.lineWidth = 1;
                  ctx.strokeRect(sx - rotSize/2, sy - size/2, rotSize, size);
+             }
+        });
+
+        // Draw Particles
+        if (this.game.particles && this.game.particles.particles) {
+            this.game.particles.particles.forEach(p => {
+                 const dx = p.x - px;
+                 const dy = p.y - py;
+                 const dz = p.z - pz;
+
+                 const rx = dx * cosY - dz * sinY;
+                 const rz = dx * sinY + dz * cosY;
+                 const ry = dy * cosP - rz * sinP;
+                 const rz2 = dy * sinP + rz * cosP;
+
+                 if (rz2 > 0.1) {
+                     const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                     const size = (scale / rz2) * p.size;
+                     const sx = (rx / rz2) * scale + w / 2;
+                     const sy = (ry / rz2) * scale + h / 2;
+
+                     ctx.fillStyle = p.color || 'white';
+                     ctx.fillRect(sx - size/2, sy - size/2, size, size);
+                 }
+            });
+        }
+
+        // Draw TNT
+        this.game.tntPrimed.forEach(tnt => {
+             const dx = tnt.x - px;
+             const dy = tnt.y - py;
+             const dz = tnt.z - pz;
+
+             const rx = dx * cosY - dz * sinY;
+             const rz = dx * sinY + dz * cosY;
+             const ry = dy * cosP - rz * sinP;
+             const rz2 = dy * sinP + rz * cosP;
+
+             if (rz2 > 0.1) {
+                 const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+                 const size = (scale / rz2);
+                 const sx = (rx / rz2) * scale + w / 2;
+                 const sy = (ry / rz2) * scale + h / 2;
+
+                 // Flash white
+                 if (Math.floor(tnt.fuse * 5) % 2 === 0) ctx.fillStyle = 'white';
+                 else ctx.fillStyle = 'red';
+
+                 ctx.fillRect(sx - size/2, sy - size/2, size, size);
              }
         });
 
@@ -349,7 +698,7 @@ class Renderer {
                      const sx = (rx / rz2) * scale + w / 2;
                      const sy = (ry / rz2) * scale + h / 2;
 
-                     ctx.fillStyle = 'blue';
+                     ctx.fillStyle = p.skinColor || 'blue';
                      ctx.fillRect(sx - size/4, sy - size, size/2, size);
 
                      // Name tag
@@ -360,6 +709,31 @@ class Renderer {
                      ctx.textAlign = 'left'; // Reset
                  }
             });
+        }
+
+        // Draw Weather
+        if (this.game.world.weather !== 'clear') {
+            const isRain = this.game.world.weather === 'rain';
+            ctx.strokeStyle = isRain ? 'rgba(100, 100, 255, 0.6)' : 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = isRain ? 1 : 2;
+            ctx.beginPath();
+
+            // Simple screen-space particles (random every frame = static noise effect, better to animate)
+            // For simplicity, just random lines.
+            const count = 100;
+            for (let i = 0; i < count; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const len = isRain ? 20 : 5;
+
+                ctx.moveTo(x, y);
+                ctx.lineTo(x - (isRain ? 2 : 1), y + len);
+            }
+            ctx.stroke();
+
+            // Darken sky
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, w, h);
         }
 
         // HUD Updates

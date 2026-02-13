@@ -4,6 +4,7 @@ const fs = require('fs');
 
 // Mock Game Environment
 const dom = new JSDOM(`<!DOCTYPE html><body><div id="crafting-recipes"></div><div id="crafting-screen"></div><div id="close-crafting"></div></body>`, {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });
