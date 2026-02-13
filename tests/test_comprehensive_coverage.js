@@ -1043,3 +1043,55 @@ describe('World Saving', () => {
         assert.strictEqual(game.world.getMetadata(4, 41, 4), 5);
     });
 });
+
+describe('Renderer Performance', () => {
+    it('should compute projection scale once per frame', () => {
+        const ctx = {
+            setTransform: () => {}, fillStyle: '', fillRect: () => {}, beginPath: () => {},
+            moveTo: () => {}, lineTo: () => {}, fill: () => {}, strokeRect: () => {}, stroke: () => {},
+            font: '', fillText: () => {}, measureText: () => ({ width: 0 }),
+            createLinearGradient: () => ({ addColorStop: () => {} }),
+            clearRect: () => {}, save: () => {}, restore: () => {}, scale: () => {},
+            translate: () => {}, rotate: () => {}, lineWidth: 1, textAlign: 'left', globalAlpha: 1,
+        };
+
+        const game = {
+            canvas: { width: 800, height: 600, style: {} },
+            ctx,
+            fov: 90,
+            gameTime: 0,
+            dayLength: 24000,
+            sunBrightness: 1,
+            renderDistance: 8,
+            player: { x: 0, y: 64, z: 0, height: 1.8, yaw: 0, pitch: 0 },
+            world: {
+                getBlock: () => dom.window.BLOCK.AIR,
+                getChunk: () => null,
+                getBlockEntity: () => null,
+                weather: 'clear',
+                chunks: new Map(),
+            },
+            mobs: [{ x: 0, y: 64, z: 6, height: 1.8, color: '#fff', type: 'zombie' }],
+            vehicles: [{ x: 1, y: 64, z: 6, height: 1, width: 1, type: 'boat' }],
+            drops: [{ x: -1, y: 64, z: 6, type: dom.window.BLOCK.DIRT, rotY: 0 }],
+            particles: { particles: [{ x: 0.5, y: 64, z: 6, size: 0.2, color: '#fff' }] },
+            tntPrimed: [{ x: -0.5, y: 64, z: 6, fuse: 2 }],
+            projectiles: [{ x: 0, y: 64, z: 7 }],
+            bobber: { x: 0.2, y: 64, z: 7, state: 'idle' },
+            network: { otherPlayers: [{ x: 0.8, y: 64, z: 7, name: 'P1' }] },
+        };
+
+        const renderer = new dom.window.Renderer(game);
+        const originalTan = dom.window.Math.tan;
+        let tanCalls = 0;
+        dom.window.Math.tan = function(...args) {
+            tanCalls++;
+            return originalTan.apply(this, args);
+        };
+
+        renderer.render();
+        dom.window.Math.tan = originalTan;
+
+        assert.strictEqual(tanCalls, 1);
+    });
+});
