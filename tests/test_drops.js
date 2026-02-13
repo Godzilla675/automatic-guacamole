@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const dom = new JSDOM(`<!DOCTYPE html>`, {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });
