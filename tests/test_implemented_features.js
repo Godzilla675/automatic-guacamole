@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const dom = new JSDOM('<!DOCTYPE html><html><body><canvas id="game-canvas"></canvas><div id="chest-screen" class="hidden"></div><div id="inventory-screen" class="hidden"></div><div id="chest-grid"></div><div id="inventory-grid"></div><div id="hotbar"></div><input id="chat-input" class="hidden"><div id="crafting-recipes"></div><div id="close-crafting"></div></body></html>', {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });
@@ -21,9 +22,39 @@ dom.window.HTMLCanvasElement.prototype.getContext = () => ({
 });
 dom.window.requestAnimationFrame = () => {};
 dom.window.cancelAnimationFrame = () => {};
-dom.window.AudioContext = class { createOscillator() { return { connect:()=>{}, start:()=>{}, stop:()=>{}, frequency:{setValueAtTime:()=>{}, exponentialRampToValueAtTime:()=>{}} }; } createGain() { return { connect:()=>{}, gain:{value:0, setTargetAtTime:()=>{}} }; } };
+dom.window.AudioContext = class {
+    constructor() { this.state = 'running'; this.currentTime = 0; }
+    resume() { this.state = 'running'; }
+    createOscillator() {
+        return {
+            type: 'sine',
+            connect:()=>{}, start:()=>{}, stop:()=>{},
+            frequency:{setValueAtTime:()=>{}, exponentialRampToValueAtTime:()=>{}, linearRampToValueAtTime:()=>{}}
+        };
+    }
+    createGain() {
+        return {
+            connect:()=>{},
+            gain:{
+                value:0,
+                setTargetAtTime:()=>{},
+                setValueAtTime:()=>{},
+                exponentialRampToValueAtTime:()=>{},
+                linearRampToValueAtTime:()=>{}
+            }
+        };
+    }
+    createPanner() {
+        return {
+            panningModel: '', distanceModel: '',
+            connect:()=>{}, setPosition:()=>{},
+            orientationX:{value:0}, orientationY:{value:0}, orientationZ:{value:0},
+            positionX:{value:0}, positionY:{value:0}, positionZ:{value:0}
+        };
+    }
+};
 dom.window.WebSocket = class { constructor() { setTimeout(()=>this.onopen&&this.onopen(),10); } send(){} };
-dom.window.soundManager = { play: () => {}, updateAmbience: () => {} };
+dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, updateListener: () => {} };
 dom.window.perlin = { noise: () => 0 };
 dom.window.alert = () => {};
 
@@ -32,7 +63,7 @@ function loadScript(filename) {
     dom.window.eval(content);
 }
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'drop.js', 'crafting.js', 'ui.js', 'input.js', 'chat.js', 'renderer.js', 'network.js', 'mob.js', 'player.js', 'game.js'].forEach(loadScript);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(loadScript);
 
 describe('Implemented Features Tests', () => {
     let game;
