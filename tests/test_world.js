@@ -18,6 +18,16 @@ dom.window.Chunk = class Chunk {
         this.modified = false;
     }
     updateVisibleBlocks() {}
+    pack() {
+        return {
+            blocks: this.blocks,
+            metadata: this.metadata
+        };
+    }
+    unpack(data) {
+        if (data.blocks) this.blocks = new Uint8Array(data.blocks);
+        if (data.metadata) this.metadata = new Uint8Array(data.metadata);
+    }
 }
 dom.window.alert = (msg) => {};
 dom.window.BiomeManager = class BiomeManager { constructor() {} getBiome() { return {}; } };

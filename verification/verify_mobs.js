@@ -10,6 +10,10 @@ global.document = dom.window.document;
 const blocksContent = fs.readFileSync('js/blocks.js', 'utf8');
 eval(blocksContent);
 
+// Load entity.js
+const entityContent = fs.readFileSync('js/entity.js', 'utf8');
+eval(entityContent);
+
 // Load mob.js
 const mobContent = fs.readFileSync('js/mob.js', 'utf8');
 eval(mobContent);

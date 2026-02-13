@@ -20,6 +20,9 @@ dom.window.soundManager = {
 const blocksCode = fs.readFileSync('js/blocks.js', 'utf8');
 dom.window.eval(blocksCode);
 
+const entityCode = fs.readFileSync('js/entity.js', 'utf8');
+dom.window.eval(entityCode);
+
 const dropCode = fs.readFileSync('js/drop.js', 'utf8');
 dom.window.eval(dropCode);
 
