@@ -8,15 +8,15 @@ global.document = dom.window.document;
 
 // Load blocks.js
 const blocksContent = fs.readFileSync('js/blocks.js', 'utf8');
-eval(blocksContent);
+dom.window.eval(blocksContent);
 
 // Load entity.js
 const entityContent = fs.readFileSync('js/entity.js', 'utf8');
-eval(entityContent);
+dom.window.eval(entityContent);
 
 // Load mob.js
 const mobContent = fs.readFileSync('js/mob.js', 'utf8');
-eval(mobContent);
+dom.window.eval(mobContent);
 
 // Mock Game
 const gameMock = {
