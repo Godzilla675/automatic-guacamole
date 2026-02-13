@@ -73,7 +73,44 @@ class SoundManager {
          this.ambience.water.gain.gain.setTargetAtTime(waterIntensity * this.volume * 0.8, now, 0.5);
     }
 
-    play(type) {
+    updateListener(x, y, z, yaw, pitch) {
+        if (!this.ctx || this.ctx.state === 'suspended') return;
+
+        const listener = this.ctx.listener;
+
+        // Position
+        if (listener.positionX) {
+            listener.positionX.value = x;
+            listener.positionY.value = y;
+            listener.positionZ.value = z;
+        } else {
+            listener.setPosition(x, y, z);
+        }
+
+        // Orientation
+        // Forward vector
+        const fx = Math.sin(yaw) * Math.cos(pitch);
+        const fy = -Math.sin(pitch);
+        const fz = Math.cos(yaw) * Math.cos(pitch);
+
+        // Up vector (approximate)
+        const ux = 0;
+        const uy = 1;
+        const uz = 0;
+
+        if (listener.forwardX) {
+            listener.forwardX.value = fx;
+            listener.forwardY.value = fy;
+            listener.forwardZ.value = fz;
+            listener.upX.value = ux;
+            listener.upY.value = uy;
+            listener.upZ.value = uz;
+        } else {
+            listener.setOrientation(fx, fy, fz, ux, uy, uz);
+        }
+    }
+
+    play(type, position = null) {
         if (!this.enabled) return;
         if (this.ctx.state === 'suspended') {
             this.ctx.resume();
@@ -82,7 +119,26 @@ class SoundManager {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
 
-        osc.connect(gain);
+        // Connect graph
+        let targetNode = gain;
+
+        if (position) {
+            const panner = this.ctx.createPanner();
+            panner.panningModel = 'HRTF';
+            panner.distanceModel = 'inverse';
+            panner.refDistance = 1;
+            panner.maxDistance = 100;
+            panner.rolloffFactor = 1;
+            panner.positionX.value = position.x;
+            panner.positionY.value = position.y;
+            panner.positionZ.value = position.z;
+
+            osc.connect(panner);
+            panner.connect(gain);
+        } else {
+            osc.connect(gain);
+        }
+
         gain.connect(this.ctx.destination);
 
         const now = this.ctx.currentTime;
@@ -138,6 +194,16 @@ class SoundManager {
                 osc.start(now);
                 osc.stop(now + 0.15);
                 break;
+
+            case 'fuse':
+                 // Hiss sound
+                 osc.type = 'sawtooth'; // or white noise buffer if available
+                 osc.frequency.setValueAtTime(1000, now);
+                 osc.frequency.linearRampToValueAtTime(500, now + 4.0);
+                 gain.gain.setValueAtTime(this.volume * 0.5, now);
+                 osc.start(now);
+                 osc.stop(now + 4.0);
+                 break;
         }
     }
 }
