@@ -113,6 +113,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [ ] **Implement Birch Trees** (Wood, Leaves, Biome integration)
 - [ ] **Implement Birch Wood & Leaves**
 - [ ] **Implement Top Slabs** (Placement logic & Physics)
 
@@ -170,6 +171,12 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Shield**
 - [x] Pickaxes, Shovels, Axes, Swords
 - [x] Tool durability system
+- [x] Different breaking speeds based on tool and block
+- [x] **Implement Tool Repair** (Crafting combination)
+- [ ] **Implement Tree Drops** (Saplings, Apples)
+
+### 5. Mobs and AI
+- [ ] **Implement Villagers** (Model, AI, Trading interface)
 - [x] **Implement Tool Repair Logic** (UI pending Anvil, Crafting grid repair works)
 - [x] **Implement Fishing Mechanic**
 
@@ -344,6 +351,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
+- [ ] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
