@@ -31,7 +31,7 @@ These blocks are currently unchecked or missing from `js/blocks.js`.
     - Implement `Projectile` class update for arrows.
     - Add charging mechanic in `js/input.js` or `js/game.js`.
 - [ ] **Implement Shield**
-    - Add shield item to `js/blocks.js`.
+    - Add item.
     - Implement blocking mechanic (reduce damage) in `js/player.js`.
 
 ### 3. Advanced World Generation (Expansion)
@@ -237,3 +237,5 @@ These blocks are currently unchecked or missing from `js/blocks.js`.
 * When adding a new feature, please update this file.
 * Ensure all tests pass before submitting.
 * Follow the code style of the existing project.
+
+<!-- Task List Updated -->
