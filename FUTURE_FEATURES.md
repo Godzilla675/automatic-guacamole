@@ -195,6 +195,136 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Chests and Storage** (UI, persistence)
 - [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 
+## Medium Priority Features
+
+### 8. User Interface Improvements
+- [ ] FOV Slider
+- [ ] Mouse Sensitivity Control
+- [ ] Minimap
+- [ ] Achievement system
+- [ ] Tutorial/help system
+- [x] **Settings Menu (Controls, Sound, Graphics)**
+- [x] **Volume Controls**
+- [x] Coordinates toggle (F3)
+- [x] Better mobile UI scaling
+- [x] Dynamic Crosshair
+
+### 9. Advanced Building Blocks (Remaining)
+- [ ] Decorative blocks
+- [ ] Redstone-like logic blocks
+
+### 10. World Saving/Loading
+- [ ] Export/import world data
+- [ ] Auto-save functionality
+- [x] Save world state to browser localStorage (Implemented in `js/world.js`)
+- [x] Load saved worlds
+- [x] Multiple world slots
+
+### 11. Advanced Graphics
+- [ ] Better shadows and lighting
+- [ ] Dynamic Lighting (Handheld torch light)
+- [ ] Particle effects (breaking blocks, water splash)
+- [ ] Ambient occlusion
+- [ ] Water animations and flow (Visuals implemented)
+- [ ] Weather effects (rain, snow)
+- [ ] Clouds
+- [ ] Better skybox
+- [ ] Head bobbing animation
+- [ ] Sun/Moon rendering
+- [x] Block breaking animation (Basic progress bar implemented)
+
+### 12. Sound System
+- [ ] **Background Music**
+- [x] Block breaking sounds
+- [x] Footstep sounds
+- [x] Ambient sounds (water, wind) (Implemented in `js/audio.js`)
+- [x] Sound effects for actions
+
+### 13. Farming & Nature
+- [x] **Farming System (Hoe, Seeds, Wheat, Crops)**
+- [x] **Animal Breeding**
+- [x] **Fishing**
+
+### 14. Inventory Enhancements
+- [ ] Quick item swap
+- [ ] Inventory sorting
+- [x] **Full Inventory UI** (Data implemented, UI missing)
+- [x] Drag and drop items
+- [x] Item stacking (Simple stacking implemented in drops)
+- [x] Hotbar number indicators
+
+## Low Priority / Polish Features
+
+### 15. Advanced Gameplay
+- [ ] Experience points and levels
+- [ ] Enchanting system
+- [ ] Potions and brewing
+- [x] Health regeneration (Implemented in `js/player.js`)
+
+### 16. Creative Mode Features
+- [ ] Unlimited blocks
+- [ ] Instant block breaking
+- [ ] No collision mode (noclip)
+- [ ] Weather control
+- [x] Fly mode toggle (Key 'F')
+- [x] World edit tools (copy, paste, fill) - Fill tool implemented
+- [x] Time control
+
+### 17. Performance Optimizations
+- [ ] LOD (Level of Detail) system
+- [ ] Worker threads for world generation
+- [ ] Better memory management
+- [ ] Greedy meshing for fewer draw calls
+- [x] Chunk-based rendering optimization
+- [x] Frustum culling improvements
+- [x] Occlusion culling (Exposed Face Caching)
+
+### 18. Social Features
+- [ ] Screenshot system
+- [ ] Share world links
+- [ ] Leaderboards
+- [ ] World showcase gallery
+- [ ] Friends system
+
+### 19. Advanced Building Tools
+- [ ] Copy/paste structures
+- [ ] Symmetry mode
+- [ ] Fill tool
+- [ ] Replace tool
+- [ ] Undo/redo system
+
+### 20. World Interaction (Misc)
+- [ ] Minecarts and rails
+- [ ] Boats
+- [ ] Signs and text
+
+### 21. Modding Support
+- [ ] Plugin API
+- [ ] Custom block types
+- [ ] Custom mob types
+- [ ] Event hooks
+- [ ] Resource pack support
+- [ ] Texture customization
+
+## Bugs & Maintenance
+
+### 22. Known Bugs & Issues
+- [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [ ] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
+- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
+- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
+
+### 23. Multiplayer Support (Completed)
+- [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
+- [x] Player synchronization across clients
+- [x] Chat system
+- [x] Player name tags
+- [x] Server infrastructure (Node.js + WebSocket)
+- [x] Player spawn points
+- [x] Shared world state (Real-time sync only, no server-side persistence yet)
+
+### 24. Completed Fixes (History)
+- [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
 ### General Fixes & Improvements
 - [x] **Verify Multiplayer Sync** (Ensure positions/actions sync correctly across clients)
 - [x] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
