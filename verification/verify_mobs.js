@@ -2,7 +2,10 @@ const fs = require('fs');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const dom = new JSDOM('<!DOCTYPE html><body></body>');
+const dom = new JSDOM('<!DOCTYPE html><body></body>', {
+    url: "http://localhost/",
+    runScripts: "dangerously"
+});
 global.window = dom.window;
 global.document = dom.window.document;
 

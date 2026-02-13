@@ -110,7 +110,7 @@ const game = new window.Game();
 global.window.game = game;
 
 // Prevent Game.init from running actual loops/network
-game.network = { connect: () => {}, sendPosition: () => {} };
+game.network = { connect: () => {}, sendPosition: () => {}, update: () => {} };
 game.world.generateChunk(0,0);
 
 // Setup Player at 0,0,0

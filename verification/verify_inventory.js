@@ -216,7 +216,7 @@ async function testInventoryConsumption() {
     slot.count = 1;
     console.log("Placing last block...");
 
-    game.player.y = 55; // Move up to avoid self-collision prevention
+    game.player.y = 52; // Move up to avoid self-collision prevention
 
     game.placeBlock();
 
