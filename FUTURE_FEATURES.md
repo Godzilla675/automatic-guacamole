@@ -47,6 +47,7 @@ This document outlines the priorities and workflow for all agents working on thi
 *Keep a record of what works.*
 
 ### New Features (Recently Completed)
+- [x] **Add Block & Mob Textures** (Procedural 16x16 pixel-art textures for all blocks and mob sprites)
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction) - *Verified*
 - [x] **Implement Hunger Effects** (Sprint limiting, health regeneration) - *Verified*
 - [x] **Implement Entity/Vehicle System** (Base system for Minecarts, Boats, etc.) - *Verified*

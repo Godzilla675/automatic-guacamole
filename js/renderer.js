@@ -3,6 +3,11 @@ class Renderer {
         this.game = game;
         this.canvas = game.canvas;
         this.ctx = game.ctx;
+        this.textureManager = null;
+        if (window.TextureManager) {
+            this.textureManager = new TextureManager();
+            this.textureManager.init();
+        }
     }
 
     resize() {
@@ -489,7 +494,16 @@ class Renderer {
                  // let lightMult = b.light / 15;
                  // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
 
-                 ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
+                 const drawX = Math.floor(sx - size/2);
+                 const drawY = Math.floor(drawSy - drawHeight/2);
+                 const drawW = Math.ceil(size);
+                 const drawH = Math.ceil(drawHeight);
+                 const tex = this.textureManager ? this.textureManager.getBlockTexture(b.type) : null;
+                 if (tex) {
+                     ctx.drawImage(tex, drawX, drawY, drawW, drawH);
+                 } else {
+                     ctx.fillRect(drawX, drawY, drawW, drawH);
+                 }
                  ctx.globalAlpha = 1.0;
              }
         });
@@ -512,7 +526,12 @@ class Renderer {
                  const sy = (ry / rz2) * scale + h / 2;
 
                  ctx.fillStyle = mob.color;
-                 ctx.fillRect(sx - size/4, sy - size, size/2, size);
+                 const mobTex = this.textureManager ? this.textureManager.getMobTexture(mob.type) : null;
+                 if (mobTex) {
+                     ctx.drawImage(mobTex, sx - size/4, sy - size, size/2, size);
+                 } else {
+                     ctx.fillRect(sx - size/4, sy - size, size/2, size);
+                 }
              }
         });
 
@@ -567,7 +586,12 @@ class Renderer {
 
                  const blockDef = window.BLOCKS[drop.type];
                  ctx.fillStyle = blockDef ? blockDef.color : '#FFFFFF';
-                 ctx.fillRect(sx - rotSize/2, sy - size/2, rotSize, size);
+                 const dropTex = this.textureManager ? this.textureManager.getBlockTexture(drop.type) : null;
+                 if (dropTex) {
+                     ctx.drawImage(dropTex, sx - rotSize/2, sy - size/2, rotSize, size);
+                 } else {
+                     ctx.fillRect(sx - rotSize/2, sy - size/2, rotSize, size);
+                 }
 
                  // Outline
                  ctx.strokeStyle = 'black';
