@@ -21,6 +21,8 @@ dom.window.eval(texturesCode);
 
 const BLOCK = dom.window.BLOCK;
 const BLOCKS = dom.window.BLOCKS;
+// XP uses a special string key ('xp') rather than a numeric block ID
+const EXCLUDED_IDS = ['xp'];
 
 describe('TextureManager', () => {
     let tm;
@@ -134,7 +136,7 @@ describe('TextureManager', () => {
             let missing = [];
             for (const id of Object.keys(BLOCKS)) {
                 const def = BLOCKS[id];
-                if (def && !def.isItem && id !== 'xp') {
+                if (def && !def.isItem && !EXCLUDED_IDS.includes(id)) {
                     const numId = parseInt(id);
                     if (!isNaN(numId) && !tm.getBlockTexture(numId)) {
                         missing.push(`${def.name} (ID: ${id})`);
@@ -245,7 +247,7 @@ describe('TextureManager', () => {
             let missing = [];
             for (const id of Object.keys(BLOCKS)) {
                 const def = BLOCKS[id];
-                if (def && def.isItem && id !== 'xp') {
+                if (def && def.isItem && !EXCLUDED_IDS.includes(id)) {
                     const numId = parseInt(id);
                     if (!isNaN(numId) && !tm.getBlockTexture(numId)) {
                         missing.push(`${def.name} (ID: ${id})`);
