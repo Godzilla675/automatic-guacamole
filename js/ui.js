@@ -1281,8 +1281,8 @@ class UIManager {
             const blockDef = window.BLOCKS[item.type];
             if (blockDef) {
                 // Try to use texture preview
-                const tm = this.game.renderer && this.game.renderer.textureManager;
-                const tex = tm ? tm.getBlockTexture(item.type) : null;
+                const textureManager = this.game.renderer && this.game.renderer.textureManager;
+                const tex = textureManager ? textureManager.getBlockTexture(item.type) : null;
                 if (tex) {
                     icon.textContent = '';
                     icon.style.backgroundImage = `url(${tex.toDataURL()})`;
