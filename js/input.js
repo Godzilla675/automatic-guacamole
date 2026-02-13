@@ -234,6 +234,16 @@ class InputManager {
         placeBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.game.startAction(false); });
 
         document.getElementById('fly-btn').addEventListener('touchstart', (e) => { e.preventDefault(); this.game.player.flying = !this.game.player.flying; });
+
+        const inventoryBtn = document.getElementById('inventory-btn');
+        if (inventoryBtn) {
+            inventoryBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.game.ui.toggleInventory(); });
+        }
+
+        const craftBtn = document.getElementById('craft-btn');
+        if (craftBtn) {
+            craftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.game.ui.craftingUI(); });
+        }
     }
 }
 

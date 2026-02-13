@@ -3,6 +3,8 @@ class Game {
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
 
+        this.isMobile = this.detectMobile();
+
         // Modules
         this.world = new World();
         this.world.game = this;
@@ -43,8 +45,6 @@ class Game {
             jump: false, sneak: false, sprint: false,
             enabled: true
         };
-
-        this.isMobile = this.detectMobile();
 
         // Rendering state
         this.fov = parseInt(localStorage.getItem('voxel_fov')) || 60;

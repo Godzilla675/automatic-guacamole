@@ -1116,6 +1116,22 @@ class UIManager {
             slot.dataset.armorSlot = i;
             slot.style.position = 'relative'; // Ensure placeholder positioning works
 
+            // Icon container (required by renderSlotItem)
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            // Count overlay (required by renderSlotItem)
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            count.style.textShadow = '1px 1px 1px black';
+            slot.appendChild(count);
+
             // Placeholder bg if empty
             if (!this.game.player.armor[i]) {
                 const ph = document.createElement('span');

@@ -15,8 +15,8 @@ The game was tested in mobile mode by emulating an iPhone X viewport (375×812) 
 
 ## 🔴 CRITICAL Bugs
 
-### BUG-1: Inventory Screen Crashes with JavaScript Error
-**Severity:** 🔴 Critical  
+### BUG-1: Inventory Screen Crashes with JavaScript Error ✅ FIXED
+**Severity:** 🔴 Critical → ✅ Fixed  
 **Steps to Reproduce:** Open inventory (no mobile button exists — must use keyboard 'E')  
 **Expected:** Inventory screen opens and displays items  
 **Actual:** JavaScript TypeError crashes the UI:  
@@ -33,8 +33,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-2: Hotbar Overflows Off-Screen on Mobile
-**Severity:** 🔴 Critical  
+### BUG-2: Hotbar Overflows Off-Screen on Mobile ✅ FIXED
+**Severity:** 🔴 Critical → ✅ Fixed  
 **Steps to Reproduce:** Start game on any mobile device  
 **Expected:** All 9 hotbar slots visible and accessible  
 **Actual:** The hotbar is 490px wide on a 375px viewport. The first 1-2 slots are clipped off the left edge of the screen (slot 0 starts at x: -60px). The active/selected slot (slot 0) is completely invisible.  
@@ -48,8 +48,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-3: No Inventory or Crafting Button on Mobile Controls
-**Severity:** 🔴 Critical  
+### BUG-3: No Inventory or Crafting Button on Mobile Controls ✅ FIXED
+**Severity:** 🔴 Critical → ✅ Fixed  
 **Steps to Reproduce:** Play on mobile — look at available action buttons  
 **Expected:** Buttons for Inventory and Crafting should be available  
 **Actual:** Only 4 buttons exist: Jump, Break, Place, Fly. There is no way to open Inventory (E key) or Crafting (C key) on a touchscreen device without a keyboard.  
@@ -59,8 +59,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-4: Controls Button on Main Menu Does Nothing
-**Severity:** 🔴 Critical  
+### BUG-4: Controls Button on Main Menu Does Nothing ✅ FIXED
+**Severity:** 🔴 Critical → ✅ Fixed  
 **Steps to Reproduce:** From main menu, tap "Controls" button  
 **Expected:** Controls info panel should appear showing PC and Mobile controls  
 **Actual:** Nothing happens. The `#show-controls` button has no event listener attached anywhere in the codebase. The `#controls-info` div exists but remains hidden.  
@@ -72,8 +72,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ## 🟠 HIGH Severity Bugs
 
-### BUG-5: XP Bar Overflows Viewport
-**Severity:** 🟠 High  
+### BUG-5: XP Bar Overflows Viewport ✅ FIXED
+**Severity:** 🟠 High → ✅ Fixed  
 **Steps to Reproduce:** Start game on mobile  
 **Expected:** XP bar fits within screen width  
 **Actual:** XP bar is 400px wide on a 375px viewport, causing it to overflow off the left edge (starts at x: -12.5px). The XP level indicator may be partially hidden.  
@@ -81,8 +81,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-6: Health/Hunger Bars Overlap with Mobile Action Buttons
-**Severity:** 🟠 High  
+### BUG-6: Health/Hunger Bars Overlap with Mobile Action Buttons ✅ FIXED
+**Severity:** 🟠 High → ✅ Fixed  
 **Steps to Reproduce:** Play on mobile  
 **Expected:** HUD elements don't overlap with controls  
 **Actual:** Health bar (y: 707-722) and hunger bar (y: 687-702) are positioned behind the action buttons (y: 642-792) and joystick area (y: 672-792), making them difficult to read.  
@@ -101,8 +101,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-8: Tutorial Shows Desktop-Only Instructions on Mobile
-**Severity:** 🟠 High  
+### BUG-8: Tutorial Shows Desktop-Only Instructions on Mobile ✅ FIXED
+**Severity:** 🟠 High → ✅ Fixed  
 **Steps to Reproduce:** Start game on mobile  
 **Expected:** Tutorial messages reference mobile controls (joystick, touch buttons)  
 **Actual:** Tutorial displays "Welcome! Use W,A,S,D to move." which is meaningless on a mobile device. There are no touch-specific tutorials.  
@@ -192,15 +192,23 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-## 🔧 Recommended Fixes (Priority Order)
+## 🔧 Fixes Applied
 
-1. **Fix inventory crash** — Add `.block-icon` and `.slot-count` elements to armor slots in `refreshArmorUI()`
-2. **Add mobile Inventory/Crafting/Sneak buttons** — Extend `#action-buttons` grid  
-3. **Fix hotbar overflow** — Scale down slots or limit to 5 visible slots on mobile  
-4. **Add Controls button event listener** — Wire up `#show-controls` to toggle `#controls-info`
-5. **Fix XP bar width** — Use `max-width: 100%` or viewport-relative units on mobile
-6. **Reposition health/hunger bars** — Move above the mobile controls area  
-7. **Add mobile-specific tutorial text** — Check `game.isMobile` in tutorial steps
-8. **Hide keyboard keybinds on mobile** — Conditionally hide Controls section in settings
-9. **Fix spawn death loop** — Ensure safe spawn point above terrain
-10. **Suppress server connection in single player** — Don't auto-connect to WebSocket
+The following bugs were fixed as part of this PR:
+
+| Bug | Fix | Status |
+|-----|-----|--------|
+| BUG-1: Inventory crash | Added `.block-icon` and `.slot-count` elements to armor slots in `refreshArmorUI()` | ✅ Fixed |
+| BUG-2: Hotbar overflow | Scaled down hotbar slots to 36px and moved hotbar above controls area | ✅ Fixed |
+| BUG-3: Missing mobile buttons | Added Inventory (🎒) and Crafting (🔨) buttons to mobile action grid | ✅ Fixed |
+| BUG-4: Controls button broken | Added event listener for `#show-controls` to toggle `#controls-info` | ✅ Fixed |
+| BUG-5: XP bar overflow | Reduced XP bar width to 200px on mobile | ✅ Fixed |
+| BUG-6: Health/hunger overlap | Repositioned bars above mobile controls area | ✅ Fixed |
+| BUG-8: Wrong tutorial text | Added mobile-aware tutorial with joystick/button instructions | ✅ Fixed |
+
+## 🔧 Remaining Recommended Fixes
+
+1. **Hide keyboard keybinds on mobile** — Conditionally hide Controls section in settings
+2. **Fix spawn death loop** — Ensure safe spawn point above terrain
+3. **Suppress server connection in single player** — Don't auto-connect to WebSocket
+4. **Limit chat message accumulation** — Auto-remove old messages from DOM
