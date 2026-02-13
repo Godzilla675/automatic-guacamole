@@ -4,6 +4,41 @@ class InputManager {
         this.mouse = { locked: false };
         this.joystick = { active: false, x: 0, y: 0 };
         this.lookTouch = { active: false, startX: 0, startY: 0 };
+
+        this.sensitivity = parseFloat(localStorage.getItem('voxel_sensitivity')) || 1.0;
+
+        // Default Keybinds
+        this.keybinds = {
+            forward: 'KeyW',
+            backward: 'KeyS',
+            left: 'KeyA',
+            right: 'KeyD',
+            jump: 'Space',
+            sneak: 'ShiftLeft',
+            sprint: 'ControlLeft',
+            inventory: 'KeyE',
+            fly: 'KeyF',
+            chat: 'KeyT',
+            crafting: 'KeyC'
+        };
+
+        // Load from LocalStorage
+        const saved = localStorage.getItem('voxel_keybinds');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                this.keybinds = { ...this.keybinds, ...parsed };
+            } catch (e) {
+                console.error('Failed to load keybinds', e);
+            }
+        }
+    }
+
+    bindKey(action, code) {
+        if (this.keybinds.hasOwnProperty(action)) {
+            this.keybinds[action] = code;
+            localStorage.setItem('voxel_keybinds', JSON.stringify(this.keybinds));
+        }
     }
 
     setupEventListeners() {
@@ -11,8 +46,8 @@ class InputManager {
         document.addEventListener('keydown', (e) => {
             if (e.repeat) return;
 
-            // Chat Toggle (T or Enter)
-            if (e.code === 'KeyT' || e.code === 'Enter') {
+            // Chat Toggle (T or Enter) - Special case, but can be bound
+            if (e.code === this.keybinds.chat || e.code === 'Enter') {
                 if (this.game.chat && !this.game.chat.isOpen) {
                     this.game.chat.open();
                     e.preventDefault();
@@ -22,56 +57,60 @@ class InputManager {
 
             if (!this.game.controls.enabled) return;
 
-            switch(e.code) {
-                case 'F3':
-                    e.preventDefault();
-                    const debug = document.getElementById('debug-info');
-                    if (debug) debug.classList.toggle('hidden');
-                    break;
-                case 'KeyW': this.game.controls.forward = true; break;
-                case 'KeyS': this.game.controls.backward = true; break;
-                case 'KeyA': this.game.controls.left = true; break;
-                case 'KeyD': this.game.controls.right = true; break;
-                case 'Space': this.game.controls.jump = true; break;
-                case 'ShiftLeft': this.game.controls.sneak = true; break;
-                case 'ControlLeft': this.game.controls.sprint = true; break;
-                case 'KeyF': this.game.player.flying = !this.game.player.flying; break;
-                case 'KeyE': this.game.ui.toggleInventory(); break;
-                case 'Escape': this.game.ui.pauseGame(); break;
-                case 'KeyC': this.game.ui.craftingUI(); break;
-                case 'KeyO': {
-                    const name = prompt("Save World Name:", "default");
-                    if (name) this.game.world.saveWorld(name);
-                    break;
+            // F3 Debug
+            if (e.code === 'F3') {
+                e.preventDefault();
+                const debug = document.getElementById('debug-info');
+                if (debug) debug.classList.toggle('hidden');
+                return;
+            }
+
+            // Save/Load
+            if (e.code === 'KeyO') {
+                const name = prompt("Save World Name:", "default");
+                if (name) this.game.world.saveWorld(name);
+                return;
+            }
+            if (e.code === 'KeyL') {
+                const name = prompt("Load World Name:", "default");
+                if (name) this.game.world.loadWorld(name);
+                return;
+            }
+            if (e.code === 'Escape') {
+                 this.game.ui.pauseGame();
+                 return;
+            }
+
+            // Configurable Controls
+            if (e.code === this.keybinds.forward) this.game.controls.forward = true;
+            else if (e.code === this.keybinds.backward) this.game.controls.backward = true;
+            else if (e.code === this.keybinds.left) this.game.controls.left = true;
+            else if (e.code === this.keybinds.right) this.game.controls.right = true;
+            else if (e.code === this.keybinds.jump) this.game.controls.jump = true;
+            else if (e.code === this.keybinds.sneak) this.game.controls.sneak = true;
+            else if (e.code === this.keybinds.sprint) this.game.controls.sprint = true;
+            else if (e.code === this.keybinds.fly) this.game.player.flying = !this.game.player.flying;
+            else if (e.code === this.keybinds.inventory) this.game.ui.toggleInventory();
+            else if (e.code === this.keybinds.crafting) this.game.ui.craftingUI();
+
+            // Hotbar keys 1-9
+            if (e.code.startsWith('Digit')) {
+                const digit = parseInt(e.code.replace('Digit', ''));
+                if (digit > 0 && digit <= 9) {
+                    this.game.player.selectedSlot = digit - 1;
+                    this.game.ui.updateHotbarUI();
                 }
-                case 'KeyL': {
-                    const name = prompt("Load World Name:", "default");
-                    if (name) this.game.world.loadWorld(name);
-                    break;
-                }
-                // Hotbar keys 1-9
-                default:
-                    if (e.code.startsWith('Digit')) {
-                        const digit = parseInt(e.code.replace('Digit', ''));
-                        if (digit > 0 && digit <= 9) {
-                            this.game.player.selectedSlot = digit - 1;
-                            this.game.ui.updateHotbarUI();
-                        }
-                    }
-                    break;
             }
         });
 
         document.addEventListener('keyup', (e) => {
-            switch(e.code) {
-                case 'KeyW': this.game.controls.forward = false; break;
-                case 'KeyS': this.game.controls.backward = false; break;
-                case 'KeyA': this.game.controls.left = false; break;
-                case 'KeyD': this.game.controls.right = false; break;
-                case 'Space': this.game.controls.jump = false; break;
-                case 'ShiftLeft': this.game.controls.sneak = false; break;
-                case 'ControlLeft': this.game.controls.sprint = false; break;
-            }
+            if (e.code === this.keybinds.forward) this.game.controls.forward = false;
+            else if (e.code === this.keybinds.backward) this.game.controls.backward = false;
+            else if (e.code === this.keybinds.left) this.game.controls.left = false;
+            else if (e.code === this.keybinds.right) this.game.controls.right = false;
+            else if (e.code === this.keybinds.jump) this.game.controls.jump = false;
+            else if (e.code === this.keybinds.sneak) this.game.controls.sneak = false;
+            else if (e.code === this.keybinds.sprint) this.game.controls.sprint = false;
         });
 
         // Mouse
@@ -87,8 +126,9 @@ class InputManager {
 
         document.addEventListener('mousemove', (e) => {
             if (this.mouse.locked) {
-                this.game.player.yaw -= e.movementX * 0.003;
-                this.game.player.pitch -= e.movementY * 0.003;
+                const sensitivity = this.sensitivity * 0.003;
+                this.game.player.yaw -= e.movementX * sensitivity;
+                this.game.player.pitch -= e.movementY * sensitivity;
                 this.game.player.pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.game.player.pitch));
             }
         });
