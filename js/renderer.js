@@ -170,7 +170,34 @@ class Renderer {
 
                     if (rz2 > 0.1) {
                         const blockDef = window.BLOCKS[b.type];
-                        if (blockDef && blockDef.isStair) {
+                        if (blockDef && blockDef.isDoor) {
+                            const meta = chunk.getMetadata(b.x, b.y, b.z);
+                            const orient = meta & 3;
+                            const thickness = 0.1875;
+                            const offset = 0.5 - thickness / 2; // Align to thin slab side
+                            let offX = 0, offZ = 0;
+                            if (orient === 0) offX = -offset;       // East: slab on west side
+                            else if (orient === 1) offX = offset;   // West: slab on east side
+                            else if (orient === 2) offZ = -offset;  // South: slab on north side
+                            else if (orient === 3) offZ = offset;   // North: slab on south side
+
+                            const dx2 = dx + offX;
+                            const dz2 = dz + offZ;
+                            const rx2 = dx2 * cosY - dz2 * sinY;
+                            const rz2Depth = dx2 * sinY + dz2 * cosY;
+                            const ry2 = dy * cosP - rz2Depth * sinP;
+                            const rz2_cam = dy * sinP + rz2Depth * cosP;
+
+                            if (rz2_cam > 0.1) {
+                                blocksToDraw.push({
+                                    type: b.type,
+                                    rx: rx2, ry: ry2, rz: rz2_cam,
+                                    dist,
+                                    light: chunk.getLight(b.x, b.y, b.z),
+                                    metadata: meta
+                                });
+                            }
+                        } else if (blockDef && blockDef.isStair) {
                             // Stairs: Push 2 parts
                             // 1. Bottom Half (Center at y - 0.25)
                             const dy1 = dy - 0.25;
@@ -241,32 +268,6 @@ class Renderer {
                                 metadata: chunk.getMetadata(b.x, b.y, b.z),
                                 isGate: true
                              });
-                        } else if (blockDef && blockDef.isDoor) {
-                             const meta = chunk.getMetadata(b.x, b.y, b.z);
-                             // Shift center based on orientation
-                             let offX = 0, offZ = 0;
-                             const orient = meta & 3;
-                             if (orient === 0) offX = 0.4; // East
-                             else if (orient === 1) offX = -0.4; // West
-                             else if (orient === 2) offZ = 0.4; // South
-                             else if (orient === 3) offZ = -0.4; // North
-
-                             const dx2 = dx + offX;
-                             const dz2 = dz + offZ;
-
-                             const rx2 = dx2 * cosY - dz2 * sinY;
-                             const rz2_door = dx2 * sinY + dz2 * cosY;
-                             const ry2 = dy * cosP - rz2_door * sinP;
-                             const rz2_door_depth = dy * sinP + rz2_door * cosP;
-
-                             blocksToDraw.push({
-                                 type: b.type,
-                                 rx: rx2, ry: ry2, rz: rz2_door_depth,
-                                 dist,
-                                 light: chunk.getLight(b.x, b.y, b.z),
-                                 metadata: meta,
-                                 isDoor: true
-                             });
                         } else {
                             blocksToDraw.push({
                                 type: b.type,
@@ -303,6 +304,7 @@ class Renderer {
                  // We don't have exact face lighting here easily without normal data
                  // Just use the block type color
                  let drawHeight = size;
+                 let drawWidth = size;
                  let drawSy = sy;
 
                  if (b.type === window.BLOCK.WATER) {
@@ -336,6 +338,7 @@ class Renderer {
                          if (meta & 4) { // Open (Bit 2)
                              ctx.globalAlpha = 0.2; // Transparent
                          }
+                         drawWidth = size * 0.1875; // Thin slab
                      }
                      // Fences
                      if (b.isFencePost) {
@@ -515,7 +518,7 @@ class Renderer {
                  // let lightMult = b.light / 15;
                  // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
 
-                 ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight));
+                 ctx.fillRect(Math.floor(sx - drawWidth/2), Math.floor(drawSy - drawHeight/2), Math.ceil(drawWidth), Math.ceil(drawHeight));
                  ctx.globalAlpha = 1.0;
              }
         });

@@ -31,14 +31,14 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Fix Water Flow Visuals** (Sometimes lags or doesn't update immediately)
 - [ ] **Audit and Verify All Features** (Run full regression suite)
 - [ ] **Fix Node.js Test Environment** (Install/Configure jsdom for UI tests)
-- [ ] **Fix Verification Suite** (Global Fix: Entity, AudioContext, ParticleSystem missing in tests)
-- [ ] **Fix World Saving / Chunk Serialization** (Test failed: chunk.pack is not a function)
-- [ ] **Fix Fall Damage Verification** (Test failed)
-- [ ] **Fix Signs Verification** (Test failed: AudioContext)
-- [ ] **Fix Projectiles Verification** (Test failed: Entity not defined)
-- [ ] **Fix Water Flow Verification** (Test failed)
-- [ ] **Fix Mobs & Drops Verification** (Test failed)
-- [ ] **Fix Cactus Damage Verification** (Test failed)
+- [x] **Fix Verification Suite** (Global Fix: Entity, AudioContext, ParticleSystem missing in tests)
+- [x] **Fix World Saving / Chunk Serialization** (Test failed: chunk.pack is not a function)
+- [x] **Fix Fall Damage Verification** (Test failed)
+- [x] **Fix Signs Verification** (Test failed: AudioContext)
+- [x] **Fix Projectiles Verification** (Test failed: Entity not defined)
+- [x] **Fix Water Flow Verification** (Test failed)
+- [x] **Fix Mobs & Drops Verification** (Test failed)
+- [x] **Fix Cactus Damage Verification** (Test failed)
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
@@ -110,10 +110,10 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Pistons**
 - [x] **Implement Nether Portal Block (ID 196)** (Logic pending)
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
-<<<<<<< update-task-list-v1-10009260867746243773
 - [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
 - [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [ ] **Implement Birch Trees** (Wood, Leaves, Biome integration)
 - [ ] **Implement Birch Wood & Leaves**
 - [ ] **Implement Top Slabs** (Placement logic & Physics)
 
@@ -138,7 +138,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Crafting table interface (UI implemented)
 - [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
 - [x] Resource gathering requirements (Inventory consumption implemented)
-=======
 - [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [x] **Implement Trapdoors** (Open/close logic, physics)
 - [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
@@ -164,7 +163,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Crafting table interface
 - [x] Recipes for tools, blocks, and items
 - [x] Resource gathering requirements
->>>>>>> main
 - [x] **Smelting System (Furnace UI & Logic)**
 - [x] **Implement Recipe Book UI**
 
@@ -173,20 +171,23 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Shield**
 - [x] Pickaxes, Shovels, Axes, Swords
 - [x] Tool durability system
+- [x] Different breaking speeds based on tool and block
+- [x] **Implement Tool Repair** (Crafting combination)
+- [ ] **Implement Tree Drops** (Saplings, Apples)
+
+### 5. Mobs and AI
+- [ ] **Implement Villagers** (Model, AI, Trading interface)
 - [x] **Implement Tool Repair Logic** (UI pending Anvil, Crafting grid repair works)
 - [x] **Implement Fishing Mechanic**
 
-<<<<<<< update-task-list-v1-10009260867746243773
 ### 5. Mobs and AI
 - [ ] **Implement Villagers**
 - [ ] **Implement Iron Golem**
-=======
 ### Mobs and AI
 - [x] Passive mobs (Cows, Pigs, Sheep, Chicken)
 - [x] Hostile mobs (Zombies, Skeletons, Spiders, Creepers, Endermen)
 - [x] Mob AI pathfinding
 - [x] **Implement Animal Breeding** (Feeding animals to spawn babies)
->>>>>>> main
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
@@ -345,10 +346,12 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
+- [ ] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [ ] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
+- [ ] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
@@ -361,11 +364,13 @@ This document outlines the priorities and workflow for all agents working on thi
 
 ### 24. Completed Fixes (History)
 - [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
+- [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
+- [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 ### General Fixes & Improvements
 - [x] **Verify Multiplayer Sync** (Ensure positions/actions sync correctly across clients)
 - [x] **Optimize Chunk Serialization** (Use binary/compressed format instead of Base64 strings to save space)
 - [x] **Implement 3D Positional Audio** (Use PannerNode for spatial sound)
-- [ ] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
+- [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
 - [x] **Fix Redstone Wire Propagation** (Signal does not propagate between wire blocks)
 - [x] **Fix Verification Suite Mocks** (AudioContext mocks missing createPanner/createOscillator)
 - [ ] **Audit and Verify All Features** (Run full regression suite)
@@ -409,6 +414,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Implement Rivers and Lakes
 - [x] Fix Renderer Syntax Error (Illegal continue)
 - [x] **Fix Redstone NOT Gate Logic** (Implemented signal inversion and signal cutoff)
+- [x] **Fix placeBlock() Raycast Origin** (Used eye position instead of feet for block placement)
+- [x] **Fix Test Suite Dependencies** (Added entity.js, vehicle.js, particles.js, and AudioContext mocks)
+- [x] **Fix Lighting Verification** (Corrected light cleanup assertions for ambient light)
 
 ## Contribution Guidelines
 * When adding a new feature, please update this file.

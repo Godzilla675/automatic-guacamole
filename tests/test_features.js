@@ -72,13 +72,19 @@ dom.window.WebSocket = MockWebSocket;
 
 // Mock AudioContext
 dom.window.AudioContext = class {
+    constructor() {
+        this.listener = { positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, forwardX: { value: 0 }, forwardY: { value: 0 }, forwardZ: { value: -1 }, upX: { value: 0 }, upY: { value: 1 }, upZ: { value: 0 }, setPosition: () => {}, setOrientation: () => {} };
+        this.destination = {};
+    }
     createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
     createGain() { return { connect: () => {}, gain: { value: 0, setTargetAtTime: () => {}, setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
     createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
     createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
     createBiquadFilter() { return { connect: () => {} }; }
+    createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, panningModel: '', distanceModel: '', refDistance: 0, maxDistance: 0, rolloffFactor: 0 }; }
     resume() {}
     get state() { return 'running'; }
+    get currentTime() { return 0; }
 };
 
 // Mock Canvas
@@ -134,7 +140,7 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
 
 describe('Comprehensive Feature Test', () => {
     let game;

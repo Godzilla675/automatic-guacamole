@@ -1,9 +1,9 @@
 # 🎮 Voxel World - Game Testing & Evaluation Report
 
-**Project:** Minecraft Clone (automatic-guacamole)
-**Tested By:** AI Testing Agent
-**Date:** February 10, 2026
-**Test Environment:** Chrome Browser on Linux
+**Project:** Minecraft Clone (automatic-guacamole)  
+**Tested By:** AI Testing Agent  
+**Date:** February 10, 2026  
+**Test Environment:** Chrome Browser on Linux  
 **AI Agents Used:** Google Gemini (according to user)
 
 ---

@@ -211,10 +211,10 @@ The AI agents delivered **MORE features than promised** but with **LESS quality 
 
 ### The Grade Depends on Perspective
 
-**If judging on ambition and features:** A-
-**If judging on playability:** D
-**If judging on code quality:** B+
-**If judging on testing:** F
+**If judging on ambition and features:** A-  
+**If judging on playability:** D  
+**If judging on code quality:** B+  
+**If judging on testing:** F  
 
 **Average: B- (70-75%)**
 

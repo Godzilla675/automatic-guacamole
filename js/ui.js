@@ -409,12 +409,12 @@ class UIManager {
     }
 
     craftingUI() {
+        if (this.game && this.game.crafting && this.game.crafting.initUI) {
+            this.game.crafting.initUI();
+        }
         const ui = document.getElementById('crafting-screen');
         ui.classList.remove('hidden');
         document.exitPointerLock();
-        if (this.game.crafting && this.game.crafting.initUI) {
-            this.game.crafting.initUI();
-        }
     }
 
     openFurnace(entity) {

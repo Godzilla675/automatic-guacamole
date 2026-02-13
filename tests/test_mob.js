@@ -18,6 +18,9 @@ dom.window.BLOCKS = {
 };
 
 // Load mob code
+const entityCode = fs.readFileSync('js/entity.js', 'utf8');
+dom.window.eval(entityCode);
+
 const mobCode = fs.readFileSync('js/mob.js', 'utf8');
 dom.window.eval(mobCode);
 

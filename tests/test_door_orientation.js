@@ -6,7 +6,8 @@ const path = require('path');
 
 const dom = new JSDOM('<!DOCTYPE html><html><body><canvas id="game-canvas"></canvas><div id="chest-screen" class="hidden"></div><div id="inventory-screen" class="hidden"></div><div id="chest-grid"></div><div id="inventory-grid"></div><div id="hotbar"></div><input id="chat-input" class="hidden"><div id="crafting-recipes"></div><div id="close-crafting"></div></body></html>', {
     runScripts: "dangerously",
-    resources: "usable"
+    resources: "usable",
+    url: "http://localhost"
 });
 
 global.window = dom.window;
@@ -32,7 +33,7 @@ function loadScript(filename) {
     dom.window.eval(content);
 }
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'drop.js', 'crafting.js', 'ui.js', 'input.js', 'chat.js', 'renderer.js', 'network.js', 'mob.js', 'player.js', 'game.js'].forEach(loadScript);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'particles.js', 'entity.js', 'drop.js', 'crafting.js', 'ui.js', 'input.js', 'chat.js', 'plugin.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'renderer.js', 'network.js', 'mob.js', 'player.js', 'game.js'].forEach(loadScript);
 
 describe('Door Orientation & Physics Tests', () => {
     let game;
@@ -110,11 +111,11 @@ describe('Door Orientation & Physics Tests', () => {
         // Note: I haven't implemented this logic yet, so this test expects the behavior I plan to implement.
 
         // Check "Empty" part
-        let hit = game.physics.checkCollision({x: 10.1, y: 30.5, z: 10.5, width: 0.1, height: 1});
+        let hit = game.physics.checkCollision({x: 10.9, y: 30.5, z: 10.5, width: 0.1, height: 1});
         assert.strictEqual(hit, false, "Should not collide with empty part of East door");
 
         // Check "Solid" part
-        hit = game.physics.checkCollision({x: 10.9, y: 30.5, z: 10.5, width: 0.1, height: 1});
+        hit = game.physics.checkCollision({x: 10.05, y: 30.5, z: 10.5, width: 0.1, height: 1});
         assert.strictEqual(hit, true, "Should collide with solid part of East door");
     });
 

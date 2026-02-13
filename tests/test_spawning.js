@@ -93,6 +93,11 @@ dom.window.ChatManager = class { constructor() {} };
 dom.window.UIManager = class { constructor() {} updateHotbarUI() {} updateHealthUI() {} };
 dom.window.InputManager = class { constructor() {} setupEventListeners() {} setupMobileControls() {} };
 dom.window.Renderer = class { constructor() {} resize() {} };
+dom.window.ParticleSystem = class { constructor() {} emit() {} update() {} };
+dom.window.PluginAPI = class { constructor() {} emit() {} };
+dom.window.Minimap = class { constructor() {} };
+dom.window.AchievementManager = class { constructor() {} };
+dom.window.TutorialManager = class { constructor() {} };
 
 // Mock SoundManager
 dom.window.soundManager = { play: () => {}, updateAmbience: () => {} };

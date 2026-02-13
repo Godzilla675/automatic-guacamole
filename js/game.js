@@ -281,7 +281,7 @@ class Game {
         // Doors
         if (window.BLOCKS[blockType] && window.BLOCKS[blockType].isDoor) {
              const meta = this.world.getMetadata(x, y, z);
-             const newMeta = meta ^ 4; // Toggle bit 2 (Value 4) for Open/Close
+             const newMeta = meta ^ 4; // Toggle bit 2 (Value 4)
              this.world.setMetadata(x, y, z, newMeta);
 
              // Update other half
@@ -625,7 +625,12 @@ class Game {
             y: -Math.sin(this.player.pitch),
             z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
         };
-        const hit = this.physics.raycast(this.player, dir, 5);
+        const eyePos = {
+            x: this.player.x,
+            y: this.player.y + this.player.height * 0.9,
+            z: this.player.z
+        };
+        const hit = this.physics.raycast(eyePos, dir, 5);
         if (hit && hit.face) {
             const nx = hit.x + hit.face.x;
             const ny = hit.y + hit.face.y;
@@ -739,19 +744,22 @@ class Game {
                  if (slot.type === BLOCK.DOOR_WOOD_BOTTOM) {
                      // Check vertical space (needs 2 blocks)
                      if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR && this.world.getBlock(nx, ny+1, nz) === BLOCK.AIR) {
-                         // Calculate Metadata (Orientation)
+                         this.world.setBlock(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
+                         this.world.setBlock(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
+
+                         // Calculate orientation
                          let r = this.player.yaw % (2*Math.PI);
                          if (r < 0) r += 2*Math.PI;
-
                          let meta = 0;
+                         // Match Stair orientation for consistency
                          if (r >= Math.PI/4 && r < 3*Math.PI/4) meta = 2; // South
                          else if (r >= 3*Math.PI/4 && r < 5*Math.PI/4) meta = 1; // West
                          else if (r >= 5*Math.PI/4 && r < 7*Math.PI/4) meta = 3; // North
                          else meta = 0; // East
 
-                         this.world.setBlock(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
                          this.world.setMetadata(nx, ny, nz, meta);
-                         this.world.setBlock(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
+                         this.world.setMetadata(nx, ny+1, nz, meta);
+
                          window.soundManager.play('place');
                          window.soundManager.play('place', pos);
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
