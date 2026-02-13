@@ -9,6 +9,7 @@ class TextureManager {
 
     init() {
         this.generateBlockTextures();
+        this.generateItemTextures();
         this.generateMobTextures();
     }
 
@@ -122,6 +123,56 @@ class TextureManager {
         // Melon/Pumpkin
         this.textures[B.MELON_BLOCK] = this.genMelon();
         this.textures[B.PUMPKIN] = this.genPumpkin();
+
+        // Additional blocks
+        this.textures[B.TORCH] = this.genTorch('#FFD700');
+        this.textures[B.HAY_BLOCK] = this.genHayBlock();
+        this.textures[B.BED] = this.genBed();
+        this.textures[B.WHEAT] = this.genWheatCrop();
+        this.textures[B.COCOA_BLOCK] = this.genCocoa();
+        this.textures[B.QUARTZ_ORE] = this.genOre('#800000', '#FFFFFF');
+
+        // Slabs
+        this.textures[B.SLAB_WOOD] = this.genPlank('#5C4033');
+        this.textures[B.SLAB_STONE] = this.genStone();
+        this.textures[B.SLAB_COBBLESTONE] = this.genCobblestone();
+
+        // Doors
+        this.textures[B.DOOR_WOOD_BOTTOM] = this.genDoor();
+        this.textures[B.DOOR_WOOD_TOP] = this.genDoor();
+
+        // Stairs
+        this.textures[B.STAIRS_WOOD] = this.genPlank('#5C4033');
+        this.textures[B.STAIRS_COBBLESTONE] = this.genCobblestone();
+
+        // Fences/Gates/Trapdoor
+        this.textures[B.FENCE] = this.genPlank('#5C4033');
+        this.textures[B.FENCE_GATE] = this.genPlank('#5C4033');
+        this.textures[B.TRAPDOOR] = this.genPlank('#5C4033');
+
+        // Saplings
+        this.textures[B.OAK_SAPLING] = this.genSapling('#228B22');
+        this.textures[B.BIRCH_SAPLING] = this.genSapling('#80a755');
+        this.textures[B.SPRUCE_SAPLING] = this.genSapling('#2d4c2d');
+        this.textures[B.JUNGLE_SAPLING] = this.genSapling('#30bb0b');
+
+        // Piston heads
+        this.textures[B.PISTON_HEAD] = this.genPlank('#A0522D');
+        this.textures[B.STICKY_PISTON_HEAD] = this.genPlank('#006400');
+
+        // Redstone components
+        this.textures[B.REDSTONE_TORCH] = this.genTorch('#FF0000');
+        this.textures[B.REDSTONE_TORCH_OFF] = this.genTorch('#550000');
+        this.textures[B.REDSTONE_WIRE] = this.genDust('#FF0000');
+
+        // Signs
+        this.textures[B.WALL_SIGN] = this.genPlank('#DEB887');
+
+        // Crops
+        this.textures[B.CARROTS] = this.genCropTexture('#FFA500');
+        this.textures[B.POTATOES] = this.genCropTexture('#F4A460');
+        this.textures[B.MELON_STEM] = this.genStemTexture();
+        this.textures[B.PUMPKIN_STEM] = this.genStemTexture();
 
         // Colored blocks (wool + concrete) - generate from base color
         const colors = {
@@ -701,6 +752,139 @@ class TextureManager {
         return c;
     }
 
+    genTorch(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Stick
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(7, 4, 2, 10);
+        // Flame
+        const rgb = this.hexToRgb(color);
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        ctx.fillRect(6, 1, 4, 2);
+        ctx.fillRect(7, 3, 2, 2);
+        return c;
+    }
+
+    genHayBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 218, g: 165, b: 32 }, 15);
+        // Stripes
+        ctx.fillStyle = '#8B7500';
+        ctx.fillRect(0, 4, 16, 1);
+        ctx.fillRect(0, 11, 16, 1);
+        return c;
+    }
+
+    genBed() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Frame
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(1, 10, 14, 4);
+        // Mattress
+        ctx.fillStyle = '#F0F0F0';
+        ctx.fillRect(1, 5, 14, 5);
+        // Pillow
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(1, 3, 4, 3);
+        // Blanket
+        ctx.fillStyle = '#8B0000';
+        ctx.fillRect(5, 5, 10, 5);
+        return c;
+    }
+
+    genWheatCrop() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Stalks
+        ctx.fillStyle = '#DAA520';
+        ctx.fillRect(3, 2, 1, 12);
+        ctx.fillRect(6, 3, 1, 11);
+        ctx.fillRect(9, 2, 1, 12);
+        ctx.fillRect(12, 4, 1, 10);
+        // Heads
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(2, 0, 3, 3);
+        ctx.fillRect(5, 1, 3, 3);
+        ctx.fillRect(8, 0, 3, 3);
+        ctx.fillRect(11, 2, 3, 3);
+        return c;
+    }
+
+    genCocoa() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#915325';
+        ctx.fillRect(4, 3, 8, 10);
+        ctx.fillRect(5, 2, 6, 1);
+        ctx.fillRect(5, 13, 6, 1);
+        ctx.fillStyle = '#6B3A18';
+        ctx.fillRect(7, 4, 2, 8);
+        return c;
+    }
+
+    genDoor() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 139, g: 69, b: 19 }, 8);
+        // Panels
+        ctx.fillStyle = '#6B3410';
+        ctx.fillRect(2, 1, 5, 6);
+        ctx.fillRect(9, 1, 5, 6);
+        ctx.fillRect(2, 9, 5, 6);
+        ctx.fillRect(9, 9, 5, 6);
+        // Handle
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(11, 7, 2, 2);
+        return c;
+    }
+
+    genSapling(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Leaves
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        ctx.fillRect(5, 2, 6, 3);
+        ctx.fillRect(4, 5, 8, 3);
+        ctx.fillRect(6, 8, 4, 2);
+        // Trunk
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(7, 8, 2, 6);
+        return c;
+    }
+
+    genCropTexture(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Plant stalks
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(3, 4, 1, 10);
+        ctx.fillRect(7, 3, 1, 11);
+        ctx.fillRect(11, 5, 1, 9);
+        // Crop buds
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        ctx.fillRect(2, 2, 3, 3);
+        ctx.fillRect(6, 1, 3, 3);
+        ctx.fillRect(10, 3, 3, 3);
+        return c;
+    }
+
+    genStemTexture() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#32CD32';
+        // Thin vine/stem
+        ctx.fillRect(7, 2, 2, 12);
+        ctx.fillRect(5, 4, 2, 1);
+        ctx.fillRect(9, 7, 2, 1);
+        ctx.fillRect(5, 10, 2, 1);
+        return c;
+    }
+
     genWool(color) {
         const c = this.createCanvas();
         const ctx = c.getContext('2d');
@@ -725,7 +909,898 @@ class TextureManager {
         return c;
     }
 
-    // --- Mob Texture Generators ---
+    // --- Item Texture Generators ---
+
+    generateItemTextures() {
+        const B = window.BLOCK;
+        if (!B) return;
+
+        // Tools - Pickaxes
+        this.textures[B.PICKAXE_WOOD] = this.genPickaxe('#8B4513', '#8B4513');
+        this.textures[B.PICKAXE_STONE] = this.genPickaxe('#808080', '#8B4513');
+        this.textures[B.PICKAXE_IRON] = this.genPickaxe('#C0C0C0', '#8B4513');
+        this.textures[B.PICKAXE_DIAMOND] = this.genPickaxe('#00FFFF', '#8B4513');
+
+        // Tools - Axes
+        this.textures[B.AXE_WOOD] = this.genAxe('#8B4513', '#8B4513');
+        this.textures[B.AXE_STONE] = this.genAxe('#808080', '#8B4513');
+        this.textures[B.AXE_IRON] = this.genAxe('#C0C0C0', '#8B4513');
+        this.textures[B.AXE_DIAMOND] = this.genAxe('#00FFFF', '#8B4513');
+
+        // Tools - Shovels
+        this.textures[B.SHOVEL_WOOD] = this.genShovel('#8B4513', '#8B4513');
+        this.textures[B.SHOVEL_STONE] = this.genShovel('#808080', '#8B4513');
+        this.textures[B.SHOVEL_IRON] = this.genShovel('#C0C0C0', '#8B4513');
+        this.textures[B.SHOVEL_DIAMOND] = this.genShovel('#00FFFF', '#8B4513');
+
+        // Tools - Hoes
+        this.textures[B.HOE_WOOD] = this.genHoe('#8B4513', '#8B4513');
+        this.textures[B.HOE_STONE] = this.genHoe('#808080', '#8B4513');
+        this.textures[B.HOE_IRON] = this.genHoe('#C0C0C0', '#8B4513');
+        this.textures[B.HOE_DIAMOND] = this.genHoe('#00FFFF', '#8B4513');
+
+        // Weapons - Swords
+        this.textures[B.SWORD_WOOD] = this.genSword('#8B4513', '#8B4513');
+        this.textures[B.SWORD_STONE] = this.genSword('#808080', '#8B4513');
+        this.textures[B.SWORD_IRON] = this.genSword('#C0C0C0', '#8B4513');
+        this.textures[B.SWORD_DIAMOND] = this.genSword('#00FFFF', '#8B4513');
+
+        // Other weapons/tools
+        this.textures[B.BOW] = this.genBow();
+        this.textures[B.FISHING_ROD] = this.genFishingRod();
+        this.textures[B.SHIELD] = this.genShield();
+        this.textures[B.ITEM_ARROW] = this.genArrow();
+
+        // Materials
+        this.textures[B.ITEM_STICK] = this.genStick();
+        this.textures[B.ITEM_COAL] = this.genCoal();
+        this.textures[B.ITEM_IRON_INGOT] = this.genIngot('#C0C0C0');
+        this.textures[B.ITEM_GOLD_INGOT] = this.genIngot('#FFD700');
+        this.textures[B.ITEM_DIAMOND] = this.genGem('#00FFFF');
+        this.textures[B.ITEM_EMERALD] = this.genGem('#50C878');
+        this.textures[B.ITEM_QUARTZ] = this.genGem('#FFFFFF');
+        this.textures[B.ITEM_LAPIS_LAZULI] = this.genGem('#00008B');
+        this.textures[B.ITEM_REDSTONE_DUST] = this.genDust('#FF0000');
+        this.textures[B.ITEM_GLOWSTONE_DUST] = this.genDust('#FFD700');
+        this.textures[B.ITEM_GUNPOWDER] = this.genDust('#696969');
+        this.textures[B.ITEM_LEATHER] = this.genLeather();
+        this.textures[B.ITEM_STRING] = this.genString();
+        this.textures[B.ITEM_FEATHER] = this.genFeather();
+        this.textures[B.ITEM_BONE] = this.genBone();
+        this.textures[B.ITEM_BLAZE_ROD] = this.genBlazeRod();
+        this.textures[B.ITEM_GHAST_TEAR] = this.genGhastTear();
+        this.textures[B.ITEM_ENDER_PEARL] = this.genEnderPearl();
+        this.textures[B.ITEM_NETHER_WART] = this.genNetherWart();
+        this.textures[B.ITEM_COCOA_BEANS] = this.genCocoaBeans();
+
+        // Food
+        this.textures[B.ITEM_APPLE] = this.genApple();
+        this.textures[B.ITEM_PORKCHOP] = this.genMeat('#FFB6C1');
+        this.textures[B.ITEM_MUTTON] = this.genMeat('#B22222');
+        this.textures[B.ITEM_CHICKEN] = this.genMeat('#FFDAB9');
+        this.textures[B.ITEM_ROTTEN_FLESH] = this.genMeat('#6B8E23');
+        this.textures[B.ITEM_RAW_FISH] = this.genFish('#87CEEB');
+        this.textures[B.ITEM_COOKED_FISH] = this.genFish('#D2691E');
+        this.textures[B.ITEM_CARROT] = this.genCarrot();
+        this.textures[B.ITEM_POTATO] = this.genPotato();
+        this.textures[B.ITEM_MELON_SLICE] = this.genMelonSlice();
+        this.textures[B.ITEM_WHEAT] = this.genWheatItem();
+        this.textures[B.ITEM_WHEAT_SEEDS] = this.genSeeds('#32CD32');
+        this.textures[B.ITEM_MELON_SEEDS] = this.genSeeds('#000000');
+        this.textures[B.ITEM_PUMPKIN_SEEDS] = this.genSeeds('#F5DEB3');
+
+        // Containers / tools
+        this.textures[B.ITEM_BUCKET] = this.genBucket('#C0C0C0');
+        this.textures[B.ITEM_WATER_BUCKET] = this.genBucket('#0000FF');
+        this.textures[B.ITEM_LAVA_BUCKET] = this.genBucket('#FF4500');
+        this.textures[B.ITEM_GLASS_BOTTLE] = this.genGlassBottle();
+        this.textures[B.ITEM_POTION] = this.genPotion();
+
+        // Misc items
+        this.textures[B.ITEM_ENCHANTED_BOOK] = this.genEnchantedBook();
+        this.textures[B.ITEM_SIGN] = this.genSignItem();
+        this.textures[B.ITEM_BOAT] = this.genBoatItem();
+        this.textures[B.ITEM_MINECART] = this.genMinecartItem();
+        this.textures[B.ITEM_MUSIC_DISC] = this.genMusicDisc();
+        this.textures[B.ITEM_WOOL] = this.genWool('#FFFFFF');
+
+        // Armor - Leather
+        this.textures[B.ITEM_HELMET_LEATHER] = this.genHelmet('#8B4513');
+        this.textures[B.ITEM_CHESTPLATE_LEATHER] = this.genChestplate('#8B4513');
+        this.textures[B.ITEM_LEGGINGS_LEATHER] = this.genLeggings('#8B4513');
+        this.textures[B.ITEM_BOOTS_LEATHER] = this.genBoots('#8B4513');
+
+        // Armor - Iron
+        this.textures[B.ITEM_HELMET_IRON] = this.genHelmet('#C0C0C0');
+        this.textures[B.ITEM_CHESTPLATE_IRON] = this.genChestplate('#C0C0C0');
+        this.textures[B.ITEM_LEGGINGS_IRON] = this.genLeggings('#C0C0C0');
+        this.textures[B.ITEM_BOOTS_IRON] = this.genBoots('#C0C0C0');
+
+        // Armor - Gold
+        this.textures[B.ITEM_HELMET_GOLD] = this.genHelmet('#FFD700');
+        this.textures[B.ITEM_CHESTPLATE_GOLD] = this.genChestplate('#FFD700');
+        this.textures[B.ITEM_LEGGINGS_GOLD] = this.genLeggings('#FFD700');
+        this.textures[B.ITEM_BOOTS_GOLD] = this.genBoots('#FFD700');
+
+        // Armor - Diamond
+        this.textures[B.ITEM_HELMET_DIAMOND] = this.genHelmet('#00FFFF');
+        this.textures[B.ITEM_CHESTPLATE_DIAMOND] = this.genChestplate('#00FFFF');
+        this.textures[B.ITEM_LEGGINGS_DIAMOND] = this.genLeggings('#00FFFF');
+        this.textures[B.ITEM_BOOTS_DIAMOND] = this.genBoots('#00FFFF');
+    }
+
+    // -- Tool textures --
+
+    genPickaxe(headColor, handleColor) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const head = this.hexToRgb(headColor);
+        const handle = this.hexToRgb(handleColor);
+        // Handle (diagonal)
+        ctx.fillStyle = `rgb(${handle.r},${handle.g},${handle.b})`;
+        ctx.fillRect(7, 8, 2, 2);
+        ctx.fillRect(6, 10, 2, 2);
+        ctx.fillRect(5, 12, 2, 2);
+        ctx.fillRect(4, 14, 2, 2);
+        // Head
+        ctx.fillStyle = `rgb(${head.r},${head.g},${head.b})`;
+        ctx.fillRect(3, 3, 10, 2);
+        ctx.fillRect(3, 5, 2, 2);
+        ctx.fillRect(11, 5, 2, 2);
+        ctx.fillRect(7, 5, 2, 3);
+        return c;
+    }
+
+    genAxe(headColor, handleColor) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const head = this.hexToRgb(headColor);
+        const handle = this.hexToRgb(handleColor);
+        // Handle
+        ctx.fillStyle = `rgb(${handle.r},${handle.g},${handle.b})`;
+        ctx.fillRect(7, 7, 2, 2);
+        ctx.fillRect(6, 9, 2, 2);
+        ctx.fillRect(5, 11, 2, 2);
+        ctx.fillRect(4, 13, 2, 2);
+        // Axe head
+        ctx.fillStyle = `rgb(${head.r},${head.g},${head.b})`;
+        ctx.fillRect(8, 2, 4, 2);
+        ctx.fillRect(9, 4, 4, 2);
+        ctx.fillRect(9, 6, 3, 2);
+        return c;
+    }
+
+    genShovel(headColor, handleColor) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const head = this.hexToRgb(headColor);
+        const handle = this.hexToRgb(handleColor);
+        // Handle
+        ctx.fillStyle = `rgb(${handle.r},${handle.g},${handle.b})`;
+        ctx.fillRect(7, 6, 2, 2);
+        ctx.fillRect(7, 8, 2, 2);
+        ctx.fillRect(7, 10, 2, 2);
+        ctx.fillRect(7, 12, 2, 2);
+        // Blade
+        ctx.fillStyle = `rgb(${head.r},${head.g},${head.b})`;
+        ctx.fillRect(6, 1, 4, 2);
+        ctx.fillRect(5, 3, 6, 2);
+        ctx.fillRect(6, 5, 4, 2);
+        return c;
+    }
+
+    genHoe(headColor, handleColor) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const head = this.hexToRgb(headColor);
+        const handle = this.hexToRgb(handleColor);
+        // Handle
+        ctx.fillStyle = `rgb(${handle.r},${handle.g},${handle.b})`;
+        ctx.fillRect(7, 7, 2, 2);
+        ctx.fillRect(6, 9, 2, 2);
+        ctx.fillRect(5, 11, 2, 2);
+        ctx.fillRect(4, 13, 2, 2);
+        // Head
+        ctx.fillStyle = `rgb(${head.r},${head.g},${head.b})`;
+        ctx.fillRect(8, 3, 5, 2);
+        ctx.fillRect(8, 5, 2, 2);
+        return c;
+    }
+
+    genSword(bladeColor, handleColor) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const blade = this.hexToRgb(bladeColor);
+        const handle = this.hexToRgb(handleColor);
+        // Handle
+        ctx.fillStyle = `rgb(${handle.r},${handle.g},${handle.b})`;
+        ctx.fillRect(7, 11, 2, 2);
+        ctx.fillRect(6, 13, 4, 2);
+        // Guard
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(5, 9, 6, 2);
+        // Blade
+        ctx.fillStyle = `rgb(${blade.r},${blade.g},${blade.b})`;
+        ctx.fillRect(7, 1, 2, 2);
+        ctx.fillRect(7, 3, 2, 2);
+        ctx.fillRect(7, 5, 2, 2);
+        ctx.fillRect(7, 7, 2, 2);
+        // Tip
+        ctx.fillRect(7, 0, 2, 1);
+        return c;
+    }
+
+    genBow() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Bow body (curved)
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(4, 2, 2, 1);
+        ctx.fillRect(3, 3, 2, 2);
+        ctx.fillRect(3, 5, 2, 2);
+        ctx.fillRect(3, 7, 2, 2);
+        ctx.fillRect(3, 9, 2, 2);
+        ctx.fillRect(4, 11, 2, 2);
+        ctx.fillRect(5, 13, 2, 1);
+        // String
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(10, 2, 1, 1);
+        ctx.fillRect(9, 3, 1, 2);
+        ctx.fillRect(8, 5, 1, 2);
+        ctx.fillRect(7, 7, 1, 2);
+        ctx.fillRect(8, 9, 1, 2);
+        ctx.fillRect(9, 11, 1, 2);
+        ctx.fillRect(10, 13, 1, 1);
+        return c;
+    }
+
+    genFishingRod() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Rod
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(4, 14, 2, 2);
+        ctx.fillRect(5, 12, 2, 2);
+        ctx.fillRect(6, 10, 2, 2);
+        ctx.fillRect(7, 8, 2, 2);
+        ctx.fillRect(8, 6, 2, 2);
+        ctx.fillRect(9, 4, 2, 2);
+        ctx.fillRect(10, 2, 2, 2);
+        // Line
+        ctx.fillStyle = '#CCCCCC';
+        ctx.fillRect(12, 1, 1, 1);
+        ctx.fillRect(13, 2, 1, 3);
+        ctx.fillRect(12, 5, 1, 2);
+        // Hook
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(11, 7, 1, 1);
+        ctx.fillRect(12, 7, 1, 1);
+        return c;
+    }
+
+    genShield() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Shield shape
+        ctx.fillStyle = '#C0C0C0';
+        ctx.fillRect(3, 1, 10, 2);
+        ctx.fillRect(2, 3, 12, 4);
+        ctx.fillRect(3, 7, 10, 3);
+        ctx.fillRect(4, 10, 8, 2);
+        ctx.fillRect(5, 12, 6, 1);
+        ctx.fillRect(6, 13, 4, 1);
+        // Cross pattern
+        ctx.fillStyle = '#8B0000';
+        ctx.fillRect(7, 3, 2, 9);
+        ctx.fillRect(4, 5, 8, 2);
+        return c;
+    }
+
+    genArrow() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Shaft
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(7, 4, 2, 8);
+        // Tip
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(7, 1, 2, 1);
+        ctx.fillRect(6, 2, 4, 1);
+        ctx.fillRect(7, 3, 2, 1);
+        // Fletching
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(6, 12, 1, 2);
+        ctx.fillRect(9, 12, 1, 2);
+        ctx.fillRect(7, 14, 2, 1);
+        return c;
+    }
+
+    // -- Material textures --
+
+    genStick() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(7, 2, 2, 12);
+        // Shading
+        ctx.fillStyle = '#6B3410';
+        ctx.fillRect(7, 2, 1, 12);
+        return c;
+    }
+
+    genCoal() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillRect(5, 3, 6, 1);
+        ctx.fillRect(5, 12, 6, 1);
+        // Shine
+        ctx.fillStyle = '#333333';
+        ctx.fillRect(5, 5, 2, 2);
+        return c;
+    }
+
+    genIngot(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Ingot shape
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        ctx.fillRect(3, 6, 10, 4);
+        ctx.fillRect(4, 5, 8, 1);
+        ctx.fillRect(4, 10, 8, 1);
+        // Highlight
+        ctx.fillStyle = `rgb(${Math.min(255, rgb.r + 40)},${Math.min(255, rgb.g + 40)},${Math.min(255, rgb.b + 40)})`;
+        ctx.fillRect(4, 6, 3, 2);
+        // Shadow
+        ctx.fillStyle = `rgb(${Math.max(0, rgb.r - 40)},${Math.max(0, rgb.g - 40)},${Math.max(0, rgb.b - 40)})`;
+        ctx.fillRect(9, 8, 3, 2);
+        return c;
+    }
+
+    genGem(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Diamond/gem shape
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        ctx.fillRect(6, 3, 4, 2);
+        ctx.fillRect(5, 5, 6, 3);
+        ctx.fillRect(4, 8, 8, 2);
+        ctx.fillRect(5, 10, 6, 2);
+        ctx.fillRect(6, 12, 4, 1);
+        // Highlight
+        ctx.fillStyle = `rgb(${Math.min(255, rgb.r + 60)},${Math.min(255, rgb.g + 60)},${Math.min(255, rgb.b + 60)})`;
+        ctx.fillRect(6, 5, 2, 2);
+        ctx.fillRect(5, 8, 2, 1);
+        return c;
+    }
+
+    genDust(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Scattered dust particles
+        for (let i = 0; i < 12; i++) {
+            const x = 3 + Math.floor(Math.random() * 10);
+            const y = 3 + Math.floor(Math.random() * 10);
+            const v = this.varyColor(rgb, 30);
+            ctx.fillStyle = `rgb(${v.r},${v.g},${v.b})`;
+            ctx.fillRect(x, y, 2, 2);
+        }
+        return c;
+    }
+
+    genLeather() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillRect(4, 2, 8, 1);
+        ctx.fillRect(4, 13, 8, 1);
+        // Grain texture
+        for (let i = 0; i < 6; i++) {
+            ctx.fillStyle = '#6B3410';
+            ctx.fillRect(4 + Math.floor(Math.random() * 8), 4 + Math.floor(Math.random() * 8), 2, 1);
+        }
+        return c;
+    }
+
+    genString() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        // Wavy string
+        ctx.fillRect(7, 1, 1, 2);
+        ctx.fillRect(8, 3, 1, 2);
+        ctx.fillRect(7, 5, 1, 2);
+        ctx.fillRect(8, 7, 1, 2);
+        ctx.fillRect(7, 9, 1, 2);
+        ctx.fillRect(8, 11, 1, 2);
+        ctx.fillRect(7, 13, 1, 2);
+        return c;
+    }
+
+    genFeather() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Quill
+        ctx.fillStyle = '#F5F5F5';
+        ctx.fillRect(7, 2, 2, 3);
+        ctx.fillRect(6, 5, 4, 2);
+        ctx.fillRect(5, 7, 6, 2);
+        ctx.fillRect(4, 9, 8, 2);
+        ctx.fillRect(5, 11, 6, 2);
+        ctx.fillRect(6, 13, 4, 1);
+        // Stem
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(8, 2, 1, 12);
+        return c;
+    }
+
+    genBone() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#F0F0F0';
+        // Top knob
+        ctx.fillRect(5, 2, 2, 2);
+        ctx.fillRect(9, 2, 2, 2);
+        ctx.fillRect(6, 4, 4, 1);
+        // Shaft
+        ctx.fillRect(7, 4, 2, 8);
+        // Bottom knob
+        ctx.fillRect(6, 11, 4, 1);
+        ctx.fillRect(5, 12, 2, 2);
+        ctx.fillRect(9, 12, 2, 2);
+        return c;
+    }
+
+    genBlazeRod() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Orange/yellow rod
+        ctx.fillStyle = '#FFA500';
+        ctx.fillRect(7, 1, 2, 14);
+        // Glow segments
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(7, 2, 2, 2);
+        ctx.fillRect(7, 6, 2, 2);
+        ctx.fillRect(7, 10, 2, 2);
+        // Bright center
+        ctx.fillStyle = '#FFFF00';
+        ctx.fillRect(7, 3, 2, 1);
+        ctx.fillRect(7, 7, 2, 1);
+        ctx.fillRect(7, 11, 2, 1);
+        return c;
+    }
+
+    genGhastTear() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Teardrop shape
+        ctx.fillStyle = '#E8E8E8';
+        ctx.fillRect(7, 2, 2, 1);
+        ctx.fillRect(6, 3, 4, 2);
+        ctx.fillRect(5, 5, 6, 3);
+        ctx.fillRect(6, 8, 4, 2);
+        ctx.fillRect(7, 10, 2, 2);
+        // Shine
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(6, 4, 2, 2);
+        return c;
+    }
+
+    genEnderPearl() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Dark teal sphere
+        ctx.fillStyle = '#006060';
+        ctx.fillRect(5, 3, 6, 2);
+        ctx.fillRect(4, 5, 8, 4);
+        ctx.fillRect(5, 9, 6, 2);
+        ctx.fillRect(6, 11, 4, 1);
+        // Brighter center
+        ctx.fillStyle = '#008B8B';
+        ctx.fillRect(6, 5, 4, 3);
+        // Sparkle
+        ctx.fillStyle = '#00CED1';
+        ctx.fillRect(7, 6, 2, 1);
+        return c;
+    }
+
+    genNetherWart() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#800000';
+        // Bumpy top
+        ctx.fillRect(4, 3, 3, 3);
+        ctx.fillRect(9, 3, 3, 3);
+        ctx.fillRect(6, 4, 4, 3);
+        // Stem
+        ctx.fillRect(7, 7, 2, 4);
+        // Base
+        ctx.fillStyle = '#550000';
+        ctx.fillRect(6, 11, 4, 2);
+        return c;
+    }
+
+    genCocoaBeans() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#915325';
+        // Bean shape
+        ctx.fillRect(5, 4, 6, 2);
+        ctx.fillRect(4, 6, 8, 4);
+        ctx.fillRect(5, 10, 6, 2);
+        // Darker line
+        ctx.fillStyle = '#6B3A18';
+        ctx.fillRect(7, 5, 1, 6);
+        return c;
+    }
+
+    // -- Food textures --
+
+    genApple() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Stem
+        ctx.fillStyle = '#654321';
+        ctx.fillRect(7, 1, 2, 3);
+        // Leaf
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(9, 2, 3, 2);
+        // Apple body
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(5, 4, 6, 2);
+        ctx.fillRect(4, 6, 8, 4);
+        ctx.fillRect(5, 10, 6, 2);
+        ctx.fillRect(6, 12, 4, 1);
+        // Highlight
+        ctx.fillStyle = '#FF4444';
+        ctx.fillRect(5, 5, 2, 3);
+        return c;
+    }
+
+    genMeat(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Meat shape
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        ctx.fillRect(4, 4, 8, 3);
+        ctx.fillRect(3, 7, 10, 3);
+        ctx.fillRect(4, 10, 8, 2);
+        // Bone end
+        ctx.fillStyle = '#F0F0F0';
+        ctx.fillRect(10, 2, 3, 2);
+        ctx.fillRect(11, 4, 2, 2);
+        // Fat/marbling
+        ctx.fillStyle = `rgb(${Math.min(255, rgb.r + 40)},${Math.min(255, rgb.g + 40)},${Math.min(255, rgb.b + 40)})`;
+        ctx.fillRect(5, 7, 2, 2);
+        return c;
+    }
+
+    genFish(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Body
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        ctx.fillRect(5, 6, 2, 4);
+        ctx.fillRect(4, 7, 8, 2);
+        ctx.fillRect(7, 6, 3, 4);
+        // Tail
+        ctx.fillRect(12, 5, 2, 2);
+        ctx.fillRect(12, 9, 2, 2);
+        ctx.fillRect(11, 7, 1, 2);
+        // Eye
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(5, 7, 1, 1);
+        // Belly
+        ctx.fillStyle = `rgb(${Math.min(255, rgb.r + 30)},${Math.min(255, rgb.g + 30)},${Math.min(255, rgb.b + 30)})`;
+        ctx.fillRect(5, 9, 6, 1);
+        return c;
+    }
+
+    genCarrot() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Green top
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(6, 1, 4, 3);
+        // Orange body
+        ctx.fillStyle = '#FFA500';
+        ctx.fillRect(6, 4, 4, 2);
+        ctx.fillRect(7, 6, 3, 3);
+        ctx.fillRect(8, 9, 2, 3);
+        ctx.fillRect(8, 12, 1, 2);
+        // Lines
+        ctx.fillStyle = '#CC8400';
+        ctx.fillRect(7, 5, 1, 1);
+        ctx.fillRect(8, 8, 1, 1);
+        return c;
+    }
+
+    genPotato() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Potato body
+        ctx.fillStyle = '#C4A47C';
+        ctx.fillRect(5, 5, 6, 2);
+        ctx.fillRect(4, 7, 8, 3);
+        ctx.fillRect(5, 10, 6, 2);
+        // Eyes/spots
+        ctx.fillStyle = '#8B7355';
+        ctx.fillRect(5, 7, 1, 1);
+        ctx.fillRect(8, 8, 1, 1);
+        ctx.fillRect(10, 7, 1, 1);
+        return c;
+    }
+
+    genMelonSlice() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Red flesh
+        ctx.fillStyle = '#FF4444';
+        ctx.fillRect(4, 4, 8, 4);
+        ctx.fillRect(5, 8, 6, 2);
+        // Green rind
+        ctx.fillStyle = '#008800';
+        ctx.fillRect(3, 10, 10, 2);
+        // Seeds
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(6, 6, 1, 1);
+        ctx.fillRect(9, 6, 1, 1);
+        ctx.fillRect(7, 8, 1, 1);
+        return c;
+    }
+
+    genWheatItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Wheat stalks
+        ctx.fillStyle = '#DAA520';
+        ctx.fillRect(5, 2, 2, 3);
+        ctx.fillRect(9, 2, 2, 3);
+        ctx.fillRect(7, 3, 2, 3);
+        // Stems
+        ctx.fillStyle = '#8B7500';
+        ctx.fillRect(6, 5, 1, 8);
+        ctx.fillRect(8, 6, 1, 7);
+        ctx.fillRect(10, 5, 1, 8);
+        return c;
+    }
+
+    genSeeds(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        // Seeds scattered
+        for (let i = 0; i < 6; i++) {
+            const x = 4 + Math.floor(Math.random() * 8);
+            const y = 5 + Math.floor(Math.random() * 6);
+            const v = this.varyColor(rgb, 20);
+            ctx.fillStyle = `rgb(${v.r},${v.g},${v.b})`;
+            ctx.fillRect(x, y, 2, 1);
+        }
+        return c;
+    }
+
+    // -- Container/misc item textures --
+
+    genBucket(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Bucket body
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(4, 4, 8, 2);
+        ctx.fillRect(3, 6, 10, 6);
+        ctx.fillRect(4, 12, 8, 1);
+        // Handle
+        ctx.fillRect(3, 2, 1, 3);
+        ctx.fillRect(12, 2, 1, 3);
+        ctx.fillRect(3, 2, 10, 1);
+        // Contents
+        if (color !== '#C0C0C0') {
+            ctx.fillStyle = color;
+            ctx.fillRect(4, 5, 8, 3);
+        }
+        return c;
+    }
+
+    genGlassBottle() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Neck
+        ctx.fillStyle = '#ADD8E6';
+        ctx.fillRect(7, 1, 2, 3);
+        // Body
+        ctx.fillRect(5, 4, 6, 2);
+        ctx.fillRect(4, 6, 8, 4);
+        ctx.fillRect(5, 10, 6, 2);
+        // Highlight
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillRect(5, 5, 2, 4);
+        return c;
+    }
+
+    genPotion() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Neck
+        ctx.fillStyle = '#ADD8E6';
+        ctx.fillRect(7, 1, 2, 3);
+        // Body
+        ctx.fillRect(5, 4, 6, 2);
+        ctx.fillRect(4, 6, 8, 4);
+        ctx.fillRect(5, 10, 6, 2);
+        // Liquid
+        ctx.fillStyle = '#FF00FF';
+        ctx.fillRect(5, 6, 6, 4);
+        ctx.fillRect(6, 10, 4, 1);
+        return c;
+    }
+
+    genEnchantedBook() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Book cover
+        ctx.fillStyle = '#800080';
+        ctx.fillRect(3, 3, 10, 10);
+        // Spine
+        ctx.fillStyle = '#500050';
+        ctx.fillRect(3, 3, 1, 10);
+        // Pages
+        ctx.fillStyle = '#F5F5DC';
+        ctx.fillRect(4, 4, 8, 8);
+        // Glow/enchant effect
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(6, 5, 4, 1);
+        ctx.fillRect(5, 7, 6, 1);
+        ctx.fillRect(6, 9, 4, 1);
+        return c;
+    }
+
+    genSignItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Board
+        ctx.fillStyle = '#DEB887';
+        ctx.fillRect(2, 2, 12, 7);
+        // Stick
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(7, 9, 2, 5);
+        // Border
+        ctx.fillStyle = '#B8860B';
+        ctx.fillRect(2, 2, 12, 1);
+        ctx.fillRect(2, 8, 12, 1);
+        return c;
+    }
+
+    genBoatItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        // Hull
+        ctx.fillRect(2, 8, 12, 2);
+        ctx.fillRect(3, 6, 10, 2);
+        ctx.fillRect(4, 10, 8, 2);
+        // Inner
+        ctx.fillStyle = '#A0522D';
+        ctx.fillRect(4, 7, 8, 2);
+        return c;
+    }
+
+    genMinecartItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Cart body
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(3, 4, 10, 6);
+        ctx.fillRect(4, 3, 8, 1);
+        // Inner
+        ctx.fillStyle = '#555555';
+        ctx.fillRect(4, 5, 8, 4);
+        // Wheels
+        ctx.fillStyle = '#404040';
+        ctx.fillRect(4, 10, 2, 2);
+        ctx.fillRect(10, 10, 2, 2);
+        return c;
+    }
+
+    genMusicDisc() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        // Disc
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(4, 3, 8, 2);
+        ctx.fillRect(3, 5, 10, 6);
+        ctx.fillRect(4, 11, 8, 2);
+        // Center hole
+        ctx.fillStyle = '#333333';
+        ctx.fillRect(7, 6, 2, 3);
+        // Color band
+        ctx.fillStyle = '#FF4444';
+        ctx.fillRect(4, 5, 8, 1);
+        ctx.fillRect(4, 10, 8, 1);
+        return c;
+    }
+
+    // -- Armor textures --
+
+    genHelmet(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        // Top dome
+        ctx.fillRect(4, 2, 8, 2);
+        ctx.fillRect(3, 4, 10, 4);
+        ctx.fillRect(4, 8, 8, 2);
+        // Face opening
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(5, 6, 6, 3);
+        // Highlight
+        ctx.fillStyle = `rgb(${Math.min(255, rgb.r + 40)},${Math.min(255, rgb.g + 40)},${Math.min(255, rgb.b + 40)})`;
+        ctx.fillRect(4, 3, 3, 2);
+        return c;
+    }
+
+    genChestplate(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        // Shoulders
+        ctx.fillRect(2, 2, 4, 3);
+        ctx.fillRect(10, 2, 4, 3);
+        // Body
+        ctx.fillRect(4, 5, 8, 6);
+        ctx.fillRect(5, 11, 6, 2);
+        // Neck opening
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(6, 2, 4, 2);
+        // Highlight
+        ctx.fillStyle = `rgb(${Math.min(255, rgb.r + 40)},${Math.min(255, rgb.g + 40)},${Math.min(255, rgb.b + 40)})`;
+        ctx.fillRect(5, 5, 2, 3);
+        return c;
+    }
+
+    genLeggings(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        // Waist
+        ctx.fillRect(4, 2, 8, 3);
+        // Left leg
+        ctx.fillRect(4, 5, 3, 8);
+        // Right leg
+        ctx.fillRect(9, 5, 3, 8);
+        // Belt
+        ctx.fillStyle = `rgb(${Math.max(0, rgb.r - 40)},${Math.max(0, rgb.g - 40)},${Math.max(0, rgb.b - 40)})`;
+        ctx.fillRect(4, 2, 8, 1);
+        return c;
+    }
+
+    genBoots(color) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(color);
+        ctx.fillStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+        // Left boot
+        ctx.fillRect(2, 4, 4, 6);
+        ctx.fillRect(1, 10, 5, 2);
+        // Right boot
+        ctx.fillRect(10, 4, 4, 6);
+        ctx.fillRect(10, 10, 5, 2);
+        // Soles
+        ctx.fillStyle = `rgb(${Math.max(0, rgb.r - 50)},${Math.max(0, rgb.g - 50)},${Math.max(0, rgb.b - 50)})`;
+        ctx.fillRect(1, 11, 5, 1);
+        ctx.fillRect(10, 11, 5, 1);
+        return c;
+    }
 
     generateMobTextures() {
         this.mobTextures.cow = this.genMobCow();
