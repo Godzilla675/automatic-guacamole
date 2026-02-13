@@ -128,7 +128,7 @@ class SoundManager {
             panner.distanceModel = 'inverse';
             panner.refDistance = 1;
             panner.maxDistance = 100;
-            panner.rolloverFactor = 1;
+            panner.rolloffFactor = 1;
             panner.positionX.value = position.x;
             panner.positionY.value = position.y;
             panner.positionZ.value = position.z;

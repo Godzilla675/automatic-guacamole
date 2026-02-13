@@ -625,7 +625,12 @@ class Game {
             y: -Math.sin(this.player.pitch),
             z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
         };
-        const hit = this.physics.raycast(this.player, dir, 5);
+        const eyePos = {
+            x: this.player.x,
+            y: this.player.y + this.player.height * 0.9,
+            z: this.player.z
+        };
+        const hit = this.physics.raycast(eyePos, dir, 5);
         if (hit && hit.face) {
             const nx = hit.x + hit.face.x;
             const ny = hit.y + hit.face.y;

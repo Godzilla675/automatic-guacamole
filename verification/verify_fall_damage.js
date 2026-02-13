@@ -57,6 +57,7 @@ load('js/physics.js');
 load('js/audio.js');
 load('js/network.js');
 load('js/crafting.js');
+load('js/entity.js');
 load('js/player.js');
 load('js/mob.js');
 load('js/drop.js');

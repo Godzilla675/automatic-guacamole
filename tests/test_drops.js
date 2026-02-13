@@ -20,6 +20,9 @@ dom.window.soundManager = {
 const blocksCode = fs.readFileSync('js/blocks.js', 'utf8');
 dom.window.eval(blocksCode);
 
+const entityCode = fs.readFileSync('js/entity.js', 'utf8');
+dom.window.eval(entityCode);
+
 const dropCode = fs.readFileSync('js/drop.js', 'utf8');
 dom.window.eval(dropCode);
 
@@ -82,7 +85,7 @@ describe('Drop System', () => {
         skeleton.die();
 
         assert.strictEqual(skeleton.isDead, true);
-        assert.strictEqual(game.drops.length, 1);
+        assert.ok(game.drops.length >= 1, "Should spawn at least 1 drop (bone + possible XP)");
         assert.strictEqual(game.drops[0].type, dom.window.BLOCK.ITEM_BONE);
     });
 

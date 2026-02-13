@@ -57,6 +57,33 @@ uiDiv.innerHTML = `
 `;
 dom.window.document.body.appendChild(uiDiv);
 
+// Mock AudioContext
+dom.window.AudioContext = class {
+    createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
+    createGain() { return { connect: () => {}, gain: { value: 0, setTargetAtTime: () => {}, setValueAtTime: () => {}, linearRampToValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }; }
+    createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
+    createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {}, buffer: null }; }
+    createPanner() { return { connect: () => {}, setPosition: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } }; }
+    createBiquadFilter() { return { connect: () => {}, frequency: { value: 0 } }; }
+    resume() {}
+    get state() { return 'running'; }
+    get currentTime() { return 0; }
+    get destination() { return {}; }
+    get listener() { return { setPosition: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } }; }
+};
+
+// Mock Canvas Context
+dom.window.HTMLCanvasElement.prototype.getContext = () => ({
+    clearRect: ()=>{}, drawImage: ()=>{}, save: ()=>{}, restore: ()=>{},
+    translate: ()=>{}, rotate: ()=>{}, scale: ()=>{}, beginPath: ()=>{},
+    moveTo: ()=>{}, lineTo: ()=>{}, stroke: ()=>{}, fill: ()=>{},
+    closePath: ()=>{}, fillText: ()=>{}, measureText: ()=>({width:0}),
+    fillRect: ()=>{}, strokeRect: ()=>{}, setTransform: ()=>{},
+    fillStyle: '', font: '', createLinearGradient: () => ({ addColorStop: () => {} })
+});
+dom.window.HTMLCanvasElement.prototype.requestPointerLock = ()=>{};
+dom.window.document.exitPointerLock = ()=>{};
+
 const load = (f) => {
     try {
         const code = fs.readFileSync(path.join('js', f), 'utf8');
@@ -70,18 +97,6 @@ const load = (f) => {
 
 async function testSigns() {
     console.log("Starting Signs Verification...");
-
-    // Mock Canvas Context
-    dom.window.HTMLCanvasElement.prototype.getContext = () => ({
-        clearRect: ()=>{}, drawImage: ()=>{}, save: ()=>{}, restore: ()=>{},
-        translate: ()=>{}, rotate: ()=>{}, scale: ()=>{}, beginPath: ()=>{},
-        moveTo: ()=>{}, lineTo: ()=>{}, stroke: ()=>{}, fill: ()=>{},
-        closePath: ()=>{}, fillText: ()=>{}, measureText: ()=>({width:0}),
-        fillRect: ()=>{}, strokeRect: ()=>{}, setTransform: ()=>{}
-    });
-    // Mock Pointer Lock
-    dom.window.HTMLCanvasElement.prototype.requestPointerLock = ()=>{};
-    dom.window.document.exitPointerLock = ()=>{};
 
     const game = new dom.window.Game();
     // Initialize standard UI
