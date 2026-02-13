@@ -7,7 +7,8 @@ class CraftingSystem {
             { input: BLOCK.ORE_GOLD, output: { type: BLOCK.ITEM_GOLD_INGOT, count: 1 } },
             { input: BLOCK.SAND, output: { type: BLOCK.GLASS, count: 1 } },
             { input: BLOCK.COBBLESTONE, output: { type: BLOCK.STONE, count: 1 } },
-            { input: BLOCK.WOOD, output: { type: BLOCK.ITEM_COAL, count: 1 } }
+            { input: BLOCK.WOOD, output: { type: BLOCK.ITEM_COAL, count: 1 } },
+            { input: BLOCK.ITEM_RAW_FISH, output: { type: BLOCK.ITEM_COOKED_FISH, count: 1 } }
         ];
 
         this.recipes = [
@@ -27,6 +28,34 @@ class CraftingSystem {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
+            },
+            // New Planks
+            {
+                name: "Birch Planks (4)",
+                result: { type: BLOCK.BIRCH_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.BIRCH_WOOD, count: 1 } ]
+            },
+            {
+                name: "Jungle Planks (4)",
+                result: { type: BLOCK.JUNGLE_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.JUNGLE_WOOD, count: 1 } ]
+            },
+            // Sticks from new planks
+            {
+                name: "Stick (4)",
+                result: { type: BLOCK.ITEM_STICK, count: 4 },
+                ingredients: [ { type: BLOCK.BIRCH_PLANK, count: 2 } ]
+            },
+            {
+                name: "Stick (4)",
+                result: { type: BLOCK.ITEM_STICK, count: 4 },
+                ingredients: [ { type: BLOCK.JUNGLE_PLANK, count: 2 } ]
+            },
+            // Dyes
+            {
+                name: "Brown Wool",
+                result: { type: BLOCK.WOOL_BROWN, count: 1 },
+                ingredients: [ { type: BLOCK.WOOL_WHITE, count: 1 }, { type: BLOCK.ITEM_COCOA_BEANS, count: 1 } ]
             },
             // Ingots (Manual Smelting)
             {
@@ -138,6 +167,43 @@ class CraftingSystem {
                 name: "Torch (4)",
                 result: { type: BLOCK.TORCH, count: 4 },
                 ingredients: [ { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.ITEM_COAL, count: 1 } ]
+            },
+            // New Building Blocks
+            {
+                name: "Fence (2)",
+                result: { type: BLOCK.FENCE, count: 2 },
+                ingredients: [ { type: BLOCK.WOOD, count: 4 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
+                name: "Fence Gate",
+                result: { type: BLOCK.FENCE_GATE, count: 1 },
+                ingredients: [ { type: BLOCK.WOOD, count: 2 }, { type: BLOCK.ITEM_STICK, count: 4 } ]
+            },
+            {
+                name: "Trapdoor (2)",
+                result: { type: BLOCK.TRAPDOOR, count: 2 },
+                ingredients: [ { type: BLOCK.PLANK, count: 6 } ]
+            },
+            {
+                name: "Glass Pane (16)",
+                result: { type: BLOCK.GLASS_PANE, count: 16 },
+                ingredients: [ { type: BLOCK.GLASS, count: 6 } ]
+            },
+            // Combat Items
+            {
+                name: "Bow",
+                result: { type: BLOCK.BOW, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.ITEM_STRING, count: 3 } ]
+            },
+            {
+                name: "Shield",
+                result: { type: BLOCK.SHIELD, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 6 }, { type: BLOCK.ITEM_IRON_INGOT, count: 1 } ]
+            },
+            {
+                name: "Arrow (4)",
+                result: { type: BLOCK.ITEM_ARROW, count: 4 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.COBBLESTONE, count: 1 } ] // Simulating Flint with Cobblestone
             }
         ];
     }
@@ -145,6 +211,30 @@ class CraftingSystem {
     getSmeltingResult(inputType) {
         const recipe = this.smeltingRecipes.find(r => r.input === inputType);
         return recipe ? recipe.output : null;
+    }
+
+    checkUnlock(itemType) {
+        if (!this.game || !this.game.player) return;
+        const player = this.game.player;
+
+        this.recipes.forEach(recipe => {
+            if (player.unlockedRecipes.has(recipe.name)) return;
+
+            // Check ingredients
+            const hasIngredient = recipe.ingredients.some(ing => ing.type === itemType);
+            if (hasIngredient) {
+                this.unlockRecipe(recipe.name);
+            }
+        });
+    }
+
+    unlockRecipe(name) {
+        if (!this.game.player.unlockedRecipes.has(name)) {
+            this.game.player.unlockedRecipes.add(name);
+            if (this.game.ui && this.game.ui.showNotification) {
+                this.game.ui.showNotification("New Recipe: " + name);
+            }
+        }
     }
 
     initUI() {
@@ -182,6 +272,9 @@ class CraftingSystem {
         }
 
         this.recipes.forEach((recipe, index) => {
+            // Filter unlocked
+            if (this.game.player && !this.game.player.unlockedRecipes.has(recipe.name) && !recipe.isRepair) return;
+
             const el = document.createElement('div');
             el.className = 'inventory-item';
 
@@ -194,7 +287,7 @@ class CraftingSystem {
                 <span class="item-name">${recipe.name}</span>
             `;
 
-            el.onclick = () => this.craft(index);
+            el.onclick = (e) => this.craft(index, e.currentTarget);
             container.appendChild(el);
         });
 
@@ -204,7 +297,7 @@ class CraftingSystem {
         };
     }
 
-    craft(index) {
+    craft(index, element) {
         const recipe = this.recipes[index];
         const player = this.game.player;
         const inventory = player.inventory;
@@ -293,7 +386,15 @@ class CraftingSystem {
                 alert("Inventory full! Items lost.");
             }
         } else {
-             alert(`Crafted ${recipe.name}!`);
+             // alert(`Crafted ${recipe.name}!`);
+             if (element) {
+                 element.classList.add('pulse');
+                 setTimeout(() => element.classList.remove('pulse'), 500);
+             }
+             if (this.game.ui && this.game.ui.showNotification) {
+                 this.game.ui.showNotification(`Crafted ${recipe.name}!`);
+             }
+             if (this.game.pluginAPI) this.game.pluginAPI.emit('craft', { recipe: recipe });
         }
     }
 
