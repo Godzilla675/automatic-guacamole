@@ -3,6 +3,7 @@ const path = require('path');
 const { JSDOM } = require('jsdom');
 
 const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
+    url: "http://localhost/",
     runScripts: "dangerously",
     resources: "usable"
 });
@@ -20,20 +21,23 @@ const scripts = [
     'js/network.js',
     'js/chunk.js',
     'js/biome.js',
-    'js/structures/Tree.js',
-    'js/structures/Cactus.js',
-    'js/structures/Well.js',
-    'js/structures.js',
+    'js/structures/Tree.js', 'js/structures/Cactus.js', 'js/structures/Well.js', 'js/structures.js',
     'js/world.js',
     'js/physics.js',
-    'js/player.js',
-    'js/mob.js',
     'js/drop.js',
+    'js/mob.js',
+    'js/player.js',
+    'js/plugin.js',
+    'js/particles.js',
+    'js/minimap.js',
+    'js/achievements.js',
+    'js/tutorial.js',
     'js/crafting.js',
     'js/chat.js',
     'js/ui.js',
     'js/input.js',
     'js/renderer.js',
+    'js/audio.js',
     'js/game.js'
 ];
 

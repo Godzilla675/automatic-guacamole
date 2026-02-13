@@ -9,7 +9,7 @@ class Chunk {
         // Let's use a Map for sparse storage or Uint8Array for dense.
         // Uint8Array is much better for memory. 16*16*64 = 16384 bytes per chunk.
         // Let's assume max height 64.
-        this.maxHeight = 64;
+        this.maxHeight = 128;
         this.blocks = new Uint8Array(this.size * this.size * this.maxHeight);
         this.metadata = new Uint8Array(this.size * this.size * this.maxHeight);
         this.light = new Uint8Array(this.size * this.size * this.maxHeight);
@@ -123,6 +123,52 @@ class Chunk {
         if (isTransparent(x, y, z+1)) return true;
         if (isTransparent(x, y, z-1)) return true;
         return false;
+    }
+
+    pack() {
+        const runLengthEncode = (data) => {
+            const result = [];
+            let i = 0;
+            while (i < data.length) {
+                let count = 1;
+                let val = data[i];
+                while (i + count < data.length && data[i + count] === val && count < 255) {
+                    count++;
+                }
+                result.push(count);
+                result.push(val);
+                i += count;
+            }
+            return new Uint8Array(result);
+        };
+
+        const packedBlocks = runLengthEncode(this.blocks);
+        const packedMeta = runLengthEncode(this.metadata);
+
+        return {
+             blocks: packedBlocks,
+             metadata: packedMeta
+        };
+    }
+
+    unpack(data) {
+        const runLengthDecode = (packed, target) => {
+            let targetIdx = 0;
+            for(let i=0; i<packed.length; i+=2) {
+                const count = packed[i];
+                const val = packed[i+1];
+                for(let j=0; j<count; j++) {
+                     if (targetIdx < target.length) {
+                         target[targetIdx++] = val;
+                     }
+                }
+            }
+        };
+
+        if (data.blocks) runLengthDecode(data.blocks, this.blocks);
+        if (data.metadata) runLengthDecode(data.metadata, this.metadata);
+
+        this.modified = true;
     }
 }
 

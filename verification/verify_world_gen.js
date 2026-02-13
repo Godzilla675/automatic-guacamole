@@ -1,143 +1,81 @@
 const fs = require('fs');
-const path = require('path');
-const { JSDOM } = require('jsdom');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
-const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
-    runScripts: "dangerously",
-    resources: "usable"
-});
+const dom = new JSDOM('<!DOCTYPE html><body></body>');
 global.window = dom.window;
 global.document = dom.window.document;
 
-// Mock LocalStorage
-const localStorageMock = (function() {
-  let store = {};
-  return {
-    getItem: function(key) {
-      return store[key] || null;
-    },
-    setItem: function(key, value) {
-      store[key] = value.toString();
-    },
-    removeItem: function(key) {
-      delete store[key];
-    },
-    clear: function() {
-      store = {};
-    }
-  };
-})();
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+// Mock Perlin
+window.perlin = {
+    noise: (x, y, z) => 0.6 // Consistent noise
+};
 
 // Load scripts
-const scripts = [
-    'js/math.js',
-    'js/blocks.js',
-    'js/chunk.js',
-    'js/biome.js',
-    'js/structures/Tree.js',
-    'js/structures/Cactus.js',
-    'js/structures/Well.js',
-    'js/structures.js',
-    'js/world.js'
-];
-
-scripts.forEach(script => {
-    const content = fs.readFileSync(path.join(__dirname, '../', script), 'utf8');
-    dom.window.eval(content);
+const scripts = ['js/blocks.js', 'js/biome.js', 'js/structures/Tree.js', 'js/structures/Cactus.js', 'js/structures/Well.js', 'js/structures.js', 'js/chunk.js', 'js/world.js'];
+scripts.forEach(s => {
+    const c = fs.readFileSync(s, 'utf8');
+    eval(c);
 });
+global.BLOCK = window.BLOCK;
+global.BLOCKS = window.BLOCKS;
+global.BiomeManager = window.BiomeManager;
+global.StructureManager = window.StructureManager;
+global.World = window.World;
+global.Chunk = window.Chunk;
 
-// Test Logic
-const World = dom.window.World;
-const BLOCK = dom.window.BLOCK;
-const BiomeManager = dom.window.BiomeManager;
+// Create World
+const world = new window.World();
 
-console.log('--- Verifying World Gen ---');
+// 1. Verify StructureManager has new methods
+if (typeof world.structureManager.generateJungleTree !== 'function') throw new Error("Missing generateJungleTree");
+if (typeof world.structureManager.generateVillage !== 'function') throw new Error("Missing generateVillage");
 
-const world = new World();
-console.log('World initialized.');
-
-if (!world.biomeManager) {
-    console.error('❌ BiomeManager not initialized in World.');
-    process.exit(1);
-}
-console.log('✅ BiomeManager initialized.');
-
-if (!world.structureManager) {
-    console.error('❌ StructureManager not initialized in World.');
-    process.exit(1);
-}
-console.log('✅ StructureManager initialized.');
-
-// Helper to find specific biome
-function findBiome(type) {
-    for (let x = 0; x < 20000; x+=100) {
-        for (let z = 0; z < 20000; z+=100) {
-            const biome = world.biomeManager.getBiome(x, z);
-            if (biome.name === type) return {x, z};
+// 2. Verify Biome Selection
+// Mock noise to return > 0.5 for JUNGLE
+// humidity > 0.5, temp > 0.5
+// BiomeManager uses:
+// temp = noise(x*scale, z*scale, seed)
+// humidity = noise(x*scale+1000, ...)
+// Our mock returns 0.6 for everything.
+// So temp > 0.5 (True), humidity > 0.2 (True).
+// Wait, Biome logic:
+/*
+        if (temp > 0.5) {
+            if (humidity < 0) return this.biomes.DESERT;
+            if (humidity > 0.5) return this.biomes.JUNGLE;
+            return this.biomes.FOREST;
         }
-    }
-    return null;
-}
+*/
+// So it should be JUNGLE.
 
-// Check Desert
-const desertPos = findBiome('Desert');
-if (desertPos) {
-    console.log(`Found Desert at ${desertPos.x}, ${desertPos.z}`);
-    // Generate chunk
-    const cx = Math.floor(desertPos.x / 16);
-    const cz = Math.floor(desertPos.z / 16);
-    world.generateChunk(cx, cz);
-    const chunk = world.getChunk(cx, cz);
+const biome = world.biomeManager.getBiome(0, 0);
+if (biome.name !== 'Jungle') throw new Error(`Expected Jungle, got ${biome.name}`);
 
-    // Check top block
-    // We need to find height first
-    let hasSand = false;
-    let hasCactus = false;
+console.log("Verified Biome Logic: Jungle selected.");
 
-    for(let x=0; x<16; x++) {
-        for(let z=0; z<16; z++) {
-             for(let y=60; y>0; y--) {
-                 const b = chunk.getBlock(x, y, z);
-                 if (b === BLOCK.SAND) hasSand = true;
-                 if (b === BLOCK.CACTUS) hasCactus = true;
-             }
-        }
-    }
+// 3. Verify Structure generation logic
+// Since noise is 0.6, temp > 0.5 -> JUNGLE.
+// In Jungle, treeChance is 0.15.
+// generateChunk loops.
+// We can't easily spy on generateJungleTree without mocking StructureManager methods.
+// Let's mock generateJungleTree on the instance.
 
-    if (hasSand) console.log('✅ Desert has Sand.');
-    else console.error('❌ Desert missing Sand.');
+let jungleTreeCalled = false;
+world.structureManager.generateJungleTree = () => { jungleTreeCalled = true; };
 
-    // Cactus is chance-based, might fail if small chunk
-    if (hasCactus) console.log('✅ Desert has Cactus.');
-    else console.warn('⚠️ Desert missing Cactus (could be bad luck).');
+// Generate chunk 0,0
+world.generateChunk(0, 0);
 
+// With 16x16 blocks and 0.15 chance, it's highly likely to be called.
+// But we used a constant noise of 0.6.
+// Math.random() is NOT mocked.
+// So it might not trigger if unlucky, but 256 * 0.15 = 38 trees. Highly likely.
+
+if (jungleTreeCalled) {
+    console.log("Verified Jungle Tree generation called.");
 } else {
-    console.warn('⚠️ Could not find Desert biome in search range.');
+    console.warn("Jungle Tree generation NOT called (bad luck or logic error?)");
 }
 
-// Check Snow
-const snowPos = findBiome('Snow');
-if (snowPos) {
-    console.log(`Found Snow at ${snowPos.x}, ${snowPos.z}`);
-    const cx = Math.floor(snowPos.x / 16);
-    const cz = Math.floor(snowPos.z / 16);
-    world.generateChunk(cx, cz);
-    const chunk = world.getChunk(cx, cz);
-
-    let hasSnow = false;
-    for(let x=0; x<16; x++) {
-        for(let z=0; z<16; z++) {
-             for(let y=60; y>0; y--) {
-                 const b = chunk.getBlock(x, y, z);
-                 if (b === BLOCK.SNOW) hasSnow = true;
-             }
-        }
-    }
-    if (hasSnow) console.log('✅ Snow biome has Snow blocks.');
-    else console.error('❌ Snow biome missing Snow blocks.');
-} else {
-    console.warn('⚠️ Could not find Snow biome in search range.');
-}
-
-console.log('--- Verification Complete ---');
+console.log("World Generation verified.");

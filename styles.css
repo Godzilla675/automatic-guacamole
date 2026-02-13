@@ -55,8 +55,18 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    50% { transform: scale(1.1); box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.pulse {
+    animation: pulse 0.5s ease-out;
+}
+
 /* Menu Screen */
-#menu-screen, #pause-screen {
+#menu-screen, #pause-screen, #settings-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -539,6 +549,39 @@ body {
     width: 100%;
     background: #FFA500;
     transition: width 0.2s;
+}
+
+/* XP Bar */
+#xp-bar-container {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 8px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    z-index: 55;
+    display: flex;
+    justify-content: flex-start;
+}
+#xp-bar {
+    height: 100%;
+    width: 0%;
+    background: #7FFF00;
+    transition: width 0.2s;
+    border-radius: 4px;
+}
+#xp-level {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #7FFF00;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black;
 }
 
 /* Damage Overlay */
