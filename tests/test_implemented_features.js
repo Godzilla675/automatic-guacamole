@@ -63,11 +63,7 @@ function loadScript(filename) {
     dom.window.eval(content);
 }
 
-<<<<<<< HEAD
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/structure.js', 'structures/tree.js', 'structures/cactus.js', 'structures/well.js', 'structures.js', 'world.js', 'physics.js', 'drop.js', 'crafting.js', 'ui.js', 'input.js', 'chat.js', 'renderer.js', 'network.js', 'mob.js', 'player.js', 'game.js'].forEach(loadScript);
-=======
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(loadScript);
->>>>>>> origin/main
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures/structure.js', 'structures/tree.js', 'structures/cactus.js', 'structures/well.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(loadScript);
 
 describe('Implemented Features Tests', () => {
     let game;
