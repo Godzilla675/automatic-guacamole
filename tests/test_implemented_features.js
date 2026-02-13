@@ -116,7 +116,7 @@ describe('Implemented Features Tests', () => {
 
         // Interact
         game.interact(x, y, z);
-        assert.strictEqual(game.world.getMetadata(x, y, z), 1, "Door should open");
+        assert.strictEqual(game.world.getMetadata(x, y, z), 4, "Door should open (bit 2)");
 
         // Collide
         assert.strictEqual(game.physics.checkCollision({x: 10.5, y: 30.5, z: 10.5, width: 0.6, height: 1.8}), false, "Open door should not collide");
