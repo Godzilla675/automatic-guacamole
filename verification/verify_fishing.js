@@ -28,6 +28,8 @@ const scripts = [
     'js/structures.js',
     'js/world.js',
     'js/physics.js',
+    'js/entity.js',
+    'js/vehicle.js',
     'js/drop.js',
     'js/mob.js',
     'js/player.js',
