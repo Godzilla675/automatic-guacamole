@@ -450,10 +450,19 @@ automatic-guacamole/
 ### Important Fixes (Improves UX)
 
 4. **Fix Settings Back Button (Bug #4)**
-   - In `ui.js:52-54`, after hiding settings screen, re-show the pause screen:
+   - In `ui.js:52-54`, modify the existing `close-settings` click handler to also re-show the pause screen. Replace:
    ```js
-   document.getElementById('settings-screen').classList.add('hidden');
-   document.getElementById('pause-screen').classList.remove('hidden');
+   // Current code at ui.js:52-54
+   closeSettings.addEventListener('click', () => {
+       document.getElementById('settings-screen').classList.add('hidden');
+   });
+   ```
+   With:
+   ```js
+   closeSettings.addEventListener('click', () => {
+       document.getElementById('settings-screen').classList.add('hidden');
+       document.getElementById('pause-screen').classList.remove('hidden');
+   });
    ```
 
 5. **Fix Render Distance Slider (Bug #7)**
