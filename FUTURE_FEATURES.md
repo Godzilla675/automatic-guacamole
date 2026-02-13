@@ -110,6 +110,35 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Pistons**
 - [x] **Implement Nether Portal Block (ID 196)** (Logic pending)
 - [x] **Implement Stairs** (Placement logic, complex collision, visual models)
+<<<<<<< update-task-list-v1-10009260867746243773
+- [ ] **Implement Fences and Fence Gates** (Connectivity logic, physics)
+- [ ] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
+- [ ] **Implement Trapdoors** (Open/close logic, physics)
+- [ ] **Implement Birch Wood & Leaves**
+- [ ] **Implement Top Slabs** (Placement logic & Physics)
+
+### 2. Advanced World Generation
+- [ ] **Expand Village Generation** (Generate Houses, Paths, and Layouts - currently only Wells exist)
+- [ ] **Rivers and Lakes** (Hydrology system)
+- [ ] **Generate Birch Trees**
+- [x] Biomes (Implemented basic noise-based terrain)
+- [x] Caves and underground systems (3D Noise holes)
+- [x] Ore generation (Coal, Iron, Gold, Diamond)
+- [x] Better terrain generation using Perlin/Simplex noise
+- [x] World seeds for reproducible generation
+- [x] **Implement Structure Manager** (System to spawn structures like Trees, Wells, Ruins)
+- [x] **Implement Basic Structure Generation** (Wells, Trees, Cacti)
+- [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
+- [x] **Implement Desert Biome** (Sand, Cactus)
+- [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
+
+### 3. Crafting System
+- [ ] Crafting animations
+- [ ] Recipe discovery system
+- [x] Crafting table interface (UI implemented)
+- [x] Recipes for tools, blocks, and items (Block and Tool recipes implemented)
+- [x] Resource gathering requirements (Inventory consumption implemented)
+=======
 - [x] **Implement Fences and Fence Gates** (Connectivity logic, physics)
 - [x] **Implement Trapdoors** (Open/close logic, physics)
 - [x] **Implement Glass Panes / Windows** (Connectivity logic with neighbors)
@@ -135,6 +164,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Crafting table interface
 - [x] Recipes for tools, blocks, and items
 - [x] Resource gathering requirements
+>>>>>>> main
 - [x] **Smelting System (Furnace UI & Logic)**
 - [x] **Implement Recipe Book UI**
 
@@ -146,11 +176,17 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Tool Repair Logic** (UI pending Anvil, Crafting grid repair works)
 - [x] **Implement Fishing Mechanic**
 
+<<<<<<< update-task-list-v1-10009260867746243773
+### 5. Mobs and AI
+- [ ] **Implement Villagers**
+- [ ] **Implement Iron Golem**
+=======
 ### Mobs and AI
 - [x] Passive mobs (Cows, Pigs, Sheep, Chicken)
 - [x] Hostile mobs (Zombies, Skeletons, Spiders, Creepers, Endermen)
 - [x] Mob AI pathfinding
 - [x] **Implement Animal Breeding** (Feeding animals to spawn babies)
+>>>>>>> main
 - [x] Passive mobs (Cows, Pigs, Sheep implemented)
 - [x] Hostile mobs (zombies, skeletons, spiders)
 - [x] Mob AI pathfinding (Random movement and Chase behavior implemented)
