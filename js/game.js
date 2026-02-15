@@ -56,6 +56,7 @@ class Game {
 
         // Fluid State
         this.fluidTick = 0;
+        this.ambienceTimer = 0;
 
         // Fishing State
         this.bobber = null;
@@ -1583,32 +1584,37 @@ class Game {
 
         // Ambience Update
         if (window.soundManager && this.player) {
-             let waterIntensity = 0;
-             let windIntensity = 0;
+             this.ambienceTimer += dt;
+             if (this.ambienceTimer >= 500) {
+                 this.ambienceTimer = 0;
 
-             const cx = Math.floor(this.player.x);
-             const cy = Math.floor(this.player.y);
-             const cz = Math.floor(this.player.z);
+                 let waterIntensity = 0;
+                 let windIntensity = 0;
 
-             // Check for water nearby
-             let waterCount = 0;
-             for (let dx = -2; dx <= 2; dx++) {
-                 for (let dy = -2; dy <= 2; dy++) {
-                     for (let dz = -2; dz <= 2; dz++) {
-                         if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
-                             waterCount++;
+                 const cx = Math.floor(this.player.x);
+                 const cy = Math.floor(this.player.y);
+                 const cz = Math.floor(this.player.z);
+
+                 // Check for water nearby
+                 let waterCount = 0;
+                 for (let dx = -2; dx <= 2; dx++) {
+                     for (let dy = -2; dy <= 2; dy++) {
+                         for (let dz = -2; dz <= 2; dz++) {
+                             if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
+                                 waterCount++;
+                             }
                          }
                      }
                  }
-             }
-             waterIntensity = Math.min(1.0, waterCount / 20);
+                 waterIntensity = Math.min(1.0, waterCount / 20);
 
-             // Wind based on height
-             if (this.player.y > 32) {
-                 windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
-             }
+                 // Wind based on height
+                 if (this.player.y > 32) {
+                     windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
+                 }
 
-             window.soundManager.updateAmbience(waterIntensity, windIntensity);
+                 window.soundManager.updateAmbience(waterIntensity, windIntensity);
+             }
         }
     }
 
