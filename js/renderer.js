@@ -8,6 +8,12 @@ class Renderer {
             this.textureManager = new TextureManager();
             this.textureManager.init();
         }
+
+        // Cache HUD elements
+        this.fpsEl = document.getElementById('fps');
+        this.posEl = document.getElementById('position');
+        this.blockEl = document.getElementById('block-count');
+        this.timeEl = document.getElementById('game-time');
     }
 
     resize() {
@@ -753,20 +759,16 @@ class Renderer {
         }
 
         // HUD Updates
-        const fpsEl = document.getElementById('fps');
-        if (fpsEl) fpsEl.textContent = this.game.fps;
+        if (this.fpsEl) this.fpsEl.textContent = this.game.fps;
 
-        const posEl = document.getElementById('position');
-        if (posEl) posEl.textContent = `${Math.floor(px)}, ${Math.floor(py)}, ${Math.floor(pz)}`;
+        if (this.posEl) this.posEl.textContent = `${Math.floor(px)}, ${Math.floor(py)}, ${Math.floor(pz)}`;
 
-        const blockEl = document.getElementById('block-count');
-        if (blockEl) blockEl.textContent = blocksToDraw.length;
+        if (this.blockEl) this.blockEl.textContent = blocksToDraw.length;
 
-        const timeEl = document.getElementById('game-time');
-        if (timeEl) {
+        if (this.timeEl) {
             const cycle = (this.game.gameTime % this.game.dayLength) / this.game.dayLength;
             const isDay = cycle < 0.5;
-            timeEl.textContent = isDay ? 'Day' : 'Night';
+            this.timeEl.textContent = isDay ? 'Day' : 'Night';
         }
 
         if (this.game.ui) this.game.ui.updateHealthUI();
