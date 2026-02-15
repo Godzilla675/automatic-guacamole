@@ -56,6 +56,7 @@ class Game {
 
         // Fluid State
         this.fluidTick = 0;
+        this.ambienceTimer = 0;
 
         // Fishing State
         this.bobber = null;
@@ -90,26 +91,26 @@ class Game {
         // Generate initial world around player
         this.updateChunks();
 
-        // Set safe spawn height based on generated terrain
-        const safeY = this.player.findSafeY(this.player.x, this.player.z);
-        this.player.y = safeY;
-        this.player.spawnPoint.y = safeY;
-        this.player.vy = 0;
+        // Find safe spawn height for player
+        const spawnY = this.world.getSurfaceHeight(8, 8) + 1;
+        this.player.y = spawnY;
+        this.player.spawnPoint = { x: 8, y: spawnY, z: 8 };
         this.player.fallDistance = 0;
+        this.player.vy = 0;
 
-        // Init Mobs (spawn at safe heights)
+        // Init Mobs at safe heights
         for (let i = 0; i < 3; i++) {
             const mx = 8 + i*2, mz = 8 + i*2;
-            this.mobs.push(new Mob(this, mx, this.player.findSafeY(mx, mz), mz, MOB_TYPE.COW));
+            this.mobs.push(new Mob(this, mx, this.world.getSurfaceHeight(mx, mz) + 2, mz, MOB_TYPE.COW));
         }
         for (let i = 0; i < 2; i++) {
             const mx = 15 + i*2, mz = 15 + i*2;
-            this.mobs.push(new Mob(this, mx, this.player.findSafeY(mx, mz), mz, MOB_TYPE.ZOMBIE));
+            this.mobs.push(new Mob(this, mx, this.world.getSurfaceHeight(mx, mz) + 2, mz, MOB_TYPE.ZOMBIE));
         }
-        this.mobs.push(new Mob(this, 12, this.player.findSafeY(12, 12), 12, MOB_TYPE.PIG));
-        this.mobs.push(new Mob(this, 20, this.player.findSafeY(20, 20), 20, MOB_TYPE.SKELETON));
-        this.mobs.push(new Mob(this, 25, this.player.findSafeY(25, 25), 25, MOB_TYPE.SPIDER));
-        this.mobs.push(new Mob(this, 30, this.player.findSafeY(30, 30), 30, MOB_TYPE.SHEEP));
+        this.mobs.push(new Mob(this, 12, this.world.getSurfaceHeight(12, 12) + 2, 12, MOB_TYPE.PIG));
+        this.mobs.push(new Mob(this, 20, this.world.getSurfaceHeight(20, 20) + 2, 20, MOB_TYPE.SKELETON));
+        this.mobs.push(new Mob(this, 25, this.world.getSurfaceHeight(25, 25) + 2, 25, MOB_TYPE.SPIDER));
+        this.mobs.push(new Mob(this, 30, this.world.getSurfaceHeight(30, 30) + 2, 30, MOB_TYPE.SHEEP));
 
         // Multiplayer: only connect if server URL is provided or user requests it
         // Don't auto-connect in single player to avoid confusing error messages
@@ -134,7 +135,7 @@ class Game {
         }
 
         // Start Loop
-        this.lastTime = Date.now(); // Reset to avoid huge first-frame dt
+        this.lastTime = Date.now();
         this.gameLoop();
     }
 
@@ -1594,32 +1595,37 @@ class Game {
 
         // Ambience Update
         if (window.soundManager && this.player) {
-             let waterIntensity = 0;
-             let windIntensity = 0;
+             this.ambienceTimer += dt;
+             if (this.ambienceTimer >= 500) {
+                 this.ambienceTimer = 0;
 
-             const cx = Math.floor(this.player.x);
-             const cy = Math.floor(this.player.y);
-             const cz = Math.floor(this.player.z);
+                 let waterIntensity = 0;
+                 let windIntensity = 0;
 
-             // Check for water nearby
-             let waterCount = 0;
-             for (let dx = -2; dx <= 2; dx++) {
-                 for (let dy = -2; dy <= 2; dy++) {
-                     for (let dz = -2; dz <= 2; dz++) {
-                         if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
-                             waterCount++;
+                 const cx = Math.floor(this.player.x);
+                 const cy = Math.floor(this.player.y);
+                 const cz = Math.floor(this.player.z);
+
+                 // Check for water nearby
+                 let waterCount = 0;
+                 for (let dx = -2; dx <= 2; dx++) {
+                     for (let dy = -2; dy <= 2; dy++) {
+                         for (let dz = -2; dz <= 2; dz++) {
+                             if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
+                                 waterCount++;
+                             }
                          }
                      }
                  }
-             }
-             waterIntensity = Math.min(1.0, waterCount / 20);
+                 waterIntensity = Math.min(1.0, waterCount / 20);
 
-             // Wind based on height
-             if (this.player.y > 32) {
-                 windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
-             }
+                 // Wind based on height
+                 if (this.player.y > 32) {
+                     windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
+                 }
 
-             window.soundManager.updateAmbience(waterIntensity, windIntensity);
+                 window.soundManager.updateAmbience(waterIntensity, windIntensity);
+             }
         }
     }
 
@@ -1629,8 +1635,12 @@ class Game {
 
     gameLoop() {
         const now = Date.now();
-        const dt = now - this.lastTime;
+        let dt = now - this.lastTime;
         this.lastTime = now;
+
+        // Cap dt to prevent huge physics steps after pauses (e.g. prompt() dialog).
+        // 100ms threshold catches any frame longer than ~6fps; fallback 16ms ≈ one frame at 60fps.
+        if (dt > 100) dt = 16;
 
         if (now - this.fpsTime >= 1000) {
             this.fps = this.frameCount;
