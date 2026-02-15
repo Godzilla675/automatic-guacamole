@@ -210,7 +210,7 @@ class Physics {
         let tMaxY = tDeltaY * ((direction.y > 0) ? (y + 1 - origin.y) : (origin.y - y));
         let tMaxZ = tDeltaZ * ((direction.z > 0) ? (z + 1 - origin.z) : (origin.z - z));
 
-        let lastFace = null;
+        let nx = 0, ny = 0, nz = 0;
 
         while (t < maxDist) {
             const block = this.world.getBlock(x, y, z);
@@ -227,7 +227,7 @@ class Physics {
                     // Relative Y in block
                     const ry = hy - y;
                     if (ry >= 0 && ry <= 0.5) {
-                         return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                         return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
                     }
                     // Else, continue raycast (it passes through top half)
                 } else if (blockDef.isStair) {
@@ -241,7 +241,7 @@ class Physics {
                     const rz = hz - z;
 
                     if (ry >= 0 && ry <= 0.5) {
-                        return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
                     }
                     if (ry > 0.5 && ry <= 1.0) {
                          const meta = this.world.getMetadata(x, y, z);
@@ -251,7 +251,7 @@ class Physics {
                          else if (meta === 2 && rz >= 0.5) hit = true;
                          else if (meta === 3 && rz <= 0.5) hit = true;
 
-                         if (hit) return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                         if (hit) return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
                     }
                     // Else passes through empty part
                 } else if (blockDef.isFence || blockDef.isPane) {
@@ -262,7 +262,7 @@ class Physics {
                     const rz = hz - z;
 
                     if (rx >= 0.375 && rx <= 0.625 && rz >= 0.375 && rz <= 0.625) {
-                         return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: origin.y + direction.y * t, z: hz} };
+                         return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: origin.y + direction.y * t, z: hz} };
                     }
                     // Pass through side parts for now (simplified selection)
                 } else if (blockDef.isTrapdoor) {
@@ -276,20 +276,20 @@ class Physics {
                     const top = (meta & 8) !== 0;
 
                     if (open) {
-                        return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
                     } else {
                         const thickness = 0.1875;
                         if (top) {
-                            if (ry >= 1.0 - thickness && ry <= 1.0) return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                            if (ry >= 1.0 - thickness && ry <= 1.0) return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
                         } else {
-                            if (ry >= 0 && ry <= thickness) return { x, y, z, type: block, face: lastFace, dist: t, point: {x: hx, y: hy, z: hz} };
+                            if (ry >= 0 && ry <= thickness) return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
                         }
                     }
                 } else {
                     return {
                         x, y, z,
                         type: block,
-                        face: lastFace,
+                        face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz },
                         dist: t,
                         point: {
                             x: origin.x + direction.x * t,
@@ -305,24 +305,24 @@ class Physics {
                     x += stepX;
                     t = tMaxX;
                     tMaxX += tDeltaX;
-                    lastFace = { x: -stepX, y: 0, z: 0 };
+                    nx = -stepX; ny = 0; nz = 0;
                 } else {
                     z += stepZ;
                     t = tMaxZ;
                     tMaxZ += tDeltaZ;
-                    lastFace = { x: 0, y: 0, z: -stepZ };
+                    nx = 0; ny = 0; nz = -stepZ;
                 }
             } else {
                 if (tMaxY < tMaxZ) {
                     y += stepY;
                     t = tMaxY;
                     tMaxY += tDeltaY;
-                    lastFace = { x: 0, y: -stepY, z: 0 };
+                    nx = 0; ny = -stepY; nz = 0;
                 } else {
                     z += stepZ;
                     t = tMaxZ;
                     tMaxZ += tDeltaZ;
-                    lastFace = { x: 0, y: 0, z: -stepZ };
+                    nx = 0; ny = 0; nz = -stepZ;
                 }
             }
         }
