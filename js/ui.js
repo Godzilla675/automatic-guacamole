@@ -361,6 +361,18 @@ class UIManager {
         if (!list) return;
         list.innerHTML = '';
 
+        // Hide keyboard keybinds on mobile - they're irrelevant
+        if (this.game.isMobile) {
+            list.style.display = 'none';
+            const resetBtn = document.getElementById('reset-controls');
+            if (resetBtn) resetBtn.style.display = 'none';
+            const controlsHeading = document.getElementById('controls-heading');
+            if (controlsHeading) controlsHeading.style.display = 'none';
+            const sensitivitySlider = document.getElementById('sensitivity-slider');
+            if (sensitivitySlider) sensitivitySlider.closest('.setting-item').style.display = 'none';
+            return;
+        }
+
         const binds = this.game.input.keybinds;
         for (const action in binds) {
             const row = document.createElement('div');
@@ -1115,6 +1127,22 @@ class UIManager {
             slot.className = 'inventory-item';
             slot.dataset.armorSlot = i;
             slot.style.position = 'relative'; // Ensure placeholder positioning works
+
+            // Icon container (required by renderSlotItem)
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            // Count overlay (required by renderSlotItem)
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            count.style.textShadow = '1px 1px 1px black';
+            slot.appendChild(count);
 
             // Placeholder bg if empty
             if (!this.game.player.armor[i]) {

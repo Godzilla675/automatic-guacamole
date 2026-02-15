@@ -3,6 +3,8 @@ class Game {
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
 
+        this.isMobile = this.detectMobile();
+
         // Modules
         this.world = new World();
         this.world.game = this;
@@ -43,8 +45,6 @@ class Game {
             jump: false, sneak: false, sprint: false,
             enabled: true
         };
-
-        this.isMobile = this.detectMobile();
 
         // Rendering state
         this.fov = parseInt(localStorage.getItem('voxel_fov')) || 60;
@@ -91,20 +91,30 @@ class Game {
         // Generate initial world around player
         this.updateChunks();
 
-        // Init Mobs
+        // Set safe spawn height based on generated terrain
+        const safeY = this.player.findSafeY(this.player.x, this.player.z);
+        this.player.y = safeY;
+        this.player.spawnPoint.y = safeY;
+        this.player.vy = 0;
+        this.player.fallDistance = 0;
+
+        // Init Mobs (spawn at safe heights)
         for (let i = 0; i < 3; i++) {
-            this.mobs.push(new Mob(this, 8 + i*2, 40, 8 + i*2, MOB_TYPE.COW));
+            const mx = 8 + i*2, mz = 8 + i*2;
+            this.mobs.push(new Mob(this, mx, this.player.findSafeY(mx, mz), mz, MOB_TYPE.COW));
         }
         for (let i = 0; i < 2; i++) {
-            this.mobs.push(new Mob(this, 15 + i*2, 40, 15 + i*2, MOB_TYPE.ZOMBIE));
+            const mx = 15 + i*2, mz = 15 + i*2;
+            this.mobs.push(new Mob(this, mx, this.player.findSafeY(mx, mz), mz, MOB_TYPE.ZOMBIE));
         }
-        this.mobs.push(new Mob(this, 12, 40, 12, MOB_TYPE.PIG));
-        this.mobs.push(new Mob(this, 20, 40, 20, MOB_TYPE.SKELETON));
-        this.mobs.push(new Mob(this, 25, 40, 25, MOB_TYPE.SPIDER));
-        this.mobs.push(new Mob(this, 30, 40, 30, MOB_TYPE.SHEEP));
+        this.mobs.push(new Mob(this, 12, this.player.findSafeY(12, 12), 12, MOB_TYPE.PIG));
+        this.mobs.push(new Mob(this, 20, this.player.findSafeY(20, 20), 20, MOB_TYPE.SKELETON));
+        this.mobs.push(new Mob(this, 25, this.player.findSafeY(25, 25), 25, MOB_TYPE.SPIDER));
+        this.mobs.push(new Mob(this, 30, this.player.findSafeY(30, 30), 30, MOB_TYPE.SHEEP));
 
-        // Connect Multiplayer
-        this.network.connect('ws://localhost:8080');
+        // Multiplayer: only connect if server URL is provided or user requests it
+        // Don't auto-connect in single player to avoid confusing error messages
+        // this.network.connect('ws://localhost:8080');
 
         // Get Player Name
         const savedName = localStorage.getItem('voxel_player_name');
@@ -125,6 +135,7 @@ class Game {
         }
 
         // Start Loop
+        this.lastTime = Date.now(); // Reset to avoid huge first-frame dt
         this.gameLoop();
     }
 
