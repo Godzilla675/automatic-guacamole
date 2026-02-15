@@ -686,8 +686,9 @@ class World {
              return;
         }
 
-        while(queue.length > 0) {
-            const node = queue.shift();
+        let head = 0;
+        while(head < queue.length) {
+            const node = queue[head++];
             const {x, y, z, level} = node;
 
             if (level <= 1) continue;
@@ -769,8 +770,9 @@ class World {
         // 2. Propagate all sources
         const queue = [...sources];
 
-        while(queue.length > 0) {
-            const node = queue.shift();
+        let head = 0;
+        while(head < queue.length) {
+            const node = queue[head++];
             const {x, y, z, level} = node;
 
             if (level <= 1) continue;
