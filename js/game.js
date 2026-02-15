@@ -90,17 +90,26 @@ class Game {
         // Generate initial world around player
         this.updateChunks();
 
-        // Init Mobs
+        // Find safe spawn height for player
+        const spawnY = this.world.getSurfaceHeight(8, 8) + 1;
+        this.player.y = spawnY;
+        this.player.spawnPoint = { x: 8, y: spawnY, z: 8 };
+        this.player.fallDistance = 0;
+        this.player.vy = 0;
+
+        // Init Mobs at safe heights
         for (let i = 0; i < 3; i++) {
-            this.mobs.push(new Mob(this, 8 + i*2, 40, 8 + i*2, MOB_TYPE.COW));
+            const mx = 8 + i*2, mz = 8 + i*2;
+            this.mobs.push(new Mob(this, mx, this.world.getSurfaceHeight(mx, mz) + 2, mz, MOB_TYPE.COW));
         }
         for (let i = 0; i < 2; i++) {
-            this.mobs.push(new Mob(this, 15 + i*2, 40, 15 + i*2, MOB_TYPE.ZOMBIE));
+            const mx = 15 + i*2, mz = 15 + i*2;
+            this.mobs.push(new Mob(this, mx, this.world.getSurfaceHeight(mx, mz) + 2, mz, MOB_TYPE.ZOMBIE));
         }
-        this.mobs.push(new Mob(this, 12, 40, 12, MOB_TYPE.PIG));
-        this.mobs.push(new Mob(this, 20, 40, 20, MOB_TYPE.SKELETON));
-        this.mobs.push(new Mob(this, 25, 40, 25, MOB_TYPE.SPIDER));
-        this.mobs.push(new Mob(this, 30, 40, 30, MOB_TYPE.SHEEP));
+        this.mobs.push(new Mob(this, 12, this.world.getSurfaceHeight(12, 12) + 2, 12, MOB_TYPE.PIG));
+        this.mobs.push(new Mob(this, 20, this.world.getSurfaceHeight(20, 20) + 2, 20, MOB_TYPE.SKELETON));
+        this.mobs.push(new Mob(this, 25, this.world.getSurfaceHeight(25, 25) + 2, 25, MOB_TYPE.SPIDER));
+        this.mobs.push(new Mob(this, 30, this.world.getSurfaceHeight(30, 30) + 2, 30, MOB_TYPE.SHEEP));
 
         // Connect Multiplayer
         this.network.connect('ws://localhost:8080');
@@ -124,6 +133,7 @@ class Game {
         }
 
         // Start Loop
+        this.lastTime = Date.now();
         this.gameLoop();
     }
 
@@ -1618,8 +1628,12 @@ class Game {
 
     gameLoop() {
         const now = Date.now();
-        const dt = now - this.lastTime;
+        let dt = now - this.lastTime;
         this.lastTime = now;
+
+        // Cap dt to prevent huge physics steps after pauses (e.g. prompt() dialog).
+        // 100ms threshold catches any frame longer than ~6fps; fallback 16ms ≈ one frame at 60fps.
+        if (dt > 100) dt = 16;
 
         if (now - this.fpsTime >= 1000) {
             this.fps = this.frameCount;

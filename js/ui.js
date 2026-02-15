@@ -51,6 +51,7 @@ class UIManager {
         if (closeSettings) {
             closeSettings.addEventListener('click', () => {
                 document.getElementById('settings-screen').classList.add('hidden');
+                document.getElementById('pause-screen').classList.remove('hidden');
             });
         }
         const volumeSlider = document.getElementById('volume-slider');
@@ -410,8 +411,13 @@ class UIManager {
 
     craftingUI() {
         const ui = document.getElementById('crafting-screen');
-        ui.classList.remove('hidden');
-        document.exitPointerLock();
+        if (ui.classList.contains('hidden')) {
+            ui.classList.remove('hidden');
+            document.exitPointerLock();
+        } else {
+            ui.classList.add('hidden');
+            if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+        }
     }
 
     openFurnace(entity) {
@@ -1115,6 +1121,21 @@ class UIManager {
             slot.className = 'inventory-item';
             slot.dataset.armorSlot = i;
             slot.style.position = 'relative'; // Ensure placeholder positioning works
+
+            // Add required child elements for renderSlotItem
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            count.style.textShadow = '1px 1px 1px black';
+            slot.appendChild(count);
 
             // Placeholder bg if empty
             if (!this.game.player.armor[i]) {
