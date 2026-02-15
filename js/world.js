@@ -602,6 +602,16 @@ class World {
         }
     }
 
+    getSurfaceHeight(x, z) {
+        for (let y = 127; y >= 0; y--) {
+            const block = this.getBlock(x, y, z);
+            if (block !== BLOCK.AIR && block !== BLOCK.WATER && block !== BLOCK.LAVA) {
+                return y;
+            }
+        }
+        return 20; // Fallback
+    }
+
     getBlock(x, y, z) {
         const cx = Math.floor(x / this.chunkSize);
         const cz = Math.floor(z / this.chunkSize);

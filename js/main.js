@@ -8,6 +8,10 @@ window.onload = () => {
         document.getElementById('menu-screen').classList.remove('hidden');
     }, 1000);
 
+    document.getElementById('show-controls').addEventListener('click', () => {
+        document.getElementById('controls-info').classList.toggle('hidden');
+    });
+
     document.getElementById('start-game').addEventListener('click', () => {
         document.getElementById('menu-screen').classList.add('hidden');
         document.getElementById('game-container').classList.remove('hidden');
