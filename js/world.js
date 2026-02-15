@@ -1011,17 +1011,18 @@ class World {
         // We'll filter out chunks too far away to keep it small.
 
         const chunksData = [];
+// Optimized conversion
+        const toBinaryString = (bytes) => {
+            const CHUNK_SIZE = 8192;
+            let binary = '';
+            for (let i = 0; i < bytes.length; i += CHUNK_SIZE) {
+                binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK_SIZE));
+            }
+            return binary;
+        };
+
         this.chunks.forEach((chunk) => {
              const packed = chunk.pack();
-
-             // Convert Uint8Array to Binary String for Base64
-             const toBinaryString = (bytes) => {
-                 let binary = '';
-                 for (let i = 0; i < bytes.length; i++) {
-                     binary += String.fromCharCode(bytes[i]);
-                 }
-                 return binary;
-             }
 
              chunksData.push({
                  cx: chunk.cx,
