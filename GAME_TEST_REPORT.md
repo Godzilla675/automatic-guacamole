@@ -57,7 +57,7 @@ This is a comprehensive desktop QA report of the Voxel World game, tested like a
 - ✅ Loading screen shows correctly with spinner and "Loading game..." text
 - ✅ Menu screen appears after ~1 second with title "🎮 Voxel World" and subtitle
 - ✅ "Start Game" button works and transitions to game
-- ❌ **BUG #1: Controls button does nothing** — No JavaScript event handler exists for `#show-controls` button. The `#controls-info` div has the HTML content but is never toggled visible. *No code references this button ID anywhere in the JS files.*
+- ✅ ~~**BUG #3: Controls button does nothing**~~ **FIXED** — Added click handler in `main.js` to toggle `#controls-info` visibility.
 
 **Screenshot — Menu Screen:**
 ![Menu Screen](https://github.com/user-attachments/assets/7382e513-3590-475f-849a-400a2ada05b3)
@@ -83,17 +83,14 @@ This is a comprehensive desktop QA report of the Voxel World game, tested like a
 ![Game Initial](https://github.com/user-attachments/assets/0d069e51-b12f-406b-80d1-a49504703528)
 *Game loads with terrain, HUD elements, and hotbar visible. Note death messages in chat.*
 
-### 3. CRITICAL BUG: Player Death Loop (Bug #2)
-- ❌ **CRITICAL — Game-breaking bug**
-- **Description:** Player spawns at y=30, terrain surface is at y≈24. Player falls ~6 blocks on first spawn. Respawn point is set to y=40 (even higher!). Each respawn causes another fall → more damage → death → respawn cycle.
-- **Root Cause Analysis:**
-  - `player.js` line 43: `this.spawnPoint = { x: 8, y: 40, z: 8 }` — hardcoded 16 blocks above terrain
-  - `player.js` line 5: initial `this.y = 30` — also above terrain
-  - `player.js` line 441-443: World bounds check kills player if y < -10, with `takeDamage(100)`
-  - Fall damage from 16-block drop exceeds player health (20 HP)
-  - No safe-spawn logic to find the actual terrain surface height
-- **Impact:** Game is completely unplayable — player dies every 2-3 seconds in an infinite loop
-- **Evidence:** Chat flooded with 48+ "You died! Respawning..." messages within seconds
+### 3. ~~CRITICAL BUG: Player Death Loop (Bug #1)~~ ✅ FIXED
+- ✅ **Previously critical — now fixed**
+- **Original Issue:** Player spawned at y=40, terrain surface at y≈24. Player fell 16+ blocks, died, respawned at y=40, fell again. Infinite death loop.
+- **Fix Applied:**
+  - Added `World.getSurfaceHeight(x, z)` method to find actual terrain surface
+  - `game.js init()` now sets spawn to `getSurfaceHeight + 1` (right above ground)
+  - `player.respawn()` recalculates safe height dynamically
+  - Capped dt in game loop to prevent huge first-frame physics step after `prompt()` pause
 
 **Screenshot — Death Loop Chat Flood:**
 ![Death Loop](https://github.com/user-attachments/assets/fca9b31e-1fe4-4bae-9a82-2b587cc6a50b)
@@ -129,9 +126,9 @@ This is a comprehensive desktop QA report of the Voxel World game, tested like a
 - ✅ Sensitivity slider works (0.1-5.0, default 1.0)
 - ✅ Key bindings displayed for all actions (Forward/W, Backward/S, etc.)
 - ✅ Reset Defaults button present
-- ❌ **BUG #3: Skin Color picker misplaced under "Audio" section** — In `index.html` lines 247-250, the "Skin Color" `<input type="color">` is placed immediately after the Audio `<h3>` heading, before the Graphics section. Should be under a "Player" or "Appearance" section.
-- ❌ **BUG #4: Settings "Back" button resumes game instead of returning to Pause menu** — `close-settings` handler at `ui.js:52-54` only hides the settings screen but doesn't re-show the pause screen. Player loses access to Save/Load/Return to Menu.
-- ❌ **BUG #5: Render Distance slider/value mismatch** — Game default is 50 blocks, but slider has `step="16"` (min=16, max=128), so 50 snaps to 48. The label says "Render Distance: 50" but the slider thumb is at 48.
+- ✅ ~~**BUG #6: Skin Color picker misplaced under "Audio" section**~~ **FIXED** — Moved to new "Appearance" section in `index.html`.
+- ✅ ~~**BUG #4: Settings "Back" button resumes game instead of returning to Pause menu**~~ **FIXED** — Now re-shows `#pause-screen` when closing settings.
+- ✅ ~~**BUG #7: Render Distance slider/value mismatch**~~ **FIXED** — Changed step from 16 to 2 so default 50 aligns correctly.
 
 **Screenshot — Settings Screen:**
 ![Settings](https://github.com/user-attachments/assets/0247df99-cf5e-45ae-b1d1-7626c890007d)
@@ -140,7 +137,7 @@ This is a comprehensive desktop QA report of the Voxel World game, tested like a
 ### 7. Inventory Screen
 - ✅ Opens with 'E' key
 - ✅ Shows "Inventory" heading and "Close (E)" button
-- ❌ **BUG #6: Inventory renders empty with JavaScript error** — `TypeError: Cannot read properties of null (reading 'style')` at `UIManager.renderSlotItem()`. The armor slot section calls `renderSlotItem()` on slots without `.block-icon` child elements (armor slots only have placeholder text, not the expected DOM structure).
+- ✅ ~~**BUG #2: Inventory renders empty with JavaScript error**~~ **FIXED** — Added `.block-icon` and `.slot-count` child elements to armor slots in `refreshArmorUI()`.
 - **Root Cause:** `ui.js` `refreshArmorUI()` (line 1133) calls `renderSlotItem(slot, armor[i])` but armor slots don't have `.block-icon` or `.slot-count` children. `renderSlotItem()` (line 1273) does `slotElement.querySelector('.block-icon')` which returns null, then tries to access `.style` on null.
 - **Impact:** Inventory appears completely empty — player cannot see or manage items.
 
@@ -152,8 +149,8 @@ This is a comprehensive desktop QA report of the Voxel World game, tested like a
 - ✅ Opens with 'C' key
 - ✅ Shows available recipes based on player inventory
 - ✅ "Close (C)" and "Recipe Book" buttons present
-- ⚠️ Pressing 'C' again does NOT close the crafting screen (must click Close button)
-- ❌ **BUG #7: Duplicate recipe names** — Three "Stick (4)" recipes appear with identical names but use different plank types (Oak Planks, Birch Planks, Jungle Planks). User has no way to distinguish which recipe uses which material.
+- ✅ ~~Pressing 'C' again does NOT close the crafting screen~~ **FIXED** — 'C' now toggles crafting open/closed.
+- ✅ ~~**BUG #8: Duplicate recipe names**~~ **FIXED** — Renamed to "Stick from Birch (4)" and "Stick from Jungle (4)".
 
 **Screenshot — Crafting Screen:**
 ![Crafting](https://github.com/user-attachments/assets/944e97c1-1fa4-47b1-9fb2-eeaa60679644)
@@ -301,32 +298,32 @@ automatic-guacamole/
 
 ---
 
-## 🐛 Complete Bug List (Feb 13, 2026 Desktop Testing)
+## 🐛 Complete Bug List (Feb 13, 2026 Desktop Testing) — ✅ ALL FIXED (Feb 15, 2026)
 
-### 🔴 Critical Issues (Game-Breaking)
+### 🔴 Critical Issues (Game-Breaking) — FIXED
 
-| # | Bug | File(s) | Impact |
+| # | Bug | File(s) | Status |
 |---|-----|---------|--------|
-| 1 | **Player Death Loop** — Spawn point y=40 is 16+ blocks above terrain (y≈24). Player falls, takes fatal damage, respawns at y=40, falls again. Infinite loop. | `player.js:5,43` | **Game unplayable** |
-| 2 | **Inventory JS Error** — `renderSlotItem()` called on armor slots without `.block-icon` child element, causing `TypeError: Cannot read properties of null`. Inventory renders empty. | `ui.js:1133,1273` | **Cannot manage inventory** |
+| 1 | **Player Death Loop** — Spawn point y=40 is 16+ blocks above terrain (y≈24). Player falls, takes fatal damage, respawns at y=40, falls again. Infinite loop. | `player.js`, `game.js`, `world.js` | ✅ Fixed: Added `getSurfaceHeight()`, safe spawn, dt cap |
+| 2 | **Inventory JS Error** — `renderSlotItem()` called on armor slots without `.block-icon` child element, causing `TypeError`. Inventory renders empty. | `ui.js` | ✅ Fixed: Added `.block-icon` and `.slot-count` to armor slots |
 
-### 🟠 Major Issues (Feature-Breaking)
+### 🟠 Major Issues (Feature-Breaking) — FIXED
 
-| # | Bug | File(s) | Impact |
+| # | Bug | File(s) | Status |
 |---|-----|---------|--------|
-| 3 | **Controls button non-functional** — Main menu "Controls" button (`#show-controls`) has no JavaScript event handler. The `#controls-info` div is never toggled. | `index.html:25-26`, no JS handler | New players cannot learn controls |
-| 4 | **Settings "Back" doesn't return to Pause menu** — Clicking Back from Settings hides settings screen but does NOT re-show the pause menu. Player is dropped back into gameplay. | `ui.js:52-54` | Cannot access Save/Load after opening Settings |
-| 5 | **Crafting 'C' key doesn't toggle closed** — Pressing 'C' opens crafting but pressing 'C' again does NOT close it. Must click the "Close (C)" button. | `input.js` / `ui.js` | Minor UX frustration |
+| 3 | **Controls button non-functional** — Main menu "Controls" button (`#show-controls`) has no JavaScript event handler. | `main.js` | ✅ Fixed: Added click handler to toggle `#controls-info` |
+| 4 | **Settings "Back" doesn't return to Pause menu** — Clicking Back hides settings but does NOT re-show the pause menu. | `ui.js` | ✅ Fixed: Re-show `#pause-screen` on close |
+| 5 | **Crafting 'C' key doesn't toggle closed** — Pressing 'C' opens crafting but won't close it. | `ui.js` | ✅ Fixed: `craftingUI()` now toggles |
 
-### 🟡 Minor Issues (Polish/UX)
+### 🟡 Minor Issues (Polish/UX) — FIXED
 
-| # | Bug | File(s) | Impact |
+| # | Bug | File(s) | Status |
 |---|-----|---------|--------|
-| 6 | **Skin Color under Audio section** — `<input type="color">` for skin color is placed under the "Audio" `<h3>` heading in HTML. | `index.html:247-250` | Confusing settings layout |
-| 7 | **Render Distance slider mismatch** — Default value 50 doesn't align with slider step=16 (snaps to 48). Label shows 50, slider at 48. | `index.html:258-259` | Visual inconsistency |
-| 8 | **Duplicate crafting recipe names** — Three "Stick (4)" recipes with different ingredients (Oak/Birch/Jungle planks) show identical names. | `crafting.js:28,45,50` | User cannot distinguish recipes |
-| 9 | **WebSocket error spam** — Game always tries to connect to `ws://localhost:8080` on init, producing console errors in single-player. | `game.js:106` | Console clutter |
-| 10 | **"Disconnected from server" in chat on startup** — Shows misleading disconnect message even in single-player mode. | `network.js:29` | Confusing for players |
+| 6 | **Skin Color under Audio section** — Skin color picker placed under "Audio" heading. | `index.html` | ✅ Fixed: Moved to new "Appearance" section |
+| 7 | **Render Distance slider mismatch** — Default 50 doesn't align with step=16 (snaps to 48). | `index.html` | ✅ Fixed: Changed step to 2 |
+| 8 | **Duplicate crafting recipe names** — Three "Stick (4)" recipes with identical names. | `crafting.js` | ✅ Fixed: Renamed to "Stick from Birch/Jungle" |
+| 9 | **WebSocket error spam** — Console errors on every startup in single-player. | `network.js` | ✅ Fixed: Silenced error handler |
+| 10 | **"Disconnected from server" in chat on startup** — Misleading message in single-player. | `network.js` | ✅ Fixed: Only show if previously connected |
 
 ---
 

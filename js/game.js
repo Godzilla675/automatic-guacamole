@@ -1631,7 +1631,8 @@ class Game {
         let dt = now - this.lastTime;
         this.lastTime = now;
 
-        // Cap dt to prevent huge physics steps (e.g. after prompt/pause)
+        // Cap dt to prevent huge physics steps after pauses (e.g. prompt() dialog).
+        // 100ms threshold catches any frame longer than ~6fps; fallback 16ms ≈ one frame at 60fps.
         if (dt > 100) dt = 16;
 
         if (now - this.fpsTime >= 1000) {

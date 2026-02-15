@@ -609,7 +609,7 @@ class World {
                 return y;
             }
         }
-        return 20; // Fallback
+        return 20; // Default terrain height if no solid blocks found (e.g. unloaded chunk)
     }
 
     getBlock(x, y, z) {
