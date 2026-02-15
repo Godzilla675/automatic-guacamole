@@ -381,7 +381,7 @@ class Physics {
             }
         });
 
-        return { entity: closest, dist: minDist };
+        return { entity: closest, dist: minDist, point: closest ? { x: origin.x + dir.x * minDist, y: origin.y + dir.y * minDist, z: origin.z + dir.z * minDist } : null };
     }
 
     getFluidIntersection(box) {

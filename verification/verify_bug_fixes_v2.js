@@ -46,14 +46,6 @@ dom.window.AudioContext = class {
     get state() { return 'running'; }
 };
 dom.window.requestAnimationFrame = (cb) => setTimeout(cb, 16);
-// Remove mock soundManager if we want to test audio calls, but verify_bug_fixes_v2 seems to overwrite it anyway?
-// Actually line 29: dom.window.soundManager = { play: () => {}, updateAmbience: () => {} };
-// So it mocks soundManager explicitly, overriding whatever loading audio.js does.
-// But wait, if audio.js is loaded, it creates window.soundManager.
-// Then line 29 overwrites it.
-// If we want to use the real AudioContext mock inside the real SoundManager, we should NOT overwrite soundManager.
-// But verify_bug_fixes_v2 might be testing Game logic that calls soundManager.
-// If the test fails because soundManager methods are missing, then we need to update the mock here.
 dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, updateListener: () => {} };
 
 // Mock Canvas
@@ -108,9 +100,12 @@ describe('Bug Reproduction Tests', () => {
         player = game.player;
 
         // Mock World for simple testing
+        const originalGetBlock = world.getBlock;
         world.getBlock = (x, y, z) => {
             if (x === 0 && y === 10 && z === 0) return BLOCK.FENCE;
             if (x === 10 && y === 10 && z === 10) return BLOCK.STONE; // Neighbor for trapdoor
+            // Ensure path from 12 to 10 is clear
+            if (x > 10) return BLOCK.AIR;
             return BLOCK.AIR;
         };
         world.getMetadata = (x, y, z) => 0;
@@ -122,105 +117,52 @@ describe('Bug Reproduction Tests', () => {
     });
 
     it('reproduce Fence Collision Bug', () => {
-        // Fence at 0, 10, 0. Height is 1.5. Top is 11.5.
-        // Player at 0, 11.2, 0.
-        // Physics checkCollision should return true.
-
         const playerBox = { x: 0.5, y: 11.2, z: 0.5, width: 0.6, height: 1.8 };
-
-        // Debug: what does checkCollision do?
-        // It floors box.y (11) -> minY = 10 (because of -1 logic for tall blocks?)
-        // Wait, current physics code: const minY = Math.floor(box.y) - 1;
-        // If box.y = 11.2, minY = 11 - 1 = 10.
-        // It checks y=10. Block at 0,10,0 is FENCE.
-
-        // Let's verify if logic handles the vertical extent correctly.
-        // In physics.js for Fence:
-        // if (y < pMaxY && y + 1.5 > pMinY ...
-        // Fence y=10. Top=11.5.
-        // Player pMinY=11.2.
-        // 11.5 > 11.2 -> True.
-
-        // So why was it reported as a bug? Maybe my memory of the code is wrong, or the fix was already applied?
-        // Let's run it and see.
-
         const collision = physics.checkCollision(playerBox);
         assert.ok(collision, "Player at 11.2 should collide with Fence at 10 (height 1.5)");
     });
 
     it('reproduce Trapdoor Placement Bug', () => {
         // Place Trapdoor against Stone at 10,10,10.
-        // Click on side of Stone at 10,10,10. Face: {x:1, y:0, z:0} -> Place at 11,10,10.
-        // Hit point y fraction > 0.5 -> Top trapdoor.
+        // We want to hit the +X face (West face relative to world, but normal is East +1).
+        // Hit point x = 11.0.
+        // Hit point y = 10.8 (Top half of face).
+        // Hit point z = 10.5 (Center).
 
-        // Mock raycast result
-        physics.raycast = () => ({
-            x: 10, y: 10, z: 10, // Hit Stone
-            face: { x: 1, y: 0, z: 0 },
-            dist: 2,
-            point: { x: 11, y: 10.8, z: 10.5 } // Hit at y=10.8 (Top half)
-        });
+        // Setup Player to look at this point
+        player.x = 12.0;
+        player.z = 10.5;
+        // Eye height = player.y + player.height * 0.9 = player.y + 1.62.
+        // We want eye height = 10.8.
+        player.y = 10.8 - 1.62; // 9.18
 
-        // We need to simulate the exact hit position for the fractional check in placeBlock
-        // In Game.placeBlock:
-        // const hit = this.physics.raycast(...)
-        // Trapdoor Logic: if ((hit.y - Math.floor(hit.y)) > 0.5) meta |= 8;
-
-        // BUT wait, physics.raycast returns integer x,y,z of the BLOCK hit.
-        // It does NOT currently return the exact hit vector in the returned object in `checkCollision`?
-        // Let's check `physics.js` `raycast` return.
-        // It returns { x, y, z, type, face, dist, (maybe point?) }
-
-        // Looking at read_file of physics.js:
-        // return { x, y, z, type: block, face: lastFace, dist: t };
-        // It does NOT return the exact hit point coordinate.
-
-        // In Game.placeBlock:
-        // if (BLOCKS[slot.type].isTrapdoor) {
-        //      // Check hit point relative Y
-        //      let meta = 0;
-        //      if ((hit.y - Math.floor(hit.y)) > 0.5) meta |= 8; // Top (Bit 3)
-        // ...
-
-        // hit.y is the integer block coordinate!
-        // So hit.y - Math.floor(hit.y) is ALWAYS 0.
-        // So it ALWAYS places bottom trapdoors.
-
-        // BUG CONFIRMED by reading code.
-        // Fix: Raycast needs to return the exact intersection point or we calculate it.
-
-        // Let's verify the failure.
-        // Mock raycast to return what the actual code returns
-        physics.raycast = () => ({
-            x: 10, y: 10, z: 10, // Integer coordinates
-            face: { x: 1, y: 0, z: 0 },
-            dist: 2,
-            point: { x: 11, y: 10.8, z: 10.5 } // 10.8 -> Top half
-        });
+        // Look direction: -1, 0, 0 (West).
+        // Yaw: Math.PI / 2 (West). Pitch: 0.
+        player.yaw = -Math.PI / 2;
+        player.pitch = 0;
 
         // Equip Trapdoor
         player.inventory[player.selectedSlot] = { type: BLOCK.TRAPDOOR, count: 1 };
 
-        // Override world.getBlock to allow placement at 11,10,10 (Air)
-        const originalGetBlock = world.getBlock;
-        world.getBlock = (x, y, z) => {
-            if (x === 11 && y === 10 && z === 10) return BLOCK.AIR;
-            return originalGetBlock(x,y,z);
-        };
+        // Ensure we can place at 11, 10, 10 (Target block to place IN)
+        // Raycast hits 10,10,10 (Stone).
+        // Face normal is +1, 0, 0.
+        // New block pos = 10+1, 10, 10 = 11, 10, 10.
 
-        // We want to simulate looking at the TOP half of the block.
-        // But since raycast returns integer Y, the logic fails.
+        // Override world.getBlock to return AIR at 11,10,10 specifically if needed,
+        // but our mock returns AIR for x > 10.
 
+        // Run placeBlock
         game.placeBlock();
 
-        // Check what happened at 11,10,10
-        assert.strictEqual(world.changes['11,10,10'], BLOCK.TRAPDOOR, "Trapdoor placed");
+        // Check if Trapdoor was placed
+        assert.strictEqual(world.changes['11,10,10'], BLOCK.TRAPDOOR, "Trapdoor placed at 11,10,10");
+
         const meta = world.changes['11,10,10_meta'];
+        // We hit at y=10.8. Relative Y = 0.8. > 0.5.
+        // Should have Top bit (8) set.
 
-        // We expect it to FAIL to set top bit (8) because of the bug.
-        // If the bug exists, meta will be 0 (or dependent on orientation), but bit 3 will be 0.
-        // We WANT bit 3 to be 1 (Top).
-
+        assert.ok(meta !== undefined, "Metadata should be set");
         assert.strictEqual(meta & 8, 8, "Trapdoor should be placed on Top half (Meta bit 3 set)");
     });
 });
