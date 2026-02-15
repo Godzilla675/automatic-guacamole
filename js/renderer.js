@@ -3,11 +3,36 @@ class Renderer {
         this.game = game;
         this.canvas = game.canvas;
         this.ctx = game.ctx;
+        this.blockPool = [];
+        this.renderList = [];
+        this.blockPoolIndex = 0;
         this.textureManager = null;
         if (window.TextureManager) {
             this.textureManager = new TextureManager();
             this.textureManager.init();
         }
+    }
+
+    allocateBlockRenderObject() {
+        if (this.blockPoolIndex >= this.blockPool.length) {
+            this.blockPool.push({
+                type: 0, rx: 0, ry: 0, rz: 0, dist: 0, light: 0, metadata: 0,
+                isStairPart: undefined, isFencePost: undefined, isTrapdoor: undefined,
+                isGate: undefined,
+                cx: undefined, cz: undefined, bx: undefined, by: undefined, bz: undefined
+            });
+        }
+        const obj = this.blockPool[this.blockPoolIndex++];
+        obj.isStairPart = undefined;
+        obj.isFencePost = undefined;
+        obj.isTrapdoor = undefined;
+        obj.isGate = undefined;
+        obj.cx = undefined;
+        obj.cz = undefined;
+        obj.bx = undefined;
+        obj.by = undefined;
+        obj.bz = undefined;
+        return obj;
     }
 
     resize() {
@@ -118,7 +143,7 @@ class Renderer {
         // Render Blocks
         // Chunk-based rendering + Frustum/Distance Culling
 
-        const blocksToDraw = [];
+        this.blockPoolIndex = 0; this.renderList.length = 0; const blocksToDraw = this.renderList;
         const px = this.game.player.x;
         const py = this.game.player.y + this.game.player.height - 0.2; // Camera Y
         const pz = this.game.player.z;
@@ -185,14 +210,14 @@ class Renderer {
                             const ry1 = dy1 * cosP - rz1 * sinP;
                             const rz1_depth = dy1 * sinP + rz1 * cosP;
 
-                            blocksToDraw.push({
-                                type: b.type,
-                                rx: rx1, ry: ry1, rz: rz1_depth,
-                                dist,
-                                light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z),
-                                isStairPart: 'bottom'
-                            });
+                            const _b1 = this.allocateBlockRenderObject();
+                            _b1.type = b.type;
+                            _b1.rx = rx1; _b1.ry = ry1; _b1.rz = rz1_depth;
+                            _b1.dist = dist;
+                            _b1.light = chunk.getLight(b.x, b.y, b.z);
+                            _b1.metadata = chunk.getMetadata(b.x, b.y, b.z);
+                            _b1.isStairPart = 'bottom';
+                            blocksToDraw.push(_b1);
 
                             // 2. Top Half (Center at y + 0.25, shifted X/Z)
                             const meta = chunk.getMetadata(b.x, b.y, b.z);
@@ -212,50 +237,50 @@ class Renderer {
                             const ry2 = dy2 * cosP - rz2_top * sinP;
                             const rz2_top_depth = dy2 * sinP + rz2_top * cosP;
 
-                             blocksToDraw.push({
-                                type: b.type,
-                                rx: rx2, ry: ry2, rz: rz2_top_depth,
-                                dist,
-                                light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: meta,
-                                isStairPart: 'top'
-                            });
+                             const _b2 = this.allocateBlockRenderObject();
+                             _b2.type = b.type;
+                             _b2.rx = rx2; _b2.ry = ry2; _b2.rz = rz2_top_depth;
+                             _b2.dist = dist;
+                             _b2.light = chunk.getLight(b.x, b.y, b.z);
+                             _b2.metadata = meta;
+                             _b2.isStairPart = 'top';
+                             blocksToDraw.push(_b2);
                         } else if (blockDef.isFence || blockDef.isPane) {
-                             blocksToDraw.push({
-                                type: b.type,
-                                rx, ry, rz: rz2,
-                                dist,
-                                light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z),
-                                isFencePost: true
-                             });
+                             const _b3 = this.allocateBlockRenderObject();
+                             _b3.type = b.type;
+                             _b3.rx = rx; _b3.ry = ry; _b3.rz = rz2;
+                             _b3.dist = dist;
+                             _b3.light = chunk.getLight(b.x, b.y, b.z);
+                             _b3.metadata = chunk.getMetadata(b.x, b.y, b.z);
+                             _b3.isFencePost = true;
+                             blocksToDraw.push(_b3);
                         } else if (blockDef.isTrapdoor) {
-                             blocksToDraw.push({
-                                type: b.type,
-                                rx, ry, rz: rz2,
-                                dist,
-                                light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z),
-                                isTrapdoor: true
-                             });
+                             const _b4 = this.allocateBlockRenderObject();
+                             _b4.type = b.type;
+                             _b4.rx = rx; _b4.ry = ry; _b4.rz = rz2;
+                             _b4.dist = dist;
+                             _b4.light = chunk.getLight(b.x, b.y, b.z);
+                             _b4.metadata = chunk.getMetadata(b.x, b.y, b.z);
+                             _b4.isTrapdoor = true;
+                             blocksToDraw.push(_b4);
                         } else if (blockDef.isGate) {
-                             blocksToDraw.push({
-                                type: b.type,
-                                rx, ry, rz: rz2,
-                                dist,
-                                light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z),
-                                isGate: true
-                             });
+                             const _b5 = this.allocateBlockRenderObject();
+                             _b5.type = b.type;
+                             _b5.rx = rx; _b5.ry = ry; _b5.rz = rz2;
+                             _b5.dist = dist;
+                             _b5.light = chunk.getLight(b.x, b.y, b.z);
+                             _b5.metadata = chunk.getMetadata(b.x, b.y, b.z);
+                             _b5.isGate = true;
+                             blocksToDraw.push(_b5);
                         } else {
-                            blocksToDraw.push({
-                                type: b.type,
-                                rx, ry: ry, rz: rz2,
-                                dist,
-                                light: chunk.getLight(b.x, b.y, b.z),
-                                metadata: chunk.getMetadata(b.x, b.y, b.z),
-                                cx: cx, cz: cz, bx: b.x, by: b.y, bz: b.z
-                            });
+                            const _b6 = this.allocateBlockRenderObject();
+                            _b6.type = b.type;
+                            _b6.rx = rx; _b6.ry = ry; _b6.rz = rz2;
+                            _b6.dist = dist;
+                            _b6.light = chunk.getLight(b.x, b.y, b.z);
+                            _b6.metadata = chunk.getMetadata(b.x, b.y, b.z);
+                            _b6.cx = cx; _b6.cz = cz; _b6.bx = b.x; _b6.by = b.y; _b6.bz = b.z;
+                            blocksToDraw.push(_b6);
                         }
                     }
                 }
