@@ -26,13 +26,16 @@ class NetworkManager {
             };
 
             this.socket.onclose = () => {
+                const wasConnected = this.connected;
                 this.connected = false;
                 console.log('Disconnected from server');
-                this.game.chat?.addMessage("Disconnected from server");
+                if (wasConnected) {
+                    this.game.chat?.addMessage("Disconnected from server");
+                }
             };
 
-            this.socket.onerror = (error) => {
-                console.error('WebSocket error:', error);
+            this.socket.onerror = () => {
+                // Silently handle - onclose will fire after this
             };
 
         } catch (e) {

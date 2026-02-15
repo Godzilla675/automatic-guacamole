@@ -42,12 +42,12 @@ class CraftingSystem {
             },
             // Sticks from new planks
             {
-                name: "Stick (4)",
+                name: "Stick from Birch (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.BIRCH_PLANK, count: 2 } ]
             },
             {
-                name: "Stick (4)",
+                name: "Stick from Jungle (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.JUNGLE_PLANK, count: 2 } ]
             },
