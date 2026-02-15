@@ -26,10 +26,15 @@ class ChatManager {
         this.messages.appendChild(line);
         this.messages.scrollTop = this.messages.scrollHeight;
 
-        // Remove old messages
+        // Remove old messages from DOM
         if (this.messages.children.length > 50) {
             this.messages.removeChild(this.messages.firstChild);
         }
+
+        // Auto-remove message from DOM after fade animation (11s matches CSS)
+        setTimeout(() => {
+            if (line.parentNode) line.parentNode.removeChild(line);
+        }, 11000);
     }
 
     open() {

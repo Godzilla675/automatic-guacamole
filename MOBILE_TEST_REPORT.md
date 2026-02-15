@@ -92,8 +92,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-7: Player Repeatedly Dies on Spawn
-**Severity:** 🟠 High  
+### BUG-7: Player Repeatedly Dies on Spawn ✅ FIXED
+**Severity:** 🟠 High → ✅ Fixed  
 **Steps to Reproduce:** Start a new game  
 **Expected:** Player spawns safely on the surface  
 **Actual:** Player spawns and dies immediately, showing "You died! Respawning..." repeatedly (17+ times during testing). Health observed at 5/20. Player appears stuck in a death loop at position (8, 33-34, 8).  
@@ -110,8 +110,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-9: No Sneak/Crouch or Chat Button on Mobile
-**Severity:** 🟠 High  
+### BUG-9: No Sneak/Crouch or Chat Button on Mobile ✅ FIXED
+**Severity:** 🟠 High → ✅ Fixed  
 **Steps to Reproduce:** Play on mobile  
 **Expected:** Sneak and Chat functionality accessible  
 **Actual:** No Sneak/Crouch button (needed for descending in fly mode, preventing falls) and no Chat button (needed for commands like `/gamemode`, `/give`, `/tp`).
@@ -120,8 +120,8 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ## 🟡 MEDIUM Severity Bugs
 
-### BUG-10: Settings Screen Shows Irrelevant Keyboard Keybinds on Mobile
-**Severity:** 🟡 Medium  
+### BUG-10: Settings Screen Shows Irrelevant Keyboard Keybinds on Mobile ✅ FIXED
+**Severity:** 🟡 Medium → ✅ Fixed  
 **Steps to Reproduce:** Open Pause → Settings on mobile  
 **Expected:** Mobile-relevant settings only  
 **Actual:** The entire "Controls" section displays keyboard keybind customization (Forward: W, Backward: S, etc.) which is irrelevant and confusing for mobile users.
@@ -130,32 +130,32 @@ TypeError: Cannot read properties of null (reading 'style')
 
 ---
 
-### BUG-11: Chat Messages Accumulate Without Clearing
-**Severity:** 🟡 Medium  
+### BUG-11: Chat Messages Accumulate Without Clearing ✅ FIXED
+**Severity:** 🟡 Medium → ✅ Fixed  
 **Steps to Reproduce:** Play the game and observe chat area  
 **Expected:** Old messages fade out and are removed  
 **Actual:** Death messages ("You died! Respawning...") keep stacking in the chat container indefinitely, eventually filling the left side of the screen and overlapping with the joystick.
 
 ---
 
-### BUG-12: Chat Container Overlaps with Joystick
-**Severity:** 🟡 Medium  
+### BUG-12: Chat Container Overlaps with Joystick ✅ FIXED
+**Severity:** 🟡 Medium → ✅ Fixed  
 **Steps to Reproduce:** Play on mobile and observe bottom-left area  
 **Expected:** Chat and joystick don't overlap  
 **Actual:** Chat container (left: 10px, bottom at 692px) overlaps with joystick area (left: 20px, top at 672px). When chat messages are present, they can interfere with joystick touch input.
 
 ---
 
-### BUG-13: Pause Button Position Could Block Gameplay View
-**Severity:** 🟡 Medium  
+### BUG-13: Pause Button Position Could Block Gameplay View ✅ FIXED
+**Severity:** 🟡 Medium → ✅ Fixed  
 **Steps to Reproduce:** Play on mobile  
 **Expected:** Pause button is accessible but not obtrusive  
 **Actual:** The pause button sits at top-right (10px from edges) which can overlap with the debug info panel or be accidentally pressed during touch-look gestures on the right side of the screen.
 
 ---
 
-### BUG-14: Disconnected from Server Message Always Appears
-**Severity:** 🟡 Medium  
+### BUG-14: Disconnected from Server Message Always Appears ✅ FIXED
+**Severity:** 🟡 Medium → ✅ Fixed  
 **Steps to Reproduce:** Start game (single player)  
 **Expected:** No server connection error in single player mode  
 **Actual:** "Disconnected from server" message always appears in chat because the game unconditionally tries to connect to `ws://localhost:8080` on init. This is confusing for mobile users who are playing locally.
@@ -204,11 +204,13 @@ The following bugs were fixed as part of this PR:
 | BUG-4: Controls button broken | Added event listener for `#show-controls` to toggle `#controls-info` | ✅ Fixed |
 | BUG-5: XP bar overflow | Reduced XP bar width to 200px on mobile | ✅ Fixed |
 | BUG-6: Health/hunger overlap | Repositioned bars above mobile controls area | ✅ Fixed |
+| BUG-7: Spawn death loop | Added `findSafeY()` to scan terrain and spawn player on solid ground | ✅ Fixed |
 | BUG-8: Wrong tutorial text | Added mobile-aware tutorial with joystick/button instructions | ✅ Fixed |
+| BUG-9: Missing Sneak/Chat | Added Sneak (⬇), Chat (💬), and Pause (⏸️) buttons to mobile controls | ✅ Fixed |
+| BUG-10: Keyboard keybinds on mobile | Hidden keyboard Controls section in settings when on mobile | ✅ Fixed |
+| BUG-11: Chat accumulation | Added auto-removal of chat messages from DOM after 11s fade | ✅ Fixed |
+| BUG-12: Chat/joystick overlap | Repositioned chat container above mobile controls | ✅ Fixed |
+| BUG-13: Pause button blocks view | Hidden desktop pause button on mobile; added Pause to action grid | ✅ Fixed |
+| BUG-14: Server disconnect msg | Disabled auto-connect to WebSocket in single player mode | ✅ Fixed |
 
-## 🔧 Remaining Recommended Fixes
-
-1. **Hide keyboard keybinds on mobile** — Conditionally hide Controls section in settings
-2. **Fix spawn death loop** — Ensure safe spawn point above terrain
-3. **Suppress server connection in single player** — Don't auto-connect to WebSocket
-4. **Limit chat message accumulation** — Auto-remove old messages from DOM
+All 14 bugs have been fixed.

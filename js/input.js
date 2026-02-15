@@ -244,6 +244,22 @@ class InputManager {
         if (craftBtn) {
             craftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.game.ui.craftingUI(); });
         }
+
+        const sneakBtn = document.getElementById('sneak-btn');
+        if (sneakBtn) {
+            sneakBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.game.controls.sneak = true; });
+            sneakBtn.addEventListener('touchend', (e) => { e.preventDefault(); this.game.controls.sneak = false; });
+        }
+
+        const chatBtn = document.getElementById('chat-btn');
+        if (chatBtn) {
+            chatBtn.addEventListener('touchstart', (e) => { e.preventDefault(); if (this.game.chat) this.game.chat.open(); });
+        }
+
+        const pauseMobileBtn = document.getElementById('pause-mobile-btn');
+        if (pauseMobileBtn) {
+            pauseMobileBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.game.ui.pauseGame(); });
+        }
     }
 }
 

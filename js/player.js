@@ -2,7 +2,7 @@ class Player {
     constructor(game) {
         this.game = game;
         this.x = 8;
-        this.y = 30;
+        this.y = 50;
         this.z = 8;
         this.vx = 0;
         this.vy = 0;
@@ -161,8 +161,9 @@ class Player {
 
     respawn() {
         this.x = this.spawnPoint.x;
-        this.y = this.spawnPoint.y;
         this.z = this.spawnPoint.z;
+        // Find safe spawn Y above terrain
+        this.y = this.findSafeY(this.spawnPoint.x, this.spawnPoint.z);
         this.health = this.maxHealth;
         this.hunger = this.maxHunger;
         this.vx = 0;
@@ -171,6 +172,23 @@ class Player {
         this.fallDistance = 0;
         if (this.game.chat) this.game.chat.addMessage("You died! Respawning...");
         if (this.game.updateHealthUI) this.game.updateHealthUI();
+    }
+
+    findSafeY(x, z) {
+        const world = this.game.world;
+        const sx = Math.floor(x);
+        const sz = Math.floor(z);
+        // Scan from top down to find the first solid, non-liquid block
+        for (let y = 60; y >= 0; y--) {
+            const block = world.getBlock(sx, y, sz);
+            if (block === BLOCK.AIR) continue;
+            const def = window.BLOCKS ? window.BLOCKS[block] : null;
+            // Treat unknown blocks as solid; skip non-solid or liquid blocks
+            if (!def || (def.solid && !def.liquid)) {
+                return y + 2; // Stand on top of block with margin
+            }
+        }
+        return 40; // Fallback
     }
 
     update(dt) {
