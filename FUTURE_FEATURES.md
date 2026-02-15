@@ -353,6 +353,16 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [ ] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
+- [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
+- [x] **CRITICAL: Fix Inventory Rendering Error** — `ui.js:1133` calls `renderSlotItem()` on armor slots missing `.block-icon` child, causing TypeError. Inventory renders empty.
+- [x] **Fix Controls Button on Menu** — `#show-controls` button in `index.html:25` has no JS event handler. Controls info never shown.
+- [x] **Fix Settings Back Button** — Settings "Back" button hides settings but doesn't re-show pause menu (`ui.js:52-54`).
+- [x] **Fix Skin Color Setting Placement** — Skin Color picker is under "Audio" section in `index.html:247-250`. Should be under Appearance/Player.
+- [x] **Fix Render Distance Slider Mismatch** — Default 50 doesn't align with step=16. Slider shows 48, label shows 50 (`index.html:258-259`).
+- [x] **Fix Duplicate Crafting Recipe Names** — Three "Stick (4)" recipes are indistinguishable (`crafting.js:28,45,50`).
+- [x] **Fix Crafting Toggle Key ('C')** — Crafting UI opens with 'C' but did not close when 'C' pressed again; now toggles.
+- [x] **Fix WebSocket Error Spam** — Repeated WebSocket error messages in console; silenced error handler.
+- [x] **Fix 'Disconnected from server' Chat Message** — Chat showed "Disconnected from server" on startup even without prior connection; now only shows if was previously connected.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)

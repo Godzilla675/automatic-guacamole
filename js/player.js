@@ -2,7 +2,7 @@ class Player {
     constructor(game) {
         this.game = game;
         this.x = 8;
-        this.y = 30;
+        this.y = 40;
         this.z = 8;
         this.vx = 0;
         this.vy = 0;
@@ -160,6 +160,11 @@ class Player {
     }
 
     respawn() {
+        // Find safe spawn height dynamically
+        if (this.game.world && this.game.world.getSurfaceHeight) {
+            const safeY = this.game.world.getSurfaceHeight(this.spawnPoint.x, this.spawnPoint.z) + 1;
+            this.spawnPoint.y = safeY;
+        }
         this.x = this.spawnPoint.x;
         this.y = this.spawnPoint.y;
         this.z = this.spawnPoint.z;
