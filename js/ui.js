@@ -362,6 +362,18 @@ class UIManager {
         if (!list) return;
         list.innerHTML = '';
 
+        // Hide keyboard keybinds on mobile - they're irrelevant
+        if (this.game.isMobile) {
+            list.style.display = 'none';
+            const resetBtn = document.getElementById('reset-controls');
+            if (resetBtn) resetBtn.style.display = 'none';
+            const controlsHeading = document.getElementById('controls-heading');
+            if (controlsHeading) controlsHeading.style.display = 'none';
+            const sensitivitySlider = document.getElementById('sensitivity-slider');
+            if (sensitivitySlider) sensitivitySlider.closest('.setting-item').style.display = 'none';
+            return;
+        }
+
         const binds = this.game.input.keybinds;
         for (const action in binds) {
             const row = document.createElement('div');
