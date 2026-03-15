@@ -21,16 +21,16 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
 - [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic)
 - [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates)
-- [ ] **Implement Cow Milking** (Use bucket on cow to get milk)
-- [ ] **Implement Sheep Shearing** (Use shears on sheep to get wool)
+- [ ] **Implement Cow Milking** (Use bucket on cow to get milk) - *Note: Partially implemented or missing by other agents, needs full implementation*
+- [ ] **Implement Sheep Shearing** (Use shears on sheep to get wool) - *Note: Partially implemented or missing by other agents, needs full implementation*
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
-- [ ] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; `verify_fishing.js` fails)
+- [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; `verify_fishing.js` fails)
 - [ ] **Fix Water Flow Visuals** (Sometimes lags or doesn't update immediately)
 - [x] **Audit and Verify All Features** (Run full regression suite)
-- [ ] **Fix Node.js Test Environment** (Install/Configure jsdom for UI tests)
+- [x] **Fix Node.js Test Environment** (Install/Configure jsdom for UI tests)
 - [x] **Fix Verification Suite** (Global Fix: Entity, AudioContext, ParticleSystem missing in tests)
 - [x] **Fix World Saving / Chunk Serialization** (Test failed: chunk.pack is not a function)
 - [x] **Fix Fall Damage Verification** (Test failed)
@@ -298,6 +298,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] Experience points and levels
 - [ ] Enchanting system
 - [ ] Potions and brewing
+- [ ] **Implement End Dimension**
+- [ ] **Add Elytra for flying**
+- [ ] **Implement Shulker Boxes**
 - [x] Health regeneration (Implemented in `js/player.js`)
 
 ### 16. Creative Mode Features
@@ -344,13 +347,15 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] Event hooks
 - [ ] Resource pack support
 - [ ] Texture customization
+- [ ] **Add support for custom models**
 
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
+- [ ] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
 - [ ] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
-- [ ] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
+- [x] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [ ] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
