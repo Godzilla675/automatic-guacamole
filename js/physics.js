@@ -21,7 +21,7 @@ class Physics {
                         // Check for Doors
                         if (blockDef.isDoor) {
                             const meta = this.world.getMetadata(x, y, z);
-                            if (meta & 4) return false; // Open -> No collision (Bit 2)
+                            if (meta & 4) continue; // Open -> No collision (Bit 2), proceed to next block
 
                             // Closed Door Collision (Thin Slab)
                             const thickness = 0.1875;

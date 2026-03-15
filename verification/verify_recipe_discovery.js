@@ -136,8 +136,8 @@ async function runTests() {
     console.log("Displayed Recipes:", displayedCount);
     // Should match unlocked count if all unlocked have corresponding recipe objects.
     // Planks (4), Stick (4), Furnace are in recipes list.
-    // NOTE: "Stick (4)" appears 3 times (Standard, Birch, Jungle), so 1+3+1 = 5.
-    assert.strictEqual(displayedCount, 5, "UI should show 5 recipes");
+    // NOTE: "Stick (4)" only appears once now because the duplicate stick recipes were renamed to "Stick from Birch (4)" and "Stick from Jungle (4)"
+    assert.strictEqual(displayedCount, 3, "UI should show 3 recipes");
 
 
     // Test 2: Unlock Logic

@@ -22,12 +22,15 @@ global.localStorage = {
 };
 global.alert = () => {};
 global.prompt = () => "TestPlayer";
-global.AudioContext = class {
+global.window.AudioContext = class {
     createGain() { return { connect: () => {}, gain: { value: 0, linearRampToValueAtTime: () => {} } }; }
     createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { value: 0, exponentialRampToValueAtTime: () => {} } }; }
+    createPanner() { return { connect: () => {}, setPosition: () => {} }; }
     destination = {};
     currentTime = 0;
+    resume() {}
 };
+global.AudioContext = global.window.AudioContext;
 global.WebSocket = class {
     constructor() {}
     send() {}
@@ -62,6 +65,9 @@ global.World = window.World;
 loadScript('physics.js');
 global.Physics = window.Physics;
 
+loadScript('entity.js');
+global.Entity = window.Entity;
+
 loadScript('player.js');
 global.Player = window.Player;
 
@@ -70,6 +76,9 @@ global.NetworkManager = window.NetworkManager;
 
 loadScript('crafting.js');
 global.CraftingSystem = window.CraftingSystem;
+
+loadScript('vehicle.js');
+global.Vehicle = window.Vehicle;
 
 loadScript('drop.js');
 global.Drop = window.Drop;
@@ -89,6 +98,24 @@ global.InputManager = window.InputManager;
 
 loadScript('renderer.js');
 global.Renderer = window.Renderer;
+
+loadScript('particles.js');
+global.ParticleSystem = window.ParticleSystem;
+
+loadScript('plugin.js');
+global.PluginAPI = window.PluginAPI;
+
+loadScript('minimap.js');
+global.Minimap = window.Minimap;
+
+loadScript('tutorial.js');
+global.Tutorial = window.Tutorial;
+
+loadScript('achievements.js');
+global.Achievements = window.Achievements;
+
+loadScript('audio.js');
+global.SoundManager = window.SoundManager;
 
 loadScript('game.js');
 global.Game = window.Game;
