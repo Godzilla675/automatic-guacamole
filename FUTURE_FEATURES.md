@@ -29,7 +29,7 @@ This document outlines the priorities and workflow for all agents working on thi
 
 - [ ] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; `verify_fishing.js` fails)
 - [ ] **Fix Water Flow Visuals** (Sometimes lags or doesn't update immediately)
-- [ ] **Audit and Verify All Features** (Run full regression suite)
+- [x] **Audit and Verify All Features** (Run full regression suite)
 - [ ] **Fix Node.js Test Environment** (Install/Configure jsdom for UI tests)
 - [x] **Fix Verification Suite** (Global Fix: Entity, AudioContext, ParticleSystem missing in tests)
 - [x] **Fix World Saving / Chunk Serialization** (Test failed: chunk.pack is not a function)
@@ -41,6 +41,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Cactus Damage Verification** (Test failed)
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
+- [ ] **Fix Missing Inventory Items**: Fences and Trapdoors are implemented but missing from the UI inventory menu (`index.html`).
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
@@ -384,7 +385,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; includes `verify_tool_repair.js`)
 - [x] **Fix Redstone Wire Propagation** (Signal does not propagate between wire blocks)
 - [x] **Fix Verification Suite Mocks** (AudioContext mocks missing createPanner/createOscillator)
-- [ ] **Audit and Verify All Features** (Run full regression suite)
+- [x] **Audit and Verify All Features** (Run full regression suite)
 - [x] **Fix verify_blocks.js logic error**
 - [x] **Fix Lighting Cleanup**
 - [x] **Refactor Structure Manager**
