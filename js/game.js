@@ -3,6 +3,8 @@ class Game {
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
 
+        this.isMobile = this.detectMobile();
+
         // Modules
         this.world = new World();
         this.world.game = this;
@@ -44,8 +46,6 @@ class Game {
             enabled: true
         };
 
-        this.isMobile = this.detectMobile();
-
         // Rendering state
         this.fov = parseInt(localStorage.getItem('voxel_fov')) || 60;
         this.renderDistance = parseInt(localStorage.getItem('voxel_renderDistance')) || 50; // blocks
@@ -56,6 +56,7 @@ class Game {
 
         // Fluid State
         this.fluidTick = 0;
+        this.ambienceTimer = 0;
 
         // Fishing State
         this.bobber = null;
@@ -111,8 +112,9 @@ class Game {
         this.mobs.push(new Mob(this, 25, this.world.getSurfaceHeight(25, 25) + 2, 25, MOB_TYPE.SPIDER));
         this.mobs.push(new Mob(this, 30, this.world.getSurfaceHeight(30, 30) + 2, 30, MOB_TYPE.SHEEP));
 
-        // Connect Multiplayer
-        this.network.connect('ws://localhost:8080');
+        // Multiplayer: only connect if server URL is provided or user requests it
+        // Don't auto-connect in single player to avoid confusing error messages
+        // this.network.connect('ws://localhost:8080');
 
         // Get Player Name
         const savedName = localStorage.getItem('voxel_player_name');
@@ -1593,32 +1595,37 @@ class Game {
 
         // Ambience Update
         if (window.soundManager && this.player) {
-             let waterIntensity = 0;
-             let windIntensity = 0;
+             this.ambienceTimer += dt;
+             if (this.ambienceTimer >= 500) {
+                 this.ambienceTimer = 0;
 
-             const cx = Math.floor(this.player.x);
-             const cy = Math.floor(this.player.y);
-             const cz = Math.floor(this.player.z);
+                 let waterIntensity = 0;
+                 let windIntensity = 0;
 
-             // Check for water nearby
-             let waterCount = 0;
-             for (let dx = -2; dx <= 2; dx++) {
-                 for (let dy = -2; dy <= 2; dy++) {
-                     for (let dz = -2; dz <= 2; dz++) {
-                         if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
-                             waterCount++;
+                 const cx = Math.floor(this.player.x);
+                 const cy = Math.floor(this.player.y);
+                 const cz = Math.floor(this.player.z);
+
+                 // Check for water nearby
+                 let waterCount = 0;
+                 for (let dx = -2; dx <= 2; dx++) {
+                     for (let dy = -2; dy <= 2; dy++) {
+                         for (let dz = -2; dz <= 2; dz++) {
+                             if (this.world.getBlock(cx+dx, cy+dy, cz+dz) === BLOCK.WATER) {
+                                 waterCount++;
+                             }
                          }
                      }
                  }
-             }
-             waterIntensity = Math.min(1.0, waterCount / 20);
+                 waterIntensity = Math.min(1.0, waterCount / 20);
 
-             // Wind based on height
-             if (this.player.y > 32) {
-                 windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
-             }
+                 // Wind based on height
+                 if (this.player.y > 32) {
+                     windIntensity = Math.min(1.0, (this.player.y - 32) / 32);
+                 }
 
-             window.soundManager.updateAmbience(waterIntensity, windIntensity);
+                 window.soundManager.updateAmbience(waterIntensity, windIntensity);
+             }
         }
     }
 
