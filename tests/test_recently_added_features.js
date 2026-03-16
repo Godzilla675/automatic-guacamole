@@ -163,6 +163,12 @@ describe('Recently Added Features Tests', () => {
         }, 100);
     });
 
+    afterEach(function() {
+        if (game && game.network && game.network.socket) {
+            game.network.socket.close();
+        }
+    });
+
     describe('Sheep Mob', () => {
         it('should be initialized correctly', () => {
             const sheep = new dom.window.Mob(game, 0, 0, 0, dom.window.MOB_TYPE.SHEEP);

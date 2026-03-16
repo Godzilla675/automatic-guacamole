@@ -163,6 +163,12 @@ describe('Feature Audit', () => {
         }, 500);
     });
 
+    after(function() {
+        if (game && game.network && game.network.socket) {
+            game.network.socket.close();
+        }
+    });
+
     it('Multiplayer: Should connect and send position updates', () => {
         // Force connection state if mock timing failed (but we want to test if it connects)
         if (!game.network.connected) {
