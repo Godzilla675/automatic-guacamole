@@ -359,7 +359,10 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [ ] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
-- [ ] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
+- [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
+- [ ] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
+- [ ] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
+- [ ] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
 - [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
 - [x] **CRITICAL: Fix Inventory Rendering Error** — `ui.js:1133` calls `renderSlotItem()` on armor slots missing `.block-icon` child, causing TypeError. Inventory renders empty.
 - [x] **Fix Controls Button on Menu** — `#show-controls` button in `index.html:25` has no JS event handler. Controls info never shown.
