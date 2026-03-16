@@ -21,8 +21,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
 - [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic)
 - [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates)
-- [ ] **Implement Cow Milking** (Use bucket on cow to get milk) - *Note: Partially implemented or missing by other agents, needs full implementation*
-- [ ] **Implement Sheep Shearing** (Use shears on sheep to get wool) - *Note: Partially implemented or missing by other agents, needs full implementation*
+- [x] **Implement Cow Milking** (Use bucket on cow to get milk) - *Note: Partially implemented or missing by other agents, needs full implementation*
+- [x] **Implement Sheep Shearing** (Use shears on sheep to get wool) - *Note: Partially implemented or missing by other agents, needs full implementation*
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
@@ -359,6 +359,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 - [ ] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
+- [ ] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
 - [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
 - [x] **CRITICAL: Fix Inventory Rendering Error** — `ui.js:1133` calls `renderSlotItem()` on armor slots missing `.block-icon` child, causing TypeError. Inventory renders empty.
 - [x] **Fix Controls Button on Menu** — `#show-controls` button in `index.html:25` has no JS event handler. Controls info never shown.

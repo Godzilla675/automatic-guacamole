@@ -993,6 +993,7 @@ class TextureManager {
         this.textures[B.ITEM_BUCKET] = this.genBucket('#C0C0C0');
         this.textures[B.ITEM_WATER_BUCKET] = this.genBucket('#0000FF');
         this.textures[B.ITEM_LAVA_BUCKET] = this.genBucket('#FF4500');
+        this.textures[B.ITEM_MILK_BUCKET] = this.genBucket('#FFFFFF');
         this.textures[B.ITEM_GLASS_BOTTLE] = this.genGlassBottle();
         this.textures[B.ITEM_POTION] = this.genPotion();
 
@@ -1002,6 +1003,7 @@ class TextureManager {
         this.textures[B.ITEM_BOAT] = this.genBoatItem();
         this.textures[B.ITEM_MINECART] = this.genMinecartItem();
         this.textures[B.ITEM_MUSIC_DISC] = this.genMusicDisc();
+        this.textures[B.ITEM_SHEARS] = this.genShears();
         this.textures[B.ITEM_WOOL] = this.genWool('#FFFFFF');
 
         // Armor - Leather
@@ -1724,6 +1726,22 @@ class TextureManager {
         ctx.fillStyle = '#FF4444';
         ctx.fillRect(4, 5, 8, 1);
         ctx.fillRect(4, 10, 8, 1);
+        return c;
+    }
+
+    genShears() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#C0C0C0';
+        // Blades
+        ctx.fillRect(3, 3, 6, 2);
+        ctx.fillRect(3, 7, 6, 2);
+        // Hinge
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(9, 5, 2, 2);
+        // Handles
+        ctx.fillRect(11, 2, 2, 4);
+        ctx.fillRect(11, 6, 2, 4);
         return c;
     }
 

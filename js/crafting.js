@@ -204,6 +204,11 @@ class CraftingSystem {
                 name: "Arrow (4)",
                 result: { type: BLOCK.ITEM_ARROW, count: 4 },
                 ingredients: [ { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.COBBLESTONE, count: 1 } ] // Simulating Flint with Cobblestone
+            },
+            {
+                name: "Shears",
+                result: { type: BLOCK.ITEM_SHEARS, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 2 } ]
             }
         ];
     }

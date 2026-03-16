@@ -50,6 +50,8 @@ class Mob extends Entity {
         this.owner = null; // Could store player ID
         this.isSitting = false;
 
+        this.isSheared = false;
+
         this.xpValue = 0;
         this.initType();
     }
@@ -90,6 +92,30 @@ class Mob extends Entity {
                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
              }
              return true;
+        }
+
+        // Cow Milking
+        if (this.type === MOB_TYPE.COW && itemType === BLOCK.ITEM_BUCKET) {
+            // Drop a milk bucket
+            if (this.game.drops) {
+                // Drop slightly above cow
+                this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.ITEM_MILK_BUCKET, 1));
+            }
+            if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+            return true; // Return true means interaction was successful, item should be consumed by caller
+        }
+
+        // Sheep Shearing
+        if (this.type === MOB_TYPE.SHEEP && itemType === BLOCK.ITEM_SHEARS && !this.isSheared && !this.isBaby) {
+            this.isSheared = true;
+            this.color = '#FFB6C1'; // Naked pinkish color
+            // Drop 1-3 wool
+            if (this.game.drops) {
+                const count = 1 + Math.floor(Math.random() * 3);
+                this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.WOOL_WHITE, count));
+            }
+            if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z}); // Snip sound
+            return true;
         }
 
         let food = null;
@@ -559,6 +585,22 @@ class Mob extends Entity {
             if (this.growthTimer <= 0) {
                 this.isBaby = false;
                 this.initType(); // Reset size
+            }
+        }
+
+        // Eating Grass (Regrow Wool)
+        if (this.type === MOB_TYPE.SHEEP && this.isSheared) {
+            // Chance to eat grass if on grass block
+            const bx = Math.floor(this.x);
+            const by = Math.floor(this.y - 0.1);
+            const bz = Math.floor(this.z);
+            if (this.world && this.world.getBlock(bx, by, bz) === BLOCK.GRASS) {
+                if (Math.random() < 0.01) { // Random chance each frame/tick
+                    this.world.setBlock(bx, by, bz, BLOCK.DIRT);
+                    this.isSheared = false;
+                    this.color = '#FFFFFF';
+                    if (window.soundManager) window.soundManager.play('eat', {x: this.x, y: this.y, z: this.z});
+                }
             }
         }
 
