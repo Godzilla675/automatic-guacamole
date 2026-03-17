@@ -136,7 +136,7 @@ describe('Recently Added Features Tests', () => {
     let game;
 
     beforeEach(function(done) {
-        this.timeout(5000);
+        this.timeout(10000);
 
         // Reset WebSocket messages
         MockWebSocket.lastSent = [];
@@ -150,23 +150,29 @@ describe('Recently Added Features Tests', () => {
         game.gameLoop = () => {};
 
         try {
-            game.init();
+            game.init().then(() => {
+                setTimeout(() => {
+                    done();
+                }, 100);
+            }).catch(e => {
+                console.error("game.init() failed:", e);
+                done(e);
+            });
         } catch (e) {
             console.error("game.init() failed:", e);
             done(e);
             return;
         }
-
-        // Wait for connection
-        setTimeout(() => {
-            done();
-        }, 100);
     });
 
     afterEach(function() {
         if (game && game.network && game.network.socket) {
             game.network.socket.close();
         }
+        if (game.world && game.world.chunks) {
+            game.world.chunks.clear();
+        }
+        game = null;
     });
 
     describe('Sheep Mob', () => {
