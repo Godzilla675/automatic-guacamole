@@ -37,6 +37,9 @@ const dom = new JSDOM(`<!DOCTYPE html>
 <button id="break-btn"></button>
 <button id="place-btn"></button>
 <button id="fly-btn"></button>
+<button id="show-controls"></button>
+<div id="controls-info"></div>
+<div id="game-container"></div>
 </body>`, {
     runScripts: "dangerously",
     resources: "usable",
