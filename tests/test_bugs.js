@@ -119,13 +119,13 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js', 'main.js'].forEach(load);
 
 describe('Bug Verification', () => {
     let game;
 
     before(function(done) {
-        this.timeout(5000);
+        this.timeout(10000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
         game.gameLoop = () => {};

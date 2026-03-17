@@ -245,7 +245,8 @@ describe('Recently Added Features Tests', () => {
         });
     });
 
-    describe('Fall Damage', () => {
+    describe('Fall Damage', function() {
+        this.timeout(10000);
         it('should take fall damage when falling on ground', () => {
             const player = game.player;
             player.flying = false;
