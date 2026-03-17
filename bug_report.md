@@ -11,7 +11,7 @@ This document details the frontend visual bugs discovered via Playwright screens
 
 ### 2.1. Critical: Game Renders Upside Down
 **Severity:** Blocker / Critical
-**Status:** Unresolved
+**Status:** ✅ Fixed
 **Location:** `js/renderer.js`
 **Description:**
 When starting the game, the 3D world is rendered completely inverted (upside down) on the canvas. The sky and clouds appear at the bottom of the screen, while the ground, trees, and buildings appear at the top. The crosshair and UI elements (inventory, health bar) render right-side up, isolating the bug to the 3D perspective projection logic.
@@ -21,9 +21,8 @@ In `js/renderer.js`, the Y-axis projection onto the 2D HTML5 Canvas does not acc
 Currently, the projection calculates the screen Y position (`sy`) as:
 `const sy = (ry / rz2) * scale + h / 2;`
 Because world `y` goes *up* (positive values), a positive `y` results in a positive `sy` relative to the center (`h/2`). Since canvas Y goes *down*, positive world `y` gets drawn *below* the horizon, and negative world `y` gets drawn *above* the horizon.
-**Proposed Fix:**
-Invert the `ry` factor when calculating `sy` across all render methods in `js/renderer.js` (blocks, entities, particles, sun/moon, etc.):
-`const sy = -(ry / rz2) * scale + h / 2;` or `const sy = h / 2 - (ry / rz2) * scale;`
+**Fix Implemented:**
+Inverted the `ry` factor when calculating `sy` across all render methods in `js/renderer.js` (blocks, entities, particles, sun/moon, etc.) using `const sy = h / 2 - (ry / rz2) * scale;`
 
 ### 2.2. Crosshair Alignment & Aspect Ratio
 **Severity:** Minor
@@ -98,4 +97,4 @@ afterEach(() => {
 - **Player Death in Headless Tests:** Tests that simulate time over long periods (like `verify_hunger.js`) must ensure the player doesn't fall through empty chunks due to gravity. The test correctly mocks a solid platform to prevent infinite falling.
 
 ## 5. Conclusion
-All automated tests are fully operational and passing. The remaining major issue is the inverted 3D projection rendering in the frontend, which requires a straightforward coordinate space fix in `js/renderer.js`.
+All automated tests are fully operational and passing. The remaining major issue of the inverted 3D projection rendering in the frontend has been successfully fixed by correcting the projection logic in `js/renderer.js` across all 3D drawing operations.

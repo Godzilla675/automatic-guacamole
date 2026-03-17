@@ -85,7 +85,7 @@ class Renderer {
              const size = scale * 0.15;
 
              const sx = (rx / rz2) * scale + w / 2;
-             const sy = (ry / rz2) * scale + h / 2;
+             const sy = h / 2 - (ry / rz2) * scale;
 
              this.ctx.beginPath();
              if (type === 'sun') {
@@ -275,7 +275,7 @@ class Renderer {
         blocksToDraw.forEach(b => {
              const size = scale / b.rz;
              const sx = (b.rx / b.rz) * scale + w / 2;
-             const sy = (b.ry / b.rz) * scale + h / 2;
+             const sy = h / 2 - (b.ry / b.rz) * scale;
 
              if (size > 0.5 && sx > -size && sx < w+size && sy > -size && sy < h+size) {
                  const blockDef = BLOCKS[b.type];
@@ -528,7 +528,7 @@ class Renderer {
              if (rz2 > 0.1) {
                  const size = (scale / rz2) * mob.height;
                  const sx = (rx / rz2) * scale + w / 2;
-                 const sy = (ry / rz2) * scale + h / 2;
+                 const sy = h / 2 - (ry / rz2) * scale;
 
                  ctx.fillStyle = mob.color;
                  const mobTex = this.textureManager ? this.textureManager.getMobTexture(mob.type) : null;
@@ -556,7 +556,7 @@ class Renderer {
                      const size = (scale / rz2) * v.height; // Use height scaling
                      const width = (scale / rz2) * v.width;
                      const sx = (rx / rz2) * scale + w / 2;
-                     const sy = (ry / rz2) * scale + h / 2;
+                     const sy = h / 2 - (ry / rz2) * scale;
 
                      if (v.type === 'minecart') ctx.fillStyle = '#808080';
                      else if (v.type === 'boat') ctx.fillStyle = '#8B4513';
@@ -582,7 +582,7 @@ class Renderer {
              if (rz2 > 0.1) {
                  const size = (scale / rz2) * 0.3; // Small size
                  const sx = (rx / rz2) * scale + w / 2;
-                 const sy = (ry / rz2) * scale + h / 2;
+                 const sy = h / 2 - (ry / rz2) * scale;
 
                  // Simple rotating cube effect (just changing width slightly)
                  const rotSize = size * (0.8 + 0.2 * Math.sin(drop.rotY));
@@ -618,7 +618,7 @@ class Renderer {
                  if (rz2 > 0.1) {
                      const size = (scale / rz2) * p.size;
                      const sx = (rx / rz2) * scale + w / 2;
-                     const sy = (ry / rz2) * scale + h / 2;
+                     const sy = h / 2 - (ry / rz2) * scale;
 
                      ctx.fillStyle = p.color || 'white';
                      ctx.fillRect(sx - size/2, sy - size/2, size, size);
@@ -640,7 +640,7 @@ class Renderer {
              if (rz2 > 0.1) {
                  const size = (scale / rz2);
                  const sx = (rx / rz2) * scale + w / 2;
-                 const sy = (ry / rz2) * scale + h / 2;
+                 const sy = h / 2 - (ry / rz2) * scale;
 
                  // Flash white
                  if (Math.floor(tnt.fuse * 5) % 2 === 0) ctx.fillStyle = 'white';
@@ -664,7 +664,7 @@ class Renderer {
              if (rz2 > 0.1) {
                  const size = (scale / rz2) * 0.2;
                  const sx = (rx / rz2) * scale + w / 2;
-                 const sy = (ry / rz2) * scale + h / 2;
+                 const sy = h / 2 - (ry / rz2) * scale;
 
                  ctx.fillStyle = 'white';
                  ctx.fillRect(sx - size/2, sy - size/2, size, size);
@@ -686,7 +686,7 @@ class Renderer {
              if (rz2 > 0.1) {
                  const size = (scale / rz2) * 0.2;
                  const sx = (rx / rz2) * scale + w / 2;
-                 const sy = (ry / rz2) * scale + h / 2;
+                 const sy = h / 2 - (ry / rz2) * scale;
 
                  ctx.fillStyle = b.state === 'hooked' ? 'red' : 'white';
                  ctx.fillRect(sx - size/2, sy - size/2, size, size);
@@ -718,7 +718,7 @@ class Renderer {
                  if (rz2 > 0.1) {
                      const size = (scale / rz2) * 1.8; // Player height
                      const sx = (rx / rz2) * scale + w / 2;
-                     const sy = (ry / rz2) * scale + h / 2;
+                     const sy = h / 2 - (ry / rz2) * scale;
 
                      ctx.fillStyle = p.skinColor || 'blue';
                      ctx.fillRect(sx - size/4, sy - size, size/2, size);
