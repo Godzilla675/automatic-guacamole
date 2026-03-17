@@ -119,12 +119,12 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
 
 describe('Bug Verification', () => {
     let game;
 
-    before(function(done) {
+    before(function() {
         this.timeout(5000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
@@ -132,15 +132,20 @@ describe('Bug Verification', () => {
         dom.window.requestAnimationFrame = (cb) => {};
 
         try {
-            game.init().then(() => {}).catch(e => console.error(e));
-        } catch (e) {}
+            game.init();
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
 
-        setTimeout(() => {
-            game.gameLoop = () => {};
-            // Mock sound manager
-            dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, volume: 1.0 };
-            done();
-        }, 500);
+        // Mock sound manager
+        dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, volume: 1.0 };
+    });
+
+    after(function() {
+        if (game && game.network && game.network.socket) {
+            game.network.socket.close();
+        }
     });
 
     it('should allow Cows to breed with Wheat Item', () => {

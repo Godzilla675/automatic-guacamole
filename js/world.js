@@ -987,7 +987,7 @@ class World {
                     if (biome.name === 'Plains') {
                          if (Math.abs(chunk.cx % 10) === 0 && Math.abs(chunk.cz % 10) === 0) {
                              if (x === 8 && z === 8) { // Center of chunk
-                                 this.structureManager.generateVillage(chunk, x, height+1, z);
+                                 this.structureManager.generateStructure(chunk, x, height+1, z, 'village');
                                  spawnedVillage = true;
                              }
                          }

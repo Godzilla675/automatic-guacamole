@@ -124,12 +124,12 @@ const load = (f) => {
     dom.window.eval(code);
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
 
 describe('Water Flow Tests', () => {
     let game;
 
-    beforeEach(function(done) {
+    beforeEach(function() {
         this.timeout(5000);
         MockWebSocket.lastSent = [];
         game = new dom.window.Game();
@@ -140,12 +140,14 @@ describe('Water Flow Tests', () => {
             game.init();
         } catch (e) {
             console.error("game.init() failed:", e);
-            done(e);
-            return;
+            throw e;
         }
-        setTimeout(() => {
-            done();
-        }, 100);
+    });
+
+    after(function() {
+        if (game && game.network && game.network.socket) {
+            game.network.socket.close();
+        }
     });
 
     afterEach(function() {

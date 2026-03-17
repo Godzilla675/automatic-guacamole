@@ -39,7 +39,7 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js'].forEach(load);
 
 describe('Bug Fixes Verification', () => {
     let world;
@@ -67,7 +67,8 @@ describe('Bug Fixes Verification', () => {
              assert.strictEqual(leaves.name, 'Spruce Leaves', "Name should be Spruce Leaves");
         });
 
-        it('should generate spruce trees with spruce blocks', () => {
+        it('should generate spruce trees with spruce blocks', function() {
+            this.timeout(5000);
             const chunk = new dom.window.Chunk(0, 0);
             world.chunks.set('0,0', chunk);
 

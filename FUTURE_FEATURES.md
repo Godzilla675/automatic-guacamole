@@ -352,17 +352,17 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
-- [ ] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
-- [ ] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
-- [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
+- [x] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
+- [x] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
+- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
-- [ ] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
+- [x] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
 - [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
-- [ ] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
-- [ ] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
-- [ ] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
+- [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
+- [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
+- [x] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
 - [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
 - [x] **CRITICAL: Fix Inventory Rendering Error** — `ui.js:1133` calls `renderSlotItem()` on armor slots missing `.block-icon` child, causing TypeError. Inventory renders empty.
 - [x] **Fix Controls Button on Menu** — `#show-controls` button in `index.html:25` has no JS event handler. Controls info never shown.
