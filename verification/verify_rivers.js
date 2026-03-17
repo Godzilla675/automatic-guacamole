@@ -33,7 +33,7 @@ const load = (f) => {
 };
 
 // Load dependencies for World
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js'].forEach(load);
 
 // Override Perlin after loading
 dom.window.perlin = {

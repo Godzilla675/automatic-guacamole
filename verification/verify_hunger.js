@@ -101,7 +101,7 @@ const load = (f) => {
 };
 
 // Load dependencies
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'mob.js', 'drop.js', 'particles.js', 'plugin.js', 'minimap.js', 'tutorial.js', 'achievements.js', 'player.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'mob.js', 'drop.js', 'particles.js', 'plugin.js', 'minimap.js', 'tutorial.js', 'achievements.js', 'player.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
 
 async function testHunger() {
     console.log("Starting Verification of Hunger System...");

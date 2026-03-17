@@ -29,7 +29,7 @@ const world = new window.World();
 
 // 1. Verify StructureManager has new methods
 if (typeof world.structureManager.generateJungleTree !== 'function') throw new Error("Missing generateJungleTree");
-if (typeof world.structureManager.generateVillage !== 'function') throw new Error("Missing generateVillage");
+if (typeof world.structureManager.generateStructure !== 'function') throw new Error("Missing generateStructure");
 
 // 2. Verify Biome Selection
 // Mock noise to return > 0.5 for JUNGLE
