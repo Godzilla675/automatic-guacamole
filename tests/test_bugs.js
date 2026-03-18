@@ -5,6 +5,9 @@ const path = require('path');
 
 const dom = new JSDOM(`<!DOCTYPE html>
 <body>
+<div id="game-container"></div>
+<button id="show-controls"></button>
+<div id="controls-info"></div>
 <div id="game-canvas"></div>
 <div id="chat-container"></div>
 <div id="chat-messages"></div>
@@ -14,6 +17,14 @@ const dom = new JSDOM(`<!DOCTYPE html>
 <div id="hunger-bar"></div>
 <div id="damage-overlay"></div>
 <div id="recipe-list"></div>
+<div id="enchanting-screen" class="hidden"></div>
+<div id="brewing-screen" class="hidden"></div>
+<div id="anvil-screen" class="hidden"></div>
+<div id="menu-screen"></div>
+<div id="loading-screen"></div>
+<div id="start-game"></div>
+<div id="death-screen"></div>
+<div id="respawn-button"></div>
 <div id="furnace-screen">
     <div id="furnace-input"></div>
     <div id="furnace-fuel"></div>
@@ -34,6 +45,12 @@ const dom = new JSDOM(`<!DOCTYPE html>
 </div>
 <div id="pause-screen" class="hidden"></div>
 <div id="recipe-book-screen" class="hidden"></div>
+<button id="resume-game"></button>
+<div id="quit-game"></div>
+<div id="settings-button"></div>
+<div id="open-recipe-book"></div>
+<button id="return-menu"></button>
+<button id="close-inventory"></button>
 </body>`, {
     runScripts: "dangerously",
     resources: "usable",
@@ -119,28 +136,41 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js', 'main.js'].forEach(load);
+
 
 describe('Bug Verification', () => {
     let game;
 
     before(function(done) {
         this.timeout(10000);
+
         game = new dom.window.Game();
         game.world.renderDistance = 1;
         game.gameLoop = () => {};
         dom.window.requestAnimationFrame = (cb) => {};
 
         try {
-            game.init().then(() => {}).catch(e => console.error(e));
-        } catch (e) {}
+            game.init().then(() => {
+                game.gameLoop = () => {};
+                // Mock sound manager
+                dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, volume: 1.0 };
+                done();
+            }).catch(e => {
+                console.error(e);
+                done(e);
+            });
+        } catch (e) {
+            console.error(e);
+            done(e);
+        }
+    });
 
-        setTimeout(() => {
-            game.gameLoop = () => {};
-            // Mock sound manager
-            dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, volume: 1.0 };
-            done();
-        }, 500);
+    after(function() {
+        if (game && game.network && game.network.socket) {
+            game.network.socket.close();
+        }
     });
 
     it('should allow Cows to breed with Wheat Item', () => {

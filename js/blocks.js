@@ -182,6 +182,7 @@ const BLOCK = {
     ITEM_LEATHER: 204,
     ITEM_WOOL: 205, // Deprecated, use WOOL_WHITE
     ITEM_MUTTON: 206,
+    ITEM_BEEF: 207,
 
     // Crafting Items
     ITEM_STICK: 210,
@@ -491,6 +492,7 @@ const BLOCKS = {
     [BLOCK.ITEM_BONE]: { name: 'Bone', color: '#F0F0F0', solid: false, isItem: true, icon: '🦴' },
     [BLOCK.ITEM_STRING]: { name: 'String', color: '#FFFFFF', solid: false, isItem: true, icon: '🕸️' },
     [BLOCK.ITEM_PORKCHOP]: { name: 'Porkchop', color: '#FFB6C1', solid: false, isItem: true, icon: '🥩', food: 8 },
+    [BLOCK.ITEM_BEEF]: { name: 'Raw Beef', color: '#8B0000', solid: false, isItem: true, icon: '🥩', food: 3 },
     [BLOCK.ITEM_LEATHER]: { name: 'Leather', color: '#8B4513', solid: false, isItem: true, icon: '🟫' },
     [BLOCK.ITEM_WOOL]: { name: 'White Wool', color: '#FFFFFF', solid: false, isItem: true, icon: '⬜' },
     [BLOCK.ITEM_MUTTON]: { name: 'Raw Mutton', color: '#B22222', solid: false, isItem: true, icon: '🍖', food: 6 },

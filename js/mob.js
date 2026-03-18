@@ -269,8 +269,11 @@ class Mob extends Entity {
 
         switch(this.type) {
             case MOB_TYPE.COW:
-                if (Math.random() < 0.5) dropType = BLOCK.ITEM_LEATHER;
-                // else Meat? Not implemented yet
+                if (Math.random() < 0.5) {
+                    dropType = BLOCK.ITEM_LEATHER;
+                } else {
+                    dropType = BLOCK.ITEM_BEEF;
+                }
                 break;
             case MOB_TYPE.PIG:
                 dropType = BLOCK.ITEM_PORKCHOP;

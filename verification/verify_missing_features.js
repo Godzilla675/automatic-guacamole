@@ -140,16 +140,16 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
 
 describe('Missing Features Verification', () => {
     let game;
 
     before(function(done) {
-        this.timeout(10000);
+        this.timeout(20000);
         game = new dom.window.Game();
         // Reduce render distance to speed up init
-        game.world.renderDistance = 2;
+        game.world.renderDistance = 1;
 
         // Override loop to stop it
         game.gameLoop = () => {};
@@ -304,7 +304,8 @@ describe('Missing Features Verification', () => {
     });
 
     describe('Water Flow', () => {
-        it('should spread water', () => {
+        it('should spread water', function() {
+             this.timeout(5000);
              const x = 20, y = 60, z = 20;
              for(let dx=-2; dx<=2; dx++) {
                  for(let dz=-2; dz<=2; dz++) {

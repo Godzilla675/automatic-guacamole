@@ -320,8 +320,15 @@ describe('Verification of Missing Coverage', function() {
 
         world.biomeManager.getBiome = () => desert; // Force Desert with high chance
 
+        const _oldRandom = Math.random;
+        Math.random = () => 0; // force random to be less than chance
+
         // Clear chunks to force regeneration
         world.chunks.clear();
+        // Since cactus is only generated if height > 18, set perlin noise so height > 18.
+        const _oldPerlin = window.perlin.noise;
+        window.perlin.noise = () => 1; // max height
+
         world.generateChunk(0, 0); // Chunk 0,0
 
         let foundCactus = false;
@@ -334,6 +341,9 @@ describe('Verification of Missing Coverage', function() {
             }
         }
 
+        Math.random = _oldRandom; // Restore
+        window.perlin.noise = _oldPerlin; // Restore
+
         assert.ok(foundCactus, "Should generate Cactus in Desert biome");
 
         // 2. Snow -> Spruce
@@ -341,8 +351,10 @@ describe('Verification of Missing Coverage', function() {
         snow.treeChance = 1.0;
 
         world.biomeManager.getBiome = () => snow; // Force Snow with high chance
+        Math.random = () => 0; // force random to be less than chance
 
         world.chunks.clear();
+        window.perlin.noise = () => 1; // max height
         world.generateChunk(1, 0); // Chunk 1,0
 
         let foundSpruce = false;
@@ -353,6 +365,9 @@ describe('Verification of Missing Coverage', function() {
                 break;
             }
         }
+
+        Math.random = _oldRandom; // Restore
+        window.perlin.noise = _oldPerlin; // Restore
 
         assert.ok(foundSpruce, "Should generate Spruce Wood in Snow biome");
     });

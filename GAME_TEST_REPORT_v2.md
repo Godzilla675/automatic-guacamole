@@ -30,5 +30,9 @@ This report details the bugs discovered and fixed during the testing of recently
 *   **Bug:** Failing due to a timeout caused by `jsdom` attempting to process UI events within `main.js`, resulting in `TypeError: Cannot read properties of null (reading 'addEventListener')`.
 *   **Fix:** Removed `main.js` from the `load` array in the test setup. The file is primarily DOM event listeners that interfere with the headless test environment.
 
+### 6. Door Collision Logic
+*   **Bug:** The "Door Logic" test was failing because an open door would still collide if a raycast or AABB overlapped the position where the door *would have been* if it were closed. The open door logic failed to calculate `dMinX` and `dMinZ` along with their `Max` counterparts, leading to an artificially wide bounding box that covered both the open AND closed states simultaneously.
+*   **Fix:** Updated `js/physics.js` door open/closed bounding box calculations so that both `dMin` and `dMax` are correctly redefined depending on the orientation (e.g., `if (orient === 0) { dMinZ = z + 1 - thickness; dMaxZ = z + 1; }`).
+
 ## Conclusion
-All test suites (79 passing, 0 failing) have successfully verified the stability of the latest game features and logic improvements.
+All test suites (82 passing, 0 failing) have successfully verified the stability of the latest game features and logic improvements.

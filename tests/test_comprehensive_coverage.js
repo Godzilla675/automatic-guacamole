@@ -120,7 +120,7 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'world.js',
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js',
  'physics.js', 'audio.js', 'network.js', 'entity.js', 'drop.js', 'crafting.js',
  'player.js', 'vehicle.js', 'mob.js', 'chat.js', 'particles.js', 'plugin.js',
  'minimap.js', 'achievements.js', 'tutorial.js', 'ui.js', 'input.js',

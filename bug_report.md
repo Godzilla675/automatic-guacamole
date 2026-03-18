@@ -82,11 +82,11 @@ afterEach(() => {
 **Status:** ✅ Fixed
 **Description:**
 *   **Placement**: Doors previously ignored player yaw.
-*   **Interaction/Collision**: Incorrect bit-checking for Open/Closed states (checked Bit 0 instead of Bit 2). Closed doors incorrectly acted as full blocks.
+*   **Interaction/Collision**: Incorrect bit-checking for Open/Closed states (checked Bit 0 instead of Bit 2). Closed doors incorrectly acted as full blocks. An open door would also erroneously collide if checking the position it occupies when closed.
 **Fix Implemented:**
 *   Updated `Game.placeBlock` to set metadata based on yaw (Bits 0-1).
 *   Updated `Game.interact` to toggle Bit 2.
-*   Updated `Physics.checkCollision` to implement thin bounding boxes based on orientation metadata.
+*   Updated `Physics.checkCollision` to implement thin bounding boxes based on orientation metadata, explicitly calculating min and max bounds depending on the open/closed state.
 
 ---
 
