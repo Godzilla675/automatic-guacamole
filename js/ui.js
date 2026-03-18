@@ -1303,8 +1303,25 @@ class UIManager {
     }
 
     renderSlotItem(slotElement, item) {
-        const icon = slotElement.querySelector('.block-icon');
-        const count = slotElement.querySelector('.slot-count');
+        let icon = slotElement.querySelector('.block-icon');
+        let count = slotElement.querySelector('.slot-count');
+
+        if (!icon) {
+            icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slotElement.appendChild(icon);
+        }
+        if (!count) {
+            count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            count.style.textShadow = '1px 1px 1px black';
+            slotElement.appendChild(count);
+        }
 
         // Clear existing durability bar if any
         const existingBar = slotElement.querySelector('.durability-bar-bg');
