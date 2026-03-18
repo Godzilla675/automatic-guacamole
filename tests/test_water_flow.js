@@ -129,7 +129,7 @@ const load = (f) => {
 describe('Water Flow Tests', () => {
     let game;
 
-    beforeEach(function() {
+    beforeEach(function(done) {
         this.timeout(5000);
         MockWebSocket.lastSent = [];
         game = new dom.window.Game();
@@ -138,9 +138,10 @@ describe('Water Flow Tests', () => {
         game.gameLoop = () => {};
         try {
             game.init();
+            done();
         } catch (e) {
             console.error("game.init() failed:", e);
-            throw e;
+            done(e);
         }
     });
 
