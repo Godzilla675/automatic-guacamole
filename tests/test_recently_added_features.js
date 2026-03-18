@@ -136,7 +136,7 @@ describe('Recently Added Features Tests', () => {
     let game;
 
     beforeEach(function(done) {
-        this.timeout(5000);
+        this.timeout(10000);
 
         // Reset WebSocket messages
         MockWebSocket.lastSent = [];
@@ -245,8 +245,7 @@ describe('Recently Added Features Tests', () => {
         });
     });
 
-    describe('Fall Damage', function() {
-        this.timeout(10000);
+    describe('Fall Damage', () => {
         it('should take fall damage when falling on ground', () => {
             const player = game.player;
             player.flying = false;

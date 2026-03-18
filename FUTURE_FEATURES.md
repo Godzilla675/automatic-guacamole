@@ -352,7 +352,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
-- [x] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
+- [x] **Fix Missing Dependencies**: Verified `jsdom` is present in `package.json` devDependencies (`^27.4.0`); CI/verification scripts can run on a fresh clone.
 - [ ] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
 - [ ] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Fix Verification Scripts**: Several verification scripts in `verification/` (e.g., `verify_lighting.js`, `verify_projectile.js`, `verify_blocks.js`) are failing due to environment setup issues or outdated logic, despite the features working. Update them to correctly mock the environment (e.g., `window` globals, dependent modules).
