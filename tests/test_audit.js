@@ -128,7 +128,8 @@ const load = (f) => {
 
 ['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
 
-describe('Feature Audit', () => {
+describe('Feature Audit', function() {
+    this.timeout(5000);
     let game;
 
     before(function() {

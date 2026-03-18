@@ -6,29 +6,26 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Nether Dimension (Major Update)
-- [ ] **Implement Nether World Generation** (New `generateNetherChunk` in `world.js`, Bedrock roof/floor, Lava lakes, Glowstone)
-- [ ] **Implement Dimension Switching** (Logic in `game.js` to switch `world.dimension`, clear chunks, scale coordinates 8:1)
-- [ ] **Implement Nether Portal Logic** (Activation loop, Teleportation timer, Portal frame detection)
-- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets in `mob.js`)
+- [ ] **Implement Nether World Generation** (New `generateNetherChunk` in `world.js`, Bedrock roof/floor, Lava lakes, Glowstone) - *Note: partially implemented, needs full implementation*
+- [ ] **Implement Dimension Switching** (Logic in `game.js` to switch `world.dimension`, clear chunks, scale coordinates 8:1) - *Note: partially implemented, needs full implementation*
+- [ ] **Implement Nether Portal Logic** (Activation loop, Teleportation timer, Portal frame detection) - *Note: partially implemented, needs full implementation*
+- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets in `mob.js`) - *Note: partially implemented, needs full implementation*
 
 ### Gameplay Extensions
-- [ ] **Implement Creative Mode** (Flight, No Damage, Infinite Items)
-- [ ] **Implement Enchanting System** (UI, Enchantment logic, Lapis usage)
-- [ ] **Implement Anvil & Repair UI** (UI for repairing/renaming items)
-- [ ] **Implement Potion Brewing Logic & UI** (Brewing Stand UI, Potion effects)
-- [ ] **Implement Crafting Animations** (Visual feedback)
+- [ ] **Implement Trading** (Villager UI, Emerald currency)
+- [ ] **Implement Map item** (Craftable map showing explored area)
 ### Gameplay Mechanics
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
-- [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic)
-- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates)
-- [x] **Implement Cow Milking** (Use bucket on cow to get milk) - *Note: Partially implemented or missing by other agents, needs full implementation*
-- [x] **Implement Sheep Shearing** (Use shears on sheep to get wool) - *Note: Partially implemented or missing by other agents, needs full implementation*
+- [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic) - *Note: partially implemented, needs full implementation*
+- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates) - *Note: partially implemented, needs full implementation*
+- [x] **Implement Cow Milking** (Use bucket on cow to get milk)
+- [x] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
 ## 2. Medium Priority: Bugs & Maintenance
 *Fix reported bugs and ensure stability.*
 
 - [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; `verify_fishing.js` fails)
-- [ ] **Fix Water Flow Visuals** (Sometimes lags or doesn't update immediately)
+- [x] **Fix Water Flow Visuals** (Sometimes lags or doesn't update immediately)
 - [x] **Audit and Verify All Features** (Run full regression suite)
 - [x] **Fix Node.js Test Environment** (Install/Configure jsdom for UI tests)
 - [x] **Fix Verification Suite** (Global Fix: Entity, AudioContext, ParticleSystem missing in tests)
@@ -41,8 +38,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Cactus Damage Verification** (Test failed)
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
-- [ ] **Fix Missing Inventory Items**: Fences and Trapdoors are implemented but missing from the UI inventory menu (`index.html`).
-- [ ] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player.
+- [ ] **Fix Missing Inventory Items**: Fences and Trapdoors are implemented but missing from the UI inventory menu (`index.html`) - *Note: Needs full implementation by agents.*
+- [ ] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player - *Note: Needs full implementation by agents.*
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
@@ -361,6 +358,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
 - [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
 - [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
+- [x] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI, and connection refused issues for Playwright tests.
+- [x] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
+- [x] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
 - [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
 - [x] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
 - [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
