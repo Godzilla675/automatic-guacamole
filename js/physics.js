@@ -21,7 +21,33 @@ class Physics {
                         // Check for Doors
                         if (blockDef.isDoor) {
                             const meta = this.world.getMetadata(x, y, z);
-                            if (meta & 4) continue; // Open -> No collision (Bit 2), proceed to next block
+                            if (meta & 4) {
+                                // Open Door Collision (Thin Slab)
+                                const thickness = 0.1875;
+                                const orient = meta & 3; // Bits 0-1
+
+                                let dMinX = x, dMaxX = x + 1;
+                                let dMinZ = z, dMaxZ = z + 1;
+
+                                if (orient === 0) { dMinZ = z + 1 - thickness; dMaxZ = z + 1; } // West Side -> Open to North
+                                else if (orient === 1) { dMinZ = z; dMaxZ = z + thickness; } // East Side -> Open to South
+                                else if (orient === 2) { dMinX = x + 1 - thickness; dMaxX = x + 1; } // North Side -> Open to East
+                                else if (orient === 3) { dMinX = x; dMaxX = x + thickness; } // South Side -> Open to West
+
+                                const pMinX = box.x - box.width/2;
+                                const pMaxX = box.x + box.width/2;
+                                const pMinY = box.y;
+                                const pMaxY = box.y + box.height;
+                                const pMinZ = box.z - box.width/2;
+                                const pMaxZ = box.z + box.width/2;
+
+                                if (dMinX < pMaxX && dMaxX > pMinX &&
+                                    y < pMaxY && y + 1 > pMinY &&
+                                    dMinZ < pMaxZ && dMaxZ > pMinZ) {
+                                    return true;
+                                }
+                                continue;
+                            } // proceed to next block
 
                             // Closed Door Collision (Thin Slab)
                             const thickness = 0.1875;
@@ -31,10 +57,10 @@ class Physics {
                             let dMinX = x, dMaxX = x + 1;
                             let dMinZ = z, dMaxZ = z + 1;
 
-                            if (orient === 0) dMaxX = x + thickness; // West Side (Face East?)
-                            else if (orient === 1) dMinX = x + 1 - thickness; // East Side
-                            else if (orient === 2) dMaxZ = z + thickness; // North Side
-                            else if (orient === 3) dMinZ = z + 1 - thickness; // South Side
+                            if (orient === 0) { dMinX = x; dMaxX = x + thickness; } // West Side (Face East?)
+                            else if (orient === 1) { dMinX = x + 1 - thickness; dMaxX = x + 1; } // East Side
+                            else if (orient === 2) { dMinZ = z; dMaxZ = z + thickness; } // North Side
+                            else if (orient === 3) { dMinZ = z + 1 - thickness; dMaxZ = z + 1; } // South Side
 
                             const pMinX = box.x - box.width/2;
                             const pMaxX = box.x + box.width/2;
