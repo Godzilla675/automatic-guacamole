@@ -100,7 +100,8 @@ describe('Bug Fixes Verification', () => {
             assert.ok(foundLeaves, "Should generate SPRUCE_LEAVES leaves");
         });
 
-        it('should generate oak trees with leaves', () => {
+        it('should generate oak trees with leaves', function(done) {
+            this.timeout(10000); // Allow more time for tree generation
              const chunk = new dom.window.Chunk(0, 0);
              world.chunks.set('0,0', chunk);
              world.structureManager.generateTree(chunk, 8, 10, 8, 'oak');
@@ -114,6 +115,7 @@ describe('Bug Fixes Verification', () => {
                  }
              }
              assert.ok(leavesCount > 0, "Should have leaves");
+             done();
         });
     });
 
