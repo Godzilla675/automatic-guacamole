@@ -29,6 +29,11 @@ class CraftingSystem {
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
             },
+            {
+                name: "Fence (2)",
+                result: { type: BLOCK.FENCE, count: 2 },
+                ingredients: [ { type: BLOCK.WOOD, count: 4 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
             // New Planks
             {
                 name: "Birch Planks (4)",

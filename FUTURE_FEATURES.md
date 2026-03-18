@@ -42,6 +42,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
 - [ ] **Fix Missing Inventory Items**: Fences and Trapdoors are implemented but missing from the UI inventory menu (`index.html`).
+- [ ] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player.
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
