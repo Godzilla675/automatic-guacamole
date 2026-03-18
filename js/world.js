@@ -603,13 +603,21 @@ class World {
     }
 
     getSurfaceHeight(x, z) {
+        // Check if chunk is loaded
+        const cx = Math.floor(x / 16);
+        const cz = Math.floor(z / 16);
+        const chunkId = `${cx},${cz}`;
+        if (!this.chunks.has(chunkId)) {
+            return 100; // Safe high value for unloaded chunks
+        }
+
         for (let y = 127; y >= 0; y--) {
             const block = this.getBlock(x, y, z);
             if (block !== BLOCK.AIR && block !== BLOCK.WATER && block !== BLOCK.LAVA) {
                 return y;
             }
         }
-        return 20; // Default terrain height if no solid blocks found (e.g. unloaded chunk)
+        return 20; // Default terrain height if no solid blocks found
     }
 
     getBlock(x, y, z) {
