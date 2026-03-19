@@ -250,8 +250,8 @@ describe('Missing Features Verification', () => {
             // We need a chunk.
             const chunk = game.world.getChunkAt(x, z);
             // Local coordinates
-            const lx = x % 16;
-            const lz = z % 16;
+            const lx = ((x % 16) + 16) % 16;
+            const lz = ((z % 16) + 16) % 16;
 
             game.world.structureManager.generateTree(chunk, lx, y, lz, 'oak');
 
