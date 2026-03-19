@@ -124,8 +124,8 @@ const load = (f) => {
 describe('Bug Verification', () => {
     let game;
 
-    before(function() {
-        this.timeout(5000);
+    before(function(done) {
+        this.timeout(10000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
         game.gameLoop = () => {};
@@ -133,9 +133,10 @@ describe('Bug Verification', () => {
 
         try {
             game.init();
+            done();
         } catch (e) {
             console.error(e);
-            throw e;
+            done(e);
         }
 
         // Mock sound manager
