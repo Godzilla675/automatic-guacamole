@@ -38,7 +38,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Cactus Damage Verification** (Test failed)
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
-- [ ] **Fix Missing Inventory Items**: Fences and Trapdoors are implemented but missing from the UI inventory menu (`index.html`) - *Note: Needs full implementation by agents.*
+- [ ] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Needs full implementation by agents.*
 - [ ] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player - *Note: Needs full implementation by agents.*
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)

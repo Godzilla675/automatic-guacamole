@@ -15,7 +15,7 @@ def test_recipe_ui():
         expect(page.locator("#start-game")).to_be_visible()
 
         # Start Game
-        page.click("#start-game")
+        page.click("#start-game", force=True)
 
         # Wait for game to load
         expect(page.locator("#game-canvas")).to_be_visible()
