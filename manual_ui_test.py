@@ -6,14 +6,34 @@ def test():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto("http://localhost:3000", wait_until="networkidle")
+        page.wait_for_timeout(1000)
+        page.click("#start-game")
+        page.wait_for_timeout(2000)
 
-        # Test if ITEM_BEEF is in window.BLOCK
-        has_beef = page.evaluate("window.BLOCK.ITEM_BEEF !== undefined")
-        print(f"Has ITEM_BEEF defined: {has_beef}")
+        # Test missing inventory items from UI
+        # Press 'E'
+        page.keyboard.press("e")
+        page.wait_for_timeout(1000)
+        page.screenshot(path="verification/test_inventory.png")
 
-        has_fence_gate = page.evaluate("window.BLOCK.FENCE_GATE !== undefined")
-        print(f"Has FENCE_GATE defined: {has_fence_gate}")
+        # Test crafting 'C'
+        page.keyboard.press("c")
+        page.wait_for_timeout(1000)
+        page.screenshot(path="verification/test_crafting.png")
 
+        # Look around and break a block
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(500)
+        page.click("#resume-game")
+        page.wait_for_timeout(500)
+
+        # Move forward, look down, break block
+        page.mouse.move(500, 500)
+        page.mouse.down()
+        page.wait_for_timeout(2000)
+        page.mouse.up()
+
+        page.screenshot(path="verification/test_gameplay.png")
         browser.close()
 
 if __name__ == "__main__":

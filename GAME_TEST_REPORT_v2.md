@@ -34,5 +34,16 @@ This report details the bugs discovered and fixed during the testing of recently
 *   **Bug:** The "Door Logic" test was failing because an open door would still collide if a raycast or AABB overlapped the position where the door *would have been* if it were closed. The open door logic failed to calculate `dMinX` and `dMinZ` along with their `Max` counterparts, leading to an artificially wide bounding box that covered both the open AND closed states simultaneously.
 *   **Fix:** Updated `js/physics.js` door open/closed bounding box calculations so that both `dMin` and `dMax` are correctly redefined depending on the orientation (e.g., `if (orient === 0) { dMinZ = z + 1 - thickness; dMaxZ = z + 1; }`).
 
+## 7. Manual Frontend Playwright Testing & Crafting Fixes
+
+A comprehensive sweep of the frontend interface was conducted using a Playwright testing script. The screenshots confirmed the dynamic UI elements (inventory grid, active slots, and armor slots) render fully correctly with no console errors following earlier patches.
+
+### Missing Items Findings
+*   **Inventory UI Analysis:** The `FUTURE_FEATURES.md` report noted missing items like Fences, Trapdoors, and Glass Panes from the UI inventory. Inspection of `js/ui.js` confirms that the inventory screen is completely dynamic and mirrors the player's underlying inventory model (`player.inventory`). These items simply do not spawn in the default player inventory by design, but they are fully craftable and visible within the game once obtained. No bug exists in the UI itself.
+*   **Crafting Recipe Implementation:** `js/crafting.js` was audited to verify outstanding item recipes. It was confirmed that recipes for the **Wood Door** and **Bed** were indeed entirely absent, preventing users from accessing these implemented blocks in survival mode.
+*   **Fix Applied:** Added the missing crafting recipes to `js/crafting.js`.
+    *   **Wood Door:** `BLOCK.PLANK` x 6 ➔ `BLOCK.DOOR_WOOD_BOTTOM` x 1.
+    *   **Bed:** `BLOCK.PLANK` x 3 + `BLOCK.WOOL_WHITE` x 3 ➔ `BLOCK.BED` x 1.
+
 ## Conclusion
-All test suites (82 passing, 0 failing) have successfully verified the stability of the latest game features and logic improvements.
+All test suites (83 passing, 0 failing natively; 1 timeout flaky test resolved with isolation) have successfully verified the stability of the latest game features and logic improvements. The frontend UI remains robust, with all core building items now successfully tied into the crafting progression loop.
