@@ -299,6 +299,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement End Dimension**
 - [ ] **Add Elytra for flying**
 - [ ] **Implement Shulker Boxes**
+- [ ] **Implement Wither Boss** (Summoning, AI, Drops)
+- [ ] **Implement Beacons** (Status effects, Pyramids)
 - [x] Health regeneration (Implemented in `js/player.js`)
 
 ### 16. Creative Mode Features
@@ -355,13 +357,15 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [ ] **Add a "Chat History Log" toggle**
 - [ ] **Add background music support for Jukebox**
+- [ ] **Implement proper block placement sound based on block type**
+- [ ] **Add configurable UI scaling setting**
 - [x] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
 - [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
 - [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
 - [x] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI, and connection refused issues for Playwright tests.
 - [x] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
 - [x] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
-- [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
+- [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`. (Fixed by ensuring HTTP server runs before tests)
 - [x] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
 - [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
 - [x] **CRITICAL: Fix Inventory Rendering Error** — `ui.js:1133` calls `renderSlotItem()` on armor slots missing `.block-icon` child, causing TypeError. Inventory renders empty.
