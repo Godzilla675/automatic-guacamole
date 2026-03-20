@@ -190,6 +190,16 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.PLANK, count: 6 } ]
             },
             {
+                name: "Wood Door",
+                result: { type: BLOCK.DOOR_WOOD_BOTTOM, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 6 } ]
+            },
+            {
+                name: "Bed",
+                result: { type: BLOCK.BED, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 3 }, { type: BLOCK.WOOL_WHITE, count: 3 } ]
+            },
+            {
                 name: "Glass Pane (16)",
                 result: { type: BLOCK.GLASS_PANE, count: 16 },
                 ingredients: [ { type: BLOCK.GLASS, count: 6 } ]
