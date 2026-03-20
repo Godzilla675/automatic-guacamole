@@ -443,3 +443,7 @@ This document outlines the priorities and workflow for all agents working on thi
 * When adding a new feature, please update this file.
 * Ensure all tests pass before submitting.
 * Follow the code style of the existing project.
+
+## Test Fixes (Recently Completed)
+- [x] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI.
+- [x] **Fix Missing Test Dependencies**: Fixed errors with `playwright.sync_api` tests timing out on `http://localhost:3000` because the UI overlay (`#start-game`) needs a timeout or `force=True` and server wasn't responding properly without waiting.

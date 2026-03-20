@@ -9,7 +9,8 @@ def test_recipe_ui():
         page.on("console", lambda msg: print(f"Console: {msg.text}"))
         page.on("pageerror", lambda err: print(f"Page Error: {err}"))
 
-        page.goto("http://localhost:3000", wait_until="networkidle")
+        page.goto("http://localhost:3000")
+        page.wait_for_timeout(1500)
 
         # Wait for button to be interactive
         expect(page.locator("#start-game")).to_be_visible()
