@@ -6,7 +6,8 @@ def test_milking_and_shearing():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        page.goto("http://localhost:3000", wait_until="networkidle")
+        page.goto("http://localhost:3000")
+        page.wait_for_timeout(1500)
 
         # Wait for game to load and click start
         expect(page.locator("#start-game")).to_be_visible()
