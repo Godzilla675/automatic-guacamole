@@ -362,6 +362,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
 - [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
 - [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
+- [x] **Test bugs fail**: `tests/test_comprehensive_coverage.js` currently fails randomly due to timeout.
 - [x] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI, and connection refused issues for Playwright tests.
 - [x] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
 - [x] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
