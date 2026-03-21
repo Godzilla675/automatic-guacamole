@@ -39,7 +39,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
 - [ ] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Needs full implementation by agents.*
-- [ ] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player - *Note: Needs full implementation by agents.*
+- [x] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player - *Note: Needs full implementation by agents.*
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
@@ -366,7 +366,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI, and connection refused issues for Playwright tests.
 - [x] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
 - [x] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
-- [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`. (Fixed by ensuring HTTP server runs before tests)
+- [ ] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_armor_ui_fix.py`, `verification/verify_changes.py`, `verification/verify_crafting_new_recipes.py`, `verification/verify_death_loop.py`, `verification/verify_manual_gameplay.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
 - [x] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
 - [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
 - [x] **CRITICAL: Fix Inventory Rendering Error** — `ui.js:1133` calls `renderSlotItem()` on armor slots missing `.block-icon` child, causing TypeError. Inventory renders empty.
