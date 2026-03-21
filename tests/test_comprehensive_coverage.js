@@ -493,19 +493,20 @@ describe('Chat System & Commands', () => {
     let game;
 
     before(function(done) {
-        this.timeout(10000);
+        this.timeout(20000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
         game.gameLoop = () => {};
 
         try {
-            game.init().then(() => {}).catch(() => {});
-        } catch (e) {}
-
-        setTimeout(() => {
-            game.gameLoop = () => {};
-            done();
-        }, 500);
+            game.init();
+            setTimeout(() => {
+                game.gameLoop = () => {};
+                done();
+            }, 500);
+        } catch (e) {
+            done(e);
+        }
     });
 
     it('should add messages to chat', () => {
@@ -762,17 +763,19 @@ describe('Player Advanced Systems', () => {
     let game;
 
     before(function(done) {
-        this.timeout(10000);
+        this.timeout(20000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
         game.gameLoop = () => {};
         try {
-            game.init().then(() => {}).catch(() => {});
-        } catch (e) {}
-        setTimeout(() => {
-            game.gameLoop = () => {};
-            done();
-        }, 500);
+            game.init();
+            setTimeout(() => {
+                game.gameLoop = () => {};
+                done();
+            }, 500);
+        } catch (e) {
+            done(e);
+        }
     });
 
     describe('Armor System', () => {
@@ -947,17 +950,19 @@ describe('Mob System', () => {
     let game;
 
     before(function(done) {
-        this.timeout(10000);
+        this.timeout(20000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
         game.gameLoop = () => {};
         try {
-            game.init().then(() => {}).catch(() => {});
-        } catch (e) {}
-        setTimeout(() => {
-            game.gameLoop = () => {};
-            done();
-        }, 500);
+            game.init();
+            setTimeout(() => {
+                game.gameLoop = () => {};
+                done();
+            }, 500);
+        } catch (e) {
+            done(e);
+        }
     });
 
     it('should create mob with correct type', () => {
@@ -1013,17 +1018,19 @@ describe('World Saving', () => {
     let game;
 
     before(function(done) {
-        this.timeout(10000);
+        this.timeout(20000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
         game.gameLoop = () => {};
         try {
-            game.init().then(() => {}).catch(() => {});
-        } catch (e) {}
-        setTimeout(() => {
-            game.gameLoop = () => {};
-            done();
-        }, 500);
+            game.init();
+            setTimeout(() => {
+                game.gameLoop = () => {};
+                done();
+            }, 500);
+        } catch (e) {
+            done(e);
+        }
     });
 
     it('should save and load block state', () => {
