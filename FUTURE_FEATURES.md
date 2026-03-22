@@ -22,6 +22,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
 ## 2. Medium Priority: Bugs & Maintenance
+- [ ] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs.
+
 *Fix reported bugs and ensure stability.*
 
 - [x] **Fix Verification Suite** (Many tests fail due to missing `ParticleSystem` dependency or incomplete mocks; `verify_fishing.js` fails)
@@ -38,7 +40,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Cactus Damage Verification** (Test failed)
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
-- [ ] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Needs full implementation by agents.*
+- [x] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Needs full implementation by agents.*
 - [x] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player - *Note: Needs full implementation by agents.*
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
