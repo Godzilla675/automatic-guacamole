@@ -6,18 +6,19 @@ This document outlines the priorities and workflow for all agents working on thi
 *Focus on adding content and gameplay mechanics.*
 
 ### Nether Dimension (Major Update)
-- [ ] **Implement Nether World Generation** (New `generateNetherChunk` in `world.js`, Bedrock roof/floor, Lava lakes, Glowstone) - *Note: partially implemented, needs full implementation*
-- [ ] **Implement Dimension Switching** (Logic in `game.js` to switch `world.dimension`, clear chunks, scale coordinates 8:1) - *Note: partially implemented, needs full implementation*
-- [ ] **Implement Nether Portal Logic** (Activation loop, Teleportation timer, Portal frame detection) - *Note: partially implemented, needs full implementation*
-- [ ] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets in `mob.js`) - *Note: partially implemented, needs full implementation*
+- [ ] **Implement Nether Fortresses** (Structure generation logic, Spawners, Loot chests)
+- [ ] **Implement Nether Quartz Ore Generation** (Vein generation, drops)
+- [ ] **Implement Wither Boss** (Summoning logic, AI, Projectiles, Nether Star drop)
 
 ### Gameplay Extensions
 - [ ] **Implement Trading** (Villager UI, Emerald currency)
 - [ ] **Implement Map item** (Craftable map showing explored area)
+- [ ] **Implement Beacons** (Status effects, Pyramids, UI)
+
 ### Gameplay Mechanics
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
-- [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic) - *Note: partially implemented, needs full implementation*
-- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates) - *Note: partially implemented, needs full implementation*
+- [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic) - *Note: Not implemented.*
+- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates) - *Note: Not implemented.*
 - [x] **Implement Cow Milking** (Use bucket on cow to get milk)
 - [x] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
@@ -40,8 +41,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Cactus Damage Verification** (Test failed)
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
-- [x] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Needs full implementation by agents.*
-- [x] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented but cannot be crafted by the player - *Note: Needs full implementation by agents.*
+- [x] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Fully implemented by agents.*
+- [x] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented and can be crafted by the player - *Note: Fully implemented by agents.*
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
 
@@ -71,6 +72,10 @@ This document outlines the priorities and workflow for all agents working on thi
 *Keep a record of what works.*
 
 ### New Features (Recently Completed)
+- [x] **Implement Nether World Generation** (New `generateNetherChunk` in `world.js`, Bedrock roof/floor, Lava lakes, Glowstone)
+- [x] **Implement Dimension Switching** (Logic in `game.js` to switch `world.dimension`, clear chunks, scale coordinates 8:1)
+- [x] **Implement Nether Portal Logic** (Activation loop, Teleportation timer, Portal frame detection)
+- [x] **Implement Nether Mobs** (Pigman, Ghast, Blaze - AI & Assets in `mob.js`)
 - [x] **Add Block & Mob Textures** (Procedural 16x16 pixel-art textures for all blocks and mob sprites)
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction) - *Verified*
 - [x] **Implement Hunger Effects** (Sprint limiting, health regeneration) - *Verified*
@@ -354,6 +359,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
+- [ ] **Fix Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs.
 - [x] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
 - [x] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
 - [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
