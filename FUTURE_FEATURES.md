@@ -359,12 +359,16 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
-- [ ] **Missing Minecart and Boat Implementation**: The "Minecarts and Boats" feature is marked complete but `BLOCK.MINECART` and `BLOCK.BOAT` do not exist.
-- [ ] **Missing Jukebox and Music Discs**: The "Jukebox & Music Discs" feature is marked complete but `BLOCK.JUKEBOX` and `BLOCK.MUSIC_DISC` do not exist.
-- [ ] **Missing Signs Implementation**: The "Signs" feature is marked complete but `BLOCK.SIGN` does not exist.
-- [ ] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist.
-- [ ] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist.
-- [ ] **Fix Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs.
+- [x] **Missing Minecart and Boat Implementation**: The "Minecarts and Boats" feature is marked complete and `BLOCK.ITEM_MINECART` and `BLOCK.ITEM_BOAT` now exist.
+- [x] **Missing Jukebox and Music Discs**: The "Jukebox & Music Discs" feature is marked complete and `BLOCK.JUKEBOX` and `BLOCK.ITEM_MUSIC_DISC` now exist.
+- [x] **Missing Signs Implementation**: The "Signs" feature is marked complete and `BLOCK.ITEM_SIGN` and variants now exist.
+- [ ] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent.
+- [ ] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent.
+- [ ] **Fix Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. Agents must add this.
+- [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
+- [ ] **Implement Proper Block Placement Sounds**: Sounds are currently generic. Must vary based on block type (wood, stone, dirt).
+- [ ] **Add Command Block**: Add logic for `/give` command block for server admins.
+- [ ] **Fix Animal Drops**: Make sure items like string, bones, ender pearls drop from corresponding mobs, checking loot tables.
 - [x] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
 - [x] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
 - [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
