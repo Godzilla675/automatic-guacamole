@@ -1,0 +1,6 @@
+Minecarts and Boats: False
+Jukebox & Music Discs: False
+Signs: False
+Saplings: False
+Animal Breeding: False
+Water Flow Visuals: False
