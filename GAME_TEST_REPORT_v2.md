@@ -45,7 +45,11 @@ A comprehensive sweep of the frontend interface was conducted using a Playwright
     *   **Wood Door:** `BLOCK.PLANK` x 6 ➔ `BLOCK.DOOR_WOOD_BOTTOM` x 1.
     *   **Bed:** `BLOCK.PLANK` x 3 + `BLOCK.WOOL_WHITE` x 3 ➔ `BLOCK.BED` x 1.
 
-## 8. Final Stability Verification (Current Run)
+## 8. Lighting System Fix
+*   **Bug:** `verification/verify_lighting.js` test failed. While placing a torch correctly propagated light, removing the torch left light lingering incorrectly. The root cause was that `BLOCK.AIR` and `BLOCK.WATER` blocks were not explicitly checked to let light propagate when resetting/updating block light states.
+*   **Fix:** Updated `updateLighting` and `recalcLocalLight` in `js/world.js` to ensure that `nType === BLOCK.AIR || nType === BLOCK.WATER` are properly evaluated as transparent when propagating/cleaning up lighting values. This restored proper lighting reduction when sources are removed.
+
+## 9. Final Stability Verification (Current Run)
 
 During the current testing sweep, we ran the full `test_runner.py` suite as well as Playwright UI tests.
 

@@ -98,6 +98,8 @@ describe('Implemented Features Tests', () => {
         game.world.setBlock(x, y, z, BLOCK.SLAB_STONE); // Height 0.5 (30.0 - 30.5)
 
         // Check collision at 30.6 (Above)
+        // Since y is origin (feet level) and height is 1.8, checking {y: 30.6} means checking box from y=30.6 to y=32.4
+        // The slab is at y=30.0 to y=30.5
         const noCol = game.physics.checkCollision({x: 10.5, y: 30.6, z: 10.5, width: 0.6, height: 1.8});
         assert.strictEqual(noCol, false, "Should not collide above slab");
 
@@ -133,8 +135,6 @@ describe('Implemented Features Tests', () => {
         // Open door North occupies z=10+1-0.1875=10.8125 to z=11.
         // The check is at z=10.5, width=0.1, so z occupies 10.45 to 10.55. This is far from 10.8125!
         // Why does it still collide?
-        console.log("Checking collision for closed door...", game.physics.checkCollision({x: 10.1, y: 30.5, z: 10.5, width: 0.1, height: 1.8}));
-        console.log("Meta is:", game.world.getMetadata(x, y, z));
         assert.strictEqual(game.physics.checkCollision({x: 10.1, y: 30.5, z: 10.5, width: 0.1, height: 1.8}), false, "Open door should not collide at closed position");
     });
 
