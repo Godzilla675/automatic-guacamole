@@ -418,7 +418,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Verification Suite Mocks** (AudioContext mocks missing createPanner/createOscillator)
 - [x] **Audit and Verify All Features** (Run full regression suite)
 - [x] **Fix verify_blocks.js logic error**
-- [x] **Fix Lighting Cleanup**
+- [x] **Fix Lighting Cleanup**: Fixed in `verify_lighting.js` and `world.js` so that `AIR` and `WATER` blocks allow light to propagate as transparent.
 - [x] **Refactor Structure Manager**
 - [x] **Fix Water Flow Logic**
 - [x] **Fix Spruce Tree Visuals**

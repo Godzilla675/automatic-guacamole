@@ -713,7 +713,7 @@ class World {
 
                 const nType = this.getBlock(n.x, n.y, n.z);
                 const nDef = window.BLOCKS[nType];
-                if (nType === BLOCK.AIR || (nDef && nDef.transparent)) {
+                if (nType === BLOCK.AIR || nType === BLOCK.WATER || (nDef && nDef.transparent)) {
                     const currentLight = this.getLight(n.x, n.y, n.z);
                     if (currentLight < level - 1) {
                          this.setLight(n.x, n.y, n.z, level - 1);
@@ -794,7 +794,7 @@ class World {
             for (const n of neighbors) {
                  const nType = this.getBlock(n.x, n.y, n.z);
                  const nDef = window.BLOCKS[nType];
-                 if (nType === BLOCK.AIR || (nDef && nDef.transparent)) {
+                 if (nType === BLOCK.AIR || nType === BLOCK.WATER || (nDef && nDef.transparent)) {
                      const currentLevel = this.getLight(n.x, n.y, n.z);
                      if (currentLevel < level - 1) {
                          this.setLight(n.x, n.y, n.z, level - 1);
