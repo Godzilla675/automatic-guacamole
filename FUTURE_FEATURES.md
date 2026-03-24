@@ -180,7 +180,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Tool durability system
 - [x] Different breaking speeds based on tool and block
 - [x] **Implement Tool Repair** (Crafting combination)
-- [ ] **Implement Tree Drops** (Saplings, Apples)
+- [x] **Implement Tree Drops** (Saplings, Apples)
 
 ### 5. Mobs and AI
 - [ ] **Implement Villagers** (Model, AI, Trading interface)
@@ -343,9 +343,12 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] Undo/redo system
 
 ### 20. World Interaction (Misc)
-- [ ] Minecarts and rails
-- [ ] Boats
-- [ ] Signs and text
+- [x] Minecarts and rails
+- [x] Boats
+- [x] Signs and text
+- [ ] Implement Hoppers (Item transfer logic and UI)
+- [ ] Implement Droppers and Dispensers (Redstone interaction)
+- [ ] Implement Item Frames (Wall mounted item display)
 
 ### 21. Modding Support
 - [ ] Plugin API
@@ -369,13 +372,16 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Proper Block Placement Sounds**: Sounds are currently generic. Must vary based on block type (wood, stone, dirt).
 - [ ] **Add Command Block**: Add logic for `/give` command block for server admins.
 - [ ] **Fix Animal Drops**: Make sure items like string, bones, ender pearls drop from corresponding mobs, checking loot tables.
-- [x] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
-- [x] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
-- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [ ] **Add a "Chat History Log" toggle**
 - [ ] **Add background music support for Jukebox**
 - [ ] **Implement proper block placement sound based on block type**
 - [ ] **Add configurable UI scaling setting**
+- [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
+- [ ] **Implement Droppers**: Add redstone logic to drop items into the world or containers.
+- [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames.
+- [x] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
+- [x] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
+- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
 - [x] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
 - [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
 - [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
