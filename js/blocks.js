@@ -312,7 +312,8 @@ const TOOLS = {
     [BLOCK.SWORD_DIAMOND]: { type: 'sword', speed: 1.5, damage: 7, durability: 1561 },
 
     [BLOCK.BOW]: { type: 'bow', speed: 1, damage: 4, durability: 384 },
-    [BLOCK.SHIELD]: { type: 'shield', durability: 336 }
+    [BLOCK.SHIELD]: { type: 'shield', durability: 336 },
+    [BLOCK.ITEM_SHEARS]: { type: 'shears', durability: 238 }
 };
 
 const BLOCKS = {
@@ -585,7 +586,14 @@ const BLOCKS = {
     [BLOCK.ITEM_BOOTS_DIAMOND]: { name: 'Diamond Boots', color: '#00FFFF', solid: false, isItem: true, icon: '👢' }
 };
 
-window.BLOCK = BLOCK;
-window.BLOCKS = BLOCKS;
-window.TOOLS = TOOLS;
-window.ARMOR = ARMOR;
+if (typeof window !== 'undefined') {
+    window.BLOCK = BLOCK;
+    window.BLOCKS = BLOCKS;
+    window.TOOLS = TOOLS;
+    window.ARMOR = ARMOR;
+} else {
+    global.BLOCK = BLOCK;
+    global.BLOCKS = BLOCKS;
+    global.TOOLS = TOOLS;
+    global.ARMOR = ARMOR;
+}
