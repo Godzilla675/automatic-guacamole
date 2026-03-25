@@ -466,8 +466,18 @@ class Game {
                 // Mob Interaction
                 if (slot && closestMob.interact(slot.type)) {
                      if (this.player.gamemode !== 1) {
-                         slot.count--;
-                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         if (window.TOOLS && window.TOOLS[slot.type]) {
+                             if (slot.durability === undefined) {
+                                 slot.durability = window.TOOLS[slot.type].durability;
+                             }
+                             slot.durability--;
+                             if (slot.durability <= 0) {
+                                 this.player.inventory[this.player.selectedSlot] = null;
+                             }
+                         } else {
+                             slot.count--;
+                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         }
                      }
                      this.updateHotbarUI();
                      return;
