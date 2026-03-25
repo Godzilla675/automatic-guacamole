@@ -23,7 +23,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
 ## 2. Medium Priority: Bugs & Maintenance
-- [ ] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs.
+- [ ] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. - *Note: Partially implemented but missing UI logic. An agent needs to add this.*
 
 *Fix reported bugs and ensure stability.*
 
@@ -362,13 +362,14 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
-- [x] **Missing Minecart and Boat Implementation**: The "Minecarts and Boats" feature is marked complete and `BLOCK.ITEM_MINECART` and `BLOCK.ITEM_BOAT` now exist.
-- [x] **Missing Jukebox and Music Discs**: The "Jukebox & Music Discs" feature is marked complete and `BLOCK.JUKEBOX` and `BLOCK.ITEM_MUSIC_DISC` now exist.
-- [x] **Missing Signs Implementation**: The "Signs" feature is marked complete and `BLOCK.ITEM_SIGN` and variants now exist.
-- [ ] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent.
-- [ ] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent.
-- [ ] **Fix Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. Agents must add this.
+- [ ] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
+- [ ] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
+- [ ] **Implement Trading**: Villager UI, Emerald currency.
+- [ ] **Implement Map item**: Craftable map showing explored area.
+- [ ] **Implement Beacons**: Status effects, Pyramids.
+- [ ] **Implement Redstone Repeaters & Comparators**: Delays, locking, signal strength logic.
+- [ ] **Implement Redstone Input Devices**: Levers, Buttons, Pressure Plates.
 - [ ] **Implement Proper Block Placement Sounds**: Sounds are currently generic. Must vary based on block type (wood, stone, dirt).
 - [ ] **Add Command Block**: Add logic for `/give` command block for server admins.
 - [ ] **Fix Animal Drops**: Make sure items like string, bones, ender pearls drop from corresponding mobs, checking loot tables.
@@ -379,28 +380,14 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
 - [ ] **Implement Droppers**: Add redstone logic to drop items into the world or containers.
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames.
-- [x] **Fix Missing Dependencies**: `jsdom` is not listed in `package.json` devDependencies causing CI/verification scripts to fail on a fresh clone.
-- [x] **Implement Beef Item and Cow Drops** (Cows currently drop nothing or leather only; need ITEM_BEEF/STEAK)
-- [x] **Refactor Structure Manager**: Move specific structure logic (Wells, Trees) into separate classes or modules to support expanding Village generation.
-- [x] **Incomplete Cow Drops**: Cows currently lack a meat drop. Add `BLOCK.ITEM_BEEF` and update cow loot tables.
-- [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
-- [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
-- [x] **Test bugs fail**: `tests/test_comprehensive_coverage.js` currently fails randomly due to timeout.
-- [x] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI, and connection refused issues for Playwright tests.
-- [x] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
-- [x] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
-- [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a Connection Refused: `verification/verify_armor_ui_fix.py`, `verification/verify_changes.py`, `verification/verify_crafting_new_recipes.py`, `verification/verify_death_loop.py`, `verification/verify_manual_gameplay.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
-- [x] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
-- [x] **CRITICAL: Fix Player Death Loop on Spawn** — Spawn point y=40 is far above terrain (~y=24). Player falls and dies repeatedly. Need safe spawn height detection in `player.js:43`.
-- [x] **CRITICAL: Fix Inventory Rendering Error** — `ui.js:1133` calls `renderSlotItem()` on armor slots missing `.block-icon` child, causing TypeError. Inventory renders empty.
-- [x] **Fix Controls Button on Menu** — `#show-controls` button in `index.html:25` has no JS event handler. Controls info never shown.
-- [x] **Fix Settings Back Button** — Settings "Back" button hides settings but doesn't re-show pause menu (`ui.js:52-54`).
-- [x] **Fix Skin Color Setting Placement** — Skin Color picker is under "Audio" section in `index.html:247-250`. Should be under Appearance/Player.
-- [x] **Fix Render Distance Slider Mismatch** — Default 50 doesn't align with step=16. Slider shows 48, label shows 50 (`index.html:258-259`).
-- [x] **Fix Duplicate Crafting Recipe Names** — Three "Stick (4)" recipes are indistinguishable (`crafting.js:28,45,50`).
-- [x] **Fix Crafting Toggle Key ('C')** — Crafting UI opens with 'C' but did not close when 'C' pressed again; now toggles.
-- [x] **Fix WebSocket Error Spam** — Repeated WebSocket error messages in console; silenced error handler.
-- [x] **Fix 'Disconnected from server' Chat Message** — Chat showed "Disconnected from server" on startup even without prior connection; now only shows if was previously connected.
+- [ ] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a server connection refused issue: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
+- [ ] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
+- [ ] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
+- [ ] **Test bugs fail**: `tests/test_comprehensive_coverage.js` currently fails randomly due to timeout.
+- [ ] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI. Add jsdom properly to CI checks!
+- [ ] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
+- [ ] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
+- [ ] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)
