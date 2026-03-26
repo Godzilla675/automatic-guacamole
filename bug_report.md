@@ -169,3 +169,15 @@ Several testing files reported randomly failing tests due to timeouts: `tests/te
 **Fix Implemented:**
 - For `test_runner.py`, a background `python3 -m http.server 3000` is now spawned before the test suite begins and is gracefully terminated in a `finally` block once the test loop completes.
 - For all the listed JS Mocha tests, the timeout was manually increased from default to `20000ms` using `this.timeout(20000)` inside the `before`, `beforeEach`, and `describe` blocks. For some tests such as `test_recently_added_features.js` and `test_audit.js`, `done()` callbacks were correctly incorporated into asynchronous initialization `beforeEach` and `before` hooks to appropriately notify Mocha of completion without premature timeout.
+
+## 12. Test Runner Environment Issues (Recent)
+
+**Status:** ❌ Unresolved
+
+**Description:**
+Many tests are currently failing when running `test_runner.py` due to two primary issues:
+1. `Error: Cannot find module 'jsdom'`: Several tests in `tests/` fail because `jsdom` is not installed or available in the environment. It must be added to dependencies or installed via `npm install jsdom`.
+2. `ReferenceError: describe is not defined`: Scripts in `verification/` (like `verify_bug_fixes.js`) are failing because they are executed with `node` by the test runner instead of `mocha`, despite being written using Mocha's `describe`/`it` structure.
+
+**Action Required:**
+Update `test_runner.py` or the test commands to execute Mocha tests properly, and ensure `jsdom` is correctly installed in the environment.
