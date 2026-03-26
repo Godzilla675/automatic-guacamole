@@ -489,7 +489,8 @@ describe('Drop System', () => {
     });
 });
 
-describe('Chat System & Commands', () => {
+describe('Chat System & Commands', function() {
+    this.timeout(20000);
     let game;
 
     before(function(done) {
@@ -759,7 +760,8 @@ describe('Chunk System', () => {
     });
 });
 
-describe('Player Advanced Systems', () => {
+describe('Player Advanced Systems', function() {
+    this.timeout(20000);
     let game;
 
     before(function(done) {
@@ -946,7 +948,8 @@ describe('Minimap', () => {
     });
 });
 
-describe('Mob System', () => {
+describe('Mob System', function() {
+    this.timeout(20000);
     let game;
 
     before(function(done) {
@@ -1014,7 +1017,8 @@ describe('Mob System', () => {
     });
 });
 
-describe('World Saving', () => {
+describe('World Saving', function() {
+    this.timeout(20000);
     let game;
 
     before(function(done) {

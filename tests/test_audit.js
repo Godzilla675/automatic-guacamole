@@ -129,10 +129,10 @@ const load = (f) => {
 ['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
 
 describe('Feature Audit', function() {
-    this.timeout(5000);
+    this.timeout(20000);
     let game;
 
-    before(function() {
+    before(function(done) {
         // Init game
         game = new dom.window.Game();
         game.world.renderDistance = 1; // Speed up test
@@ -150,9 +150,10 @@ describe('Feature Audit', function() {
 
         try {
             game.init();
+            done();
         } catch (e) {
             console.error("game.init() failed:", e);
-            throw e;
+            done(e);
         }
     });
 

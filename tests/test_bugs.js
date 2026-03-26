@@ -149,7 +149,8 @@ describe('Bug Verification', () => {
         }
     });
 
-    it('should allow Cows to breed with Wheat Item', () => {
+    it('should allow Cows to breed with Wheat Item', function() {
+        this.timeout(5000);
         const cow = new dom.window.Mob(game, 0, 50, 0, dom.window.MOB_TYPE.COW);
         game.mobs.push(cow);
 

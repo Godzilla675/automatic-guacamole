@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+import time
 
 def run_tests():
     test_dirs = ['verification', 'tests']
@@ -8,64 +9,74 @@ def run_tests():
 
     print("Starting test runner...")
 
-    for directory in test_dirs:
-        if not os.path.exists(directory):
-            print(f"Directory {directory} not found, skipping.")
-            continue
+    print("Starting local server on port 3000...")
+    server_process = subprocess.Popen(['python3', '-m', 'http.server', '3000'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    time.sleep(2) # Give the server time to start
 
-        # Sort for consistent order
-        for filename in sorted(os.listdir(directory)):
-            filepath = os.path.join(directory, filename)
-
-            if not os.path.isfile(filepath):
+    try:
+        for directory in test_dirs:
+            if not os.path.exists(directory):
+                print(f"Directory {directory} not found, skipping.")
                 continue
 
-            cmd = []
-            if filename.endswith('.py'):
-                cmd = ['python3', filepath]
-            elif filename.endswith('.js'):
-                # Check if it is a mocha test
-                is_mocha = False
-                try:
-                    with open(filepath, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                        if 'describe(' in content or 'it(' in content:
-                            is_mocha = True
-                except Exception as e:
-                    print(f"Error reading {filepath}: {e}")
-                    results['failed'].append(filepath)
+            # Sort for consistent order
+            for filename in sorted(os.listdir(directory)):
+                filepath = os.path.join(directory, filename)
+
+                if not os.path.isfile(filepath):
                     continue
 
-                if is_mocha:
-                    cmd = ['npx', 'mocha', filepath]
-                else:
-                    cmd = ['node', filepath]
-            else:
-                continue
+                cmd = []
+                if filename.endswith('.py'):
+                    cmd = ['python3', filepath]
+                elif filename.endswith('.js'):
+                    # Check if it is a mocha test
+                    is_mocha = False
+                    try:
+                        with open(filepath, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                            if 'describe(' in content or 'it(' in content:
+                                is_mocha = True
+                    except Exception as e:
+                        print(f"Error reading {filepath}: {e}")
+                        results['failed'].append(filepath)
+                        continue
 
-            print(f"Running {filepath}...")
-            try:
-                # Capture output, with a timeout to prevent hangs
-                # Some tests might be slow, so generous timeout
-                result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-
-                if result.returncode == 0:
-                    print(f"PASS: {filepath}")
-                    results['passed'].append(filepath)
+                    if is_mocha:
+                        cmd = ['npx', 'mocha', filepath]
+                    else:
+                        cmd = ['node', filepath]
                 else:
-                    print(f"FAIL: {filepath}")
-                    print("--- STDOUT ---")
-                    print(result.stdout)
-                    print("--- STDERR ---")
-                    print(result.stderr)
-                    print("--------------")
+                    continue
+
+                print(f"Running {filepath}...")
+                try:
+                    # Capture output, with a timeout to prevent hangs
+                    # Some tests might be slow, so generous timeout
+                    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+
+                    if result.returncode == 0:
+                        print(f"PASS: {filepath}")
+                        results['passed'].append(filepath)
+                    else:
+                        print(f"FAIL: {filepath}")
+                        print("--- STDOUT ---")
+                        print(result.stdout)
+                        print("--- STDERR ---")
+                        print(result.stderr)
+                        print("--------------")
+                        results['failed'].append(filepath)
+                except subprocess.TimeoutExpired:
+                    print(f"TIMEOUT: {filepath}")
                     results['failed'].append(filepath)
-            except subprocess.TimeoutExpired:
-                print(f"TIMEOUT: {filepath}")
-                results['failed'].append(filepath)
-            except Exception as e:
-                print(f"ERROR: {filepath} - {e}")
-                results['failed'].append(filepath)
+                except Exception as e:
+                    print(f"ERROR: {filepath} - {e}")
+                    results['failed'].append(filepath)
+
+    finally:
+        print("Stopping local server...")
+        server_process.terminate()
+        server_process.wait()
 
     print("\n\n=== Test Summary ===")
     print(f"Passed: {len(results['passed'])}")

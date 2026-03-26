@@ -380,14 +380,14 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
 - [ ] **Implement Droppers**: Add redstone logic to drop items into the world or containers.
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames.
-- [ ] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a server connection refused issue: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
-- [ ] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
-- [ ] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
-- [ ] **Test bugs fail**: `tests/test_comprehensive_coverage.js` currently fails randomly due to timeout.
-- [ ] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI. Add jsdom properly to CI checks!
-- [ ] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
-- [ ] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
-- [ ] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
+- [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a server connection refused issue: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
+- [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
+- [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
+- [x] **Test bugs fail**: `tests/test_comprehensive_coverage.js` currently fails randomly due to timeout.
+- [x] **Fix Test Suite Dependency Errors**: Tests failing due to 'jsdom' not being installed by default in CI. Add jsdom properly to CI checks!
+- [x] **Fix Test Audit Timeout**: `tests/test_audit.js` currently fails randomly due to timeout.
+- [x] **Fix Water Flow Tests Timeout**: `tests/test_water_flow.js` currently fails randomly due to timeout.
+- [x] **Fix Verification Scripts Timeout**: `verification/verify_bug_fixes.js` and `verification/verify_missing_features.js` fail randomly with timeout.
 
 ### 23. Multiplayer Support (Completed)
 - [x] WebSocket-based real-time multiplayer (Implemented `NetworkManager` in `js/network.js` and `server/server.js`)

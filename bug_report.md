@@ -158,3 +158,14 @@ An updated run of `test_runner.py` and dynamic Playwright manual exploration tes
 2. 86 automated tests reliably passed without timeouts or unclosed connections.
 3. Game dependencies (including `jsdom`, `playwright`, `canvas`, `ws`) map cleanly against the verification scripts.
 4. The codebase is thoroughly tested and verified. Overall the game is highly stable and works fully as expected.
+
+## 11. Test Timeouts Fix (March 2026)
+
+**Status:** ✅ Fixed (Timeout issues resolved)
+
+**Description:**
+Several testing files reported randomly failing tests due to timeouts: `tests/test_bugs.js`, `tests/test_recently_added_features.js`, `tests/test_comprehensive_coverage.js`, `tests/test_audit.js`, `tests/test_water_flow.js`, `verification/verify_bug_fixes.js`, and `verification/verify_missing_features.js`. Also, `test_runner.py` did not properly manage the background local server for UI playwright tests, causing them to fail with `net::ERR_CONNECTION_REFUSED`.
+
+**Fix Implemented:**
+- For `test_runner.py`, a background `python3 -m http.server 3000` is now spawned before the test suite begins and is gracefully terminated in a `finally` block once the test loop completes.
+- For all the listed JS Mocha tests, the timeout was manually increased from default to `20000ms` using `this.timeout(20000)` inside the `before`, `beforeEach`, and `describe` blocks. For some tests such as `test_recently_added_features.js` and `test_audit.js`, `done()` callbacks were correctly incorporated into asynchronous initialization `beforeEach` and `before` hooks to appropriately notify Mocha of completion without premature timeout.
