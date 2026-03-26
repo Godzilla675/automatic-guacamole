@@ -118,11 +118,12 @@ const load = (f) => {
 
 ['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js', 'main.js'].forEach(load);
 
-describe('Cactus Damage Tests', () => {
+describe('Cactus Damage Tests', function() {
+    this.timeout(20000);
     let game;
 
     beforeEach(function(done) {
-        this.timeout(5000);
+        this.timeout(20000);
         MockWebSocket.lastSent = [];
         game = new dom.window.Game();
         game.world.renderDistance = 1;

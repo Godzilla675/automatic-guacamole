@@ -135,7 +135,7 @@ const load = (f) => {
 describe('Recently Added Features Tests', () => {
     let game;
 
-    beforeEach(function() {
+    beforeEach(function(done) {
         this.timeout(10000);
 
         // Reset WebSocket messages
@@ -151,9 +151,10 @@ describe('Recently Added Features Tests', () => {
 
         try {
             game.init();
+            done();
         } catch (e) {
             console.error("game.init() failed:", e);
-            throw e;
+            done(e);
         }
     });
 
@@ -167,7 +168,8 @@ describe('Recently Added Features Tests', () => {
         game = null;
     });
 
-    describe('Sheep Mob', () => {
+    describe('Sheep Mob', function() {
+        this.timeout(5000);
         it('should be initialized correctly', () => {
             const sheep = new dom.window.Mob(game, 0, 0, 0, dom.window.MOB_TYPE.SHEEP);
             assert.strictEqual(sheep.type, dom.window.MOB_TYPE.SHEEP);

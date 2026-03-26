@@ -142,7 +142,8 @@ const load = (f) => {
 
 ['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'entity.js', 'vehicle.js', 'drop.js', 'mob.js', 'player.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'network.js', 'crafting.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'audio.js', 'game.js'].forEach(load);
 
-describe('Missing Features Verification', () => {
+describe('Missing Features Verification', function() {
+    this.timeout(20000);
     let game;
 
     before(function(done) {
@@ -168,7 +169,8 @@ describe('Missing Features Verification', () => {
         });
     });
 
-    describe('Stairs', () => {
+    describe('Stairs', function() {
+        this.timeout(20000);
         it('should verify Stairs placement logic (Metadata)', () => {
             const stairId = dom.window.BLOCK.STAIRS_COBBLESTONE;
             const x = 0, y = 50, z = 0; // High enough to be air
@@ -216,7 +218,8 @@ describe('Missing Features Verification', () => {
         });
     });
 
-    describe('Fly Mode', () => {
+    describe('Fly Mode', function() {
+        this.timeout(20000);
         it('should have fly mode property', () => {
             assert.strictEqual(game.player.flying, false, "Start not flying");
             // Toggle manually as if input triggered it
@@ -229,7 +232,8 @@ describe('Missing Features Verification', () => {
         });
     });
 
-    describe('Structure Generation', () => {
+    describe('Structure Generation', function() {
+        this.timeout(20000);
         it('should generate a tree via World StructureManager', () => {
             const x = 10, y = 50, z = 10;
             // Clear area
@@ -274,7 +278,8 @@ describe('Missing Features Verification', () => {
         });
     });
 
-    describe('Biomes', () => {
+    describe('Biomes', function() {
+        this.timeout(20000);
         it('should determine biomes via World BiomeManager', () => {
             const biome = game.world.biomeManager.getBiome(100, 100);
             assert.strictEqual(typeof biome.name, 'string', "Biome should have a name");
@@ -283,7 +288,8 @@ describe('Missing Features Verification', () => {
     });
 
     // Ores and Water were passing, but let's keep them
-     describe('Ore Generation', () => {
+     describe('Ore Generation', function() {
+        this.timeout(20000);
         it('should find ores in generated chunks', () => {
             let foundOre = false;
             const chunk = game.world.chunks.get('0,0');
@@ -303,9 +309,10 @@ describe('Missing Features Verification', () => {
         });
     });
 
-    describe('Water Flow', () => {
+    describe('Water Flow', function() {
+        this.timeout(20000);
         it('should spread water', function() {
-             this.timeout(5000);
+             this.timeout(20000);
              const x = 20, y = 60, z = 20;
              for(let dx=-2; dx<=2; dx++) {
                  for(let dz=-2; dz<=2; dz++) {

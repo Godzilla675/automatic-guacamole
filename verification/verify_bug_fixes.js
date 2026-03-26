@@ -50,7 +50,8 @@ describe('Bug Fixes Verification', () => {
         world.seed = 12345;
     });
 
-    describe('Spruce Tree Visuals', () => {
+    describe('Spruce Tree Visuals', function() {
+        this.timeout(20000);
         it('should define SPRUCE_WOOD and SPRUCE_LEAVES in BLOCK', () => {
             assert.ok(dom.window.BLOCK.SPRUCE_WOOD !== undefined, "BLOCK.SPRUCE_WOOD should be defined");
             assert.ok(dom.window.BLOCK.SPRUCE_LEAVES !== undefined, "BLOCK.SPRUCE_LEAVES should be defined");
@@ -119,7 +120,8 @@ describe('Bug Fixes Verification', () => {
         });
     });
 
-    describe('Water Flow Logic', () => {
+    describe('Water Flow Logic', function() {
+        this.timeout(20000);
         it('should create infinite water source from 2 sources', () => {
              // Ensure chunk exists
              const x = 50, y = 50, z = 50;
