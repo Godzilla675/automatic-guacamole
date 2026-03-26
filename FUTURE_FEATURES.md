@@ -11,9 +11,11 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Wither Boss** (Summoning logic, AI, Projectiles, Nether Star drop)
 
 ### Gameplay Extensions
-- [ ] **Implement Trading** (Villager UI, Emerald currency)
+- [x] **Implement Trading** (Villager UI, Emerald currency)
 - [ ] **Implement Map item** (Craftable map showing explored area)
 - [ ] **Implement Beacons** (Status effects, Pyramids, UI)
+- [ ] **Implement Ender Dragon Boss** (The End dimension, Dragon AI, End Crystals)
+- [ ] **Implement Rideable Pigs** (Saddle, Carrot on a Stick mechanics)
 
 ### Gameplay Mechanics
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
@@ -362,10 +364,12 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
+- [ ] **Fix Test Suite jsdom Error**: Many tests are failing with `Cannot find module 'jsdom'` in the root test runner (`test_runner.py`). The CI environment needs to correctly resolve and import `jsdom` or mock it properly.
+- [ ] **Fix Test verify_bug_fixes.js**: Failing with `ReferenceError: describe is not defined` when run with node directly. Needs to be run with Mocha.
 - [ ] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
 - [ ] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
-- [ ] **Implement Trading**: Villager UI, Emerald currency.
+- [x] **Implement Trading**: Villager UI, Emerald currency.
 - [ ] **Implement Map item**: Craftable map showing explored area.
 - [ ] **Implement Beacons**: Status effects, Pyramids.
 - [ ] **Implement Redstone Repeaters & Comparators**: Delays, locking, signal strength logic.
