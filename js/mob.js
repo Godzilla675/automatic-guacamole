@@ -118,11 +118,17 @@ class Mob extends Entity {
             return true;
         }
 
+        return this.feed(itemType);
+    }
+
+    feed(itemType) {
+        if (this.breedingCooldown > 0 || this.isBaby) return false;
+
         let food = null;
-        if (this.type === MOB_TYPE.COW || this.type === MOB_TYPE.SHEEP) food = BLOCK.ITEM_WHEAT;
-        else if (this.type === MOB_TYPE.PIG) food = BLOCK.ITEM_APPLE; // Placeholder for carrot
-        else if (this.type === MOB_TYPE.WOLF && this.isTamed) food = BLOCK.ITEM_PORKCHOP; // Heal wolf
-        else if (this.type === MOB_TYPE.CHICKEN) food = BLOCK.ITEM_WHEAT_SEEDS;
+        if (this.type === MOB_TYPE.COW || this.type === MOB_TYPE.SHEEP) food = window.BLOCK.ITEM_WHEAT;
+        else if (this.type === MOB_TYPE.PIG) food = window.BLOCK.ITEM_APPLE; // Placeholder for carrot
+        else if (this.type === MOB_TYPE.WOLF && this.isTamed) food = window.BLOCK.ITEM_PORKCHOP; // Heal wolf
+        else if (this.type === MOB_TYPE.CHICKEN) food = window.BLOCK.ITEM_WHEAT_SEEDS;
 
         if (food && itemType === food) {
             this.loveTimer = 30; // 30 seconds
@@ -130,6 +136,10 @@ class Mob extends Entity {
             return true;
         }
         return false;
+    }
+
+    inLove() {
+        return this.loveTimer > 0;
     }
 
     initType() {

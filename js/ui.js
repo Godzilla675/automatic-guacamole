@@ -237,6 +237,15 @@ class UIManager {
         if (anvilName) {
             anvilName.addEventListener('input', () => this.updateAnvilUI());
         }
+
+        const closeJukebox = document.getElementById('close-jukebox');
+        if (closeJukebox) {
+            closeJukebox.addEventListener('click', () => this.closeJukebox());
+        }
+        const jukeboxSlot = document.getElementById('jukebox-slot');
+        if (jukeboxSlot) {
+            jukeboxSlot.addEventListener('click', () => this.handleJukeboxClick());
+        }
     }
 
     toggleRecipeBook() {
@@ -578,6 +587,79 @@ class UIManager {
         document.getElementById('enchanting-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openJukebox(entity, pos) {
+        this.activeJukebox = entity;
+        this.activeJukeboxPos = pos;
+        document.getElementById('jukebox-screen').classList.remove('hidden');
+        document.getElementById('inventory-screen').classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateJukeboxUI();
+        this.refreshInventoryUI();
+    }
+
+    closeJukebox() {
+        this.activeJukebox = null;
+        this.activeJukeboxPos = null;
+        document.getElementById('jukebox-screen').classList.add('hidden');
+        document.getElementById('inventory-screen').classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    handleJukeboxClick() {
+        if (!this.activeJukebox) return;
+        const cursor = this.cursorItem;
+        const currentDisc = this.activeJukebox.disc;
+        const pos = this.activeJukeboxPos;
+
+        if (!cursor) {
+            // Eject disc
+            if (currentDisc) {
+                // Return item as cursor
+                this.cursorItem = { type: currentDisc, count: 1 };
+                this.activeJukebox.disc = null;
+                if (window.soundManager) window.soundManager.play('break', pos); // Stop music
+                if (this.game.chat) this.game.chat.addMessage("Music stopped.");
+            }
+        } else {
+            // Insert disc
+            if (cursor.type === window.BLOCK.ITEM_MUSIC_DISC && !currentDisc) {
+                this.activeJukebox.disc = cursor.type;
+                cursor.count--;
+                if (cursor.count <= 0) this.cursorItem = null;
+                if (window.soundManager) window.soundManager.play('place', pos); // Play music
+                if (this.game.chat) this.game.chat.addMessage("Now Playing: Cat");
+            } else if (cursor.type === window.BLOCK.ITEM_MUSIC_DISC && currentDisc) {
+                // Swap
+                const oldType = this.activeJukebox.disc;
+                this.activeJukebox.disc = cursor.type;
+                this.cursorItem = { type: oldType, count: 1 };
+                if (window.soundManager) {
+                    window.soundManager.play('break', pos);
+                    window.soundManager.play('place', pos);
+                }
+                if (this.game.chat) this.game.chat.addMessage("Now Playing: Cat");
+            }
+        }
+
+        this.updateJukeboxUI();
+        this.updateCursorUI();
+    }
+
+    updateJukeboxUI() {
+        if (!this.activeJukebox) return;
+        const slot = document.getElementById('jukebox-slot');
+        slot.innerHTML = '';
+
+        if (this.activeJukebox.disc) {
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            const def = window.BLOCKS[this.activeJukebox.disc];
+            icon.textContent = def ? def.icon : '';
+            icon.style.backgroundColor = def ? def.color : 'transparent';
+            slot.appendChild(icon);
+        }
     }
 
     openAnvil() {

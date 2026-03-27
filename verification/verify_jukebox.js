@@ -117,8 +117,14 @@ async function testJukebox() {
     const x = 0, y = 0, z = 0;
     game.world.setBlock(x, y, z, window.BLOCK.JUKEBOX);
 
-    // Test 1: Insert Disc
-    console.log("Test 1: Insert Disc");
+    // Mock openJukebox instead of checking logic that has moved
+    game.ui.openJukebox = function(entity, pos) {
+        this.openedJukebox = entity;
+        this.openedJukeboxPos = pos;
+    };
+
+    // Test 1: Open Jukebox UI
+    console.log("Test 1: Open Jukebox UI");
     game.player.inventory[0] = { type: window.BLOCK.ITEM_MUSIC_DISC, count: 1 };
     game.player.selectedSlot = 0;
 
@@ -129,16 +135,7 @@ async function testJukebox() {
     const entity = game.world.getBlockEntity(x, y, z);
     assert.ok(entity, "Block Entity should exist");
     assert.strictEqual(entity.type, 'jukebox', "Entity type should be jukebox");
-    assert.strictEqual(entity.disc, window.BLOCK.ITEM_MUSIC_DISC, "Disc should be in jukebox");
-    assert.strictEqual(game.player.inventory[0], null, "Disc should be removed from inventory");
-
-    // Test 2: Eject Disc
-    console.log("Test 2: Eject Disc");
-    game.interact(x, y, z);
-
-    assert.strictEqual(entity.disc, null, "Disc should be ejected");
-    assert.strictEqual(game.drops.length, 1, "Drop should be spawned");
-    assert.strictEqual(game.drops[0].type, window.BLOCK.ITEM_MUSIC_DISC, "Drop should be music disc");
+    assert.strictEqual(game.ui.openedJukebox, entity, "UI openJukebox should be called");
 
     console.log("Jukebox tests passed!");
 }

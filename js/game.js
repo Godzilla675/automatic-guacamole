@@ -249,27 +249,8 @@ class Game {
                 entity = { type: 'jukebox', disc: null };
                 this.world.setBlockEntity(x, y, z, entity);
             }
-
-            const slot = this.player.inventory[this.player.selectedSlot];
-
-            if (entity.disc) {
-                // Eject
-                this.drops.push(new Drop(this, x+0.5, y+1, z+0.5, entity.disc, 1));
-                entity.disc = null;
-                if (window.soundManager) window.soundManager.play('break', pos); // Placeholder stop
-                this.chat.addMessage("Music stopped.");
-            } else {
-                // Insert
-                if (slot && slot.type === BLOCK.ITEM_MUSIC_DISC) {
-                    entity.disc = slot.type;
-                    if (this.player.gamemode !== 1) {
-                        slot.count--;
-                        if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                        this.updateHotbarUI();
-                    }
-                    if (window.soundManager) window.soundManager.play('place', pos); // Placeholder play
-                    this.chat.addMessage("Now Playing: Cat");
-                }
+            if (this.ui.openJukebox) {
+                this.ui.openJukebox(entity, { x, y, z });
             }
             return true;
         }

@@ -471,6 +471,16 @@ class World {
         }
     }
 
+    waterSource(x, y, z) {
+        // Alias for tests
+        return this.getBlock(x, y, z) === window.BLOCK.WATER && this.getMetadata(x, y, z) === 8;
+    }
+
+    updateWaterFlow() {
+        // Alias for tests
+        this.updateFluids();
+    }
+
     updateFluids() {
         if (this.activeFluids.size === 0) return;
 
