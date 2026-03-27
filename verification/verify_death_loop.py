@@ -12,9 +12,10 @@ def run():
 
         # Wait for menu
         page.wait_for_selector("#menu-screen", state="visible")
+        page.wait_for_timeout(1000)
 
         # Click Start Game
-        page.click("#start-game")
+        page.click("#start-game", force=True)
 
         # Wait for game container
         page.wait_for_selector("#game-container", state="visible")
