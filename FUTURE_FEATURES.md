@@ -25,7 +25,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
 ## 2. Medium Priority: Bugs & Maintenance
-- [ ] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. - *Note: Partially implemented but missing UI logic. An agent needs to add this.*
+- [x] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. - *Note: Partially implemented but missing UI logic. An agent needs to add this.*
 
 *Fix reported bugs and ensure stability.*
 
@@ -364,10 +364,10 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
-- [ ] **Fix Test Suite jsdom Error**: Many tests are failing with `Cannot find module 'jsdom'` in the root test runner (`test_runner.py`). The CI environment needs to correctly resolve and import `jsdom` or mock it properly.
-- [ ] **Fix Test verify_bug_fixes.js**: Failing with `ReferenceError: describe is not defined` when run with node directly. Needs to be run with Mocha.
-- [ ] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
-- [ ] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
+- [x] **Fix Test Suite jsdom Error**: Many tests are failing with `Cannot find module 'jsdom'` in the root test runner (`test_runner.py`). The CI environment needs to correctly resolve and import `jsdom` or mock it properly.
+- [x] **Fix Test verify_bug_fixes.js**: Failing with `ReferenceError: describe is not defined` when run with node directly. Needs to be run with Mocha.
+- [x] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
+- [x] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
 - [x] **Implement Trading**: Villager UI, Emerald currency.
 - [ ] **Implement Map item**: Craftable map showing explored area.
@@ -378,7 +378,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Add Command Block**: Add logic for `/give` command block for server admins.
 - [ ] **Fix Animal Drops**: Make sure items like string, bones, ender pearls drop from corresponding mobs, checking loot tables.
 - [ ] **Add a "Chat History Log" toggle**
-- [ ] **Add background music support for Jukebox**
+- [x] **Add background music support for Jukebox**
 - [ ] **Implement proper block placement sound based on block type**
 - [ ] **Add configurable UI scaling setting**
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
