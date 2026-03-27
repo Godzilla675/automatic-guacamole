@@ -13,6 +13,13 @@ This document outlines the priorities and workflow for all agents working on thi
 ### Gameplay Extensions
 - [x] **Implement Trading** (Villager UI, Emerald currency)
 - [ ] **Implement Map item** (Craftable map showing explored area)
+
+### New Biomes and Structures
+- [ ] **Implement Swamp Biome** (Mud blocks, Mangrove trees, Slime spawning)
+- [ ] **Implement Badlands Biome** (Terracotta, Gold ore variants)
+- [ ] **Implement Desert Temple** (Structure generation, hidden loot, TNT trap)
+- [ ] **Implement Slime Mob** (Splitting mechanic on death, slimeball drops)
+- [ ] **Implement Magma Cube Mob** (Nether variant of Slime)
 - [ ] **Implement Beacons** (Status effects, Pyramids, UI)
 - [ ] **Implement Ender Dragon Boss** (The End dimension, Dragon AI, End Crystals)
 - [ ] **Implement Rideable Pigs** (Saddle, Carrot on a Stick mechanics)
@@ -20,12 +27,12 @@ This document outlines the priorities and workflow for all agents working on thi
 ### Gameplay Mechanics
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
 - [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic) - *Note: Not implemented.*
-- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates) - *Note: Not implemented.*
+- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates) - *Note: Partially implemented in propagation logic but input devices are missing. Agents must fix this.*
 - [x] **Implement Cow Milking** (Use bucket on cow to get milk)
 - [x] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
 ## 2. Medium Priority: Bugs & Maintenance
-- [x] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. - *Note: Partially implemented but missing UI logic. An agent needs to add this.*
+- [x] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. - *Note: Fixed in recent updates.*
 
 *Fix reported bugs and ensure stability.*
 
@@ -344,6 +351,12 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] Replace tool
 - [ ] Undo/redo system
 
+### 20. New Mechanics and Items (Unimplemented)
+- [ ] **Implement Fishing Rod Physics** (Bobber physics and actual catching logic)
+- [ ] **Implement Elytra** (Gliding mechanics)
+- [ ] **Implement Tridents** (Throwing mechanics and returning enchantments)
+- [ ] **Implement Campfire** (Cooking raw food, producing smoke particles)
+
 ### 20. World Interaction (Misc)
 - [x] Minecarts and rails
 - [x] Boats
@@ -366,14 +379,14 @@ This document outlines the priorities and workflow for all agents working on thi
 ### 22. Known Bugs & Issues
 - [x] **Fix Test Suite jsdom Error**: Many tests are failing with `Cannot find module 'jsdom'` in the root test runner (`test_runner.py`). The CI environment needs to correctly resolve and import `jsdom` or mock it properly.
 - [x] **Fix Test verify_bug_fixes.js**: Failing with `ReferenceError: describe is not defined` when run with node directly. Needs to be run with Mocha.
-- [x] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
-- [x] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: The other agents didn't make a full implementation, someone needs to fix this.*
+- [x] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: Fixed in recent updates.*
+- [x] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: Fixed in recent updates.*
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
 - [x] **Implement Trading**: Villager UI, Emerald currency.
 - [ ] **Implement Map item**: Craftable map showing explored area.
 - [ ] **Implement Beacons**: Status effects, Pyramids.
 - [ ] **Implement Redstone Repeaters & Comparators**: Delays, locking, signal strength logic.
-- [ ] **Implement Redstone Input Devices**: Levers, Buttons, Pressure Plates.
+- [ ] **Implement Redstone Input Devices**: Levers, Buttons, Pressure Plates. - *Note: Partially implemented in propagation logic but input devices are missing. Agents must fix this.*
 - [ ] **Implement Proper Block Placement Sounds**: Sounds are currently generic. Must vary based on block type (wood, stone, dirt).
 - [ ] **Add Command Block**: Add logic for `/give` command block for server admins.
 - [ ] **Fix Animal Drops**: Make sure items like string, bones, ender pearls drop from corresponding mobs, checking loot tables.
