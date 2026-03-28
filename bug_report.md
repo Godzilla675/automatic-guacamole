@@ -186,3 +186,68 @@ Many tests were failing when running `test_runner.py` due to two primary issues:
 - Installed Playwright dependencies via `npx playwright install-deps && npx playwright install`.
 - Modified `verify_death_loop.py` to wait briefly before clicking the Start button, using `force=True` to resolve interaction issues related to overlapping/invisible elements during the loading sequence.
 - Now 86/86 tests are passing successfully using the `test_runner.py`.
+
+## Missing Implementations Discovered
+
+The following features were missing implementations:
+- Nether Fortresses
+- Nether Quartz Ore Generation
+- Wither Boss
+- Map item
+- Swamp Biome
+- Badlands Biome
+- Desert Temple
+- Slime Mob
+- Magma Cube Mob
+- Beacons
+- Ender Dragon Boss
+- Rideable Pigs
+- Redstone Repeaters & Comparators
+- Redstone Input Devices
+- Note Blocks
+- Deprecated Items cleanup
+- Save Compression
+- Chunk Serialization Optimization
+- Refactoring World/Chunk Separation
+- Top Slabs
+- Decorative blocks
+- Redstone-like logic blocks
+- Better shadows and lighting
+- Dynamic Lighting
+- Ambient occlusion
+- Clouds
+- Better skybox
+- Head bobbing animation
+- End Dimension
+- Elytra
+- Shulker Boxes
+- LOD (Level of Detail) system
+- Worker threads for world generation
+- Better memory management
+- Greedy meshing
+- Screenshot system
+- Share world links
+- Leaderboards
+- World showcase gallery
+- Friends system
+- Copy/paste structures
+- Symmetry mode
+- Replace tool
+- Undo/redo system
+- Fishing Rod Physics
+- Tridents
+- Campfire
+- Hoppers
+- Droppers and Dispensers
+- Item Frames
+- Custom block types
+- Custom mob types
+- Event hooks
+- Resource pack support
+- Texture customization
+- Support for custom models
+- Command Block
+- Animal Drops fixing
+- Chat History Log toggle
+- Proper block placement sound based on block type
+- Configurable UI scaling setting
