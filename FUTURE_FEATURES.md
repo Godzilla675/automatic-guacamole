@@ -398,6 +398,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Droppers**: Add redstone logic to drop items into the world or containers.
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames.
 - [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a server connection refused issue: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
+- [ ] **Fix Verification Scripts Timeout**: `verification/verify_recipe_ui.py` fails randomly with a timeout waiting for `#start-game` when run as part of the full test suite in `test_runner.py`. Agents must fix this.
 - [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
 - [x] **Test bugs fail**: `tests/test_recently_added_features.js` currently fails randomly due to timeout on Sheep Mob test.
 - [x] **Test bugs fail**: `tests/test_comprehensive_coverage.js` currently fails randomly due to timeout.
