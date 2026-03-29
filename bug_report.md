@@ -187,6 +187,29 @@ Many tests were failing when running `test_runner.py` due to two primary issues:
 - Modified `verify_death_loop.py` to wait briefly before clicking the Start button, using `force=True` to resolve interaction issues related to overlapping/invisible elements during the loading sequence.
 - Now 86/86 tests are passing successfully using the `test_runner.py`.
 
+## 13. Late March 2026 Test Suite Dependencies Fix
+
+**Status:** ✅ Fixed (Test Suite Dependency Failure)
+
+**Description:**
+A fresh test suite execution using `test_runner.py` initially timed out on all JS and Mocha tests, outputting `Error: Cannot find module 'jsdom'`. A secondary issue with Playwright tests (`verify_manual_gameplay.py`, `verify_death_loop.py`, `verify_settings_ui.py`) emerged due to missing system-level dependencies for running headless Chromium. The Python test suite was hanging ungracefully because the Node tests failed immediately, leaving background processes running and hitting the 120-second timeout per test.
+
+**Fix Implemented:**
+- Installed Node.js dependencies: `npm install jsdom playwright`
+- Installed Playwright system-level dependencies: `npx playwright install-deps && npx playwright install`
+- Re-ran the test suite using `python3 test_runner.py`
+- All 86 out of 86 automated tests successfully passed. The background local HTTP server cleanly spawned and terminated.
+
+**Verification of UI using Playwright:**
+A full visual UI and end-to-end user loop execution was verified utilizing `python3 verification/verify_manual_gameplay.py`. The simulation successfully verified:
+- Starting the game from `#start-game`.
+- Movement (`W` / Jump).
+- Placing blocks via right-click (mouse event at screen center).
+- Breaking blocks via left-click.
+- Opening/Closing UI screens properly toggling visibility flags on DOM nodes (`#inventory-screen`, `#crafting-screen`, `#pause-screen`).
+
+The current codebase is passing all defined automated checks.
+
 ## Missing Implementations Discovered
 
 The following features were missing implementations:
