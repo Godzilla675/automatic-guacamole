@@ -10,7 +10,7 @@ def test_recipe_ui():
         page.on("pageerror", lambda err: print(f"Page Error: {err}"))
 
         page.goto("http://localhost:3000")
-        page.wait_for_timeout(1500)
+        page.wait_for_timeout(3000)
 
         # Wait for button to be interactive
         expect(page.locator("#start-game")).to_be_visible()
