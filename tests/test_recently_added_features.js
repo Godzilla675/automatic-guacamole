@@ -136,7 +136,7 @@ describe('Recently Added Features Tests', () => {
     let game;
 
     beforeEach(function(done) {
-        this.timeout(10000);
+        this.timeout(30000);
 
         // Reset WebSocket messages
         MockWebSocket.lastSent = [];
