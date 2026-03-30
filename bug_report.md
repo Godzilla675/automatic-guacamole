@@ -112,6 +112,15 @@ A simulated full manual test loop was executed using Playwright (`playwright_tes
 
 ### 6.2. Test Suite Stability (100% Pass Rate)
 **Status:** ✅ Stable (84/84 Tests Passing)
+
+### 6.3. Trading and Brewing UI Bugs
+**Severity:** Medium
+**Status:** ✅ Fixed
+**Location:** `js/ui.js`
+**Description:**
+The UI methods `openTrading` and `openBrewing` were throwing `TypeError` exceptions ("Cannot read properties of undefined") when trying to access properties (`trades` and `bottles`, respectively) if the parameter passed was null or undefined. This typically occurred if a villager or brewing stand block entity was missing or initialized incorrectly.
+**Fix Implemented:**
+Added null checks inside `js/ui.js` for both methods (`if (!villager) villager = {};` and `if (!entity) entity = {};`), ensuring the UI logic safely falls back and generates default trades or empty properties instead of crashing the game loop.
 **Fixes Applied:**
 - Flaky tests involving Playwright UI automation (e.g., `verify_armor_ui_fix.py`) had timeout issues on slower runners when clicking `#start-game`. We introduced explicit `wait_for_timeout(1500)` intervals after `#menu-screen` loading to ensure the CSS loading overlays faded out correctly before interacting with elements.
 - The Mocha test `test_bugs.js` failed intermittently with `Timeout of 5000ms exceeded` due to asynchronous class initialization. We injected a `done` callback properly to ensure Mocha handles the promise resolution within an extended `10000ms` window.
