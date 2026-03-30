@@ -505,6 +505,7 @@ class UIManager {
     }
 
     openTrading(villager) {
+        if (!villager) villager = {};
         this.activeVillager = villager;
         // Generate random trades if not present
         if (!villager.trades) {
@@ -538,6 +539,7 @@ class UIManager {
     }
 
     openBrewing(entity) {
+        if (!entity) entity = {};
         this.activeBrewingStand = entity;
         // Ensure entity structure
         if (!entity.bottles) entity.bottles = [null, null, null];
