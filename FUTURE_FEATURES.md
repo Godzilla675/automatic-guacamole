@@ -11,7 +11,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Wither Boss** (Summoning logic, AI, Projectiles, Nether Star drop)
 
 ### Gameplay Extensions
-- [x] **Implement Trading** (Villager UI, Emerald currency)
+- [ ] **Implement Trading** (Villager UI, Emerald currency) - *Note: The UI throws an error `Cannot read properties of undefined (reading 'trades')` when opening the Trading menu. Needs fixing.*
 - [ ] **Implement Map item** (Craftable map showing explored area)
 
 ### New Biomes and Structures
@@ -101,7 +101,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Player Skins & Nametags** (Visual differentiation)
 - [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered)
 - [x] **Implement Crafting Animations**
-- [x] **Implement Potion Brewing Logic & UI**
+- [ ] **Implement Potion Brewing Logic & UI** - *Note: The UI throws an error `Cannot read properties of undefined (reading 'bottles')` when opening the Brewing menu. Needs fixing.*
 - [x] **Implement Nether World Generation** (Basic generation implemented)
 - [x] **Implement Nether Mobs** (Pigman, Ghast, Blaze implemented)
 - [x] **Implement Nether Portal**
@@ -382,7 +382,9 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: Fixed in recent updates.*
 - [x] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: Fixed in recent updates.*
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
-- [x] **Implement Trading**: Villager UI, Emerald currency.
+- [ ] **Fix Brewing UI Bug**: The brewing UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'bottles')` in `js/ui.js:543`.
+- [ ] **Fix Trading UI Bug**: The trading UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'trades')` in `js/ui.js:510`.
+- [ ] **Implement Trading**: Villager UI, Emerald currency. - *Note: UI broken.*
 - [ ] **Implement Map item**: Craftable map showing explored area.
 - [ ] **Implement Beacons**: Status effects, Pyramids.
 - [ ] **Implement Redstone Repeaters & Comparators**: Delays, locking, signal strength logic.
