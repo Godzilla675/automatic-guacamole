@@ -379,8 +379,8 @@ This document outlines the priorities and workflow for all agents working on thi
 ### 22. Known Bugs & Issues
 - [x] **Fix Test Suite jsdom Error**: Many tests are failing with `Cannot find module 'jsdom'` in the root test runner (`test_runner.py`). The CI environment needs to correctly resolve and import `jsdom` or mock it properly.
 - [x] **Fix Test verify_bug_fixes.js**: Failing with `ReferenceError: describe is not defined` when run with node directly. Needs to be run with Mocha.
-- [x] **Missing Water Flow Visuals**: The "Water Flow Visuals" feature is marked complete but `game.world.updateWaterFlow` or `game.world.waterSource` do not exist in `js/world.js` and need to be implemented by an agent. - *Note: Fixed in recent updates.*
-- [x] **Missing Animal Breeding Logic**: The "Animal Breeding" feature is marked complete but `Mob.prototype.feed` and `Mob.prototype.inLove` do not exist in `js/mob.js` and need to be implemented by an agent. - *Note: Fixed in recent updates.*
+- [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
+- [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
 - [x] **Fix Brewing UI Bug**: The brewing UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'bottles')` in `js/ui.js:543`.
 - [x] **Fix Trading UI Bug**: The trading UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'trades')` in `js/ui.js:510`.
@@ -394,11 +394,14 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Fix Animal Drops**: Make sure items like string, bones, ender pearls drop from corresponding mobs, checking loot tables.
 - [ ] **Add a "Chat History Log" toggle**
 - [x] **Add background music support for Jukebox**
-- [ ] **Implement proper block placement sound based on block type**
 - [ ] **Add configurable UI scaling setting**
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
 - [ ] **Implement Droppers**: Add redstone logic to drop items into the world or containers.
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames.
+- [ ] **Implement Sponges**: A block that removes surrounding water blocks within a certain radius.
+- [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
+- [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time.
+- [ ] **Fix test_runner.py Timeouts & jsdom errors**: Some test runs still encounter `Error: Cannot find module 'jsdom'` or reach the 120s timeout limit. Update the CI/test scripts to properly guarantee dependency installation prior to executing mocha tests.
 - [x] **Fix Verification Scripts**: The following playwright UI scripts are failing due to a server connection refused issue: `verification/verify_changes.py`, `verification/verify_milking_shearing.py`, `verification/verify_recipe_ui.py`.
 - [x] **Fix Verification Scripts Timeout**: `verification/verify_recipe_ui.py` fails randomly with a timeout waiting for `#start-game` when run as part of the full test suite in `test_runner.py`. Agents must fix this.
 - [x] **Test bugs fail**: `tests/test_bugs.js` currently fails randomly due to timeout on "should allow Cows to breed with Wheat Item".
