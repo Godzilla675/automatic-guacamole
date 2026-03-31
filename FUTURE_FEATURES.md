@@ -315,9 +315,6 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement End Dimension**
 - [ ] **Add Elytra for flying**
 - [ ] **Implement Shulker Boxes**
-- [ ] **Implement Wither Boss** (Summoning, AI, Drops)
-- [ ] **Implement Beacons** (Status effects, Pyramids)
-- [x] Health regeneration (Implemented in `js/player.js`)
 
 ### 16. Creative Mode Features
 - [x] Unlimited blocks
@@ -384,16 +381,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
 - [x] **Fix Brewing UI Bug**: The brewing UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'bottles')` in `js/ui.js:543`.
 - [x] **Fix Trading UI Bug**: The trading UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'trades')` in `js/ui.js:510`.
-- [x] **Implement Trading**: Villager UI, Emerald currency. - *Note: UI broken.*
-- [ ] **Implement Map item**: Craftable map showing explored area.
-- [ ] **Implement Beacons**: Status effects, Pyramids.
-- [ ] **Implement Redstone Repeaters & Comparators**: Delays, locking, signal strength logic.
-- [ ] **Implement Redstone Input Devices**: Levers, Buttons, Pressure Plates. - *Note: Partially implemented in propagation logic but input devices are missing. Agents must fix this.*
+- [x] **Implement Trading**: Villager UI, Emerald currency.
 - [ ] **Implement Proper Block Placement Sounds**: Sounds are currently generic. Must vary based on block type (wood, stone, dirt).
-- [ ] **Add Command Block**: Add logic for `/give` command block for server admins.
-- [ ] **Fix Animal Drops**: Make sure items like string, bones, ender pearls drop from corresponding mobs, checking loot tables.
-- [ ] **Add a "Chat History Log" toggle**
-- [x] **Add background music support for Jukebox**
 - [ ] **Add configurable UI scaling setting**
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
 - [ ] **Implement Droppers**: Add redstone logic to drop items into the world or containers.

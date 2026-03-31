@@ -814,7 +814,7 @@ class UIManager {
             if (item) {
                 const icon = document.createElement('span');
                 icon.className = 'block-icon';
-                const def = window.BLOCKS[item.type];
+                let def = null; if (item && item.type !== undefined) { def = window.BLOCKS[Object.keys(window.BLOCKS).find(k => window.BLOCKS[k].id === item.type)]; }
                 icon.textContent = def ? def.icon : '';
                 icon.style.backgroundColor = def ? def.color : 'transparent';
                 el.appendChild(icon);
@@ -964,7 +964,7 @@ class UIManager {
             if (item) {
                 const icon = document.createElement('span');
                 icon.className = 'block-icon';
-                const def = window.BLOCKS[item.type];
+                let def = null; if (item && item.type !== undefined) { def = window.BLOCKS[Object.keys(window.BLOCKS).find(k => window.BLOCKS[k].id === item.type)]; }
                 icon.textContent = def ? def.icon : '';
                 icon.style.backgroundColor = def ? def.color : 'transparent';
                 el.appendChild(icon);
@@ -998,7 +998,7 @@ class UIManager {
 
             const createIcon = (item) => {
                 const span = document.createElement('span');
-                const def = window.BLOCKS[item.type];
+                let def = null; if (item && item.type !== undefined) { def = window.BLOCKS[Object.keys(window.BLOCKS).find(k => window.BLOCKS[k].id === item.type)]; }
                 span.textContent = (def ? def.icon : '?') + ' x' + item.count;
                 span.style.marginRight = '10px';
                 span.style.fontSize = '20px';
