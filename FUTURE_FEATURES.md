@@ -16,6 +16,8 @@ This document outlines the priorities and workflow for all agents working on thi
 
 ### New Biomes and Structures
 - [ ] **Implement Swamp Biome** (Mud blocks, Mangrove trees, Slime spawning)
+- [ ] **Implement Dripstone Caves** (Pointed Dripstone, Spelothems)
+- [ ] **Implement Lush Caves** (Moss, Azalea, Glow Berries)
 - [ ] **Implement Badlands Biome** (Terracotta, Gold ore variants)
 - [ ] **Implement Desert Temple** (Structure generation, hidden loot, TNT trap)
 - [ ] **Implement Slime Mob** (Splitting mechanic on death, slimeball drops)
@@ -27,12 +29,13 @@ This document outlines the priorities and workflow for all agents working on thi
 ### Gameplay Mechanics
 - [x] **Implement Armor System** (Helmet, Chestplate, Leggings, Boots; rendering and damage reduction)
 - [ ] **Implement Redstone Repeaters & Comparators** (Delays, locking, signal strength logic) - *Note: Not implemented.*
-- [ ] **Implement Redstone Input Devices** (Levers, Buttons, Pressure Plates) - *Note: Partially implemented in propagation logic but input devices are missing. Agents must fix this.*
+- [ ] **Fix Redstone Input Devices**: Levers, Buttons, etc. are missing and need to be fully implemented by agents.
 - [x] **Implement Cow Milking** (Use bucket on cow to get milk)
 - [x] **Implement Sheep Shearing** (Use shears on sheep to get wool)
 
 ## 2. Medium Priority: Bugs & Maintenance
-- [x] **Implement Jukebox UI**: The Jukebox block logic is implemented, but there is no UI logic (`openJukebox`, `#jukebox-screen` is missing from `js/ui.js` and `index.html`) to insert discs. - *Note: Fixed in recent updates.*
+- [ ] **Fix Crosshair Alignment**: The crosshair is rendered via CSS in the center, but depending on the aspect ratio and rendering scale, it may not perfectly align with the sx = w/2, sy = h/2 center of the 3D raycast target.
+- [ ] **Implement Armor Trims** (Smithing table logic, templates)
 
 *Fix reported bugs and ensure stability.*
 
@@ -192,6 +195,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Tree Drops** (Saplings, Apples)
 
 ### 5. Mobs and AI
+- [ ] **Implement Horses** (Taming, Riding, Horse Armor)
+- [ ] **Implement Frogs** (Tadpoles, Slime eating)
 - [x] **Implement Villagers** (Model, AI, Trading interface)
 - [x] **Implement Tool Repair Logic** (UI pending Anvil, Crafting grid repair works)
 - [x] **Implement Fishing Mechanic**
@@ -380,6 +385,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Note Blocks**: Add musical notes when interacted with or triggered by redstone logic. Agents must implement this block type.
 - [x] **Fix Brewing UI Bug**: The brewing UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'bottles')` in `js/ui.js:543`.
+- [ ] **Implement Bundles** (Inventory management item)
+- [ ] **Implement Camel Mob** (Desert mount, two-player riding)
 - [x] **Fix Trading UI Bug**: The trading UI fails to open, throwing `TypeError: Cannot read properties of undefined (reading 'trades')` in `js/ui.js:510`.
 - [x] **Implement Trading**: Villager UI, Emerald currency.
 - [ ] **Implement Proper Block Placement Sounds**: Sounds are currently generic. Must vary based on block type (wood, stone, dirt).
