@@ -51,6 +51,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Water Flow Verification** (Test failed)
 - [x] **Fix Mobs & Drops Verification** (Test failed)
 - [x] **Fix Cactus Damage Verification** (Test failed)
+- [ ] **Fix Test Suite Dependency Errors**: Mocha tests are failing because `jsdom` is not installed by default in the environment. `test_runner.py` or the `package.json` setup script must handle this before executing tests.
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
 - [x] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Fully implemented by agents.*
@@ -148,8 +149,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Structure Manager** (System to spawn structures like Trees, Wells, Ruins)
 - [x] **Implement Basic Structure Generation** (Wells, Trees, Cacti)
 - [x] **Implement Biome Manager** (Distinct regions for Desert, Forest, Snow)
-- [x] **Implement Desert Biome** (Sand, Cactus)
-- [x] **Implement Snow Biome** (Snow blocks, Ice, Spruce Trees)
+- [ ] **Implement Cherry Grove Biome** (Pink leaves, cherry wood)
+- [ ] **Implement Bamboo Jungle Biome** (Bamboo blocks, Scaffolding)
 
 ### 3. Crafting System
 - [x] Crafting animations
