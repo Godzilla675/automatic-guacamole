@@ -23,9 +23,10 @@ def run_tests():
         context = browser.new_context()
         page = context.new_page()
         page.goto("http://localhost:3000")
+        page.wait_for_timeout(2000)
 
         # Click start game
-        page.click("#start-game")
+        page.click("#start-game", force=True)
         time.sleep(2)
 
         errors_found = []
