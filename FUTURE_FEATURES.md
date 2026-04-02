@@ -54,7 +54,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [ ] **Fix Test Suite Dependency Errors**: Mocha tests are failing because `jsdom` is not installed by default in the environment. `test_runner.py` or the `package.json` setup script must handle this before executing tests.
 - [ ] **Implement Note Blocks** (Musical notes based on interaction/redstone)
 - [ ] **Cleanup Deprecated Items** (Remove unused IDs like ITEM_WOOL)
-- [x] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`) - *Note: Fully implemented by agents.*
+- [ ] **Fix Missing Inventory Items**: Fences, Trapdoors, and Glass Panes are implemented but missing from the UI inventory menu (`index.html`). The items are NOT in index.html.
 - [x] **Fix Missing Crafting Recipes**: Wood Door and Bed are implemented and can be crafted by the player - *Note: Fully implemented by agents.*
 - [x] **Implement Day/Night Cycle Visuals** (Sun/Moon movement, sky gradients)
 - [x] **Improve Mob AI** (Better pathfinding, aggressive behavior refinements)
