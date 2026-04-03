@@ -147,6 +147,7 @@ const BLOCK = {
     RAIL: 203,
     POWERED_RAIL: 204,
     DETECTOR_RAIL: 205,
+    NOTE_BLOCK: 210,
 
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
     PICKAXE_WOOD: 100,
@@ -451,6 +452,7 @@ const BLOCKS = {
     [BLOCK.CAULDRON]: { name: 'Cauldron', color: '#404040', solid: false, transparent: true, icon: '🍲', hardness: 2.0, tool: 'pickaxe' },
     [BLOCK.ENCHANTING_TABLE]: { name: 'Enchanting Table', color: '#800000', top: '#FFD700', solid: false, transparent: true, icon: '📖', hardness: 5.0, tool: 'pickaxe', light: 7 },
     [BLOCK.RAIL]: { name: 'Rail', color: '#808080', solid: false, transparent: true, icon: '🛤️', hardness: 0.0 },
+    [BLOCK.NOTE_BLOCK]: { name: 'Note Block', color: '#8B4513', top: '#A0522D', solid: true, icon: '🎵', hardness: 0.8, tool: 'axe' },
 
     // Saplings
     [BLOCK.OAK_SAPLING]: { name: 'Oak Sapling', color: '#228B22', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.OAK_SAPLING, count: 1 } },

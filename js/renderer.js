@@ -782,6 +782,15 @@ class Renderer {
             ctx.strokeStyle = 'white';
             ctx.strokeRect(w/2 - size, h/2 - size, size*2, size*2);
         }
+
+        // Crosshair
+        const cx = w / 2;
+        const cy = h / 2;
+        ctx.fillStyle = this.game.hasTarget ? 'rgba(255, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+        // Horizontal line
+        ctx.fillRect(cx - 10, cy - 1, 20, 2);
+        // Vertical line
+        ctx.fillRect(cx - 1, cy - 10, 2, 20);
     }
 
     adjustColor(color, brightness) {

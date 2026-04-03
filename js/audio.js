@@ -110,7 +110,7 @@ class SoundManager {
         }
     }
 
-    play(type, position = null) {
+    play(type, position = null, blockType = null) {
         if (!this.enabled) return;
         if (this.ctx.state === 'suspended') {
             this.ctx.resume();
@@ -155,19 +155,44 @@ class SoundManager {
                 break;
 
             case 'break':
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(200, now);
-                osc.frequency.exponentialRampToValueAtTime(50, now + 0.1);
-                gain.gain.setValueAtTime(this.volume * 0.5, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-                osc.start(now);
-                osc.stop(now + 0.1);
-                break;
-
             case 'place':
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(400, now);
-                osc.frequency.exponentialRampToValueAtTime(200, now + 0.1);
+                let freqStart = 200;
+                let freqEnd = 50;
+                let oscType = 'square';
+
+                if (blockType !== null && typeof BLOCKS !== 'undefined') {
+                    const b = BLOCKS[blockType];
+                    if (b) {
+                        const name = b.name.toLowerCase();
+                        if (name.includes('wood') || name.includes('plank') || name.includes('log')) {
+                            oscType = 'triangle';
+                            freqStart = 150;
+                            freqEnd = 80;
+                        } else if (name.includes('stone') || name.includes('cobblestone') || name.includes('ore') || name.includes('brick')) {
+                            oscType = 'square';
+                            freqStart = 300;
+                            freqEnd = 100;
+                        } else if (name.includes('dirt') || name.includes('grass') || name.includes('sand') || name.includes('gravel')) {
+                            oscType = 'sine';
+                            freqStart = 100;
+                            freqEnd = 50;
+                        } else if (name.includes('glass')) {
+                            oscType = 'sawtooth';
+                            freqStart = 600;
+                            freqEnd = 800;
+                        }
+                    }
+                }
+
+                if (type === 'place') {
+                    oscType = 'sine'; // Softer for placement
+                    freqStart = Math.min(400, freqStart * 1.5);
+                    freqEnd = Math.max(200, freqEnd * 1.5);
+                }
+
+                osc.type = oscType;
+                osc.frequency.setValueAtTime(freqStart, now);
+                osc.frequency.exponentialRampToValueAtTime(freqEnd, now + 0.1);
                 gain.gain.setValueAtTime(this.volume * 0.5, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
                 osc.start(now);
@@ -203,6 +228,19 @@ class SoundManager {
                  gain.gain.setValueAtTime(this.volume * 0.5, now);
                  osc.start(now);
                  osc.stop(now + 4.0);
+                 break;
+
+            case 'note':
+                 // Determine instrument from blockType? Or just default piano.
+                 // Pitch is passed via blockType here (0-24)
+                 const pitch = typeof position.pitch !== 'undefined' ? position.pitch : 0;
+                 const f = Math.pow(2, (pitch - 12) / 12) * 440; // F#4 is 0? Actually A4 is 440
+                 osc.type = 'sine'; // Could vary based on block below note block
+                 osc.frequency.setValueAtTime(f, now);
+                 gain.gain.setValueAtTime(this.volume * 0.8, now);
+                 gain.gain.exponentialRampToValueAtTime(0.01, now + 1.0);
+                 osc.start(now);
+                 osc.stop(now + 1.0);
                  break;
         }
     }
