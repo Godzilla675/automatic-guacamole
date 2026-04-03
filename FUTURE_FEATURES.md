@@ -99,8 +99,8 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Refactor Physics for Entities** (Raycast/Collision for non-block entities) - *Verified*
 - [x] **Implement Jukebox & Music Discs** - *Verified*
 - [x] **Implement Signs** (Placement, Text Input UI, Rendering Text)
-- [x] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory)
-- [x] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
+- [ ] **Implement Creative Mode** (Flying, God Mode, Infinite Inventory) - Note: `/gamemode` and UI for it are missing or broken.
+- [ ] **Expand Command System** (Implement `/gamemode`, `/give`, `/tp`)
 - [x] **Implement Enchanting Table UI & Logic** (Fully Implemented)
 - [x] **Implement Player Skins & Nametags** (Visual differentiation)
 - [x] **Implement Recipe Discovery System** (Unlock recipes as items are gathered)
@@ -119,7 +119,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Implement Farming Extensions** (Carrots, Potatoes, Melons, Pumpkins)
 - [x] **Implement Saplings and Tree Propagation**
 - [x] **Implement Experience System** (XP Drops & Leveling)
-- [x] **Implement Save/Load UI**
+- [ ] **Implement Save/Load UI** - Note: Save/Load functionalities are broken or missing proper API.
 
 ### New Building Blocks
 - [x] **Implement Stairs**
@@ -227,12 +227,12 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Eating/Food Consumption
 - [x] **Bed & Sleeping**
 - [x] **Experience System** (XP Drops & Leveling)
-- [x] **Save/Load UI**
+- [ ] **Save/Load UI** - Note: Missing or broken API calls for save/load.
 
 ### Enhanced Building Blocks
 - [x] **Implement Doors**
 - [x] **Implement Slabs**
-- [x] **Implement Chests and Storage**
+- [ ] **Implement Chests and Storage** - Note: openChest expects entity.items but sometimes throws undefined
 - [x] Torches (Lighting system)
 
 ### General Fixes & Improvements
@@ -251,7 +251,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ### Enhanced Building Blocks
 - [x] **Implement Doors** (Open/Close logic, models)
 - [x] **Implement Slabs** (Placement logic, half-block physics)
-- [x] **Implement Chests and Storage** (UI, persistence)
+- [ ] **Implement Chests and Storage** (UI, persistence) - Note: openChest expects entity.items but sometimes throws undefined
 - [x] Torches (Lighting system) (Basic light propagation and recipes implemented)
 
 ## Medium Priority Features
@@ -275,7 +275,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ### 10. World Saving/Loading
 - [x] Export/import world data
 - [x] Auto-save functionality
-- [x] Save world state to browser localStorage (Implemented in `js/world.js`)
+- [ ] Save world state to browser localStorage (Implemented in `js/world.js`) - Note: Save/Load functionalities are broken.
 - [x] Load saved worlds
 - [x] Multiple world slots
 
@@ -421,7 +421,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] Shared world state (Real-time sync only, no server-side persistence yet)
 
 ### 24. Completed Fixes (History)
-- [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite
+- [ ] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite - *Note: Tests fail and need fixing.*
 - [x] **Fix Water Flow Logic**: Current implementation is basic; improve to match Minecraft mechanics (limited spread, source block creation).
 - [x] **Fix Spruce Tree Visuals**: Spruce trees currently use Oak blocks (`BLOCK.WOOD` and `BLOCK.LEAVES`). Implement and use `BLOCK.SPRUCE_WOOD` and `BLOCK.SPRUCE_LEAVES`.
 ### General Fixes & Improvements
@@ -444,7 +444,7 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Redstone/Torch Structural Integrity** (Implemented integrity checks)
 - [x] **Fix Projectile Collision** (Arrows ignore non-solid blocks)
 - [x] **Implement Particle System** (Visuals for breaking blocks, explosions)
-- [x] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite - *Verified*
+- [ ] Verified all implemented features (Crafting, Mobs, Physics, Saving, Commands) with comprehensive test suite - *Note: Tests fail and need fixing.* - *Verified*
 - [x] Fix Tree Generation at Chunk Boundaries
 - [x] Fix memory management strategy
 - [x] Optimize render loop
@@ -486,4 +486,4 @@ This document outlines the priorities and workflow for all agents working on thi
 - [x] **Fix Missing Test Dependencies**: Fixed errors with `playwright.sync_api` tests timing out on `http://localhost:3000` because the UI overlay (`#start-game`) needs a timeout or `force=True` and server wasn't responding properly without waiting.
 
 ## Test Integrity Verified
-- [x] **Comprehensive Test Suite (March 2026 Run)**: All 86 automated testing scripts and UI navigation paths have been successfully verified without errors, timeouts, or dependency conflicts. The codebase's stability is fully confirmed against all completed features listed above.
+- [ ] **Comprehensive Test Suite (March 2026 Run)**: All 86 automated testing scripts and UI navigation paths have been successfully verified without errors, timeouts, or dependency conflicts. The codebase's stability is fully confirmed against all completed features listed above. - *Note: Tests fail, mocha issues, jsdom issues.*
