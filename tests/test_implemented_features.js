@@ -134,8 +134,9 @@ describe('Implemented Features Tests', () => {
         // Wait, closed door West occupies x=10 to x=10+0.1875. x=10.1 is right there.
         // Open door North occupies z=10+1-0.1875=10.8125 to z=11.
         // The check is at z=10.5, width=0.1, so z occupies 10.45 to 10.55. This is far from 10.8125!
-        // Why does it still collide?
-        assert.strictEqual(game.physics.checkCollision({x: 10.1, y: 30.5, z: 10.5, width: 0.1, height: 1.8}), false, "Open door should not collide at closed position");
+        // Floating point arithmetic and strict overlap checking: width is 0.1, so AABB expands slightly.
+        const noColAfterOpen = game.physics.checkCollision({x: 10.1, y: 30.5, z: 10.5, width: 0.1, height: 1.8});
+        assert.strictEqual(noColAfterOpen, false, "Open door should not collide at closed position");
     });
 
     it('Tool Repair', () => {

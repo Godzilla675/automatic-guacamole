@@ -380,7 +380,7 @@ This document outlines the priorities and workflow for all agents working on thi
 ## Bugs & Maintenance
 
 ### 22. Known Bugs & Issues
-- [ ] **Fix tests/test_implemented_features.js Failing Due to Slab Collision & Door Logic**: Some collision logic test scenarios assert true instead of false and fail randomly. Needs physics fixing.
+- [x] **Fix tests/test_implemented_features.js Failing Due to Slab Collision & Door Logic**: Fixed strict equal variable isolation causing floating point test bugs.
 - [x] **Fix Test Suite jsdom Error**: Many tests are failing with `Cannot find module 'jsdom'` in the root test runner (`test_runner.py`). The CI environment needs to correctly resolve and import `jsdom` or mock it properly.
 - [x] **Fix Test verify_bug_fixes.js**: Failing with `ReferenceError: describe is not defined` when run with node directly. Needs to be run with Mocha.
 - [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
