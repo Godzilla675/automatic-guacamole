@@ -85,6 +85,23 @@ class UIManager {
             });
         }
 
+        // UI Scale
+        const scaleVal = localStorage.getItem('voxel_ui_scale') || 1.0;
+        document.documentElement.style.setProperty('--ui-scale', scaleVal);
+        const uiScaleSlider = document.getElementById('ui-scale-slider');
+        if (uiScaleSlider) {
+            uiScaleSlider.value = scaleVal;
+            const uiScaleValDisplay = document.getElementById('ui-scale-value');
+            if (uiScaleValDisplay) uiScaleValDisplay.textContent = parseFloat(scaleVal).toFixed(1);
+
+            uiScaleSlider.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                document.documentElement.style.setProperty('--ui-scale', val);
+                localStorage.setItem('voxel_ui_scale', val);
+                if (uiScaleValDisplay) uiScaleValDisplay.textContent = val.toFixed(1);
+            });
+        }
+
         // Save/Load
         const saveBtn = document.getElementById('save-game');
         if (saveBtn) {
@@ -360,6 +377,13 @@ class UIManager {
             const skinPicker = document.getElementById('skin-color-picker');
             if (skinPicker && this.game.player) {
                 skinPicker.value = this.game.player.skinColor;
+            }
+            const uiScaleSlider = document.getElementById('ui-scale-slider');
+            if (uiScaleSlider) {
+                const val = localStorage.getItem('voxel_ui_scale') || 1.0;
+                uiScaleSlider.value = val;
+                const uiScaleValDisplay = document.getElementById('ui-scale-value');
+                if (uiScaleValDisplay) uiScaleValDisplay.textContent = parseFloat(val).toFixed(1);
             }
         }
 

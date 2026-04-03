@@ -255,6 +255,23 @@ class Game {
             return true;
         }
 
+        // Note Block
+        if (blockType === BLOCK.NOTE_BLOCK) {
+            let meta = this.world.getMetadata(x, y, z);
+            meta = (meta + 1) % 25;
+            this.world.setMetadata(x, y, z, meta);
+
+            // Spawn note particle
+            if (this.particles) {
+                this.particles.spawn(pos.x, pos.y + 0.5, pos.z, `hsl(${(meta / 24) * 360}, 100%, 50%)`, 1);
+            }
+
+            if (window.soundManager) {
+                window.soundManager.play('note', { x: pos.x, y: pos.y, z: pos.z, pitch: meta });
+            }
+            return true;
+        }
+
         // Bed
         if (blockType === BLOCK.BED) {
             const time = this.gameTime % this.dayLength;
@@ -567,7 +584,7 @@ class Game {
              const def = BLOCKS[blockType];
              if (def) this.particles.spawn(x+0.5, y+0.5, z+0.5, def.color, 10);
         }
-        window.soundManager.play('break', pos);
+        window.soundManager.play('break', pos, blockType);
 
         // XP Drops for Ores
         if (blockType === BLOCK.ORE_COAL) this.spawnXP(x, y, z, 1);
@@ -673,7 +690,7 @@ class Game {
                      const belowDef = BLOCKS[below];
                      if (belowDef && belowDef.solid) {
                          this.world.setBlock(nx, ny, nz, BLOCK.REDSTONE_WIRE);
-                         window.soundManager.play('place', pos);
+                         window.soundManager.play('place', pos, BLOCK.REDSTONE_WIRE);
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.REDSTONE_WIRE);
 
                          if (this.player.gamemode !== 1) {
@@ -728,7 +745,7 @@ class Game {
 
                              this.world.setBlockEntity(nx, ny, nz, { type: 'sapling', stage: 0, treeType: treeType });
 
-                             window.soundManager.play('place', pos);
+                             window.soundManager.play('place', pos, slot.type);
                              this.network.sendBlockUpdate(nx, ny, nz, slot.type);
 
                              if (this.player.gamemode !== 1) {
@@ -763,8 +780,7 @@ class Game {
                          this.world.setMetadata(nx, ny, nz, meta);
                          this.world.setMetadata(nx, ny+1, nz, meta);
 
-                         window.soundManager.play('place');
-                         window.soundManager.play('place', pos);
+                         window.soundManager.play('place', pos, BLOCK.DOOR_WOOD_BOTTOM);
                          this.network.sendBlockUpdate(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
                          this.network.sendBlockUpdate(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
 
@@ -800,7 +816,7 @@ class Game {
                          this.world.setMetadata(nx, ny, nz, meta);
                      }
 
-                     window.soundManager.play('place', pos);
+                     window.soundManager.play('place', pos, slot.type);
                      this.network.sendBlockUpdate(nx, ny, nz, this.world.getBlock(nx, ny, nz));
 
                      // Open UI
@@ -882,7 +898,7 @@ class Game {
 
                      this.world.setMetadata(nx, ny, nz, meta);
                  }
-                 window.soundManager.play('place', pos);
+                 window.soundManager.play('place', pos, slot.type);
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);
 
                  // Consume item
@@ -1552,6 +1568,8 @@ class Game {
                 if (b !== BLOCK.AIR && b !== BLOCK.WATER) hasTarget = true;
             }
         }
+
+        this.hasTarget = hasTarget; // Store for renderer
 
         const crosshair = document.getElementById('crosshair');
         if (crosshair) {
