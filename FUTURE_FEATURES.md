@@ -8,6 +8,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Ores (Coal, Iron, Gold, Diamond)
 - [ ] Better cave systems (Ravines, large caves)
 - [ ] Structures (Villages, Dungeons)
+- [ ] **Jungle Biome**
+- [ ] **Bamboo Jungle**
 - [ ] **Nether Fortresses** (Generation logic in Nether)
 - [ ] **Nether Quartz Ore Generation**
 - [ ] **Swamp Biome**
@@ -37,8 +39,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 5. Entities & Mobs
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
-- [ ] Villagers (Trading system)
+- [x] Villagers (Trading system)
 - [ ] **Implement Shears Functionality** (Shear sheep, leaves, grass)
+- [ ] **Pandas**
 - [ ] **Wither Boss**
 - [ ] **Slime Mob**
 - [ ] **Magma Cube Mob**
@@ -97,7 +100,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Support for custom models**
 
 ### 15. Miscellaneous
-- [ ] Weather system (Rain, Snow)
+- [x] Weather system (Rain, Snow)
 - [ ] Day/Night cycle implementation (Logic)
 - [ ] Statistics
 - [ ] **Nether Dimension** (Dimension generation, portals)
@@ -121,3 +124,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Missing UI Assets**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). (Note: Tested via `test_specific_features.py`. The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Needs CSS/sprite asset review.)
 - [ ] **Missing Wood Door Recipe**: Game has wood door block but lacks a recipe mapping in `js/crafting.js` to create them from wooden planks. (Note: The feature script `test_specific_features.py` failed to programmatically place the door. A manual review via `door_placed.png` confirms the Wood Door recipe is indeed functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing).
 - [x] **Crosshair Alignment Unresolved Bug**: The crosshair alignment is still reported as unresolved in `bug_report.md` because it may not perfectly align with the target center depending on aspect ratio and scale.
+- [ ] **Minecarts and Boats**: Missing implementations.
+- [ ] **Jukebox & Music Discs**: Missing implementations.
+- [ ] **Signs**: Missing implementations.
+- [ ] **Saplings**: Missing implementations.
+- [ ] **Animal Breeding**: Missing implementations.
+- [ ] **Water Flow Visuals**: Missing implementations.
