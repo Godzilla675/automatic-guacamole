@@ -118,6 +118,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
 - [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
-- [ ] **Missing UI Assets**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`).
-- [ ] **Missing Wood Door Recipe**: Game has wood door block but lacks a recipe mapping in `js/crafting.js` to create them from wooden planks.
-- [ ] **Crosshair Alignment Unresolved Bug**: The crosshair alignment is still reported as unresolved in `bug_report.md` because it may not perfectly align with the target center depending on aspect ratio and scale.
+- [x] **Missing UI Assets**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`).
+- [x] **Missing Wood Door Recipe**: Game has wood door block but lacks a recipe mapping in `js/crafting.js` to create them from wooden planks.
+- [x] **Crosshair Alignment Unresolved Bug**: The crosshair alignment is still reported as unresolved in `bug_report.md` because it may not perfectly align with the target center depending on aspect ratio and scale.

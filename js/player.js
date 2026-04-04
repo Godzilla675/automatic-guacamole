@@ -26,8 +26,8 @@ class Player {
         this.inventory[2] = { type: BLOCK.GRASS, count: 64 };
         this.inventory[3] = { type: BLOCK.WOOD, count: 64 };
         this.inventory[4] = { type: BLOCK.LEAVES, count: 64 };
-        this.inventory[5] = { type: BLOCK.BRICK, count: 64 };
-        this.inventory[6] = { type: BLOCK.PLANK, count: 64 };
+        this.inventory[5] = { type: BLOCK.FENCE, count: 64 };
+        this.inventory[6] = { type: BLOCK.GLASS_PANE, count: 64 };
         this.inventory[7] = { type: BLOCK.GLASS, count: 64 };
         // Give tools
         this.inventory[8] = { type: BLOCK.PICKAXE_DIAMOND, count: 1 };

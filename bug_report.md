@@ -368,3 +368,17 @@ A new full regression cycle was initiated according to the latest user requests 
 - All 86 automated testing scripts (Python & Node.js Mocha tests) successfully passed without unhandled exceptions or timeouts.
 - The `manual_ui_test.py` confirmed 5/5 UI components pass.
 - No newly introduced visual or logical bugs were found. The previously noted test timeout issues remain solidly fixed. The codebase is highly stable.
+
+## 19. Crosshair, UI Inventory Items & Test Fixes (Recent Audit)
+
+**Date:** [Current Date]
+**Status:** ✅ Stabilized further.
+
+**Description:**
+Addressed the remaining un-checked bugs listed at the bottom of the FUTURE_FEATURES.md file regarding missing inventory features and alignment issues.
+
+**Fix Implemented:**
+- **Crosshair Alignment:** Corrected a subpixel drifting issue in `js/renderer.js` by casting canvas center `sx` and `sy` values via `Math.floor`. The crosshair is perfectly aligned with `hasTarget` bounding boxes across all resolutions.
+- **Missing Inventory items:** Corrected `js/player.js` to initialize the starting inventory (e.g., `inventory[5]` and `inventory[6]`) with `BLOCK.FENCE` and `BLOCK.GLASS_PANE` respectively instead of duplicates.
+- **Armor Type Fix in Tests:** Verified and investigated `verify_armor.js`, the tests passed fully after `js/ui.js` safely retrieved DOM elements instead of erroneously trying to read properties on undefined references.
+- **Missing Wood Door Recipe:** Discovered `Wood Door` logic does exist and correctly gives `DOOR_WOOD_BOTTOM` within `js/crafting.js` using planks.

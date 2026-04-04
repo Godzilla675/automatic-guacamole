@@ -784,8 +784,9 @@ class Renderer {
         }
 
         // Crosshair
-        const cx = w / 2;
-        const cy = h / 2;
+        // Draw exact center pixel aligned to canvas scaling to prevent subpixel drift
+        const cx = Math.floor(w / 2);
+        const cy = Math.floor(h / 2);
         ctx.fillStyle = this.game.hasTarget ? 'rgba(255, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)';
         // Horizontal line
         ctx.fillRect(cx - 10, cy - 1, 20, 2);

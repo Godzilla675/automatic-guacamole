@@ -87,7 +87,9 @@ class UIManager {
 
         // UI Scale
         const scaleVal = localStorage.getItem('voxel_ui_scale') || 1.0;
-        document.documentElement.style.setProperty('--ui-scale', scaleVal);
+        if (document.documentElement && document.documentElement.style) {
+            document.documentElement.style.setProperty('--ui-scale', scaleVal);
+        }
         const uiScaleSlider = document.getElementById('ui-scale-slider');
         if (uiScaleSlider) {
             uiScaleSlider.value = scaleVal;
