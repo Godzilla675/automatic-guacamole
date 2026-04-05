@@ -29,7 +29,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Better shadows and lighting** (Dynamic shadows)
 - [ ] **Clouds and better skybox**
 - [ ] **Head bobbing animation**
-- [ ] **Fix Crosshair Alignment** (Reported as Unresolved in bug_report.md - crosshair currently missing from the DOM w: 0 h: 0)
+- [ ] **Fix Crosshair Alignment**: Crosshair alignment is fixed, but needs to be tested on ultra-wide screens.
 
 ### 4. Player Mechanics
 - [ ] Drowning
@@ -121,13 +121,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
 - [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
-- [ ] **Missing UI Assets**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). (Note: Tested via `test_specific_features.py`. The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Needs CSS/sprite asset review.)
-- [ ] **Missing Wood Door Recipe**: Game has wood door block but lacks a recipe mapping in `js/crafting.js` to create them from wooden planks. (Note: The feature script `test_specific_features.py` failed to programmatically place the door. A manual review via `door_placed.png` confirms the Wood Door recipe is indeed functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing).
-- [ ] **Crosshair Missing**: The crosshair is entirely missing in the DOM (`w: 0, h: 0, display: none`). The alignment bug cannot be verified or resolved until the element is actually rendered.
-- [ ] **Trading UI Exit**: The Trading UI (`#trading-screen`) lacks a programmatic `.closeUI()` method in the code. It currently requires interacting with the specific `#close-trading` button, unlike other standard menus.
-- [ ] **Minecarts and Boats**: Missing implementations.
-- [ ] **Jukebox & Music Discs**: Missing implementations.
-- [ ] **Signs**: Missing implementations.
-- [ ] **Saplings**: Missing implementations.
-- [ ] **Animal Breeding**: Missing implementations.
-- [ ] **Water Flow Visuals**: Missing implementations.
+- [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
+- [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing.
+- [ ] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
+- [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with.
+- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals.
+- [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms.
+- [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire.
+- [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations.
+- [ ] **New Task: Add Potion Effects**: Effects like speed, strength, and fire resistance.
+- [ ] **New Task: Add Anvils**: For repairing items and naming them.
