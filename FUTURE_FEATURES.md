@@ -29,7 +29,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Better shadows and lighting** (Dynamic shadows)
 - [ ] **Clouds and better skybox**
 - [ ] **Head bobbing animation**
-- [ ] **Fix Crosshair Alignment** (Reported as Unresolved in bug_report.md - depending on aspect ratio, it does not align perfectly)
+- [ ] **Fix Crosshair Alignment** (Reported as Unresolved in bug_report.md - crosshair currently missing from the DOM w: 0 h: 0)
 
 ### 4. Player Mechanics
 - [ ] Drowning
@@ -123,7 +123,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
 - [ ] **Missing UI Assets**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). (Note: Tested via `test_specific_features.py`. The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Needs CSS/sprite asset review.)
 - [ ] **Missing Wood Door Recipe**: Game has wood door block but lacks a recipe mapping in `js/crafting.js` to create them from wooden planks. (Note: The feature script `test_specific_features.py` failed to programmatically place the door. A manual review via `door_placed.png` confirms the Wood Door recipe is indeed functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing).
-- [x] **Crosshair Alignment Unresolved Bug**: The crosshair alignment is still reported as unresolved in `bug_report.md` because it may not perfectly align with the target center depending on aspect ratio and scale.
+- [ ] **Crosshair Missing**: The crosshair is entirely missing in the DOM (`w: 0, h: 0, display: none`). The alignment bug cannot be verified or resolved until the element is actually rendered.
+- [ ] **Trading UI Exit**: The Trading UI (`#trading-screen`) lacks a programmatic `.closeUI()` method in the code. It currently requires interacting with the specific `#close-trading` button, unlike other standard menus.
 - [ ] **Minecarts and Boats**: Missing implementations.
 - [ ] **Jukebox & Music Discs**: Missing implementations.
 - [ ] **Signs**: Missing implementations.
