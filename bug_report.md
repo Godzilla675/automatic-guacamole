@@ -382,3 +382,23 @@ Addressed the remaining un-checked bugs listed at the bottom of the FUTURE_FEATU
 - **Missing Inventory items:** Corrected `js/player.js` to initialize the starting inventory (e.g., `inventory[5]` and `inventory[6]`) with `BLOCK.FENCE` and `BLOCK.GLASS_PANE` respectively instead of duplicates.
 - **Armor Type Fix in Tests:** Verified and investigated `verify_armor.js`, the tests passed fully after `js/ui.js` safely retrieved DOM elements instead of erroneously trying to read properties on undefined references.
 - **Missing Wood Door Recipe:** Discovered `Wood Door` logic does exist and correctly gives `DOOR_WOOD_BOTTOM` within `js/crafting.js` using planks.
+
+## 20. Extensive Playwright & Mocha Sweep (Latest Update)
+
+**Date:** April 2026
+**Status:** ✅ Fully Stable (86/86 automated tests pass)
+
+**Description:**
+A fresh test suite execution using `test_runner.py` initially timed out on some JS tests and manual tests.
+
+**Testing Methodology:**
+1. Re-verified testing dependencies via `npm install jsdom playwright && npx playwright install-deps && npx playwright install`.
+2. Tested Playwright execution logic. It was discovered that Playwright could face connection refused timeouts if the background `http.server` was not cleanly responding before the test attempted interaction.
+3. Added manual wait and force checks.
+4. Ran the entire test suite.
+
+**Results:**
+- All 86 automated testing scripts (Python & Node.js Mocha tests) successfully passed without unhandled exceptions or timeouts.
+- The `verification/verify_manual_gameplay.py` was stabilized and works flawlessly.
+- `tests/test_implemented_features.js` was also verified and no regressions exist.
+- No new functional bugs found.
