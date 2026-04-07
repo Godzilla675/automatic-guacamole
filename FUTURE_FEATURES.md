@@ -8,7 +8,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Ores (Coal, Iron, Gold, Diamond)
 - [ ] Better cave systems (Ravines, large caves)
 - [ ] Structures (Villages, Dungeons)
-- [ ] **Jungle Biome**
+- [x] **Jungle Biome**
 - [ ] **Bamboo Jungle**
 - [ ] **Nether Fortresses** (Generation logic in Nether)
 - [ ] **Nether Quartz Ore Generation**
@@ -33,14 +33,14 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 4. Player Mechanics
 - [ ] Drowning
-- [ ] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack)
+- [x] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack)
 - [ ] **Elytra** (Gliding mechanics)
 - [ ] **Tridents** (Throwing, returning, Riptide)
 
 ### 5. Entities & Mobs
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
 - [x] Villagers (Trading system)
-- [ ] **Implement Shears Functionality** (Shear sheep, leaves, grass)
+- [ ] **Implement Shears Functionality** (Partial: sheep shearing implemented, missing leaves/grass directly to inventory)
 - [ ] **Pandas**
 - [ ] **Wither Boss**
 - [ ] **Slime Mob**
@@ -120,7 +120,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time.
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
-- [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
+- [x] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
 - [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
 - [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing.
 - [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
@@ -131,3 +131,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Missing noise transitions in biome.js).
 - [ ] **New Task: Add Potion Effects**: Effects like speed, strength, and fire resistance. (Potion item exists but consumption effects logic is missing).
 - [x] **New Task: Add Anvils**: For repairing items and naming them.
+- [ ] **New Task: Add Armor Stand**: An entity to hold and display armor.
+- [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
+- [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
