@@ -463,3 +463,16 @@ The Playwright script simulated real-user browser input:
 
 **Final Verdict:**
 The game operates flawlessly in a simulated live environment. The previous critical test execution bugs are definitively verified as resolved, and gameplay is smooth.
+
+## Fixes Implemented for Endermen and Boat
+- **Endermen Water Avoidance**: Endermen now appropriately take damage and randomly teleport when their feet or current block intersects with water blocks.
+- **Boat Placement**: Modified `game.js` to correctly instantiate `Boat` entities within the `vehicles` array when the player attempts to place a Boat item on top of water blocks.
+
+## Missing Feature Verification
+The following tasks were validated against the codebase:
+- **Redstone Clocks**: Missing entirely (Requires block definitions and world redstone ticking logic).
+- **Bookshelves**: Missing entirely (No block definition in `blocks.js`).
+- **Lava Flow**: Lava blocks are implemented, but flow physics (spreading, burning) are missing from `world.js`.
+- **Biome Generation**: Basic biomes exist, but smooth noise transitions are missing.
+- **Potion Effects**: Potion items are defined, but there is no consumption or status effect logic implemented.
+- **Anvils**: Validated as fully implemented (Block definition, UI, and functionality exist).
