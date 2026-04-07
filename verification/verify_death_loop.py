@@ -1,32 +1,44 @@
 from playwright.sync_api import sync_playwright
 import time
+import subprocess
+import os
+import signal
 
-def run():
+def start_server():
+    return subprocess.Popen(
+        ["python3", "-m", "http.server", "3000"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        preexec_fn=os.setsid
+    )
+
+def test_death():
+    server_process = start_server()
+    time.sleep(2)
+
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto("http://localhost:3000")
 
-        # Handle prompt for name
-        page.on("dialog", lambda dialog: dialog.accept("Tester"))
-
-        # Wait for menu
-        page.wait_for_selector("#menu-screen", state="visible")
-        page.wait_for_timeout(1000)
-
-        # Click Start Game
+        page.wait_for_selector("#start-game")
         page.click("#start-game", force=True)
+        time.sleep(2)
 
-        # Wait for game container
-        page.wait_for_selector("#game-container", state="visible")
+        # Test Death
+        logs = page.evaluate("""() => {
+            const game = window.game;
+            game.player.health = 0;
+            game.player.update(1/60);
+            return game.player.y;
+        }""")
 
-        # Wait a bit for initialization and potential death
-        page.wait_for_timeout(4000)
-
-        # Take screenshot of the game to ensure there's no chat spam about death
-        page.screenshot(path="verification/death_loop_fixed.png")
+        print("Death loop test:")
+        print(logs)
 
         browser.close()
 
+    os.killpg(os.getpgid(server_process.pid), signal.SIGTERM)
+
 if __name__ == "__main__":
-    run()
+    test_death()

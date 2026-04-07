@@ -247,12 +247,17 @@ class Mob extends Entity {
 
         // Enderman Teleport
         if (this.type === MOB_TYPE.ENDERMAN) {
+            // Endermen take damage from water, but teleport to avoid attacks.
+            this.health -= amount;
             // Teleport randomly
             this.x += (Math.random() - 0.5) * 16;
             this.z += (Math.random() - 0.5) * 16;
             this.y = this.world.getHighestBlockY(Math.floor(this.x), Math.floor(this.z));
             window.soundManager.play('place', {x: this.x, y: this.y, z: this.z}); // Teleport sound
-            return; // Dodge
+            if (this.health <= 0) {
+                this.die();
+            }
+            return; // Dodge knockback and normal hit sound
         }
 
         this.health -= amount;
@@ -345,6 +350,15 @@ class Mob extends Entity {
         const bx = Math.floor(this.x);
         const by = Math.floor(this.y);
         const bz = Math.floor(this.z);
+
+        // Enderman water avoidance/damage
+        if (this.type === MOB_TYPE.ENDERMAN) {
+            const blockIn = this.world.getBlock(bx, by, bz);
+            const blockBelow = this.world.getBlock(bx, by - 1, bz);
+            if (blockIn === window.BLOCK.WATER || blockBelow === window.BLOCK.WATER) {
+                this.takeDamage(1); // takeDamage already handles teleportation for Enderman
+            }
+        }
 
         // Check if stuck in block
         const blockIn = this.world.getBlock(bx, by, bz);

@@ -830,6 +830,27 @@ class Game {
                      return;
                  }
 
+                 // Boat Placement Logic
+                 if (slot.type === BLOCK.ITEM_BOAT) {
+                     // Need to place on water
+                     const targetBlock = this.world.getBlock(nx, ny - 1, nz);
+                     if (targetBlock === BLOCK.WATER) {
+                         const boat = new window.Boat(this, nx + 0.5, ny, nz + 0.5);
+                         this.vehicles.push(boat);
+
+                         window.soundManager.play('place', pos, BLOCK.WATER);
+
+                         if (this.player.gamemode !== 1) {
+                             slot.count--;
+                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         }
+                         this.updateHotbarUI();
+                         return;
+                     } else {
+                         return; // Can't place
+                     }
+                 }
+
                  if (blockDef && blockDef.isItem) return;
 
                  // nx, ny, nz are already defined in outer scope
