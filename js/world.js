@@ -816,6 +816,13 @@ class World {
     }
 
     getHighestBlockY(x, z) {
+        // Check if chunk is loaded first
+        const cx = Math.floor(x / this.chunkSize);
+        const cz = Math.floor(z / this.chunkSize);
+        const chunkId = `${cx},${cz}`;
+        if (!this.chunks.has(chunkId)) {
+            return 100; // Safe high value for unloaded chunks
+        }
         for (let y = this.worldHeight - 1; y >= 0; y--) {
             if (this.getBlock(x, y, z) !== BLOCK.AIR) {
                 return y + 1;

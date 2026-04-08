@@ -407,10 +407,10 @@ const BLOCKS = {
     [BLOCK.STAIRS_COBBLESTONE]: { name: 'Cobblestone Stairs', color: '#696969', solid: true, icon: '🪜', hardness: 2.0, tool: 'pickaxe', isStair: true, transparent: true },
 
     // New Building Blocks
-    [BLOCK.FENCE]: { name: 'Fence', color: '#5C4033', solid: true, icon: 'fence', hardness: 2.0, tool: 'axe', isFence: true, transparent: true },
-    [BLOCK.FENCE_GATE]: { name: 'Fence Gate', color: '#5C4033', solid: true, icon: 'gate', hardness: 2.0, tool: 'axe', isGate: true, transparent: true },
+    [BLOCK.FENCE]: { name: 'Fence', color: '#5C4033', solid: true, icon: '⛩️', hardness: 2.0, tool: 'axe', isFence: true, transparent: true },
+    [BLOCK.FENCE_GATE]: { name: 'Fence Gate', color: '#5C4033', solid: true, icon: '⛩️', hardness: 2.0, tool: 'axe', isGate: true, transparent: true },
     [BLOCK.TRAPDOOR]: { name: 'Trapdoor', color: '#5C4033', solid: true, icon: '🚪', hardness: 3.0, tool: 'axe', isTrapdoor: true, transparent: true },
-    [BLOCK.GLASS_PANE]: { name: 'Glass Pane', color: '#ADD8E6', solid: true, icon: 'window', hardness: 0.3, isPane: true, transparent: true, drop: null },
+    [BLOCK.GLASS_PANE]: { name: 'Glass Pane', color: '#ADD8E6', solid: true, icon: '🪟', hardness: 0.3, isPane: true, transparent: true, drop: null },
 
     // New Wood Types
     [BLOCK.BIRCH_WOOD]: { name: 'Birch Wood', color: '#e3dcd3', top: '#e3dcd3', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
