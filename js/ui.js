@@ -1454,6 +1454,13 @@ class UIManager {
                     icon.style.backgroundColor = blockDef.color || 'transparent';
                     icon.style.backgroundImage = 'none';
                 }
+
+                // Add tooltip for custom names
+                if (item.name) {
+                    slotElement.title = item.name;
+                } else {
+                    slotElement.title = blockDef.name || '';
+                }
             }
             if (count) count.textContent = item.count > 1 ? item.count : '';
 
