@@ -65,7 +65,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **LOD (Level of Detail) system**
 - [ ] **Worker threads for world generation**
 - [ ] **Better memory management**
-- [ ] **Save Compression**
+- [x] **Save Compression**
 - [ ] **Chunk Serialization Optimization**
 - [ ] **Refactoring World/Chunk Separation**
 
@@ -121,10 +121,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
 - [x] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
-- [x] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
+- [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
 - [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing.
 - [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
 - [x] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with.
+- [ ] **New Task: Implement Pistons**: Add pistons and sticky pistons for moving blocks.
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Missing block definition).
 - [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Lava block exists but flow physics is missing).
