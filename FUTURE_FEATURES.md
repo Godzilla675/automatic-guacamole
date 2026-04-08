@@ -134,3 +134,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Armor Stand**: An entity to hold and display armor.
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
+- [ ] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, which returns 0 in unloaded chunks, trapping or killing them.
+- [ ] **New Task: Fix Anvil Renaming UI Bug**: Anvil renaming correctly updates an item's `name` property, but there is no UI logic (like tooltips or item text rendering) to actually display the custom names to the user in the inventory.
