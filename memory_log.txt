@@ -1,1 +1,0 @@
-Recorded learning: Chunked String.fromCharCode.apply is faster than simple concatenation for binary strings in V8.
