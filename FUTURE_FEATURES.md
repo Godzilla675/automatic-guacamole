@@ -33,7 +33,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 4. Player Mechanics
 - [ ] Drowning
-- [x] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack)
+- [ ] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack)
 - [ ] **Elytra** (Gliding mechanics)
 - [ ] **Tridents** (Throwing, returning, Riptide)
 
@@ -120,7 +120,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time.
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
-- [x] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
+- [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
 - [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
 - [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing.
 - [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
@@ -137,3 +137,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [x] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, which returns 0 in unloaded chunks, trapping or killing them.
 - [x] **New Task: Fix Anvil Renaming UI Bug**: Anvil renaming correctly updates an item's `name` property, but there is no UI logic (like tooltips or item text rendering) to actually display the custom names to the user in the inventory.
+- [ ] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic throws a NaN float error on the AudioParam component in Audio.js when a teleport sends it to unloaded coordinates.

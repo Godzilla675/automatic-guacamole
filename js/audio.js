@@ -129,9 +129,9 @@ class SoundManager {
             panner.refDistance = 1;
             panner.maxDistance = 100;
             panner.rolloffFactor = 1;
-            panner.positionX.value = position.x;
-            panner.positionY.value = position.y;
-            panner.positionZ.value = position.z;
+            panner.positionX.value = isNaN(position.x) ? 0 : position.x;
+            panner.positionY.value = isNaN(position.y) ? 0 : position.y;
+            panner.positionZ.value = isNaN(position.z) ? 0 : position.z;
 
             osc.connect(panner);
             panner.connect(gain);
