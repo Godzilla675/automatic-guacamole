@@ -137,4 +137,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [x] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, which returns 0 in unloaded chunks, trapping or killing them.
 - [x] **New Task: Fix Anvil Renaming UI Bug**: Anvil renaming correctly updates an item's `name` property, but there is no UI logic (like tooltips or item text rendering) to actually display the custom names to the user in the inventory.
-- [ ] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic throws a NaN float error on the AudioParam component in Audio.js when a teleport sends it to unloaded coordinates.
+- [x] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic throws a NaN float error on the AudioParam component in Audio.js when a teleport sends it to unloaded coordinates.
