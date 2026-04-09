@@ -253,7 +253,7 @@ class Mob extends Entity {
             this.x += (Math.random() - 0.5) * 16;
             this.z += (Math.random() - 0.5) * 16;
             this.y = this.world.getHighestBlockY(Math.floor(this.x), Math.floor(this.z));
-            window.soundManager.play('place', {x: this.x, y: this.y, z: this.z}); // Teleport sound
+            if(window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z}); // Teleport sound
             if (this.health <= 0) {
                 this.die();
             }
@@ -262,7 +262,7 @@ class Mob extends Entity {
 
         this.health -= amount;
         this.lastDamageTime = Date.now();
-        window.soundManager.play('break', {x: this.x, y: this.y, z: this.z}); // Hit sound
+        if(window.soundManager) window.soundManager.play('break', {x: this.x, y: this.y, z: this.z}); // Hit sound
 
         if (knockbackDir) {
             this.vx += knockbackDir.x * 10;
@@ -450,7 +450,7 @@ class Mob extends Entity {
                 const dir = { x: dx/dist, y: dy/dist, z: dz/dist };
                 this.game.spawnProjectile(this.x, this.y + this.height/2, this.z, dir, 'fireball');
                 this.attackCooldown = 5.0; // Slow rate
-                window.soundManager.play('fuse', {x: this.x, y: this.y, z: this.z}); // Screech
+                if(window.soundManager) window.soundManager.play('fuse', {x: this.x, y: this.y, z: this.z}); // Screech
             }
         } else {
             // Idle roam
