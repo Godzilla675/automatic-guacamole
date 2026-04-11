@@ -138,7 +138,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, which returns 0 in unloaded chunks, trapping or killing them.
 - [x] **New Task: Fix Anvil Renaming UI Bug**: Anvil renaming correctly updates an item's `name` property, but there is no UI logic (like tooltips or item text rendering) to actually display the custom names to the user in the inventory.
 - [x] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic throws a NaN float error on the AudioParam component in Audio.js when a teleport sends it to unloaded coordinates.
-- [ ] **New Task: Fix Light Propagation Bug for Water and Air**: Lighting propagation logic in `js/world.js` (`updateLighting`, `recalcLocalLight`) must explicitly check if a block is `BLOCK.AIR` or `BLOCK.WATER` to allow light to propagate correctly, as these blocks are not guaranteed to have the `.transparent` flag in the `BLOCKS` definition.
-- [ ] **New Task: Fix Missing UI Elements in dynamic injection**: `js/ui.js`'s `renderSlotItem` must dynamically create `.block-icon` and `.slot-count` spans if they do not exist within a slot to prevent null reference errors, particularly for injected UI grids `#armor-grid`.
+- [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
+- [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
+- [ ] **Bug: Furnace UI Input Validation**: Furnace does not prevent putting non-smeltable items into the input slot or non-fuel items into the fuel slot.
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
