@@ -33,7 +33,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 4. Player Mechanics
 - [ ] Drowning
-- [ ] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack) - Note: Enderman class and teleport logic missing in codebase
+- [x] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack)
 - [ ] **Elytra** (Gliding mechanics)
 - [ ] **Tridents** (Throwing, returning, Riptide)
 
@@ -120,10 +120,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time.
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
-- [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water. - Note: Enderman class missing in codebase
+- [x] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
 - [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
 - [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing.
-- [ ] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it. - Note: Enderman class missing in codebase
+- [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
 - [x] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with.
 - [ ] **New Task: Implement Pistons**: Add pistons and sticky pistons for moving blocks.
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
@@ -135,11 +135,16 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Armor Stand**: An entity to hold and display armor.
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
-- [ ] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, which returns 0 in unloaded chunks, trapping or killing them. - Note: Enderman class missing in codebase
+- [x] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, safely handling unloaded chunks.
 - [ ] **New Task: Fix Anvil Renaming UI Bug**: Anvil renaming correctly updates an item's `name` property, but there is no UI logic (like tooltips or item text rendering) to actually display the custom names to the user in the inventory. - Note: Implementation looks incomplete/missing in codebase.
-- [ ] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic throws a NaN float error on the AudioParam component in Audio.js when a teleport sends it to unloaded coordinates. - Note: Enderman class missing in codebase
+- [x] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic no longer throws a NaN float error on the AudioParam component in Audio.js.
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
 - [ ] **Bug: Furnace UI Input Validation**: Furnace does not prevent putting non-smeltable items into the input slot or non-fuel items into the fuel slot.
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
+- [ ] **New Task: Add Shulkers**: New hostile mob that shoots levitation projectiles in End Dimension.
+- [ ] **New Task: Add Elytra**: Implement gliding mechanics when jumping in mid-air.
+- [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations.
+- [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot.
+- [ ] **Bug: Player Inventory Full Drop**: When picking up items with a full inventory, they should remain on the ground instead of disappearing.
