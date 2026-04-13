@@ -136,7 +136,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [x] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, safely handling unloaded chunks.
-- [ ] **New Task: Fix Anvil Renaming UI Bug**: Anvil renaming correctly updates an item's `name` property, but there is no UI logic (like tooltips or item text rendering) to actually display the custom names to the user in the inventory. - Note: Implementation looks incomplete/missing in codebase.
+- [ ] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles.
 - [x] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic no longer throws a NaN float error on the AudioParam component in Audio.js.
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
@@ -148,3 +148,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations.
 - [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot.
 - [ ] **Bug: Player Inventory Full Drop**: When picking up items with a full inventory, they should remain on the ground instead of disappearing.
+
+- [ ] **Bug: Missing style object verification**: When interacting with `document.documentElement.style` in UI scripts (like `js/ui.js`), verify the existence of the `style` object first to prevent `TypeError` exceptions during JSDOM testing.
+- [ ] **Bug: Random failures in test_implemented_features.js**: Random test failures related to slab collision and door physics logic asserting true instead of false.
