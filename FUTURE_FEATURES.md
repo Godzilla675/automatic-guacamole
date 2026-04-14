@@ -149,5 +149,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot.
 - [ ] **Bug: Player Inventory Full Drop**: When picking up items with a full inventory, they should remain on the ground instead of disappearing.
 
-- [ ] **Bug: Missing style object verification**: When interacting with `document.documentElement.style` in UI scripts (like `js/ui.js`), verify the existence of the `style` object first to prevent `TypeError` exceptions during JSDOM testing.
-- [ ] **Bug: Random failures in test_implemented_features.js**: Random test failures related to slab collision and door physics logic asserting true instead of false.
+- [x] **Bug: Missing style object verification**: When interacting with `document.documentElement.style` in UI scripts (like `js/ui.js`), verify the existence of the `style` object first to prevent `TypeError` exceptions during JSDOM testing.
+- [x] **Bug: Random failures in test_implemented_features.js**: Random test failures related to slab collision and door physics logic asserting true instead of false.

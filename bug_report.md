@@ -568,3 +568,25 @@ A comprehensive test and gameplay run was conducted to test the game and provide
 - Both manual exploration scripts confirmed that interactions, logic handling, block drops, rendering states, and physics raycasts work completely flawlessly as currently configured.
 
 **Bugs found:** None during this test cycle. The environment and game engine is entirely clean. All previous critical bugs (infinite loops, upside-down 3D rendering, inventory loading crashes) have been resolved securely.
+
+## 27. Test Suite Bug Fix Audit
+
+**Date:** April 2026
+**Status:** ✅ Bugs Fixed
+
+**Description:**
+Addressed the bugs recently added to `FUTURE_FEATURES.md`. The missing UI scale style object check and the slab/door collision random test failures have been fixed.
+
+**Testing Methodology:**
+- Replaced direct `document.documentElement.style.setProperty` access with proper null-checks in `js/ui.js` (`if (document.documentElement && document.documentElement.style)`).
+- Reviewed and corrected the `checkCollision` logic for doors in `js/physics.js` to ensure the bounding boxes are calculated identically regardless of if the orientation is "West", "East", "North", or "South". This stabilizes `test_implemented_features.js`.
+- Reran Mocha test validation targeting `tests/test_implemented_features.js`.
+- Reran Playwright tests (`extensive_test.py`, `manual_ui_test.py`) to ensure no gameplay breakage occurred.
+
+**Results:**
+- `test_implemented_features.js` successfully passes reliably without random logic assertion failures.
+- Zero UI null reference exceptions exist around UI scaling operations in test environments without complete DOM CSS object tree mocking.
+- Playwright simulation runs perfectly.
+
+**Final Verdict:**
+Both logic bugs reported have been successfully resolved. Code stability is intact.

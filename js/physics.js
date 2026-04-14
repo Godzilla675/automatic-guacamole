@@ -57,7 +57,7 @@ class Physics {
                             let dMinX = x, dMaxX = x + 1;
                             let dMinZ = z, dMaxZ = z + 1;
 
-                            if (orient === 0) { dMinX = x; dMaxX = x + thickness; } // West Side (Face East?)
+                            if (orient === 0) { dMinX = x; dMaxX = x + thickness; } // West Side
                             else if (orient === 1) { dMinX = x + 1 - thickness; dMaxX = x + 1; } // East Side
                             else if (orient === 2) { dMinZ = z; dMaxZ = z + thickness; } // North Side
                             else if (orient === 3) { dMinZ = z + 1 - thickness; dMaxZ = z + 1; } // South Side

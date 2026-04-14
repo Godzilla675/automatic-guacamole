@@ -98,7 +98,7 @@ class UIManager {
 
             uiScaleSlider.addEventListener('input', (e) => {
                 const val = parseFloat(e.target.value);
-                document.documentElement.style.setProperty('--ui-scale', val);
+                if (document.documentElement && document.documentElement.style) document.documentElement.style.setProperty('--ui-scale', val);
                 localStorage.setItem('voxel_ui_scale', val);
                 if (uiScaleValDisplay) uiScaleValDisplay.textContent = val.toFixed(1);
             });
