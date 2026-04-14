@@ -1428,36 +1428,52 @@ class Game {
 
                 // Collect Item
                 // Add to inventory
-                // Find empty slot or stack
-                let added = false;
-                // Simple add to first empty or stack logic (simplified)
+                let remaining = drop.count;
+                // First try to fill existing stacks
                 for (let j = 0; j < this.player.inventory.length; j++) {
                     const slot = this.player.inventory[j];
                     if (slot && slot.type === drop.type && slot.count < 64) {
-                        slot.count += drop.count;
-                        added = true;
-                        break;
+                        const space = 64 - slot.count;
+                        if (remaining <= space) {
+                            slot.count += remaining;
+                            remaining = 0;
+                            break;
+                        } else {
+                            slot.count = 64;
+                            remaining -= space;
+                        }
                     }
                 }
-                if (!added) {
+                // Then try to find empty slots
+                if (remaining > 0) {
                      for (let j = 0; j < this.player.inventory.length; j++) {
                          if (!this.player.inventory[j]) {
-                             this.player.inventory[j] = { type: drop.type, count: drop.count };
-                             added = true;
-                             break;
+                             if (remaining <= 64) {
+                                 this.player.inventory[j] = { type: drop.type, count: remaining };
+                                 remaining = 0;
+                                 break;
+                             } else {
+                                 this.player.inventory[j] = { type: drop.type, count: 64 };
+                                 remaining -= 64;
+                             }
                          }
                      }
                 }
 
-                if (added) {
-                    window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z}); // Pickup sound?
-                    this.drops.splice(i, 1);
+                if (remaining < drop.count) {
+                    if (window.soundManager) window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z}); // Pickup sound?
                     this.updateHotbarUI();
 
                     // Check Recipe Unlock
                     if (this.crafting && this.crafting.checkUnlock) {
                          this.crafting.checkUnlock(drop.type);
                     }
+                }
+
+                if (remaining === 0) {
+                    this.drops.splice(i, 1);
+                } else {
+                    drop.count = remaining;
                 }
             }
         }
