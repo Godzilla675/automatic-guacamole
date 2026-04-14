@@ -1393,6 +1393,19 @@ class UIManager {
                  return;
              }
 
+             // Validate inputs
+             const isFuel = (item) => {
+                 if (!item) return false;
+                 return item.type === window.BLOCK.ITEM_COAL || item.type === window.BLOCK.WOOD || item.type === window.BLOCK.PLANK;
+             };
+             const canSmeltItem = (item) => {
+                 if (!item) return false;
+                 return !!this.game.getSmeltingResult(item.type);
+             };
+
+             if (slotId === 'furnace-input' && cursor && !canSmeltItem(cursor)) return;
+             if (slotId === 'furnace-fuel' && cursor && !isFuel(cursor)) return;
+
              if (!slotItem) {
                  entity[slotName] = cursor;
                  this.cursorItem = null;

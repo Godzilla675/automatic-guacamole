@@ -140,14 +140,14 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic no longer throws a NaN float error on the AudioParam component in Audio.js.
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
-- [ ] **Bug: Furnace UI Input Validation**: Furnace does not prevent putting non-smeltable items into the input slot or non-fuel items into the fuel slot.
+- [x] **Bug: Furnace UI Input Validation**: Furnace does not prevent putting non-smeltable items into the input slot or non-fuel items into the fuel slot.
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
 - [ ] **New Task: Add Shulkers**: New hostile mob that shoots levitation projectiles in End Dimension.
 - [ ] **New Task: Add Elytra**: Implement gliding mechanics when jumping in mid-air.
 - [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations.
 - [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot.
-- [ ] **Bug: Player Inventory Full Drop**: When picking up items with a full inventory, they should remain on the ground instead of disappearing.
+- [x] **Bug: Player Inventory Full Drop**: When picking up items with a full inventory, they should remain on the ground instead of disappearing.
 
 - [x] **Bug: Missing style object verification**: When interacting with `document.documentElement.style` in UI scripts (like `js/ui.js`), verify the existence of the `style` object first to prevent `TypeError` exceptions during JSDOM testing.
 - [x] **Bug: Random failures in test_implemented_features.js**: Random test failures related to slab collision and door physics logic asserting true instead of false.
