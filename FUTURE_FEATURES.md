@@ -124,6 +124,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
 - [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing.
 - [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
+- [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Boat placement fails. Boat entity is not spawned on placeBlock with water target).
 - [ ] **New Task: Implement Pistons**: Add pistons and sticky pistons for moving blocks.
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
@@ -132,15 +133,18 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Missing noise transitions in biome.js).
 - [ ] **New Task: Add Potion Effects**: Effects like speed, strength, and fire resistance. (Potion item exists but consumption effects logic is missing).
 - [x] **New Task: Add Anvils**: For repairing items and naming them.
+- [ ] **New Task: Enchantment Table**: Add an enchantment table to spend XP for tool/armor upgrades.
 - [ ] **New Task: Add Armor Stand**: An entity to hold and display armor.
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [x] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, safely handling unloaded chunks.
+- [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types.
 - [ ] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles.
 - [x] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic no longer throws a NaN float error on the AudioParam component in Audio.js.
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
 - [x] **Bug: Furnace UI Input Validation**: Furnace does not prevent putting non-smeltable items into the input slot or non-fuel items into the fuel slot.
+- [ ] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing.
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
 - [ ] **New Task: Add Shulkers**: New hostile mob that shoots levitation projectiles in End Dimension.
@@ -148,6 +152,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations.
 - [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot.
 - [x] **Bug: Player Inventory Full Drop**: When picking up items with a full inventory, they should remain on the ground instead of disappearing.
+- [ ] **Bug: Mob rendering depth sorting**: When multiple mobs overlap, depth sorting sometimes renders the further mob in front.
 
 - [x] **Bug: Missing style object verification**: When interacting with `document.documentElement.style` in UI scripts (like `js/ui.js`), verify the existence of the `style` object first to prevent `TypeError` exceptions during JSDOM testing.
 - [x] **Bug: Random failures in test_implemented_features.js**: Random test failures related to slab collision and door physics logic asserting true instead of false.
