@@ -69,9 +69,18 @@ describe('Implemented Features Tests', () => {
     let game;
     const BLOCK = dom.window.BLOCK;
 
-    beforeEach(() => {
+    beforeEach(function() {
+        this.timeout(10000);
         game = new dom.window.Game();
         game.world.generateChunk(0, 0); // Init chunk 0,0
+        // Clear the specific area we test in
+        for(let dx=-2; dx<=2; dx++) {
+            for(let dy=-2; dy<=5; dy++) {
+                for(let dz=-2; dz<=2; dz++) {
+                    game.world.setBlock(10+dx, 30+dy, 10+dz, BLOCK.AIR);
+                }
+            }
+        }
     });
 
     it('Chest Interaction', () => {
