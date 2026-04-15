@@ -121,29 +121,29 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
 - [x] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
-- [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. Agents need to fix the CSS/sprite asset mapping.
-- [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing.
+- [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
+- [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
 - [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
-- [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Boat placement fails. Boat entity is not spawned on placeBlock with water target).
+- [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: placement logic exists but fails to spawn the entity, agents must fix)
 - [ ] **New Task: Implement Pistons**: Add pistons and sticky pistons for moving blocks.
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Missing block definition).
 - [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Lava block exists but flow physics is missing).
 - [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Missing noise transitions in biome.js).
 - [ ] **New Task: Add Potion Effects**: Effects like speed, strength, and fire resistance. (Potion item exists but consumption effects logic is missing).
-- [x] **New Task: Add Anvils**: For repairing items and naming them.
+- [ ] **New Task: Implement Llamas**: Add Llamas mob with caravan mechanic.
 - [ ] **New Task: Enchantment Table**: Add an enchantment table to spend XP for tool/armor upgrades.
 - [ ] **New Task: Add Armor Stand**: An entity to hold and display armor.
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night.
-- [x] **New Task: Fix Enderman Unloaded Chunk Teleport Bug**: Enderman teleportation uses `getHighestBlockY()`, safely handling unloaded chunks.
+- [ ] **New Task: Implement Polar Bears**: Add Polar Bears in snowy biomes.
 - [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types.
 - [ ] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles.
-- [x] **Enderman Teleportation NaN Audio Bug**: Enderman teleport logic no longer throws a NaN float error on the AudioParam component in Audio.js.
+- [ ] **New Task: Implement Dolphins**: Add dolphins in ocean biomes that grant Dolphin's Grace.
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
-- [x] **Bug: Furnace UI Input Validation**: Furnace does not prevent putting non-smeltable items into the input slot or non-fuel items into the fuel slot.
+- [ ] **New Task: Implement Parrots**: Add Parrots that can imitate sounds and ride on player shoulders.
 - [x] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing.
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
