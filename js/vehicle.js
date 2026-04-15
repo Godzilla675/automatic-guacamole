@@ -2,6 +2,7 @@ class Vehicle extends Entity {
     constructor(game, x, y, z) {
         super(game, x, y, z);
         this.rider = null;
+        this.health = 20; // Default vehicle health
     }
 
     interact(player) {
@@ -18,6 +19,36 @@ class Vehicle extends Entity {
             player.x = this.x;
             player.y = this.y + this.height;
             player.z = this.z;
+        }
+    }
+
+    takeDamage(amount) {
+        if (this.isDead) return;
+
+        this.health -= amount;
+
+        if (this.health <= 0) {
+            this.isDead = true;
+
+            // Eject rider
+            if (this.rider) {
+                this.rider.riding = null;
+                this.rider.y += 1;
+                this.rider.vy = 5;
+                this.rider.onGround = false;
+                this.rider = null;
+            }
+
+            // Drop item
+            if (this.game && this.game.spawnItem) {
+                let dropType = null;
+                if (this.type === 'boat') dropType = window.BLOCK.ITEM_BOAT;
+                else if (this.type === 'minecart') dropType = window.BLOCK.ITEM_MINECART; // Or window.BLOCK.MINECART if applicable
+
+                if (dropType !== null) {
+                    this.game.spawnItem(dropType, this.x, this.y, this.z);
+                }
+            }
         }
     }
 }

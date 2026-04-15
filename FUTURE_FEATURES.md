@@ -144,7 +144,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
 - [x] **Bug: Furnace UI Input Validation**: Furnace does not prevent putting non-smeltable items into the input slot or non-fuel items into the fuel slot.
-- [ ] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing.
+- [x] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing.
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
 - [ ] **New Task: Add Shulkers**: New hostile mob that shoots levitation projectiles in End Dimension.
