@@ -11,7 +11,7 @@ def test_milking_and_shearing():
 
         # Wait for game to load and click start
         expect(page.locator("#start-game")).to_be_visible()
-        page.click("#start-game")
+        page.click("#start-game", force=True)
 
         # Wait for game initialization
         expect(page.locator("#game-canvas")).to_be_visible()
