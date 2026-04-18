@@ -5,13 +5,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Core Features
 
 ### 1. World Generation
-- [ ] Ores (Coal, Iron, Gold, Diamond)
 - [ ] Better cave systems (Ravines, large caves)
-- [ ] Structures (Villages, Dungeons)
 - [x] **Jungle Biome**
 - [ ] **Bamboo Jungle**
 - [ ] **Nether Fortresses** (Generation logic in Nether)
-- [ ] **Nether Quartz Ore Generation**
 - [ ] **Swamp Biome**
 - [ ] **Badlands Biome**
 - [ ] **Desert Temple**
@@ -126,7 +123,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: placement logic exists but fails to spawn the entity, agents must fix)
-- [ ] **New Task: Implement Pistons**: Add pistons and sticky pistons for moving blocks.
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Missing block definition).
 - [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Lava block exists but flow physics is missing).
@@ -156,3 +152,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [x] **Bug: Missing style object verification**: When interacting with `document.documentElement.style` in UI scripts (like `js/ui.js`), verify the existence of the `style` object first to prevent `TypeError` exceptions during JSDOM testing.
 - [x] **Bug: Random failures in test_implemented_features.js**: Random test failures related to slab collision and door physics logic asserting true instead of false.
+
+- [ ] **New Task: Implement Armor Durability**: Armor should lose durability when taking damage.
+- [ ] **New Task: Add Snow Golems**: Craftable utility mob using snow blocks and pumpkin.
+- [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld.
+- [ ] **Bug: Test Runner ESM Translator Error**: Several tests fail with ESM module errors or missing dependencies when running test_runner.py, agents must fix the test environment.
+- [ ] **Bug: JSDOM Canvas Mock Missing Methods**: JSDOM canvas mocks require save and restore methods to prevent errors during Minimap updates.
