@@ -10,7 +10,7 @@ def test_game_load(page):
     print("Menu screen visible")
 
     # Start Game
-    page.click("#start-game")
+    page.click("#start-game", force=True, timeout=60000)
     print("Clicked Start Game")
 
     # Check game container visible

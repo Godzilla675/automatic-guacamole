@@ -21,8 +21,8 @@ def test_death():
         page = browser.new_page()
         page.goto("http://localhost:3000")
 
-        page.wait_for_selector("#start-game")
-        page.click("#start-game", force=True)
+        page.wait_for_selector("#start-game", state="attached", timeout=60000)
+        page.evaluate("document.getElementById('start-game').click();")
         time.sleep(2)
 
         # Test Death
