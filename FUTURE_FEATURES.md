@@ -6,7 +6,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
-- [x] **Jungle Biome**
+- [ ] **Birch Forest Biome**
 - [ ] **Bamboo Jungle**
 - [ ] **Nether Fortresses** (Generation logic in Nether)
 - [ ] **Swamp Biome**
@@ -26,7 +26,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Better shadows and lighting** (Dynamic shadows)
 - [ ] **Clouds and better skybox**
 - [ ] **Head bobbing animation**
-- [x] **Fix Crosshair Alignment**: Crosshair alignment is fixed, but needs to be tested on ultra-wide screens.
+- [ ] **Add dynamic crosshair changing on hover**
 
 ### 4. Player Mechanics
 - [ ] Drowning
@@ -36,7 +36,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 5. Entities & Mobs
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
-- [x] Villagers (Trading system)
+- [ ] **Wandering Traders**
 - [ ] **Implement Shears Functionality** (Partial: sheep shearing implemented, missing leaves/grass directly to inventory)
 - [ ] **Pandas**
 - [ ] **Wither Boss**
@@ -62,7 +62,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **LOD (Level of Detail) system**
 - [ ] **Worker threads for world generation**
 - [ ] **Better memory management**
-- [x] **Save Compression**
+- [ ] **Implement Auto-Save Feature**
 - [ ] **Chunk Serialization Optimization**
 - [ ] **Refactoring World/Chunk Separation**
 
@@ -97,7 +97,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Support for custom models**
 
 ### 15. Miscellaneous
-- [x] Weather system (Rain, Snow)
+- [ ] **Implement Thunderstorms and Lightning**
 - [ ] Day/Night cycle implementation (Logic)
 - [ ] Statistics
 - [ ] **Nether Dimension** (Dimension generation, portals)
@@ -140,7 +140,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
 - [ ] **New Task: Implement Parrots**: Add Parrots that can imitate sounds and ride on player shoulders.
-- [x] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing.
+- [ ] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing. (Partial: Destroying boat calls this.game.spawnItem which does not exist in game.js. Need to use this.drops.push(new Drop(...)) instead)
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
 - [ ] **New Task: Add Shulkers**: New hostile mob that shoots levitation projectiles in End Dimension.
@@ -161,3 +161,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Goats**: New mob that rams players and entities.
 - [ ] **New Task: Add Warden**: A blind, powerful mob that spawns in the Deep Dark biome and hunts by sound.
 - [ ] **New Task: Add Axolotls**: Passive aquatic mobs that fight hostile aquatic mobs and provide regeneration.
+
+- [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
