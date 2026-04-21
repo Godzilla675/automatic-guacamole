@@ -163,3 +163,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Axolotls**: Passive aquatic mobs that fight hostile aquatic mobs and provide regeneration.
 
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
+
+- [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
+- [ ] **Bug: Incomplete block hitboxes**: Some non-full blocks like fences, stairs, and slabs have incorrect or incomplete hitbox implementations, allowing players to phase through them or get stuck.
