@@ -6,8 +6,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
-- [ ] **Birch Forest Biome**
+- [x] **Birch Forest Biome**
 - [ ] **Bamboo Jungle**
+- [x] **Jungle Biome**
+- [x] **Implement Anvils**
 - [ ] **Nether Fortresses** (Generation logic in Nether)
 - [ ] **Swamp Biome**
 - [ ] **Badlands Biome**
@@ -166,3 +168,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
 - [ ] **Bug: Incomplete block hitboxes**: Some non-full blocks like fences, stairs, and slabs have incorrect or incomplete hitbox implementations, allowing players to phase through them or get stuck.
+
+- [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night.
+- [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager.
+- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
+- [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
+- [ ] **New Task: Add Camels**: Desert mounts that can seat two players.
+- [ ] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books.
+- [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks.
+- [ ] **New Task: Add Cherry Grove Biome**: A biome featuring pink cherry blossom trees.
+- [ ] **Bug: Item drops clipping**: Item drops sometimes clip through solid blocks when spawned.
