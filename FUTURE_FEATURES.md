@@ -159,7 +159,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Snow Golems**: Craftable utility mob using snow blocks and pumpkin.
 - [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld.
 - [x] **Bug: Test Runner ESM Translator Error**: Several tests fail with ESM module errors or missing dependencies when running test_runner.py, agents must fix the test environment.
-- [x] **Bug: JSDOM Canvas Mock Missing Methods**: JSDOM canvas mocks require save and restore methods to prevent errors during Minimap updates.
+- [ ] **Bug: JSDOM Canvas Mock Missing Methods**: JSDOM canvas mocks require save and restore methods to prevent errors during Minimap updates. (Note: Currently fails because ctx.rotate, ctx.scale, ctx.fill, etc., are missing in mock).
 - [ ] **New Task: Add Goats**: New mob that rams players and entities.
 - [ ] **New Task: Add Warden**: A blind, powerful mob that spawns in the Deep Dark biome and hunts by sound.
 - [ ] **New Task: Add Axolotls**: Passive aquatic mobs that fight hostile aquatic mobs and provide regeneration.
