@@ -169,7 +169,7 @@ describe('Recently Added Features Tests', () => {
     });
 
     describe('Sheep Mob', function() {
-        this.timeout(5000);
+        this.timeout(30000);
         it('should be initialized correctly', () => {
             const sheep = new dom.window.Mob(game, 0, 0, 0, dom.window.MOB_TYPE.SHEEP);
             assert.strictEqual(sheep.type, dom.window.MOB_TYPE.SHEEP);

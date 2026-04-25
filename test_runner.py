@@ -53,7 +53,7 @@ def run_tests():
                 try:
                     # Capture output, with a timeout to prevent hangs
                     # Some tests might be slow, so generous timeout
-                    result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+                    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
 
                     if result.returncode == 0:
                         print(f"PASS: {filepath}")
