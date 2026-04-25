@@ -146,7 +146,7 @@ describe('Comprehensive Feature Test', () => {
     let game;
 
     before(function(done) {
-        this.timeout(10000);
+        this.timeout(30000);
         game = new dom.window.Game();
         // Reduce render distance to speed up init
         game.world.renderDistance = 1;

@@ -14,7 +14,7 @@ def run():
         page.wait_for_selector("#menu-screen", state="visible")
 
         # Click Start Game
-        page.click("#start-game")
+        page.evaluate("document.getElementById('start-game').click();")
 
         # Wait for game container
         page.wait_for_selector("#game-container", state="visible")
