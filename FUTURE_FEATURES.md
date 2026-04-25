@@ -6,7 +6,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
-- [x] **Birch Forest Biome**
+- [ ] **Birch Forest Biome** (Failed: BIOME.BIRCH_FOREST not defined in biome.js)
 - [ ] **Bamboo Jungle**
 - [x] **Jungle Biome**
 - [x] **Implement Anvils**
@@ -32,7 +32,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 4. Player Mechanics
 - [ ] Drowning
-- [x] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack)
+- [ ] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack) (Failed: Mob.teleportRandomly missing or not on Enderman)
 - [ ] **Elytra** (Gliding mechanics)
 - [ ] **Tridents** (Throwing, returning, Riptide)
 
@@ -119,7 +119,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time.
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
-- [x] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
+- [ ] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water. (Failed: Mob.teleportRandomly missing or not on Enderman)
 - [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
 - [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
 - [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
