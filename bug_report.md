@@ -1027,3 +1027,11 @@ Following the instruction to heavily test the game and write a detailed bug repo
 
 **Final Verdict:**
 No new functional or visual bugs were discovered during this rigorous manual and automated test execution. All game logic remains highly stable, previous edge case bugs remain successfully patched, and code execution flows without interruption.
+
+## 42. Fixed Vehicle Item Drops Bugs
+
+**Date:** April 2026
+**Status:** ✅ Fixed
+
+**Description:**
+Fixed the bug where vehicles (Boat and Minecart) were failing to drop items upon destruction because `this.game.spawnItem` was not implemented. Replaced the logic to push a new `Drop` instance to `this.game.drops`. Ran JSDOM tests to verify vehicles drop their respective items when health hits 0. Ran full test suite to ensure no regressions.

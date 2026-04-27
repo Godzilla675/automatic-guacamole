@@ -40,13 +40,13 @@ class Vehicle extends Entity {
             }
 
             // Drop item
-            if (this.game && this.game.spawnItem) {
+            if (this.game && this.game.drops && window.Drop) {
                 let dropType = null;
                 if (this.type === 'boat') dropType = window.BLOCK.ITEM_BOAT;
-                else if (this.type === 'minecart') dropType = window.BLOCK.ITEM_MINECART; // Or window.BLOCK.MINECART if applicable
+                else if (this.type === 'minecart') dropType = window.BLOCK.ITEM_MINECART;
 
                 if (dropType !== null) {
-                    this.game.spawnItem(dropType, this.x, this.y, this.z);
+                    this.game.drops.push(new window.Drop(this.game, this.x, this.y, this.z, dropType, 1));
                 }
             }
         }

@@ -142,7 +142,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
 - [ ] **New Task: Implement Parrots**: Add Parrots that can imitate sounds and ride on player shoulders.
-- [ ] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing. (Partial: Destroying boat calls this.game.spawnItem which does not exist in game.js. Need to use this.drops.push(new Drop(...)) instead)
+- [x] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing. (Partial: Destroying boat calls this.game.spawnItem which does not exist in game.js. Need to use this.drops.push(new Drop(...)) instead)
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
 - [ ] **New Task: Add Shulkers**: New hostile mob that shoots levitation projectiles in End Dimension.
@@ -181,5 +181,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add target lock-on mechanics for hostile mobs**: Hostile mobs currently just walk towards the player. Add a line-of-sight check before aggroing.
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block.
-- [ ] **Bug: Vehicle item drops missing Drop class implementation**: Vehicle classes (Boat, Minecart) use this.game.spawnItem which doesn't exist. They need to be updated to use this.game.drops.push(new Drop(...)).
+- [x] **Bug: Vehicle item drops missing Drop class implementation**: Vehicle classes (Boat, Minecart) use this.game.spawnItem which doesn't exist. They need to be updated to use this.game.drops.push(new Drop(...)).
 - [ ] **Bug: Playwright Timeout in verify_crafting_new_recipes.py**: The `verify_crafting_new_recipes.py` test fails due to a `TimeoutError` when clicking the `#start-game` button. Agents must fix the environment setup or use JavaScript evaluation to bypass the loading screen.
