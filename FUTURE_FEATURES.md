@@ -119,10 +119,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time.
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
-- [x] **Implement Endermen Teleportation Logic**: Allow Endermen to randomly teleport when attacked or touched by water.
+- [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding.
 - [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
 - [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
-- [x] **New Task: Add Endermen Water Avoidance**: Endermen should avoid water and take damage when touching it.
+- [ ] **New Task: Add Pandas**: Neutral mob found in bamboo jungles.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: placement logic exists but fails to spawn the entity, agents must fix)
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
@@ -142,23 +142,23 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states.
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
 - [ ] **New Task: Implement Parrots**: Add Parrots that can imitate sounds and ride on player shoulders.
-- [x] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing. (Partial: Destroying boat calls this.game.spawnItem which does not exist in game.js. Need to use this.drops.push(new Drop(...)) instead)
+- [ ] **Bug: Boat drops on destruction**: Destroying a boat should drop its item form instead of disappearing. (Partial: Destroying boat calls this.game.spawnItem which does not exist in game.js. Need to use this.drops.push(new Drop(...)) instead)
 
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
 - [ ] **New Task: Add Shulkers**: New hostile mob that shoots levitation projectiles in End Dimension.
 - [ ] **New Task: Add Elytra**: Implement gliding mechanics when jumping in mid-air.
 - [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations.
 - [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot.
-- [x] **Bug: Player Inventory Full Drop**: When picking up items with a full inventory, they should remain on the ground instead of disappearing.
+- [ ] **New Task: Add Drowned**: Zombie variant that spawns underwater.
 - [ ] **Bug: Mob rendering depth sorting**: When multiple mobs overlap, depth sorting sometimes renders the further mob in front.
 
-- [x] **Bug: Missing style object verification**: When interacting with `document.documentElement.style` in UI scripts (like `js/ui.js`), verify the existence of the `style` object first to prevent `TypeError` exceptions during JSDOM testing.
-- [x] **Bug: Random failures in test_implemented_features.js**: Random test failures related to slab collision and door physics logic asserting true instead of false.
+- [ ] **New Task: Add Honey Blocks**: Blocks that reduce fall damage and slow movement.
+- [ ] **New Task: Add Bees**: Neutral flying mob that pollinates crops and produces honey.
 
 - [ ] **New Task: Implement Armor Durability**: Armor should lose durability when taking damage.
 - [ ] **New Task: Add Snow Golems**: Craftable utility mob using snow blocks and pumpkin.
 - [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld.
-- [x] **Bug: Test Runner ESM Translator Error**: Several tests fail with ESM module errors or missing dependencies when running test_runner.py, agents must fix the test environment.
+- [ ] **Bug: Test Runner ESM Translator Error**: Several tests fail with ESM module errors or missing dependencies when running test_runner.py, agents must fix the test environment.
 - [ ] **Bug: JSDOM Canvas Mock Missing Methods**: JSDOM canvas mocks require save and restore methods to prevent errors during Minimap updates. (Note: Currently fails because ctx.rotate, ctx.scale, ctx.fill, etc., are missing in mock).
 - [ ] **New Task: Add Goats**: New mob that rams players and entities.
 - [ ] **New Task: Add Warden**: A blind, powerful mob that spawns in the Deep Dark biome and hunts by sound.
@@ -181,5 +181,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add target lock-on mechanics for hostile mobs**: Hostile mobs currently just walk towards the player. Add a line-of-sight check before aggroing.
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block.
-- [x] **Bug: Vehicle item drops missing Drop class implementation**: Vehicle classes (Boat, Minecart) use this.game.spawnItem which doesn't exist. They need to be updated to use this.game.drops.push(new Drop(...)).
-- [x] **Bug: Playwright Timeout in verify_crafting_new_recipes.py**: The `verify_crafting_new_recipes.py` test fails due to a `TimeoutError` when clicking the `#start-game` button. Agents must fix the environment setup or use JavaScript evaluation to bypass the loading screen.
+- [ ] **Bug: Vehicle item drops missing Drop class implementation**: Vehicle classes (Boat, Minecart) use this.game.spawnItem which doesn't exist. They need to be updated to use this.game.drops.push(new Drop(...)).
+- [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches.
