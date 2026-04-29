@@ -13,7 +13,7 @@ def verify_crafting():
 
         # Click Start Game
         start_btn = page.locator("#start-game")
-        start_btn.click(force=True)
+        page.evaluate("document.getElementById('start-game').click();")
 
         # Wait a moment for 3D world to render
         page.wait_for_timeout(1000)
