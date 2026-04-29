@@ -182,4 +182,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add target lock-on mechanics for hostile mobs**: Hostile mobs currently just walk towards the player. Add a line-of-sight check before aggroing.
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block.
 - [x] **Bug: Vehicle item drops missing Drop class implementation**: Vehicle classes (Boat, Minecart) use this.game.spawnItem which doesn't exist. They need to be updated to use this.game.drops.push(new Drop(...)).
-- [ ] **Bug: Playwright Timeout in verify_crafting_new_recipes.py**: The `verify_crafting_new_recipes.py` test fails due to a `TimeoutError` when clicking the `#start-game` button. Agents must fix the environment setup or use JavaScript evaluation to bypass the loading screen.
+- [x] **Bug: Playwright Timeout in verify_crafting_new_recipes.py**: The `verify_crafting_new_recipes.py` test fails due to a `TimeoutError` when clicking the `#start-game` button. Agents must fix the environment setup or use JavaScript evaluation to bypass the loading screen.

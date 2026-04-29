@@ -10,7 +10,7 @@ def test_manual_gameplay():
         page.wait_for_selector("#start-game")
         # Give it a tiny bit of time to ensure it's fully interactable
         page.wait_for_timeout(1000)
-        page.click("#start-game", force=True)
+        page.evaluate("document.getElementById('start-game').click();")
 
         # Wait a moment for the game loop to start running
         page.wait_for_timeout(2000)
