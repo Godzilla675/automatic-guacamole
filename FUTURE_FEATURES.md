@@ -120,8 +120,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
 - [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
 - [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding.
-- [ ] **Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
-- [ ] **Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
+- [ ] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
+- [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
 - [ ] **New Task: Add Pandas**: Neutral mob found in bamboo jungles.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: placement logic exists but fails to spawn the entity, agents must fix)
@@ -183,3 +183,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block.
 - [ ] **Bug: Vehicle item drops missing Drop class implementation**: Vehicle classes (Boat, Minecart) use this.game.spawnItem which doesn't exist. They need to be updated to use this.game.drops.push(new Drop(...)).
 - [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches.
+
+- [ ] **New Task: Add Spectator Mode**: Allow players to fly through blocks and observe the world without interacting.
+- [ ] **New Task: Add Chat Commands**: Implement basic server-side and client-side chat commands like `/gamemode`, `/tp`, and `/give`.
+- [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
