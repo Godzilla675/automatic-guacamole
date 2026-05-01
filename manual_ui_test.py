@@ -26,7 +26,7 @@ def run_tests():
         page.wait_for_timeout(2000)
 
         # Click start game
-        page.click("#start-game", force=True)
+        page.evaluate("document.getElementById('start-game').click();")
         time.sleep(2)
 
         errors_found = []
