@@ -28,7 +28,7 @@ def run_extensive_tests():
             page.wait_for_timeout(2000)
 
             print("Clicking start game...")
-            page.click("#start-game", force=True)
+            page.evaluate("document.getElementById('start-game').click();")
             time.sleep(2)
 
             # Action 1: Movement & Jumping
