@@ -8,7 +8,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Better cave systems (Ravines, large caves)
 - [ ] **Birch Forest Biome** (Failed: BIOME.BIRCH_FOREST not defined in biome.js)
 - [ ] **Bamboo Jungle**
-- [x] **Jungle Biome**
+- [ ] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation, agents must fix)
 - [x] **Implement Anvils**
 - [ ] **Nether Fortresses** (Generation logic in Nether)
 - [ ] **Swamp Biome**
