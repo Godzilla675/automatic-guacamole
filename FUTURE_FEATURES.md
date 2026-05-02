@@ -9,7 +9,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Birch Forest Biome** (Failed: BIOME.BIRCH_FOREST not defined in biome.js)
 - [ ] **Bamboo Jungle**
 - [ ] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation, agents must fix)
-- [x] **Implement Anvils**
+- [ ] **New Task: Add Witches**: Hostile mob that throws splash potions.
 - [ ] **Nether Fortresses** (Generation logic in Nether)
 - [ ] **Swamp Biome**
 - [ ] **Badlands Biome**
@@ -32,7 +32,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 4. Player Mechanics
 - [ ] Drowning
-- [x] **Fix Endermen Teleportation Logic** (Avoid water and teleport randomly on attack)
+- [ ] **New Task: Add Wither Skeletons**: Hostile mob in Nether Fortresses that inflicts Wither effect.
 - [ ] **Elytra** (Gliding mechanics)
 - [ ] **Tridents** (Throwing, returning, Riptide)
 
@@ -168,6 +168,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
 
 - [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
+- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player's inventory or decrease stack size correctly. Agents must verify bucket handling.
 - [ ] **Bug: Incomplete block hitboxes**: Some non-full blocks like fences, stairs, and slabs have incorrect or incomplete hitbox implementations, allowing players to phase through them or get stuck.
 
 - [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night.
