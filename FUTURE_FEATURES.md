@@ -6,7 +6,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
-- [ ] **Birch Forest Biome** (Failed: BIOME.BIRCH_FOREST not defined in biome.js)
+- [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
 - [ ] **Bamboo Jungle**
 - [ ] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation, agents must fix)
 - [ ] **New Task: Add Witches**: Hostile mob that throws splash potions.
@@ -16,8 +16,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Desert Temple**
 
 ### 2. Block System
-- [ ] **Implement Sponges** (Removes surrounding water blocks)
-- [ ] **Top Slabs** (Placement in upper half of block)
+- [ ] **Implement Sponges** (Status: Removes surrounding water blocks, block definition exists, but water removal logic missing, agents must fix)
+- [ ] **Top Slabs** (Status: Placement in upper half of block missing, agents must fix)
 - [ ] **Decorative blocks** (Glazed Terracotta, Concrete)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters)
 
@@ -50,6 +50,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Rideable Pigs** (With carrot on a stick)
 
 ### 6. Items & Crafting
+
+- [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments.
+- [ ] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite.
+- [ ] **New Task: Add Piglins and Bartering**: Neutral mobs in the Nether that trade items for gold.
+- [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
 - [ ] **Add Bow and Arrows**: Ranged weapon using arrows.
 - [ ] **Map item**
 - [ ] **Shulker Boxes**
@@ -115,7 +120,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
-- [ ] **Implement Sponges**: A block that removes surrounding water blocks within a certain radius.
+- [ ] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Agents must fix).
+- [ ] **Bug: Missing jsdom module**: Tests are failing because `jsdom` is not found. (Status: Agents must fix by running `npm install jsdom`).
+- [ ] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Known configuration issue, agents must fix using dependencies like `jsdom`).
+- [ ] **Bug: Sponges logic missing**: Sponges have block definitions but water removal logic is missing, agents must fix.
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items.
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames.
@@ -128,7 +136,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Pandas**: Neutral mob found in bamboo jungles.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: placement logic exists but fails to spawn the entity, agents must fix)
-- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
+- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix).
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Missing block definition).
 - [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Lava block exists but flow physics is missing).
 - [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Missing noise transitions in biome.js).
@@ -173,7 +181,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager.
-- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Missing block definition and world update logic).
+- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix).
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Add Camels**: Desert mounts that can seat two players.
 - [ ] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books.
