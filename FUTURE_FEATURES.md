@@ -41,7 +41,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Add Skeletons**: Hostile mob that shoots arrows.
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
 - [ ] **Wandering Traders**
-- [ ] **Implement Shears Functionality** (Partial: sheep shearing implemented, missing leaves/grass directly to inventory)
+
 - [ ] **Pandas**
 - [ ] **Wither Boss**
 - [ ] **Slime Mob**
@@ -124,23 +124,23 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Missing jsdom module**: Tests are failing because `jsdom` is not found. (Status: Agents must fix by running `npm install jsdom`).
 - [ ] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Known configuration issue, agents must fix using dependencies like `jsdom`).
 - [ ] **Bug: Sponges logic missing**: Sponges have block definitions but water removal logic is missing, agents must fix.
-- [ ] **Implement Droppers and Dispensers**: Redstone interaction for items.
-- [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers.
-- [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames.
-- [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time.
-- [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime.
-- [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory.
+- [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
+- [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers. (Status: Missing implementation, agents must fix)
+- [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Missing implementation, agents must fix)
+- [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time. (Status: Missing implementation, agents must fix)
+- [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime. (Status: Missing implementation, agents must fix)
+- [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory. (Status: Partial implementation: sheep shearing works, missing leaves/grass, agents must fix)
 - [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding.
 - [ ] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
 - [ ] **New Task: Add Pandas**: Neutral mob found in bamboo jungles.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: placement logic exists but fails to spawn the entity, agents must fix)
-- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix).
-- [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Missing block definition).
-- [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Lava block exists but flow physics is missing).
-- [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Missing noise transitions in biome.js).
-- [ ] **New Task: Add Potion Effects**: Effects like speed, strength, and fire resistance. (Potion item exists but consumption effects logic is missing).
+- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
+- [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Status: Missing block definition, agents must fix)
+- [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Status: Lava block exists but flow physics is missing, agents must fix)
+- [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Status: Missing noise transitions in biome.js, agents must fix)
+- [ ] **New Task: Add Potion Effects**: Effects like speed, strength, and fire resistance. (Status: Potion item exists but consumption effects logic is missing, agents must fix)
 - [ ] **New Task: Implement Llamas**: Add Llamas mob with caravan mechanic.
 - [ ] **New Task: Enchantment Table**: Add an enchantment table to spend XP for tool/armor upgrades.
 - [ ] **New Task: Add Armor Stand**: An entity to hold and display armor.
@@ -176,12 +176,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
 
 - [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
-- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player's inventory or decrease stack size correctly. Agents must verify bucket handling.
+- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player\'s inventory or decrease stack size correctly. (Status: Known bug, agents must fix)
 - [ ] **Bug: Incomplete block hitboxes**: Some non-full blocks like fences, stairs, and slabs have incorrect or incomplete hitbox implementations, allowing players to phase through them or get stuck.
 
 - [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager.
-- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix).
+- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Add Camels**: Desert mounts that can seat two players.
 - [ ] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books.
@@ -196,3 +196,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Spectator Mode**: Allow players to fly through blocks and observe the world without interacting.
 - [ ] **New Task: Add Chat Commands**: Implement basic server-side and client-side chat commands like `/gamemode`, `/tp`, and `/give`.
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
+
+- [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player.
+- [ ] **New Task: Add Armor Trims**: Customization options for armor using smithing templates.
