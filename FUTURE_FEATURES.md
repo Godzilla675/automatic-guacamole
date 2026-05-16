@@ -120,8 +120,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
-- [ ] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Agents must fix).
-- [ ] **Bug: Missing jsdom module**: Tests are failing because `jsdom` is not found. (Status: Agents must fix by running `npm install jsdom`).
+- [x] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Fixed, includeLiquids passed to raycast).
+- [x] **Bug: Missing jsdom module**: Tests are failing because `jsdom` is not found. (Status: Fixed, installed via npm).
 - [ ] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Known configuration issue, agents must fix using dependencies like `jsdom`).
 - [ ] **Bug: Sponges logic missing**: Sponges have block definitions but water removal logic is missing, agents must fix.
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
@@ -135,7 +135,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
 - [ ] **New Task: Add Pandas**: Neutral mob found in bamboo jungles.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
-- [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: placement logic exists but fails to spawn the entity, agents must fix)
+- [x] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: Fixed, includeLiquids passed to raycast).
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Status: Missing block definition, agents must fix)
 - [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Status: Lava block exists but flow physics is missing, agents must fix)
@@ -177,6 +177,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
 - [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player\'s inventory or decrease stack size correctly. (Status: Known bug, agents must fix)
+- [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds.
+- [ ] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items.
+- [ ] **New Task: Add Trial Chambers**: New procedural combat structures.
+- [ ] **New Task: Implement Tricky Trials**: Expand Trial Chambers with Trial Spawners.
+- [ ] **Bug: UI Scaling broken on ultra-wide screens**: The hotbar doesn't center properly on very wide displays.
 - [ ] **Bug: Incomplete block hitboxes**: Some non-full blocks like fences, stairs, and slabs have incorrect or incomplete hitbox implementations, allowing players to phase through them or get stuck.
 
 - [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night.
