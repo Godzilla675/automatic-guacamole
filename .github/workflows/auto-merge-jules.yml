@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       github.event.pull_request.user.login == 'godzilla675' &&
-      !github.event.pull_request.merged
+      !github.event.pull_request.merged &&
+      github.event.action != 'closed' &&
+      !github.event.pull_request.draft
     permissions:
       contents: write
       pull-requests: write
@@ -35,7 +37,7 @@ jobs:
         run: |
           gh pr ready "$PR_URL" || true
           gh pr review "$PR_URL" --approve --body "Auto-approved."
-          gh pr merge "$PR_URL" --auto --squash
+          gh pr merge "$PR_URL" --auto --squash || gh pr merge "$PR_URL" --squash
 
   label-merged:
     runs-on: ubuntu-latest
