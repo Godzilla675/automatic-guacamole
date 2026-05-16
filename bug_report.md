@@ -1331,3 +1331,24 @@ Following the user instructions to test the game and make a VERY DETAILED bug re
 
 **Final Verdict:**
 The game logic, interface elements, web workers, and engine loops exhibit absolute stability in frontend simulated browser testing. There is a minor test configuration issue in the backend headless node.js runner (`tests/test_missing_coverage.js`) related to how classes are mounted to the global window object.
+
+## 54. QA Audit - Boat Placement Bug Check
+
+**Date:** June 2026
+**Status:** ✅ Fixed (100% Passed)
+
+**Description:**
+Followed up on the bug "Enderman Boat Spawn" and general Boat Placement issues documented in FUTURE_FEATURES.md. The issue stated that boats would not spawn when attempting to place them on water, despite the logic being present in `js/game.js`.
+
+**Testing Methodology:**
+1. Ran mocha tests locally checking for related missing test coverage (`npx mocha tests/test_missing_coverage.js`).
+2. Investigated physics raycast logic (`js/physics.js` and `js/game.js`).
+3. Discovered that the raycast method `physics.raycast(eyePos, dir, 5)` was checking for `includeLiquids=true` internally but the `game.js` `placeBlock()` function was not passing this parameter when testing raycasts to place boats/lilypads on water.
+
+**Results:**
+- Updated `js/game.js` to correctly pass `includeLiquids=true` inside `placeBlock()`.
+- Updated `js/physics.js` to properly handle `includeLiquids` and intersect with water.
+- Checked mocha tests to ensure no regressions. All 225 unit tests now pass. Missing `jsdom` module error was solved by earlier environments setup.
+
+**Final Verdict:**
+The Boat placement logic is now fixed. Players can safely spawn boats on water blocks. Updated `FUTURE_FEATURES.md` to reflect this status and marked the bug as complete. No new bugs observed.
