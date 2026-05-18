@@ -4,6 +4,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## Core Features
 
+
+- [ ] **New Task: Add Fishing Mechanics**: Implement fishing rod usage and catching items/fish in water.
+- [ ] **New Task: Add Ender Pearls**: Implement throwing mechanic for teleportation.
+- [ ] **New Task: Add Pistons**: Blocks that can push other blocks when powered by Redstone.
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
 - [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
@@ -204,3 +208,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player.
 - [ ] **New Task: Add Armor Trims**: Customization options for armor using smithing templates.
+
+- [ ] **Bug: Potion effects logic missing**: Potion items exist but effect consumption is not fully implemented.
+- [ ] **Bug: Bookshelves missing**: Bookshelves are required for enchanting rooms but block definition/logic is missing.
+- [ ] **Bug: Redstone Repeaters and Clocks missing**: Redstone repeaters and clocks are missing from the codebase.
