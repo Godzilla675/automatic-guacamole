@@ -124,8 +124,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
-- [x] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Fixed, includeLiquids passed to raycast).
-- [x] **Bug: Missing jsdom module**: Tests are failing because `jsdom` is not found. (Status: Fixed, installed via npm).
+- [ ] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Implementation is missing includeLiquids parameter in raycast, agents must fix)
+- [ ] **New Task: Add Frogs**: Add frogs to swamp biomes.
 - [ ] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Known configuration issue, agents must fix using dependencies like `jsdom`).
 - [ ] **Bug: Sponges logic missing**: Sponges have block definitions but water removal logic is missing, agents must fix.
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
@@ -139,7 +139,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
 - [ ] **New Task: Add Pandas**: Neutral mob found in bamboo jungles.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
-- [x] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: Fixed, includeLiquids passed to raycast).
+- [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: Implementation is missing includeLiquids parameter in raycast, agents must fix)
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Status: Missing block definition, agents must fix)
 - [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Status: Lava block exists but flow physics is missing, agents must fix)
@@ -212,3 +212,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Potion effects logic missing**: Potion items exist but effect consumption is not fully implemented.
 - [ ] **Bug: Bookshelves missing**: Bookshelves are required for enchanting rooms but block definition/logic is missing.
 - [ ] **Bug: Redstone Repeaters and Clocks missing**: Redstone repeaters and clocks are missing from the codebase.
+
+- [ ] **Bug: test_missing_coverage.js TypeError**: TypeError: window.Game is not a constructor.
