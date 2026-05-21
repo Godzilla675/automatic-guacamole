@@ -20,7 +20,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Desert Temple**
 
 ### 2. Block System
-- [ ] **Implement Sponges** (Status: Removes surrounding water blocks, block definition exists, but water removal logic missing, agents must fix)
+- [ ] **Implement Sponges** (Status: Block definition and water removal logic are both missing from codebase, agents must fix)
 - [ ] **Top Slabs** (Status: Placement in upper half of block missing, agents must fix)
 - [ ] **Decorative blocks** (Glazed Terracotta, Concrete)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters)
@@ -111,6 +111,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Support for custom models**
 
 ### 15. Miscellaneous
+- [ ] **New Task: Add Dual Wielding**: Allow players to hold items in both hands.
+- [ ] **New Task: Add Spyglass**: Implement zooming mechanic.
+- [ ] **New Task: Add Sneaking**: Allow players to crouch to avoid falling off edges and reduce height.
+- [ ] **New Task: Add Sprinting**: Increase movement speed and FOV when double tapping forward.
+- [ ] **New Task: Implement Fall Damage**: Player should take damage based on the height fallen.
+- [ ] **New Task: Implement Hunger Depletion**: Hunger should decrease over time and when sprinting/jumping.
 - [ ] **Implement Thunderstorms and Lightning**
 - [ ] Day/Night cycle implementation (Logic)
 - [ ] Statistics
@@ -124,10 +130,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
-- [ ] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Implementation is missing includeLiquids parameter in raycast, agents must fix)
+- [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage.
+- [ ] **Bug: Inventory Rendering Bug**: JavaScript error when opening inventory `TypeError: Cannot read properties of null (reading 'style')` at `ui.js:1317`. Add null check in `renderSlotItem()`.
+- [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio.
+- [ ] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Failed Verification: Previous agents claimed to fix this but includeLiquids parameter is still missing in raycast in physics.js and game.js, agents must fix)
 - [ ] **New Task: Add Frogs**: Add frogs to swamp biomes.
 - [ ] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Known configuration issue, agents must fix using dependencies like `jsdom`).
-- [ ] **Bug: Sponges logic missing**: Sponges have block definitions but water removal logic is missing, agents must fix.
+- [ ] **Bug: Sponges logic missing**: Block definition and water removal logic are both missing from codebase, agents must fix.
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Missing implementation, agents must fix)
@@ -180,7 +189,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
 
 - [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
-- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player\'s inventory or decrease stack size correctly. (Status: Known bug, agents must fix)
+- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player\'s inventory or decrease stack size correctly. (Status: Failed Verification: Drops milk bucket but doesn't handle bucket inventory replacement properly, agents must fix)
 - [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds.
 - [ ] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items.
 - [ ] **New Task: Add Trial Chambers**: New procedural combat structures.
