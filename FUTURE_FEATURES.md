@@ -223,3 +223,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Redstone Repeaters and Clocks missing**: Redstone repeaters and clocks are missing from the codebase.
 
 - [ ] **Bug: test_missing_coverage.js TypeError**: TypeError: window.Game is not a constructor.
+- [ ] **New Task: Enderman Teleportation Logic**: Implement the actual teleportation logic for Endermen when taking damage, including safe coordinate finding.
+- [ ] **New Task: Add Redstone Torch**: Add redstone torches to provide power to adjacent redstone blocks.
+- [ ] **New Task: Add Daylight Sensor**: Add a block that emits a redstone signal based on the time of day.
+- [ ] **Bug: Missing Fluid Interaction for Raycasting**: Physics raycast lacks `includeLiquids` option natively except in specific checks, hindering proper interaction with water blocks for items like boats.
