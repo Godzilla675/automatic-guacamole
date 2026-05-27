@@ -6,7 +6,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 
 - [ ] **New Task: Add Fishing Mechanics**: Implement fishing rod usage and catching items/fish in water.
-- [ ] **New Task: Add Ender Pearls**: Implement throwing mechanic for teleportation.
+- [ ] **New Task: Add Ender Pearls**: Implement throwing mechanic for teleportation. (Status: Item defined and drops from Endermen, but throwing/teleportation mechanics are unimplemented, agents must fix)
 - [ ] **New Task: Add Pistons**: Blocks that can push other blocks when powered by Redstone.
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
@@ -93,7 +93,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 12. Redstone & Mechanics
 - [ ] **Implement Droppers and Dispensers**
 - [ ] **Implement Hoppers**
-- [ ] **Redstone Repeaters & Comparators**
+- [ ] **Redstone Repeaters & Comparators** (Status: Missing block definitions and logic, agents must fix)
 - [ ] **Redstone Input Devices** (Target Block, Daylight Detector)
 - [ ] **Command Block**
 
@@ -227,3 +227,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Redstone Torch**: Add redstone torches to provide power to adjacent redstone blocks.
 - [ ] **New Task: Add Daylight Sensor**: Add a block that emits a redstone signal based on the time of day.
 - [ ] **Bug: Missing Fluid Interaction for Raycasting**: Physics raycast lacks `includeLiquids` option natively except in specific checks, hindering proper interaction with water blocks for items like boats.
+- [ ] **Bug: Missing UI Logic for Jukebox**: openJukebox is missing from js/ui.js, agents must fix.
+- [ ] **Bug: Missing Mob Breeding Logic**: Mob.prototype.feed and Mob.prototype.inLove are missing from js/mob.js, agents must fix.
+- [ ] **Bug: Missing Water Flow Update**: game.world.updateWaterFlow is missing from js/world.js, agents must fix.
+- [ ] **Bug: verify_recipe_ui.py TimeoutError**: The test fails due to a TimeoutError on the `#start-game` click, agents must fix.
