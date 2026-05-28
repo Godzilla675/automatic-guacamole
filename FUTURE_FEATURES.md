@@ -111,6 +111,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Support for custom models**
 
 ### 15. Miscellaneous
+- [ ] **New Task: Add Leads**: Items to tie passive mobs to fences.
+- [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns.
+- [ ] **New Task: Add Fireworks**: Items used for celebrations or Elytra boosting.
 - [ ] **New Task: Add Dual Wielding**: Allow players to hold items in both hands.
 - [ ] **New Task: Add Spyglass**: Implement zooming mechanic.
 - [ ] **New Task: Add Sneaking**: Allow players to crouch to avoid falling off edges and reduce height.
@@ -130,6 +133,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
+- [ ] **Bug: test_missing_coverage.js TypeError**: TypeError: window.Game is not a constructor.
+- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player's inventory or decrease stack size correctly. (Status: Failed Verification: Drops milk bucket but doesn't handle bucket inventory replacement properly, agents must fix)
 - [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage.
 - [ ] **Bug: Inventory Rendering Bug**: JavaScript error when opening inventory `TypeError: Cannot read properties of null (reading 'style')` at `ui.js:1317`. Add null check in `renderSlotItem()`.
 - [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio.
@@ -189,7 +194,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
 
 - [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
-- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player\'s inventory or decrease stack size correctly. (Status: Failed Verification: Drops milk bucket but doesn't handle bucket inventory replacement properly, agents must fix)
 - [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds.
 - [ ] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items.
 - [ ] **New Task: Add Trial Chambers**: New procedural combat structures.
@@ -222,12 +226,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Bookshelves missing**: Bookshelves are required for enchanting rooms but block definition/logic is missing.
 - [ ] **Bug: Redstone Repeaters and Clocks missing**: Redstone repeaters and clocks are missing from the codebase.
 
-- [ ] **Bug: test_missing_coverage.js TypeError**: TypeError: window.Game is not a constructor.
-- [ ] **New Task: Enderman Teleportation Logic**: Implement the actual teleportation logic for Endermen when taking damage, including safe coordinate finding.
 - [ ] **New Task: Add Redstone Torch**: Add redstone torches to provide power to adjacent redstone blocks.
 - [ ] **New Task: Add Daylight Sensor**: Add a block that emits a redstone signal based on the time of day.
-- [ ] **Bug: Missing Fluid Interaction for Raycasting**: Physics raycast lacks `includeLiquids` option natively except in specific checks, hindering proper interaction with water blocks for items like boats.
-- [ ] **Bug: Missing UI Logic for Jukebox**: openJukebox is missing from js/ui.js, agents must fix.
-- [ ] **Bug: Missing Mob Breeding Logic**: Mob.prototype.feed and Mob.prototype.inLove are missing from js/mob.js, agents must fix.
-- [ ] **Bug: Missing Water Flow Update**: game.world.updateWaterFlow is missing from js/world.js, agents must fix.
-- [ ] **Bug: verify_recipe_ui.py TimeoutError**: The test fails due to a TimeoutError on the `#start-game` click, agents must fix.
