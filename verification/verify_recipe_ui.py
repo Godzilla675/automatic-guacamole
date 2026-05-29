@@ -16,7 +16,7 @@ def test_recipe_ui():
         expect(page.locator("#start-game")).to_be_visible()
 
         # Start Game
-        page.click("#start-game", force=True)
+        page.evaluate("document.getElementById('start-game').click();")
 
         # Wait for game to load
         expect(page.locator("#game-canvas")).to_be_visible()
