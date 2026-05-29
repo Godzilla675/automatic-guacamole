@@ -362,7 +362,15 @@ class Game {
                         }
                     }
                     // Durability
-                    if (slot.durability) slot.durability--;
+                    if (this.player.gamemode !== 1 && window.TOOLS[slot.type]) {
+                        if (slot.durability === undefined) {
+                            slot.durability = window.TOOLS[slot.type].durability;
+                        }
+                        slot.durability--;
+                        if (slot.durability <= 0) {
+                            this.player.inventory[this.player.selectedSlot] = null;
+                        }
+                    }
                     this.updateHotbarUI();
                 }
                 return;
@@ -487,7 +495,15 @@ class Game {
             if (slot && window.TOOLS[slot.type]) {
                 damage = window.TOOLS[slot.type].damage || 1;
                 // Reduce durability
-                 if (slot.durability !== undefined) slot.durability--;
+                 if (this.player.gamemode !== 1) {
+                     if (slot.durability === undefined) {
+                         slot.durability = window.TOOLS[slot.type].durability;
+                     }
+                     slot.durability--;
+                     if (slot.durability <= 0) {
+                         this.player.inventory[this.player.selectedSlot] = null;
+                     }
+                 }
                  this.updateHotbarUI();
             }
 

@@ -125,6 +125,12 @@ describe('Verification of Missing Coverage', function() {
     let world;
 
     beforeEach(function() {
+        // Other test files loaded in the same Mocha process reassign the shared
+        // `global.window`/`global.document`. Restore this file's own JSDOM so that
+        // `window.Game` and friends resolve correctly regardless of test ordering.
+        global.window = dom.window;
+        global.document = dom.window.document;
+
         // Setup DOM elements required by Managers
         const ids = [
             'chat-input', 'chat-messages',
