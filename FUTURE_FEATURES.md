@@ -133,7 +133,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
-- [ ] **Bug: test_missing_coverage.js TypeError**: TypeError: window.Game is not a constructor.
 - [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player's inventory or decrease stack size correctly. (Status: Failed Verification: Drops milk bucket but doesn't handle bucket inventory replacement properly, agents must fix)
 - [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage.
 - [ ] **Bug: Inventory Rendering Bug**: JavaScript error when opening inventory `TypeError: Cannot read properties of null (reading 'style')` at `ui.js:1317`. Add null check in `renderSlotItem()`.

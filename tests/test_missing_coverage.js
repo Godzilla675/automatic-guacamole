@@ -40,7 +40,7 @@ global.WebSocket = class {
 // Helper to load scripts
 function loadScript(filename) {
     const content = fs.readFileSync(path.join(__dirname, '../js', filename), 'utf8');
-    eval(content);
+    dom.window.eval(content);
 }
 
 // Load Modules
@@ -118,7 +118,7 @@ loadScript('audio.js');
 global.SoundManager = window.SoundManager;
 
 loadScript('game.js');
-global.Game = window.Game;
+global.Game = dom.window.Game;
 
 describe('Verification of Missing Coverage', function() {
     let game;
