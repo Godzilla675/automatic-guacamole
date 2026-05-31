@@ -1,9 +1,13 @@
-with open("js/ui.js", "r") as f:
-    lines = f.readlines()
+import sys
 
-for i, line in enumerate(lines):
-    if "const def = window.BLOCKS[Object.keys(window.BLOCKS).find" in line:
-        lines[i] = "                let def = null; if (item && item.type !== undefined) { def = window.BLOCKS[Object.keys(window.BLOCKS).find(k => window.BLOCKS[k].id === item.type)]; }\n"
+def patch_file(filepath):
+    with open(filepath, 'r') as f:
+        content = f.read()
 
-with open("js/ui.js", "w") as f:
-    f.writelines(lines)
+    if "page.click(\"#start-game\", force=True)" in content:
+        content = content.replace("page.click(\"#start-game\", force=True)", "page.evaluate(\"document.getElementById('start-game').click();\")")
+        with open(filepath, 'w') as f:
+            f.write(content)
+        print(f"Patched {filepath}")
+
+patch_file("verification/verify_milking_shearing.py")
