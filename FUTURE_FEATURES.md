@@ -134,9 +134,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player's inventory or decrease stack size correctly. (Status: Failed Verification: Drops milk bucket but doesn't handle bucket inventory replacement properly, agents must fix)
-- [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage.
-- [ ] **Bug: Inventory Rendering Bug**: JavaScript error when opening inventory `TypeError: Cannot read properties of null (reading 'style')` at `ui.js:1317`. Add null check in `renderSlotItem()`.
-- [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio.
+- [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage. (Status: Fall damage not properly calculated and safe spawn height not guaranteed, agents must fix)
+- [ ] **Bug: Inventory Rendering Bug**: JavaScript error when opening inventory `TypeError: Cannot read properties of null (reading 'style')` at `ui.js:1317`. Add null check in `renderSlotItem()`. (Status: Still missing slotElement check in ui.js, agents must fix)
+- [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio. (Status: Raycast logic needs update to center ray based on screen resolution, agents must fix)
 - [ ] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Failed Verification: Previous agents claimed to fix this but includeLiquids parameter is still missing in raycast in physics.js and game.js, agents must fix)
 - [ ] **New Task: Add Frogs**: Add frogs to swamp biomes.
 - [ ] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Known configuration issue, agents must fix using dependencies like `jsdom`).
@@ -231,3 +231,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals.
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed.
 - [ ] **New Task: Implement generic giveItem method**: Helper for adding items to the player's inventory, handling empty slots and stackable items.
+- [ ] **New Task: Add Redstone Lamps**: Light emitting blocks toggled by redstone.
+- [ ] **New Task: Add Slime Blocks**: Bouncy blocks that stick to other blocks when moved by pistons.
+- [ ] **New Task: Add Note Blocks**: Blocks that play musical notes when hit or powered.
