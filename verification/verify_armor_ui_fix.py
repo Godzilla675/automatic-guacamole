@@ -15,7 +15,7 @@ def run():
         page.wait_for_timeout(1500) # wait for loading screen to disappear
 
         # Click Start Game
-        page.click("#start-game", force=True)
+        page.evaluate("document.getElementById('start-game').click();")
 
         # Wait for game container
         page.wait_for_selector("#game-container", state="visible")
