@@ -12,7 +12,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Better cave systems (Ravines, large caves)
 - [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
 - [ ] **Bamboo Jungle**
-- [ ] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation, agents must fix)
+- [ ] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation. Biome manager defines treeChance and structures.js defines generateJungleTree, but world.js generateTree calls type='jungle' instead of calling generateJungleTree correctly, causing missing jungle trees, agents must fix)
 - [ ] **New Task: Add Witches**: Hostile mob that throws splash potions.
 - [ ] **Nether Fortresses** (Generation logic in Nether)
 - [ ] **Swamp Biome**
