@@ -162,7 +162,7 @@ describe('Verification of Missing Coverage', function() {
         };
 
         // Setup Game instance without running init() fully to avoid DOM issues
-        game = new window.Game();
+        game = new dom.window.Game();
         world = game.world;
 
         // Mock UI
