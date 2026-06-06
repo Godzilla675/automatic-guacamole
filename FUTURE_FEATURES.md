@@ -6,7 +6,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 
 - [ ] **New Task: Add Fishing Mechanics**: Implement fishing rod usage and catching items/fish in water.
-- [ ] **New Task: Add Ender Pearls**: Implement throwing mechanic for teleportation. (Status: Item defined and drops from Endermen, but throwing/teleportation mechanics are unimplemented, agents must fix)
 - [ ] **New Task: Add Pistons**: Blocks that can push other blocks when powered by Redstone.
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
@@ -20,7 +19,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Desert Temple**
 
 ### 2. Block System
-- [ ] **Implement Sponges** (Status: Block definition and water removal logic are both missing from codebase, agents must fix)
 - [ ] **Top Slabs** (Status: Placement in upper half of block missing, agents must fix)
 - [ ] **Decorative blocks** (Glazed Terracotta, Concrete)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters)
@@ -133,14 +131,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
-- [ ] **Bug: Cow Milking missing logic**: The Cow Milking feature drops Milk Buckets properly but does not replace the empty bucket in the player's inventory or decrease stack size correctly. (Status: Failed Verification: Drops milk bucket but doesn't handle bucket inventory replacement properly, agents must fix)
 - [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage. (Status: Fall damage not properly calculated and safe spawn height not guaranteed, agents must fix)
-- [ ] **Bug: Inventory Rendering Bug**: JavaScript error when opening inventory `TypeError: Cannot read properties of null (reading 'style')` at `ui.js:1317`. Add null check in `renderSlotItem()`. (Status: Still missing slotElement check in ui.js, agents must fix)
 - [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio. (Status: Raycast logic needs update to center ray based on screen resolution, agents must fix)
-- [ ] **Bug: Enderman Boat Spawn**: Boat placement logic exists in `js/game.js` but currently fails to spawn a boat entity when placing on a water block during gameplay. (Status: Failed Verification: Previous agents claimed to fix this but includeLiquids parameter is still missing in raycast in physics.js and game.js, agents must fix)
 - [ ] **New Task: Add Frogs**: Add frogs to swamp biomes.
 - [ ] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Known configuration issue, agents must fix using dependencies like `jsdom`).
-- [ ] **Bug: Sponges logic missing**: Block definition and water removal logic are both missing from codebase, agents must fix.
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Missing implementation, agents must fix)
@@ -152,7 +146,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
 - [ ] **New Task: Add Pandas**: Neutral mob found in bamboo jungles.
 - [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
-- [ ] **New Task: Fix Boat Placement**: Ensure that boats can be placed on water blocks and interacted with. (Status: Implementation is missing includeLiquids parameter in raycast, agents must fix)
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Status: Missing block definition, agents must fix)
 - [ ] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Status: Lava block exists but flow physics is missing, agents must fix)
@@ -234,3 +227,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Redstone Lamps**: Light emitting blocks toggled by redstone.
 - [ ] **New Task: Add Slime Blocks**: Bouncy blocks that stick to other blocks when moved by pistons.
 - [ ] **New Task: Add Note Blocks**: Blocks that play musical notes when hit or powered.
+- [ ] **New Task: Implement Trading System**: Add villagers with different professions that offer item trades using emeralds as currency.
+- [ ] **New Task: Add Crossbows**: Implement ranged weapon that takes longer to charge than bows but holds the arrow, and can shoot fireworks.
+- [ ] **Bug: Glass Pane HTML Mapping**: Glass Pane block icon rendering fails in inventory UI due to missing HTML setup in index.html.
