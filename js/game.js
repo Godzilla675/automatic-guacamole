@@ -384,12 +384,35 @@ class Game {
                 return;
             }
 
+            // Ender Pearl Logic
+            if (slot && slot.type === BLOCK.ITEM_ENDER_PEARL) {
+                const dir = {
+                    x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                    y: -Math.sin(this.player.pitch),
+                    z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+                };
+                this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir, 'ender_pearl');
+                window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z});
+
+                if (this.player.gamemode !== 1) {
+                    slot.count--;
+                    if (slot.count <= 0) {
+                        this.player.inventory[this.player.selectedSlot] = null;
+                    }
+                }
+                this.updateHotbarUI();
+                return;
+            }
+
             const dir = {
                 x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
                 y: -Math.sin(this.player.pitch),
                 z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
             };
-            const hit = this.physics.raycast(this.player, dir, 5);
+
+            // Check if holding a boat, if so include liquids in raycast
+            const includeLiquids = slot && slot.type === BLOCK.ITEM_BOAT;
+            const hit = this.physics.raycast(this.player, dir, 5, includeLiquids);
 
             // 1. Interact with block (if hit)
             if (hit) {
@@ -650,7 +673,10 @@ class Game {
             y: this.player.y + this.player.height * 0.9,
             z: this.player.z
         };
-        const hit = this.physics.raycast(eyePos, dir, 5);
+
+        const slot = this.player.inventory[this.player.selectedSlot];
+        const includeLiquids = slot && slot.type === BLOCK.ITEM_BOAT;
+        const hit = this.physics.raycast(eyePos, dir, 5, includeLiquids);
         if (hit && hit.face) {
             const nx = hit.x + hit.face.x;
             const ny = hit.y + hit.face.y;
@@ -833,9 +859,9 @@ class Game {
                  // Boat Placement Logic
                  if (slot.type === BLOCK.ITEM_BOAT) {
                      // Need to place on water
-                     const targetBlock = this.world.getBlock(nx, ny - 1, nz);
+                     const targetBlock = this.world.getBlock(hit.x, hit.y, hit.z);
                      if (targetBlock === BLOCK.WATER) {
-                         const boat = new window.Boat(this, nx + 0.5, ny, nz + 0.5);
+                         const boat = new window.Boat(this, hit.x + 0.5, hit.y + 1, hit.z + 0.5);
                          this.vehicles.push(boat);
 
                          window.soundManager.play('place', pos, BLOCK.WATER);
@@ -1517,7 +1543,17 @@ class Game {
             const pbDef = window.BLOCKS[pb];
             if (pb !== BLOCK.AIR && pbDef && pbDef.solid) {
                 p.life = 0;
-                if (p.type === 'fireball') this.explode(p.x, p.y, p.z, 3);
+                if (p.type === 'fireball') {
+                    this.explode(p.x, p.y, p.z, 3);
+                } else if (p.type === 'ender_pearl') {
+                    // Teleport player
+                    this.player.x = p.x;
+                    this.player.y = p.y;
+                    this.player.z = p.z;
+                    this.player.vy = 0;
+                    this.player.takeDamage(5); // Minor fall damage
+                    window.soundManager.play('place', {x: p.x, y: p.y, z: p.z});
+                }
             }
 
             // Collision with player (AABB Raycast)

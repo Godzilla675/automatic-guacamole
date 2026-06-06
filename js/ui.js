@@ -1426,6 +1426,8 @@ class UIManager {
     }
 
     renderSlotItem(slotElement, item) {
+        if (!slotElement) return;
+
         let icon = slotElement.querySelector('.block-icon');
         let count = slotElement.querySelector('.slot-count');
 

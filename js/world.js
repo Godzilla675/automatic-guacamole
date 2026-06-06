@@ -112,6 +112,31 @@ class World {
         // Check Structural Integrity of neighbors
         this.checkNeighborIntegrity(x, y, z);
 
+        // Sponge Logic
+        if (type === window.BLOCK.SPONGE) {
+            for (let dx = -2; dx <= 2; dx++) {
+                for (let dy = -2; dy <= 2; dy++) {
+                    for (let dz = -2; dz <= 2; dz++) {
+                        // Max distance 2 (up to 5x5x5 cube = 125 blocks minus corners maybe, or just the cube)
+                        // A true Minecraft sponge absorbs water within taxicab geometry or just a 5x5x5. We'll use 5x5x5.
+                        if (Math.abs(dx) + Math.abs(dy) + Math.abs(dz) <= 7) { // Simplified
+                            const nx = x + dx;
+                            const ny = y + dy;
+                            const nz = z + dz;
+                            if (this.getBlock(nx, ny, nz) === window.BLOCK.WATER) {
+                                this.setBlock(nx, ny, nz, window.BLOCK.AIR);
+                                // Create particles here if we have reference to game, or just rely on block update.
+                                // It might be good to update network if multiplayer.
+                                if (this.game && this.game.network) {
+                                    this.game.network.sendBlockUpdate(nx, ny, nz, window.BLOCK.AIR);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Redstone Updates
         // If we placed or removed something that interacts with redstone
         if ((blockDef && (blockDef.isWire || blockDef.isTorch || blockDef.id === window.BLOCK.REDSTONE_LAMP || blockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE)) ||

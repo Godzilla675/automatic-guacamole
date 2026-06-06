@@ -35,6 +35,7 @@ const BLOCK = {
     MELON_STEM: 245,
     PUMPKIN_STEM: 246,
     TNT: 247,
+    SPONGE: 248,
 
     // Biome Blocks
     SNOW: 25,
@@ -519,6 +520,7 @@ const BLOCKS = {
     [BLOCK.MELON_STEM]: { name: 'Melon Stem', color: '#32CD32', solid: false, transparent: true, icon: '🌱', hardness: 0.0 },
     [BLOCK.PUMPKIN_STEM]: { name: 'Pumpkin Stem', color: '#32CD32', solid: false, transparent: true, icon: '🌱', hardness: 0.0 },
     [BLOCK.TNT]: { name: 'TNT', color: '#DB7093', top: '#FF0000', solid: true, icon: '🧨', hardness: 0.0 },
+    [BLOCK.SPONGE]: { name: 'Sponge', color: '#DDDD00', top: '#DDDD00', solid: true, icon: '🧽', hardness: 0.6 },
 
     [BLOCK.ITEM_WHEAT_SEEDS]: { name: 'Wheat Seeds', color: '#32CD32', solid: false, isItem: true, icon: '🌰' },
     [BLOCK.ITEM_WHEAT]: { name: 'Wheat', color: '#DAA520', solid: false, isItem: true, icon: '🌾' },
