@@ -125,6 +125,9 @@ describe('Verification of Missing Coverage', function() {
     let world;
 
     beforeEach(function() {
+        if (!global.Game) {
+            global.Game = dom.window.Game;
+        }
         // Setup DOM elements required by Managers
         const ids = [
             'chat-input', 'chat-messages',
