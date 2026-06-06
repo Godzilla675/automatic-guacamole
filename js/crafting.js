@@ -224,6 +224,11 @@ class CraftingSystem {
                 name: "Shears",
                 result: { type: BLOCK.ITEM_SHEARS, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 2 } ]
+            },
+            {
+                name: "Fishing Rod",
+                result: { type: BLOCK.FISHING_ROD, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.ITEM_STRING, count: 2 } ]
             }
         ];
     }

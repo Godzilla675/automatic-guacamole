@@ -1235,14 +1235,41 @@ class Game {
         window.soundManager.play('jump', {x:this.player.x, y:this.player.y, z:this.player.z}); // Whoosh sound?
     }
 
+    getFishingLoot() {
+        const roll = Math.random();
+        if (roll < 0.75) return { type: BLOCK.ITEM_RAW_FISH, count: 1 };
+        if (roll < 0.85) return { type: BLOCK.ITEM_STRING, count: 1 };
+        if (roll < 0.95) return { type: BLOCK.ITEM_STICK, count: 1 };
+        return { type: BLOCK.ITEM_EMERALD, count: 1 };
+    }
+
     reelInBobber() {
         if (!this.bobber) return;
 
+        const rodSlotIdx = this.player ? this.player.selectedSlot : -1;
+        const rodItem = (this.player && rodSlotIdx >= 0) ? this.player.inventory[rodSlotIdx] : null;
+        const shouldDamageRod = rodItem && rodItem.type === BLOCK.FISHING_ROD && this.player && this.player.gamemode !== 1;
+
         if (this.bobber.state === 'hooked') {
-            // Catch fish
-            this.drops.push(new Drop(this, this.player.x, this.player.y, this.player.z, BLOCK.ITEM_RAW_FISH, 1));
-            this.chat.addMessage("You caught a fish!");
+            const loot = this.getFishingLoot();
+            this.drops.push(new Drop(this, this.player.x, this.player.y, this.player.z, loot.type, loot.count));
+            const lootName = (BLOCKS[loot.type] && BLOCKS[loot.type].name) ? BLOCKS[loot.type].name : 'something';
+            this.chat.addMessage(loot.type === BLOCK.ITEM_RAW_FISH ? "You caught a fish!" : `You caught ${lootName}!`);
             window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z}); // Splash/Catch sound
+        }
+
+        if (shouldDamageRod) {
+            const rodDef = (window.TOOLS && window.TOOLS[rodItem.type]) ? window.TOOLS[rodItem.type] : (BLOCKS ? BLOCKS[rodItem.type] : null);
+            const maxDurability = rodDef ? rodDef.durability : undefined;
+            if (maxDurability !== undefined) {
+                if (rodItem.durability === undefined) rodItem.durability = maxDurability;
+                rodItem.durability--;
+                if (rodItem.durability <= 0) {
+                    this.player.inventory[rodSlotIdx] = null;
+                    window.soundManager.play('break', {x:this.player.x, y:this.player.y, z:this.player.z});
+                }
+                this.updateHotbarUI();
+            }
         }
 
         this.bobber = null;
