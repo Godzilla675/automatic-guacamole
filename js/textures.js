@@ -90,6 +90,7 @@ class TextureManager {
         this.textures[B.JUNGLE_WOOD] = this.genWood('#56441d', '#3d3015');
         this.textures[B.JUNGLE_LEAVES] = this.genLeaves('#30bb0b', '#20800a');
         this.textures[B.JUNGLE_PLANK] = this.genPlank('#a07350');
+        this.textures[B.SPONGE] = this.genSponge();
 
         // Glass
         this.textures[B.GLASS] = this.genGlass();
@@ -203,6 +204,18 @@ class TextureManager {
             const y = Math.floor(Math.random() * 14) + 1;
             ctx.fillStyle = '#6B3410';
             ctx.fillRect(x, y, 2, 1);
+        }
+        return c;
+    }
+
+    genSponge() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, this.hexToRgb('#DDDD00'), 15);
+        ctx.fillStyle = '#AAAA00';
+        for(let i=0; i<15; i++) {
+            const size = Math.random() < 0.5 ? 1 : 2;
+            ctx.fillRect(Math.random()*16, Math.random()*16, size, size);
         }
         return c;
     }

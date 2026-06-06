@@ -96,13 +96,34 @@ class Mob extends Entity {
 
         // Cow Milking
         if (this.type === MOB_TYPE.COW && itemType === BLOCK.ITEM_BUCKET) {
-            // Drop a milk bucket
-            if (this.game.drops) {
-                // Drop slightly above cow
-                this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.ITEM_MILK_BUCKET, 1));
+            // Replace bucket with milk bucket in inventory
+            if (this.game && this.game.player) {
+                const player = this.game.player;
+                const slot = player.inventory[player.selectedSlot];
+                if (slot && slot.type === BLOCK.ITEM_BUCKET) {
+                    slot.count--;
+
+                    if (slot.count <= 0) {
+                        player.inventory[player.selectedSlot] = { type: BLOCK.ITEM_MILK_BUCKET, count: 1 };
+                    } else {
+                        // Find empty slot for milk bucket
+                        let added = false;
+                        for (let i = 0; i < player.inventory.length; i++) {
+                            if (!player.inventory[i]) {
+                                player.inventory[i] = { type: BLOCK.ITEM_MILK_BUCKET, count: 1 };
+                                added = true;
+                                break;
+                            }
+                        }
+                        if (!added && this.game.drops) {
+                            this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.ITEM_MILK_BUCKET, 1));
+                        }
+                    }
+                    if (this.game.updateHotbarUI) this.game.updateHotbarUI();
+                }
             }
             if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
-            return true; // Return true means interaction was successful, item should be consumed by caller
+            return false; // Return false so game.js doesn't consume the item again
         }
 
         // Sheep Shearing

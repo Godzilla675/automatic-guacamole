@@ -218,7 +218,7 @@ class Physics {
         return false;
     }
 
-    raycast(origin, direction, maxDist) {
+    raycast(origin, direction, maxDist, includeLiquids = false) {
         let t = 0.0;
         let x = Math.floor(origin.x);
         let y = Math.floor(origin.y);
@@ -241,7 +241,7 @@ class Physics {
         while (t < maxDist) {
             const block = this.world.getBlock(x, y, z);
             const blockDef = BLOCKS[block];
-            if (block !== BLOCK.AIR && blockDef && blockDef.solid) {
+            if (block !== BLOCK.AIR && blockDef && (blockDef.solid || (includeLiquids && blockDef.liquid))) {
                 // Check Slab Raycast
                 if (blockDef.isSlab) {
                     // Check if hit point is within bottom 0.5
