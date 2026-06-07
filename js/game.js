@@ -1454,37 +1454,7 @@ class Game {
 
                 // Collect Item
                 // Add to inventory
-                let remaining = drop.count;
-                // First try to fill existing stacks
-                for (let j = 0; j < this.player.inventory.length; j++) {
-                    const slot = this.player.inventory[j];
-                    if (slot && slot.type === drop.type && slot.count < 64) {
-                        const space = 64 - slot.count;
-                        if (remaining <= space) {
-                            slot.count += remaining;
-                            remaining = 0;
-                            break;
-                        } else {
-                            slot.count = 64;
-                            remaining -= space;
-                        }
-                    }
-                }
-                // Then try to find empty slots
-                if (remaining > 0) {
-                     for (let j = 0; j < this.player.inventory.length; j++) {
-                         if (!this.player.inventory[j]) {
-                             if (remaining <= 64) {
-                                 this.player.inventory[j] = { type: drop.type, count: remaining };
-                                 remaining = 0;
-                                 break;
-                             } else {
-                                 this.player.inventory[j] = { type: drop.type, count: 64 };
-                                 remaining -= 64;
-                             }
-                         }
-                     }
-                }
+                let remaining = this.player.giveItem(drop.type, drop.count);
 
                 if (remaining < drop.count) {
                     if (window.soundManager) window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z}); // Pickup sound?

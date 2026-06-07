@@ -91,6 +91,42 @@ class Player {
         return defense;
     }
 
+
+    giveItem(type, count = 1) {
+        const maxStack = 64;
+        let remaining = count;
+
+        // Try to stack with existing items first
+        for (let i = 0; i < this.inventory.length; i++) {
+            if (remaining <= 0) break;
+            const item = this.inventory[i];
+            if (item && item.type === type) {
+                const space = maxStack - item.count;
+                if (space > 0) {
+                    const add = Math.min(space, remaining);
+                    item.count += add;
+                    remaining -= add;
+                }
+            }
+        }
+
+        // Put remaining in empty slots
+        for (let i = 0; i < this.inventory.length; i++) {
+            if (remaining <= 0) break;
+            if (!this.inventory[i]) {
+                const add = Math.min(maxStack, remaining);
+                this.inventory[i] = { type: type, count: add };
+                remaining -= add;
+            }
+        }
+
+        if (this.game && this.game.ui && this.game.ui.updateHotbarUI) {
+            this.game.ui.updateHotbarUI();
+        }
+
+        return remaining; // return the amount that couldn't fit
+    }
+
     addXP(amount) {
         // Simplified XP curve
         // XP required for next level = 7 + level * 2 (approx MC)
