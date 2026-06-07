@@ -223,7 +223,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Copper Blocks**: Blocks that oxidize over time.
 - [ ] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals.
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed.
-- [ ] **New Task: Implement generic giveItem method**: Helper for adding items to the player's inventory, handling empty slots and stackable items.
+- [x] **New Task: Implement generic giveItem method**: Helper for adding items to the player's inventory, handling empty slots and stackable items.
 - [ ] **New Task: Add Redstone Lamps**: Light emitting blocks toggled by redstone.
 - [ ] **New Task: Add Slime Blocks**: Bouncy blocks that stick to other blocks when moved by pistons.
 - [ ] **New Task: Add Note Blocks**: Blocks that play musical notes when hit or powered.

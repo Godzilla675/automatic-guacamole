@@ -107,16 +107,9 @@ class Mob extends Entity {
                         player.inventory[player.selectedSlot] = { type: BLOCK.ITEM_MILK_BUCKET, count: 1 };
                     } else {
                         // Find empty slot for milk bucket
-                        let added = false;
-                        for (let i = 0; i < player.inventory.length; i++) {
-                            if (!player.inventory[i]) {
-                                player.inventory[i] = { type: BLOCK.ITEM_MILK_BUCKET, count: 1 };
-                                added = true;
-                                break;
-                            }
-                        }
-                        if (!added && this.game.drops) {
-                            this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.ITEM_MILK_BUCKET, 1));
+                        const remaining = player.giveItem(BLOCK.ITEM_MILK_BUCKET, 1);
+                        if (remaining > 0 && this.game.drops) {
+                            this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.ITEM_MILK_BUCKET, remaining));
                         }
                     }
                     if (this.game.updateHotbarUI) this.game.updateHotbarUI();
