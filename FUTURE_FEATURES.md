@@ -39,8 +39,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Tridents** (Throwing, returning, Riptide)
 
 ### 5. Entities & Mobs
-- [ ] **Add Creepers**: Hostile mob that explodes when near the player.
-- [ ] **Add Skeletons**: Hostile mob that shoots arrows.
+- [ ] **New Task: Add Charged Creepers**: Creepers struck by lightning with larger explosion radius.
+- [ ] **New Task: Add Husk**: Desert variant of the zombie that applies hunger effect.
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
 - [ ] **Wandering Traders**
 
@@ -195,8 +195,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager.
-- [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
-- [ ] **New Task: Endermen Block Carrying**: Endermen should randomly pick up and place certain blocks.
 - [ ] **New Task: Add Camels**: Desert mounts that can seat two players.
 - [ ] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books.
 - [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks.
@@ -223,10 +221,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Copper Blocks**: Blocks that oxidize over time.
 - [ ] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals.
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed.
-- [x] **New Task: Implement generic giveItem method**: Helper for adding items to the player's inventory, handling empty slots and stackable items.
+- [ ] **New Task: Add Armor Slots**: Allow players to equip helmets, chestplates, leggings, and boots.
 - [ ] **New Task: Add Redstone Lamps**: Light emitting blocks toggled by redstone.
 - [ ] **New Task: Add Slime Blocks**: Bouncy blocks that stick to other blocks when moved by pistons.
 - [ ] **New Task: Add Note Blocks**: Blocks that play musical notes when hit or powered.
 - [ ] **New Task: Implement Trading System**: Add villagers with different professions that offer item trades using emeralds as currency.
 - [ ] **New Task: Add Crossbows**: Implement ranged weapon that takes longer to charge than bows but holds the arrow, and can shoot fireworks.
 - [ ] **Bug: Glass Pane HTML Mapping**: Glass Pane block icon rendering fails in inventory UI due to missing HTML setup in index.html.
+
+- [ ] **Bug: Test Suite Collision Random Failures**: Slab and door collision tests randomly fail due to Perlin noise terrain generation overlapping test coordinates. (Status: Clear test area with BLOCK.AIR in beforeEach, agents must fix)
+- [ ] **Bug: Player JSDOM LocalStorage Mock Missing**: localStorage needs to be mocked when testing player.js via JSDOM to avoid ReferenceError when reading skin color preferences.
