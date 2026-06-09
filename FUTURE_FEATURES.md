@@ -114,10 +114,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Fireworks**: Items used for celebrations or Elytra boosting.
 - [ ] **New Task: Add Dual Wielding**: Allow players to hold items in both hands.
 - [ ] **New Task: Add Spyglass**: Implement zooming mechanic.
-- [ ] **New Task: Add Sneaking**: Allow players to crouch to avoid falling off edges and reduce height.
-- [ ] **New Task: Add Sprinting**: Increase movement speed and FOV when double tapping forward.
-- [ ] **New Task: Implement Fall Damage**: Player should take damage based on the height fallen.
-- [ ] **New Task: Implement Hunger Depletion**: Hunger should decrease over time and when sprinting/jumping.
+- [x] **New Task: Add Sneaking**: Allow players to crouch to avoid falling off edges and reduce height.
+- [x] **New Task: Add Sprinting**: Increase movement speed and FOV when double tapping forward.
+- [x] **New Task: Implement Fall Damage**: Player should take damage based on the height fallen.
+- [x] **New Task: Implement Hunger Depletion**: Hunger should decrease over time and when sprinting/jumping.
 - [ ] **Implement Thunderstorms and Lightning**
 - [ ] Day/Night cycle implementation (Logic)
 - [ ] Statistics
@@ -185,7 +185,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
 
-- [ ] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
+- [x] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
 - [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds.
 - [ ] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items.
 - [ ] **New Task: Add Trial Chambers**: New procedural combat structures.
@@ -221,7 +221,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Copper Blocks**: Blocks that oxidize over time.
 - [ ] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals.
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed.
-- [ ] **New Task: Add Armor Slots**: Allow players to equip helmets, chestplates, leggings, and boots.
+- [x] **New Task: Add Armor Slots**: Allow players to equip helmets, chestplates, leggings, and boots.
 - [ ] **New Task: Add Redstone Lamps**: Light emitting blocks toggled by redstone.
 - [ ] **New Task: Add Slime Blocks**: Bouncy blocks that stick to other blocks when moved by pistons.
 - [ ] **New Task: Add Note Blocks**: Blocks that play musical notes when hit or powered.
