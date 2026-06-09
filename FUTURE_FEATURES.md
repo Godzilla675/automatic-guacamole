@@ -6,7 +6,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 
 - [ ] **New Task: Add Fishing Mechanics**: Implement fishing rod usage and catching items/fish in water.
-- [ ] **New Task: Add Pistons**: Blocks that can push other blocks when powered by Redstone.
+- [x] **New Task: Add Pistons**: Blocks that can push other blocks when powered by Redstone.
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
 - [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
@@ -89,6 +89,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Proper block placement sound based on block type**
 
 ### 12. Redstone & Mechanics
+- [ ] **New Task: Implement Sticky Pistons**: Blocks that can push and pull other blocks when powered by Redstone.
 - [ ] **Implement Droppers and Dispensers**
 - [ ] **Implement Hoppers**
 - [ ] **Redstone Repeaters & Comparators** (Status: Missing block definitions and logic, agents must fix)
@@ -109,6 +110,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Support for custom models**
 
 ### 15. Miscellaneous
+
+- [ ] **New Task: Add Fireworks Rendering**: Visualize fireworks exploding in the sky with particles.
+- [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative.
 - [ ] **New Task: Add Leads**: Items to tie passive mobs to fences.
 - [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns.
 - [ ] **New Task: Add Fireworks**: Items used for celebrations or Elytra boosting.
@@ -191,7 +195,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Trial Chambers**: New procedural combat structures.
 - [ ] **New Task: Implement Tricky Trials**: Expand Trial Chambers with Trial Spawners.
 - [ ] **Bug: UI Scaling broken on ultra-wide screens**: The hotbar doesn't center properly on very wide displays.
-- [ ] **Bug: Incomplete block hitboxes**: Some non-full blocks like fences, stairs, and slabs have incorrect or incomplete hitbox implementations, allowing players to phase through them or get stuck.
+- [ ] **Bug: Missing Hitboxes for Fences, Stairs, and Slabs**: Incomplete block hitboxes allowing players to phase through them. (Status: Hitbox code for stairs is completely missing from physics.js, agents must fix)
 
 - [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night.
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager.
