@@ -5,8 +5,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Core Features
 
 
-- [ ] **New Task: Add Fishing Mechanics**: Implement fishing rod usage and catching items/fish in water.
-- [x] **New Task: Add Pistons**: Blocks that can push other blocks when powered by Redstone.
+- [ ] **New Task: Add Mules**: Neutral mob resulting from crossbreeding a horse and a donkey.
+- [ ] **New Task: Add Ocelots**: Passive mob that scares away creepers.
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves)
 - [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
@@ -118,10 +118,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Fireworks**: Items used for celebrations or Elytra boosting.
 - [ ] **New Task: Add Dual Wielding**: Allow players to hold items in both hands.
 - [ ] **New Task: Add Spyglass**: Implement zooming mechanic.
-- [x] **New Task: Add Sneaking**: Allow players to crouch to avoid falling off edges and reduce height.
-- [x] **New Task: Add Sprinting**: Increase movement speed and FOV when double tapping forward.
-- [x] **New Task: Implement Fall Damage**: Player should take damage based on the height fallen.
-- [x] **New Task: Implement Hunger Depletion**: Hunger should decrease over time and when sprinting/jumping.
+- [ ] **New Task: Add Magma Blocks**: Blocks that deal damage when stepped on.
+- [ ] **New Task: Add Soul Sand**: Blocks that slow down movement.
+- [ ] **New Task: Add Nether Wart**: Crop that grows in the Nether, used for brewing.
+- [ ] **New Task: Add Glowstone**: Light emitting block found in the Nether.
 - [ ] **Implement Thunderstorms and Lightning**
 - [ ] Day/Night cycle implementation (Logic)
 - [ ] Statistics
@@ -135,6 +135,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system**
 
 ## Known Bugs & Issues (To Be Fixed)
+- [ ] **Bug: Global Scope Contamination in JSDOM Tests**: When running the complete test suite collectively (e.g., via `npx mocha tests/test_*.js`), global scope contamination can occasionally cause tests like `test_missing_coverage.js` to fail (e.g., `window.Game is not a constructor`). (Status: `global.Game` becomes undefined within a `beforeEach` hook. Re-assign it using `if (!global.Game) { global.Game = dom.window.Game; }` to prevent errors, agents must fix)
 - [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage. (Status: Fall damage not properly calculated and safe spawn height not guaranteed, agents must fix)
 - [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio. (Status: Raycast logic needs update to center ray based on screen resolution, agents must fix)
 - [ ] **New Task: Add Frogs**: Add frogs to swamp biomes.
@@ -189,7 +190,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
 
-- [x] **New Task: Add Pause Menu logic**: The game should pause simulation and background music/sounds when the escape key is pressed and show a "Game Paused" menu.
+- [ ] **New Task: Add End Stone**: Block that makes up End islands.
 - [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds.
 - [ ] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items.
 - [ ] **New Task: Add Trial Chambers**: New procedural combat structures.
@@ -225,10 +226,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Copper Blocks**: Blocks that oxidize over time.
 - [ ] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals.
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed.
-- [x] **New Task: Add Armor Slots**: Allow players to equip helmets, chestplates, leggings, and boots.
-- [ ] **New Task: Add Redstone Lamps**: Light emitting blocks toggled by redstone.
+- [ ] **New Task: Add Chorus Plants**: Plant found in the End.
+- [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates.
 - [ ] **New Task: Add Slime Blocks**: Bouncy blocks that stick to other blocks when moved by pistons.
-- [ ] **New Task: Add Note Blocks**: Blocks that play musical notes when hit or powered.
+- [ ] **New Task: Add Target Blocks**: Redstone component that emits signal when hit by projectiles.
 - [ ] **New Task: Implement Trading System**: Add villagers with different professions that offer item trades using emeralds as currency.
 - [ ] **New Task: Add Crossbows**: Implement ranged weapon that takes longer to charge than bows but holds the arrow, and can shoot fireworks.
 - [ ] **Bug: Glass Pane HTML Mapping**: Glass Pane block icon rendering fails in inventory UI due to missing HTML setup in index.html.
