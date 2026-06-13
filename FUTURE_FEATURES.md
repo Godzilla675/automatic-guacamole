@@ -107,6 +107,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 16. Test Suite and CI
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
+
+- [ ] **Bug: Playwright Test Flakiness (Connection Refused)**: The `test_runner.py` suite may sometimes report FAIL for Playwright UI tests (like `verify_manual_gameplay.py`) due to connection refused errors if the internal server takes too long to bind. (Status: Known flakiness issue, agents must fix)
 - [ ] **Bug: Global Scope Contamination in JSDOM Tests**: When running the complete test suite collectively (e.g., via `npx mocha tests/test_*.js`), global scope contamination can occasionally cause tests like `test_missing_coverage.js` to fail (e.g., `window.Game is not a constructor`). (Status: `global.Game` becomes undefined within a `beforeEach` hook. Re-assign it using `if (!global.Game) { global.Game = dom.window.Game; }` to prevent errors, agents must fix)
 - [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage. (Status: Fall damage not properly calculated and safe spawn height not guaranteed, agents must fix)
 - [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio. (Status: Raycast logic needs update to center ray based on screen resolution, agents must fix)

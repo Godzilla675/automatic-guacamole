@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "canvas": "^3.2.1",
+    "canvas": "^3.2.3",
     "playwright": "^1.60.0",
-    "ws": "^8.19.0"
+    "ws": "^8.21.0"
   },
   "devDependencies": {
     "jsdom": "^27.4.0",
-    "mocha": "^11.7.5"
+    "mocha": "^11.7.6"
   }
 }
