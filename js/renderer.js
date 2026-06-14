@@ -463,35 +463,70 @@ class Renderer {
                          const armLen = (size - centerSize) / 2;
                          const armWidth = centerSize; // Wire width
 
-                         if (checkConnect(1, 0)) { // East (+X)
-                              // 2D projection is tricky.
-                              // sx is screen X. As we rotate, +X direction changes on screen.
-                              // We already calculated rotated coordinates: rx, rz.
-                              // We need to draw lines in 3D space projected to 2D.
-                              // But here we are just drawing rects at 'sx, sy'.
-                              // Doing proper 3D lines with fillRect is hard without proper projection of endpoints.
+                         // Project an arm offset directly relative to the block's current screen position.
+                         // Instead of calculating absolute screen Y (which leads to floating bugs),
+                         // we calculate the screen X and screen Z depth, and keep Y locked to drawSyWire
+                         // because redstone is flat on the ground.
+                         const projectArmOffset = (offX, offZ) => {
+                             // Rotate offset using camera angles available in render()
+                             const rOffX = offX * cosY - offZ * sinY;
+                             const rOffZ = offX * sinY + offZ * cosY;
 
-                              // Fallback: Just draw a cross always for now?
-                              // Or better: Draw arms based on screen-projected directions?
-                              // That's too complex for this "fake 3D" renderer which just scales sprites.
+                             // Add to block's existing rotated coordinates (stored as b.rx, b.rz)
+                             const armRx = b.rx + rOffX;
+                             const armRz = b.rz + rOffZ;
 
-                              // Alternative: Just draw a larger flat square if connected?
+                             if (armRz <= 0.1) return null;
+
+                             // Project to screen X
+                             const screenX = (armRx / armRz) * scale + w / 2;
+
+                             // To simulate depth/perspective of the line laying flat, we offset Y slightly based on depth.
+                             // However, a perfectly flat Y works best for billboards.
+                             // Calculate Y perspective using ry
+                             const rOffY = b.ry * cosP - armRz * sinP;
+                             const screenY = h / 2 - (rOffY / armRz) * scale;
+
+                             return { x: screenX, y: screenY };
+                         };
+
+                         const e = checkConnect(1, 0);  // East +X
+                         const wConn = checkConnect(-1, 0); // West -X
+                         const s = checkConnect(0, 1);  // South +Z
+                         const n = checkConnect(0, -1); // North -Z
+
+                         const numConnections = (e ? 1 : 0) + (wConn ? 1 : 0) + (s ? 1 : 0) + (n ? 1 : 0);
+
+                         ctx.strokeStyle = `rgb(${intensity}, 0, 0)`;
+                         ctx.lineWidth = Math.max(1, centerSize);
+                         ctx.lineCap = 'square';
+
+                         const drawArm = (offX, offZ) => {
+                             const end2D = projectArmOffset(offX, offZ);
+                             if (end2D) {
+                                 ctx.beginPath();
+                                 ctx.moveTo(sx, drawSyWire); // Center
+                                 ctx.lineTo(end2D.x, end2D.y);
+                                 ctx.stroke();
+                             }
+                         };
+
+                         if (numConnections === 0) {
+                             drawArm(0.3, 0);
+                             drawArm(-0.3, 0);
+                             drawArm(0, 0.3);
+                             drawArm(0, -0.3);
+                         } else if (numConnections === 1) {
+                             if (e) { drawArm(0.5, 0); drawArm(-0.25, 0); }
+                             if (wConn) { drawArm(-0.5, 0); drawArm(0.25, 0); }
+                             if (s) { drawArm(0, 0.5); drawArm(0, -0.25); }
+                             if (n) { drawArm(0, -0.5); drawArm(0, 0.25); }
+                         } else {
+                             if (e) drawArm(0.5, 0);
+                             if (wConn) drawArm(-0.5, 0);
+                             if (s) drawArm(0, 0.5);
+                             if (n) drawArm(0, -0.5);
                          }
-
-                         // For this engine (billboard/sprite scaling), we can't easily draw directional arms
-                         // because we don't know which way is "East" on the screen easily (we do, but it requires math).
-
-                         // Hack: Draw a cross always. It looks like wire.
-                         ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(size), Math.ceil(drawHeight)); // Horizontal bar
-                         ctx.fillRect(Math.floor(sx - centerSize/2), Math.floor(drawSyWire - size/2 + drawHeight/2), Math.ceil(centerSize), Math.ceil(size/2 + drawHeight/2)); // Vertical bar (approx)
-                         // Actually, this just draws a cross on screen, which rotates with player view (billboarding).
-                         // Real wire should lay on ground.
-                         // Since we don't have true geometry, let's just draw a red flat square on the floor.
-
-                         // Reset and just draw flat square
-                         ctx.fillStyle = `rgb(${intensity}, 0, 0)`;
-                         const wireSize = size * 0.8;
-                         ctx.fillRect(Math.floor(sx - wireSize/2), Math.floor(drawSyWire - drawHeight/2), Math.ceil(wireSize), Math.ceil(drawHeight));
 
                          return;
                      }
