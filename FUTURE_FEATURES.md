@@ -59,6 +59,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Worker threads for world generation** (Status: Missing implementation, agents must fix)
 - [ ] **Better memory management** (Status: Missing implementation, agents must fix)
 - [ ] **Implement Auto-Save Feature** (Status: Missing implementation, agents must fix)
+
 - [ ] **Chunk Serialization Optimization** (Status: Missing implementation, agents must fix)
 - [ ] **Refactoring World/Chunk Separation** (Status: Missing implementation, agents must fix)
 ### 10. User Interface
@@ -203,8 +204,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Brewing Stand**: Implement brewing stand block and UI for potion brewing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Elytra Boosting**: Allow using fireworks to boost Elytra speed. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Vindicators**: Hostile illager mob with an iron axe. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Vehicle takeDamage Method Missing**: Subclasses of Entity like Vehicle (e.g., Boat, Minecart) must explicitly implement the takeDamage(amount) method to handle destruction, death state, and drops properly. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: js/ui.js Null Reference TypeErrors**: When manipulating UI elements like in renderSlotItem, verify the existence of the element to prevent null reference TypeErrors during dynamic DOM updates. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Vehicle takeDamage Method Missing**: Subclasses of Entity like Vehicle (e.g., Boat, Minecart) must explicitly implement the takeDamage(amount) method to handle destruction, death state, and drops properly. (Status: Fixed, agents managed vehicle.js correctly)
+- [x] **Bug: js/ui.js Null Reference TypeErrors**: When manipulating UI elements like in renderSlotItem, verify the existence of the element to prevent null reference TypeErrors during dynamic DOM updates. (Status: Fixed, agents added null checks in ui.js)
 - [x] **Bug: JSDOM AudioContext Mocks Missing Methods**: AudioContext mocks must include a listener object with positional properties and methods, and oscillator frequencies must mock exponentialRampToValueAtTime. (Status: Fixed, audio context mocks updated)
 - [x] **Bug: Playwright #start-game Click Timeout**: Playwright tests interacting with the #start-game button should use JS evaluation to bypass the loading screen overlay reliably. (Status: Fixed, Playwright tests bypass loading properly)
 - [ ] **Bug: Block Icon Text Strings**: Block icons in the UI inventory must use valid emojis rather than text strings so they render correctly. (Status: Incorrect implementation, agents must fix)
@@ -213,3 +214,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Skeleton Horses**: Rare rideable variant of horses that spawn from skeleton traps during thunderstorms. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit redstone signals. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tinted Glass**: Glass blocks that block light but allow players to see through. (Status: Missing implementation, agents must fix)
+
+- [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Nether Portals**: Allow players to build obsidian frames and light them to travel to the Nether. (Status: Missing implementation, agents must fix)
+
+- [ ] **New Task: Add Redstone Dust**: Placeable redstone wires to connect components. (Status: Missing implementation, agents must fix)
