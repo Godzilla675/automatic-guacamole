@@ -219,3 +219,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals**: Allow players to build obsidian frames and light them to travel to the Nether. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Redstone Dust**: Placeable redstone wires to connect components. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Armor UI missing from index.html**: `armor-grid` and associated UI elements are referenced in `js/ui.js` but missing from `index.html`. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Ender Pearl Throwing Error**: The `Ender Pearl Throwing` logic crashes when checking `update.toString` or similar execution logic. Need to fix the logic. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Jukebox UI missing**: `openJukebox` function exists but might be missing UI definition or mapping. (Status: Missing implementation, agents must fix)
