@@ -1023,10 +1023,11 @@ class World {
                     if (biome.treeChance && Math.random() < biome.treeChance) {
                         let type = 'oak';
                         if (biome.snow) type = 'spruce';
-                        else if (biome.name === 'Jungle') type = 'jungle';
-                        else if (biome.name === 'Forest' && Math.random() < 0.2) type = 'birch';
 
-                        this.structureManager.generateTree(chunk, x, height + 1, z, type);
+                        else if (biome.name === 'Forest' && Math.random() < 0.2) type = 'birch';
+                        else if (biome.name === 'Birch Forest') type = 'birch';
+
+                        if (biome.name === 'Jungle') { this.structureManager.generateJungleTree(chunk, x, height + 1, z); } else { this.structureManager.generateTree(chunk, x, height + 1, z, type); }
                     }
                     if (biome.cactusChance && Math.random() < biome.cactusChance) {
                         this.structureManager.generateCactus(chunk, x, height + 1, z);

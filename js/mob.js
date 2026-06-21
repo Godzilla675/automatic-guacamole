@@ -671,6 +671,11 @@ class Mob extends Entity {
 
             if (this.type === MOB_TYPE.CREEPER) {
                 // Creeper Logic
+                let ocelot = this.game.mobs.find(m => m !== this && m.type === MOB_TYPE.OCELOT && Math.hypot(m.x - this.x, m.z - this.z) < 10);
+                if (ocelot) {
+                    this.yaw = Math.atan2(this.x - ocelot.x, this.z - ocelot.z);
+                    this.fuseTimer = 0; // stop fusing if running away
+                }
                 this.vx = Math.sin(this.yaw) * this.speed;
                 this.vz = Math.cos(this.yaw) * this.speed;
 

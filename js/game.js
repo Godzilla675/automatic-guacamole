@@ -623,7 +623,20 @@ class Game {
                 let dropType = blockType;
                 let dropCount = 1;
 
-                if (blockDef.drop !== undefined) {
+                const slot = this.player.inventory[this.player.selectedSlot];
+                const isShears = slot && slot.type === BLOCK.ITEM_SHEARS;
+                const isLeavesOrGrass = blockType === BLOCK.LEAVES || blockType === BLOCK.SPRUCE_LEAVES || blockType === BLOCK.BIRCH_LEAVES || blockType === BLOCK.JUNGLE_LEAVES || blockType === BLOCK.TALL_GRASS;
+
+                if (isShears && isLeavesOrGrass) {
+                    // Shears drop the block itself
+                    dropType = blockType;
+                    dropCount = 1;
+                    if (slot.durability !== undefined) {
+                        slot.durability--;
+                        if (slot.durability <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                        this.updateHotbarUI();
+                    }
+                } else if (blockDef.drop !== undefined) {
                     if (blockDef.drop === null) {
                         dropCount = 0;
                     } else {

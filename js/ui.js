@@ -13,20 +13,6 @@ class UIManager {
     init() {
         this.updateHotbarUI();
 
-        // Inject Armor Grid
-        const invContent = document.querySelector('#inventory-screen .inventory-content');
-        if (invContent && !document.getElementById('armor-grid')) {
-            const armorGrid = document.createElement('div');
-            armorGrid.id = 'armor-grid';
-            armorGrid.style.display = 'flex';
-            armorGrid.style.justifyContent = 'center';
-            armorGrid.style.gap = '10px';
-            armorGrid.style.marginBottom = '10px';
-
-            // Insert before inventory grid
-            const grid = document.getElementById('inventory-grid');
-            if (grid) invContent.insertBefore(armorGrid, grid);
-        }
 
         // Bind Sign Close
         const closeSign = document.getElementById('close-sign');
