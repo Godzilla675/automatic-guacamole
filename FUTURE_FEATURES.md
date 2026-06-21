@@ -2,12 +2,12 @@
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
 - [ ] **New Task: Add Mules**: Neutral mob resulting from crossbreeding a horse and a donkey. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Ocelots**: Passive mob that scares away creepers. (Status: Partial implementation: Ocelot exists but creeper fleeing logic is missing, agents must fix)
+- [ ] **New Task: Add Ocelots**: Passive mob that scares away creepers. (Status: Partial implementation: Ocelot exists but creeper fleeing logic is missing, agents must fix)
 ### 1. World Generation
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
-- [x] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
+- [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
 - [ ] **Bamboo Jungle** (Status: Missing implementation, agents must fix)
-- [x] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation. Biome manager defines treeChance and structures.js defines generateJungleTree, but world.js generateTree calls type='jungle' instead of calling generateJungleTree correctly, causing missing jungle trees, agents must fix)
+- [ ] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation. Biome manager defines treeChance and structures.js defines generateJungleTree, but world.js generateTree calls type='jungle' instead of calling generateJungleTree correctly, causing missing jungle trees, agents must fix)
 - [ ] **New Task: Add Witches**: Hostile mob that throws splash potions. (Status: Missing implementation, agents must fix)
 - [ ] **Nether Fortresses** (Generation logic in Nether) (Status: Missing implementation, agents must fix)
 - [ ] **Swamp Biome** (Status: Missing implementation, agents must fix)
@@ -112,6 +112,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Deepslate**: Darker, tougher stone variant generated at lower Y levels. (Status: Missing implementation, agents must fix)
 ### 16. Test Suite and CI
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows.
+- [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter).
+- [ ] **New Task: Add Mini-map**: A mini-map UI component.
 ## Known Bugs & Issues (To Be Fixed)
 - [x] **Bug: Playwright Test Flakiness (Connection Refused)**: The `test_runner.py` suite may sometimes report FAIL for Playwright UI tests (like `verify_manual_gameplay.py`) due to connection refused errors if the internal server takes too long to bind. (Status: Fixed, agents managed server correctly)
 - [x] **Bug: Global Scope Contamination in JSDOM Tests**: When running the complete test suite collectively (e.g., via `npx mocha tests/test_*.js`), global scope contamination can occasionally cause tests like `test_missing_coverage.js` to fail (e.g., `window.Game is not a constructor`). (Status: Fixed, agents managed window context)
@@ -124,7 +127,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime. (Status: Missing implementation, agents must fix)
-- [x] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory. (Status: Partial implementation: sheep shearing works, missing leaves/grass, agents must fix)
+- [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory. (Status: Partial implementation: sheep shearing works, missing leaves/grass, agents must fix)
 - [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
@@ -219,6 +222,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals**: Allow players to build obsidian frames and light them to travel to the Nether. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Redstone Dust**: Placeable redstone wires to connect components. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Armor UI missing from index.html**: `armor-grid` and associated UI elements are referenced in `js/ui.js` but missing from `index.html`. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Armor UI missing from index.html**: `armor-grid` and associated UI elements are referenced in `js/ui.js` but missing from `index.html`. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Ender Pearl Throwing Error**: The `Ender Pearl Throwing` logic crashes when checking `update.toString` or similar execution logic. Need to fix the logic. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Jukebox UI missing**: `openJukebox` function exists but might be missing UI definition or mapping. (Status: Missing implementation, agents must fix)

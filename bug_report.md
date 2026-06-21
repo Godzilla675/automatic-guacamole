@@ -2089,3 +2089,15 @@ I ran the main test suite (`test_runner.py`) ensuring local port 3000 conflicts 
 ### Outstanding Issues
 - **Crosshair Alignment & Aspect Ratio**: As noted in previous reports, the CSS crosshair may not perfectly align with the `sx = w/2, sy = h/2` center of the 3D raycast target depending on aspect ratio and rendering scale.
 - No new regressions were found in our testing.
+
+
+## 82. UI Assets Missing Mapping Bug
+
+**Date:** October 2026
+**Status:** Minor Bug Logged
+
+**Description:**
+Glass Pane block icon rendering fails in inventory UI due to missing HTML setup in `index.html`.
+
+**Bugs Added to Tracking:**
+- Glass Pane missing text mapping in `index.html`.
