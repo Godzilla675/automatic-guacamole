@@ -4,6 +4,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Mules**: Neutral mob resulting from crossbreeding a horse and a donkey. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ocelots**: Passive mob that scares away creepers. (Status: Partial implementation: Ocelot exists but creeper fleeing logic is missing, agents must fix)
 ### 1. World Generation
+- [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mutton**: Raw mutton drops from sheep, can be cooked. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Missing implementation, agents must fix)
+
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
 - [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
 - [ ] **Bamboo Jungle** (Status: Missing implementation, agents must fix)
