@@ -2,7 +2,8 @@
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
 - [ ] **New Task: Add Mules**: Neutral mob resulting from crossbreeding a horse and a donkey. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Ocelots**: Passive mob that scares away creepers. (Status: Partial implementation: Ocelot exists but creeper fleeing logic is missing, agents must fix)
+- [x] **New Task: Add Ocelots**: Passive mob that scares away creepers. (Status: Fully implemented)
+- [ ] **New Task: Add Cats**: Tameable variant of ocelots.
 ### 1. World Generation
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Missing implementation, agents must fix)
@@ -10,9 +11,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Missing implementation, agents must fix)
 
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
-- [ ] **Birch Forest Biome** (Status: Failed: BIOME.BIRCH_FOREST not defined in biome.js, agents must fix)
+- [x] **Birch Forest Biome** (Status: Fully implemented)
+- [ ] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees.
 - [ ] **Bamboo Jungle** (Status: Missing implementation, agents must fix)
-- [ ] **Jungle Biome** (Status: Biome logic exists but fails to generate correctly during world creation. Biome manager defines treeChance and structures.js defines generateJungleTree, but world.js generateTree calls type='jungle' instead of calling generateJungleTree correctly, causing missing jungle trees, agents must fix)
+- [x] **Jungle Biome** (Status: Fully implemented)
+- [ ] **New Task: Add Jungle Pyramids**: Structures found in Jungle biomes.
 - [ ] **New Task: Add Witches**: Hostile mob that throws splash potions. (Status: Missing implementation, agents must fix)
 - [ ] **Nether Fortresses** (Generation logic in Nether) (Status: Missing implementation, agents must fix)
 - [ ] **Swamp Biome** (Status: Missing implementation, agents must fix)
@@ -75,10 +78,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Music system (Status: Missing implementation, agents must fix)
 - [ ] **Proper block placement sound based on block type** (Status: Missing implementation, agents must fix)
 ### 12. Redstone & Mechanics
-- [ ] **New Task: Add Pistons**: Blocks that can push other blocks. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Sticky Pistons**: Blocks that can push and pull other blocks. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Pistons**: Blocks that can push other blocks. (Status: Fully implemented)
+- [ ] **New Task: Add Slime Blocks interaction with pistons**: Slime blocks stick to blocks when pushed.
+- [x] **New Task: Add Sticky Pistons**: Blocks that can push and pull other blocks. (Status: Fully implemented)
+- [ ] **New Task: Add Honey Blocks interaction with pistons**: Honey blocks stick to blocks when pushed.
 - [ ] **Redstone Repeaters & Comparators** (Status: Missing block definitions and logic, agents must fix)
-- [ ] **Redstone Input Devices** (Target Block, Daylight Detector) (Status: Missing implementation, agents must fix)
+- [x] **Redstone Input Devices** (Target Block, Daylight Detector) (Status: Fully implemented)
+- [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates.
 - [ ] **Command Block** (Status: Missing implementation, agents must fix)
 ### 13. Networking (Multiplayer)
 - [ ] Entity synchronization (Status: Missing implementation, agents must fix)
@@ -124,6 +130,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Playwright Test Flakiness (Connection Refused)**: The `test_runner.py` suite may sometimes report FAIL for Playwright UI tests (like `verify_manual_gameplay.py`) due to connection refused errors if the internal server takes too long to bind. (Status: Fixed, agents managed server correctly)
 - [x] **Bug: Global Scope Contamination in JSDOM Tests**: When running the complete test suite collectively (e.g., via `npx mocha tests/test_*.js`), global scope contamination can occasionally cause tests like `test_missing_coverage.js` to fail (e.g., `window.Game is not a constructor`). (Status: Fixed, agents managed window context)
 - [ ] **Bug: Player Death Loop**: Player continuously dies every few seconds. Investigate spawn height and fall damage. (Status: Fall damage not properly calculated and safe spawn height not guaranteed, agents must fix)
+- [x] **New Task: Add Anvils**: Implement repairing and naming items. (Status: Fully implemented)
+- [x] **New Task: Add Redstone Lamps**: Light emitting blocks toggled by redstone. (Status: Fully implemented)
+- [x] **New Task: Add Note Blocks**: Blocks that play musical notes when hit or powered. (Status: Fully implemented)
+- [x] **New Task: Add Fishing Rods**: Implement fishing mechanics. (Status: Fully implemented)
+- [x] **New Task: Add Sponges**: Blocks that absorb nearby water. (Status: Fully implemented)
+- [x] **New Task: Add Cow Milking**: Allow players to milk cows using buckets. (Status: Fully implemented)
 - [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio. (Status: Raycast logic needs update to center ray based on screen resolution, agents must fix)
 - [ ] **New Task: Add Frogs**: Add frogs to swamp biomes. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Node ESM Translator Error**: `test_runner.py` encounters `node:internal/modules/esm/translators` errors. (Status: Fixed, agents added jsdom dependencies correctly).
@@ -132,7 +144,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime. (Status: Missing implementation, agents must fix)
-- [ ] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory. (Status: Partial implementation: sheep shearing works, missing leaves/grass, agents must fix)
+- [x] **Implement Shears Functionality**: Expand logic to shear leaves and grass directly into the inventory. (Status: Fully implemented)
+- [ ] **New Task: Add Enchantable Shears**: Allow shears to be enchanted with Efficiency and Unbreaking.
 - [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
@@ -227,6 +240,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals**: Allow players to build obsidian frames and light them to travel to the Nether. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Redstone Dust**: Placeable redstone wires to connect components. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Armor UI missing from index.html**: `armor-grid` and associated UI elements are referenced in `js/ui.js` but missing from `index.html`. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Ender Pearl Throwing Error**: The `Ender Pearl Throwing` logic crashes when checking `update.toString` or similar execution logic. Need to fix the logic. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Jukebox UI missing**: `openJukebox` function exists but might be missing UI definition or mapping. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Armor UI missing from index.html**: `armor-grid` and associated UI elements are referenced in `js/ui.js` but missing from `index.html`. (Status: Fully implemented)
+- [ ] **New Task: Add Armor Icons**: Add icons for different armor types.
+- [x] **Bug: Ender Pearl Throwing Error**: The `Ender Pearl Throwing` logic crashes when checking `update.toString` or similar execution logic. Need to fix the logic. (Status: Fully implemented)
+- [ ] **New Task: Implement Ender Pearl Cooldown**: Add a cooldown to ender pearl usage.
+- [x] **Bug: Jukebox UI missing**: `openJukebox` function exists but might be missing UI definition or mapping. (Status: Fully implemented)
+- [ ] **New Task: Add More Music Discs**: Add more music discs to play in the jukebox.
