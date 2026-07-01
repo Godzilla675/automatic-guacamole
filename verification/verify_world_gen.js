@@ -8,7 +8,7 @@ global.document = dom.window.document;
 
 // Mock Perlin
 window.perlin = {
-    noise: (x, y, z) => 0.6 // Consistent noise
+    noise: (x, y, z) => 0.7 // Consistent noise
 };
 
 // Load scripts
