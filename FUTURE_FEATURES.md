@@ -1,9 +1,13 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
+
+- [ ] **New Task: Add Copper Bulbs**: Light source blocks that can be dimmed by oxidizing. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Crafter**: A redstone-powered automated crafting block. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Tuff Bricks**: A decorative variant of Tuff. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mules**: Neutral mob resulting from crossbreeding a horse and a donkey. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Goats**: Mobs that spawn in mountainous regions and can ram players. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Cats**: Tameable variant of ocelots.
+- [ ] **New Task: Add Cats**: Tameable variant of ocelots. (Status: Missing implementation, agents must fix)
 ### 1. World Generation
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Missing implementation, agents must fix)
@@ -12,10 +16,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ice Spikes Biome**: Rare biome featuring large spikes of packed ice. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees.
+- [ ] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees. (Status: Missing implementation, agents must fix)
 - [ ] **Bamboo Jungle** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mushroom Fields Biome**: Rare biome where Mooshrooms spawn and giant mushrooms grow. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Jungle Pyramids**: Structures found in Jungle biomes.
+- [ ] **New Task: Add Jungle Pyramids**: Structures found in Jungle biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Witches**: Hostile mob that throws splash potions. (Status: Missing implementation, agents must fix)
 - [ ] **Nether Fortresses** (Generation logic in Nether) (Status: Missing implementation, agents must fix)
 - [ ] **Swamp Biome** (Status: Missing implementation, agents must fix)
@@ -79,12 +83,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Proper block placement sound based on block type** (Status: Missing implementation, agents must fix)
 ### 12. Redstone & Mechanics
 - [ ] **New Task: Add Slime Blocks**: Bouncy blocks that push entities when moved by pistons. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Slime Blocks interaction with pistons**: Slime blocks stick to blocks when pushed.
+- [ ] **New Task: Add Slime Blocks interaction with pistons**: Slime blocks stick to blocks when pushed. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Honey Blocks**: Sticky blocks that slow entities and stick to adjacent blocks when pushed. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Honey Blocks interaction with pistons**: Honey blocks stick to blocks when pushed.
+- [ ] **New Task: Add Honey Blocks interaction with pistons**: Honey blocks stick to blocks when pushed. (Status: Missing implementation, agents must fix)
 - [ ] **Redstone Repeaters & Comparators** (Status: Missing block definitions and logic, agents must fix)
 - [ ] **New Task: Add Hoppers**: Blocks that transfer items between containers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates.
+- [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Missing implementation, agents must fix)
 - [ ] **Command Block** (Status: Missing implementation, agents must fix)
 ### 13. Networking (Multiplayer)
 - [ ] Entity synchronization (Status: Missing implementation, agents must fix)
@@ -123,9 +127,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Deepslate**: Darker, tougher stone variant generated at lower Y levels. (Status: Missing implementation, agents must fix)
 ### 16. Test Suite and CI
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows.
-- [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter).
-- [ ] **New Task: Add Mini-map**: A mini-map UI component.
+- [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter). (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mini-map**: A mini-map UI component. (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Slab and Door collision test flakiness**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates. (Status: Requires clearing test area, agents must fix)
 - [ ] **Bug: Flaky Chunk Loading Test**: The chunk loading boundary test occasionally fails under heavy load. (Status: Missing implementation, agents must fix)
@@ -144,7 +148,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Flint and Steel**: Item used to start fires and ignite TNT. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Enchantable Shears**: Allow shears to be enchanted with Efficiency and Unbreaking.
+- [ ] **New Task: Add Enchantable Shears**: Allow shears to be enchanted with Efficiency and Unbreaking. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
