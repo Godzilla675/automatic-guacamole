@@ -118,7 +118,7 @@ loadScript('audio.js');
 global.SoundManager = window.SoundManager;
 
 loadScript('game.js');
-global.Game = dom.window.Game;
+if (!global.Game) { global.Game = dom.window.Game || window.Game; }
 
 describe('Verification of Missing Coverage', function() {
     let game;
@@ -126,7 +126,7 @@ describe('Verification of Missing Coverage', function() {
 
     beforeEach(function() {
         if (!global.Game) {
-            global.Game = dom.window.Game;
+            if (!global.Game) { global.Game = dom.window.Game || window.Game; }
         }
         // Setup DOM elements required by Managers
         const ids = [
@@ -166,6 +166,7 @@ describe('Verification of Missing Coverage', function() {
 
         // Setup Game instance without running init() fully to avoid DOM issues
         game = new dom.window.Game();
+        if(!game) game = new global.Game();
         world = game.world;
 
         // Mock UI
