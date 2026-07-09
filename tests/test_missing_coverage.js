@@ -119,6 +119,42 @@ global.SoundManager = window.SoundManager;
 
 loadScript('game.js');
 if (!global.Game) { global.Game = dom.window.Game || window.Game; }
+if (!global.BiomeManager) { global.BiomeManager = dom.window.BiomeManager || window.BiomeManager; }
+if (!global.World) { global.World = dom.window.World || window.World; }
+if (!global.Chunk) { global.Chunk = dom.window.Chunk || window.Chunk; }
+if (!global.TextureManager) { global.TextureManager = dom.window.TextureManager || window.TextureManager; }
+if (!global.StructureManager) { global.StructureManager = dom.window.StructureManager || window.StructureManager; }
+if (!global.PluginAPI) { global.PluginAPI = dom.window.PluginAPI || window.PluginAPI; }
+if (!global.Tutorial) { global.Tutorial = dom.window.Tutorial || window.Tutorial; }
+if (!global.Achievements) { global.Achievements = dom.window.Achievements || window.Achievements; }
+if (!global.Minimap) { global.Minimap = dom.window.Minimap || window.Minimap; }
+if (!global.AchievementManager) { global.AchievementManager = dom.window.AchievementManager || window.AchievementManager; }
+if (!global.TutorialManager) { global.TutorialManager = dom.window.TutorialManager || window.TutorialManager; }
+if (!global.SoundManager) { global.SoundManager = dom.window.SoundManager || window.SoundManager; }
+if (!global.perlin) { global.perlin = dom.window.perlin || window.perlin || { noise: () => 0.5 }; }
+
+if (!window.BiomeManager) { window.BiomeManager = global.BiomeManager; }
+if (!window.World) { window.World = global.World; }
+if (!window.Chunk) { window.Chunk = global.Chunk; }
+if (!window.Game) { window.Game = global.Game; }
+if (!window.TextureManager) { window.TextureManager = global.TextureManager; }
+if (!window.StructureManager) { window.StructureManager = global.StructureManager; }
+if (!window.PluginAPI) { window.PluginAPI = global.PluginAPI; }
+if (!window.Tutorial) { window.Tutorial = global.Tutorial; }
+if (!window.Achievements) { window.Achievements = global.Achievements; }
+if (!window.Minimap) { window.Minimap = global.Minimap; }
+if (!window.AchievementManager) { window.AchievementManager = global.AchievementManager; }
+if (!window.TutorialManager) { window.TutorialManager = global.TutorialManager; }
+if (!window.SoundManager) { window.SoundManager = global.SoundManager; }
+if (!window.perlin) { window.perlin = global.perlin; }
+
+if (!document.getElementById('game-canvas')) {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'game-canvas';
+    canvas.getContext = function() { return { fillRect: function() {}, clearRect: function() {}, drawImage: function() {} }; };
+    document.body.appendChild(canvas);
+}
+
 
 describe('Verification of Missing Coverage', function() {
     let game;
@@ -127,6 +163,42 @@ describe('Verification of Missing Coverage', function() {
     beforeEach(function() {
         if (!global.Game) {
             if (!global.Game) { global.Game = dom.window.Game || window.Game; }
+if (!global.BiomeManager) { global.BiomeManager = dom.window.BiomeManager || window.BiomeManager; }
+if (!global.World) { global.World = dom.window.World || window.World; }
+if (!global.Chunk) { global.Chunk = dom.window.Chunk || window.Chunk; }
+if (!global.TextureManager) { global.TextureManager = dom.window.TextureManager || window.TextureManager; }
+if (!global.StructureManager) { global.StructureManager = dom.window.StructureManager || window.StructureManager; }
+if (!global.PluginAPI) { global.PluginAPI = dom.window.PluginAPI || window.PluginAPI; }
+if (!global.Tutorial) { global.Tutorial = dom.window.Tutorial || window.Tutorial; }
+if (!global.Achievements) { global.Achievements = dom.window.Achievements || window.Achievements; }
+if (!global.Minimap) { global.Minimap = dom.window.Minimap || window.Minimap; }
+if (!global.AchievementManager) { global.AchievementManager = dom.window.AchievementManager || window.AchievementManager; }
+if (!global.TutorialManager) { global.TutorialManager = dom.window.TutorialManager || window.TutorialManager; }
+if (!global.SoundManager) { global.SoundManager = dom.window.SoundManager || window.SoundManager; }
+if (!global.perlin) { global.perlin = dom.window.perlin || window.perlin || { noise: () => 0.5 }; }
+
+if (!window.BiomeManager) { window.BiomeManager = global.BiomeManager; }
+if (!window.World) { window.World = global.World; }
+if (!window.Chunk) { window.Chunk = global.Chunk; }
+if (!window.Game) { window.Game = global.Game; }
+if (!window.TextureManager) { window.TextureManager = global.TextureManager; }
+if (!window.StructureManager) { window.StructureManager = global.StructureManager; }
+if (!window.PluginAPI) { window.PluginAPI = global.PluginAPI; }
+if (!window.Tutorial) { window.Tutorial = global.Tutorial; }
+if (!window.Achievements) { window.Achievements = global.Achievements; }
+if (!window.Minimap) { window.Minimap = global.Minimap; }
+if (!window.AchievementManager) { window.AchievementManager = global.AchievementManager; }
+if (!window.TutorialManager) { window.TutorialManager = global.TutorialManager; }
+if (!window.SoundManager) { window.SoundManager = global.SoundManager; }
+if (!window.perlin) { window.perlin = global.perlin; }
+
+if (!document.getElementById('game-canvas')) {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'game-canvas';
+    canvas.getContext = function() { return { fillRect: function() {}, clearRect: function() {}, drawImage: function() {} }; };
+    document.body.appendChild(canvas);
+}
+
         }
         // Setup DOM elements required by Managers
         const ids = [
@@ -166,6 +238,42 @@ describe('Verification of Missing Coverage', function() {
 
         // Setup Game instance without running init() fully to avoid DOM issues
         if (!global.Game) { global.Game = dom.window.Game || window.Game; }
+if (!global.BiomeManager) { global.BiomeManager = dom.window.BiomeManager || window.BiomeManager; }
+if (!global.World) { global.World = dom.window.World || window.World; }
+if (!global.Chunk) { global.Chunk = dom.window.Chunk || window.Chunk; }
+if (!global.TextureManager) { global.TextureManager = dom.window.TextureManager || window.TextureManager; }
+if (!global.StructureManager) { global.StructureManager = dom.window.StructureManager || window.StructureManager; }
+if (!global.PluginAPI) { global.PluginAPI = dom.window.PluginAPI || window.PluginAPI; }
+if (!global.Tutorial) { global.Tutorial = dom.window.Tutorial || window.Tutorial; }
+if (!global.Achievements) { global.Achievements = dom.window.Achievements || window.Achievements; }
+if (!global.Minimap) { global.Minimap = dom.window.Minimap || window.Minimap; }
+if (!global.AchievementManager) { global.AchievementManager = dom.window.AchievementManager || window.AchievementManager; }
+if (!global.TutorialManager) { global.TutorialManager = dom.window.TutorialManager || window.TutorialManager; }
+if (!global.SoundManager) { global.SoundManager = dom.window.SoundManager || window.SoundManager; }
+if (!global.perlin) { global.perlin = dom.window.perlin || window.perlin || { noise: () => 0.5 }; }
+
+if (!window.BiomeManager) { window.BiomeManager = global.BiomeManager; }
+if (!window.World) { window.World = global.World; }
+if (!window.Chunk) { window.Chunk = global.Chunk; }
+if (!window.Game) { window.Game = global.Game; }
+if (!window.TextureManager) { window.TextureManager = global.TextureManager; }
+if (!window.StructureManager) { window.StructureManager = global.StructureManager; }
+if (!window.PluginAPI) { window.PluginAPI = global.PluginAPI; }
+if (!window.Tutorial) { window.Tutorial = global.Tutorial; }
+if (!window.Achievements) { window.Achievements = global.Achievements; }
+if (!window.Minimap) { window.Minimap = global.Minimap; }
+if (!window.AchievementManager) { window.AchievementManager = global.AchievementManager; }
+if (!window.TutorialManager) { window.TutorialManager = global.TutorialManager; }
+if (!window.SoundManager) { window.SoundManager = global.SoundManager; }
+if (!window.perlin) { window.perlin = global.perlin; }
+
+if (!document.getElementById('game-canvas')) {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'game-canvas';
+    canvas.getContext = function() { return { fillRect: function() {}, clearRect: function() {}, drawImage: function() {} }; };
+    document.body.appendChild(canvas);
+}
+
         game = new global.Game();
         world = game.world;
 
