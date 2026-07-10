@@ -7,11 +7,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Tuff Bricks**: A decorative variant of Tuff. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mules**: Neutral mob resulting from crossbreeding a horse and a donkey. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Goats**: Mobs that spawn in mountainous regions and can ram players. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Iron Golems**: Neutral mob that defends villages. (Status: Missing implementation, agents must fix)
 ### 1. World Generation
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Mutton**: Raw mutton drops from sheep, can be cooked. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Missing implementation, agents must fix)
 
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
@@ -22,7 +20,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Igloos**: Snow structures found in snowy biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pillagers**: Hostile illager mob with crossbows. (Status: Missing implementation, agents must fix)
 - [ ] **Nether Fortresses** (Generation logic in Nether) (Status: Missing implementation, agents must fix)
-- [ ] **Swamp Biome** (Status: Missing implementation, agents must fix)
 - [ ] **Badlands Biome** (Status: Missing implementation, agents must fix)
 - [ ] **Desert Temple** (Status: Missing implementation, agents must fix)
 ### 2. Block System
@@ -47,7 +44,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Stray**: Snowy variant of the skeleton that shoots slowness arrows. (Status: Missing implementation, agents must fix)
 - [ ] Complex AI (Pathfinding, fleeing, attacking) (Status: Missing implementation, agents must fix)
 - [ ] **Wandering Traders** (Status: Missing implementation, agents must fix)
-- [ ] **Ocelots** (Status: Missing implementation, agents must fix)
 - [ ] **Wither Boss** (Status: Missing implementation, agents must fix)
 - [ ] **Slime Mob** (Status: Missing implementation, agents must fix)
 - [ ] **Magma Cube Mob** (Status: Missing implementation, agents must fix)
@@ -156,7 +152,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
-- [ ] **New Task: Add Ocelots**: Passive mob found in jungles. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Jack o Lanterns**: Crafted from carved pumpkins and torches. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Status: Missing block definition, agents must fix)
@@ -257,3 +252,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Bundle**: Item that can hold mixed stacks of other items. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Sculk Catalyst**: Block that generates more sculk when mobs die near it. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Recovery Compass**: Item that points to the player's last death location. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown.
+- [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries.
+- [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets.
