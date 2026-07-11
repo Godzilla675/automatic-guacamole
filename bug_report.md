@@ -2428,3 +2428,20 @@ Following instructions to test the game and write a VERY DETAILED bug report whi
 
 **Final Verdict:**
 All implemented systems demonstrate exceptional stability. No new UI rendering regressions or loop-crashing bugs were discovered. The overarching evaluation concludes with an immaculate pass rate for existing core features. The codebase is fully robust and stable.
+
+## 95. Automated Testing Suite Flakiness (Current Run)
+
+**Status:** ⚠️ Flaky Tests
+
+**Description:**
+The test_runner.py suite may sometimes report FAIL or timeout (e.g., hanging for 400+ seconds) for Playwright UI tests (like verify_manual_gameplay.py) if run as standard python tests or if the internal server binds slowly.
+
+**Testing Methodology:**
+Observed during standard execution of the Python test suite.
+
+**Results:**
+- **Automated tests:** Playwright tests hang when internal server binds slowly.
+- **Root Cause:** Playwright UI tests run as standard python tests without properly separating them or handling slow server binding.
+
+**Final Verdict:**
+Exclude Playwright UI tests from the standard test discovery or run them separately to prevent hangs.
