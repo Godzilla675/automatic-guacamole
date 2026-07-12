@@ -8,6 +8,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Mules**: Neutral mob resulting from crossbreeding a horse and a donkey. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Goats**: Mobs that spawn in mountainous regions and can ram players. (Status: Missing implementation, agents must fix)
 ### 1. World Generation
+- [ ] **New Task: Add Bamboo Jungle Biome**: Jungle variant with thick bamboo generation and pandas. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Missing implementation, agents must fix)
@@ -27,6 +28,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Decorative blocks** (Glazed Terracotta) (Status: Glazed Terracotta missing, agents must fix)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block definitions and logic, agents must fix)
 ### 3. Rendering Engine
+- [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
 - [ ] Smooth lighting (Status: Missing implementation, agents must fix)
 - [ ] Custom shaders (Status: Missing implementation, agents must fix)
 - [ ] Day/Night cycle rendering (Sky colors, sun/moon) (Status: Missing implementation, agents must fix)
@@ -35,11 +37,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Head bobbing animation** (Status: Missing implementation, agents must fix)
 - [ ] **Add dynamic crosshair changing on hover** (Status: Missing implementation, agents must fix)
 ### 4. Player Mechanics
+- [ ] **Bug: Sneaking speed issue**: Player moves too fast while sneaking on ice. (Status: Missing implementation, agents must fix)
 - [ ] Drowning (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Wither Skeletons**: Hostile mob in Nether Fortresses that inflicts Wither effect. (Status: Missing implementation, agents must fix)
 - [ ] **Elytra** (Gliding mechanics) (Status: Missing implementation, agents must fix)
 - [ ] **Tridents** (Throwing, returning, Riptide) (Status: Missing implementation, agents must fix)
 ### 5. Entities & Mobs
+- [ ] **New Task: Add Polar Bears**: Neutral mobs in snowy biomes that attack if their cubs are near. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Cave Spiders**: Venomous spiders found in mineshafts. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Stray**: Snowy variant of the skeleton that shoots slowness arrows. (Status: Missing implementation, agents must fix)
 - [ ] Complex AI (Pathfinding, fleeing, attacking) (Status: Missing implementation, agents must fix)
@@ -98,6 +102,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Resource pack support** (Status: Missing implementation, agents must fix)
 - [ ] **Support for custom models** (Status: Missing implementation, agents must fix)
 ### 15. Miscellaneous
+- [ ] **Bug: Item despawn logic missing**: Dropped items never despawn, causing lag over time. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Fireworks Rendering**: Visualize fireworks exploding in the sky with particles. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Leads**: Items to tie passive mobs to fences. (Status: Missing implementation, agents must fix)
