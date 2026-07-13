@@ -258,6 +258,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Bundle**: Item that can hold mixed stacks of other items. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Sculk Catalyst**: Block that generates more sculk when mobs die near it. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Recovery Compass**: Item that points to the player's last death location. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown.
-- [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries.
-- [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets.
+- [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown. (Status: Missing implementation, agents must fix) (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries. (Status: Missing implementation, agents must fix) (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix) (Status: Missing implementation, agents must fix)
