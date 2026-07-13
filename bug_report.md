@@ -2492,3 +2492,17 @@ Following the user instructions to TEST the game and make a VERY DETAILED bug re
 
 **Final Verdict:**
 The Voxel World engine, user interface integrations, worker layers, and web application states exhibit absolute stability. The overarching evaluation concludes with a 100% pass rate for existing implemented features. No new regressions or actionable runtime exceptions are recorded during this audit cycle. Codebase is perfectly stable.
+
+
+## 98. Newly Discovered Bugs
+
+**Status:** ⚠️ Active Bugs
+
+**Description:**
+During the latest feature audit, new bugs were identified regarding test environment mocking and automated UI test limitations.
+
+**Bugs Added to Tracking:**
+- **JSDOM LocalStorage:** Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`.
+- **Slab and Door collision test flakiness:** Collision tests fail randomly due to Perlin noise terrain generation overlapping test coordinates. Test area must be cleared with `BLOCK.AIR`.
+- **Wood Door Playwright Placement:** Placing a Wood Door via automated Playwright right-click simulation fails to update world memory correctly.
+- **Glass Pane UI Rendering:** Glass Pane item incorrectly renders as text instead of an icon in the inventory.
