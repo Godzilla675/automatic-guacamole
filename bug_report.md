@@ -2529,3 +2529,16 @@ Following instructions to test the game and write a VERY DETAILED bug report whi
 
 **Final Verdict:**
 The Voxel World engine, user interface integrations, worker layers, and web application states exhibit absolute stability. The overarching evaluation concludes with a 100% pass rate for existing implemented features once the test flakiness is accounted for. No new regressions or actionable runtime exceptions are recorded during this audit cycle. Codebase is perfectly stable.
+
+
+## 115. Newly Discovered Bugs
+
+**Status:** ⚠️ Active Bugs
+
+**Description:**
+During the latest feature audit, new bugs were identified regarding test environment mocking and automated UI test limitations.
+
+**Bugs Added to Tracking:**
+- **Chat History Toggle Bug:** Chat history logic toggle is missing.
+- **Pigs Bug:** Rideable pigs are not implemented correctly.
+- **Auto-Save Feature Bug:** The auto-save feature is missing from the codebase.
