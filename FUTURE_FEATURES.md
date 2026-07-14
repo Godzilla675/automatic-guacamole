@@ -1,6 +1,8 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
+- [ ] **New Task: Add Paintbrush**: Item to paint blocks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Grappling Hook**: Item to grapple to blocks. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Copper Bulbs**: Light source blocks that can be dimmed by oxidizing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Crafter**: A redstone-powered automated crafting block. (Status: Missing implementation, agents must fix)
@@ -58,7 +60,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Slime Mob** (Status: Missing implementation, agents must fix)
 - [ ] **Magma Cube Mob** (Status: Missing implementation, agents must fix)
 - [ ] **Ender Dragon Boss** (Status: Missing implementation, agents must fix)
-- [ ] **Rideable Pigs** (With carrot on a stick) (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Rideable Pigs**: Rideable pigs feature missing. (Status: Missing implementation, agents must fix)
 ### 6. Items & Crafting
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Missing implementation, agents must fix)
@@ -76,7 +78,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **LOD (Level of Detail) system** (Status: Missing implementation, agents must fix)
 - [ ] **Worker threads for world generation** (Status: Missing implementation, agents must fix)
 - [ ] **Better memory management** (Status: Missing implementation, agents must fix)
-- [ ] **Implement Auto-Save Feature** (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Auto-Save Feature**: The auto-save feature is missing. (Status: Missing implementation, agents must fix)
 
 - [ ] **Chunk Serialization Optimization** (Status: Missing implementation, agents must fix)
 - [ ] **Refactoring World/Chunk Separation** (Status: Missing implementation, agents must fix)
@@ -126,7 +128,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
 - [ ] **Deprecated Items cleanup** (Status: Missing implementation, agents must fix)
 - [ ] **Animal Drops fixing** (Status: Missing implementation, agents must fix)
-- [ ] **Chat History Log toggle** (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Chat History Log toggle**: Chat history toggle is marked as a feature but is missing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ravagers**: Large hostile beasts ridden by Illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Geodes**: Rare underground structures with amethyst crystals. (Status: Missing implementation, agents must fix)
