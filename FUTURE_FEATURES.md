@@ -39,7 +39,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
 - [ ] Smooth lighting (Status: Missing implementation, agents must fix)
 - [ ] Custom shaders (Status: Missing implementation, agents must fix)
-- [ ] Day/Night cycle rendering (Sky colors, sun/moon) (Status: Missing implementation, agents must fix)
+- [x] Day/Night cycle rendering (Sky colors, sun/moon)
 - [ ] **Better shadows and lighting** (Dynamic shadows) (Status: Missing implementation, agents must fix)
 - [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
 - [ ] **Head bobbing animation** (Status: Missing implementation, agents must fix)
@@ -123,7 +123,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Amethyst Shards**: Grown from budding amethyst. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glowstone**: Light emitting block found in the Nether. (Status: Partial implementation, missing crafting recipe, agents must fix)
 - [ ] **Implement Thunderstorms and Lightning** (Status: Missing implementation, agents must fix)
-- [ ] Day/Night cycle implementation (Logic) (Status: Missing implementation, agents must fix)
+- [x] Day/Night cycle implementation (Logic)
+- [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning.
 - [ ] Statistics (Status: Missing implementation, agents must fix)
 - [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
 - [ ] **Deprecated Items cleanup** (Status: Missing implementation, agents must fix)
@@ -138,7 +139,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter). (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Mini-map**: A mini-map UI component. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Mini-map**: A mini-map UI component.
+- [ ] **New Task: Add Waypoints**: Add waypoints to the minimap.
 ## Known Bugs & Issues (To Be Fixed)
 
 - [ ] **Bug: Door placement in world memory**: Placing a Wood Door via automated Playwright right-click simulation fails to update world memory correctly. (Status: Door placement logic fails in world memory, agents must fix)
@@ -223,7 +225,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Spectator Mode**: Allow players to fly through blocks and observe the world without interacting. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Chat Commands**: Implement basic server-side and client-side chat commands like `/gamemode`, `/tp`, and `/give`. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Chat Commands**: Implement basic server-side and client-side chat commands like `/gamemode`, `/tp`, and `/give`.
+- [ ] **New Task: Add /weather Command**: Command to change the weather.
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smithing Templates**: Items used to trim armor or upgrade to Netherite. (Status: Missing implementation, agents must fix)
