@@ -1,6 +1,10 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
+- [ ] **New Task: Add Ghasts**: Giant flying jellyfish-like mobs in the Nether that shoot explosive fireballs. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Blazes**: Hostile flying mobs in Nether Fortresses that shoot fireballs. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Paintbrush**: Item to paint blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Grappling Hook**: Item to grapple to blocks. (Status: Missing implementation, agents must fix)
 
@@ -142,6 +146,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Mini-map Zoom**: Allow players to zoom in and out of the minimap. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waypoints**: Add waypoints to the minimap.
 ## Known Bugs & Issues (To Be Fixed)
+- [ ] **Bug: Auto-Save Feature Bug**: The auto-save feature is missing from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Pigs Bug**: Rideable pigs are not implemented correctly. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Chat History Toggle Bug**: Chat history logic toggle is missing. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: JSDOM LocalStorage**: Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`. (Status: Missing implementation, agents must fix)
 
 - [ ] **Bug: Door placement in world memory**: Placing a Wood Door via automated Playwright right-click simulation fails to update world memory correctly. (Status: Door placement logic fails in world memory, agents must fix)
 - [ ] **Bug: Slab and door collision tests**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation. (Status: Requires clearing test area, agents must fix)
