@@ -39,7 +39,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
 - [ ] Smooth lighting (Status: Missing implementation, agents must fix)
 - [ ] Custom shaders (Status: Missing implementation, agents must fix)
-- [x] Day/Night cycle rendering (Sky colors, sun/moon)
+- [ ] **New Task: Add Custom Sun/Moon Textures**: Use unique textures for the celestial bodies instead of simple shapes. (Status: Missing implementation, agents must fix)
 - [ ] **Better shadows and lighting** (Dynamic shadows) (Status: Missing implementation, agents must fix)
 - [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
 - [ ] **Head bobbing animation** (Status: Missing implementation, agents must fix)
@@ -123,7 +123,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Amethyst Shards**: Grown from budding amethyst. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glowstone**: Light emitting block found in the Nether. (Status: Partial implementation, missing crafting recipe, agents must fix)
 - [ ] **Implement Thunderstorms and Lightning** (Status: Missing implementation, agents must fix)
-- [x] Day/Night cycle implementation (Logic)
+- [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning.
 - [ ] Statistics (Status: Missing implementation, agents must fix)
 - [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
@@ -139,7 +139,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter). (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Mini-map**: A mini-map UI component.
+- [ ] **New Task: Add Mini-map Zoom**: Allow players to zoom in and out of the minimap. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waypoints**: Add waypoints to the minimap.
 ## Known Bugs & Issues (To Be Fixed)
 
@@ -225,7 +225,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Spectator Mode**: Allow players to fly through blocks and observe the world without interacting. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Chat Commands**: Implement basic server-side and client-side chat commands like `/gamemode`, `/tp`, and `/give`.
+- [ ] **New Task: Add /summon Command**: Allow players to spawn entities via chat. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add /weather Command**: Command to change the weather.
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player. (Status: Missing implementation, agents must fix)
