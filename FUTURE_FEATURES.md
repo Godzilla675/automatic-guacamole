@@ -1,6 +1,8 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
+- [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Enderite**: A rare ore found in the End dimension used to upgrade Netherite. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ghasts**: Giant flying jellyfish-like mobs in the Nether that shoot explosive fireballs. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Blazes**: Hostile flying mobs in Nether Fortresses that shoot fireballs. (Status: Missing implementation, agents must fix)
@@ -47,7 +49,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Better shadows and lighting** (Dynamic shadows) (Status: Missing implementation, agents must fix)
 - [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
 - [ ] **Head bobbing animation** (Status: Missing implementation, agents must fix)
-- [ ] **Add dynamic crosshair changing on hover** (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Missing implementation, agents must fix)
 ### 4. Player Mechanics
 - [ ] **New Task: Add Trial Spawners**: Blocks that spawn waves of mobs. (Status: Missing implementation, agents must fix)
 - [ ] Drowning (Status: Missing implementation, agents must fix)
@@ -146,8 +148,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Mini-map Zoom**: Allow players to zoom in and out of the minimap. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waypoints**: Add waypoints to the minimap.
 ## Known Bugs & Issues (To Be Fixed)
-- [ ] **Bug: Auto-Save Feature Bug**: The auto-save feature is missing from the codebase. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Pigs Bug**: Rideable pigs are not implemented correctly. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Chat History Toggle Bug**: Chat history logic toggle is missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM LocalStorage**: Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`. (Status: Missing implementation, agents must fix)
 
