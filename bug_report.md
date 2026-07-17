@@ -2589,3 +2589,11 @@ Following the instructions to test the game and write a VERY DETAILED bug report
 
 **Final Verdict:**
 The Voxel World engine, user interface integrations, worker layers, and web application states exhibit absolute stability. The overarching evaluation concludes with a 100% pass rate for existing implemented features once the test flakiness is accounted for. No new regressions or actionable runtime exceptions are recorded during this audit cycle. Codebase is perfectly stable.
+
+## 118. New Tasks Added to Tracker
+
+**Date:** August 2026
+**Status:** ⚠️ Tracking Updated
+
+**Description:**
+Reviewed FUTURE_FEATURES.md and replaced implemented features with new task suggestions, and verified active bugs. Added 'Armor Stands', 'Flying Carpets', and 'Enderite' as new feature suggestions. Verified existing tracked bugs related to Auto-Save, Rideable Pigs, and Chat History Toggle.
