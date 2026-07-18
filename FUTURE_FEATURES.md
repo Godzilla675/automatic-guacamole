@@ -148,6 +148,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Mini-map Zoom**: Allow players to zoom in and out of the minimap. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waypoints**: Add waypoints to the minimap.
 ## Known Bugs & Issues (To Be Fixed)
+- [ ] **Bug: Vehicle missing takeDamage implementation**: Subclasses of Entity like Vehicle (e.g., Boat, Minecart) must explicitly implement the takeDamage(amount) method to handle destruction, death state, and drops properly. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Chat History Toggle Bug**: Chat history logic toggle is missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM LocalStorage**: Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`. (Status: Missing implementation, agents must fix)
 
