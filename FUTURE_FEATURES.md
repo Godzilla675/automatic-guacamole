@@ -130,7 +130,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Glowstone**: Light emitting block found in the Nether. (Status: Partial implementation, missing crafting recipe, agents must fix)
 - [ ] **Implement Thunderstorms and Lightning** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning.
+- [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning. (Status: Missing implementation, agents must fix)
 - [ ] Statistics (Status: Missing implementation, agents must fix)
 - [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
 - [ ] **Deprecated Items cleanup** (Status: Missing implementation, agents must fix)
@@ -146,7 +146,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter). (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mini-map Zoom**: Allow players to zoom in and out of the minimap. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Waypoints**: Add waypoints to the minimap.
+- [ ] **New Task: Add Waypoints**: Add waypoints to the minimap. (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Vehicle missing takeDamage implementation**: Subclasses of Entity like Vehicle (e.g., Boat, Minecart) must explicitly implement the takeDamage(amount) method to handle destruction, death state, and drops properly. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Chat History Toggle Bug**: Chat history logic toggle is missing. (Status: Missing implementation, agents must fix)
@@ -169,7 +169,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Sea Lanterns**: Underwater light source blocks found in ocean monuments. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Carrots on a Stick**: Item used to control saddled pigs. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Flower Pots**: Decorative blocks to hold saplings and flowers. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Crosshair Alignment Issue**: The crosshair is rendered via CSS in the center of the screen, but may not perfectly align with the 3D raycast target depending on aspect ratio. (Status: Raycast logic needs update to center ray based on screen resolution, agents must fix)
 - [ ] **New Task: Add Pale Oak Forest**: New biome for Creaking. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Canvas Pattern Creation Fails in Headless**: createPattern throws an error in certain headless test environments. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
@@ -235,7 +234,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Spectator Mode**: Allow players to fly through blocks and observe the world without interacting. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add /summon Command**: Allow players to spawn entities via chat. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add /weather Command**: Command to change the weather.
+- [ ] **New Task: Add /weather Command**: Command to change the weather. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smithing Templates**: Items used to trim armor or upgrade to Netherite. (Status: Missing implementation, agents must fix)
@@ -286,3 +285,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown. (Status: Missing implementation, agents must fix) (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries. (Status: Missing implementation, agents must fix) (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix) (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Paintbrush**: Item to paint blocks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Grappling Hook**: Item to grapple to blocks. (Status: Missing implementation, agents must fix)
