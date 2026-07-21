@@ -1,7 +1,6 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
-- [ ] **New Task: Add Ender Pearls**: Item used to teleport. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Enderite**: A rare ore found in the End dimension used to upgrade Netherite. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ghasts**: Giant flying jellyfish-like mobs in the Nether that shoot explosive fireballs. (Status: Missing implementation, agents must fix)
@@ -233,8 +232,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Spectator Mode**: Allow players to fly through blocks and observe the world without interacting. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add /summon Command**: Allow players to spawn entities via chat. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add /weather Command**: Command to change the weather. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smithing Templates**: Items used to trim armor or upgrade to Netherite. (Status: Missing implementation, agents must fix)
@@ -287,3 +284,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix) (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Paintbrush**: Item to paint blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Grappling Hook**: Item to grapple to blocks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Copper Armor**: Craftable armor set from copper ingots that degrades over time. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mud Blocks**: Created by using a water bottle on dirt. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Administrative Action**: Code review noted some discrepancies in the tracker update log. Need to align test actions with documentation. (Status: Tracking Updated, agents must review)
