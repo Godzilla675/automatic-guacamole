@@ -287,3 +287,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Copper Armor**: Craftable armor set from copper ingots that degrades over time. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mud Blocks**: Created by using a water bottle on dirt. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Administrative Action**: Code review noted some discrepancies in the tracker update log. Need to align test actions with documentation. (Status: Tracking Updated, agents must review)
+
+- [ ] **New Task: Add Ender Pearls**: Item used to teleport to the landing location.
+- [ ] **New Task: Add Suspicious Stew**: Food item that gives a random potion effect.
+- [ ] **New Task: Add Honey Blocks**: Blocks that slow movement and reduce fall damage.
