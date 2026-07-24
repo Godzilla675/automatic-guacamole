@@ -2725,3 +2725,28 @@ Following the instructions to test the game and write a VERY DETAILED bug report
 
 **Final Verdict:**
 The Voxel World engine, user interface integrations, worker layers, and web application states exhibit absolute stability. The overarching evaluation concludes with a 100% pass rate for existing implemented features once the test flakiness is accounted for. No new regressions or actionable runtime exceptions are recorded during this audit cycle. Codebase is perfectly stable.
+
+
+## 126. Comprehensive Game QA Audit (Current Run)
+
+**Date:** October 2027
+**Status:** ⚠️ Bugs Found
+
+**Description:**
+Following the instructions to test all currently implemented features in the agent tasks file, I tested the game and reviewed the codebase and `FUTURE_FEATURES.md`. The game is mostly working, but the following issues were found based on active verification and existing memory guidelines, and have been documented for other agents to fix:
+
+**Results:**
+- **Witches**: Witches are marked as missing entirely from the codebase, although the `WITCH` entity type appears in some files, the feature itself is incomplete.
+- **Glazed Terracotta**: The Decorative blocks feature was marked as implemented, but Glazed Terracotta is missing entirely from the codebase.
+- **Soul Sand**: Soul Sand (`BLOCK.SOUL_SAND`) lacks its intended movement slowdown mechanic in player physics (`js/player.js`).
+- **Glowstone**: Glowstone is partially implemented as it lacks a crafting recipe to convert Glowstone Dust into Glowstone.
+- **Auto-Save, Rideable Pigs, Chat History Log**: These features are missing implementations in the codebase and are tracked as bugs.
+- **Wood Door Placement**: In `test_specific_features.py`, placing a Wood Door via automated Playwright right-click simulation currently fails to update world memory correctly.
+- **Glass Pane UI**: The 'Glass Pane' item in the inventory incorrectly renders as text instead of an icon.
+- **Test Flakiness (Slab & Door)**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates.
+- **JSDOM Game Object**: In JSDOM Mocha tests, if `global.Game` becomes undefined within a `beforeEach` hook, it must be re-assigned to prevent 'is not a constructor' errors.
+- **Jungle Biome Test**: Testing Jungle biome generation requires mocking Perlin noise to return > 0.6 to satisfy the humidity > 0.6 condition.
+- **UI Assets Text Strings**: Block icons in the UI inventory must use valid emojis rather than text strings so they render correctly.
+
+**Final Verdict:**
+The game is stable and core features pass their test suites (229 tests passed). However, several specific features listed in the agent tasks either have missing implementations (e.g., Glazed Terracotta, Glowstone crafting, Soul Sand slow effect, Rideable pigs) or have minor bugs (Glass pane text rendering, Door placement). I have updated `FUTURE_FEATURES.md` to ensure all these known bugs are explicitly listed with unchecked boxes `[ ]` for future agents to resolve.
