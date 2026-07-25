@@ -1,6 +1,8 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
+- [ ] **New Task: Add Paintbrush**: Item to paint blocks in different colors. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Grappling Hook**: Item to swing and traverse difficult terrain. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Enderite**: A rare ore found in the End dimension used to upgrade Netherite. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ghasts**: Giant flying jellyfish-like mobs in the Nether that shoot explosive fireballs. (Status: Missing implementation, agents must fix)
