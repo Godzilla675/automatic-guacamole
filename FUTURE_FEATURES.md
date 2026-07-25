@@ -2,7 +2,7 @@
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Enderite**: A rare ore found in the End dimension used to upgrade Netherite. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Enderite**: A rare ore found in the End dimension used to upgrade Netherite. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ghasts**: Giant flying jellyfish-like mobs in the Nether that shoot explosive fireballs. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Blazes**: Hostile flying mobs in Nether Fortresses that shoot fireballs. (Status: Missing implementation, agents must fix)
@@ -10,7 +10,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Frogs**: Mobs that spawn in swamps and eat small slimes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mangrove Swamp**: A swamp variant with mangrove trees and mud. (Status: Missing implementation, agents must fix)
 
-- [x] **New Task: Add Copper Bulbs**: Light source blocks that can be dimmed by oxidizing. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Copper Bulbs**: Light source blocks that can be dimmed by oxidizing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Wind Charges**: Dropped by the Breeze, used as a projectile. (Status: Missing implementation, agents must fix)
@@ -306,3 +306,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Tadpoles**: Baby version of frogs that grow up into different frogs based on biome. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mud Bricks**: Decorative block crafted from mud. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Packed Mud**: Block crafted from mud and wheat. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Enderite Missing**: The Enderite feature was marked as implemented but is missing from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Copper Bulbs Missing**: The Copper Bulbs feature was marked as implemented but is missing from the codebase. (Status: Missing implementation, agents must fix)
