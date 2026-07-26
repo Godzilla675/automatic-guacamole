@@ -1,6 +1,8 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
+- [ ] **New Task: Add Pistons**: Blocks that can push other blocks when powered by redstone. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Slime Blocks**: Blocks that stick to other blocks and bounce entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Paintbrush**: Item to paint blocks in different colors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Grappling Hook**: Item to swing and traverse difficult terrain. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
@@ -314,6 +316,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters & Comparators**: Missing block definitions and logic. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Dust**: Redstone dust exists as item/block but wire logic and connections are missing. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Brewing Stand UI**: Brewing stand exists and has UI, but brewing logic/recipes may be incomplete or failing. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Chat commands 'time set'**: Time commands exist but time tracking might not visually update sun/moon smoothly. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Entity target lock-on**: Hostile mobs do not use line-of-sight correctly. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Node.js ReferenceError Entity is not defined**: When running Node.js verification scripts, they may fail with ReferenceError: Entity is not defined due to script loading order. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Playwright UI tests timeout in test_runner.py**: The test_runner.py suite hangs or times out for 400+ seconds on Playwright UI tests if the internal server binds slowly. (Status: Requires test separation, agents must fix)
