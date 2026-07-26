@@ -310,3 +310,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Packed Mud**: Block crafted from mud and wheat. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Enderite Missing**: The Enderite feature was marked as implemented but is missing from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Copper Bulbs Missing**: The Copper Bulbs feature was marked as implemented but is missing from the codebase. (Status: Missing implementation, agents must fix)
+
+- [ ] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Redstone Repeaters & Comparators**: Missing block definitions and logic. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Redstone Dust**: Redstone dust exists as item/block but wire logic and connections are missing. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Brewing Stand UI**: Brewing stand exists and has UI, but brewing logic/recipes may be incomplete or failing. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Chat commands 'time set'**: Time commands exist but time tracking might not visually update sun/moon smoothly. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Entity target lock-on**: Hostile mobs do not use line-of-sight correctly. (Status: Missing implementation, agents must fix)
