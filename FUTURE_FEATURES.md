@@ -149,8 +149,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter). (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Mini-map Zoom**: Allow players to zoom in and out of the minimap. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Waypoints**: Add waypoints to the minimap. (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
 
 - [ ] **Bug: Witches Missing**: The Witches feature was marked as implemented but is missing from the codebase. (Status: Missing implementation, agents must fix)
@@ -319,3 +317,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Entity target lock-on**: Hostile mobs do not use line-of-sight correctly. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Node.js ReferenceError Entity is not defined**: When running Node.js verification scripts, they may fail with ReferenceError: Entity is not defined due to script loading order. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Playwright UI tests timeout in test_runner.py**: The test_runner.py suite hangs or times out for 400+ seconds on Playwright UI tests if the internal server binds slowly. (Status: Requires test separation, agents must fix)
+
+- [ ] **New Task: Add Volcanoes**: Natural structures that spout lava. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Gliders**: Early game flying alternative. (Status: Missing implementation, agents must fix)
