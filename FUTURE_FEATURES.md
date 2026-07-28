@@ -320,3 +320,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Volcanoes**: Natural structures that spout lava. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Gliders**: Early game flying alternative. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Rideable Pigs Missing**: The Rideable Pigs feature is missing from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Auto-Save Missing**: The Auto-Save feature is missing from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Chat History Toggle Missing**: The Chat History Log toggle is missing from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Wood Door Placement Logic**: Placing a Wood Door via automated UI interaction fails to update world memory correctly. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Glass Pane Icon Rendering**: In the game UI, the 'Glass Pane' item in the inventory incorrectly renders as text instead of an icon. (Status: Missing implementation, agents must fix)
