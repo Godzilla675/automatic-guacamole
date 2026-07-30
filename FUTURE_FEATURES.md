@@ -1,12 +1,12 @@
 # VoxelWeb Future Features & Tasks
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
-- [ ] **New Task: Add Pistons**: Blocks that can push other blocks when powered by redstone. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Armor Trims**: Customize armor appearance with smithing templates. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Slime Blocks**: Blocks that stick to other blocks and bounce entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Ghasts**: Giant flying jellyfish-like mobs in the Nether that shoot explosive fireballs. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Blazes**: Hostile flying mobs in Nether Fortresses that shoot fireballs. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
