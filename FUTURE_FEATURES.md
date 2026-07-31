@@ -256,8 +256,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Chorus Plants**: Plant found in the End. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Target Blocks**: Redstone component that emits signal when hit by projectiles. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Implement Trading System**: Add villagers with different professions that offer item trades using emeralds as currency. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Crossbows**: Implement ranged weapon that takes longer to charge than bows but holds the arrow, and can shoot fireworks. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Bounding Box Intersection Inaccuracies**: Some collision tests fail intermittently due to floating point imprecision. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Missing SessionStorage Mock**: SessionStorage needs to be mocked for tests checking temporary game states. (Status: Missing implementation, agents must fix)
@@ -275,15 +273,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Tinted Glass**: Glass blocks that block light but allow players to see through. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Nether Portals**: Allow players to build obsidian frames and light them to travel to the Nether. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Redstone Dust**: Placeable redstone wires to connect components. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Ender Pearl Cooldown**: Add a cooldown to ender pearl usage. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add More Music Discs**: Add more music discs to play in the jukebox. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Bundle**: Item that can hold mixed stacks of other items. (Status: Missing implementation, agents must fix)
@@ -305,7 +300,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters & Comparators**: Missing block definitions and logic. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Dust**: Redstone dust exists as item/block but wire logic and connections are missing. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Entity target lock-on**: Hostile mobs do not use line-of-sight correctly. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Node.js ReferenceError Entity is not defined**: When running Node.js verification scripts, they may fail with ReferenceError: Entity is not defined due to script loading order. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Playwright UI tests timeout in test_runner.py**: The test_runner.py suite hangs or times out for 400+ seconds on Playwright UI tests if the internal server binds slowly. (Status: Requires test separation, agents must fix)
 
@@ -322,3 +316,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Soul Sand Slowing Missing**: Soul Sand movement slowdown logic is missing in player physics. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Enderite Missing**: The Enderite feature is missing from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Copper Bulbs Missing**: The Copper Bulbs feature is missing from the codebase. (Status: Missing implementation, agents must fix)
+
+- [ ] **New Task: Add End Cities**: Generate End Cities and End Ships in the outer islands of the End dimension. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Shulkers**: Hostile mobs found in End Cities that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Elytra Flight Physics**: Implement proper gliding mechanics and momentum for Elytra. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Command Blocks**: Blocks that can execute server commands when powered by redstone. (Status: Missing implementation, agents must fix)
