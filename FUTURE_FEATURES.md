@@ -314,3 +314,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Soul Sand Slowing**: Soul Sand lacks its intended movement slowdown mechanic in player physics. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Enderite**: The Enderite feature is missing from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Copper Bulbs**: The Copper Bulbs feature is missing from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Missing implementation, agents must fix)
