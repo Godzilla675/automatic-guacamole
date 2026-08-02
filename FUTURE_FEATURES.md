@@ -112,6 +112,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Resource pack support** (Status: Missing implementation, agents must fix)
 - [ ] **Support for custom models** (Status: Missing implementation, agents must fix)
 ### 15. Miscellaneous
+- [ ] **New Task: Add Redstone Rails**: Powered rails and detector rails. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Minecarts**: Vehicles that run on rails. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Boats**: Rideable entities for crossing water. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Item despawn logic missing**: Dropped items never despawn, causing lag over time. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Fireworks Rendering**: Visualize fireworks exploding in the sky with particles. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative. (Status: Missing implementation, agents must fix)
@@ -147,6 +150,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Quivers**: Equippable item to hold different types of arrows. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Seasons**: Visual and mechanical changes depending on the season (e.g. snow in forests during winter). (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
+- [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Glazed Terracotta**: Glazed Terracotta is missing entirely. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Glowstone crafting**: Glowstone lacks a crafting recipe. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Missing implementation, agents must fix)
