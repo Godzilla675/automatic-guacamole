@@ -239,6 +239,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smithing Templates**: Items used to trim armor or upgrade to Netherite. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Potion effects logic missing**: Potion items exist but effect consumption is not fully implemented. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: JSDOM Window Alert Method**: The `window.alert()` method is not implemented in JSDOM, causing Mocha tests to output 'Not implemented: Window's alert() method' warnings. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Bookshelves missing**: Bookshelves are required for enchanting rooms but block definition/logic is missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters and Clocks missing**: Redstone repeaters and clocks are missing from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Redstone Torch**: Add redstone torches to provide power to adjacent redstone blocks. (Status: Missing implementation, agents must fix)
@@ -319,3 +320,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Enderite**: The Enderite feature is missing from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Copper Bulbs**: The Copper Bulbs feature is missing from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Missing implementation, agents must fix)
+
+- [ ] **New Task: Add Backpacks**: Equipable items that expand player inventory space. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Grappling Hooks**: Tool to quickly traverse vertical terrain and pull entities. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Tents**: Placeable sleeping spots that don't set spawn points but allow skipping night. (Status: Missing implementation, agents must fix)
