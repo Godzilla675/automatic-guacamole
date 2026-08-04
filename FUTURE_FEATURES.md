@@ -324,3 +324,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Backpacks**: Equipable items that expand player inventory space. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Grappling Hooks**: Tool to quickly traverse vertical terrain and pull entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tents**: Placeable sleeping spots that don't set spawn points but allow skipping night. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Suspicious Stew**: A food item that grants a random potion effect. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Honey Blocks**: Blocks that reduce fall damage and slide entities down slowly. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Campfires**: Blocks that provide light, cook food, and produce smoke signals. (Status: Missing implementation, agents must fix)
