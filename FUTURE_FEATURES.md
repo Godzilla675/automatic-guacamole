@@ -327,3 +327,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Suspicious Stew**: A food item that grants a random potion effect. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Honey Blocks**: Blocks that reduce fall damage and slide entities down slowly. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Campfires**: Blocks that provide light, cook food, and produce smoke signals. (Status: Missing implementation, agents must fix)
+
+- [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Windmills**: Multiblock structures that generate power from wind. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Water Wheels**: Multiblock structures that generate power from water flow. (Status: Missing implementation, agents must fix)
