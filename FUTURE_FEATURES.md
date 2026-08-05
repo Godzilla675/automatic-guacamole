@@ -155,7 +155,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Glowstone crafting**: Glowstone lacks a crafting recipe. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Ender Pearls**: Throwing them teleports the player. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Honey Blocks**: Stick to other blocks and slide entities. (Status: Missing implementation, agents must fix)
 
