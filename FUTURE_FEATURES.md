@@ -197,7 +197,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Polar Bears**: Add Polar Bears in snowy biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles. (Status: Partial implementation, block logic missing in player.js, agents must fix)
 - [ ] **New Task: Implement Dolphins**: Add dolphins in ocean biomes that grant Dolphin's Grace. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
@@ -331,3 +331,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Windmills**: Multiblock structures that generate power from wind. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Water Wheels**: Multiblock structures that generate power from water flow. (Status: Missing implementation, agents must fix)
+
+- [ ] **Bug: ReferenceError: ParticleSystem is not defined** (Status: Missing implementation, agents must fix)
