@@ -298,7 +298,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Gliders**: Early game flying alternative. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Wood Door Placement Logic**: Placing a Wood Door via automated UI interaction fails to update world memory correctly. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Glass Pane Icon Rendering**: In the game UI, the 'Glass Pane' item in the inventory incorrectly renders as text instead of an icon. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Soul Sand Slowing Missing**: Soul Sand movement slowdown logic is missing in player physics. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add End Cities**: Generate End Cities and End Ships in the outer islands of the End dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Elytra Flight Physics**: Implement proper gliding mechanics and momentum for Elytra. (Status: Missing implementation, agents must fix)
@@ -311,11 +310,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Witches Missing**: Witches are missing entirely from the codebase. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Glazed Terracotta**: Glazed Terracotta is missing entirely. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Glowstone crafting**: Glowstone lacks a crafting recipe. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Rideable Pigs Missing**: Rideable Pigs are missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Auto-Save Missing**: The Auto-Save feature is missing. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Chat History Log toggle**: Chat history toggle is marked as a feature but is missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Soul Sand Slowing**: Soul Sand lacks its intended movement slowdown mechanic in player physics. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Enderite**: The Enderite feature is missing from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Copper Bulbs**: The Copper Bulbs feature is missing from the codebase. (Status: Missing implementation, agents must fix)
@@ -333,3 +329,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Water Wheels**: Multiblock structures that generate power from water flow. (Status: Missing implementation, agents must fix)
 
 - [ ] **Bug: ReferenceError: ParticleSystem is not defined** (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Pet System**: Allow players to tame and breed various animals. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Quests**: A quest system for players to earn rewards. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
