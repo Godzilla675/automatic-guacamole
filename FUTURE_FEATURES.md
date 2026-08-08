@@ -334,3 +334,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
+
+- [ ] **Bug: Jukebox missing interact logic**: Jukebox is implemented as a block, but right-click logic to insert a music disc and play audio is missing. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Missing implementation, agents must fix)
