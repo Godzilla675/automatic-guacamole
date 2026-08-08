@@ -147,7 +147,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 16. Test Suite and CI
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Goats**: New mob that rams players and entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
@@ -194,7 +194,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Grindstone**: Add grindstone block to remove enchantments and repair items. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Item Frame**: An entity to hold and display items. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Goats**: New mob that rams players and entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Polar Bears**: Add Polar Bears in snowy biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles. (Status: Partial implementation, block logic missing in player.js, agents must fix)
@@ -224,7 +224,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Implement Tricky Trials**: Expand Trial Chambers with Trial Spawners. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: UI Scaling broken on ultra-wide screens**: The hotbar doesn't center properly on very wide displays. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Missing Hitboxes for Fences, Stairs, and Slabs**: Incomplete block hitboxes allowing players to phase through them. (Status: Hitbox code for stairs is completely missing from physics.js, agents must fix)
-- [ ] **New Task: Foxes**: New animal mob that sleeps during the day and hunts at night. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Camels**: Desert mounts that can seat two players. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books. (Status: Missing implementation, agents must fix)
@@ -307,7 +307,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Drowned**: Zombie variant that spawns underwater. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tridents**: Weapons that can be thrown and return to the player. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Foxes**: New animal mob that sleeps during the day and hunts at night. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Goats**: New mob that rams players and entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Witches Missing**: Witches are missing entirely from the codebase. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Rideable Pigs Missing**: Rideable Pigs are missing. (Status: Missing implementation, agents must fix)
@@ -337,3 +337,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **Bug: Jukebox missing interact logic**: Jukebox is implemented as a block, but right-click logic to insert a music disc and play audio is missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Missing implementation, agents must fix)
+
+- [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Armadillos**: Neutral mobs found in savannas and badlands that drop scutes. (Status: Missing implementation, agents must fix)
