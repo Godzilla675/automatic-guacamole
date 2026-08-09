@@ -37,7 +37,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Desert Temple** (Status: Missing implementation, agents must fix)
 ### 2. Block System
 - [ ] **Top Slabs** (Status: Placement in upper half of block missing, agents must fix)
-- [ ] **Decorative blocks** (Glazed Terracotta) (Status: Glazed Terracotta missing, agents must fix)
+- [ ] **Decorative blocks** (Glazed Terracotta) (Status: Missing implementation, agents must fix)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block definitions and logic, agents must fix)
 ### 3. Rendering Engine
 - [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
@@ -112,6 +112,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Resource pack support** (Status: Missing implementation, agents must fix)
 - [ ] **Support for custom models** (Status: Missing implementation, agents must fix)
 ### 15. Miscellaneous
+
 - [ ] **New Task: Add Redstone Rails**: Powered rails and detector rails. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dolphins**: Neutral aquatic mobs that guide players to treasure. (Status: Missing implementation, agents must fix)
@@ -134,7 +135,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
 - [ ] **Deprecated Items cleanup** (Status: Missing implementation, agents must fix)
 - [ ] **Animal Drops fixing** (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Chat History Log toggle**: Chat history toggle is marked as a feature but is missing. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Chat History Toggle**: Allow players to toggle visibility of previous chat messages. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ravagers**: Large hostile beasts ridden by Illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Geodes**: Rare underground structures with amethyst crystals. (Status: Missing implementation, agents must fix)
@@ -151,8 +152,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Glazed Terracotta**: Glazed Terracotta is missing entirely. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Glowstone crafting**: Glowstone lacks a crafting recipe. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Glowstone Crafting**: Add crafting recipe to convert Glowstone Dust into Glowstone. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
@@ -309,12 +310,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Goats**: New mob that rams players and entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Witches Missing**: Witches are missing entirely from the codebase. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Rideable Pigs Missing**: Rideable Pigs are missing. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Auto-Save Missing**: The Auto-Save feature is missing. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Witches**: Hostile mobs that throw potions. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Rideable Pigs**: Allow players to ride pigs using saddles and carrot on a stick. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Auto-Save**: Automatically save the world state periodically. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Soul Sand Slowing**: Soul Sand lacks its intended movement slowdown mechanic in player physics. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Enderite**: The Enderite feature is missing from the codebase. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Copper Bulbs**: The Copper Bulbs feature is missing from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Copper Bulbs**: Light blocks that dim as they oxidize. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Backpacks**: Equipable items that expand player inventory space. (Status: Missing implementation, agents must fix)
@@ -335,7 +336,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Jukebox missing interact logic**: Jukebox is implemented as a block, but right-click logic to insert a music disc and play audio is missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Missing implementation, agents must fix)
 
