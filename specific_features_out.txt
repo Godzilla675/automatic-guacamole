@@ -1,0 +1,2 @@
+Door placed correctly in world memory: False
+Tests completed. Screenshots saved to test-results/

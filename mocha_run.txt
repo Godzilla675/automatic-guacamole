@@ -1,0 +1,382 @@
+=== Testing Lighting Bug ===
+
+--- Test Case 1: Basic ---
+PASS: Light at 0,64,0 should be 15, got 15
+PASS: Light at 1,64,0 should be 14, got 14
+PASS: Light at 0,64,0 should be 0, got 0
+PASS: Light at 1,64,0 should be 0, got 0
+
+--- Test Case 2: Overlap ---
+PASS: Light at 0,64,0 should be 15, got 15
+PASS: Light at 10,64,0 should be 15, got 15
+PASS: Light at 5,64,0 should be 10, got 10
+Removing T1...
+PASS: Light at 0,64,0 should be 5, got 5
+PASS: Light at 5,64,0 should be 10, got 10
+PASS: Light at 10,64,0 should be 15, got 15
+
+--- Test Case 3: External Source ---
+PASS: Light at 0,64,0 should be 15, got 15
+PASS: Light at 16,64,0 should be 15, got 15
+PASS: Light at 15,64,0 should be 14, got 14
+Removing T1...
+PASS: Light at 15,64,0 should be 14, got 14
+
+--- Test Case 4: Residual Check ---
+PASS: Light at 100,64,100 should be 15, got 15
+PASS: Light at 100,64,100 should be 0, got 0
+
+SUCCESS: All tests passed.
+Starting Persistence Test...
+Setting block entity...
+Saving world...
+World saved to slot: test_save 0 chunks
+Alert: World Saved: test_save
+Clearing world...
+Loading world...
+World loaded from slot: test_save
+Alert: World Loaded: test_save
+Loaded Entity: {"type":"furnace","fuel":100}
+Testing setBlock removal...
+✅ Persistence Test Passed!
+
+
+  Feature Audit
+    ✔ Multiplayer: Should connect and send position updates
+    ✔ Multiplayer: Should receive chat
+    ✔ Durability: Should decrease when block is broken (50ms)
+    ✔ Lighting: Torch should emit light
+
+  Bug Verification
+    ✔ should allow Cows to breed with Wheat Item
+    ✔ should populate Recipe Book (123ms)
+    ✔ Fishing Bobber should work
+
+  Cactus Damage Tests
+    ✔ should damage player when too close to cactus (52ms)
+
+  Plugin API
+    ✔ should register and emit events
+    ✔ should support multiple listeners on same event
+    ✔ should not crash emitting event with no listeners
+    ✔ should register a new block via registerBlock
+    ✔ should warn on duplicate block registration
+
+  Tutorial System
+    ✔ should start active with step 0
+    ✔ should advance step when check condition is met
+    ✔ should advance timer-based steps
+    ✔ should deactivate after all steps completed
+
+  Achievement System
+    ✔ should unlock achievement via unlock()
+    ✔ should not unlock duplicate achievements
+    ✔ should ignore unknown achievement IDs
+    ✔ should unlock getting_wood on blockBreak event with WOOD
+    ✔ should unlock monster_hunter on mobDeath event
+    ✔ should unlock hot_stuff when dimension is nether
+    ✔ should not unlock hot_stuff in overworld
+
+  Particle System
+    ✔ should spawn particles
+    ✔ should set particle properties
+    ✔ should remove particles when life expires
+    ✔ should apply gravity to particles
+    ✔ should clamp particles to floor (y >= 0)
+
+  Entity Base Class
+    ✔ should initialize position and velocity
+    ✔ should apply gravity on update
+    ✔ should move based on velocity
+    ✔ should die when falling below -10
+    ✔ should have default dimensions
+
+  Vehicle System
+    ✔ should mount player on interact
+    ✔ should dismount player on second interact
+    ✔ Minecart should have correct type and dimensions
+    ✔ Boat should have correct type and dimensions
+    ✔ Minecart should snap to rail height on rail blocks
+    ✔ Boat should float in water
+
+  Drop System
+    ✔ should initialize with correct properties
+    ✔ should decrease lifetime on update
+    ✔ should apply gravity on update
+    ✔ should be attracted to nearby player
+    ✔ should rotate visually over time
+
+  Chat System & Commands
+    ✔ should add messages to chat
+    ✔ /time set day should set game time to 0
+    ✔ /time set night should set game time to half day
+    ✔ /time set <number> should set exact time
+    ✔ /gamemode creative should set gamemode to 1
+    ✔ /gamemode survival should set gamemode to 0
+    ✔ /gamemode with aliases should work (c, s, 0, 1)
+    ✔ /tp should teleport player
+    ✔ /clear should clear inventory
+    ✔ /give should add item to inventory
+    ✔ /fill should fill blocks in world (124ms)
+    ✔ unknown command should show error
+    ✔ chat open/close should toggle controls
+
+  Audio SoundManager
+    ✔ should initialize with enabled=true and volume=0.5
+    ✔ should play various sound types without error
+    ✔ should play sound with 3D position
+    ✔ should not play when disabled
+    ✔ should create noise buffer
+    ✔ should start ambience without crashing
+    ✔ should update ambience levels
+    ✔ should not restart ambience if already running
+    ✔ should update listener position
+
+  BiomeManager
+    ✔ should initialize with a seed
+    ✔ should have all expected biome types
+    ✔ should return a biome from getBiome()
+    ✔ biome should have topBlock and underBlock
+
+  Chunk System
+    ✔ should initialize with correct dimensions
+    ✔ should get and set blocks correctly
+    ✔ should return AIR for out-of-bounds access
+    ✔ should set and get metadata
+    ✔ setBlock should reset metadata
+    ✔ should set and get light levels
+    ✔ should return 15 light for out-of-bounds
+    ✔ should mark modified on setBlock
+    ✔ pack and unpack should preserve data
+    ✔ should identify exposed blocks
+
+  Player Advanced Systems
+    Armor System
+      ✔ should calculate defense points from equipped armor
+      ✔ should reduce damage based on defense
+      ✔ should break armor when durability reaches 0
+    XP System
+      ✔ should add XP and increase level
+      ✔ should handle multiple level ups
+      ✔ should track partial XP progress
+    Creative Mode
+      ✔ should not take damage in creative mode
+    Blocking (Shield)
+      ✔ should block damage when blocking
+    Respawn
+      ✔ should reset player stats on respawn
+    Hunger Effects
+      ✔ should regenerate health when hunger >= 18
+      ✔ should limit sprinting when hunger <= 6
+    Recipe Discovery
+      ✔ should start with basic recipes unlocked
+
+  Minimap
+    ✔ should return block color from BLOCKS definition
+    ✔ should return black for unknown block type
+
+  Mob System
+    ✔ should create mob with correct type
+    ✔ should have breeding properties
+    ✔ should have taming properties
+    ✔ should take damage and track health
+    ✔ should die when health reaches 0
+    ✔ all MOB_TYPE values should be defined
+
+  World Saving
+World saved to slot: test_coverage_slot 9 chunks
+Not implemented: Window's alert() method
+World loaded from slot: test_coverage_slot
+Not implemented: Window's alert() method
+    ✔ should save and load block state (114ms)
+World saved to slot: test_meta_slot 9 chunks
+Not implemented: Window's alert() method
+World loaded from slot: test_meta_slot
+Not implemented: Window's alert() method
+    ✔ should save and load metadata
+
+  Renderer Performance
+    ✔ should compute projection scale once per frame
+
+  Crafting System
+    ✔ should craft item if ingredients exist
+    ✔ should fail if not enough ingredients
+    ✔ should stack items
+
+  Drop System
+    ✔ should create drop with correct properties
+    ✔ should fall due to gravity
+    ✔ mob death should spawn drop
+    ✔ zombie death should spawn rotten flesh
+    ✔ should magnet towards player when close
+
+  Comprehensive Feature Test
+    Crafting System
+      ✔ should craft Planks from Wood
+      ✔ should craft Stick from Planks
+      ✔ should craft Wood Pickaxe
+    Mobs
+      ✔ should spawn a mob
+      ✔ should take damage and die
+      ✔ Sheep should drop Wool
+    Player Core
+      ✔ Hunger should decay
+      ✔ Eating should restore hunger
+      ✔ Fall Damage (53ms)
+    Physics
+      ✔ Crouch should reduce height
+    Saving
+World saved to slot: test_slot 9 chunks
+Not implemented: Window's alert() method
+World loaded from slot: test_slot
+Not implemented: Window's alert() method
+      ✔ should save and load world (72ms)
+    Commands
+      ✔ /fill command (93ms)
+
+  Implemented Features Tests
+    ✔ Chest Interaction (194ms)
+    ✔ Slab Collision (89ms)
+    ✔ Door Logic (70ms)
+    ✔ Tool Repair
+    ✔ Cactus Damage (68ms)
+
+  Verification of Missing Coverage
+    ✔ should place stairs with correct orientation based on player yaw (510ms)
+    ✔ should simulate water flow correctly
+    ✔ should calculate mining speeds correctly (Tool > Hand)
+    ✔ should generate structures in correct biomes
+
+  Mob System
+    ✔ should initialize with correct type properties
+    ✔ zombie should chase player
+    ✔ cow should move randomly
+
+  New Blocks Verification
+    ✔ should have Concrete blocks defined
+    ✔ should have Wool blocks defined
+    ✔ should have deprecated ITEM_WOOL correctly
+
+  New Features Verification
+    Inventory UI
+      ✔ should pick up an item (47ms)
+      ✔ should place an item
+      ✔ should stack items
+      ✔ should swap items
+    Furnace Logic
+      ✔ should accept valid input and fuel
+      ✔ should consume fuel and start burning
+      ✔ should progress smelting
+      ✔ should produce output when complete
+    Farming
+      ✔ Hoe should turn Dirt/Grass to Farmland (135ms)
+      ✔ Seeds should plant on Farmland (60ms)
+    Bed Interaction
+      ✔ should allow sleep at night
+      ✔ should not allow sleep during day
+    Settings
+      ✔ should change volume
+
+  Recently Added Features Tests
+    Sheep Mob
+      ✔ should be initialized correctly
+      ✔ should drop wool and potentially mutton when killed
+    Sprinting
+      ✔ should increase speed and hunger drain when sprinting
+    Fall Damage
+      ✔ should take fall damage when falling on ground
+      ✔ should NOT take fall damage when falling into water
+    Eating
+      ✔ should restore hunger when eating food
+      ✔ should not exceed max hunger
+    Crafting drops when inventory full
+      ✔ should drop item if inventory is full
+
+  Mob Spawning
+    ✔ should spawn passive mobs during day
+    ✔ should spawn hostile mobs during night
+    ✔ should respect mob cap
+
+  TextureManager
+    Initialization
+      ✔ should create a TextureManager instance
+      ✔ should have a default texture size of 16
+    Block Textures
+      ✔ should generate texture for DIRT
+      ✔ should generate texture for STONE
+      ✔ should generate texture for GRASS
+      ✔ should generate texture for WOOD
+      ✔ should generate texture for LEAVES
+      ✔ should generate texture for SAND
+      ✔ should generate texture for COBBLESTONE
+      ✔ should generate texture for BEDROCK
+      ✔ should generate texture for PLANK
+      ✔ should generate texture for BRICK
+      ✔ should generate texture for GLASS
+      ✔ should generate texture for SNOW
+      ✔ should generate texture for ICE
+      ✔ should generate texture for WATER
+      ✔ should generate texture for LAVA
+      ✔ should generate textures for all ore types
+      ✔ should generate textures for all wood types
+      ✔ should generate textures for all leaf types
+      ✔ should generate textures for nether blocks
+      ✔ should generate textures for functional blocks
+      ✔ should generate textures for all 16 wool colors
+      ✔ should generate textures for all 16 concrete colors
+      ✔ should cover all non-item block types defined in BLOCKS
+    Item Textures
+      ✔ should generate textures for all pickaxe tiers
+      ✔ should generate textures for all axe tiers
+      ✔ should generate textures for all sword tiers
+      ✔ should generate textures for all shovel tiers
+      ✔ should generate textures for all hoe tiers
+      ✔ should generate textures for weapons and combat items
+      ✔ should generate textures for food items
+      ✔ should generate textures for material items
+      ✔ should generate textures for all armor pieces
+      ✔ should generate textures for bucket variants
+      ✔ should cover all item types defined in BLOCKS
+    Mob Textures
+      ✔ should generate texture for mob: cow
+      ✔ should generate texture for mob: pig
+      ✔ should generate texture for mob: sheep
+      ✔ should generate texture for mob: chicken
+      ✔ should generate texture for mob: zombie
+      ✔ should generate texture for mob: skeleton
+      ✔ should generate texture for mob: spider
+      ✔ should generate texture for mob: creeper
+      ✔ should generate texture for mob: enderman
+      ✔ should generate texture for mob: wolf
+      ✔ should generate texture for mob: ocelot
+      ✔ should generate texture for mob: villager
+      ✔ should generate texture for mob: iron_golem
+      ✔ should generate texture for mob: pigman
+      ✔ should generate texture for mob: ghast
+      ✔ should generate texture for mob: blaze
+      ✔ should cover all 16 mob types
+    Texture Canvas Properties
+      ✔ should produce 16x16 canvases for standard block textures
+      ✔ should produce 16x16 canvases for item textures
+      ✔ should produce canvas elements with valid 2d context
+      ✔ should return null for non-existent block textures
+      ✔ should return null for non-existent mob textures
+    Renderer Integration
+      ✔ should be accessible via window.TextureManager
+      ✔ should initialize correctly when constructed fresh (78ms)
+      ✔ should provide textures usable with drawImage pattern
+
+  Water Flow Tests
+    ✔ should create infinite source from 2 sources (303ms)
+    ✔ should flow down replacing non-solid blocks (67ms)
+
+  World Saving
+World saved to slot: default 1 chunks
+    ✔ should save to default slot if no name provided
+World saved to slot: slot1 1 chunks
+    ✔ should save to specific slot
+World loaded from slot: slot2
+    ✔ should load from specific slot
+
+
+  229 passing (40s)
