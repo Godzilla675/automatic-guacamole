@@ -291,7 +291,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters & Comparators**: Missing block definitions and logic. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Redstone Dust**: Redstone dust exists as item/block but wire logic and connections are missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Node.js ReferenceError Entity is not defined**: When running Node.js verification scripts, they may fail with ReferenceError: Entity is not defined due to script loading order. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Playwright UI tests timeout in test_runner.py**: The test_runner.py suite hangs or times out for 400+ seconds on Playwright UI tests if the internal server binds slowly. (Status: Requires test separation, agents must fix)
 
@@ -346,3 +345,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Armor Trims**: Add smithing templates and customization for armor. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Ender Pearl Cooldown**: Ender pearl base logic exists but cooldown is missing. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Wither**: A new boss mob to spawn and fight. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Ender Dragon**: A boss mob to fight in the End dimension. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Crossbows**: A weapon that shoots arrows with more power but slower reload. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Maces**: A heavy melee weapon for close combat. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Trial Chambers**: A new underground structure with challenges. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Breeze**: A hostile mob found in trial chambers. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Offhand UI**: The offhand equipment slot needs UI and integration in inventory grid. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Tool Icons**: Different tool types (axes, picks, etc) need graphical icons. (Status: Missing implementation, agents must fix)
