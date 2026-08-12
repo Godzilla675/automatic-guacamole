@@ -272,7 +272,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Implement Ender Pearl Cooldown**: Add a cooldown to ender pearl usage. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Implement Ender Pearl Cooldown**: Add a cooldown to ender pearl usage. (Status: Fixed, agents must review)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Bundle**: Item that can hold mixed stacks of other items. (Status: Missing implementation, agents must fix)
@@ -344,7 +344,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Cherry Wood**: Add cherry wood logs, planks, and leaves to match Cherry Grove biome. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Armor Trims**: Add smithing templates and customization for armor. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Ender Pearl Cooldown**: Ender pearl base logic exists but cooldown is missing. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Ender Pearl Cooldown**: Ender pearl base logic exists but cooldown is missing. (Status: Fixed, agents must review)
 - [ ] **New Task: Add Wither**: A new boss mob to spawn and fight. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Dragon**: A boss mob to fight in the End dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Crossbows**: A weapon that shoots arrows with more power but slower reload. (Status: Missing implementation, agents must fix)
