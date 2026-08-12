@@ -13,6 +13,8 @@ class Player {
         this.width = 0.6;
         this.height = 1.8;
         this.speed = 4.3; // m/s
+
+        this.lastEnderPearlTime = 0;
         this.jumpForce = 9.0;
         this.gravity = 25.0;
 

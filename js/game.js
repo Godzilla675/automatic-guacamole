@@ -386,6 +386,12 @@ class Game {
 
             // Ender Pearl Logic
             if (slot && slot.type === BLOCK.ITEM_ENDER_PEARL) {
+                const now = Date.now();
+                if (now - this.player.lastEnderPearlTime < 1000) {
+                    return; // 1 second cooldown
+                }
+                this.player.lastEnderPearlTime = now;
+
                 const dir = {
                     x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
                     y: -Math.sin(this.player.pitch),
