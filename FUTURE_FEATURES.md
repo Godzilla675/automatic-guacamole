@@ -357,3 +357,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Glowstone crafting recipe**: Crafting recipe to convert Glowstone Dust into Glowstone is missing. (Status: Bug, missing implementation, agents must fix)
 - [ ] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Bug, missing implementation, agents must fix)
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas. (Status: Missing implementation, agents must fix)
+
+- [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Parrots**: Tameable birds that can sit on players' shoulders. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Bamboo**: Fast-growing plant used for scaffolding and sticks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Scaffolding**: Block used to climb vertically easily. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Glazed Terracotta**: Missing entirely from the codebase. (Status: Missing implementation, agents must fix)
