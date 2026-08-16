@@ -283,7 +283,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Froglights**: Light source blocks dropped when a frog eats a magma cube. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Allays**: Flying friendly mobs that collect items for you. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Administrative Action**: Code review noted some discrepancies in the tracker update log. Need to align test actions with documentation. (Status: Tracking Updated, agents must review)
+- [x] **Bug: Administrative Action**: Code review noted some discrepancies in the tracker update log. Need to align test actions with documentation. (Status: Completed)
 
 - [ ] **New Task: Add Tadpoles**: Baby version of frogs that grow up into different frogs based on biome. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mud Bricks**: Decorative block crafted from mud. (Status: Missing implementation, agents must fix)
@@ -364,3 +364,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Scaffolding**: Block used to climb vertically easily. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Glazed Terracotta**: Missing entirely from the codebase. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Target Lock-On**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Bug, missing implementation, agents must fix)
+- [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
