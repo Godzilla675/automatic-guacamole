@@ -36,7 +36,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Badlands Biome** (Status: Missing implementation, agents must fix)
 - [ ] **Desert Temple** (Status: Missing implementation, agents must fix)
 ### 2. Block System
-- [ ] **Top Slabs** (Status: Placement in upper half of block missing, agents must fix)
+- [ ] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Missing implementation, agents must fix)
 - [ ] **Decorative blocks** (Glazed Terracotta) (Status: Missing implementation, agents must fix)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block definitions and logic, agents must fix)
 ### 3. Rendering Engine
@@ -283,21 +283,17 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Froglights**: Light source blocks dropped when a frog eats a magma cube. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Allays**: Flying friendly mobs that collect items for you. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Administrative Action**: Code review noted some discrepancies in the tracker update log. Need to align test actions with documentation. (Status: Completed)
 
 - [ ] **New Task: Add Tadpoles**: Baby version of frogs that grow up into different frogs based on biome. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mud Bricks**: Decorative block crafted from mud. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Packed Mud**: Block crafted from mud and wheat. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters & Comparators**: Missing block definitions and logic. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Node.js ReferenceError Entity is not defined**: When running Node.js verification scripts, they may fail with ReferenceError: Entity is not defined due to script loading order. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Playwright UI tests timeout in test_runner.py**: The test_runner.py suite hangs or times out for 400+ seconds on Playwright UI tests if the internal server binds slowly. (Status: Requires test separation, agents must fix)
 
 - [ ] **New Task: Add Volcanoes**: Natural structures that spout lava. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Gliders**: Early game flying alternative. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Vexes**: Flying hostile mobs summoned by Evokers. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Glass Pane Icon Rendering**: In the game UI, the 'Glass Pane' item in the inventory incorrectly renders as text instead of an icon. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add End Cities**: Generate End Cities and End Ships in the outer islands of the End dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Elytra Flight Physics**: Implement proper gliding mechanics and momentum for Elytra. (Status: Missing implementation, agents must fix)
@@ -367,3 +363,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Target Lock-On**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Bug, missing implementation, agents must fix)
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
+
+
+- [ ] **New Task: Add Spectator Mode**: A gamemode where players can fly through blocks and observe the world without interacting. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Fireworks**: Crafted items that launch into the sky and explode with colors. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Chat history scroll**: The chat history UI currently lacks a scrollbar when there are too many messages. (Status: Missing implementation, agents must fix)
