@@ -165,7 +165,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: UI Assets Text Strings**: Block icons in the UI inventory must use valid emojis rather than text strings so they render correctly. (Status: Incorrect implementation, agents must fix)
 - [ ] **Bug: JSDOM LocalStorage**: Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`. (Status: Missing implementation, agents must fix)
 
-
 - [ ] **Bug: Slab and Door collision test flakiness**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates. (Status: Requires clearing test area, agents must fix)
 - [ ] **Bug: Flaky Chunk Loading Test**: The chunk loading boundary test occasionally fails under heavy load. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Mocked Window Resizing Fails**: JSDOM resize event tests do not accurately trigger game engine recalculations. (Status: Missing implementation, agents must fix)
@@ -307,8 +306,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Witches**: Hostile mobs that throw potions. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Rideable Pigs missing**: Allow players to ride pigs using saddles and carrot on a stick. (Status: Bug, missing implementation, agents must fix)
-- [x] **Bug: Auto-Save missing**: Automatically save the world state periodically. (Status: Completed)
-- [x] **Bug: Soul Sand Slowing**: Soul Sand lacks its intended movement slowdown mechanic in player physics. (Status: Completed)
 - [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Copper Bulbs**: Light blocks that dim as they oxidize. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Missing implementation, agents must fix)
@@ -349,8 +346,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Breeze**: A hostile mob found in trial chambers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Offhand UI**: The offhand equipment slot needs UI and integration in inventory grid. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Different tool types (axes, picks, etc) need graphical icons. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Chat History Log toggle**: Missing implementation for chat history log toggle. (Status: Completed)
-- [x] **Bug: Glowstone crafting recipe**: Crafting recipe to convert Glowstone Dust into Glowstone is missing. (Status: Completed)
 - [ ] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Bug, missing implementation, agents must fix)
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas. (Status: Missing implementation, agents must fix)
 
@@ -364,7 +359,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
-
-- [ ] **New Task: Add Spectator Mode**: A gamemode where players can fly through blocks and observe the world without interacting. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Fireworks**: Crafted items that launch into the sky and explode with colors. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Chat history scroll**: The chat history UI currently lacks a scrollbar when there are too many messages. (Status: Completed)
+- [ ] **Bug: Glass Pane & Fence missing in UI inventory**: Although defined in blocks.js they are not available in standard UI. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
