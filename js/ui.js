@@ -58,6 +58,18 @@ class UIManager {
             });
         }
 
+        const chatVisibleCheckbox = document.getElementById('chat-visible-checkbox');
+        if (chatVisibleCheckbox) {
+            chatVisibleCheckbox.addEventListener('change', (e) => {
+                this.game.chatVisible = e.target.checked;
+                localStorage.setItem('voxel_chat_visible', e.target.checked);
+                const chatContainer = document.getElementById('chat-container');
+                if (chatContainer) {
+                    chatContainer.style.display = e.target.checked ? 'block' : 'none';
+                }
+            });
+        }
+
         // Sensitivity
         const sensitivitySlider = document.getElementById('sensitivity-slider');
         if (sensitivitySlider) {
@@ -365,6 +377,10 @@ class UIManager {
             const skinPicker = document.getElementById('skin-color-picker');
             if (skinPicker && this.game.player) {
                 skinPicker.value = this.game.player.skinColor;
+            }
+            const chatVisibleCheckbox = document.getElementById('chat-visible-checkbox');
+            if (chatVisibleCheckbox && this.game) {
+                chatVisibleCheckbox.checked = this.game.chatVisible;
             }
             const uiScaleSlider = document.getElementById('ui-scale-slider');
             if (uiScaleSlider) {

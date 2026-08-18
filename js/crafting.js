@@ -25,6 +25,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.COBBLESTONE, count: 8 } ]
             },
             {
+                name: "Glowstone",
+                result: { type: BLOCK.GLOWSTONE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]

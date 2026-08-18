@@ -264,6 +264,15 @@ class Player {
         // Physics integration
         let moveSpeed = this.speed;
 
+        // Soul Sand Slowing
+        const feetBlockX = Math.floor(this.x);
+        const feetBlockY = Math.floor(this.y - 1.5);
+        const feetBlockZ = Math.floor(this.z);
+        const feetBlock = this.game.world.getBlock(feetBlockX, feetBlockY, feetBlockZ);
+        if (feetBlock === window.BLOCK.SOUL_SAND) {
+             moveSpeed *= 0.4;
+        }
+
         // Fluid Physics
         const inWater = this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
         if (inWater) {
