@@ -466,17 +466,30 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    max-height: 250px;
+}
+#chat-container.chat-opened #chat-messages {
+    overflow-y: auto;
+    pointer-events: auto;
+}
+#chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+#chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
 }
 #chat-messages .message {
     background: rgba(0,0,0,0.3);
     padding: 2px 5px;
     border-radius: 3px;
-    animation: fadeout 10s forwards;
+    transition: opacity 1s;
 }
-@keyframes fadeout {
-    0% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
+#chat-messages .message.expired {
+    opacity: 0;
+}
+#chat-container.chat-opened #chat-messages .message {
+    opacity: 1 !important;
 }
 #chat-input {
     width: 100%;

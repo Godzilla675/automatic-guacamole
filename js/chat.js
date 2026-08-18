@@ -27,26 +27,29 @@ class ChatManager {
         this.messages.scrollTop = this.messages.scrollHeight;
 
         // Remove old messages from DOM
-        if (this.messages.children.length > 50) {
+        if (this.messages.children.length > 200) {
             this.messages.removeChild(this.messages.firstChild);
         }
 
-        // Auto-remove message from DOM after fade animation (11s matches CSS)
+        // Auto-fade message via CSS after 10s
         setTimeout(() => {
-            if (line.parentNode) line.parentNode.removeChild(line);
-        }, 11000);
+            line.classList.add('expired');
+        }, 10000);
     }
 
     open() {
         this.isOpen = true;
+        this.container.classList.add('chat-opened');
         this.input.classList.remove('hidden');
         this.input.focus();
         document.exitPointerLock();
         this.game.controls.enabled = false; // Disable game controls
+        this.messages.scrollTop = this.messages.scrollHeight;
     }
 
     close() {
         this.isOpen = false;
+        this.container.classList.remove('chat-opened');
         this.input.classList.add('hidden');
         this.input.blur();
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();

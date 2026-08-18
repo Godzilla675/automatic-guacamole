@@ -49,6 +49,11 @@ class Game {
         // Rendering state
         this.fov = parseInt(localStorage.getItem('voxel_fov')) || 60;
         this.renderDistance = parseInt(localStorage.getItem('voxel_renderDistance')) || 50; // blocks
+
+        // Chat settings
+        const savedChat = localStorage.getItem('voxel_chat_visible');
+        this.chatVisible = savedChat !== null ? savedChat === 'true' : true;
+        // The DOM update for chat will be done in UI manager or here if DOM is ready
         this.world.renderDistance = Math.ceil(this.renderDistance / 16);
 
         // Action State
@@ -127,6 +132,12 @@ class Game {
         this.ui.init();
         this.updateHealthUI();
         this.input.setupEventListeners();
+
+        // Apply initial chat visibility
+        const chatContainer = document.getElementById('chat-container');
+        if (chatContainer) {
+            chatContainer.style.display = this.chatVisible ? 'block' : 'none';
+        }
         this.updateHotbarUI();
 
         if (this.isMobile) {
@@ -1662,6 +1673,13 @@ class Game {
         if (this.network) this.network.update(dt / 1000);
         if (this.frameCount % 3 === 0) { // Send every 3 frames (~20fps)
             this.network.sendPosition(this.player.x, this.player.y, this.player.z, this.player.yaw, this.player.pitch);
+        }
+
+        // Auto-Save
+        this.autoSaveTimer = (this.autoSaveTimer || 0) + (dt / 1000);
+        if (this.autoSaveTimer >= 60) {
+            this.autoSaveTimer = 0;
+            this.world.saveWorld('default');
         }
 
         // Ambience Update
