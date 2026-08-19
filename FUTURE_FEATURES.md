@@ -362,3 +362,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Glass Pane & Fence missing in UI inventory**: Although defined in blocks.js they are not available in standard UI. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
+
+
+- [ ] **Bug: Chat History Log Toggle**: Unchecking "Show Chat" hides the entire chat container and disables the Enter key, preventing players from typing or sending new messages instead of just hiding the message history. (Status: Bug, agents must fix)
+- [ ] **Bug: Soul Sand slowing logic**: The slowing effect uses a single point check (`Math.floor(this.x)`) allowing players to walk fast on edges. It also checks `this.y - 1.5` without `onGround`, so jumping over Soul Sand incorrectly slows the player in mid-air. (Status: Bug, agents must fix)
