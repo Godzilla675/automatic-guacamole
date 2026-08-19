@@ -63,9 +63,9 @@ class UIManager {
             chatVisibleCheckbox.addEventListener('change', (e) => {
                 this.game.chatVisible = e.target.checked;
                 localStorage.setItem('voxel_chat_visible', e.target.checked);
-                const chatContainer = document.getElementById('chat-container');
-                if (chatContainer) {
-                    chatContainer.style.display = e.target.checked ? 'block' : 'none';
+                const chatMessages = document.getElementById('chat-messages');
+                if (chatMessages) {
+                    chatMessages.style.display = e.target.checked ? 'block' : 'none';
                 }
             });
         }
