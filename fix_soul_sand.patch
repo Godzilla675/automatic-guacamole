@@ -1,0 +1,34 @@
+--- js/player.js
++++ js/player.js
+@@ -265,11 +265,22 @@
+         let moveSpeed = this.speed;
+
+         // Soul Sand Slowing
+-        const feetBlockX = Math.floor(this.x);
+-        const feetBlockY = Math.floor(this.y - 1.5);
+-        const feetBlockZ = Math.floor(this.z);
+-        const feetBlock = this.game.world.getBlock(feetBlockX, feetBlockY, feetBlockZ);
+-        if (feetBlock === window.BLOCK.SOUL_SAND) {
+-             moveSpeed *= 0.4;
++        if (this.onGround) {
++            const minX = Math.floor(this.x - this.width / 2);
++            const maxX = Math.floor(this.x + this.width / 2);
++            const feetBlockY = Math.floor(this.y - 1.5);
++            const minZ = Math.floor(this.z - this.width / 2);
++            const maxZ = Math.floor(this.z + this.width / 2);
++            let onSoulSand = false;
++            for (let bx = minX; bx <= maxX; bx++) {
++                for (let bz = minZ; bz <= maxZ; bz++) {
++                    if (this.game.world.getBlock(bx, feetBlockY, bz) === window.BLOCK.SOUL_SAND) {
++                        onSoulSand = true;
++                        break;
++                    }
++                }
++                if (onSoulSand) break;
++            }
++            if (onSoulSand) {
++                 moveSpeed *= 0.4;
++            }
+         }
+
+         // Fluid Physics

@@ -134,9 +134,9 @@ class Game {
         this.input.setupEventListeners();
 
         // Apply initial chat visibility
-        const chatContainer = document.getElementById('chat-container');
-        if (chatContainer) {
-            chatContainer.style.display = this.chatVisible ? 'block' : 'none';
+        const chatMessages = document.getElementById('chat-messages');
+        if (chatMessages) {
+            chatMessages.style.display = this.chatVisible ? 'block' : 'none';
         }
         this.updateHotbarUI();
 
