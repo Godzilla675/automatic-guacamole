@@ -125,7 +125,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Dual Wielding**: Allow players to hold items in both hands. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Spyglass**: Implement zooming mechanic. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Magma Blocks**: Blocks that deal damage when stepped on. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Soul Sand**: Blocks that slow down movement. (Status: Completed)
+- [ ] **New Task: Add Redstone Dust Logic**: Redstone wire logic and connections are missing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Shards**: Grown from budding amethyst. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glowstone**: Light emitting block found in the Nether. (Status: Partial implementation, missing crafting recipe, agents must fix)
 - [ ] **Implement Thunderstorms and Lightning** (Status: Missing implementation, agents must fix)
@@ -135,7 +135,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
 - [ ] **Deprecated Items cleanup** (Status: Missing implementation, agents must fix)
 - [ ] **Animal Drops fixing** (Status: Missing implementation, agents must fix)
-- [x] **Bug: Chat History Log Toggle missing**: Allow players to toggle visibility of previous chat messages. (Status: Completed)
+- [ ] **New Task: Add Spectator Mode**: Allow players to fly through blocks and observe the world without interacting. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ravagers**: Large hostile beasts ridden by Illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Geodes**: Rare underground structures with amethyst crystals. (Status: Missing implementation, agents must fix)
@@ -153,7 +153,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Glowstone Crafting**: Add crafting recipe to convert Glowstone Dust into Glowstone. (Status: Completed)
+- [ ] **New Task: Add Fireworks**: Items used for celebrations or Elytra boosting. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
@@ -364,3 +364,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
 
 
+
+- [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers. (Status: Missing implementation, agents must fix)
