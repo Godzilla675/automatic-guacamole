@@ -8,250 +8,143 @@ A fully-featured browser-based Minecraft clone built with pure JavaScript and Ca
 
 ## 🚀 Features
 
-### Core Gameplay
-- ⛏️ **Block Building**: Place and break 8 different block types
-- 🌍 **Procedural Terrain**: Infinite world generation with varied landscapes
-- 🌲 **Natural Structures**: Automatically generated trees
-- 💧 **Water Physics**: Water blocks with transparency
-- 🌅 **Day/Night Cycle**: Dynamic lighting system with sun movement
+### Core Gameplay & Physics
+- ⛏️ **Block Building & Breaking**: Place and mine dozens of block types with tool-specific mining speeds and drop mechanics.
+- 🌍 **Procedural Terrain & Biomes**: Infinite world generation with varied biomes, terrain height maps, and naturally generated structures (trees, villages, structures).
+- 💧 **Fluid Dynamics & Physics**: Water and lava flow mechanics, sponge drainage, soul sand slowdowns, and realistic player/entity gravity.
+- 🌅 **Day/Night Cycle & Lighting**: Dynamic day/night cycle with sun/moon positioning, custom skybox rendering, and ambient lighting.
+- 🛡️ **Combat & Equipment**: Shields for blocking damage, main-hand and offhand item slots, armor equipment, weapons, and tool durability.
+- 🚗 **Vehicles & Entities**: Rideable boats and minecarts (vehicles subclassed with damage and drop handling), dropped items, and mob entities.
 
-### Player Mechanics
-- 🏃 **Smooth Movement**: WASD controls with physics-based movement
-- 🦘 **Jumping & Gravity**: Realistic physics simulation
-- ✈️ **Flying Mode**: Toggle creative flying with F key
-- 👀 **First-Person View**: Full 360° mouse look controls
-- 💥 **Collision Detection**: Walk on blocks, can't walk through walls
+### Systems & UI Mechanics
+- 🎒 **Inventory & Hotbar**: Full inventory management, hotbar selection, offhand slot, and armor equipment.
+- 📜 **Crafting, Smelting & Brewing**: 2x2 and 3x3 crafting grid UI, furnace smelting, and brewing stand interface.
+- 📻 **Interactive Blocks**: Functional Jukebox, Anvil repair/naming UI, Beds (sleeping/respawn), TNT explosion mechanics, and chests.
+- 🗺️ **Minimap & Navigation**: Live minimap radar displaying player orientation, surrounding terrain, and nearby entities/mobs.
+- 💬 **Chat & Commands**: Interactive chat system supporting commands (`/tp`, `/time`, `/gamemode`, `/give`, `/spawn`), scrollable history log, and message toggles.
+- 🏆 **Achievements & Tutorials**: In-game achievements tracking milestones and an interactive tutorial overlay.
+- 🧩 **Plugin System**: Modular plugin framework (`js/plugin.js`) for custom extensions and block additions.
 
-### Block Types
-1. 🟫 **Dirt** - Basic building material
-2. 🔲 **Stone** - Underground foundation
-3. 🟩 **Grass** - Surface blocks
-4. 🪵 **Wood** - Tree trunks
-5. 🌿 **Leaves** - Tree foliage (transparent)
-6. 🏖️ **Sand** - Beach and desert material
-7. 💧 **Water** - Liquid blocks (transparent)
-8. 🔷 **Glass** - Transparent building material
-
-### Mobile Support
-- 📱 **Touch Controls**: Virtual joystick for movement
-- 👆 **Swipe to Look**: Touch right side to look around
-- 🎮 **Action Buttons**: Dedicated buttons for jump, break, place, and fly
-- 📐 **Responsive Design**: Automatically adjusts to screen size
-
-### User Interface
-- 🎒 **Hotbar**: Quick access to 5 block types
-- 📦 **Inventory System**: Full inventory with all block types
-- 📊 **Debug Info**: FPS counter, position, block count
-- ⏸️ **Pause Menu**: Pause and resume gameplay
-- 🎯 **Crosshair**: Centered aiming reticle
+### Mobile & Touch Support
+- 📱 **Virtual Joystick**: Dual touch controls for movement and fluid rotation.
+- 👆 **Touch Controls**: Dedicated touch action buttons for jump, place, break, fly, and inventory toggles.
+- 📐 **Responsive Canvas**: Dynamic scaling to fit any mobile or desktop viewports.
 
 ## 🎯 How to Play
 
 ### PC Controls
-- **W/A/S/D** - Move forward/left/backward/right
+- **W / A / S / D** - Move forward / left / backward / right
 - **Mouse** - Look around
 - **Space** - Jump
 - **Shift** - Sneak / Descend (in flying mode)
 - **F** - Toggle flying mode
-- **Left Click** - Break block
-- **Right Click** - Place block
-- **1-5** - Select block from hotbar
-- **E** - Open/close inventory
-- **Esc** - Pause game
+- **Left Click** - Break block / Attack
+- **Right Click** - Place block / Interact (open UI, drive vehicle, use shield)
+- **1-9** - Select hotbar slot
+- **E** - Toggle Inventory / Crafting UI
+- **T / /** - Open Chat window
+- **Esc** - Pause game / Close UI screens
 
 ### Mobile Controls
 - **Left Joystick** - Move character
-- **Right Side Touch** - Look around
-- **Jump Button** - Jump
-- **Break Button** - Break blocks
-- **Place Button** - Place blocks
-- **Fly Button** - Toggle flying mode
+- **Right Screen Drag** - Look around
+- **Jump / Break / Place / Fly Buttons** - Action triggers
 
 ## 🌐 Getting Started
 
-### Play Online
-Simply open `index.html` in a modern web browser:
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
-
 ### Local Setup
-1. Clone this repository
+1. Clone this repository:
 ```bash
 git clone https://github.com/Godzilla675/automatic-guacamole.git
 cd automatic-guacamole
 ```
 
-2. Open the game
+2. Open `index.html` in a modern web browser, or launch a simple local HTTP server:
 ```bash
-# Open index.html in your browser
-# Or use a simple HTTP server:
-python -m http.server 8000
-# Then visit http://localhost:8000
+python3 -m http.server 8000
+# Visit http://localhost:8000
 ```
 
 ### Requirements
-- Modern web browser with Canvas 2D support
-- JavaScript enabled
-- For best performance: Desktop with modern CPU
-- Mobile: iOS 12+ or Android 8+
-- No external dependencies or CDN required
+- Modern browser with Canvas 2D support (Chrome, Firefox, Safari, Edge)
+- No external runtime dependencies or CDN connectivity required for basic execution!
 
 ## 📂 Project Structure
 
 ```
 automatic-guacamole/
-├── index.html          # Main HTML structure
-├── styles.css          # All styling and responsive design
-├── game.js            # Complete game engine and logic
-├── README.md          # This file
-└── FUTURE_FEATURES.md # Roadmap for future development
+├── index.html           # Main HTML shell & scripts loader
+├── styles.css           # Responsive styling & UI themes
+├── js/                  # Modular JavaScript game engine
+│   ├── achievements.js  # Achievement tracking & popup toasts
+│   ├── audio.js         # Sound effects engine (Web Audio API)
+│   ├── biome.js         # Biome definitions & climate mapping
+│   ├── blocks.js        # Block definitions, properties & drops
+│   ├── chat.js          # Chat system, logs & slash commands
+│   ├── chunk.js         # Chunk generation & block storage
+│   ├── crafting.js      # Crafting recipes & smelting logic
+│   ├── drop.js          # Dropped item entity & pickup mechanics
+│   ├── entity.js        # Base entity class
+│   ├── game.js          # Core loop, world interaction & event manager
+│   ├── input.js         # Keyboard, mouse, & touch input handler
+│   ├── main.js          # Entry point & game initialization
+│   ├── math.js          # Vector math & projection utilities
+│   ├── minimap.js       # Live minimap UI renderer
+│   ├── mob.js           # Mob AI, hostile/passive mobs & spawning
+│   ├── network.js       # Multiplayer networking stub / socket handler
+│   ├── particles.js     # Particle system for breaking/effects
+│   ├── physics.js       # AABB physics, collision & raycasting
+│   ├── player.js        # Player state, inventory, equipment & stats
+│   ├── plugin.js        # Extension / plugin API manager
+│   ├── renderer.js      # Canvas 2D projection, 3D block rendering & light
+│   ├── structures.js    # Tree & structure generator
+│   ├── textures.js      # Procedural texture canvas generator
+│   ├── tutorial.js      # Onboarding guide & interactive tips
+│   ├── ui.js            # UI management (Inventories, Chests, Anvil, Brewing, Jukebox)
+│   ├── vehicle.js       # Boats, Minecarts & mountable entity handling
+│   ├── village.js       # Village generation logic
+│   └── world.js         # World management & terrain generation
+├── tests/               # Mocha / JavaScript unit test suite
+├── README.md            # Project documentation
+└── FUTURE_FEATURES.md   # Roadmap for upcoming features & backlog
 ```
 
-## 🛠️ Technical Details
+## 🛠️ Customization & Plugin API
 
-### Technologies Used
-- **Canvas 2D API** - 3D projection rendering (no external dependencies!)
-- **Vanilla JavaScript** - Game logic (no frameworks)
-- **CSS3** - UI styling and animations
-- Pure web standards - Works everywhere without CDN dependencies
+### Registering Custom Blocks via Plugin System
+The engine features a modular plugin architecture (`js/plugin.js`). You can extend block definitions programmatically:
 
-### Performance
-- Target: 60 FPS on desktop, 30+ FPS on mobile
-- Chunk-based world management
-- Dynamic rendering distance (4 chunks)
-- Distance-based lighting and fog
-- Painter's algorithm sorting for proper transparency
-
-### Architecture
-- Object-oriented design with `VoxelWorld` class
-- Event-driven input system
-- Physics simulation with collision detection
-- Procedural terrain generation
-- Day/night cycle with dynamic lighting
-- Custom 3D projection using Canvas 2D (no WebGL required)
-
-## 🎨 Customization
-
-The game is easily customizable:
-
-### Add New Block Types
-To add a new block type, you need to update multiple files:
-
-1. **Add block definition** in `game.js` `initBlockTypes()` method:
 ```javascript
-8: { 
-    name: 'newblock', 
-    color: '#FF0000',   // Color in hex string format
-    top: '#FF6666',     // Top face color
-    solid: true,        // Is it solid?
-    transparent: false  // Is it transparent?
-}
+window.gamePluginManager.registerPlugin({
+    id: 'my-custom-plugin',
+    name: 'Custom Blocks Plugin',
+    init(game) {
+        // Access game blocks and register custom logic
+        console.log('Plugin loaded!');
+    }
+});
 ```
 
-2. **Add inventory item** in `index.html` inside the `.inventory-grid`:
-```html
-<div class="inventory-item" data-type="newblock">
-    <span class="block-icon" style="background: #FF0000;">🧱</span>
-    <span class="item-name">New Block</span>
-</div>
-```
-
-3. **Update typeMap** in `game.js` at the bottom (inventory click handler):
+### Adding New Blocks in `js/blocks.js`
+1. Define the block constant and properties in `js/blocks.js`:
 ```javascript
-const typeMap = {
-    'dirt': 0, 'stone': 1, 'grass': 2, 'wood': 3,
-    'leaves': 4, 'sand': 5, 'water': 6, 'glass': 7,
-    'newblock': 8  // Add your new block here
-};
+MY_CUSTOM_BLOCK: 120
+```
+2. Set its metadata (textures, solidity, transparency, tool drops) in `BLOCK_DEFS`.
+3. Update crafting recipes in `js/crafting.js` or UI inventory slots in `js/ui.js` as needed.
+
+## 🧪 Testing
+
+Run unit tests via Mocha:
+```bash
+npx mocha tests/*.js
 ```
 
-4. **Optionally add to hotbar** by modifying the hotbar HTML in `index.html`.
-
-### Adjust World Generation
-Modify `getHeightAt()` method in `game.js` to change terrain:
-```javascript
-const scale = 0.05;  // Smaller = smoother terrain
-const noise = Math.sin(x * scale) * Math.cos(z * scale) * 5;
+Run end-to-end automated tests with Playwright & Python:
+```bash
+python3 test_runner.py
 ```
-
-### Change Game Settings
-In `game.js` constructor, adjust:
-- `chunkSize`: Size of each chunk (default: 16)
-- `renderDistance`: How far to render chunks (default: 4)
-- `worldHeight`: Maximum build height (default: 32)
-- `dayLength`: Length of day/night cycle in ms (default: 120000)
-
-## 🐛 Known Issues
-
-- No world persistence (reloading page resets world)
-- Limited render distance to maintain performance
-- Block breaking is instant (no animation yet)
-- No sound effects or music
-- Uses Canvas 2D instead of WebGL (good for compatibility, but lower performance)
-
-See [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for planned improvements.
-
-## 📋 Future Development
-
-This game is designed to be extended! Check out [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for a comprehensive list of features that should be implemented, including:
-
-- 🌐 Multiplayer support
-- 🎒 Crafting system
-- 👾 Mobs and AI
-- 💾 World saving/loading
-- 🎵 Sound effects and music
-- 🏗️ Advanced building blocks
-- ⚡ Performance optimizations
-- And much more!
-
-## 🤝 Contributing
-
-Future developers should:
-1. Read [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for planned features
-2. Maintain the existing code style
-3. Test on both PC and mobile
-4. Update documentation
-5. Consider performance impact
 
 ## 📄 License
 
 This project is open source and available for educational purposes.
-
-## 🎮 Credits
-
-Created as a browser-based Minecraft-inspired voxel game using pure web technologies.
-
-### Technologies
-- Canvas 2D API - Custom 3D projection and rendering
-- Modern web standards (HTML5, CSS3, ES6+)
-
-## 🚀 Performance Tips
-
-### For Players
-- Close other browser tabs for better FPS
-- Use Chrome for best performance
-- On mobile: close background apps
-- Reduce render distance if laggy (edit `game.js`)
-
-### For Developers
-- Profile with browser DevTools
-- Monitor draw calls and geometry count
-- Use texture atlases for better performance
-- Implement frustum culling for large worlds
-- Consider instanced rendering for repeated blocks
-
-## 📞 Support
-
-For issues or questions:
-1. Check [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for known limitations
-2. Test in different browsers
-3. Check browser console for errors
-4. Verify Canvas 2D support in your browser (all modern browsers support this)
-
-## 🎉 Have Fun!
-
-Enjoy building in your own voxel world! Whether you're on PC or mobile, create amazing structures and explore the procedurally generated terrain.
-
-Happy crafting! ⛏️🎮
