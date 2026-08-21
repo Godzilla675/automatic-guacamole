@@ -77,6 +77,9 @@ class Player {
 
         this.riding = null;
 
+        // Offhand slot
+        this.offhand = null;
+
         // Armor: [Helmet, Chestplate, Leggings, Boots]
         this.armor = [null, null, null, null];
     }
@@ -157,9 +160,30 @@ class Player {
         if (Date.now() - this.lastDamageTime < 500) return; // Invulnerability frames
 
         if (this.blocking) {
-            // Reduce damage (e.g. 50% or 100% block)
-            // Simplified: 100% block for now.
-            if (window.soundManager) window.soundManager.play('place'); // Clang?
+            // Reduce damage (100% block) and play block sound
+            if (window.soundManager) window.soundManager.play('place');
+
+            // Reduce durability of active shield (main hand or offhand)
+            const currentSlot = this.inventory[this.selectedSlot];
+            if (currentSlot && currentSlot.type === BLOCK.SHIELD) {
+                if (currentSlot.durability !== undefined) {
+                    currentSlot.durability -= 1;
+                    if (currentSlot.durability <= 0) {
+                        this.inventory[this.selectedSlot] = null;
+                        this.blocking = false;
+                        if (this.game && this.game.updateHotbarUI) this.game.updateHotbarUI();
+                    }
+                }
+            } else if (this.offhand && this.offhand.type === BLOCK.SHIELD) {
+                if (this.offhand.durability !== undefined) {
+                    this.offhand.durability -= 1;
+                    if (this.offhand.durability <= 0) {
+                        this.offhand = null;
+                        this.blocking = false;
+                        if (this.game && this.game.refreshInventoryUI) this.game.refreshInventoryUI();
+                    }
+                }
+            }
             return;
         }
 

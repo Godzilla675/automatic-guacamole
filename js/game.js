@@ -379,8 +379,8 @@ class Game {
                 return;
             }
 
-            // Shield Logic
-            if (slot && slot.type === BLOCK.SHIELD) {
+            // Shield Logic (main hand or offhand)
+            if ((slot && slot.type === BLOCK.SHIELD) || (this.player.offhand && this.player.offhand.type === BLOCK.SHIELD)) {
                 this.player.blocking = true;
                 return;
             }
@@ -620,6 +620,20 @@ class Game {
         }
 
         this.world.setBlock(x, y, z, BLOCK.AIR);
+
+        // Door Double-Block Cleanup
+        if (blockType === BLOCK.DOOR_WOOD_BOTTOM) {
+            if (this.world.getBlock(x, y + 1, z) === BLOCK.DOOR_WOOD_TOP) {
+                this.world.setBlock(x, y + 1, z, BLOCK.AIR);
+                this.network.sendBlockUpdate(x, y + 1, z, BLOCK.AIR);
+            }
+        } else if (blockType === BLOCK.DOOR_WOOD_TOP) {
+            if (this.world.getBlock(x, y - 1, z) === BLOCK.DOOR_WOOD_BOTTOM) {
+                this.world.setBlock(x, y - 1, z, BLOCK.AIR);
+                this.network.sendBlockUpdate(x, y - 1, z, BLOCK.AIR);
+            }
+        }
+
         if (this.particles) {
              const def = BLOCKS[blockType];
              if (def) this.particles.spawn(x+0.5, y+0.5, z+0.5, def.color, 10);
