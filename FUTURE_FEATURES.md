@@ -182,7 +182,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Flint and Steel**: Item used to start fires and ignite TNT. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js but are missing from the standard HTML inventory (`index.html`). The inventory items show up correctly inside the 36 inventory slots and hotbar, however `Glass Pane` missing text is visible in the UI logs, and the block icon textures inside `inventory_items.png` failed to load/render correctly. (Status: Still missing in HTML mapping, agents must fix)
+- [x] **Bug: Missing UI Assets (Partial Implementation)**: Glass Panes and Fences have definitions in blocks.js and are fully integrated in starting inventory and UI. (Status: Fixed)
 - [ ] **New Task: Add Ominous Trials**: Harder version of Trial Chambers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Missing block definition and world update logic, agents must fix)
 - [ ] **New Task: Add Bookshelves**: Bookshelves for enchanting rooms. (Status: Missing block definition, agents must fix)
@@ -329,7 +329,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Maces**: A heavy melee weapon for close combat. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trial Chambers**: A new underground structure with challenges. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze**: A hostile mob found in trial chambers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Offhand UI**: The offhand equipment slot needs UI and integration in inventory grid. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Offhand UI**: The offhand equipment slot needs UI and integration in inventory grid. (Status: Fixed)
 - [ ] **New Task: Add Tool Icons**: Different tool types (axes, picks, etc) need graphical icons. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Bug, missing implementation, agents must fix)
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas. (Status: Missing implementation, agents must fix)
@@ -344,7 +344,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Glass Pane & Fence missing in UI inventory**: Although defined in blocks.js they are not available in standard UI. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Glass Pane & Fence missing in UI inventory**: Glass Panes and Fences are available in player starting inventory and crafting. (Status: Fixed)
 - [ ] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
 
@@ -352,5 +352,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Fireworks Particle Visual FX**: Visual particle explosions and sound effects when fireworks detonate. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Redstone Wire Visual Connections**: Dynamic visual models for redstone wire connecting to adjacent power sources and dust lines. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: JSDOM Canvas Mock missing putImageData**: In Node.js/JSDOM test suites, canvas context lacks putImageData implementation, causing failures in lighting/texture tests. (Status: Bug, agents must fix)
 
 - [x] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Fixed)
