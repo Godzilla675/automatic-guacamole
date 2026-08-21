@@ -1283,6 +1283,68 @@ class UIManager {
 
             grid.appendChild(slot);
         }
+
+        // Render Offhand Slot
+        const offhandSlot = document.createElement('div');
+        offhandSlot.className = 'inventory-item';
+        offhandSlot.dataset.offhandSlot = 'true';
+        offhandSlot.style.position = 'relative';
+        offhandSlot.style.marginLeft = '15px';
+
+        const offIcon = document.createElement('span');
+        offIcon.className = 'block-icon';
+        offhandSlot.appendChild(offIcon);
+
+        const offCount = document.createElement('span');
+        offCount.className = 'slot-count';
+        offCount.style.position = 'absolute';
+        offCount.style.bottom = '2px';
+        offCount.style.right = '2px';
+        offCount.style.fontSize = '12px';
+        offCount.style.color = 'white';
+        offCount.style.textShadow = '1px 1px 1px black';
+        offhandSlot.appendChild(offCount);
+
+        if (!this.game.player.offhand) {
+            const ph = document.createElement('span');
+            ph.textContent = '🛡️';
+            ph.style.opacity = '0.3';
+            ph.style.fontSize = '20px';
+            ph.style.position = 'absolute';
+            ph.style.top = '50%';
+            ph.style.left = '50%';
+            ph.style.transform = 'translate(-50%, -50%)';
+            ph.style.pointerEvents = 'none';
+            offhandSlot.appendChild(ph);
+        }
+
+        this.renderSlotItem(offhandSlot, this.game.player.offhand);
+
+        offhandSlot.addEventListener('click', () => {
+            this.handleOffhandClick();
+        });
+
+        grid.appendChild(offhandSlot);
+    }
+
+    handleOffhandClick() {
+        const player = this.game.player;
+        const cursor = this.cursorItem;
+        const offhandItem = player.offhand;
+
+        if (!cursor) {
+            if (offhandItem) {
+                this.cursorItem = offhandItem;
+                player.offhand = null;
+                if (window.soundManager) window.soundManager.play('place');
+            }
+        } else {
+            player.offhand = cursor;
+            this.cursorItem = offhandItem;
+            if (window.soundManager) window.soundManager.play('place');
+        }
+        this.refreshArmorUI();
+        this.updateCursorUI();
     }
 
     handleArmorClick(index) {

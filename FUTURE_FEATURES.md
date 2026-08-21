@@ -258,7 +258,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Fixed)
 - [ ] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Missing implementation, agents must fix)
@@ -313,7 +313,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Bug, missing implementation, agents must fix)
+- [x] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Fixed)
 - [ ] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
@@ -353,4 +353,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Door placement logic exists but is failing, agents must fix)
+- [x] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Fixed)
