@@ -326,10 +326,45 @@ class Renderer {
                      if (b.isFencePost) {
                          drawHeight = size;
                          const width = size * 0.25;
-                         ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
+                         const postX = Math.floor(sx - width / 2);
+                         const postY = Math.floor(drawSy - drawHeight / 2);
+                         const postW = Math.ceil(width);
+                         const postH = Math.ceil(drawHeight);
 
-                         // Simple bars (visual hack: just draw a wider thin bar in middle)
-                         ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - size*0.1), Math.ceil(size), Math.ceil(size*0.2));
+                         // Dual crossbars (top and bottom rails)
+                         const barW = Math.ceil(size * 0.85);
+                         const barX = Math.floor(sx - barW / 2);
+                         const barH = Math.max(2, Math.ceil(size * 0.12));
+
+                         const topBarY = Math.floor(drawSy - size * 0.22 - barH / 2);
+                         const bottomBarY = Math.floor(drawSy + size * 0.18 - barH / 2);
+
+                         // Render horizontal rails
+                         ctx.fillStyle = blockDef.color;
+                         ctx.fillRect(barX, topBarY, barW, barH);
+                         ctx.fillRect(barX, bottomBarY, barW, barH);
+
+                         // Rail 3D shading (top highlight, bottom shadow)
+                         const railHighlightH = Math.max(1, Math.floor(barH * 0.3));
+                         ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+                         ctx.fillRect(barX, topBarY, barW, railHighlightH);
+                         ctx.fillRect(barX, bottomBarY, barW, railHighlightH);
+
+                         ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+                         ctx.fillRect(barX, topBarY + barH - railHighlightH, barW, railHighlightH);
+                         ctx.fillRect(barX, bottomBarY + barH - railHighlightH, barW, railHighlightH);
+
+                         // Render central vertical fence post over rails
+                         ctx.fillStyle = blockDef.color;
+                         ctx.fillRect(postX, postY, postW, postH);
+
+                         // Vertical post 3D shading (left highlight, right shadow)
+                         const postHighlightW = Math.max(1, Math.floor(postW * 0.25));
+                         ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                         ctx.fillRect(postX, postY, postHighlightW, postH);
+
+                         ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                         ctx.fillRect(postX + postW - postHighlightW, postY, postHighlightW, postH);
 
                          return;
                      }
