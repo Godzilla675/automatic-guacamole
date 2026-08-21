@@ -52,22 +52,24 @@ A fully-featured browser-based Minecraft clone built with pure JavaScript and Ca
 
 ## 🌐 Getting Started
 
-### Local Setup
+### Play Online / Local Setup
 1. Clone this repository:
 ```bash
 git clone https://github.com/Godzilla675/automatic-guacamole.git
 cd automatic-guacamole
 ```
 
-2. Open `index.html` in a modern web browser, or launch a simple local HTTP server:
+2. Open `index.html` directly in a modern browser, or launch a local HTTP server:
 ```bash
 python3 -m http.server 8000
 # Visit http://localhost:8000
 ```
 
 ### Requirements
-- Modern browser with Canvas 2D support (Chrome, Firefox, Safari, Edge)
-- No external runtime dependencies or CDN connectivity required for basic execution!
+- Modern web browser with Canvas 2D support (Chrome, Firefox, Safari, Edge)
+- JavaScript enabled
+- Desktop with modern CPU or Mobile (iOS 12+ / Android 8+)
+- No external dependencies or CDN required for core play!
 
 ## 📂 Project Structure
 
@@ -109,42 +111,85 @@ automatic-guacamole/
 └── FUTURE_FEATURES.md   # Roadmap for upcoming features & backlog
 ```
 
-## 🛠️ Customization & Plugin API
+## 🛠️ Technical Details
 
-### Registering Custom Blocks via Plugin System
-The engine features a modular plugin architecture (`js/plugin.js`). You can extend block definitions programmatically:
+### Technologies Used
+- **Canvas 2D API** - Custom 3D projection rendering (no external library/WebGL dependencies needed!)
+- **Vanilla JavaScript (ES6+)** - Modular OOP engine design
+- **CSS3** - Responsive UI overlay styling and HUD animations
+- **Web Audio API** - Synthesized/procedural sound effects engine
+
+### Architecture & Engine Systems
+- Chunk-based infinite world management (`ChunkManager`)
+- Customized 3D projection matrix using Canvas 2D
+- Painter's algorithm depth sorting for transparent block rendering
+- Physics simulation with AABB bounding-box collision detection
+- Day/night lighting cycle with distance fog rendering
+
+## 🎨 Customization & Plugin API
+
+### Registering Custom Plugins
+The engine features a plugin architecture (`js/plugin.js`). You can extend block definitions or game hooks programmatically:
 
 ```javascript
 window.gamePluginManager.registerPlugin({
     id: 'my-custom-plugin',
     name: 'Custom Blocks Plugin',
     init(game) {
-        // Access game blocks and register custom logic
-        console.log('Plugin loaded!');
+        console.log('Plugin initialized with game instance!', game);
     }
 });
 ```
 
 ### Adding New Blocks in `js/blocks.js`
-1. Define the block constant and properties in `js/blocks.js`:
+1. Define the block ID constant in `js/blocks.js`:
 ```javascript
 MY_CUSTOM_BLOCK: 120
 ```
-2. Set its metadata (textures, solidity, transparency, tool drops) in `BLOCK_DEFS`.
-3. Update crafting recipes in `js/crafting.js` or UI inventory slots in `js/ui.js` as needed.
+2. Add metadata (texture generator, solid, transparent, drops) in `BLOCK_DEFS`.
+3. Add crafting recipes in `js/crafting.js` or UI inventory items in `js/ui.js`.
+
+## 🚀 Performance Tips
+
+### For Players
+- Close extra browser tabs for higher frame rates.
+- Desktop Chrome / Firefox recommended for best Canvas performance.
+- On mobile devices, ensure background apps are closed.
+
+### For Developers
+- Profile render loops using Browser DevTools Performance tab.
+- Monitor geometry draw calls and chunk culling.
+- Leverage procedural texture caching in `TextureManager`.
+
+## 🐛 Known Limitations
+
+- Chunk render distance tuned to balance Canvas 2D performance.
+- Complex mob pathfinding uses line-of-sight raycasts and basic AABB navigation.
+
+See [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for planned improvements and tracked enhancements.
+
+## 🤝 Contributing
+
+When contributing:
+1. Review [FUTURE_FEATURES.md](FUTURE_FEATURES.md) for feature roadmaps and active tasks.
+2. Follow modular JS code structure across the `js/` directory.
+3. Verify test suites before submitting PRs (`npx mocha tests/*.js`).
+4. Test on both desktop PC and mobile viewports.
 
 ## 🧪 Testing
 
-Run unit tests via Mocha:
+Run unit test suite via Mocha:
 ```bash
 npx mocha tests/*.js
 ```
 
-Run end-to-end automated tests with Playwright & Python:
+Run end-to-end automated tests with Playwright & Python test harness:
 ```bash
 python3 test_runner.py
 ```
 
-## 📄 License
+## 📞 Support & Credits
 
-This project is open source and available for educational purposes.
+Created as a pure web-standard browser voxel engine using standard Canvas 2D and modern web technologies.
+
+Enjoy building in your voxel world! ⛏️🎮
