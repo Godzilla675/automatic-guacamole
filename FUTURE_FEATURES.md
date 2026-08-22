@@ -128,7 +128,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Magma Blocks**: Blocks that deal damage when stepped on. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Redstone Dust Logic**: Redstone wire logic and connections are missing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Shards**: Grown from budding amethyst. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Glowstone**: Light emitting block found in the Nether. (Status: Partial implementation, missing crafting recipe, agents must fix)
+- [x] **New Task: Add Glowstone**: Light emitting block found in the Nether. (Status: Fixed, crafting recipe from 4 Glowstone dust implemented)
+- [ ] **New Task: Add Vault Block**: Standard vault structure rewards block found in Trial Chambers. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Breeze Rod**: Item dropped by the Breeze mob, used to craft Wind Charges and the Mace. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Thunderstorms and Lightning** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning. (Status: Missing implementation, agents must fix)
@@ -195,7 +197,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Polar Bears**: Add Polar Bears in snowy biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles. (Status: Bug, block logic missing in js/player.js, agents must fix)
+- [x] **New Task: Add Shields**: Add craftable shields to block incoming entity attacks and projectiles. (Status: Fixed, blocking logic and durability integrated in player.js and game.js)
 - [ ] **New Task: Implement Dolphins**: Add dolphins in ocean biomes that grant Dolphin's Grace. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
@@ -313,7 +315,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Bug, missing implementation, agents must fix)
+- [x] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Fixed)
+- [ ] **New Task: Add Pale Garden Biome**: Desaturated woodland biome home to the Creaking. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Resin Bricks**: Decorative building blocks crafted from Resin Clumps. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
@@ -344,7 +348,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Glass Pane & Fence missing in UI inventory**: Glass Panes and Fences are available in player starting inventory and crafting. (Status: Bug, missing implementation, agents must fix)
+- [x] **Bug: Glass Pane & Fence missing in UI inventory**: Glass Panes and Fences are available in player starting inventory and crafting. (Status: Fixed)
+- [ ] **New Task: Add Pale Hanging Moss**: Unique foliage item hanging from Pale Oak trees in the Pale Garden. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
 
