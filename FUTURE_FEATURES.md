@@ -313,7 +313,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
 
-- [x] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Fixed)
+- [ ] **Bug: Shield missing player logic**: Shield exists as a block, but its blocking logic and integration within js/player.js are missing. (Status: Bug, missing implementation, agents must fix)
 - [ ] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
@@ -344,7 +344,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
-- [x] **Bug: Glass Pane & Fence missing in UI inventory**: Glass Panes and Fences are available in player starting inventory and crafting. (Status: Fixed)
+- [ ] **Bug: Glass Pane & Fence missing in UI inventory**: Glass Panes and Fences are available in player starting inventory and crafting. (Status: Bug, missing implementation, agents must fix)
 - [ ] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
 
@@ -356,4 +356,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Redstone Wire Visual Connections**: Dynamic visual models for redstone wire connecting to adjacent power sources and dust lines. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM Canvas Mock missing putImageData**: In Node.js/JSDOM test suites, canvas context lacks putImageData implementation, causing failures in lighting/texture tests. (Status: Bug, agents must fix)
 
-- [x] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Fixed)
+- [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Bug, missing implementation, agents must fix)
