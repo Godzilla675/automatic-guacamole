@@ -34,7 +34,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Badlands Biome** (Status: Missing implementation, agents must fix)
 - [ ] **Desert Temple** (Status: Missing implementation, agents must fix)
 ### 2. Block System
-- [ ] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Fixed, upper half placement and collision implemented)
 - [ ] **Decorative blocks** (Glazed Terracotta) (Status: Missing implementation, agents must fix)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block definitions and logic, agents must fix)
 ### 3. Rendering Engine
@@ -156,7 +156,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed, hostile mob target tracking and line-of-sight lock-on implemented)
 
 - [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
@@ -344,7 +344,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Scaffolding**: Block used to climb vertically easily. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Glazed Terracotta**: Missing entirely from the codebase. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Target Lock-On**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Bug, missing implementation, agents must fix)
+- [x] **Bug: Target Lock-On**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed, hostile mob target tracking and line-of-sight lock-on implemented)
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
@@ -362,3 +362,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: JSDOM Canvas Mock missing putImageData**: In Node.js/JSDOM test suites, canvas context lacks putImageData implementation, causing failures in lighting/texture tests. (Status: Bug, agents must fix)
 
 - [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Bug, missing implementation, agents must fix)
+- [ ] **New Task: Add Copper Doors**: Add oxidation-capable doors crafted from copper blocks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Torchflowers**: Ancient plants grown from Torchflower Seeds found by Sniffers. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Pitcher Plants**: Tall ancient plants grown from Pitcher Pods found by Sniffers. (Status: Missing implementation, agents must fix)
