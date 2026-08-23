@@ -117,5 +117,7 @@ While the tests pass, some features logged as tested or mentioned in documentati
 - Spectator Mode (fly through blocks) and Fireworks (crafted explodables) are tracked for future implementation.
 - Potion items exist, but effect consumption logic is incomplete.
 - Repeaters and comparators are missing redstone logic.
+- Glazed Terracotta and other decorative blocks remain unimplemented.
+- The JSDOM Canvas Mock is missing `putImageData`, causing Node.js/JSDOM test suites to fail some tests if not handled correctly.
 
 *Note: These are considered feature requests/missing scope rather than active regressions, as the current test suites assert 100% stability against the currently implemented codebase.*
