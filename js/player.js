@@ -461,14 +461,17 @@ class Player {
     }
 
     eat(itemType) {
+        if (itemType === BLOCK.ITEM_POTION) {
+            this.health = Math.min(this.maxHealth, this.health + 6);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
         const blockDef = BLOCKS[itemType];
         if (blockDef && blockDef.food) {
             // Restore hunger
             this.hunger = Math.min(this.maxHunger, this.hunger + blockDef.food);
 
-            // Play sound (assuming 'eat' is or will be implemented, or fallback to 'place')
-            // We'll use 'place' if 'eat' isn't there, but let's assume we add it.
-            // Actually, let's use a generic sound call that won't crash.
             if (window.soundManager) window.soundManager.play('eat');
 
             if (this.game.updateHealthUI) this.game.updateHealthUI();
