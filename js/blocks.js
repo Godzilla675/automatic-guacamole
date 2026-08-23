@@ -148,6 +148,7 @@ const BLOCK = {
     RAIL: 203,
     POWERED_RAIL: 204,
     DETECTOR_RAIL: 205,
+    BOOKSHELF: 206,
     NOTE_BLOCK: 210,
 
     // Tools/Items (IDs start at 100 to avoid conflict with blocks)
@@ -227,6 +228,7 @@ const BLOCK = {
     ITEM_POTION: 316,
     ITEM_ENCHANTED_BOOK: 317,
     ITEM_LAPIS_LAZULI: 318,
+    ITEM_BOOK: 319,
     ITEM_MINECART: 320,
     ITEM_BOAT: 321,
     ITEM_SIGN: 322,
@@ -452,6 +454,7 @@ const BLOCKS = {
     [BLOCK.BREWING_STAND]: { name: 'Brewing Stand', color: '#808080', solid: false, transparent: true, icon: '🧪', hardness: 0.5, tool: 'pickaxe' },
     [BLOCK.CAULDRON]: { name: 'Cauldron', color: '#404040', solid: false, transparent: true, icon: '🍲', hardness: 2.0, tool: 'pickaxe' },
     [BLOCK.ENCHANTING_TABLE]: { name: 'Enchanting Table', color: '#800000', top: '#FFD700', solid: false, transparent: true, icon: '📖', hardness: 5.0, tool: 'pickaxe', light: 7 },
+    [BLOCK.BOOKSHELF]: { name: 'Bookshelf', color: '#8B4513', top: '#8B4513', solid: true, icon: '📚', hardness: 1.5, tool: 'axe', drop: { type: BLOCK.BOOKSHELF, count: 1 } },
     [BLOCK.RAIL]: { name: 'Rail', color: '#808080', solid: false, transparent: true, icon: '🛤️', hardness: 0.0 },
     [BLOCK.NOTE_BLOCK]: { name: 'Note Block', color: '#8B4513', top: '#A0522D', solid: true, icon: '🎵', hardness: 0.8, tool: 'axe' },
 
@@ -548,6 +551,7 @@ const BLOCKS = {
     [BLOCK.ITEM_GLASS_BOTTLE]: { name: 'Glass Bottle', color: '#ADD8E6', solid: false, isItem: true, icon: '🍾' },
     [BLOCK.ITEM_POTION]: { name: 'Potion', color: '#FF00FF', solid: false, isItem: true, icon: '🧪' },
     [BLOCK.ITEM_ENCHANTED_BOOK]: { name: 'Enchanted Book', color: '#800080', solid: false, isItem: true, icon: '📘' },
+    [BLOCK.ITEM_BOOK]: { name: 'Book', color: '#8B4513', solid: false, isItem: true, icon: '📖' },
     [BLOCK.ITEM_LAPIS_LAZULI]: { name: 'Lapis Lazuli', color: '#00008B', solid: false, isItem: true, icon: '💙' },
     [BLOCK.ITEM_MINECART]: { name: 'Minecart', color: '#808080', solid: false, isItem: true, icon: '🛒' },
     [BLOCK.ITEM_BOAT]: { name: 'Boat', color: '#8B4513', solid: false, isItem: true, icon: '🛶' },

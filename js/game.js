@@ -436,10 +436,21 @@ class Game {
                 if (this.interact(hit.x, hit.y, hit.z)) return;
             }
 
-            // 2. Use Item (Eat)
+            // 2. Use Item (Eat / Drink Potion)
             if (slot && slot.count > 0) {
                  const blockDef = BLOCKS[slot.type];
-                 if (blockDef && blockDef.food) {
+                 if (slot.type === BLOCK.ITEM_POTION) {
+                     if (this.player.eat(slot.type)) {
+                         if (this.player.gamemode !== 1) {
+                             slot.count--;
+                             if (slot.count <= 0) {
+                                 this.player.inventory[this.player.selectedSlot] = null;
+                             }
+                         }
+                         this.updateHotbarUI();
+                         return;
+                     }
+                 } else if (blockDef && blockDef.food) {
                      if (this.player.hunger < this.player.maxHunger) {
                          if (this.player.eat(slot.type)) {
                              if (this.player.gamemode !== 1) {
@@ -1598,6 +1609,22 @@ class Game {
                          this.player.vz += p.vz * 0.5;
                          this.player.takeDamage(2);
                      }
+                }
+
+                // Collision with Mobs
+                if (p.life > 0 && this.mobs) {
+                    for (const mob of this.mobs) {
+                        if (!mob || mob.isDead) continue;
+                        const mobBox = { x: mob.x, y: mob.y, z: mob.z, width: mob.width || 0.6, height: mob.height || 1.8 };
+                        const tMob = this.physics.rayIntersectAABB({x: prevX, y: prevY, z: prevZ}, dir, mobBox);
+                        if (tMob !== null && tMob >= 0 && tMob <= dist) {
+                            p.life = 0;
+                            if (typeof mob.takeDamage === 'function') {
+                                mob.takeDamage(p.damage || 2);
+                            }
+                            break;
+                        }
+                    }
                 }
             }
 

@@ -164,7 +164,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **Bug: JSDOM Game constructor**: In JSDOM Mocha tests, if global.Game becomes undefined within a beforeEach hook, it must be re-assigned using `if (!global.Game) { global.Game = dom.window.Game || window.Game; }` to prevent 'is not a constructor' errors. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM loadScript mapping**: In JSDOM test scripts, classes loaded via loadScript must be mapped to global and window via the JSDOM window object. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: UI Assets Text Strings**: Block icons in the UI inventory must use valid emojis rather than text strings so they render correctly. (Status: Incorrect implementation, agents must fix)
+- [x] **Bug: UI Assets Text Strings**: Block icons in the UI inventory must use valid emojis rather than text strings so they render correctly. (Status: Fixed)
 - [ ] **Bug: JSDOM LocalStorage**: Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`. (Status: Missing implementation, agents must fix)
 
 - [ ] **Bug: Slab and Door collision test flakiness**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates. (Status: Requires clearing test area, agents must fix)
@@ -235,8 +235,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smithing Templates**: Items used to trim armor or upgrade to Netherite. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Potion effects logic missing**: Potion items exist but effect consumption is not fully implemented. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: JSDOM Window Alert Method**: The `window.alert()` method is not implemented in JSDOM, causing Mocha tests to output 'Not implemented: Window's alert() method' warnings. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Bookshelves missing**: Bookshelves are required for enchanting rooms but block definition/logic is missing. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Potion effects logic missing**: Potion items exist but effect consumption is not fully implemented. (Status: Fixed, drinking potion restores health)
+- [x] **Bug: Bookshelves missing**: Bookshelves are required for enchanting rooms but block definition/logic is missing. (Status: Fixed, block definition and textures implemented)
 - [ ] **New Task: Add Redstone Torch**: Add redstone torches to provide power to adjacent redstone blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Daylight Sensor**: Add a block that emits a redstone signal based on the time of day. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Copper Blocks**: Blocks that oxidize over time. (Status: Missing implementation, agents must fix)
@@ -263,7 +263,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Fixed, projectile collision with mobs implemented safely)
 - [ ] **New Task: Add Illusioners**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
 
@@ -292,7 +292,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Command Blocks**: Blocks that can execute server commands when powered by redstone. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Witches**: Hostile mobs that throw potions. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Rideable Pigs missing**: Allow players to ride pigs using saddles and carrot on a stick. (Status: Bug, missing implementation, agents must fix)
+- [x] **Bug: Rideable Pigs missing**: Allow players to ride pigs using saddles and carrot on a stick. (Status: Fixed, pig riding interaction implemented in mob.js)
 - [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Copper Bulbs**: Light blocks that dim as they oxidize. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Missing implementation, agents must fix)

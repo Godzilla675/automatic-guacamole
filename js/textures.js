@@ -120,6 +120,7 @@ class TextureManager {
         this.textures[B.STICKY_PISTON] = this.genPiston(true);
         this.textures[B.JUKEBOX] = this.genJukebox();
         this.textures[B.ANVIL] = this.genAnvil();
+        this.textures[B.BOOKSHELF] = this.genPlank('#8B4513');
 
         // Melon/Pumpkin
         this.textures[B.MELON_BLOCK] = this.genMelon();
@@ -1012,6 +1013,7 @@ class TextureManager {
 
         // Misc items
         this.textures[B.ITEM_ENCHANTED_BOOK] = this.genEnchantedBook();
+        this.textures[B.ITEM_BOOK] = this.genEnchantedBook();
         this.textures[B.ITEM_SIGN] = this.genSignItem();
         this.textures[B.ITEM_BOAT] = this.genBoatItem();
         this.textures[B.ITEM_MINECART] = this.genMinecartItem();

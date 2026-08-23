@@ -94,6 +94,18 @@ class Mob extends Entity {
              return true;
         }
 
+        // Pig Riding
+        if (this.type === MOB_TYPE.PIG) {
+            if (this.game && this.game.player) {
+                if (this.game.player.riding === this) {
+                    this.game.player.riding = null;
+                } else {
+                    this.game.player.riding = this;
+                }
+                return true;
+            }
+        }
+
         // Cow Milking
         if (this.type === MOB_TYPE.COW && itemType === BLOCK.ITEM_BUCKET) {
             // Replace bucket with milk bucket in inventory
