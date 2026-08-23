@@ -13,7 +13,12 @@ The core rendering, physics, logic, and UI mechanics are fully functional as tes
 
 ### Latest Audit Execution Findings
 - **Automated Verification Test Suite (`test_runner.py`)**: 85/85 tests passing (100% success rate across JS and Python verification scripts).
-- **Mocha JavaScript Unit Test Suite (`npx mocha tests/*.js`)**: 229/229 unit tests passing.
+- **Mocha JavaScript Unit Test Suite (`npx mocha tests/*.js`)**: 238/238 unit tests passing (including 9 new unit tests verifying newly added features in `tests/test_newly_added_features_audit.js`).
+- **Newly Added Features Verification**:
+  - **Glowstone Block & Dust**: Light emission level 15, drops 4 Glowstone Dust items, 4 Glowstone Dust crafts 1 Glowstone block.
+  - **Shield Blocking & Durability**: 100% damage block active in main hand or offhand slot, durability reduction on hit, breaks when durability hits 0.
+  - **Offhand UI Slot & Click Logic**: Dynamic rendering of offhand slot UI element (`[data-offhand-slot='true']`), click handler equips and unequips items seamlessly.
+  - **Glass Panes & Fences UI Assets**: Icons correctly rendered with valid emoji assets, available in starting inventory and crafting recipes.
 - **End-to-End Playwright Gameplay & Navigation Tests (`extensive_test.py`, `manual_ui_test.py`)**: All tests passed (Movement, Jumping, Menus Navigation, UI Visibility, Block Interaction, Fly Mode, Inventory & Crafting UI).
 
 ---
@@ -24,13 +29,13 @@ The core rendering, physics, logic, and UI mechanics are fully functional as tes
 Executed via: `npx mocha tests/*.js`
 
 **Result:** PASS
-**Summary:** 229 passing tests across various modules including physics, math, world generation, core player interactions, UI logic, entity systems, and recent features.
+**Summary:** 238 passing tests across various modules including physics, math, world generation, core player interactions, UI logic, entity systems, and recent features.
 
 <details>
 <summary>Mocha Summary Extract</summary>
 
 ```text
-  229 passing
+  238 passing
 ```
 </details>
 
