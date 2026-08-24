@@ -221,7 +221,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Trial Chambers**: New procedural combat structures. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Tricky Trials**: Expand Trial Chambers with Trial Spawners. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: UI Scaling broken on ultra-wide screens**: The hotbar doesn't center properly on very wide displays. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Missing Hitboxes for Fences, Stairs, and Slabs**: Incomplete block hitboxes allowing players to phase through them. (Status: Hitbox code for stairs is completely missing from physics.js, agents must fix)
+- [x] **Bug: Missing Hitboxes for Fences, Stairs, and Slabs**: Incomplete block hitboxes allowing players to phase through them. (Status: Fixed, stair/fence/slab collision hitboxes updated in physics.js)
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Camels**: Desert mounts that can seat two players. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books. (Status: Missing implementation, agents must fix)
@@ -260,7 +260,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Fixed, offhand UI container added in index.html and rendered in ui.js)
 - [ ] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Fixed, projectile collision with mobs implemented safely)
@@ -333,7 +333,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Maces**: A heavy melee weapon for close combat. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trial Chambers**: A new underground structure with challenges. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze**: A hostile mob found in trial chambers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Offhand UI**: The offhand equipment slot needs UI and integration in inventory grid. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Offhand UI**: The offhand equipment slot needs UI and integration in inventory grid. (Status: Fixed, offhand slot UI implemented)
 - [ ] **New Task: Add Tool Icons**: Different tool types (axes, picks, etc) need graphical icons. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Bug, missing implementation, agents must fix)
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas. (Status: Missing implementation, agents must fix)
