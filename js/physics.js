@@ -87,27 +87,33 @@ class Physics {
                             const pMinZ = box.z - box.width/2;
                             const pMaxZ = box.z + box.width/2;
 
-                            // 1. Bottom Slab
+                            const isUpsideDown = (meta & 4) !== 0;
+                            const dir = meta & 3;
+
+                            // 1. Base Slab (Bottom half if normal, Top half if upside down)
+                            const baseMinY = isUpsideDown ? y + 0.5 : y;
+                            const baseMaxY = isUpsideDown ? y + 1.0 : y + 0.5;
+
                             if (x < pMaxX && x + 1 > pMinX &&
-                                y < pMaxY && y + 0.5 > pMinY &&
+                                baseMinY < pMaxY && baseMaxY > pMinY &&
                                 z < pMaxZ && z + 1 > pMinZ) {
                                 return true;
                             }
 
-                            // 2. Top Half (Quadrant)
-                            let tMinX = x, tMaxX = x + 1;
-                            let tMinZ = z, tMaxZ = z + 1;
-                            const tMinY = y + 0.5;
-                            const tMaxY = y + 1.0;
+                            // 2. Step Half (Quadrant)
+                            let stepMinX = x, stepMaxX = x + 1;
+                            let stepMinZ = z, stepMaxZ = z + 1;
+                            const stepMinY = isUpsideDown ? y : y + 0.5;
+                            const stepMaxY = isUpsideDown ? y + 0.5 : y + 1.0;
 
-                            if (meta === 0) tMinX = x + 0.5; // East
-                            else if (meta === 1) tMaxX = x + 0.5; // West
-                            else if (meta === 2) tMinZ = z + 0.5; // South
-                            else if (meta === 3) tMaxZ = z + 0.5; // North
+                            if (dir === 0) stepMinX = x + 0.5; // East step
+                            else if (dir === 1) stepMaxX = x + 0.5; // West step
+                            else if (dir === 2) stepMinZ = z + 0.5; // South step
+                            else if (dir === 3) stepMaxZ = z + 0.5; // North step
 
-                            if (tMinX < pMaxX && tMaxX > pMinX &&
-                                tMinY < pMaxY && tMaxY > pMinY &&
-                                tMinZ < pMaxZ && tMaxZ > pMinZ) {
+                            if (stepMinX < pMaxX && stepMaxX > pMinX &&
+                                stepMinY < pMaxY && stepMaxY > pMinY &&
+                                stepMinZ < pMaxZ && stepMaxZ > pMinZ) {
                                 return true;
                             }
                             continue; // Next block

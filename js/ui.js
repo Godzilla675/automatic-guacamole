@@ -1285,11 +1285,14 @@ class UIManager {
         }
 
         // Render Offhand Slot
+        const offhandContainer = document.getElementById('offhand-container');
+        const targetContainer = offhandContainer || grid;
+        if (offhandContainer) offhandContainer.innerHTML = '';
+
         const offhandSlot = document.createElement('div');
         offhandSlot.className = 'inventory-item';
         offhandSlot.dataset.offhandSlot = 'true';
         offhandSlot.style.position = 'relative';
-        offhandSlot.style.marginLeft = '15px';
 
         const offIcon = document.createElement('span');
         offIcon.className = 'block-icon';
@@ -1324,7 +1327,7 @@ class UIManager {
             this.handleOffhandClick();
         });
 
-        grid.appendChild(offhandSlot);
+        targetContainer.appendChild(offhandSlot);
     }
 
     handleOffhandClick() {
