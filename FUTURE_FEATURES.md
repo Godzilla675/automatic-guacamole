@@ -365,3 +365,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Copper Doors**: Add oxidation-capable doors crafted from copper blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Torchflowers**: Ancient plants grown from Torchflower Seeds found by Sniffers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pitcher Plants**: Tall ancient plants grown from Pitcher Pods found by Sniffers. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mud Blocks**: Decorative and building blocks found in swamps. (Status: Missing implementation, agents must fix)
