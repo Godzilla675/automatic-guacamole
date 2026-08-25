@@ -13,7 +13,7 @@ The core rendering, physics, logic, and UI mechanics are fully functional as tes
 
 ### Latest Audit Execution Findings
 - **Automated Verification Test Suite (`test_runner.py`)**: 85/85 tests passing (100% success rate across JS and Python verification scripts).
-- **Mocha JavaScript Unit Test Suite (`npx mocha tests/*.js`)**: 238/238 unit tests passing (including 9 new unit tests verifying newly added features in `tests/test_newly_added_features_audit.js`).
+- **Mocha JavaScript Unit Test Suite (`npx mocha tests/*.js`)**: 238/238 unit tests passing (including 9 unit tests verifying newly added features in `tests/test_newly_added_features_audit.js`).
 - **Newly Added Features Verification**:
   - **Glowstone Block & Dust**: Light emission level 15, drops 4 Glowstone Dust items, 4 Glowstone Dust crafts 1 Glowstone block.
   - **Shield Blocking & Durability**: 100% damage block active in main hand or offhand slot, durability reduction on hit, breaks when durability hits 0.
@@ -35,7 +35,7 @@ Executed via: `npx mocha tests/*.js`
 <summary>Mocha Summary Extract</summary>
 
 ```text
-  238 passing
+  238 passing (21s)
 ```
 </details>
 
@@ -118,9 +118,9 @@ Console Errors: 0
 
 While the tests pass, some features logged as tested or mentioned in documentation remain unimplemented or partially functional based on previous context:
 - Enderite, Copper Bulbs, Frogs, Mud Blocks, Mangrove Swamps, Coral, Seagrass, Kelp, Trading Posts are known missing elements.
-- Rideable Pigs and Witches are missing implementation.
+- Rideable Pigs interaction logic is implemented; Witches mob is missing implementation.
 - Spectator Mode (fly through blocks) and Fireworks (crafted explodables) are tracked for future implementation.
-- Potion items exist, but effect consumption logic is incomplete.
+- Potion items exist, and drinking potion effect restores health.
 - Repeaters and comparators are missing redstone logic.
 - Glazed Terracotta and other decorative blocks remain unimplemented.
 - The JSDOM Canvas Mock is missing `putImageData`, causing Node.js/JSDOM test suites to fail some tests if not handled correctly.
