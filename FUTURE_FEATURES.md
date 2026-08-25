@@ -366,3 +366,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Torchflowers**: Ancient plants grown from Torchflower Seeds found by Sniffers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pitcher Plants**: Tall ancient plants grown from Pitcher Pods found by Sniffers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mud Blocks**: Decorative and building blocks found in swamps. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Glow Berries**: Food item found in Lush Caves attached to Cave Vines that emits light and restores hunger. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Glow Item Frames**: Item frame variant crafted with Glow Ink Sac that illuminates displayed items. (Status: Missing implementation, agents must fix)
