@@ -264,7 +264,12 @@ const BLOCK = {
     ITEM_HELMET_DIAMOND: 352,
     ITEM_CHESTPLATE_DIAMOND: 353,
     ITEM_LEGGINGS_DIAMOND: 354,
-    ITEM_BOOTS_DIAMOND: 355
+    ITEM_BOOTS_DIAMOND: 355,
+
+    // New Agent Tasks Features
+    ITEM_FIREWORK: 360,
+    ITEM_SPYGLASS: 361,
+    HONEY_BLOCK: 362
 };
 
 const ARMOR = {
@@ -591,7 +596,12 @@ const BLOCKS = {
     [BLOCK.ITEM_HELMET_DIAMOND]: { name: 'Diamond Helmet', color: '#00FFFF', solid: false, isItem: true, icon: '💎' },
     [BLOCK.ITEM_CHESTPLATE_DIAMOND]: { name: 'Diamond Chestplate', color: '#00FFFF', solid: false, isItem: true, icon: '👕' },
     [BLOCK.ITEM_LEGGINGS_DIAMOND]: { name: 'Diamond Leggings', color: '#00FFFF', solid: false, isItem: true, icon: '👖' },
-    [BLOCK.ITEM_BOOTS_DIAMOND]: { name: 'Diamond Boots', color: '#00FFFF', solid: false, isItem: true, icon: '👢' }
+    [BLOCK.ITEM_BOOTS_DIAMOND]: { name: 'Diamond Boots', color: '#00FFFF', solid: false, isItem: true, icon: '👢' },
+
+    // New Agent Tasks Features
+    [BLOCK.ITEM_FIREWORK]: { name: 'Firework Rocket', color: '#FF0055', solid: false, isItem: true, icon: '🎆' },
+    [BLOCK.ITEM_SPYGLASS]: { name: 'Spyglass', color: '#D2691E', solid: false, isItem: true, icon: '🔭' },
+    [BLOCK.HONEY_BLOCK]: { name: 'Honey Block', color: '#FFB000', top: '#FFC800', solid: true, transparent: true, icon: '🍯', hardness: 0.5, sticky: true }
 };
 
 if (typeof window !== 'undefined') {

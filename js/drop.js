@@ -26,6 +26,12 @@ class Drop {
         this.lifeTime -= dt;
         this.rotY += 2.0 * dt;
 
+        if (this.lifeTime <= 0) {
+            if (this.game && this.game.particles) {
+                this.game.particles.spawn(this.x, this.y, this.z, '#888888', 3);
+            }
+        }
+
         // Gravity
         this.vy -= this.gravity * dt;
 

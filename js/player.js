@@ -44,6 +44,15 @@ class Player {
         this.lastDamageTime = 0;
         this.spawnPoint = { x: 8, y: 40, z: 8 };
 
+
+        // Spectator mode handling
+        if (this.gamemode === 3 || this.spectator) {
+            this.flying = true;
+            this.noclip = true;
+        } else {
+            this.noclip = false;
+        }
+
         // Movement state
         this.walkDistance = 0;
         this.sprinting = false;
@@ -76,6 +85,8 @@ class Player {
         this.unlockedRecipes.add("Furnace");
 
         this.riding = null;
+        this.isUsingSpyglass = false;
+        this.spectator = false;
 
         // Offhand slot
         this.offhand = null;
@@ -156,7 +167,7 @@ class Player {
     }
 
     takeDamage(amount) {
-        if (this.gamemode === 1) return; // Creative God Mode
+        if (this.gamemode === 1 || this.gamemode === 3 || this.spectator) return; // God Mode
         if (Date.now() - this.lastDamageTime < 500) return; // Invulnerability frames
 
         if (this.blocking) {
@@ -310,6 +321,36 @@ class Player {
             }
         }
 
+
+        // Honey Block Sliding & Slowdown
+        let onHoney = false;
+        const checkHoney = (bx, by, bz) => {
+            return this.game.world && this.game.world.getBlock(bx, by, bz) === window.BLOCK.HONEY_BLOCK;
+        };
+        const pMinX = Math.floor(this.x - this.width/2 - 0.1);
+        const pMaxX = Math.floor(this.x + this.width/2 + 0.1);
+        const pMinY = Math.floor(this.y - 0.1);
+        const pMaxY = Math.floor(this.y + this.height + 0.1);
+        const pMinZ = Math.floor(this.z - this.width/2 - 0.1);
+        const pMaxZ = Math.floor(this.z + this.width/2 + 0.1);
+
+        for (let bx = pMinX; bx <= pMaxX; bx++) {
+            for (let by = pMinY; by <= pMaxY; by++) {
+                for (let bz = pMinZ; bz <= pMaxZ; bz++) {
+                    if (checkHoney(bx, by, bz)) {
+                        onHoney = true;
+                        break;
+                    }
+                }
+                if (onHoney) break;
+            }
+            if (onHoney) break;
+        }
+
+        if (onHoney && !this.flying && this.vy < -2.0) {
+            this.vy = -2.0; // Slide down slowly on honey block
+        }
+
         // Fluid Physics
         const inWater = this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
         if (inWater) {
@@ -412,10 +453,19 @@ class Player {
             }
             if (this.onGround) {
                 if (this.fallDistance > 3) {
-                    const damage = Math.floor(this.fallDistance - 3);
+                    // Check if landed on Honey Block
+                    const feetY = Math.floor(this.y - 0.5);
+                    const feetX = Math.floor(this.x);
+                    const feetZ = Math.floor(this.z);
+                    const landedBlock = this.game.world ? this.game.world.getBlock(feetX, feetY, feetZ) : 0;
+
+                    let damage = Math.floor(this.fallDistance - 3);
+                    if (landedBlock === window.BLOCK.HONEY_BLOCK) {
+                        damage = Math.floor(damage * 0.2); // 80% reduction
+                    }
                     if (damage > 0) {
                         this.takeDamage(damage);
-                        window.soundManager.play('break'); // Fall sound (using break for now)
+                        window.soundManager.play('break');
                     }
                 }
                 this.fallDistance = 0;
@@ -482,6 +532,12 @@ class Player {
     }
 
     moveBy(dx, dy, dz) {
+        if (this.gamemode === 3 || this.spectator || this.noclip) {
+            this.x += dx;
+            this.y += dy;
+            this.z += dz;
+            return;
+        }
         const world = this.game.world;
         const physics = this.game.physics;
 

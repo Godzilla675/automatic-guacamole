@@ -147,12 +147,17 @@ class ChatManager {
                 let gm = -1;
                 if (mode === '0' || mode === 'survival' || mode === 's') gm = 0;
                 else if (mode === '1' || mode === 'creative' || mode === 'c') gm = 1;
+                else if (mode === '3' || mode === 'spectator' || mode === 'sp') gm = 3;
 
                 if (gm !== -1) {
                     this.game.player.gamemode = gm;
-                    this.addMessage(`Set gamemode to ${gm === 1 ? 'Creative' : 'Survival'}`);
+                    this.game.player.spectator = (gm === 3);
+                    const modeName = gm === 3 ? 'Spectator' : (gm === 1 ? 'Creative' : 'Survival');
+                    this.addMessage('Set gamemode to ' + modeName);
                     if (gm === 0) {
                         this.game.player.flying = false;
+                    } else if (gm === 3) {
+                        this.game.player.flying = true;
                     }
                 } else {
                     this.addMessage("Unknown gamemode: " + mode);

@@ -342,6 +342,38 @@ class Game {
 
             const slot = this.player.inventory[this.player.selectedSlot];
 
+
+            // Firework Logic
+            if (slot && slot.type === BLOCK.ITEM_FIREWORK) {
+                const dir = {
+                    x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                    y: -Math.sin(this.player.pitch),
+                    z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+                };
+                this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir, 'firework');
+                if (window.soundManager) window.soundManager.play('fuse', {x: this.player.x, y: this.player.y, z: this.player.z});
+
+                if (this.player.gamemode !== 1) {
+                    slot.count--;
+                    if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                }
+                if (this.ui && this.ui.updateHotbarUI) this.updateHotbarUI();
+                return;
+            }
+
+            // Spyglass Logic
+            if (slot && slot.type === BLOCK.ITEM_SPYGLASS) {
+                this.player.isUsingSpyglass = !this.player.isUsingSpyglass;
+                if (this.player.isUsingSpyglass) {
+                    this.unzoomedFov = this.fov;
+                    this.fov = 20; // Zoom in
+                    if (window.soundManager) window.soundManager.play('place');
+                } else {
+                    this.setFOV(this.unzoomedFov || 60);
+                }
+                return;
+            }
+
             // Bow Logic
             if (slot && slot.type === BLOCK.BOW) {
                 // Check for Arrows
@@ -417,7 +449,7 @@ class Game {
                         this.player.inventory[this.player.selectedSlot] = null;
                     }
                 }
-                this.updateHotbarUI();
+                if (this.ui && this.ui.updateHotbarUI) this.updateHotbarUI();
                 return;
             }
 
@@ -1016,13 +1048,16 @@ class Game {
     }
 
     spawnProjectile(x, y, z, dir, type = 'arrow') {
-        const speed = type === 'fireball' ? 10 : 15;
+        let speed = 15;
+        let life = 2.0;
+        if (type === 'fireball') { speed = 10; life = 5.0; }
+        else if (type === 'firework') { speed = 20; life = 1.2; }
         this.projectiles.push({
             x, y, z,
-            vx: dir.x * speed,
-            vy: dir.y * speed,
-            vz: dir.z * speed,
-            life: type === 'fireball' ? 5.0 : 2.0,
+            vx: type === 'firework' ? dir.x * 5 : dir.x * speed,
+            vy: type === 'firework' ? 15 : dir.y * speed,
+            vz: type === 'firework' ? dir.z * 5 : dir.z * speed,
+            life: life,
             type: type
         });
     }
@@ -1629,6 +1664,17 @@ class Game {
             }
 
             if (p.life <= 0) {
+                if (p.type === 'firework') {
+                    if (this.particles && this.particles.spawnFirework) {
+                        this.particles.spawnFirework(p.x, p.y, p.z);
+                    } else if (this.particles) {
+                        const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF'];
+                        for (let c of colors) {
+                            this.particles.spawn(p.x, p.y, p.z, c, 15);
+                        }
+                    }
+                    if (window.soundManager) window.soundManager.play('fuse', {x: p.x, y: p.y, z: p.z});
+                }
                 this.projectiles.splice(i, 1);
             }
         }
