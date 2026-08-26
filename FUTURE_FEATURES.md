@@ -156,7 +156,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Broken, hasLineOfSight missing on Mob class, agents must fix)
+- [x] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed, hostile mob target tracking and line-of-sight lock-on implemented)
 
 - [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
@@ -368,3 +368,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Mud Blocks**: Decorative and building blocks found in swamps. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Berries**: Food item found in Lush Caves attached to Cave Vines that emits light and restores hunger. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Item Frames**: Item frame variant crafted with Glow Ink Sac that illuminates displayed items. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Brewing Stand**: Brewing stand block definition and interaction. (Status: Implemented and verified by agent)
+- [x] **New Task: Add Jukebox**: Jukebox block definition, textures, and UI interface. (Status: Implemented and verified by agent)
