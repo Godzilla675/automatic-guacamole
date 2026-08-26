@@ -142,3 +142,18 @@ While the implemented code is completely stable without any regressions or activ
 
 **Final Verdict:**
 The Voxel World engine and overarching test suites are extremely stable and present a 100% pass rate. I have exhaustively tested the engine, dependencies, and execution paths. The application remains clean with no functional regressions introduced to existing mechanics. No new regressions or actionable runtime exceptions are recorded during this audit cycle. Codebase is perfectly stable.
+
+### 4.4 Newly Added Features Audit Run
+**Date:** Current Audit
+**Tested Features & Results:**
+- **Glowstone & Recipe:** Verified Glowstone and Glowstone Dust block definitions and crafting recipe (4 Glowstone Dust -> Glowstone).
+- **Shield Blocking Mechanics:** Verified main hand & offhand 100% damage reduction and durability loss upon blocking until broken.
+- **Offhand UI & Item Equipping:** Verified offhand container slot in inventory grid and equipping/unequipping logic via ui.js.
+- **Glass Panes & Fences UI Assets:** Verified Glass Panes and Fences defined in starting inventory and UI icons.
+- **Spectator Mode:** Verified gamemode spectator fly-through-blocks behavior.
+- **Fireworks & Visual FX:** Verified Firework rocket launching, particle explosions, sound FX, and Elytra boosting integration.
+- **Item Despawn Logic:** Verified item lifetime handling and despawn particle cues.
+- **Spyglass Zoom:** Verified FOV zoom toggling on item use.
+- **Honey Blocks:** Verified fall damage reduction and slowing velocity on contact.
+- **Hostile Mob Target Lock-On:** Verified line-of-sight target tracking logic in mob.js.
+- **Automated Playwright E2E UI Tests:** manual_ui_test.py (5/5 passed) and extensive_test.py (4/4 passed). 0 console errors reported.
