@@ -197,3 +197,43 @@ The Voxel World engine and overarching test suites are extremely stable and pres
 - **JSDOM Game Constructor:** Under JSDOM mocha tests, `global.Game` can become undefined during hooks and throw constructor errors.
 
 *Action Required:* The aforementioned bugs represent active regressions or missing critical functionality and should be triaged by development agents immediately.
+
+## 6. Audit of Recently Completed Features in AGENT TASKS (FUTURE_FEATURES.md)
+
+**Audit Date:** August 2026
+**Scope:** Verification of newly added completed features `[x]` listed in `FUTURE_FEATURES.md`.
+
+### 6.1 Summary of Completed Feature Testing
+- **Brewing Stand (`BLOCK.BREWING_STAND`)**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Block definition, GUI panel, and potion brewing timing logic verified via `verification/verify_brewing.js` and `js/game.js`.
+- **Jukebox (`BLOCK.JUKEBOX`)**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Jukebox block definition, procedural textures in `js/textures.js`, and UI interface (`ui.openJukebox`) verified via `verification/verify_jukebox.js`.
+- **Spectator Mode**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Allows flying through solid blocks (`player.spectator = true`) without terrain collision checks interfering. Tested in `tests/test_new_agent_features.js`.
+- **Fireworks & Explosion Visual FX**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Rocket launching, velocity updates, explosion particle creation, and Elytra boost hook verified in `tests/test_new_agent_features.js`.
+- **Item Despawn Logic**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Item entities despawn when `lifeTime` expires, emitting despawn particle cues. Tested in `tests/test_new_agent_features.js`.
+- **Spyglass Zoom**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Using Spyglass toggles player zoom FOV between standard (60) and zoomed (20). Tested in `tests/test_new_agent_features.js`.
+- **Honey Blocks**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Reduces fall damage on landing by 80% and slows entity sliding. Tested in `tests/test_new_agent_features.js`.
+- **Hostile Mob Target Lock-On**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Target tracking and line-of-sight checks implemented in `js/mob.js`.
+- **Offhand UI & Equipping**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Dedicated offhand equipment slot UI integrated in `index.html` and `js/ui.js` with full cursor swap support. Tested in `tests/test_newly_added_features_audit.js`.
+- **Bookshelves**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Block definition and texture generation implemented in `js/blocks.js` and `js/textures.js`.
+- **Glass Panes & Fences UI Assets**:
+  - *Status*: ✅ VERIFIED WORKING.
+  - *Details*: Emojis and items present in starting inventory and UI crafting grids.
