@@ -44,16 +44,16 @@ Testing setBlock removal...
   Feature Audit
     ✔ Multiplayer: Should connect and send position updates
     ✔ Multiplayer: Should receive chat
-    ✔ Durability: Should decrease when block is broken (40ms)
+    ✔ Durability: Should decrease when block is broken (54ms)
     ✔ Lighting: Torch should emit light
 
   Bug Verification
     ✔ should allow Cows to breed with Wheat Item
-    ✔ should populate Recipe Book (129ms)
+    ✔ should populate Recipe Book (144ms)
     ✔ Fishing Bobber should work
 
   Cactus Damage Tests
-    ✔ should damage player when too close to cactus (42ms)
+    ✔ should damage player when too close to cactus (60ms)
 
   Plugin API
     ✔ should register and emit events
@@ -185,14 +185,10 @@ Testing setBlock removal...
 
   World Saving
 World saved to slot: test_coverage_slot 9 chunks
-Not implemented: Window's alert() method
 World loaded from slot: test_coverage_slot
-Not implemented: Window's alert() method
-    ✔ should save and load block state
+    ✔ should save and load block state (105ms)
 World saved to slot: test_meta_slot 9 chunks
-Not implemented: Window's alert() method
 World loaded from slot: test_meta_slot
-Not implemented: Window's alert() method
     ✔ should save and load metadata
 
   Renderer Performance
@@ -227,30 +223,35 @@ Not implemented: Window's alert() method
       ✔ Crouch should reduce height
     Saving
 World saved to slot: test_slot 9 chunks
-Not implemented: Window's alert() method
 World loaded from slot: test_slot
-Not implemented: Window's alert() method
-      ✔ should save and load world (61ms)
+      ✔ should save and load world (64ms)
     Commands
-      ✔ /fill command (97ms)
+      ✔ /fill command (86ms)
 
   Implemented Features Tests
-    ✔ Chest Interaction (173ms)
-    ✔ Slab Collision (51ms)
-    ✔ Door Logic (47ms)
+    ✔ Chest Interaction (135ms)
+    ✔ Slab Collision
+    ✔ Door Logic (44ms)
     ✔ Tool Repair
-    ✔ Cactus Damage (73ms)
+    ✔ Cactus Damage (86ms)
 
   Verification of Missing Coverage
-    ✔ should place stairs with correct orientation based on player yaw (310ms)
+    ✔ should place stairs with correct orientation based on player yaw (285ms)
     ✔ should simulate water flow correctly
-    ✔ should calculate mining speeds correctly (Tool > Hand)
+    ✔ should calculate mining speeds correctly (Tool > Hand) (46ms)
     ✔ should generate structures in correct biomes
 
   Mob System
     ✔ should initialize with correct type properties
     ✔ zombie should chase player
     ✔ cow should move randomly
+
+  New Agent Tasks Implemented Features
+    ✔ should support Spectator Mode flying through solid blocks
+    ✔ should launch Firework rockets and spawn explosion particles (49ms)
+    ✔ should trigger particle cues and despawn items when lifeTime expires
+    ✔ should toggle Spyglass zoom FOV when used
+    ✔ should reduce fall damage when landing on a Honey Block
 
   New Blocks Verification
     ✔ should have Concrete blocks defined
@@ -259,7 +260,7 @@ Not implemented: Window's alert() method
 
   New Features Verification
     Inventory UI
-      ✔ should pick up an item (45ms)
+      ✔ should pick up an item (43ms)
       ✔ should place an item
       ✔ should stack items
       ✔ should swap items
@@ -269,13 +270,28 @@ Not implemented: Window's alert() method
       ✔ should progress smelting
       ✔ should produce output when complete
     Farming
-      ✔ Hoe should turn Dirt/Grass to Farmland (132ms)
-      ✔ Seeds should plant on Farmland (60ms)
+      ✔ Hoe should turn Dirt/Grass to Farmland
+      ✔ Seeds should plant on Farmland
     Bed Interaction
-      ✔ should allow sleep at night (79ms)
-      ✔ should not allow sleep during day (48ms)
+      ✔ should allow sleep at night
+      ✔ should not allow sleep during day
     Settings
       ✔ should change volume
+
+  Newly Added Features Audit Suite
+    Glowstone Feature Verification
+      ✔ should have Glowstone and Glowstone Dust defined in BLOCKS
+      ✔ should have a crafting recipe for Glowstone from 4 Glowstone Dust
+    Shield Blocking Mechanics & Durability
+      ✔ should have Shield item definition with durability
+      ✔ should block 100% damage when blocking in main hand and reduce durability
+      ✔ should block 100% damage when blocking with shield in offhand slot
+      ✔ should break shield when durability reaches 0
+    Offhand UI & Item Equipping
+      ✔ should initialize player offhand property as null
+      ✔ should handle offhand slot clicks to equip and unequip items
+    Glass Panes & Fences UI Assets & Inventory
+      ✔ should have Glass Panes and Fences defined in starting inventory / UI icons
 
   Recently Added Features Tests
     Sheep Mob
@@ -363,12 +379,12 @@ Not implemented: Window's alert() method
       ✔ should return null for non-existent mob textures
     Renderer Integration
       ✔ should be accessible via window.TextureManager
-      ✔ should initialize correctly when constructed fresh (61ms)
+      ✔ should initialize correctly when constructed fresh (60ms)
       ✔ should provide textures usable with drawImage pattern
 
   Water Flow Tests
-    ✔ should create infinite source from 2 sources (180ms)
-    ✔ should flow down replacing non-solid blocks (46ms)
+    ✔ should create infinite source from 2 sources (117ms)
+    ✔ should flow down replacing non-solid blocks (61ms)
 
   World Saving
 World saved to slot: default 1 chunks
@@ -379,4 +395,4 @@ World loaded from slot: slot2
     ✔ should load from specific slot
 
 
-  229 passing (27s)
+  243 passing (33s)
