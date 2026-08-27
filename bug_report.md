@@ -30,7 +30,7 @@ Executed via: `npx mocha tests/*.js`
 <summary>Mocha Summary Extract</summary>
 
 ```text
-  243 passing (28s)
+  243 passing (33s)
 ```
 </details>
 
@@ -157,3 +157,43 @@ The Voxel World engine and overarching test suites are extremely stable and pres
 - **Honey Blocks:** Verified fall damage reduction and slowing velocity on contact.
 - **Hostile Mob Target Lock-On:** Verified line-of-sight target tracking logic in mob.js.
 - **Automated Playwright E2E UI Tests:** manual_ui_test.py (5/5 passed) and extensive_test.py (4/4 passed). 0 console errors reported.
+
+## 5. Exhaustive Manual Game Testing - Active Bugs & Deficiencies
+
+**Date:** August 2026
+**Status:** ⚠️ Active Bugs Found
+**Methodology:** Comprehensive manual functional testing and codebase analysis tracking actual vs expected behavior.
+
+### 5.1 Block Interaction & Placement Bugs
+- **Top Slabs:** Placement in the upper half of block spaces is broken. The `setBlockMeta` function is missing in `js/world.js`, meaning the game cannot track whether a slab is a bottom-half or top-half slab.
+- **Wood Door Placement:** The wood door placement logic has issues where placing the door programmatically or in-game sometimes fails.
+- **Hitboxes:** Fences, Stairs, and Slabs have incomplete or entirely broken hitboxes. `Physics.getBlockBoundingBox` is missing from `js/physics.js`, allowing players/entities to phase right through these block types.
+- **Glowstone Crafting:** The crafting recipe (4 Glowstone Dust -> Glowstone) is fundamentally broken or yields incorrect results.
+
+### 5.2 Combat & Mechanics Bugs
+- **Shields Logic:** Shields exist as craftable items, but their core logic is missing from `js/player.js`. Specifically, the `isBlocking` function is missing, meaning holding a shield does not provide the expected 100% damage reduction.
+- **Potion Effects:** Potion items exist in the codebase, but effect consumption is not fully implemented. `player.useItem` is missing, so drinking a potion fails to apply any buffs or restore health correctly.
+- **Projectile Damage:** Projectiles (like arrows) do not correctly take damage from or get destroyed by explosions.
+
+### 5.3 Mobs & Entities
+- **Rideable Pigs:** Interacting with pigs using a saddle and carrot on a stick fails to set the player into a riding state. The logic is implemented but broken upon interaction.
+- **Spawning Suffocation:** Players occasionally spawn suffocating inside solid blocks (like stone) due to incorrect spawn coordinate validation.
+- **Item Drops Clipping:** Dropped items frequently clip through solid blocks when spawned, falling into the void.
+
+### 5.4 Redstone & Advanced Logic
+- **Redstone Wire:** Redstone wire placing is present, but redstone logic loops, comparators, repeaters, and power transmission mechanics remain entirely unimplemented.
+
+### 5.5 Rendering & Visual Bugs
+- **Cloud Clipping & Depth:** Clouds frequently clip through high mountains or player-built structures, and their rendering depth does not sort correctly against transparent blocks (like glass or water).
+- **Mob Depth Sorting:** When multiple mobs overlap, depth sorting sometimes fails, causing mobs farther away to incorrectly render in front of closer mobs.
+- **UI Scaling:** The hotbar UI doesn't center properly on ultra-wide screens.
+- **Inventory Tooltip:** Hovering over an empty slot immediately after transferring an item throws a `TypeError`.
+
+### 5.6 Test Harness specific bugs (Not necessarily gameplay)
+- **Slab and Door collision test flakiness:** These collision tests randomly fail due to Perlin noise terrain generation overlapping the fixed test coordinates.
+- **Missing SessionStorage & LocalStorage Mocks:** JSDOM tests fail because these web APIs aren't properly mocked in `js/player.js` tests.
+- **Canvas Mock `putImageData` Missing:** JSDOM canvas mock is missing proper `putImageData` implementation, causing failures in lighting/texture tests.
+- **Node.js script loading order:** Some verification scripts fail with `ReferenceError: Entity is not defined` or `ReferenceError: ParticleSystem is not defined` due to file loading order issues.
+- **JSDOM Game Constructor:** Under JSDOM mocha tests, `global.Game` can become undefined during hooks and throw constructor errors.
+
+*Action Required:* The aforementioned bugs represent active regressions or missing critical functionality and should be triaged by development agents immediately.
