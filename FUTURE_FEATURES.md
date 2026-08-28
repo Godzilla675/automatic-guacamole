@@ -110,6 +110,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Resource pack support** (Status: Missing implementation, agents must fix)
 - [ ] **Support for custom models** (Status: Missing implementation, agents must fix)
 ### 15. Miscellaneous
+- [ ] **New Task: Add Eyeblossoms**: Flowers found in Pale Garden biomes that bloom at night. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Pale Oak Wood**: Wood type harvested from Pale Oak trees in the Pale Garden. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Coral**: Coral reef blocks and items for oceans. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Seagrass**: Underwater vegetation. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Kelp**: Tall underwater plant that can be smelted into dried kelp. (Status: Missing implementation, agents must fix)
