@@ -156,7 +156,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed, hostile mob target tracking and line-of-sight lock-on implemented)
+- [ ] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Broken, missing implementation, agents must fix)
 
 - [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
@@ -344,7 +344,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Scaffolding**: Block used to climb vertically easily. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Glazed Terracotta**: Missing entirely from the codebase. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Target Lock-On**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed, hostile mob target tracking and line-of-sight lock-on implemented)
+- [ ] **Bug: Target Lock-On**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Broken, missing implementation, agents must fix)
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
