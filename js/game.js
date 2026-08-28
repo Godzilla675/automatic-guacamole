@@ -984,6 +984,15 @@ class Game {
                  this.world.setBlock(nx, ny, nz, slot.type);
                  if (slot.type === BLOCK.WATER) {
                      this.world.setMetadata(nx, ny, nz, 8);
+                 } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isSlab) {
+                     // Top Slab Logic: placement in upper half of block if clicking lower face or top half of targeted block
+                     let meta = 0;
+                     if (hit.face && hit.face.y === -1) {
+                         meta = 8; // Top slab
+                     } else if (hit.point && (hit.point.y - Math.floor(hit.point.y)) > 0.5) {
+                         meta = 8; // Top slab
+                     }
+                     this.world.setMetadata(nx, ny, nz, meta);
                  } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isStair) {
                      // Stairs Logic
                      let r = this.player.yaw % (2*Math.PI);
