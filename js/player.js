@@ -282,16 +282,20 @@ class Player {
 
         // Riding Logic
         if (this.riding) {
-            this.x = this.riding.x;
-            this.y = this.riding.y + this.riding.height * 0.75; // Sit slightly inside/on top
-            this.z = this.riding.z;
-            this.vx = this.riding.vx;
-            this.vy = this.riding.vy;
-            this.vz = this.riding.vz;
+            if (this.riding.isDead) {
+                this.riding = null;
+            } else {
+                this.x = this.riding.x;
+                this.y = this.riding.y + this.riding.height * 0.75; // Sit slightly inside/on top
+                this.z = this.riding.z;
+                this.vx = this.riding.vx;
+                this.vy = this.riding.vy;
+                this.vz = this.riding.vz;
 
-            // Dismount with Sneak
-            if (controls.sneak) {
-                this.riding.interact(this); // Dismount
+                // Dismount with Sneak
+                if (controls && controls.sneak) {
+                    this.riding = null;
+                }
             }
             return;
         }
@@ -510,6 +514,14 @@ class Player {
         }
     }
 
+    isBlocking() {
+        return !!this.blocking;
+    }
+
+    useItem(itemType) {
+        return this.eat(itemType);
+    }
+
     eat(itemType) {
         if (itemType === BLOCK.ITEM_POTION) {
             this.health = Math.min(this.maxHealth, this.health + 6);
@@ -567,7 +579,11 @@ class Player {
                 for (const b of blocks) {
                     let top = b.y + 1;
                     const def = window.BLOCKS[b.type];
-                    if (def && def.isSlab) top = b.y + 0.5;
+                    if (def && def.isSlab) {
+                        const meta = this.game.world.getMetadata(b.x, b.y, b.z);
+                        const isTop = (meta & 8) !== 0;
+                        top = isTop ? b.y + 1.0 : b.y + 0.5;
+                    }
 
                     if (top > maxY) maxY = top;
                 }

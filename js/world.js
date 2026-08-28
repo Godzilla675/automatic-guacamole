@@ -689,6 +689,10 @@ class World {
         }
     }
 
+    setBlockMeta(x, y, z, val) {
+        this.setMetadata(x, y, z, val);
+    }
+
     getLight(x, y, z) {
         const cx = Math.floor(x / this.chunkSize);
         const cz = Math.floor(z / this.chunkSize);

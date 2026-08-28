@@ -3,6 +3,47 @@ class Physics {
         this.world = world;
     }
 
+    getBlockBoundingBox(x, y, z) {
+        const block = this.world.getBlock(x, y, z);
+        const blockDef = BLOCKS[block];
+        if (!block || block === BLOCK.AIR || !blockDef || !blockDef.solid) {
+            return null;
+        }
+
+        const meta = this.world.getMetadata(x, y, z);
+        if (blockDef.isSlab) {
+            const isTop = (meta & 8) !== 0;
+            return {
+                minX: x, maxX: x + 1,
+                minY: isTop ? y + 0.5 : y, maxY: isTop ? y + 1.0 : y + 0.5,
+                minZ: z, maxZ: z + 1
+            };
+        }
+
+        if (blockDef.isStair) {
+            const isUpsideDown = (meta & 4) !== 0;
+            return {
+                minX: x, maxX: x + 1,
+                minY: y, maxY: y + 1,
+                minZ: z, maxZ: z + 1
+            };
+        }
+
+        if (blockDef.isFence) {
+            return {
+                minX: x + 0.375, maxX: x + 0.625,
+                minY: y, maxY: y + 1.5,
+                minZ: z + 0.375, maxZ: z + 0.625
+            };
+        }
+
+        return {
+            minX: x, maxX: x + 1,
+            minY: y, maxY: y + 1,
+            minZ: z, maxZ: z + 1
+        };
+    }
+
     checkCollision(box) {
         // Box: {x, y, z, width, height}
         const minX = Math.floor(box.x - box.width/2);
@@ -202,8 +243,14 @@ class Physics {
                         }
 
                         // Check for Slabs
-                        let bHeight = 1.0;
-                        if (blockDef.isSlab) bHeight = 0.5;
+                        let bMinY = y;
+                        let bMaxY = y + 1.0;
+                        if (blockDef.isSlab) {
+                            const meta = this.world.getMetadata(x, y, z);
+                            const isTop = (meta & 8) !== 0;
+                            bMinY = isTop ? y + 0.5 : y;
+                            bMaxY = isTop ? y + 1.0 : y + 0.5;
+                        }
 
                         const pMinX = box.x - box.width/2;
                         const pMaxX = box.x + box.width/2;
@@ -213,7 +260,7 @@ class Physics {
                         const pMaxZ = box.z + box.width/2;
 
                         if (x < pMaxX && x + 1 > pMinX &&
-                            y < pMaxY && y + bHeight > pMinY &&
+                            bMinY < pMaxY && bMaxY > pMinY &&
                             z < pMaxZ && z + 1 > pMinZ) {
                             return true;
                         }

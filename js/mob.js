@@ -632,6 +632,14 @@ class Mob extends Entity {
             }
         }
 
+        if (this.game && this.game.player && this.game.player.riding === this) {
+            const player = this.game.player;
+            this.yaw = player.yaw;
+            this.vx = Math.sin(this.yaw) * this.speed * 1.5;
+            this.vz = Math.cos(this.yaw) * this.speed * 1.5;
+            return;
+        }
+
         // Growth
         if (this.isBaby) {
             this.growthTimer -= dt;
@@ -667,12 +675,28 @@ class Mob extends Entity {
         }
     }
 
+    hasLineOfSight(targetPos) {
+        if (!this.game || !this.game.physics) return true;
+        const origin = { x: this.x, y: this.y + this.height * 0.8, z: this.z };
+        const targetEye = { x: targetPos.x, y: targetPos.y + (targetPos.height || 1.8) * 0.8, z: targetPos.z };
+        const dx = targetEye.x - origin.x;
+        const dy = targetEye.y - origin.y;
+        const dz = targetEye.z - origin.z;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist < 0.001) return true;
+
+        const dir = { x: dx / dist, y: dy / dist, z: dz / dist };
+        const hit = this.game.physics.raycast(origin, dir, dist, false);
+        return !hit;
+    }
+
     updateHostileAI(dt) {
         // Chase player
         const player = this.game.player;
         const dx = player.x - this.x;
         const dz = player.z - this.z;
         const dist = Math.sqrt(dx*dx + dz*dz);
+        if (!this.hasLineOfSight(player)) return;
 
         // Enderman only attacks if hit (neutral) - for now simplified to hostile as per prompt "Implement Enderman Mob" usually implies standard behavior
         // But let's make it neutral if distance is far, only hostile if close?
