@@ -146,6 +146,15 @@ The Voxel World engine and overarching test suites are extremely stable and pres
 ### 4.4 Newly Added Features Audit Run
 **Date:** Current Audit
 **Tested Features & Results:**
+- **Brewing Stand (`BLOCK.BREWING_STAND`)**: Verified block definition, GUI interaction, and potion brewing timing logic.
+- **Jukebox (`BLOCK.JUKEBOX`)**: Verified jukebox block definition, music disc insertion, textures, and UI interface (`ui.openJukebox`).
+- **Pistons & Sticky Pistons (`BLOCK.PISTON`, `BLOCK.STICKY_PISTON`)**: Verified piston extension, block pushing, and retraction physics.
+- **Creeper Mob (`MOB_TYPE.CREEPER`)**: Verified Creeper spawning, approach behavior, fuse countdown, and explosion damage logic.
+- **Weather Cycles**: Verified clear, rain, and snow weather state transitions and particle rendering.
+- **Soul Sand (`BLOCK.SOUL_SAND`)**: Verified player movement deceleration logic on soul sand.
+- **Concrete Blocks**: Verified color variants of concrete blocks for building.
+- **Nether Wart**: Verified Nether Wart block definition and brewing ingredient usage.
+- **Auto-Save System**: Verified 60-second periodic world state serialization into local storage.
 - **Glowstone & Recipe:** Verified Glowstone and Glowstone Dust block definitions and crafting recipe (4 Glowstone Dust -> Glowstone).
 - **Shield Blocking Mechanics:** Verified main hand & offhand 100% damage reduction and durability loss upon blocking until broken.
 - **Offhand UI & Item Equipping:** Verified offhand container slot in inventory grid and equipping/unequipping logic via ui.js.
