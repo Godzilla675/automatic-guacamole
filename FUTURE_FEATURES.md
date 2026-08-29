@@ -266,7 +266,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Fixed, offhand UI container added in index.html and rendered in ui.js)
 - [ ] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Fixed, projectile collision with mobs implemented safely)
+- [ ] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Illusioners**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
 
