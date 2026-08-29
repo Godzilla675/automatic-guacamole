@@ -30,6 +30,16 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]
             },
             {
+                name: "Slime Block",
+                result: { type: BLOCK.SLIME_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STRING, count: 9 } ]
+            },
+            {
+                name: "Campfire",
+                result: { type: BLOCK.CAMPFIRE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.WOOD, count: 3 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
