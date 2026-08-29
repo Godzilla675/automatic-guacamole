@@ -269,7 +269,15 @@ const BLOCK = {
     // New Agent Tasks Features
     ITEM_FIREWORK: 360,
     ITEM_SPYGLASS: 361,
-    HONEY_BLOCK: 362
+    HONEY_BLOCK: 362,
+    SLIME_BLOCK: 363,
+    GLAZED_TERRACOTTA_WHITE: 364,
+    GLAZED_TERRACOTTA_ORANGE: 365,
+    GLAZED_TERRACOTTA_MAGENTA: 366,
+    GLAZED_TERRACOTTA_LIGHT_BLUE: 367,
+    CAMPFIRE: 368,
+    ITEM_GLOW_BERRIES: 369,
+    MUD_BLOCK: 370
 };
 
 const ARMOR = {
@@ -601,7 +609,15 @@ const BLOCKS = {
     // New Agent Tasks Features
     [BLOCK.ITEM_FIREWORK]: { name: 'Firework Rocket', color: '#FF0055', solid: false, isItem: true, icon: '🎆' },
     [BLOCK.ITEM_SPYGLASS]: { name: 'Spyglass', color: '#D2691E', solid: false, isItem: true, icon: '🔭' },
-    [BLOCK.HONEY_BLOCK]: { name: 'Honey Block', color: '#FFB000', top: '#FFC800', solid: true, transparent: true, icon: '🍯', hardness: 0.5, sticky: true }
+    [BLOCK.HONEY_BLOCK]: { name: 'Honey Block', color: '#FFB000', top: '#FFC800', solid: true, transparent: true, icon: '🍯', hardness: 0.5, sticky: true },
+    [BLOCK.SLIME_BLOCK]: { name: 'Slime Block', color: '#7CFC00', top: '#90EE90', solid: true, transparent: true, icon: '🟩', hardness: 0.5, sticky: true, bouncy: true },
+    [BLOCK.GLAZED_TERRACOTTA_WHITE]: { name: 'White Glazed Terracotta', color: '#FFFFFF', solid: true, icon: '🏺', hardness: 1.4, tool: 'pickaxe' },
+    [BLOCK.GLAZED_TERRACOTTA_ORANGE]: { name: 'Orange Glazed Terracotta', color: '#FFA500', solid: true, icon: '🏺', hardness: 1.4, tool: 'pickaxe' },
+    [BLOCK.GLAZED_TERRACOTTA_MAGENTA]: { name: 'Magenta Glazed Terracotta', color: '#FF00FF', solid: true, icon: '🏺', hardness: 1.4, tool: 'pickaxe' },
+    [BLOCK.GLAZED_TERRACOTTA_LIGHT_BLUE]: { name: 'Light Blue Glazed Terracotta', color: '#ADD8E6', solid: true, icon: '🏺', hardness: 1.4, tool: 'pickaxe' },
+    [BLOCK.CAMPFIRE]: { name: 'Campfire', color: '#8B4513', top: '#FF4500', solid: true, transparent: true, icon: '🏕️', hardness: 2.0, tool: 'axe', light: 15 },
+    [BLOCK.ITEM_GLOW_BERRIES]: { name: 'Glow Berries', color: '#FFD700', solid: false, isItem: true, icon: '🫐', food: 2, light: 14 },
+    [BLOCK.MUD_BLOCK]: { name: 'Mud', color: '#5C4033', top: '#4A3525', solid: true, icon: '🟫', hardness: 0.5, tool: 'shovel' }
 };
 
 if (typeof window !== 'undefined') {

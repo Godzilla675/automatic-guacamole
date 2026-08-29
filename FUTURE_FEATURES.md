@@ -2,7 +2,7 @@
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 ## Core Features
 - [ ] **New Task: Add Armor Trims**: Customize armor appearance with smithing templates. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Slime Blocks**: Blocks that stick to other blocks and bounce entities. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Slime Blocks**: Blocks that stick to other blocks and bounce entities. (Status: Implemented and verified by agent)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Missing implementation, agents must fix)
@@ -35,7 +35,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Desert Temple** (Status: Missing implementation, agents must fix)
 ### 2. Block System
 - [x] **Bug: Top Slabs**: Placement in upper half of block missing. (Status: Fixed and verified by agent)
-- [ ] **Decorative blocks** (Glazed Terracotta) (Status: Missing implementation, agents must fix)
+- [x] **Decorative blocks** (Glazed Terracotta) (Status: Implemented and verified by agent)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block definitions and logic, agents must fix)
 ### 3. Rendering Engine
 - [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
@@ -158,7 +158,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Implemented and verified by agent)
 - [x] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed, hasLineOfSight implemented)
 
 - [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
@@ -305,7 +305,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Tents**: Placeable sleeping spots that don't set spawn points but allow skipping night. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Suspicious Stew**: A food item that grants a random potion effect. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Honey Blocks**: Blocks that reduce fall damage and slide entities down slowly. (Status: Implemented and verified by agent)
-- [ ] **New Task: Add Campfires**: Blocks that provide light, cook food, and produce smoke signals. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Campfires**: Blocks that provide light, cook food, and produce smoke signals. (Status: Implemented and verified by agent)
 
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Windmills**: Multiblock structures that generate power from wind. (Status: Missing implementation, agents must fix)
@@ -346,7 +346,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Bamboo**: Fast-growing plant used for scaffolding and sticks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Scaffolding**: Block used to climb vertically easily. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Glazed Terracotta**: Missing entirely from the codebase. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Glazed Terracotta**: Missing entirely from the codebase. (Status: Fixed, implemented and verified by agent)
 - [x] **Bug: Target Lock-On**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed)
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
@@ -368,8 +368,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Copper Doors**: Add oxidation-capable doors crafted from copper blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Torchflowers**: Ancient plants grown from Torchflower Seeds found by Sniffers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pitcher Plants**: Tall ancient plants grown from Pitcher Pods found by Sniffers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Mud Blocks**: Decorative and building blocks found in swamps. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Glow Berries**: Food item found in Lush Caves attached to Cave Vines that emits light and restores hunger. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Mud Blocks**: Decorative and building blocks found in swamps. (Status: Implemented and verified by agent)
+- [x] **New Task: Add Glow Berries**: Food item found in Lush Caves attached to Cave Vines that emits light and restores hunger. (Status: Implemented and verified by agent)
 - [ ] **New Task: Add Glow Item Frames**: Item frame variant crafted with Glow Ink Sac that illuminates displayed items. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Brewing Stand**: Brewing stand block definition and interaction. (Status: Implemented and verified by agent)
 - [x] **New Task: Add Jukebox**: Jukebox block definition, textures, and UI interface. (Status: Implemented and verified by agent)

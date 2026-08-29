@@ -92,6 +92,14 @@ class TextureManager {
         this.textures[B.JUNGLE_PLANK] = this.genPlank('#a07350');
         this.textures[B.SPONGE] = this.genSponge();
         this.textures[B.HONEY_BLOCK] = this.genHoneyBlock();
+        this.textures[B.SLIME_BLOCK] = this.genSlimeBlock();
+        this.textures[B.GLAZED_TERRACOTTA_WHITE] = this.genGlazedTerracotta('#FFFFFF', '#D0D0D0');
+        this.textures[B.GLAZED_TERRACOTTA_ORANGE] = this.genGlazedTerracotta('#FFA500', '#D2691E');
+        this.textures[B.GLAZED_TERRACOTTA_MAGENTA] = this.genGlazedTerracotta('#FF00FF', '#8B008B');
+        this.textures[B.GLAZED_TERRACOTTA_LIGHT_BLUE] = this.genGlazedTerracotta('#ADD8E6', '#4682B4');
+        this.textures[B.CAMPFIRE] = this.genCampfire();
+        this.textures[B.ITEM_GLOW_BERRIES] = this.genGlowBerries();
+        this.textures[B.MUD_BLOCK] = this.genMudBlock();
 
 
         // Glass
@@ -223,6 +231,72 @@ class TextureManager {
         ctx.fillRect(0, 15, 16, 1);
         ctx.fillRect(0, 0, 1, 16);
         ctx.fillRect(15, 0, 1, 16);
+        return c;
+    }
+
+    genSlimeBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 80, g: 200, b: 80 }, 20);
+        ctx.fillStyle = 'rgba(160, 255, 160, 0.5)';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillStyle = '#2E8B57';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 15, 16, 1);
+        ctx.fillRect(0, 0, 1, 16);
+        ctx.fillRect(15, 0, 1, 16);
+        return c;
+    }
+
+    genGlazedTerracotta(baseColor, patternColor) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = baseColor;
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = patternColor;
+        ctx.beginPath();
+        ctx.arc(8, 8, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillRect(0, 0, 4, 4);
+        ctx.fillRect(12, 12, 4, 4);
+        return c;
+    }
+
+    genCampfire() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#5C4033';
+        ctx.fillRect(2, 12, 12, 4);
+        ctx.fillRect(2, 2, 4, 10);
+        ctx.fillRect(10, 2, 4, 10);
+        ctx.fillStyle = '#FF4500';
+        ctx.fillRect(5, 6, 6, 6);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(6, 8, 4, 4);
+        return c;
+    }
+
+    genGlowBerries() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(7, 2, 2, 6);
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath();
+        ctx.arc(8, 10, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#FFA500';
+        ctx.fillRect(7, 9, 2, 2);
+        return c;
+    }
+
+    genMudBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 92, g: 64, b: 51 }, 15);
+        ctx.fillStyle = '#3E2723';
+        ctx.fillRect(2, 4, 3, 2);
+        ctx.fillRect(9, 10, 4, 2);
         return c;
     }
 

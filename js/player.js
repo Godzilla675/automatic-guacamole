@@ -457,19 +457,27 @@ class Player {
             }
             if (this.onGround) {
                 if (this.fallDistance > 3) {
-                    // Check if landed on Honey Block
+                    // Check if landed on Honey Block or Slime Block
                     const feetY = Math.floor(this.y - 0.5);
                     const feetX = Math.floor(this.x);
                     const feetZ = Math.floor(this.z);
                     const landedBlock = this.game.world ? this.game.world.getBlock(feetX, feetY, feetZ) : 0;
 
-                    let damage = Math.floor(this.fallDistance - 3);
-                    if (landedBlock === window.BLOCK.HONEY_BLOCK) {
-                        damage = Math.floor(damage * 0.2); // 80% reduction
-                    }
-                    if (damage > 0) {
-                        this.takeDamage(damage);
-                        window.soundManager.play('break');
+                    if (landedBlock === window.BLOCK.SLIME_BLOCK && !this.keys['ShiftLeft'] && !this.keys['ShiftRight']) {
+                        // Bounce mechanics: bounce back with velocity proportional to fall distance, negate fall damage
+                        this.vy = Math.min(Math.abs(this.vy) * 0.8, 15.0);
+                        if (this.vy < 2.0) this.vy = 0;
+                    } else {
+                        let damage = Math.floor(this.fallDistance - 3);
+                        if (landedBlock === window.BLOCK.HONEY_BLOCK) {
+                            damage = Math.floor(damage * 0.2); // 80% reduction
+                        } else if (landedBlock === window.BLOCK.SLIME_BLOCK) {
+                            damage = 0; // Sneaking on slime block negates fall damage without bouncing
+                        }
+                        if (damage > 0) {
+                            this.takeDamage(damage);
+                            window.soundManager.play('break');
+                        }
                     }
                 }
                 this.fallDistance = 0;
