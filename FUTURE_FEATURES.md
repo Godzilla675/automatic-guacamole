@@ -251,8 +251,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Missing SessionStorage Mock**: SessionStorage needs to be mocked for tests checking temporary game states. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Elytra Boosting**: Allow using fireworks to boost Elytra speed. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Vindicators**: Hostile illager mob with an iron axe. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Projectile takeDamage Missing**: Projectiles like arrows don't correctly take damage or get destroyed by explosions. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Inventory Tooltip Undefined Error**: Hovering over an empty slot immediately after transferring an item throws a TypeError. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Projectile takeDamage Missing**: Projectiles like arrows don't correctly take damage or get destroyed by explosions. (Status: Fixed and verified)
+- [x] **Bug: Inventory Tooltip Undefined Error**: Hovering over an empty slot immediately after transferring an item throws a TypeError. (Status: Fixed and verified)
 - [ ] **Bug: Missing AnalyserNode Mock**: AudioContext mock doesn't include AnalyserNode, breaking sound visualization tests. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Playwright Context Menu Timeout**: Tests interacting with the right-click context menu sometimes timeout before it fully opens. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Phantoms**: Flying hostile mobs that spawn when players haven't slept for multiple in-game days. (Status: Missing implementation, agents must fix)
@@ -266,7 +266,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Offhand Slot UI Missing**: The offhand equipment slot is missing from the index.html inventory grid. (Status: Fixed, offhand UI container added in index.html and rendered in ui.js)
 - [ ] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Snowball Throwing Error**: Snowballs throw undefined errors when hitting non-solid entities. (Status: Fixed and verified)
 - [ ] **New Task: Add Illusioners**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
 
@@ -389,7 +389,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Rideable Pigs Dismount and Control**: Rideable pig entity state interaction does not maintain riding state on player. (Status: Fixed)
 - [ ] **New Task: Add Coral, Seagrass, and Kelp**: Underwater vegetation and blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Snowball Item**: Item definition for throwable snowballs. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Snowball Item**: Item definition for throwable snowballs. (Status: Fixed and verified)
 
 
 ## Newly Discovered Bugs (From Audit)

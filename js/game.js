@@ -361,6 +361,26 @@ class Game {
                 return;
             }
 
+            // Snowball Logic
+            if (slot && slot.type === BLOCK.ITEM_SNOWBALL) {
+                const dir = {
+                    x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                    y: -Math.sin(this.player.pitch),
+                    z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+                };
+                this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir, 'snowball');
+                if (window.soundManager) window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z});
+
+                if (this.player.gamemode !== 1) {
+                    slot.count--;
+                    if (slot.count <= 0) {
+                        this.player.inventory[this.player.selectedSlot] = null;
+                    }
+                }
+                if (this.ui && this.ui.updateHotbarUI) this.ui.updateHotbarUI();
+                return;
+            }
+
             // Spyglass Logic
             if (slot && slot.type === BLOCK.ITEM_SPYGLASS) {
                 this.player.isUsingSpyglass = !this.player.isUsingSpyglass;
@@ -1059,15 +1079,25 @@ class Game {
     spawnProjectile(x, y, z, dir, type = 'arrow') {
         let speed = 15;
         let life = 2.0;
-        if (type === 'fireball') { speed = 10; life = 5.0; }
-        else if (type === 'firework') { speed = 20; life = 1.2; }
+        let damage = 2;
+        if (type === 'arrow') { damage = 4; }
+        else if (type === 'fireball') { speed = 10; life = 5.0; damage = 6; }
+        else if (type === 'firework') { speed = 20; life = 1.2; damage = 0; }
+        else if (type === 'snowball') { speed = 18; life = 2.0; damage = 0; }
+        else if (type === 'ender_pearl') { speed = 15; life = 2.0; damage = 0; }
         this.projectiles.push({
             x, y, z,
             vx: type === 'firework' ? dir.x * 5 : dir.x * speed,
             vy: type === 'firework' ? 15 : dir.y * speed,
             vz: type === 'firework' ? dir.z * 5 : dir.z * speed,
             life: life,
-            type: type
+            health: 1,
+            takeDamage: function(amount) {
+                this.health -= amount;
+                if (this.health <= 0) this.life = 0;
+            },
+            type: type,
+            damage: damage
         });
     }
 
@@ -1179,6 +1209,14 @@ class Game {
              if (dist < radius * 2) {
                  const damage = Math.floor((1 - dist/(radius*2)) * 20);
                  if (damage > 0) mob.takeDamage(damage, {x: (mob.x-x)/dist, z: (mob.z-z)/dist});
+             }
+        });
+
+        // Destroy projectiles in range
+        this.projectiles.forEach(p => {
+             const dist = Math.sqrt((p.x-x)**2 + (p.y-y)**2 + (p.z-z)**2);
+             if (dist < radius * 2) {
+                 p.takeDamage ? p.takeDamage(20) : (p.life = 0);
              }
         });
 
@@ -1664,7 +1702,8 @@ class Game {
                         if (tMob !== null && tMob >= 0 && tMob <= dist) {
                             p.life = 0;
                             if (typeof mob.takeDamage === 'function') {
-                                mob.takeDamage(p.damage || 2);
+                                const damageVal = p.damage !== undefined ? p.damage : (p.type === 'snowball' ? 0 : 2);
+                                mob.takeDamage(damageVal, {x: dir.x, z: dir.z});
                             }
                             break;
                         }

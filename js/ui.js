@@ -1579,6 +1579,7 @@ class UIManager {
             icon.style.backgroundImage = 'none';
             icon.textContent = '';
             if (count) count.textContent = '';
+            slotElement.title = '';
         }
     }
 
