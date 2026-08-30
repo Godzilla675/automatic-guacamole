@@ -390,3 +390,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Coral, Seagrass, and Kelp**: Underwater vegetation and blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Snowball Item**: Item definition for throwable snowballs. (Status: Missing implementation, agents must fix)
+
+
+## Newly Discovered Bugs (From Audit)
+- [ ] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Bug, agents must fix)
