@@ -199,4 +199,47 @@ describe('Bug Verification', () => {
         assert.strictEqual(game.drops.length, initialDrops + 1, "Should drop fish");
         assert.strictEqual(game.drops[game.drops.length-1].type, dom.window.BLOCK.ITEM_RAW_FISH, "Drop should be Raw Fish");
     });
+
+    it('should clear inventory slot tooltip title when slot becomes empty', () => {
+        const slotEl = dom.window.document.createElement('div');
+        game.ui.renderSlotItem(slotEl, { type: dom.window.BLOCK.DIRT, count: 1 });
+        assert.strictEqual(slotEl.title, 'dirt');
+
+        game.ui.renderSlotItem(slotEl, null);
+        assert.strictEqual(slotEl.title, '');
+    });
+
+    it('should throw Snowballs and handle mob collision without undefined errors', () => {
+        dom.window.soundManager = { play: () => {}, updateAmbience: () => {}, updateListener: () => {}, volume: 1.0 };
+        game.player.inventory[game.player.selectedSlot] = { type: dom.window.BLOCK.ITEM_SNOWBALL, count: 2 };
+        game.startAction(false); // right click to throw
+
+        assert.strictEqual(game.projectiles.length, 1);
+        const p = game.projectiles[0];
+        assert.strictEqual(p.type, 'snowball');
+        assert.strictEqual(p.damage, 0);
+
+        const mob = new dom.window.Mob(game, p.x + 0.1, p.y + 0.1, p.z + 0.1, dom.window.MOB_TYPE.COW);
+        game.mobs.push(mob);
+
+        const initialHealth = mob.health;
+        // Simulate frame update
+        game.update(50);
+        assert.strictEqual(mob.health, initialHealth, "Snowball should deal 0 damage to cow");
+    });
+
+    it('projectiles should have takeDamage method and be destroyed by explosions', () => {
+        game.spawnProjectile(0, 50, 0, { x: 0, y: 0, z: 1 }, 'arrow');
+        const p = game.projectiles[game.projectiles.length - 1];
+        assert.strictEqual(typeof p.takeDamage, 'function', 'Projectile should have takeDamage function');
+
+        p.takeDamage(1);
+        assert.ok(p.life <= 0, 'Projectile life should be 0 when taking lethal damage');
+
+        // Test explosion destroying projectiles
+        game.spawnProjectile(10, 50, 10, { x: 0, y: 0, z: 1 }, 'arrow');
+        const p2 = game.projectiles[game.projectiles.length - 1];
+        game.explode(10, 50, 10, 3);
+        assert.ok(p2.life <= 0, 'Projectile in explosion radius should be destroyed');
+    });
 });

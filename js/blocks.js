@@ -204,6 +204,7 @@ const BLOCK = {
 
     ITEM_RAW_FISH: 230,
     ITEM_ARROW: 240,
+    ITEM_SNOWBALL: 241,
 
     // Mob Drops (New)
     ITEM_FEATHER: 260,
@@ -548,6 +549,7 @@ const BLOCKS = {
 
     [BLOCK.ITEM_RAW_FISH]: { name: 'Raw Fish', color: '#87CEEB', solid: false, isItem: true, icon: '🐟', food: 5 },
     [BLOCK.ITEM_ARROW]: { name: 'Arrow', color: '#D3D3D3', solid: false, isItem: true, icon: '➵' },
+    [BLOCK.ITEM_SNOWBALL]: { name: 'Snowball', color: '#FFFFFF', solid: false, isItem: true, icon: '❄️', stackable: 16 },
 
     [BLOCK.ITEM_COCOA_BEANS]: { name: 'Cocoa Beans', color: '#915325', solid: false, isItem: true, icon: '🌰' },
     [BLOCK.ITEM_COOKED_FISH]: { name: 'Cooked Fish', color: '#D2691E', solid: false, isItem: true, icon: '🐟', food: 8 },
