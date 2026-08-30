@@ -123,6 +123,27 @@ Following explicit instructions to thoroughly test the game, try everything, and
 - **Simulated Gameplay:** Zero unhandled logic exceptions (`TypeError`, `ReferenceError`) found across distinct event tests (Movement, Menus, UI Visibility, Block Interactions). 4 out of 4 complex tests passed.
 - **Save/Load Persistence:** Game states correctly serialize into local storage.
 
+### 4.3 Newly Added Features Status Verification
+- **Glowstone Crafting & Block (`BLOCK.GLAZED_TERRACOTTA`, `BLOCK.GLOWSTONE`)**: Recipe (4 glowstone dust) verified and functional.
+- **Shield Blocking Mechanics (`Player.prototype.isBlocking`)**: 100% damage reduction when blocking in main or offhand slot verified.
+- **Offhand UI Slot (`#offhand-container`)**: UI inventory slot rendering and drag/drop functionality verified.
+- **Glass Panes & Fences UI Assets**: Starting inventory placement and custom rendered emoji/texture icons verified.
+- **Spectator Mode (`/gamemode spectator`)**: Noclip movement through solid blocks verified.
+- **Fireworks & Visual FX (`BLOCK.ITEM_FIREWORK`)**: Rocket launching, particle explosion effects, and despawning verified.
+- **Spyglass Zoom FOV (`BLOCK.ITEM_SPYGLASS`)**: Camera FOV toggling mechanic verified.
+- **Honey Blocks (`BLOCK.HONEY_BLOCK`)**: Fall damage reduction and wall sliding physics verified.
+- **Slime Blocks (`BLOCK.SLIME_BLOCK`)**: Fall damage cancellation and entity bouncing mechanics verified.
+- **Glazed Terracotta & Mud Blocks**: Block definitions, color variants, and texture rendering verified.
+- **Campfire & Glow Berries**: Cooking/light emission and consumable food logic verified.
+- **Brewing Stand & Jukebox**: Interaction UI and block logic verified.
+- **Pistons & Sticky Pistons**: World pushing/retracting block physics verified.
+- **Creeper Mob**: Line-of-sight tracking and explosion countdown logic verified.
+- **Weather Cycles**: Clear, rain, and snow transitions verified.
+- **Soul Sand**: Movement slowdown physics bounding box checks verified.
+- **Concrete Color Variants**: Full 16-color block spectrum verified.
+- **Nether Wart**: Brewing ingredient definition and texture verified.
+- **Auto-Save System**: Local storage world persistence every 60 seconds verified.
+
 
 ## 5. Exhaustive Manual Game Testing - Active Bugs & Deficiencies
 
