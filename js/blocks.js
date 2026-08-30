@@ -278,7 +278,12 @@ const BLOCK = {
     GLAZED_TERRACOTTA_LIGHT_BLUE: 367,
     CAMPFIRE: 368,
     ITEM_GLOW_BERRIES: 369,
-    MUD_BLOCK: 370
+    MUD_BLOCK: 370,
+    ITEM_SWEET_BERRIES: 371,
+    MOSS_BLOCK: 372,
+    HONEYCOMB_BLOCK: 373,
+    AMETHYST_BLOCK: 374,
+    CRYING_OBSIDIAN: 375
 };
 
 const ARMOR = {
@@ -619,7 +624,12 @@ const BLOCKS = {
     [BLOCK.GLAZED_TERRACOTTA_LIGHT_BLUE]: { name: 'Light Blue Glazed Terracotta', color: '#ADD8E6', solid: true, icon: '🏺', hardness: 1.4, tool: 'pickaxe' },
     [BLOCK.CAMPFIRE]: { name: 'Campfire', color: '#8B4513', top: '#FF4500', solid: true, transparent: true, icon: '🏕️', hardness: 2.0, tool: 'axe', light: 15 },
     [BLOCK.ITEM_GLOW_BERRIES]: { name: 'Glow Berries', color: '#FFD700', solid: false, isItem: true, icon: '🫐', food: 2, light: 14 },
-    [BLOCK.MUD_BLOCK]: { name: 'Mud', color: '#5C4033', top: '#4A3525', solid: true, icon: '🟫', hardness: 0.5, tool: 'shovel' }
+    [BLOCK.MUD_BLOCK]: { name: 'Mud', color: '#5C4033', top: '#4A3525', solid: true, icon: '🟫', hardness: 0.5, tool: 'shovel' },
+    [BLOCK.ITEM_SWEET_BERRIES]: { name: 'Sweet Berries', color: '#C2185B', solid: false, isItem: true, icon: '🍒', food: 2 },
+    [BLOCK.MOSS_BLOCK]: { name: 'Moss Block', color: '#4E7A27', top: '#5C8E32', solid: true, icon: '🟩', hardness: 0.2, tool: 'hoe' },
+    [BLOCK.HONEYCOMB_BLOCK]: { name: 'Honeycomb Block', color: '#E69500', top: '#FCAE1E', solid: true, icon: '🟨', hardness: 0.6, tool: 'axe' },
+    [BLOCK.AMETHYST_BLOCK]: { name: 'Amethyst Block', color: '#8A2BE2', top: '#9932CC', solid: true, icon: '🔮', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CRYING_OBSIDIAN]: { name: 'Crying Obsidian', color: '#3A154D', top: '#4B1D6B', solid: true, icon: '🔮', hardness: 50.0, tool: 'pickaxe', light: 10 }
 };
 
 if (typeof window !== 'undefined') {
