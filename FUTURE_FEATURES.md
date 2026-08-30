@@ -364,7 +364,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Redstone Wire Visual Connections**: Dynamic visual models for redstone wire connecting to adjacent power sources and dust lines. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM Canvas Mock missing putImageData**: In Node.js/JSDOM test suites, canvas context lacks putImageData implementation, causing failures in lighting/texture tests. (Status: Bug, agents must fix)
 
-- [ ] **Bug: Door Placement Bug**: The Wood Door recipe is functional in the crafting menu, but placing the door programmatically or in-game has issues that need further agent investigation/fixing. (Status: Bug, missing implementation, agents must fix)
+- [x] **Bug: Door Placement Bug**: Wood door placement and double-door destruction logic verified in js/game.js. (Status: Fixed and verified)
 - [ ] **New Task: Add Copper Doors**: Add oxidation-capable doors crafted from copper blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Torchflowers**: Ancient plants grown from Torchflower Seeds found by Sniffers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pitcher Plants**: Tall ancient plants grown from Pitcher Pods found by Sniffers. (Status: Missing implementation, agents must fix)
@@ -394,3 +394,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## Newly Discovered Bugs (From Audit)
 - [ ] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Bug, agents must fix)
+- [ ] **New Task: Add Stonecutter**: Block used for efficient stone crafting into stairs, slabs, and walls. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Composter**: Block used to convert excess plant matter and food into bone meal. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Smoker and Blast Furnace**: Specialized furnace variants for double-speed cooking food and smelting ores. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Bug, agents must fix)
