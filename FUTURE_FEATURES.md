@@ -90,10 +90,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Music system (Status: Missing implementation, agents must fix)
 - [ ] **Proper block placement sound based on block type** (Status: Missing implementation, agents must fix)
 ### 12. Redstone & Mechanics
-- [ ] **New Task: Add Sweet Berries**: Sweet berry bushes found in taiga biomes. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Moss Blocks**: Lush cave vegetation blocks. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Sweet Berries**: Sweet berry bushes found in taiga biomes. (Status: Implemented and verified by agent)
+- [x] **New Task: Add Moss Blocks**: Lush cave vegetation blocks. (Status: Implemented and verified by agent)
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Honeycomb Blocks**: Decorative blocks crafted from honeycombs. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Honeycomb Blocks**: Decorative blocks crafted from honeycombs. (Status: Implemented and verified by agent)
 - [ ] **Redstone Repeaters & Comparators** (Status: Missing block definitions and logic, agents must fix)
 - [ ] **New Task: Add Hoppers**: Blocks that transfer items between containers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Missing implementation, agents must fix)
@@ -130,7 +130,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Spyglass**: Implement zooming mechanic. (Status: Implemented and verified by agent)
 - [ ] **New Task: Add Magma Blocks**: Blocks that deal damage when stepped on. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Redstone Dust Logic**: Redstone wire logic and connections are missing. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Amethyst Shards**: Grown from budding amethyst. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Amethyst Block**: Block crafted or found in geodes. (Status: Implemented and verified by agent)
 - [x] **Bug: Glowstone Crafting**: Light emitting block found in the Nether. (Status: Fixed, recipe with 4 glowstone dust implemented and verified)
 - [ ] **New Task: Add Vault Block**: Standard vault structure rewards block found in Trial Chambers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze Rod**: Item dropped by the Breeze mob, used to craft Wind Charges and the Mace. (Status: Missing implementation, agents must fix)
@@ -161,7 +161,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Glazed Terracotta**: Add various colors of Glazed Terracotta. (Status: Implemented and verified by agent)
 - [x] **Bug: Line-of-sight lock-on**: Line-of-sight target lock-on for hostile mobs is missing. (Status: Fixed, hasLineOfSight implemented)
 
-- [ ] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Crying Obsidian**: Block used to craft Respawn Anchors. (Status: Implemented and verified by agent)
 - [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Honey Blocks**: Stick to other blocks and slide entities. (Status: Implemented and verified by agent)
 

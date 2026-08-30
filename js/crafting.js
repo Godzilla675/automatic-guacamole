@@ -40,6 +40,16 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.WOOD, count: 3 } ]
             },
             {
+                name: "Honeycomb Block",
+                result: { type: BLOCK.HONEYCOMB_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_APPLE, count: 4 } ]
+            },
+            {
+                name: "Amethyst Block",
+                result: { type: BLOCK.AMETHYST_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_QUARTZ, count: 4 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]

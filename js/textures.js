@@ -100,6 +100,10 @@ class TextureManager {
         this.textures[B.CAMPFIRE] = this.genCampfire();
         this.textures[B.ITEM_GLOW_BERRIES] = this.genGlowBerries();
         this.textures[B.MUD_BLOCK] = this.genMudBlock();
+        this.textures[B.MOSS_BLOCK] = this.genMossBlock();
+        this.textures[B.HONEYCOMB_BLOCK] = this.genHoneycombBlock();
+        this.textures[B.AMETHYST_BLOCK] = this.genAmethystBlock();
+        this.textures[B.CRYING_OBSIDIAN] = this.genCryingObsidian();
 
 
         // Glass
@@ -297,6 +301,61 @@ class TextureManager {
         ctx.fillStyle = '#3E2723';
         ctx.fillRect(2, 4, 3, 2);
         ctx.fillRect(9, 10, 4, 2);
+        return c;
+    }
+
+    genSweetBerries() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#2E7D32';
+        ctx.fillRect(7, 4, 2, 8);
+        ctx.fillStyle = '#C2185B';
+        ctx.beginPath();
+        ctx.arc(6, 6, 3, 0, Math.PI * 2);
+        ctx.arc(10, 8, 3, 0, Math.PI * 2);
+        ctx.fill();
+        return c;
+    }
+
+    genMossBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 78, g: 122, b: 39 }, 20);
+        ctx.fillStyle = '#388E3C';
+        ctx.fillRect(2, 3, 4, 3);
+        ctx.fillRect(9, 8, 5, 4);
+        return c;
+    }
+
+    genHoneycombBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 230, g: 149, b: 0 }, 15);
+        ctx.fillStyle = '#FCAE1E';
+        ctx.fillRect(3, 3, 4, 4);
+        ctx.fillRect(9, 3, 4, 4);
+        ctx.fillRect(6, 9, 4, 4);
+        return c;
+    }
+
+    genAmethystBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 138, g: 43, b: 226 }, 25);
+        ctx.fillStyle = '#DA70D6';
+        ctx.fillRect(4, 4, 3, 8);
+        ctx.fillRect(9, 3, 3, 10);
+        return c;
+    }
+
+    genCryingObsidian() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 20, g: 15, b: 30 }, 20);
+        ctx.fillStyle = '#9C27B0';
+        ctx.fillRect(3, 2, 2, 12);
+        ctx.fillRect(11, 4, 2, 10);
+        ctx.fillRect(5, 10, 6, 2);
         return c;
     }
 
@@ -1112,6 +1171,7 @@ class TextureManager {
         this.textures[B.ITEM_SHEARS] = this.genShears();
         this.textures[B.ITEM_FIREWORK] = this.genFireworkRocket();
         this.textures[B.ITEM_SPYGLASS] = this.genSpyglassItem();
+        this.textures[B.ITEM_SWEET_BERRIES] = this.genSweetBerries();
 
         this.textures[B.ITEM_WOOL] = this.genWool('#FFFFFF');
 
