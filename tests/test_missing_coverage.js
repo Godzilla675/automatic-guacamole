@@ -483,4 +483,16 @@ if (!document.getElementById('game-canvas')) {
 
         assert.ok(foundSpruce, "Should generate Spruce Wood in Snow biome");
     });
+
+    it('should initialize autoSaveTimer and support projectile takeDamage', () => {
+        const game = new dom.window.Game();
+        assert.strictEqual(game.autoSaveTimer, 0, "autoSaveTimer should be initialized to 0");
+
+        game.spawnProjectile(0, 0, 0, { x: 1, y: 0, z: 0 }, 'arrow');
+        assert.strictEqual(game.projectiles.length, 1);
+        const p = game.projectiles[0];
+        assert.strictEqual(typeof p.takeDamage, 'function', "Projectile should have takeDamage method");
+        p.takeDamage(1);
+        assert.strictEqual(p.life, 0, "Projectile life should be set to 0 when health <= 0");
+    });
 });
