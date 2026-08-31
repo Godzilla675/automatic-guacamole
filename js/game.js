@@ -37,6 +37,7 @@ class Game {
         this.gameTime = 0;
         this.dayLength = 120000;
         this.sunBrightness = 1.0;
+        this.autoSaveTimer = 0;
 
         // Controls
         this.controls = {
