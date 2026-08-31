@@ -20,7 +20,7 @@ const fs = require('fs');
     await page.goto('http://localhost:3000');
 
     await page.waitForSelector('#start-game', { state: 'visible', timeout: 5000 });
-    await page.click('#start-game');
+    await page.click('#start-game', {force: true});
 
     // Wait for the game to initialize
     await page.waitForTimeout(3000);
@@ -46,19 +46,19 @@ const fs = require('fs');
     await page.waitForTimeout(500);
 
     // Pause menu
-    await page.click('#pause-btn');
+    await page.click('#pause-btn', {force: true});
     await page.waitForTimeout(500);
     await page.screenshot({ path: 'verification/playwright_pause.png' });
 
     // Settings
-    await page.click('#settings-btn');
+    await page.click('#settings-btn', {force: true});
     await page.waitForTimeout(500);
     await page.screenshot({ path: 'verification/playwright_settings.png' });
 
-    await page.click('#close-settings');
+    await page.click('#close-settings', {force: true});
     await page.waitForTimeout(500);
 
-    await page.click('#resume-game');
+    await page.click('#resume-game', {force: true});
     await page.waitForTimeout(500);
 
     console.log("Recorded Errors:");
