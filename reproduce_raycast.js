@@ -144,8 +144,8 @@ world.setBlock(18, 10, 10, global.BLOCK.TRAPDOOR);
 testRaycast('Trapdoor Bottom',
     { x: 19.5, y: 10.1, z: 10.5 },
     { x: -1, y: 0, z: 0 },
-    { type: global.BLOCK.TRAPDOOR, px: 19, py: 10.1, pz: 10.5 } // Expected hit at 19 (block boundary)?
-    // Wait, trapdoor is inside the block.
+    { type: global.BLOCK.TRAPDOOR, px: 19, py: 10.1, pz: 10.5 }
+    ); // Wait, trapdoor is inside the block.
     // If it's a bottom trapdoor, it's at y=0 to y=0.1875.
     // Ray enters block at x=19. Passes through.
     // Then checks ry.
