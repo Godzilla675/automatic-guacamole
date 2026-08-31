@@ -104,6 +104,11 @@ class TextureManager {
         this.textures[B.HONEYCOMB_BLOCK] = this.genHoneycombBlock();
         this.textures[B.AMETHYST_BLOCK] = this.genAmethystBlock();
         this.textures[B.CRYING_OBSIDIAN] = this.genCryingObsidian();
+        this.textures[B.STONECUTTER] = this.genStonecutter();
+        this.textures[B.COMPOSTER] = this.genComposter();
+        this.textures[B.SMOKER] = this.genSmoker();
+        this.textures[B.BLAST_FURNACE] = this.genBlastFurnace();
+        this.textures[B.SEA_LANTERN] = this.genSeaLantern();
 
 
         // Glass
@@ -356,6 +361,65 @@ class TextureManager {
         ctx.fillRect(3, 2, 2, 12);
         ctx.fillRect(11, 4, 2, 10);
         ctx.fillRect(5, 10, 6, 2);
+        return c;
+    }
+
+    genStonecutter() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 128, g: 128, b: 128 }, 15);
+        ctx.fillStyle = '#C0C0C0';
+        ctx.beginPath();
+        ctx.arc(8, 8, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#404040';
+        ctx.fillRect(7, 7, 2, 2);
+        return c;
+    }
+
+    genComposter() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 139, g: 69, b: 19 }, 12);
+        ctx.fillStyle = '#4E7A27';
+        ctx.fillRect(2, 4, 12, 8);
+        return c;
+    }
+
+    genSmoker() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 74, g: 59, b: 50 }, 15);
+        ctx.fillStyle = '#5C4033';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(4, 5, 8, 5);
+        ctx.fillStyle = '#FF4500';
+        ctx.fillRect(5, 8, 6, 2);
+        return c;
+    }
+
+    genBlastFurnace() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 80, g: 80, b: 80 }, 12);
+        ctx.fillStyle = '#3A3A3A';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(4, 5, 8, 5);
+        ctx.fillStyle = '#FF8C00';
+        ctx.fillRect(5, 7, 6, 3);
+        return c;
+    }
+
+    genSeaLantern() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 224, g: 255, b: 255 }, 10);
+        ctx.fillStyle = '#E0FFFF';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(5, 5, 6, 6);
         return c;
     }
 

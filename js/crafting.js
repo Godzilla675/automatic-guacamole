@@ -50,6 +50,31 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_QUARTZ, count: 4 } ]
             },
             {
+                name: "Stonecutter",
+                result: { type: BLOCK.STONECUTTER, count: 1 },
+                ingredients: [ { type: BLOCK.STONE, count: 3 }, { type: BLOCK.ITEM_IRON_INGOT, count: 1 } ]
+            },
+            {
+                name: "Composter",
+                result: { type: BLOCK.COMPOSTER, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 7 } ]
+            },
+            {
+                name: "Smoker",
+                result: { type: BLOCK.SMOKER, count: 1 },
+                ingredients: [ { type: BLOCK.FURNACE, count: 1 }, { type: BLOCK.WOOD, count: 4 } ]
+            },
+            {
+                name: "Blast Furnace",
+                result: { type: BLOCK.BLAST_FURNACE, count: 1 },
+                ingredients: [ { type: BLOCK.FURNACE, count: 1 }, { type: BLOCK.ITEM_IRON_INGOT, count: 5 }, { type: BLOCK.SMOKER, count: 1 } ]
+            },
+            {
+                name: "Sea Lantern",
+                result: { type: BLOCK.SEA_LANTERN, count: 1 },
+                ingredients: [ { type: BLOCK.GLASS, count: 4 }, { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]

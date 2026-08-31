@@ -195,20 +195,60 @@ class Game {
         const blockType = this.world.getBlock(x, y, z);
         const pos = { x: x + 0.5, y: y + 0.5, z: z + 0.5 };
 
-        // Furnace
-        if (blockType === BLOCK.FURNACE) {
+        // Furnace / Smoker / Blast Furnace
+        if (blockType === BLOCK.FURNACE || blockType === BLOCK.SMOKER || blockType === BLOCK.BLAST_FURNACE) {
             let entity = this.world.getBlockEntity(x, y, z);
             if (!entity) {
                 entity = {
-                    type: 'furnace',
+                    type: blockType === BLOCK.SMOKER ? 'smoker' : (blockType === BLOCK.BLAST_FURNACE ? 'blast_furnace' : 'furnace'),
                     fuel: 0, maxFuel: 0,
-                    progress: 0, maxProgress: 100,
+                    progress: 0, maxProgress: (blockType === BLOCK.SMOKER || blockType === BLOCK.BLAST_FURNACE) ? 50 : 100,
                     input: null, fuelItem: null, output: null,
                     burnTime: 0
                 };
                 this.world.setBlockEntity(x, y, z, entity);
             }
             this.ui.openFurnace(entity);
+            return true;
+        }
+
+        // Composter
+        if (blockType === BLOCK.COMPOSTER) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: 'composter', level: 0 };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            const held = this.player.getHeldItem();
+            if (held && (held.type === BLOCK.ITEM_APPLE || held.type === BLOCK.ITEM_CARROT || held.type === BLOCK.ITEM_POTATO || held.type === BLOCK.ITEM_SWEET_BERRIES || held.type === BLOCK.LEAVES || held.type === BLOCK.OAK_SAPLING)) {
+                held.count--;
+                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                entity.level++;
+                if (entity.level >= 7) {
+                    entity.level = 0;
+                    this.player.addItem({ type: BLOCK.ITEM_BONE, count: 1 });
+                    if (this.ui && this.ui.showNotification) this.ui.showNotification("Composted! Received Bone / Bone Meal!");
+                } else {
+                    if (this.ui && this.ui.showNotification) this.ui.showNotification(`Composter level: ${entity.level}/7`);
+                }
+            } else if (entity.level > 0) {
+                if (this.ui && this.ui.showNotification) this.ui.showNotification(`Composter level: ${entity.level}/7`);
+            }
+            return true;
+        }
+
+        // Stonecutter
+        if (blockType === BLOCK.STONECUTTER) {
+            const held = this.player.getHeldItem();
+            if (held && (held.type === BLOCK.STONE || held.type === BLOCK.COBBLESTONE)) {
+                held.count--;
+                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                const outputType = held.type === BLOCK.STONE ? BLOCK.SLAB_STONE : BLOCK.SLAB_COBBLESTONE;
+                this.player.addItem({ type: outputType, count: 2 });
+                if (this.ui && this.ui.showNotification) this.ui.showNotification(`Stonecutted ${window.BLOCKS[held.type].name} into ${window.BLOCKS[outputType].name} (x2)!`);
+            } else {
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Hold Stone or Cobblestone to use Stonecutter!");
+            }
             return true;
         }
 

@@ -283,7 +283,12 @@ const BLOCK = {
     MOSS_BLOCK: 372,
     HONEYCOMB_BLOCK: 373,
     AMETHYST_BLOCK: 374,
-    CRYING_OBSIDIAN: 375
+    CRYING_OBSIDIAN: 375,
+    STONECUTTER: 376,
+    COMPOSTER: 377,
+    SMOKER: 378,
+    BLAST_FURNACE: 379,
+    SEA_LANTERN: 380
 };
 
 const ARMOR = {
@@ -629,7 +634,12 @@ const BLOCKS = {
     [BLOCK.MOSS_BLOCK]: { name: 'Moss Block', color: '#4E7A27', top: '#5C8E32', solid: true, icon: '🟩', hardness: 0.2, tool: 'hoe' },
     [BLOCK.HONEYCOMB_BLOCK]: { name: 'Honeycomb Block', color: '#E69500', top: '#FCAE1E', solid: true, icon: '🟨', hardness: 0.6, tool: 'axe' },
     [BLOCK.AMETHYST_BLOCK]: { name: 'Amethyst Block', color: '#8A2BE2', top: '#9932CC', solid: true, icon: '🔮', hardness: 1.5, tool: 'pickaxe' },
-    [BLOCK.CRYING_OBSIDIAN]: { name: 'Crying Obsidian', color: '#3A154D', top: '#4B1D6B', solid: true, icon: '🔮', hardness: 50.0, tool: 'pickaxe', light: 10 }
+    [BLOCK.CRYING_OBSIDIAN]: { name: 'Crying Obsidian', color: '#3A154D', top: '#4B1D6B', solid: true, icon: '🔮', hardness: 50.0, tool: 'pickaxe', light: 10 },
+    [BLOCK.STONECUTTER]: { name: 'Stonecutter', color: '#808080', top: '#A0A0A0', solid: true, icon: '⚙️', hardness: 3.5, tool: 'pickaxe' },
+    [BLOCK.COMPOSTER]: { name: 'Composter', color: '#8B4513', top: '#A0522D', solid: true, icon: '🧺', hardness: 0.6, tool: 'axe' },
+    [BLOCK.SMOKER]: { name: 'Smoker', color: '#4A3B32', top: '#5C4A3E', solid: true, icon: '🥩', hardness: 3.5, tool: 'pickaxe' },
+    [BLOCK.BLAST_FURNACE]: { name: 'Blast Furnace', color: '#505050', top: '#707070', solid: true, icon: '🌋', hardness: 3.5, tool: 'pickaxe' },
+    [BLOCK.SEA_LANTERN]: { name: 'Sea Lantern', color: '#E0FFFF', top: '#FFFFFF', solid: true, icon: '🏮', hardness: 0.3, light: 15 }
 };
 
 if (typeof window !== 'undefined') {
