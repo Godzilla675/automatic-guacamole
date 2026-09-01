@@ -385,3 +385,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Bug, agents must fix)
+
+- [ ] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Target Block**: Redstone component block crafted with hay bale and redstone dust that emits redstone signals based on projectile impact accuracy. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Sculk Shrieker**: Deep dark block that emits shrieks and summons Warden when activated by Sculk Sensors. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mangrove Roots**: Unique wood-like structural block generating in Mangrove Swamps. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Muddy Mangrove Roots**: Variant of mangrove roots submerged in mud blocks. (Status: Missing implementation, agents must fix)
