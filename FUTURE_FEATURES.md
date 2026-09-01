@@ -37,7 +37,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 2. Block System
 - [ ] **New Task: Add Vertical Slabs**: Allow slab placement vertically on block faces. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Chiseled Stone Bricks**: Decorative stone brick variant with carved designs. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Chiseled Stone Bricks**: Decorative stone brick variant with carved designs. (Status: Verified and working)
 - [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block definitions and logic, agents must fix)
 
 ### 3. Rendering Engine
@@ -75,7 +75,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava. (Status: Missing implementation, agents must fix)
 - [ ] **Map item** (Status: Missing implementation, agents must fix)
 - [ ] **Shulker Boxes** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Soul Campfire**: Campfire variant crafted with soul sand that emits blue light and fire. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Soul Campfire**: Campfire variant crafted with soul sand that emits blue light and fire. (Status: Verified and working)
 - [ ] **Beacons** (Status: Missing implementation, agents must fix)
 
 ### 7. Lighting System
@@ -104,7 +104,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 12. Redstone & Mechanics
 - [ ] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Moss Carpet**: Decorative plant covering crafted from Moss Blocks. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Moss Carpet**: Decorative plant covering crafted from Moss Blocks. (Status: Verified and working)
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Honeycomb Block Crafting**: Add recipe for turning honeycombs into honeycomb blocks. (Status: Missing implementation, agents must fix)
 - [ ] **Redstone Repeaters & Comparators** (Status: Missing block definitions and logic, agents must fix)
@@ -293,8 +293,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Allays**: Flying friendly mobs that collect items for you. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Tadpoles**: Baby version of frogs that grow up into different frogs based on biome. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Mud Bricks**: Decorative block crafted from mud. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Packed Mud**: Block crafted from mud and wheat. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Mud Bricks**: Decorative block crafted from mud. (Status: Verified and working)
+- [x] **New Task: Add Packed Mud**: Block crafted from mud and wheat. (Status: Verified and working)
 
 - [ ] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Missing implementation, agents must fix)
 

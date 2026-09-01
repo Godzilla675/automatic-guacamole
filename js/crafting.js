@@ -75,6 +75,31 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.GLASS, count: 4 }, { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]
             },
             {
+                name: "Moss Carpet (3)",
+                result: { type: BLOCK.MOSS_CARPET, count: 3 },
+                ingredients: [ { type: BLOCK.MOSS_BLOCK, count: 2 } ]
+            },
+            {
+                name: "Soul Campfire",
+                result: { type: BLOCK.SOUL_CAMPFIRE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.SOUL_SAND, count: 1 }, { type: BLOCK.WOOD, count: 3 } ]
+            },
+            {
+                name: "Packed Mud",
+                result: { type: BLOCK.PACKED_MUD, count: 1 },
+                ingredients: [ { type: BLOCK.MUD_BLOCK, count: 1 }, { type: BLOCK.WHEAT, count: 1 } ]
+            },
+            {
+                name: "Mud Bricks (4)",
+                result: { type: BLOCK.MUD_BRICKS, count: 4 },
+                ingredients: [ { type: BLOCK.PACKED_MUD, count: 4 } ]
+            },
+            {
+                name: "Chiseled Stone Bricks",
+                result: { type: BLOCK.CHISELED_STONE_BRICKS, count: 1 },
+                ingredients: [ { type: BLOCK.SLAB_STONE, count: 2 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
