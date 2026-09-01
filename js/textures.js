@@ -109,6 +109,11 @@ class TextureManager {
         this.textures[B.SMOKER] = this.genSmoker();
         this.textures[B.BLAST_FURNACE] = this.genBlastFurnace();
         this.textures[B.SEA_LANTERN] = this.genSeaLantern();
+        this.textures[B.MOSS_CARPET] = this.genMossBlock();
+        this.textures[B.SOUL_CAMPFIRE] = this.genSoulCampfire();
+        this.textures[B.MUD_BRICKS] = this.genMudBricks();
+        this.textures[B.PACKED_MUD] = this.genPackedMud();
+        this.textures[B.CHISELED_STONE_BRICKS] = this.genChiseledStoneBricks();
 
 
         // Glass
@@ -420,6 +425,47 @@ class TextureManager {
         ctx.fillRect(3, 3, 10, 10);
         ctx.fillStyle = '#00FFFF';
         ctx.fillRect(5, 5, 6, 6);
+        return c;
+    }
+
+    genSoulCampfire() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, this.hexToRgb('#8B4513'), 15);
+        ctx.fillStyle = '#00BFFF';
+        ctx.fillRect(4, 4, 8, 8);
+        return c;
+    }
+
+    genMudBricks() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, this.hexToRgb('#4A3525'), 15);
+        ctx.fillStyle = '#3A2515';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 8, 16, 1);
+        return c;
+    }
+
+    genPackedMud() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, this.hexToRgb('#5C4033'), 15);
+        ctx.fillStyle = '#6E4E3D';
+        ctx.fillRect(2, 2, 4, 4);
+        ctx.fillRect(10, 8, 4, 4);
+        return c;
+    }
+
+    genChiseledStoneBricks() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, this.hexToRgb('#707070'), 15);
+        ctx.fillStyle = '#505050';
+        ctx.fillRect(2, 2, 12, 1);
+        ctx.fillRect(2, 13, 12, 1);
+        ctx.fillRect(2, 2, 1, 12);
+        ctx.fillRect(13, 2, 1, 12);
         return c;
     }
 

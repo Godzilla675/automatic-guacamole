@@ -288,7 +288,12 @@ const BLOCK = {
     COMPOSTER: 377,
     SMOKER: 378,
     BLAST_FURNACE: 379,
-    SEA_LANTERN: 380
+    SEA_LANTERN: 380,
+    MOSS_CARPET: 381,
+    SOUL_CAMPFIRE: 382,
+    MUD_BRICKS: 383,
+    PACKED_MUD: 384,
+    CHISELED_STONE_BRICKS: 385
 };
 
 const ARMOR = {
@@ -639,7 +644,12 @@ const BLOCKS = {
     [BLOCK.COMPOSTER]: { name: 'Composter', color: '#8B4513', top: '#A0522D', solid: true, icon: '🧺', hardness: 0.6, tool: 'axe' },
     [BLOCK.SMOKER]: { name: 'Smoker', color: '#4A3B32', top: '#5C4A3E', solid: true, icon: '🥩', hardness: 3.5, tool: 'pickaxe' },
     [BLOCK.BLAST_FURNACE]: { name: 'Blast Furnace', color: '#505050', top: '#707070', solid: true, icon: '🌋', hardness: 3.5, tool: 'pickaxe' },
-    [BLOCK.SEA_LANTERN]: { name: 'Sea Lantern', color: '#E0FFFF', top: '#FFFFFF', solid: true, icon: '🏮', hardness: 0.3, light: 15 }
+    [BLOCK.SEA_LANTERN]: { name: 'Sea Lantern', color: '#E0FFFF', top: '#FFFFFF', solid: true, icon: '🏮', hardness: 0.3, light: 15 },
+    [BLOCK.MOSS_CARPET]: { name: 'Moss Carpet', color: '#4E7A27', solid: false, transparent: true, icon: '🟩', hardness: 0.1, tool: 'hoe' },
+    [BLOCK.SOUL_CAMPFIRE]: { name: 'Soul Campfire', color: '#8B4513', top: '#00BFFF', solid: true, transparent: true, icon: '🔥', hardness: 2.0, tool: 'axe', light: 10 },
+    [BLOCK.MUD_BRICKS]: { name: 'Mud Bricks', color: '#4A3525', top: '#5C4033', solid: true, icon: '🧱', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.PACKED_MUD]: { name: 'Packed Mud', color: '#5C4033', top: '#6E4E3D', solid: true, icon: '🟫', hardness: 1.0, tool: 'pickaxe' },
+    [BLOCK.CHISELED_STONE_BRICKS]: { name: 'Chiseled Stone Bricks', color: '#707070', top: '#808080', solid: true, icon: '🏛️', hardness: 1.5, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {
