@@ -293,7 +293,12 @@ const BLOCK = {
     SOUL_CAMPFIRE: 382,
     MUD_BRICKS: 383,
     PACKED_MUD: 384,
-    CHISELED_STONE_BRICKS: 385
+    CHISELED_STONE_BRICKS: 385,
+    TARGET_BLOCK: 386,
+    LODESTONE: 387,
+    FLOWER_POT: 388,
+    TINTED_GLASS: 389,
+    LIGHTNING_ROD: 390
 };
 
 const ARMOR = {
@@ -649,7 +654,12 @@ const BLOCKS = {
     [BLOCK.SOUL_CAMPFIRE]: { name: 'Soul Campfire', color: '#8B4513', top: '#00BFFF', solid: true, transparent: true, icon: '🔥', hardness: 2.0, tool: 'axe', light: 10 },
     [BLOCK.MUD_BRICKS]: { name: 'Mud Bricks', color: '#4A3525', top: '#5C4033', solid: true, icon: '🧱', hardness: 1.5, tool: 'pickaxe' },
     [BLOCK.PACKED_MUD]: { name: 'Packed Mud', color: '#5C4033', top: '#6E4E3D', solid: true, icon: '🟫', hardness: 1.0, tool: 'pickaxe' },
-    [BLOCK.CHISELED_STONE_BRICKS]: { name: 'Chiseled Stone Bricks', color: '#707070', top: '#808080', solid: true, icon: '🏛️', hardness: 1.5, tool: 'pickaxe' }
+    [BLOCK.CHISELED_STONE_BRICKS]: { name: 'Chiseled Stone Bricks', color: '#707070', top: '#808080', solid: true, icon: '🏛️', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.TARGET_BLOCK]: { name: 'Target Block', color: '#FFFFFF', top: '#FF0000', solid: true, icon: '🎯', hardness: 0.5, tool: 'hoe' },
+    [BLOCK.LODESTONE]: { name: 'Lodestone', color: '#A9A9A9', top: '#C0C0C0', solid: true, icon: '🧲', hardness: 3.5, tool: 'pickaxe' },
+    [BLOCK.FLOWER_POT]: { name: 'Flower Pot', color: '#8B4513', solid: false, transparent: true, icon: '🪴', hardness: 0.0 },
+    [BLOCK.TINTED_GLASS]: { name: 'Tinted Glass', color: '#2F2F2F', top: '#1F1F1F', solid: true, transparent: true, icon: '⬛', hardness: 0.3, tool: 'pickaxe' },
+    [BLOCK.LIGHTNING_ROD]: { name: 'Lightning Rod', color: '#B87333', solid: false, transparent: true, icon: '⚡', hardness: 3.0, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {
