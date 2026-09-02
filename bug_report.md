@@ -157,8 +157,10 @@ While all implemented mechanics pass test assertions with 100% stability, an aud
 - **Dimensions & World Structures**: The End dimension (End Dragon, End Cities, Shulkers), Trial Chambers (Trial Spawners, Breeze, Ominous Vaults), Ocean Monuments, and Nether Fortresses remain tracked as missing features.
 - **Biomes**: Mangrove Swamps, Pale Garden, Cherry Grove, Savanna, Ice Spikes, and Dark Oak Forests require procedural generation logic in `js/biome.js`.
 - **Mobs**: Mobs such as Magma Cubes, Breeze, Creaking, Warden, Wither Skeletons, Pillagers, Armadillos, Frogs, and Sniffers are missing entity definitions in `js/mob.js`.
+- **Newly Confirmed Tasks**: Backpacks, Grappling Hooks, Armor Trims, Coral Reefs, Crafter, Magma Cubes, Fletching Table.
 
 ### 4.2 Test Harness & Scripting Environment Anomalies
+- **Playwright Test Timeout (`playwright_test.js`)**: The automated browser interaction test fails with a TimeoutError when attempting to click the `#pause-btn`. The `#pause-screen` overlay (e.g., `<div class="" id="pause-screen">...</div>`) intercepts pointer events because it is not properly hidden or the click attempts happen while it's covering the button.
 - **Node.js JSDOM Script Load Order**: Script verification files that execute in standalone Node.js environments must import `js/entity.js` prior to `js/mob.js` to prevent `ReferenceError: Entity is not defined`.
 - **Canvas `putImageData` Mocking**: JSDOM's canvas context mock lacks full `putImageData` support, requiring mock context polyfills in lighting/texture test scripts.
 
