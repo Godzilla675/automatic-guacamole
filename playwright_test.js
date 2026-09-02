@@ -46,19 +46,19 @@ const fs = require('fs');
     await page.waitForTimeout(500);
 
     // Pause menu
-    await page.click('#pause-btn', {force: true});
+    await page.keyboard.press('Escape');
     await page.waitForTimeout(500);
     await page.screenshot({ path: 'verification/playwright_pause.png' });
 
     // Settings
-    await page.click('#settings-btn', {force: true});
+    await page.click('#settings-btn');
     await page.waitForTimeout(500);
     await page.screenshot({ path: 'verification/playwright_settings.png' });
 
-    await page.click('#close-settings', {force: true});
+    await page.click('#close-settings');
     await page.waitForTimeout(500);
 
-    await page.click('#resume-game', {force: true});
+    await page.click('#resume-game');
     await page.waitForTimeout(500);
 
     console.log("Recorded Errors:");
