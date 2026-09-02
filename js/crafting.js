@@ -100,6 +100,31 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.SLAB_STONE, count: 2 } ]
             },
             {
+                name: "Target Block",
+                result: { type: BLOCK.TARGET_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.HAY_BLOCK, count: 1 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 4 } ]
+            },
+            {
+                name: "Lodestone",
+                result: { type: BLOCK.LODESTONE, count: 1 },
+                ingredients: [ { type: BLOCK.CHISELED_STONE_BRICKS, count: 8 }, { type: BLOCK.ITEM_IRON_INGOT, count: 1 } ]
+            },
+            {
+                name: "Flower Pot (3)",
+                result: { type: BLOCK.FLOWER_POT, count: 3 },
+                ingredients: [ { type: BLOCK.BRICK, count: 3 } ]
+            },
+            {
+                name: "Tinted Glass (2)",
+                result: { type: BLOCK.TINTED_GLASS, count: 2 },
+                ingredients: [ { type: BLOCK.GLASS, count: 1 }, { type: BLOCK.AMETHYST_BLOCK, count: 4 } ]
+            },
+            {
+                name: "Lightning Rod",
+                result: { type: BLOCK.LIGHTNING_ROD, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 3 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]

@@ -194,7 +194,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Grindstones**: Block used to repair items and remove enchantments. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ocean Monument Structures**: Ocean monuments generating in deep ocean biomes containing Sea Lanterns and Elder Guardians. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Carrots on a Stick**: Item used to control saddled pigs. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Flower Pots**: Decorative blocks to hold saplings and flowers. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Flower Pots**: Decorative blocks to hold saplings and flowers. (Status: Verified and working)
 - [ ] **New Task: Add Pale Oak Forest**: New biome for Creaking. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Canvas Pattern Creation Fails in Headless**: createPattern throws an error in certain headless test environments. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
@@ -258,7 +258,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Redstone Torch**: Add redstone torches to provide power to adjacent redstone blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Daylight Sensor**: Add a block that emits a redstone signal based on the time of day. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Copper Blocks**: Blocks that oxidize over time. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals. (Status: Verified and working)
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Chorus Plants**: Plant found in the End. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Crossbows**: Implement ranged weapon that takes longer to charge than bows but holds the arrow, and can shoot fireworks. (Status: Missing implementation, agents must fix)
@@ -272,7 +272,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Wither Rose**: A flower that inflicts Wither effect when stepped on, dropped by mobs killed by the Wither. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mace**: A weapon that deals more damage the further you fall. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit redstone signals. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Tinted Glass**: Glass blocks that block light but allow players to see through. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Tinted Glass**: Glass blocks that block light but allow players to see through. (Status: Verified and working)
 
 - [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals. (Status: Missing implementation, agents must fix)
 
@@ -386,8 +386,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Bug, agents must fix)
 
-- [ ] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Target Block**: Redstone component block crafted with hay bale and redstone dust that emits redstone signals based on projectile impact accuracy. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Verified and working)
+- [x] **New Task: Add Target Block**: Redstone component block crafted with hay bale and redstone dust that emits redstone signals based on projectile impact accuracy. (Status: Verified and working)
 - [ ] **New Task: Add Sculk Shrieker**: Deep dark block that emits shrieks and summons Warden when activated by Sculk Sensors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mangrove Roots**: Unique wood-like structural block generating in Mangrove Swamps. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Muddy Mangrove Roots**: Variant of mangrove roots submerged in mud blocks. (Status: Missing implementation, agents must fix)

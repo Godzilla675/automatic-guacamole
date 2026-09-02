@@ -114,6 +114,11 @@ class TextureManager {
         this.textures[B.MUD_BRICKS] = this.genMudBricks();
         this.textures[B.PACKED_MUD] = this.genPackedMud();
         this.textures[B.CHISELED_STONE_BRICKS] = this.genChiseledStoneBricks();
+        this.textures[B.TARGET_BLOCK] = this.genTargetBlock();
+        this.textures[B.LODESTONE] = this.genLodestone();
+        this.textures[B.FLOWER_POT] = this.genFlowerPot();
+        this.textures[B.TINTED_GLASS] = this.genTintedGlass();
+        this.textures[B.LIGHTNING_ROD] = this.genLightningRod();
 
 
         // Glass
@@ -2513,6 +2518,68 @@ class TextureManager {
         ctx.fillRect(7, 5, 1, 4);
         ctx.fillRect(0, 10, 1, 3);
         ctx.fillRect(7, 10, 1, 3);
+        return c;
+    }
+
+    genTargetBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genLodestone() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#C0C0C0';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#505050';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(7, 7, 2, 2);
+        return c;
+    }
+
+    genFlowerPot() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(5, 6, 6, 8);
+        ctx.fillStyle = '#A0522D';
+        ctx.fillRect(4, 5, 8, 2);
+        ctx.fillStyle = '#5C4033';
+        ctx.fillRect(6, 6, 4, 1);
+        return c;
+    }
+
+    genTintedGlass() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = 'rgba(30, 30, 35, 0.85)';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = 'rgba(80, 80, 100, 0.4)';
+        ctx.fillRect(2, 2, 12, 1);
+        ctx.fillRect(2, 2, 1, 12);
+        return c;
+    }
+
+    genLightningRod() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#B87333';
+        ctx.fillRect(7, 2, 2, 12);
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(6, 1, 4, 2);
+        ctx.fillRect(6, 13, 4, 2);
         return c;
     }
 
