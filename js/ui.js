@@ -1752,7 +1752,35 @@ class UIManager {
         }, 3000);
     }
 
+    updatePotionEffectsUI() {
+        const container = document.getElementById('potion-effects-container');
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (!this.game || !this.game.player || !this.game.player.activeEffects) return;
+
+        this.game.player.activeEffects.forEach(eff => {
+            const card = document.createElement('div');
+            card.className = 'potion-effect-card';
+
+            const icon = document.createElement('span');
+            icon.className = 'effect-icon';
+            icon.textContent = eff.icon || '🧪';
+
+            const mins = Math.floor(Math.max(0, eff.duration) / 60);
+            const secs = Math.floor(Math.max(0, eff.duration) % 60).toString().padStart(2, '0');
+
+            const text = document.createElement('span');
+            text.textContent = `${eff.name} (${mins}:${secs})`;
+
+            card.appendChild(icon);
+            card.appendChild(text);
+            container.appendChild(card);
+        });
+    }
+
     updateHealthUI() {
+        this.updatePotionEffectsUI();
         const bar = document.getElementById('health-bar');
         if (bar) {
             const pct = (this.game.player.health / this.game.player.maxHealth) * 100;

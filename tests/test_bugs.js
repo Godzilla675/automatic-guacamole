@@ -56,6 +56,16 @@ class MockWebSocket {
 }
 dom.window.WebSocket = MockWebSocket;
 
+// Mock AnalyserNode
+dom.window.AnalyserNode = class {
+    constructor() {
+        this.fftSize = 2048;
+        this.frequencyBinCount = 1024;
+    }
+    getByteFrequencyData(array) {}
+    getByteTimeDomainData(array) {}
+};
+
 // Mock AudioContext
 dom.window.AudioContext = class {
     constructor() {
@@ -67,6 +77,7 @@ dom.window.AudioContext = class {
     createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
     createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
     createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, panningModel: '', distanceModel: '', refDistance: 0, maxDistance: 0, rolloffFactor: 0 }; }
+    createAnalyser() { return new dom.window.AnalyserNode(); }
     resume() {}
     get state() { return 'running'; }
     get currentTime() { return 0; }
@@ -93,7 +104,17 @@ canvas.getContext = () => ({
     scale: () => {},
     translate: () => {},
     rotate: () => {},
+    putImageData: () => {},
+    createImageData: (w, h) => ({ data: new Uint8ClampedArray(w * h * 4) }),
 });
+
+// Mock sessionStorage
+dom.window.sessionStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {}
+};
 canvas.requestPointerLock = () => {};
 dom.window.document.exitPointerLock = () => {};
 
@@ -241,5 +262,52 @@ describe('Bug Verification', () => {
         const p2 = game.projectiles[game.projectiles.length - 1];
         game.explode(10, 50, 10, 3);
         assert.ok(p2.life <= 0, 'Projectile in explosion radius should be destroyed');
+    });
+
+    it('should spawn player in clear non-solid blocks when respawning', () => {
+        // Place solid stone at y=50, 51, 52
+        game.world.setBlock(8, 50, 8, dom.window.BLOCK.STONE);
+        game.world.setBlock(8, 51, 8, dom.window.BLOCK.STONE);
+        game.world.setBlock(8, 52, 8, dom.window.BLOCK.STONE);
+        game.world.setBlock(8, 53, 8, dom.window.BLOCK.AIR);
+        game.world.setBlock(8, 54, 8, dom.window.BLOCK.AIR);
+
+        game.player.spawnPoint = { x: 8, y: 50, z: 8 };
+        game.player.respawn();
+
+        assert.ok(game.player.y >= 53, "Player should be spawned at y>=53 where blocks are AIR");
+        const bFeet = game.world.getBlock(8, Math.floor(game.player.y), 8);
+        const bHead = game.world.getBlock(8, Math.floor(game.player.y + 1), 8);
+        assert.strictEqual(bFeet, dom.window.BLOCK.AIR);
+        assert.strictEqual(bHead, dom.window.BLOCK.AIR);
+    });
+
+    it('should push item drop out of solid blocks on creation', () => {
+        game.world.setBlock(5, 10, 5, dom.window.BLOCK.STONE);
+        game.world.setBlock(5, 11, 5, dom.window.BLOCK.AIR);
+
+        const drop = new dom.window.Drop(game, 5.5, 10.5, 5.5, dom.window.BLOCK.DIRT, 1);
+        assert.ok(drop.y >= 11.0, "Item drop spawned inside stone block should be pushed out to y>=11.0");
+    });
+
+    it('should track and render active potion status effect UI overlay', () => {
+        game.player.activeEffects = [];
+        game.player.addEffect('Regeneration', '🧪', 30);
+
+        assert.strictEqual(game.player.activeEffects.length, 1);
+        assert.strictEqual(game.player.activeEffects[0].name, 'Regeneration');
+
+        const container = dom.window.document.getElementById('potion-effects-container');
+        if (!container) {
+            const hud = dom.window.document.getElementById('hud') || dom.window.document.body;
+            const c = dom.window.document.createElement('div');
+            c.id = 'potion-effects-container';
+            hud.appendChild(c);
+        }
+
+        game.ui.updatePotionEffectsUI();
+        const card = dom.window.document.querySelector('.potion-effect-card');
+        assert.ok(card, "Potion effect card should be rendered in UI container");
+        assert.ok(card.textContent.includes('Regeneration'), "Card should contain effect name");
     });
 });
