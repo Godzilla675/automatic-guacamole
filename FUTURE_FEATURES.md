@@ -12,12 +12,14 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Wind Charges**: Dropped by the Breeze, used as a projectile. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Wind Charges**: Dropped by the Breeze, used as a projectile with knockback explosion physics. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Trial Chambers**: Procedural structures found underground. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze**: A hostile mob in Trial Chambers that uses wind attacks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Copper Grates & Copper Bulbs**: New oxidation-capable copper blocks and dimmable light sources. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Missing implementation, agents must fix)
 
 ## 1. World Generation
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
@@ -38,7 +40,18 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 2. Block System
 - [ ] **New Task: Add Vertical Slabs**: Allow slab placement vertically on block faces. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Chiseled Stone Bricks**: Decorative stone brick variant with carved designs. (Status: Verified and working)
-- [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block definitions and logic, agents must fix)
+- [x] **New Task: Add Slime Blocks**: Cancellation of fall damage and bouncing mechanics when landing. (Status: Verified and working)
+- [x] **New Task: Add Glazed Terracotta Blocks**: 16 colored glazed terracotta decorative blocks. (Status: Verified and working)
+- [x] **New Task: Add Campfires**: Light emitting blocks with smoke particle rendering. (Status: Verified and working)
+- [x] **New Task: Add Glow Berries**: Edible glow berry item and block. (Status: Verified and working)
+- [x] **New Task: Add Mud Blocks**: Mud block definition and crafting component. (Status: Verified and working)
+- [x] **New Task: Add Sweet Berries**: Sweet berry bushes and food items. (Status: Verified and working)
+- [x] **New Task: Add Moss Block & Moss Carpet**: Decorative lush green moss blocks and carpets. (Status: Verified and working)
+- [x] **New Task: Add Honeycomb Block**: Honeycomb block definition and crafting. (Status: Verified and working)
+- [x] **New Task: Add Amethyst Block**: Amethyst crystal blocks and recipes. (Status: Verified and working)
+- [x] **New Task: Add Crying Obsidian**: Decorative obsidian variant emitting purple particles. (Status: Verified and working)
+- [x] **New Task: Add Stonecutter, Composter, Smoker, Blast Furnace, Sea Lantern**: Functional and decorative utility blocks. (Status: Verified and working)
+- [ ] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Missing block signal propagation logic, agents must fix)
 
 ### 3. Rendering Engine
 - [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
@@ -53,9 +66,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 4. Player Mechanics
 - [ ] **New Task: Add Trial Spawners**: Blocks that spawn waves of mobs. (Status: Missing implementation, agents must fix)
 - [ ] Drowning (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Creaking**: Hostile mob that only moves when not looked at. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Creaking**: Hostile mob that only moves when not looked at and is vulnerable through its Creaking Heart. (Status: Missing implementation, agents must fix)
 - [ ] **Elytra** (Gliding mechanics) (Status: Missing implementation, agents must fix)
 - [ ] **Tridents** (Throwing, returning, Riptide) (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Spectator Flying through Blocks**: Spectator mode allows clip-free flying through solid terrain. (Status: Verified and working)
+- [x] **New Task: Add Spyglass Zoom FOV**: Right clicking with Spyglass zooms in FOV camera view. (Status: Verified and working)
+- [x] **New Task: Add Honey Block Fall Damage Reduction**: Landing on Honey Blocks cancels fall damage. (Status: Verified and working)
 
 ### 5. Entities & Mobs
 - [ ] **New Task: Add Polar Bears**: Neutral mobs in snowy biomes that attack if their cubs are near. (Status: Missing implementation, agents must fix)
@@ -67,6 +83,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Slime Mob** (Status: Missing implementation, agents must fix)
 - [ ] **Magma Cube Mob** (Status: Missing implementation, agents must fix)
 - [ ] **Ender Dragon Boss** (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Witches**: Hostile mobs that throw harmful splash potions at players. (Status: Verified and working)
+- [x] **New Task: Add Rideable Pigs**: Saddle mounting, player riding, and steering mechanics. (Status: Verified and working)
 
 ### 6. Items & Crafting
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
@@ -76,6 +94,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Map item** (Status: Missing implementation, agents must fix)
 - [ ] **Shulker Boxes** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Soul Campfire**: Campfire variant crafted with soul sand that emits blue light and fire. (Status: Verified and working)
+- [x] **New Task: Add Firework Rockets**: Fireworks launching and explosion particle FX. (Status: Verified and working)
+- [x] **New Task: Add Snowball Items & Throwing Mechanics**: Snowballs throwable as projectiles causing knockback and damage to entities. (Status: Verified and working)
 - [ ] **Beacons** (Status: Missing implementation, agents must fix)
 
 ### 7. Lighting System
@@ -84,12 +104,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 8. Physics
 - [ ] **New Task: Add Soft Falling Blocks**: Powder snow block physics and entity freezing/sinking mechanics. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Item Despawn Timers & Out-of-Block Pushing**: Item drops despawn gracefully after timer and push out of solid blocks when stuck. (Status: Verified and working)
 
 ### 9. World Management
 - [ ] **LOD (Level of Detail) system** (Status: Missing implementation, agents must fix)
 - [ ] **Worker threads for world generation** (Status: Missing implementation, agents must fix)
 - [ ] **Better memory management** (Status: Missing implementation, agents must fix)
-
+- [x] **New Task: Add AutoSaveTimer Initialization**: Game constructor autoSaveTimer initialized to 0 for periodic auto-saves. (Status: Verified and working)
 - [ ] **Chunk Serialization Optimization** (Status: Missing implementation, agents must fix)
 - [ ] **Refactoring World/Chunk Separation** (Status: Missing implementation, agents must fix)
 
@@ -97,6 +118,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Share world links** (Status: Missing implementation, agents must fix)
 - [ ] **Leaderboards** (Status: Missing implementation, agents must fix)
 - [ ] **World showcase gallery** (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
+- [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
 
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
@@ -106,11 +129,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals. (Status: Verified and working)
 - [x] **New Task: Add Moss Carpet**: Decorative plant covering crafted from Moss Blocks. (Status: Verified and working)
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Honeycomb Block Crafting**: Add recipe for turning honeycombs into honeycomb blocks. (Status: Missing implementation, agents must fix)
-- [ ] **Redstone Repeaters & Comparators** (Status: Missing block definitions and logic, agents must fix)
+- [x] **New Task: Add Honeycomb Block Crafting**: Crafting recipe for turning honeycombs into honeycomb blocks. (Status: Verified and working)
+- [ ] **Redstone Repeaters & Comparators** (Status: Partial implementation - block definitions exist but signal propagation math is missing, agents must fix)
 - [ ] **New Task: Add Hoppers**: Blocks that transfer items between containers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Missing implementation, agents must fix)
 - [ ] **Command Block** (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Fishing Catch Logic & Loot Tables**: Rod and bobber exist, but fish catch timers and loot tables are incomplete. (Status: Partial implementation, agents must fix)
 
 ### 13. Networking (Multiplayer)
 - [ ] Entity synchronization (Status: Missing implementation, agents must fix)
@@ -127,7 +151,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 15. Miscellaneous
 - [ ] **New Task: Add Eyeblossoms**: Flowers found in Pale Garden biomes that bloom at night. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Pale Oak Wood**: Wood type harvested from Pale Oak trees in the Pale Garden. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Pale Oak Wood Set**: Full wood family (planks, stairs, slabs, fences, doors) harvested from Pale Oak trees. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Coral**: Coral reef blocks and items for oceans. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Seagrass**: Underwater vegetation. (Status: Missing implementation, agents must fix)
@@ -136,21 +160,21 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Redstone Rails**: Powered rails and detector rails. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dolphins**: Neutral aquatic mobs that guide players to treasure. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Entity Despawn Timers**: Clear uncollected mob drops and temporary entities. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Fireworks Trail Particles**: Particle effects attached to flying fireworks before explosion. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Entity Despawn Timers**: Clear uncollected mob drops and temporary entities. (Status: Verified and working)
+- [x] **New Task: Add Fireworks Trail Particles**: Particle effects attached to flying fireworks before explosion. (Status: Verified and working)
 - [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Leads**: Items to tie passive mobs to fences. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Firework Crafting Recipes**: Combine gunpowder and paper to craft fireworks. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Dual Wielding**: Allow players to hold items in both hands. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Spyglass Crafting Recipe**: Combine copper ingots and amethyst shard to craft spyglass. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Firework Crafting Recipes**: Combine gunpowder and paper to craft fireworks. (Status: Verified and working)
+- [x] **New Task: Add Dual Wielding**: Allow players to hold items in main hand and offhand. (Status: Verified and working)
+- [x] **New Task: Add Spyglass Crafting Recipe**: Combine copper ingots and amethyst shard to craft spyglass. (Status: Verified and working)
 - [ ] **New Task: Add Magma Blocks**: Blocks that deal damage when stepped on. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Redstone Dust Logic**: Redstone wire logic and connections are missing. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Geodes Structure Generation**: Generate underground amethyst geodes with budding amethyst blocks. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Glowstone Dust Drop**: Make glowstone blocks drop 2-4 glowstone dust when broken without Silk Touch. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Glowstone Crafting & Dust Drop**: Glowstone blocks craftable from 4 glowstone dust and drop dust when broken. (Status: Verified and working)
 - [ ] **New Task: Add Vault Block**: Standard vault structure rewards block found in Trial Chambers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze Rod**: Item dropped by the Breeze mob, used to craft Wind Charges and the Mace. (Status: Missing implementation, agents must fix)
-- [ ] **Implement Thunderstorms and Lightning** (Status: Missing implementation, agents must fix)
+- [x] **Implement Thunderstorms and Lightning**: Thunderstorm weather cycles and Lightning Rod strike attraction. (Status: Verified and working)
 - [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning. (Status: Missing implementation, agents must fix)
 - [ ] Statistics (Status: Missing implementation, agents must fix)
@@ -175,10 +199,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## Known Bugs & Issues (To Be Fixed)
 - [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Glazed Terracotta Crafting**: Add furnace recipes for smelting dyed terracotta into glazed terracotta. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Glazed Terracotta Crafting**: Smelting dyed terracotta into glazed terracotta. (Status: Verified and working)
 - [ ] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts lack visual debug toggle. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying ObsidianRespawn Anchors. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying Obsidian Respawn Anchors. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Honey Block Piston Pushing Logic**: Sticky honey blocks dragging adjacent blocks during piston movement. (Status: Missing implementation, agents must fix)
 
@@ -199,7 +223,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Canvas Pattern Creation Fails in Headless**: createPattern throws an error in certain headless test environments. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Hoppers**: Add transfer logic to move items between inventories/containers. (Status: Missing implementation, agents must fix)
-- [ ] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Missing implementation, agents must fix)
+- [x] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Verified and working)
 - [ ] **Implement Fire Spread**: Add fire blocks and logic for them to spread to flammable blocks over time. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Sleeping Through the Night**: Logic to check if all players are in beds, and skip to daytime. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Flint and Steel**: Item used to start fires and ignite TNT. (Status: Missing implementation, agents must fix)
@@ -212,7 +236,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Status: Missing noise transitions in biome.js, agents must fix)
 - [ ] **New Task: Add Potion Brewing Recipes**: Add recipes for brewing potions in the Brewing Stand. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Llamas**: Add Llamas mob with caravan mechanic. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Grindstone**: Add grindstone block to remove enchantments and repair items. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Grindstone**: Add grindstone block to remove enchantments and repair items. (Status: Verified and working)
 - [x] **New Task: Add Item Frame**: An entity to hold and display items. (Status: Verified and working)
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Polar Bears**: Add Polar Bears in snowy biomes. (Status: Missing implementation, agents must fix)
@@ -248,7 +272,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Cherry Grove Biome**: A biome featuring pink cherry blossom trees. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Item drops clipping**: Item drops sometimes clip through solid blocks when spawned. (Status: Verified and working - pushes drops out of solid blocks on spawn & update)
-- [ ] **New Task: Add target lock-on mechanics for hostile mobs**: Hostile mobs currently just walk towards the player. Add a line-of-sight check before aggroing. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add target lock-on mechanics for hostile mobs**: Hostile mobs check line-of-sight (`hasLineOfSight`) before aggroing. (Status: Verified and working)
 - [ ] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans. (Status: Missing implementation, agents must fix)
@@ -271,7 +295,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Phantoms**: Flying hostile mobs that spawn when players haven't slept for multiple in-game days. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Wither Rose**: A flower that inflicts Wither effect when stepped on, dropped by mobs killed by the Wither. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mace**: A weapon that deals more damage the further you fall. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit redstone signals. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit redstone signals. (Status: Verified and working)
 - [x] **New Task: Add Tinted Glass**: Glass blocks that block light but allow players to see through. (Status: Verified and working)
 
 - [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals. (Status: Missing implementation, agents must fix)
@@ -381,7 +405,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## Newly Discovered Bugs & Tasks (From Audit)
 - [ ] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Bug, agents must fix)
-- [ ] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Partial implementation - block exists, UI missing, agents must fix)
 - [ ] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Bug, agents must fix)
