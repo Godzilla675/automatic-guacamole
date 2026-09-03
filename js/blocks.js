@@ -298,7 +298,10 @@ const BLOCK = {
     LODESTONE: 387,
     FLOWER_POT: 388,
     TINTED_GLASS: 389,
-    LIGHTNING_ROD: 390
+    LIGHTNING_ROD: 390,
+    GRINDSTONE: 391,
+    ITEM_FRAME: 392,
+    SCULK_SENSOR: 393
 };
 
 const ARMOR = {
@@ -659,7 +662,10 @@ const BLOCKS = {
     [BLOCK.LODESTONE]: { name: 'Lodestone', color: '#A9A9A9', top: '#C0C0C0', solid: true, icon: '🧲', hardness: 3.5, tool: 'pickaxe' },
     [BLOCK.FLOWER_POT]: { name: 'Flower Pot', color: '#8B4513', solid: false, transparent: true, icon: '🪴', hardness: 0.0 },
     [BLOCK.TINTED_GLASS]: { name: 'Tinted Glass', color: '#2F2F2F', top: '#1F1F1F', solid: true, transparent: true, icon: '⬛', hardness: 0.3, tool: 'pickaxe' },
-    [BLOCK.LIGHTNING_ROD]: { name: 'Lightning Rod', color: '#B87333', solid: false, transparent: true, icon: '⚡', hardness: 3.0, tool: 'pickaxe' }
+    [BLOCK.LIGHTNING_ROD]: { name: 'Lightning Rod', color: '#B87333', solid: false, transparent: true, icon: '⚡', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.GRINDSTONE]: { name: 'Grindstone', color: '#808080', top: '#A0A0A0', solid: true, icon: '⚙️', hardness: 2.0, tool: 'pickaxe' },
+    [BLOCK.ITEM_FRAME]: { name: 'Item Frame', color: '#8B4513', solid: false, transparent: true, icon: '🖼️', hardness: 0.5, tool: 'axe' },
+    [BLOCK.SCULK_SENSOR]: { name: 'Sculk Sensor', color: '#004D40', top: '#00ACC1', solid: true, icon: '📡', hardness: 1.5, tool: 'hoe', light: 1 }
 };
 
 if (typeof window !== 'undefined') {

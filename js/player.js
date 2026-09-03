@@ -49,6 +49,7 @@ class Player {
         if (this.gamemode === 3 || this.spectator) {
             this.flying = true;
             this.noclip = true;
+            this.addEffect('Night Vision', '👁️', 999999);
         } else {
             this.noclip = false;
         }
@@ -280,6 +281,14 @@ class Player {
 
     update(dt) {
         const controls = this.game.controls;
+
+        if (this.gamemode === 3 || this.spectator) {
+            this.flying = true;
+            this.noclip = true;
+            if (!this.activeEffects || !this.activeEffects.some(e => e.name === 'Night Vision')) {
+                this.addEffect('Night Vision', '👁️', 999999);
+            }
+        }
 
         // Potion effects update
         if (this.activeEffects && this.activeEffects.length > 0) {

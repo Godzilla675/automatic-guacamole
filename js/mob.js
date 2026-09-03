@@ -14,7 +14,8 @@ const MOB_TYPE = {
     ENDERMAN: 'enderman',
     PIGMAN: 'pigman',
     GHAST: 'ghast',
-    BLAZE: 'blaze'
+    BLAZE: 'blaze',
+    WITCH: 'witch'
 };
 
 class Mob extends Entity {
@@ -264,6 +265,13 @@ class Mob extends Entity {
                 this.maxHealth = 100;
                 this.xpValue = 0;
                 break;
+            case MOB_TYPE.WITCH:
+                this.color = '#3B1E48';
+                this.height = 1.9;
+                this.speed = 1.8;
+                this.maxHealth = 26;
+                this.xpValue = 5;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -346,6 +354,9 @@ class Mob extends Entity {
                 break;
             case MOB_TYPE.ENDERMAN:
                 dropType = BLOCK.ITEM_ENDER_PEARL;
+                break;
+            case MOB_TYPE.WITCH:
+                dropType = BLOCK.ITEM_POTION;
                 break;
         }
 
@@ -441,7 +452,8 @@ class Mob extends Entity {
             this.type === MOB_TYPE.SKELETON ||
             this.type === MOB_TYPE.SPIDER ||
             this.type === MOB_TYPE.CREEPER ||
-            this.type === MOB_TYPE.ENDERMAN) {
+            this.type === MOB_TYPE.ENDERMAN ||
+            this.type === MOB_TYPE.WITCH) {
             this.updateHostileAI(dt);
         } else {
             this.updatePassiveAI(dt);
@@ -761,7 +773,18 @@ class Mob extends Entity {
             this.attackCooldown -= dt;
 
             if (dist > 1.5) {
-                if (this.type === MOB_TYPE.SKELETON) {
+                if (this.type === MOB_TYPE.WITCH) {
+                    this.vx = Math.sin(this.yaw) * this.speed * 0.8;
+                    this.vz = Math.cos(this.yaw) * this.speed * 0.8;
+                    if (this.attackCooldown <= 0) {
+                        player.takeDamage(4);
+                        if (player.addEffect) {
+                            player.addEffect('Poison', '🧪', 10);
+                        }
+                        this.attackCooldown = 3.5;
+                        if (window.soundManager) window.soundManager.play('break', {x: this.x, y: this.y, z: this.z});
+                    }
+                } else if (this.type === MOB_TYPE.SKELETON) {
                  if (dist > 8) {
                      // Move closer
                      this.vx = Math.sin(this.yaw) * this.speed;

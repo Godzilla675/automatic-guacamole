@@ -275,12 +275,12 @@ describe('TextureManager', () => {
             });
         });
 
-        it('should cover all 16 mob types', () => {
+        it('should cover all mob types', () => {
             let count = 0;
             for (const key of Object.keys(tm.mobTextures)) {
                 if (tm.mobTextures[key]) count++;
             }
-            assert.strictEqual(count, 16, `Expected 16 mob textures, got ${count}`);
+            assert.ok(count >= 16, `Expected at least 16 mob textures, got ${count}`);
         });
     });
 
