@@ -98,7 +98,17 @@ class Game {
         this.updateChunks();
 
         // Find safe spawn height for player
-        const spawnY = this.world.getSurfaceHeight(8, 8) + 1;
+        let spawnY = this.world.getSurfaceHeight(8, 8) + 1;
+        while (spawnY < 250) {
+            const bFeet = this.world.getBlock(8, Math.floor(spawnY), 8);
+            const bHead = this.world.getBlock(8, Math.floor(spawnY + 1), 8);
+            const defFeet = window.BLOCKS[bFeet];
+            const defHead = window.BLOCKS[bHead];
+            const feetSolid = defFeet && defFeet.solid;
+            const headSolid = defHead && defHead.solid;
+            if (!feetSolid && !headSolid) break;
+            spawnY++;
+        }
         this.player.y = spawnY;
         this.player.spawnPoint = { x: 8, y: spawnY, z: 8 };
         this.player.fallDistance = 0;

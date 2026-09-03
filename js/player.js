@@ -93,6 +93,22 @@ class Player {
 
         // Armor: [Helmet, Chestplate, Leggings, Boots]
         this.armor = [null, null, null, null];
+
+        // Active potion status effects
+        this.activeEffects = [];
+    }
+
+    addEffect(name, icon, duration) {
+        if (!this.activeEffects) this.activeEffects = [];
+        const existing = this.activeEffects.find(e => e.name === name);
+        if (existing) {
+            existing.duration = Math.max(existing.duration, duration);
+        } else {
+            this.activeEffects.push({ name, icon, duration });
+        }
+        if (this.game && this.game.ui && this.game.ui.updatePotionEffectsUI) {
+            this.game.ui.updatePotionEffectsUI();
+        }
     }
 
     getDefensePoints() {
@@ -235,7 +251,18 @@ class Player {
     respawn() {
         // Find safe spawn height dynamically
         if (this.game.world && this.game.world.getSurfaceHeight) {
-            const safeY = this.game.world.getSurfaceHeight(this.spawnPoint.x, this.spawnPoint.z) + 1;
+            let safeY = this.game.world.getSurfaceHeight(this.spawnPoint.x, this.spawnPoint.z) + 1;
+            // Ensure 2-block high clear space (non-solid air/liquid) so player does not suffocate inside solid blocks
+            while (safeY < 250) {
+                const bFeet = this.game.world.getBlock(Math.floor(this.spawnPoint.x), Math.floor(safeY), Math.floor(this.spawnPoint.z));
+                const bHead = this.game.world.getBlock(Math.floor(this.spawnPoint.x), Math.floor(safeY + 1), Math.floor(this.spawnPoint.z));
+                const defFeet = window.BLOCKS[bFeet];
+                const defHead = window.BLOCKS[bHead];
+                const feetSolid = defFeet && defFeet.solid;
+                const headSolid = defHead && defHead.solid;
+                if (!feetSolid && !headSolid) break;
+                safeY++;
+            }
             this.spawnPoint.y = safeY;
         }
         this.x = this.spawnPoint.x;
@@ -253,6 +280,19 @@ class Player {
 
     update(dt) {
         const controls = this.game.controls;
+
+        // Potion effects update
+        if (this.activeEffects && this.activeEffects.length > 0) {
+            for (let i = this.activeEffects.length - 1; i >= 0; i--) {
+                this.activeEffects[i].duration -= dt;
+                if (this.activeEffects[i].duration <= 0) {
+                    this.activeEffects.splice(i, 1);
+                }
+            }
+            if (this.game && this.game.ui && this.game.ui.updatePotionEffectsUI) {
+                this.game.ui.updatePotionEffectsUI();
+            }
+        }
 
         // Hunger Logic
         this.hungerTimer += dt;
@@ -533,6 +573,7 @@ class Player {
     eat(itemType) {
         if (itemType === BLOCK.ITEM_POTION) {
             this.health = Math.min(this.maxHealth, this.health + 6);
+            this.addEffect('Regeneration', '🧪', 45);
             if (window.soundManager) window.soundManager.play('eat');
             if (this.game.updateHealthUI) this.game.updateHealthUI();
             return true;

@@ -227,6 +227,38 @@ body {
     display: flex;
     gap: 5px;
     pointer-events: all;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+/* Potion Effects Overlay UI */
+#potion-effects-container {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 60;
+    pointer-events: none;
+}
+
+.potion-effect-card {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+    font-family: sans-serif;
+    text-shadow: 1px 1px 2px black;
+}
+
+.potion-effect-card .effect-icon {
+    font-size: 18px;
 }
 
 .hotbar-slot {

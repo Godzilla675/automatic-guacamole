@@ -20,6 +20,23 @@ class Drop {
 
         // Visual rotation
         this.rotY = 0;
+
+        // Prevent initial spawning inside solid blocks
+        if (this.world) {
+            let bx = Math.floor(this.x);
+            let by = Math.floor(this.y);
+            let bz = Math.floor(this.z);
+            let blockIn = this.world.getBlock(bx, by, bz);
+            let tries = 0;
+            while (blockIn !== BLOCK.AIR && blockIn !== BLOCK.WATER && window.BLOCKS[blockIn] && window.BLOCKS[blockIn].solid && tries < 10) {
+                by++;
+                blockIn = this.world.getBlock(bx, by, bz);
+                tries++;
+            }
+            if (tries > 0) {
+                this.y = by + 0.2;
+            }
+        }
     }
 
     update(dt) {
@@ -35,34 +52,44 @@ class Drop {
         // Gravity
         this.vy -= this.gravity * dt;
 
-        // Simple Physics (Check block below)
-        const bx = Math.floor(this.x);
-        const by = Math.floor(this.y);
-        const bz = Math.floor(this.z);
+        // Calculate next position
+        const nextX = this.x + this.vx * dt;
+        const nextY = this.y + this.vy * dt;
+        const nextZ = this.z + this.vz * dt;
 
-        // Check if inside block
+        // Simple Physics (Check block inside & below)
+        const bx = Math.floor(nextX);
+        const by = Math.floor(nextY);
+        const bz = Math.floor(nextZ);
+
+        // Check if inside solid block
         const blockIn = this.world.getBlock(bx, by, bz);
-        if (blockIn !== BLOCK.AIR && blockIn !== BLOCK.WATER && !BLOCKS[blockIn].liquid) {
+        const defIn = window.BLOCKS[blockIn];
+        if (blockIn !== BLOCK.AIR && blockIn !== BLOCK.WATER && defIn && defIn.solid) {
              // Push out/up
              this.y = by + 1.2;
              this.vy = 0;
-             this.vx *= 0.8;
-             this.vz *= 0.8;
+             this.vx *= 0.5;
+             this.vz *= 0.5;
         } else {
              const blockBelow = this.world.getBlock(bx, by - 1, bz);
-             if (blockBelow !== BLOCK.AIR && (!BLOCKS[blockBelow] || !BLOCKS[blockBelow].liquid)) {
-                 if (this.y - by < 0.3) {
+             const defBelow = window.BLOCKS[blockBelow];
+             if (blockBelow !== BLOCK.AIR && defBelow && defBelow.solid) {
+                 if (nextY - by < 0.3) {
                      this.y = by + 0.3;
                      this.vy = 0;
                      this.vx *= 0.8; // Ground friction
                      this.vz *= 0.8;
+                 } else {
+                     this.y = nextY;
                  }
+             } else {
+                 this.y = nextY;
              }
         }
 
-        this.x += this.vx * dt;
-        this.y += this.vy * dt;
-        this.z += this.vz * dt;
+        this.x = nextX;
+        this.z = nextZ;
 
         // Magnet to player if close
         const player = this.game.player;
