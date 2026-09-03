@@ -119,6 +119,9 @@ class TextureManager {
         this.textures[B.FLOWER_POT] = this.genFlowerPot();
         this.textures[B.TINTED_GLASS] = this.genTintedGlass();
         this.textures[B.LIGHTNING_ROD] = this.genLightningRod();
+        this.textures[B.GRINDSTONE] = this.genGrindstone();
+        this.textures[B.ITEM_FRAME] = this.genItemFrame();
+        this.textures[B.SCULK_SENSOR] = this.genSculkSensor();
 
 
         // Glass
@@ -2146,6 +2149,7 @@ class TextureManager {
         this.mobTextures.pigman = this.genMobPigman();
         this.mobTextures.ghast = this.genMobGhast();
         this.mobTextures.blaze = this.genMobBlaze();
+        this.mobTextures.witch = this.genMobWitch();
     }
 
     genMobBase(w, h, bodyColor, faceYStart) {
@@ -2580,6 +2584,58 @@ class TextureManager {
         ctx.fillStyle = '#D2B48C';
         ctx.fillRect(6, 1, 4, 2);
         ctx.fillRect(6, 13, 4, 2);
+        return c;
+    }
+
+    genGrindstone() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(2, 4, 12, 8);
+        ctx.fillStyle = '#A0A0A0';
+        ctx.fillRect(4, 2, 8, 12);
+        ctx.fillStyle = '#5C4033';
+        ctx.fillRect(1, 12, 14, 2);
+        return c;
+    }
+
+    genItemFrame() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(1, 1, 14, 14);
+        ctx.fillStyle = '#DEB887';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillStyle = '#A0522D';
+        ctx.fillRect(5, 5, 6, 6);
+        return c;
+    }
+
+    genSculkSensor() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#004D40';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#00ACC1';
+        ctx.fillRect(2, 2, 12, 4);
+        ctx.fillRect(4, 8, 8, 4);
+        ctx.fillStyle = '#80DEEA';
+        ctx.fillRect(7, 1, 2, 3);
+        return c;
+    }
+
+    genMobWitch() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#3B1E48';
+        ctx.fillRect(0, 5, 8, 11);
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(2, 3, 4, 2);
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(1, 1, 6, 2);
+        ctx.fillRect(2, 0, 4, 1);
+        ctx.fillStyle = '#00FF00';
+        ctx.fillRect(3, 4, 2, 1);
         return c;
     }
 

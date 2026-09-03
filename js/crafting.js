@@ -125,6 +125,21 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 3 } ]
             },
             {
+                name: "Grindstone",
+                result: { type: BLOCK.GRINDSTONE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 2 }, { type: BLOCK.SLAB_STONE, count: 1 }, { type: BLOCK.PLANK, count: 2 } ]
+            },
+            {
+                name: "Item Frame",
+                result: { type: BLOCK.ITEM_FRAME, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 8 }, { type: BLOCK.ITEM_LEATHER, count: 1 } ]
+            },
+            {
+                name: "Sculk Sensor",
+                result: { type: BLOCK.SCULK_SENSOR, count: 1 },
+                ingredients: [ { type: BLOCK.OBSIDIAN, count: 2 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 2 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
