@@ -157,7 +157,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
 - [ ] **Deprecated Items cleanup** (Status: Missing implementation, agents must fix)
 - [ ] **Animal Drops fixing** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Spectator Night Vision**: Grant automatic night vision effect to players in spectator mode. (Status: Verified and working)
+- [ ] **New Task: Add Spectator Night Vision**: Grant automatic night vision effect to players in spectator mode. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ravagers**: Large hostile beasts ridden by Illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Geodes**: Rare underground structures with amethyst crystals. (Status: Missing implementation, agents must fix)
