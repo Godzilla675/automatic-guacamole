@@ -10,7 +10,7 @@ class Chunk {
         // Uint8Array is much better for memory. 16*16*64 = 16384 bytes per chunk.
         // Let's assume max height 64.
         this.maxHeight = 128;
-        this.blocks = new Uint8Array(this.size * this.size * this.maxHeight);
+        this.blocks = new Uint16Array(this.size * this.size * this.maxHeight);
         this.metadata = new Uint8Array(this.size * this.size * this.maxHeight);
         this.light = new Uint8Array(this.size * this.size * this.maxHeight);
         this.modified = true; // Start modified to trigger update
@@ -126,7 +126,7 @@ class Chunk {
     }
 
     pack() {
-        const runLengthEncode = (data) => {
+        const runLengthEncode = (data, is16Bit = false) => {
             const result = [];
             let i = 0;
             while (i < data.length) {
@@ -139,11 +139,11 @@ class Chunk {
                 result.push(val);
                 i += count;
             }
-            return new Uint8Array(result);
+            return is16Bit ? new Uint16Array(result) : new Uint8Array(result);
         };
 
-        const packedBlocks = runLengthEncode(this.blocks);
-        const packedMeta = runLengthEncode(this.metadata);
+        const packedBlocks = runLengthEncode(this.blocks, true);
+        const packedMeta = runLengthEncode(this.metadata, false);
 
         return {
              blocks: packedBlocks,

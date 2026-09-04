@@ -12,7 +12,7 @@ Overall Status: **STABLE (100% Pass Rate across tested mechanics)**
 The core rendering, physics, logic, and UI mechanics are fully functional as verified by automated unit tests, Playwright browser gameplay simulations, and interactive UI screen verifications. The pause overlay interception bug in `playwright_test.js` was identified and fixed.
 
 ### Latest Audit Execution Findings
-- **Mocha JavaScript Unit Test Suite (`npx mocha tests/*.js`)**: 271/271 unit tests passing (100% pass rate across 30 test files).
+- **Mocha JavaScript Unit Test Suite (`npx mocha tests/*.js`)**: 275/275 unit tests passing (100% pass rate across 31 test files).
 - **Playwright Extensive End-to-End Tests (`python3 extensive_test.py`)**: All 4 test sections passing (Movement & Jumping, Menus Navigation, UI Elements Visibility, Block Interaction).
 - **Playwright Manual UI Exploratory Tests (`python3 manual_ui_test.py`)**: All 5 test scenarios passing (Inventory UI, Crafting UI, Fly Mode, Settings Menu, Inventory Contents Check).
 - **Playwright Interactive UI Verification (`python3 verify_manual_gameplay.py`)**: Verified that all 9 interactable gameplay UI screens (Inventory, Crafting, Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading, Settings) open and function cleanly with 0 console errors.
@@ -26,13 +26,13 @@ The core rendering, physics, logic, and UI mechanics are fully functional as ver
 Executed via: `npx mocha tests/*.js`
 
 **Result:** PASS
-**Summary:** 271 passing tests covering physics, terrain generation, mob AI & spawning, armor & XP mechanics, world save/load persistence, block interactions, spectator mode, fireworks, spyglass zoom, honey block fall reduction, slime block bouncing, glowstone crafting, shield durability/blocking, offhand UI slot, glass panes & fences, stonecutter, composter, smoker, blast furnace, sea lantern, moss carpet, soul campfire, mud bricks, packed mud, chiseled stone bricks, water flow, world saving, texture generation, Grindstone, Item Frame, Sculk Sensor, Spectator Night Vision, and Witch mob.
+**Summary:** 275 passing tests covering physics, terrain generation, mob AI & spawning, armor & XP mechanics, world save/load persistence, block interactions, spectator mode, fireworks, spyglass zoom, honey block fall reduction, slime block bouncing, glowstone crafting, shield durability/blocking, offhand UI slot, glass panes & fences, stonecutter, composter, smoker, blast furnace, sea lantern, moss carpet, soul campfire, mud bricks, packed mud, chiseled stone bricks, water flow, world saving, texture generation, Grindstone, Item Frame, Sculk Sensor, Spectator Night Vision, Witch mob, Glow Item Frame, Redstone Repeater, and Redstone Comparator.
 
 <details>
 <summary>Mocha Summary Extract</summary>
 
 ```text
-  271 passing (51s)
+  275 passing (26s)
 ```
 </details>
 
@@ -157,6 +157,9 @@ The following newly added features from the agent tasks file were explicitly tes
 - **Weather Cycles**: Clear, rain, and snow weather transitions with thunderstorm logic verified.
 - **Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves verified.
 - **Soul Sand Slowdown Physics**: Speed reduction when walking on Soul Sand blocks verified.
+- **Glow Item Frame (`BLOCK.ITEM_GLOW_FRAME`)**: Block definition, glowing texture generation, and crafting recipe verified.
+- **Redstone Repeater (`BLOCK.REDSTONE_REPEATER`)**: Block definition, texture generation, crafting recipe, and signal propagation logic verified.
+- **Redstone Comparator (`BLOCK.REDSTONE_COMPARATOR`)**: Block definition, texture generation, crafting recipe, and signal comparison logic verified.
 
 ---
 
@@ -165,6 +168,10 @@ The following newly added features from the agent tasks file were explicitly tes
 ### 4.1 Fixed Bug: Playwright Overlay Pause Interaction Failure (`playwright_test.js`)
 - **Issue:** Attempting to click `#pause-btn` on top of the WebGL canvas in `playwright_test.js` failed because pointer-lock or canvas overlay captured click events, causing subsequent modal button clicks (`#close-settings`) to time out.
 - **Fix:** Updated `playwright_test.js` to trigger the pause menu via keyboard event `Escape` (`await page.keyboard.press('Escape')`), ensuring clean DOM menu state transitions without pointer capture conflicts.
+
+### 4.2 Fixed Bug: Glow Item Frames and Redstone Repeater/Comparator Missing
+- **Issue:** Glow Item Frame definition was missing, and Redstone Repeater/Comparator block definitions, textures, crafting recipes, and signal propagation logic were incomplete. Chunk block array overflowed IDs > 255 due to Uint8Array storage.
+- **Fix:** Implemented `ITEM_GLOW_FRAME`, `REDSTONE_REPEATER`, and `REDSTONE_COMPARATOR` in `js/blocks.js`, `js/crafting.js`, `js/textures.js`, and `js/world.js`. Upgraded `Chunk` block array to `Uint16Array` in `js/chunk.js`. Verified via unit test suite `tests/test_glow_frame_redstone_repeaters.js`.
 
 ---
 

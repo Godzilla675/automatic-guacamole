@@ -139,8 +139,8 @@ class World {
 
         // Redstone Updates
         // If we placed or removed something that interacts with redstone
-        if ((blockDef && (blockDef.isWire || blockDef.isTorch || blockDef.id === window.BLOCK.REDSTONE_LAMP || blockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE)) ||
-            (oldBlockDef && (oldBlockDef.isWire || oldBlockDef.isTorch || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE))) {
+        if ((blockDef && (blockDef.isWire || blockDef.isTorch || blockDef.id === window.BLOCK.REDSTONE_LAMP || blockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE || blockDef.id === window.BLOCK.REDSTONE_REPEATER || blockDef.id === window.BLOCK.REDSTONE_COMPARATOR)) ||
+            (oldBlockDef && (oldBlockDef.isWire || oldBlockDef.isTorch || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE || oldBlockDef.id === window.BLOCK.REDSTONE_REPEATER || oldBlockDef.id === window.BLOCK.REDSTONE_COMPARATOR))) {
             this.scheduleNeighborRedstoneUpdates(x, y, z);
             this.activeRedstone.add(`${x},${y},${z}`);
         } else {
@@ -278,7 +278,7 @@ class World {
             const blockDef = window.BLOCKS[type];
             if (!blockDef) continue;
 
-            if (blockDef.isWire) {
+            if (blockDef.isWire && type !== window.BLOCK.REDSTONE_REPEATER && type !== window.BLOCK.REDSTONE_COMPARATOR) {
                 const currentPower = this.getMetadata(x, y, z);
                 let newPower = 0;
 
@@ -295,21 +295,55 @@ class World {
 
                     if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) {
                         newPower = 15;
+                    } else if (nType === window.BLOCK.REDSTONE_REPEATER || nType === window.BLOCK.REDSTONE_COMPARATOR) {
+                        const repPower = this.getMetadata(n.x, n.y, n.z);
+                        if (repPower > newPower) newPower = repPower;
                     } else if (nDef.isWire) {
                         const nPower = this.getMetadata(n.x, n.y, n.z);
                         if (nPower - 1 > newPower) {
                             newPower = nPower - 1;
                         }
-                    } else if (nType === window.BLOCK.REDSTONE_LAMP_ACTIVE) {
-                         // Active lamp doesn't power wire back unless it's a source block?
-                         // In MC, Lamps are consumers.
                     }
-                    // TODO: Levers, Buttons, etc.
                 }
 
                 if (newPower !== currentPower) {
                     this.setMetadata(x, y, z, newPower);
                     // Notify neighbors of change
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+            } else if (type === window.BLOCK.REDSTONE_REPEATER) {
+                const currentPower = this.getMetadata(x, y, z);
+                const powered = this.isBlockPowered(x, y, z);
+                const newPower = powered ? 15 : 0;
+                if (newPower !== currentPower) {
+                    this.setMetadata(x, y, z, newPower);
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+            } else if (type === window.BLOCK.REDSTONE_COMPARATOR) {
+                const currentPower = this.getMetadata(x, y, z);
+                let inputPower = 0;
+                let sidePower = 0;
+
+                const neighbors = [
+                    {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+                    {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+                ];
+
+                for (const n of neighbors) {
+                    const nType = this.getBlock(n.x, n.y, n.z);
+                    const nDef = window.BLOCKS[nType];
+                    if (nDef) {
+                        if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) inputPower = 15;
+                        else if (nDef.isWire) {
+                            const p = this.getMetadata(n.x, n.y, n.z);
+                            if (p > inputPower) inputPower = p;
+                        }
+                    }
+                }
+
+                const outputPower = Math.max(0, inputPower - sidePower);
+                if (outputPower !== currentPower) {
+                    this.setMetadata(x, y, z, outputPower);
                     this.scheduleNeighborRedstoneUpdates(x, y, z);
                 }
             } else if (type === window.BLOCK.REDSTONE_LAMP || type === window.BLOCK.REDSTONE_LAMP_ACTIVE) {
