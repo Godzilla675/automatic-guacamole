@@ -15,7 +15,9 @@ const MOB_TYPE = {
     PIGMAN: 'pigman',
     GHAST: 'ghast',
     BLAZE: 'blaze',
-    WITCH: 'witch'
+    WITCH: 'witch',
+    MAGMA_CUBE: 'magma_cube',
+    SNOW_GOLEM: 'snow_golem'
 };
 
 class Mob extends Entity {
@@ -272,6 +274,22 @@ class Mob extends Entity {
                 this.maxHealth = 26;
                 this.xpValue = 5;
                 break;
+            case MOB_TYPE.MAGMA_CUBE:
+                this.color = '#FF4500';
+                this.height = 1.2;
+                this.width = 1.2;
+                this.speed = 2.2;
+                this.maxHealth = 16;
+                this.xpValue = 4;
+                break;
+            case MOB_TYPE.SNOW_GOLEM:
+                this.color = '#FFFFFF';
+                this.height = 1.9;
+                this.width = 0.7;
+                this.speed = 1.2;
+                this.maxHealth = 10;
+                this.xpValue = 0;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -358,6 +376,13 @@ class Mob extends Entity {
             case MOB_TYPE.WITCH:
                 dropType = BLOCK.ITEM_POTION;
                 break;
+            case MOB_TYPE.MAGMA_CUBE:
+                dropType = BLOCK.MAGMA_BLOCK;
+                break;
+            case MOB_TYPE.SNOW_GOLEM:
+                dropType = BLOCK.ITEM_SNOWBALL;
+                count = 2 + Math.floor(Math.random() * 3);
+                break;
         }
 
         if (dropType && this.game.drops) {
@@ -431,6 +456,16 @@ class Mob extends Entity {
         // Iron Golem
         if (this.type === MOB_TYPE.IRON_GOLEM) {
             this.updateIronGolemAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.SNOW_GOLEM) {
+            this.updateSnowGolemAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.MAGMA_CUBE) {
+            this.updateMagmaCubeAI(dt);
             return;
         }
 
@@ -565,6 +600,59 @@ class Mob extends Entity {
             // Stay
             this.vx = 0;
             this.vz = 0;
+        }
+    }
+
+    updateSnowGolemAI(dt) {
+        // Find nearest hostile mob
+        const target = this.game.mobs.find(m =>
+            (m.type === MOB_TYPE.ZOMBIE || m.type === MOB_TYPE.SKELETON || m.type === MOB_TYPE.SPIDER || m.type === MOB_TYPE.CREEPER || m.type === MOB_TYPE.WITCH)
+            && !m.isDead
+        );
+
+        if (target) {
+            const dx = target.x - this.x;
+            const dz = target.z - this.z;
+            const dist = Math.sqrt(dx * dx + dz * dz);
+
+            if (dist < 15) {
+                this.yaw = Math.atan2(dx, dz);
+                this.attackCooldown -= dt;
+                if (this.attackCooldown <= 0) {
+                    if (this.game.spawnProjectile) {
+                        const dir = { x: dx / dist, y: (target.y + target.height * 0.8 - (this.y + this.height * 0.8)) / dist, z: dz / dist };
+                        this.game.spawnProjectile(this.x, this.y + this.height * 0.8, this.z, dir, 'snowball');
+                    }
+                    this.attackCooldown = 2.0;
+                }
+                return;
+            }
+        }
+        this.updatePassiveAI(dt);
+    }
+
+    updateMagmaCubeAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        if (dist < 16) {
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+
+            if (this.onGround && Math.random() < 0.05) {
+                this.vy = 8; // Bounce high
+            }
+
+            if (dist < 1.5 && this.attackCooldown <= 0) {
+                this.game.player.takeDamage(4);
+                this.attackCooldown = 1.2;
+            }
+            this.attackCooldown -= dt;
+        } else {
+            this.updatePassiveAI(dt);
         }
     }
 

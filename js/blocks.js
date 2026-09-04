@@ -304,7 +304,13 @@ const BLOCK = {
     SCULK_SENSOR: 393,
     ITEM_GLOW_FRAME: 394,
     REDSTONE_REPEATER: 395,
-    REDSTONE_COMPARATOR: 396
+    REDSTONE_COMPARATOR: 396,
+    MAGMA_BLOCK: 397,
+    ORE_COPPER: 398,
+    ITEM_COPPER_INGOT: 399,
+    COPPER_BLOCK: 400,
+    BAMBOO: 401,
+    ITEM_BAMBOO: 402
 };
 
 const ARMOR = {
@@ -671,7 +677,13 @@ const BLOCKS = {
     [BLOCK.SCULK_SENSOR]: { name: 'Sculk Sensor', color: '#004D40', top: '#00ACC1', solid: true, icon: '📡', hardness: 1.5, tool: 'hoe', light: 1 },
     [BLOCK.ITEM_GLOW_FRAME]: { name: 'Glow Item Frame', color: '#FFD700', solid: false, transparent: true, icon: '🖼️', hardness: 0.5, tool: 'axe', light: 10 },
     [BLOCK.REDSTONE_REPEATER]: { name: 'Redstone Repeater', color: '#808080', top: '#A0A0A0', solid: false, transparent: true, icon: '⏱️', hardness: 0.0, isWire: true },
-    [BLOCK.REDSTONE_COMPARATOR]: { name: 'Redstone Comparator', color: '#808080', top: '#B0B0B0', solid: false, transparent: true, icon: '⚖️', hardness: 0.0, isWire: true }
+    [BLOCK.REDSTONE_COMPARATOR]: { name: 'Redstone Comparator', color: '#808080', top: '#B0B0B0', solid: false, transparent: true, icon: '⚖️', hardness: 0.0, isWire: true },
+    [BLOCK.MAGMA_BLOCK]: { name: 'Magma Block', color: '#FF4500', top: '#FF0000', solid: true, icon: '🔥', hardness: 0.5, tool: 'pickaxe', light: 3 },
+    [BLOCK.ORE_COPPER]: { name: 'Copper Ore', color: '#808080', top: '#B87333', solid: true, icon: '🪨', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.ITEM_COPPER_INGOT]: { name: 'Copper Ingot', color: '#B87333', solid: false, isItem: true, icon: '🪙' },
+    [BLOCK.COPPER_BLOCK]: { name: 'Block of Copper', color: '#B87333', top: '#D2B48C', solid: true, icon: '🟧', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.BAMBOO]: { name: 'Bamboo', color: '#228B22', solid: false, transparent: true, icon: '🎋', hardness: 0.0 },
+    [BLOCK.ITEM_BAMBOO]: { name: 'Bamboo Item', color: '#228B22', solid: false, isItem: true, icon: '🎋' }
 };
 
 if (typeof window !== 'undefined') {

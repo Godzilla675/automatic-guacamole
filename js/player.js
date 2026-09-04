@@ -536,7 +536,7 @@ class Player {
             this.fallDistance = 0;
         }
 
-        // Cactus Damage
+        // Cactus Damage & Magma Block Damage
         const box = {
             x: this.x,
             y: this.y - 0.1,
@@ -547,6 +547,15 @@ class Player {
         const collidingBlocks = this.game.physics.getCollidingBlocks(box);
         for (const block of collidingBlocks) {
             if (block.type === BLOCK.CACTUS) {
+                this.takeDamage(1);
+            }
+        }
+
+        if (this.onGround && !controls.sneak && this.gamemode !== 1 && this.gamemode !== 3 && !this.spectator) {
+            const feetX = Math.floor(this.x);
+            const feetY = Math.floor(this.y - 0.1);
+            const feetZ = Math.floor(this.z);
+            if (this.game.world && this.game.world.getBlock(feetX, feetY, feetZ) === window.BLOCK.MAGMA_BLOCK) {
                 this.takeDamage(1);
             }
         }
