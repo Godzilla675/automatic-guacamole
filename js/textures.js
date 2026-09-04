@@ -125,6 +125,10 @@ class TextureManager {
         this.textures[B.ITEM_GLOW_FRAME] = this.genGlowItemFrame();
         this.textures[B.REDSTONE_REPEATER] = this.genRedstoneRepeater();
         this.textures[B.REDSTONE_COMPARATOR] = this.genRedstoneComparator();
+        this.textures[B.MAGMA_BLOCK] = this.genMagmaBlock();
+        this.textures[B.ORE_COPPER] = this.genOre('#808080', '#B87333');
+        this.textures[B.COPPER_BLOCK] = this.genCopperBlock();
+        this.textures[B.BAMBOO] = this.genBamboo();
 
 
         // Glass
@@ -1293,6 +1297,8 @@ class TextureManager {
         this.textures[B.ITEM_FIREWORK] = this.genFireworkRocket();
         this.textures[B.ITEM_SPYGLASS] = this.genSpyglassItem();
         this.textures[B.ITEM_SWEET_BERRIES] = this.genSweetBerries();
+        this.textures[B.ITEM_COPPER_INGOT] = this.genIngot('#B87333');
+        this.textures[B.ITEM_BAMBOO] = this.genBamboo();
 
         this.textures[B.ITEM_WOOL] = this.genWool('#FFFFFF');
 
@@ -2153,6 +2159,8 @@ class TextureManager {
         this.mobTextures.ghast = this.genMobGhast();
         this.mobTextures.blaze = this.genMobBlaze();
         this.mobTextures.witch = this.genMobWitch();
+        this.mobTextures.magma_cube = this.genMobMagmaCube();
+        this.mobTextures.snow_golem = this.genMobSnowGolem();
     }
 
     genMobBase(w, h, bodyColor, faceYStart) {
@@ -2663,6 +2671,73 @@ class TextureManager {
         ctx.fillRect(7, 9, 2, 3);
         ctx.fillStyle = '#B0B0B0';
         ctx.fillRect(3, 12, 10, 2);
+        return c;
+    }
+
+    genMagmaBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 120, g: 30, b: 0 }, 15);
+        ctx.fillStyle = '#FF4500';
+        ctx.fillRect(2, 2, 4, 4);
+        ctx.fillRect(9, 8, 5, 5);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(3, 3, 2, 2);
+        ctx.fillRect(10, 9, 3, 3);
+        return c;
+    }
+
+    genCopperBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 184, g: 115, b: 51 }, 12);
+        ctx.fillStyle = '#A05A2C';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 15, 16, 1);
+        ctx.fillRect(0, 0, 1, 16);
+        ctx.fillRect(15, 0, 1, 16);
+        return c;
+    }
+
+    genBamboo() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(6, 0, 4, 16);
+        ctx.fillStyle = '#006400';
+        ctx.fillRect(6, 4, 4, 1);
+        ctx.fillRect(6, 9, 4, 1);
+        ctx.fillRect(6, 14, 4, 1);
+        ctx.fillStyle = '#32CD32';
+        ctx.fillRect(7, 0, 1, 16);
+        return c;
+    }
+
+    genMobMagmaCube() {
+        const c = this.createCanvas(8, 8);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 100, g: 20, b: 0 }, 10, 8, 8);
+        ctx.fillStyle = '#FF4500';
+        ctx.fillRect(1, 1, 6, 6);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(2, 2, 2, 2);
+        ctx.fillRect(5, 2, 2, 2);
+        return c;
+    }
+
+    genMobSnowGolem() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 240, g: 240, b: 245 }, 5, 8, 16);
+        // Pumpkin head
+        ctx.fillStyle = '#FF8C00';
+        ctx.fillRect(1, 0, 6, 5);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(2, 2, 1, 1);
+        ctx.fillRect(5, 2, 1, 1);
+        // Coal buttons
+        ctx.fillRect(3, 7, 2, 2);
+        ctx.fillRect(3, 11, 2, 2);
         return c;
     }
 

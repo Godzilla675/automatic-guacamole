@@ -5,6 +5,7 @@ class CraftingSystem {
         this.smeltingRecipes = [
             { input: BLOCK.ORE_IRON, output: { type: BLOCK.ITEM_IRON_INGOT, count: 1 } },
             { input: BLOCK.ORE_GOLD, output: { type: BLOCK.ITEM_GOLD_INGOT, count: 1 } },
+            { input: BLOCK.ORE_COPPER, output: { type: BLOCK.ITEM_COPPER_INGOT, count: 1 } },
             { input: BLOCK.SAND, output: { type: BLOCK.GLASS, count: 1 } },
             { input: BLOCK.COBBLESTONE, output: { type: BLOCK.STONE, count: 1 } },
             { input: BLOCK.WOOD, output: { type: BLOCK.ITEM_COAL, count: 1 } },
@@ -153,6 +154,26 @@ class CraftingSystem {
                 name: "Redstone Comparator",
                 result: { type: BLOCK.REDSTONE_COMPARATOR, count: 1 },
                 ingredients: [ { type: BLOCK.STONE, count: 3 }, { type: BLOCK.REDSTONE_TORCH, count: 3 }, { type: BLOCK.ITEM_QUARTZ, count: 1 } ]
+            },
+            {
+                name: "Magma Block",
+                result: { type: BLOCK.MAGMA_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]
+            },
+            {
+                name: "Copper Block",
+                result: { type: BLOCK.COPPER_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_COPPER_INGOT, count: 9 } ]
+            },
+            {
+                name: "Copper Ingot (9)",
+                result: { type: BLOCK.ITEM_COPPER_INGOT, count: 9 },
+                ingredients: [ { type: BLOCK.COPPER_BLOCK, count: 1 } ]
+            },
+            {
+                name: "Stick from Bamboo",
+                result: { type: BLOCK.ITEM_STICK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 2 } ]
             },
             {
                 name: "Stick (4)",
