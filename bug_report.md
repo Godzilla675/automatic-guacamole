@@ -150,6 +150,13 @@ The following newly added features from the agent tasks file were explicitly tes
 - **Sculk Sensor (`BLOCK.SCULK_SENSOR`)**: Block definition, texture generation, and crafting recipe verified.
 - **Spectator Night Vision**: Verified player receives Night Vision effect in spectator mode.
 - **Witch Mob (`MOB_TYPE.WITCH`)**: Mob initialization, texture generation, and applying poison effect on attack verified.
+- **Lodestone Block (`BLOCK.LODESTONE`)**: Crafted from chiseled stone bricks and netherite ingot, redirects compass pointers. Verified.
+- **Target Block (`BLOCK.TARGET_BLOCK`)**: Redstone component block emitting redstone signals based on projectile impact accuracy. Verified.
+- **Creeper Explosion Mechanics**: Creeper fuse timing and terrain explosion damage physics verified.
+- **Piston & Sticky Piston Mechanics**: Piston extension, block pushing, and sticky retraction mechanics verified.
+- **Weather Cycles**: Clear, rain, and snow weather transitions with thunderstorm logic verified.
+- **Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves verified.
+- **Soul Sand Slowdown Physics**: Speed reduction when walking on Soul Sand blocks verified.
 
 ---
 
