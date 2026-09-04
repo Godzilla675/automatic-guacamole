@@ -301,7 +301,10 @@ const BLOCK = {
     LIGHTNING_ROD: 390,
     GRINDSTONE: 391,
     ITEM_FRAME: 392,
-    SCULK_SENSOR: 393
+    SCULK_SENSOR: 393,
+    ITEM_GLOW_FRAME: 394,
+    REDSTONE_REPEATER: 395,
+    REDSTONE_COMPARATOR: 396
 };
 
 const ARMOR = {
@@ -665,7 +668,10 @@ const BLOCKS = {
     [BLOCK.LIGHTNING_ROD]: { name: 'Lightning Rod', color: '#B87333', solid: false, transparent: true, icon: '⚡', hardness: 3.0, tool: 'pickaxe' },
     [BLOCK.GRINDSTONE]: { name: 'Grindstone', color: '#808080', top: '#A0A0A0', solid: true, icon: '⚙️', hardness: 2.0, tool: 'pickaxe' },
     [BLOCK.ITEM_FRAME]: { name: 'Item Frame', color: '#8B4513', solid: false, transparent: true, icon: '🖼️', hardness: 0.5, tool: 'axe' },
-    [BLOCK.SCULK_SENSOR]: { name: 'Sculk Sensor', color: '#004D40', top: '#00ACC1', solid: true, icon: '📡', hardness: 1.5, tool: 'hoe', light: 1 }
+    [BLOCK.SCULK_SENSOR]: { name: 'Sculk Sensor', color: '#004D40', top: '#00ACC1', solid: true, icon: '📡', hardness: 1.5, tool: 'hoe', light: 1 },
+    [BLOCK.ITEM_GLOW_FRAME]: { name: 'Glow Item Frame', color: '#FFD700', solid: false, transparent: true, icon: '🖼️', hardness: 0.5, tool: 'axe', light: 10 },
+    [BLOCK.REDSTONE_REPEATER]: { name: 'Redstone Repeater', color: '#808080', top: '#A0A0A0', solid: false, transparent: true, icon: '⏱️', hardness: 0.0, isWire: true },
+    [BLOCK.REDSTONE_COMPARATOR]: { name: 'Redstone Comparator', color: '#808080', top: '#B0B0B0', solid: false, transparent: true, icon: '⚖️', hardness: 0.0, isWire: true }
 };
 
 if (typeof window !== 'undefined') {

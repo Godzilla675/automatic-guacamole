@@ -122,6 +122,9 @@ class TextureManager {
         this.textures[B.GRINDSTONE] = this.genGrindstone();
         this.textures[B.ITEM_FRAME] = this.genItemFrame();
         this.textures[B.SCULK_SENSOR] = this.genSculkSensor();
+        this.textures[B.ITEM_GLOW_FRAME] = this.genGlowItemFrame();
+        this.textures[B.REDSTONE_REPEATER] = this.genRedstoneRepeater();
+        this.textures[B.REDSTONE_COMPARATOR] = this.genRedstoneComparator();
 
 
         // Glass
@@ -2621,6 +2624,45 @@ class TextureManager {
         ctx.fillRect(4, 8, 8, 4);
         ctx.fillStyle = '#80DEEA';
         ctx.fillRect(7, 1, 2, 3);
+        return c;
+    }
+
+    genGlowItemFrame() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(1, 1, 14, 14);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(5, 5, 6, 6);
+        return c;
+    }
+
+    genRedstoneRepeater() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(1, 1, 14, 14);
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(4, 4, 2, 4);
+        ctx.fillRect(10, 4, 2, 4);
+        ctx.fillStyle = '#A0A0A0';
+        ctx.fillRect(3, 10, 10, 2);
+        return c;
+    }
+
+    genRedstoneComparator() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(1, 1, 14, 14);
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(4, 3, 2, 3);
+        ctx.fillRect(10, 3, 2, 3);
+        ctx.fillRect(7, 9, 2, 3);
+        ctx.fillStyle = '#B0B0B0';
+        ctx.fillRect(3, 12, 10, 2);
         return c;
     }
 

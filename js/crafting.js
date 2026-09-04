@@ -140,6 +140,21 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.OBSIDIAN, count: 2 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 2 } ]
             },
             {
+                name: "Glow Item Frame",
+                result: { type: BLOCK.ITEM_GLOW_FRAME, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_FRAME, count: 1 }, { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 1 } ]
+            },
+            {
+                name: "Redstone Repeater",
+                result: { type: BLOCK.REDSTONE_REPEATER, count: 1 },
+                ingredients: [ { type: BLOCK.STONE, count: 3 }, { type: BLOCK.REDSTONE_TORCH, count: 2 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 } ]
+            },
+            {
+                name: "Redstone Comparator",
+                result: { type: BLOCK.REDSTONE_COMPARATOR, count: 1 },
+                ingredients: [ { type: BLOCK.STONE, count: 3 }, { type: BLOCK.REDSTONE_TORCH, count: 3 }, { type: BLOCK.ITEM_QUARTZ, count: 1 } ]
+            },
+            {
                 name: "Stick (4)",
                 result: { type: BLOCK.ITEM_STICK, count: 4 },
                 ingredients: [ { type: BLOCK.PLANK, count: 2 } ]
