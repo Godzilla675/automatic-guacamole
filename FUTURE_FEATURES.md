@@ -215,7 +215,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Inventory Emoji Rendering on Legacy Browsers**: Fallback rendering for emoji block icons on older browsers without full Unicode support. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM LocalStorage**: Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: Slab and Door collision test flakiness**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates. (Status: Requires clearing test area, agents must fix)
+- [x] **Bug: Slab and Door collision test flakiness**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates. (Status: Verified and working)
 - [ ] **Bug: Flaky Chunk Loading Test**: The chunk loading boundary test occasionally fails under heavy load. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Mocked Window Resizing Fails**: JSDOM resize event tests do not accurately trigger game engine recalculations. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Spawning in Solid Blocks**: Players occasionally spawn suffocating inside solid blocks like stone. (Status: Verified and working - checks 2-block height air space on spawn/respawn)
