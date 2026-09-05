@@ -51,9 +51,9 @@ try {
 const world = new World();
 const physics = new window.Physics(world);
 
-function testRaycast(name, origin, dir, expectedHit) {
+function testRaycast(name, origin, dir, expectedHit, maxDist = 10) {
     console.log(`Testing ${name}...`);
-    const result = physics.raycast(origin, dir, 10);
+    const result = physics.raycast(origin, dir, maxDist);
 
     if (!expectedHit) {
         if (result) console.log(`FAIL: Expected no hit, got hit at ${result.x},${result.y},${result.z}`);
@@ -109,7 +109,17 @@ testRaycast('Slab Bottom Hit',
 testRaycast('Slab Top Miss',
     { x: 13.5, y: 10.8, z: 10.5 },
     { x: -1, y: 0, z: 0 },
-    null
+    null,
+    1.0 // maxDist limited to 1.0 so it doesn't reach x=10
+);
+
+// Top Slab
+world.setBlock(20, 10, 10, global.BLOCK.SLAB);
+world.setMetadata(20, 10, 10, 8); // Top slab meta
+testRaycast('Top Slab Hit',
+    { x: 21.5, y: 10.8, z: 10.5 },
+    { x: -1, y: 0, z: 0 },
+    { type: global.BLOCK.SLAB, px: 21, py: 10.8, pz: 10.5 }
 );
 
 // 3. Stair
@@ -131,10 +141,7 @@ world.setBlock(16, 10, 10, global.BLOCK.FENCE);
 testRaycast('Fence Center',
     { x: 17.5, y: 10.5, z: 10.5 }, // z=10.5 is center (0.5)
     { x: -1, y: 0, z: 0 },
-    { type: global.BLOCK.FENCE, px: 17, py: 10.5, pz: 10.5 } // Expect hit at boundary of post?
-    // Wait, fence bounds are x: 0.375-0.625.
-    // Ray coming from +X (17.5) towards 16.
-    // Hit at x = 16 + 0.625 = 16.625
+    { type: global.BLOCK.FENCE, px: 16.625, py: 10.5, pz: 10.5 }
 );
 
 // 5. Trapdoor

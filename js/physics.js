@@ -271,6 +271,32 @@ class Physics {
         return false;
     }
 
+    raycastSubBox(origin, direction, tEntry, tExit, boxMin, boxMax) {
+        if (direction.x === 0 && (origin.x < boxMin.x || origin.x > boxMax.x)) return null;
+        if (direction.y === 0 && (origin.y < boxMin.y || origin.y > boxMax.y)) return null;
+        if (direction.z === 0 && (origin.z < boxMin.z || origin.z > boxMax.z)) return null;
+
+        let tMinX = direction.x === 0 ? -Infinity : (boxMin.x - origin.x) / direction.x;
+        let tMaxX = direction.x === 0 ? Infinity : (boxMax.x - origin.x) / direction.x;
+        if (tMinX > tMaxX) [tMinX, tMaxX] = [tMaxX, tMinX];
+
+        let tMinY = direction.y === 0 ? -Infinity : (boxMin.y - origin.y) / direction.y;
+        let tMaxY = direction.y === 0 ? Infinity : (boxMax.y - origin.y) / direction.y;
+        if (tMinY > tMaxY) [tMinY, tMaxY] = [tMaxY, tMinY];
+
+        let tMinZ = direction.z === 0 ? -Infinity : (boxMin.z - origin.z) / direction.z;
+        let tMaxZ = direction.z === 0 ? Infinity : (boxMax.z - origin.z) / direction.z;
+        if (tMinZ > tMaxZ) [tMinZ, tMaxZ] = [tMaxZ, tMinZ];
+
+        const tNear = Math.max(tEntry, tMinX, tMinY, tMinZ);
+        const tFar = Math.min(tExit, tMaxX, tMaxY, tMaxZ);
+
+        if (tNear <= tFar && tNear >= 0) {
+            return tNear;
+        }
+        return null;
+    }
+
     raycast(origin, direction, maxDist, includeLiquids = false) {
         let t = 0.0;
         let x = Math.floor(origin.x);
@@ -295,74 +321,75 @@ class Physics {
             const block = this.world.getBlock(x, y, z);
             const blockDef = BLOCKS[block];
             if (block !== BLOCK.AIR && blockDef && (blockDef.solid || (includeLiquids && blockDef.liquid))) {
+                const tExit = Math.min(tMaxX, tMaxY, tMaxZ, maxDist);
+
                 // Check Slab Raycast
                 if (blockDef.isSlab) {
-                    // Check if hit point is within bottom 0.5
-                    // Hit point = origin + dir * t
-                    const hx = origin.x + direction.x * t;
-                    const hy = origin.y + direction.y * t;
-                    const hz = origin.z + direction.z * t;
+                    const meta = this.world.getMetadata(x, y, z);
+                    const isTop = (meta & 8) !== 0;
+                    const boxMin = { x, y: isTop ? y + 0.5 : y, z };
+                    const boxMax = { x: x + 1, y: isTop ? y + 1.0 : y + 0.5, z: z + 1 };
 
-                    // Relative Y in block
-                    const ry = hy - y;
-                    if (ry >= 0 && ry <= 0.5) {
-                         return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
+                    const tHit = this.raycastSubBox(origin, direction, t, tExit, boxMin, boxMax);
+                    if (tHit !== null) {
+                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: tHit, point: { x: origin.x + direction.x * tHit, y: origin.y + direction.y * tHit, z: origin.z + direction.z * tHit } };
                     }
-                    // Else, continue raycast (it passes through top half)
                 } else if (blockDef.isStair) {
-                    // Hit point
-                    const hx = origin.x + direction.x * t;
-                    const hy = origin.y + direction.y * t;
-                    const hz = origin.z + direction.z * t;
+                    const meta = this.world.getMetadata(x, y, z);
+                    const isUpsideDown = (meta & 4) !== 0;
+                    const dir = meta & 3;
 
-                    const rx = hx - x;
-                    const ry = hy - y;
-                    const rz = hz - z;
+                    const baseBoxMin = { x, y: isUpsideDown ? y + 0.5 : y, z };
+                    const baseBoxMax = { x: x + 1, y: isUpsideDown ? y + 1.0 : y + 0.5, z: z + 1 };
+                    let tHit = this.raycastSubBox(origin, direction, t, tExit, baseBoxMin, baseBoxMax);
 
-                    if (ry >= 0 && ry <= 0.5) {
-                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
+                    let stepMinX = x, stepMaxX = x + 1;
+                    let stepMinZ = z, stepMaxZ = z + 1;
+                    if (dir === 0) stepMinX = x + 0.5;
+                    else if (dir === 1) stepMaxX = x + 0.5;
+                    else if (dir === 2) stepMinZ = z + 0.5;
+                    else if (dir === 3) stepMaxZ = z + 0.5;
+
+                    const stepBoxMin = { x: stepMinX, y: isUpsideDown ? y : y + 0.5, z: stepMinZ };
+                    const stepBoxMax = { x: stepMaxX, y: isUpsideDown ? y + 0.5 : y + 1.0, z: stepMaxZ };
+                    const stepTHit = this.raycastSubBox(origin, direction, t, tExit, stepBoxMin, stepBoxMax);
+
+                    if (stepTHit !== null && (tHit === null || stepTHit < tHit)) {
+                        tHit = stepTHit;
                     }
-                    if (ry > 0.5 && ry <= 1.0) {
-                         const meta = this.world.getMetadata(x, y, z);
-                         let hit = false;
-                         if (meta === 0 && rx >= 0.5) hit = true;
-                         else if (meta === 1 && rx <= 0.5) hit = true;
-                         else if (meta === 2 && rz >= 0.5) hit = true;
-                         else if (meta === 3 && rz <= 0.5) hit = true;
 
-                         if (hit) return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
+                    if (tHit !== null) {
+                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: tHit, point: { x: origin.x + direction.x * tHit, y: origin.y + direction.y * tHit, z: origin.z + direction.z * tHit } };
                     }
-                    // Else passes through empty part
                 } else if (blockDef.isFence || blockDef.isPane) {
-                    // Check Center Post
-                    const hx = origin.x + direction.x * t;
-                    const hz = origin.z + direction.z * t;
-                    const rx = hx - x;
-                    const rz = hz - z;
+                    const boxMin = { x: x + 0.375, y, z: z + 0.375 };
+                    const boxMax = { x: x + 0.625, y: y + 1.0, z: z + 0.625 };
 
-                    if (rx >= 0.375 && rx <= 0.625 && rz >= 0.375 && rz <= 0.625) {
-                         return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: origin.y + direction.y * t, z: hz} };
+                    const tHit = this.raycastSubBox(origin, direction, t, tExit, boxMin, boxMax);
+                    if (tHit !== null) {
+                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: tHit, point: { x: origin.x + direction.x * tHit, y: origin.y + direction.y * tHit, z: origin.z + direction.z * tHit } };
                     }
-                    // Pass through side parts for now (simplified selection)
                 } else if (blockDef.isTrapdoor) {
-                    const hx = origin.x + direction.x * t;
-                    const hy = origin.y + direction.y * t;
-                    const hz = origin.z + direction.z * t;
-                    const ry = hy - y;
-
                     const meta = this.world.getMetadata(x, y, z);
                     const open = (meta & 4) !== 0;
                     const top = (meta & 8) !== 0;
+                    const thickness = 0.1875;
 
+                    let boxMin, boxMax;
                     if (open) {
-                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
+                        const orient = meta & 3;
+                        if (orient === 0) { boxMin = { x, y, z }; boxMax = { x: x + thickness, y: y + 1, z: z + 1 }; }
+                        else if (orient === 1) { boxMin = { x: x + 1 - thickness, y, z }; boxMax = { x: x + 1, y: y + 1, z: z + 1 }; }
+                        else if (orient === 2) { boxMin = { x, y, z }; boxMax = { x: x + 1, y: y + 1, z: z + thickness }; }
+                        else { boxMin = { x, y, z: z + 1 - thickness }; boxMax = { x: x + 1, y: y + 1, z: z + 1 }; }
                     } else {
-                        const thickness = 0.1875;
-                        if (top) {
-                            if (ry >= 1.0 - thickness && ry <= 1.0) return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
-                        } else {
-                            if (ry >= 0 && ry <= thickness) return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: t, point: {x: hx, y: hy, z: hz} };
-                        }
+                        if (top) { boxMin = { x, y: y + 1 - thickness, z }; boxMax = { x: x + 1, y: y + 1, z: z + 1 }; }
+                        else { boxMin = { x, y, z }; boxMax = { x: x + 1, y: y + thickness, z: z + 1 }; }
+                    }
+
+                    const tHit = this.raycastSubBox(origin, direction, t, tExit, boxMin, boxMax);
+                    if (tHit !== null) {
+                        return { x, y, z, type: block, face: (nx === 0 && ny === 0 && nz === 0) ? null : { x: nx, y: ny, z: nz }, dist: tHit, point: { x: origin.x + direction.x * tHit, y: origin.y + direction.y * tHit, z: origin.z + direction.z * tHit } };
                     }
                 } else {
                     return {
