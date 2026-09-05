@@ -209,7 +209,7 @@ describe('Comprehensive Feature Test', () => {
             game.player.inventory.fill(null);
             game.player.inventory[0] = { type: plankIdx, count: 2 };
 
-            const recipeIdx = game.crafting.recipes.findIndex(r => r.result.type === stickIdx);
+            const recipeIdx = game.crafting.recipes.findIndex(r => r.name === "Stick (4)");
 
             game.crafting.craft(recipeIdx);
 

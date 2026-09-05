@@ -173,6 +173,11 @@ The following newly added features from the agent tasks file were explicitly tes
 - **Issue:** Glow Item Frame definition was missing, and Redstone Repeater/Comparator block definitions, textures, crafting recipes, and signal propagation logic were incomplete. Chunk block array overflowed IDs > 255 due to Uint8Array storage.
 - **Fix:** Implemented `ITEM_GLOW_FRAME`, `REDSTONE_REPEATER`, and `REDSTONE_COMPARATOR` in `js/blocks.js`, `js/crafting.js`, `js/textures.js`, and `js/world.js`. Upgraded `Chunk` block array to `Uint16Array` in `js/chunk.js`. Verified via unit test suite `tests/test_glow_frame_redstone_repeaters.js`.
 
+
+### 4.3 Fixed Bug: Stick Crafting Unit Test Failure (`tests/test_features.js`)
+- **Issue:** The unit test `should craft Stick from Planks` was failing because the recipe lookup in `tests/test_features.js` was searching for `result.type === stickIdx`. This incorrectly matched the `Stick from Bamboo` recipe instead of the generic `Stick (4)` recipe from Planks, causing an assertion failure where it expected 10 (the Plank item ID) but got 210 (the Stick item ID incorrectly applied due to the wrong recipe match).
+- **Fix:** Updated the recipe lookup in `tests/test_features.js` to search by recipe name: `const recipeIdx = game.crafting.recipes.findIndex(r => r.name === "Stick (4)");`. This ensures the correct recipe is used, and the test now passes.
+
 ---
 
 ## 5. Comprehensive Active Task Catalog (Open Features in `FUTURE_FEATURES.md`)
