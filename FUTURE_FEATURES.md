@@ -415,7 +415,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Partial implementation - block exists, UI missing, agents must fix)
 - [ ] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Verified and working)
+- [ ] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Missing implementation, agents must fix)
 
 - [x] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Verified and working)
 - [x] **New Task: Add Target Block**: Redstone component block crafted with hay bale and redstone dust that emits redstone signals based on projectile impact accuracy. (Status: Verified and working)
@@ -429,4 +429,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Soul Sand Slowdown Physics**: Movement speed reduction when walking on Soul Sand blocks. (Status: Verified and working)
 - [x] **Bug: Glow Item Frames Missing**: Glow Item Frames item/entity definition is missing from the codebase. (Status: Verified and working)
 - [x] **Bug: Witches Mob Missing**: Witches mob implementation is missing from the codebase. (Status: Verified and working)
-- [x] **Bug: Redstone Repeater and Comparator Logic Missing**: Full signal propagation and delay logic for repeaters and comparators is missing. (Status: Verified and working)
+- [ ] **Bug: Redstone Repeater and Comparator Logic Missing**: Full signal propagation and delay logic for repeaters and comparators is missing. (Status: Missing implementation, agents must fix)

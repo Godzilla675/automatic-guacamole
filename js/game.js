@@ -1533,6 +1533,8 @@ class Game {
             this.fluidTick = 0;
         }
 
+        this.world.updateRedstone();
+
         if (this.minimap) this.minimap.update();
         if (this.achievements) this.achievements.update();
         if (this.tutorial) this.tutorial.update(dt / 1000);
