@@ -324,7 +324,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Mud Bricks**: Decorative block crafted from mud. (Status: Verified and working)
 - [x] **New Task: Add Packed Mud**: Block crafted from mud and wheat. (Status: Verified and working)
 
-- [ ] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Verified and working)
 
 - [ ] **New Task: Add Volcanoes**: Natural structures that spout lava. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Gliders**: Early game flying alternative. (Status: Missing implementation, agents must fix)
@@ -339,7 +339,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Carrot on a Stick Steering Logic**: Right clicking with Carrot on a Stick speeds up rideable pigs in player direction. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Copper Bulbs**: Light blocks that dim as they oxidize. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Verified and working)
 
 - [ ] **New Task: Add Backpacks**: Equipable items that expand player inventory space. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Grappling Hooks**: Tool to quickly traverse vertical terrain and pull entities. (Status: Missing implementation, agents must fix)
@@ -411,7 +411,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
 
 ## Newly Discovered Bugs & Tasks (From Audit)
-- [ ] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Bug, agents must fix)
+- [x] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Verified and working)
 - [ ] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Partial implementation - block exists, UI missing, agents must fix)
 - [ ] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Missing implementation, agents must fix)

@@ -93,6 +93,8 @@ const files = [
     'js/ui.js',
     'js/input.js',
     'js/renderer.js',
+    'js/entity.js',
+    'js/particles.js',
     'js/mob.js', // Needed for Game
     'js/game.js'
 ];
