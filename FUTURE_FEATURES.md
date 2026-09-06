@@ -12,6 +12,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Bamboo & Bamboo Item**: Bamboo block and item definitions for crafting. (Status: Verified and working)
 - [x] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Verified and working)
 - [ ] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Vault Hunters Mechanism**: Trial Vault keys with loot drop tables and cooldown timers. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Sculk Shrieker & Darkness Effect**: Sculk Shrieker block triggering proximity darkness status effect and Warden summon. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Breeze Rod Projectile Crafting**: Breeze Rod usage for crafting Wind Charge consumables and Mace components. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Proposed feature, pending implementation)
 
 - [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key. (Status: Missing implementation, agents must fix)
@@ -28,6 +32,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Nether Fossils & Soul Soil Biomes**: Bone block structures generated in soul sand valleys. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Mangrove Swamp Trees & Propagules**: Hanging propagule saplings and submerged mangrove tree generation. (Status: Proposed feature, pending implementation)
 
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ice Spikes Biome**: Rare biome featuring large spikes of packed ice. (Status: Missing implementation, agents must fix)
@@ -55,6 +61,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Crying Obsidian**: Decorative obsidian variant emitting purple particles. (Status: Verified and working)
 - [x] **New Task: Add Stonecutter, Composter, Smoker, Blast Furnace, Sea Lantern**: Functional and decorative utility blocks. (Status: Verified and working)
 - [x] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Verified and working)
+- [x] **New Task: Add Concrete Block Colors**: 16 colored concrete blocks definition, textures, and crafting. (Status: Verified and working)
+- [x] **New Task: Add Bookshelves & Books**: Bookshelf blocks and book items definition, crafting, and textures. (Status: Verified and working)
 
 ### 3. Rendering Engine
 - [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
@@ -89,6 +97,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Ender Dragon Boss** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Witches**: Hostile mobs that throw harmful splash potions at players. (Status: Verified and working)
 - [x] **New Task: Add Rideable Pigs**: Saddle mounting, player riding, and steering mechanics. (Status: Verified and working)
+- [ ] **New Task: Add Allay Entity Mechanics**: Friendly flying mob that collects dropped items matching item in hand. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Frog Species & Magma Cube Eating**: Green, warm, and cold frog variants eating small magma cubes to drop Froglight blocks. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Armadillo Scute Brushing**: Using brush on Armadillos in Savanna biomes to collect scutes. (Status: Proposed feature, pending implementation)
 
 ### 6. Items & Crafting
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
@@ -100,6 +111,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Soul Campfire**: Campfire variant crafted with soul sand that emits blue light and fire. (Status: Verified and working)
 - [x] **New Task: Add Firework Rockets**: Fireworks launching and explosion particle FX. (Status: Verified and working)
 - [x] **New Task: Add Snowball Items & Throwing Mechanics**: Snowballs throwable as projectiles causing knockback and damage to entities. (Status: Verified and working)
+- [x] **New Task: Add Nether Wart Item**: Nether wart item definition, texture, and farming component. (Status: Verified and working)
 - [ ] **Beacons** (Status: Missing implementation, agents must fix)
 
 ### 7. Lighting System
@@ -124,10 +136,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **World showcase gallery** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
 - [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
+- [ ] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Proposed feature, pending implementation)
 
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
 - [ ] **Proper block placement sound based on block type** (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Proposed feature, pending implementation)
 
 ### 12. Redstone & Mechanics
 - [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals. (Status: Verified and working)
@@ -139,6 +154,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Missing implementation, agents must fix)
 - [ ] **Command Block** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Fishing Catch Logic & Loot Tables**: Rod and bobber exist, but fish catch timers and loot tables are incomplete. (Status: Partial implementation, agents must fix)
+- [ ] **New Task: Add Crafter Auto-Crafting Redstone Signal**: Crafter block triggering full 3x3 recipe evaluation and output ejecting on redstone rising edge. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Hopper Item Transport Logic**: Hoppers pulling items from chest containers above and pushing into facing containers. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Observer Block State Update Pulse**: Observer block emitting 1-tick redstone pulse when facing block state changes. (Status: Proposed feature, pending implementation)
 
 ### 13. Networking (Multiplayer)
 - [ ] Entity synchronization (Status: Missing implementation, agents must fix)
@@ -195,6 +213,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Drowned**: Zombie variant that spawns underwater. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tridents**: Weapons that can be thrown and return to the player. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Vehicle Item Drops on Destruction**: Boats and minecarts drop their item counterparts when destroyed by damage. (Status: Verified and working)
 
 ### 16. Test Suite and CI
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
@@ -413,7 +432,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Newly Discovered Bugs & Tasks (From Audit)
 - [x] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Verified and working)
 - [ ] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Partial implementation - block exists, UI missing, agents must fix)
-- [ ] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Verified and working)
 - [ ] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Crafter Redstone Pulse Execution**: Crafter block automatically outputs crafted item when powered by a redstone pulse. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pale Garden Features**: Implement Pale Oak Wood Set, Eyeblossoms, and Pale Hanging Moss for Pale Garden biome. (Status: Missing implementation, agents must fix)
@@ -434,3 +453,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Glow Item Frames Missing**: Glow Item Frames item/entity definition is missing from the codebase. (Status: Verified and working)
 - [x] **Bug: Witches Mob Missing**: Witches mob implementation is missing from the codebase. (Status: Verified and working)
 - [x] **Bug: Redstone Repeater and Comparator Logic Missing**: Full signal propagation and delay logic for repeaters and comparators is missing. (Status: Verified and working)
+- [ ] **Bug: Stonecutter dedicated UI grid missing**: Stonecutter operates via direct item interaction rather than presenting a dedicated block interaction UI window. (Status: Bug, agents must fix)
+- [ ] **Bug: Smoker & Blast Furnace smelting speed multiplier missing**: Smoker and Blast Furnace blocks share standard furnace speed without 2x acceleration for food and ores. (Status: Bug, agents must fix)
+- [ ] **Bug: Fishing rod catch timer logic incomplete**: Fishing bobber entity spawns but lacks timer-based catch mechanics and loot table roll execution. (Status: Bug, agents must fix)
+- [ ] **Bug: Redstone dust visual line connections**: Redstone wire power propagation functions internally but lacks dynamic multi-direction connecting wire rendering on block surfaces. (Status: Bug, agents must fix)
