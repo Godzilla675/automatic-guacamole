@@ -234,15 +234,35 @@ class Game {
                 held.count--;
                 if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
                 entity.level++;
+                if (this.particles) {
+                    this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#5C8E32', 8);
+                }
                 if (entity.level >= 7) {
                     entity.level = 0;
                     this.player.addItem({ type: BLOCK.ITEM_BONE, count: 1 });
+                    if (this.particles) {
+                        this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#7CFC00', 20);
+                    }
                     if (this.ui && this.ui.showNotification) this.ui.showNotification("Composted! Received Bone / Bone Meal!");
                 } else {
                     if (this.ui && this.ui.showNotification) this.ui.showNotification(`Composter level: ${entity.level}/7`);
                 }
             } else if (entity.level > 0) {
                 if (this.ui && this.ui.showNotification) this.ui.showNotification(`Composter level: ${entity.level}/7`);
+            }
+            return true;
+        }
+
+        // Fletching Table
+        if (blockType === BLOCK.FLETCHING_TABLE) {
+            const held = this.player.getHeldItem();
+            if (held && (held.type === BLOCK.ITEM_STICK || held.type === BLOCK.ITEM_FEATHER)) {
+                held.count--;
+                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                this.player.addItem({ type: BLOCK.ITEM_ARROW, count: 4 });
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Crafted Arrows (x4) at Fletching Table!");
+            } else {
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Fletching Table: Interact with Sticks or Feathers to fletch Arrows!");
             }
             return true;
         }

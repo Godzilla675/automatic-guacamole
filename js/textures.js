@@ -129,6 +129,7 @@ class TextureManager {
         this.textures[B.ORE_COPPER] = this.genOre('#808080', '#B87333');
         this.textures[B.COPPER_BLOCK] = this.genCopperBlock();
         this.textures[B.BAMBOO] = this.genBamboo();
+        this.textures[B.FLETCHING_TABLE] = this.genFletchingTable();
 
 
         // Glass
@@ -2710,6 +2711,18 @@ class TextureManager {
         ctx.fillRect(6, 14, 4, 1);
         ctx.fillStyle = '#32CD32';
         ctx.fillRect(7, 0, 1, 16);
+        return c;
+    }
+
+    genFletchingTable() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 194, g: 178, b: 128 }, 12);
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(4, 4, 8, 2);
+        ctx.fillRect(7, 6, 2, 6);
         return c;
     }
 

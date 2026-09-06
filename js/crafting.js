@@ -51,6 +51,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_QUARTZ, count: 4 } ]
             },
             {
+                name: "Fletching Table",
+                result: { type: BLOCK.FLETCHING_TABLE, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 4 }, { type: BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
                 name: "Stonecutter",
                 result: { type: BLOCK.STONECUTTER, count: 1 },
                 ingredients: [ { type: BLOCK.STONE, count: 3 }, { type: BLOCK.ITEM_IRON_INGOT, count: 1 } ]

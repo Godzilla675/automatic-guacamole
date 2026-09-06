@@ -472,7 +472,15 @@ class UIManager {
     openFurnace(entity) {
         this.activeFurnace = entity;
         const ui = document.getElementById('furnace-screen');
-        ui.classList.remove('hidden');
+        if (ui) {
+            const titleEl = ui.querySelector('h2') || ui.querySelector('.ui-title');
+            if (titleEl) {
+                if (entity.type === 'smoker') titleEl.textContent = 'Smoker';
+                else if (entity.type === 'blast_furnace') titleEl.textContent = 'Blast Furnace';
+                else titleEl.textContent = 'Furnace';
+            }
+            ui.classList.remove('hidden');
+        }
         document.exitPointerLock();
         this.updateFurnaceUI();
     }
