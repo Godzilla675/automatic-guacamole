@@ -164,9 +164,9 @@ async function runTests() {
     assert.ok(game.player.unlockedRecipes.has("Fence (2)"), "Fence should be unlocked");
 
     // Verify Notification
-    const notif = dom.window.document.querySelector('.notification');
-    assert.ok(notif, "Notification should appear");
-    assert.ok(notif.textContent.includes("Fence"), "Notification should mention Fence");
+    const notifications = Array.from(dom.window.document.querySelectorAll('.notification'));
+    assert.ok(notifications.length > 0, "Notification should appear");
+    assert.ok(notifications.some(n => n.textContent.includes("Fence")), "Notification should mention Fence");
 
 
     // Test 3: Persistence
