@@ -10,7 +10,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Magma Block**: Block dealing damage when stepped on. (Status: Verified and working)
 - [x] **New Task: Add Copper Ore, Ingot & Block**: Copper ore, ingot item, and copper block definition and crafting. (Status: Verified and working)
 - [x] **New Task: Add Bamboo & Bamboo Item**: Bamboo block and item definitions for crafting. (Status: Verified and working)
-- [ ] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Verified and working)
 - [ ] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
@@ -418,7 +418,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Crafter Redstone Pulse Execution**: Crafter block automatically outputs crafted item when powered by a redstone pulse. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pale Garden Features**: Implement Pale Oak Wood Set, Eyeblossoms, and Pale Hanging Moss for Pale Garden biome. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Trials Mechanics**: Ominous Bottles, Bad Omen effect, Ominous Vaults, and Ominous Trial Keys. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Fletching Table, Smoker, Blast Furnace UI Missing**: Utility blocks exist in game registry but lack interactive GUI containers. (Status: Bug, missing UI implementation, agents must fix)
+- [x] **Bug: Fletching Table, Smoker, Blast Furnace UI Missing**: Utility blocks exist in game registry but lack interactive GUI containers. (Status: Verified and working)
 - [x] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Verified and working)
 
 - [x] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Verified and working)
