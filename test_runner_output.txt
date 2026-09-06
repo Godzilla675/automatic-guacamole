@@ -1,9 +1,77 @@
 Starting test runner...
 Starting local server on port 3000...
 Running verification/verify_all_new_features.js...
-PASS: verification/verify_all_new_features.js
+FAIL: verification/verify_all_new_features.js
+--- STDOUT ---
+
+--- STDERR ---
+
+ Exception during run: Error: Cannot find module 'jsdom'
+Require stack:
+- /app/verification/verify_all_new_features.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/app/verification/verify_all_new_features.js:2:19)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async formattedImport (/home/jules/.nvm/versions/node/v22.22.1/lib/node_modules/mocha/lib/nodejs/esm-utils.js:10:14)
+    at async Object.requireModule [as requireOrImport] (/home/jules/.nvm/versions/node/v22.22.1/lib/node_modules/mocha/lib/nodejs/esm-utils.js:102:30)
+    at async exports.loadFilesAsync (/home/jules/.nvm/versions/node/v22.22.1/lib/node_modules/mocha/lib/nodejs/esm-utils.js:152:20)
+    at async singleRun (/home/jules/.nvm/versions/node/v22.22.1/lib/node_modules/mocha/lib/cli/run-helpers.js:168:3)
+    at async exports.handler (/home/jules/.nvm/versions/node/v22.22.1/lib/node_modules/mocha/lib/cli/run.js:379:5) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/app/verification/verify_all_new_features.js' ]
+}
+npm notice
+npm notice New minor version of npm available! 11.11.0 -> 11.19.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.19.1
+npm notice To update run: npm install -g npm@11.19.1
+npm notice
+
+--------------
 Running verification/verify_anvil.js...
-PASS: verification/verify_anvil.js
+FAIL: verification/verify_anvil.js
+--- STDOUT ---
+
+--- STDERR ---
+node:internal/modules/cjs/loader:1386
+  throw err;
+  ^
+
+Error: Cannot find module 'jsdom'
+Require stack:
+- /app/verification/verify_anvil.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1383:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Function._load (node:internal/modules/cjs/loader:1192:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/app/verification/verify_anvil.js:4:19)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/app/verification/verify_anvil.js' ]
+}
+
+Node.js v22.22.1
+
+--------------
 Running verification/verify_armor.js...
 PASS: verification/verify_armor.js
 Running verification/verify_armor_ui_fix.py...
@@ -89,7 +157,53 @@ PASS: verification/verify_projectile_v2.js
 Running verification/verify_recent_features.js...
 PASS: verification/verify_recent_features.js
 Running verification/verify_recipe_discovery.js...
-PASS: verification/verify_recipe_discovery.js
+FAIL: verification/verify_recipe_discovery.js
+--- STDOUT ---
+Starting Verification...
+Test 1: Initial State
+Unlocked Recipes: [ 'Planks (4)', 'Stick (4)', 'Furnace' ]
+Displayed Recipes: 3
+Test 2: Unlock Logic
+Unlocked after Wood: [
+  'Planks (4)',
+  'Stick (4)',
+  'Furnace',
+  'Campfire',
+  'Smoker',
+  'Soul Campfire',
+  'Fence (2)',
+  'Fence Gate'
+]
+
+--- STDERR ---
+Verification Failed: AssertionError [ERR_ASSERTION]: Notification should mention Fence
+    at runTests (/app/verification/verify_recipe_discovery.js:169:12)
+    at Object.<anonymous> (/app/verification/verify_recipe_discovery.js:192:1)
+    at Module._compile (node:internal/modules/cjs/loader:1705:14)
+    at Object..js (node:internal/modules/cjs/loader:1838:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.requireModule [as requireOrImport] (/app/node_modules/mocha/lib/nodejs/esm-utils.js:98:12)
+    at exports.loadFilesAsync (/app/node_modules/mocha/lib/nodejs/esm-utils.js:158:34)
+    at Mocha.loadFilesAsync (/app/node_modules/mocha/lib/mocha.js:429:19)
+    at singleRun (/app/node_modules/mocha/lib/cli/run-helpers.js:174:15)
+    at exports.runMocha (/app/node_modules/mocha/lib/cli/run-helpers.js:247:10)
+    at exports.handler (/app/node_modules/mocha/lib/cli/run.js:389:11)
+    at /app/node_modules/yargs/build/index.cjs:1:8992
+    at /app/node_modules/yargs/build/index.cjs:1:4972 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+--------------
 Running verification/verify_recipe_ui.py...
 PASS: verification/verify_recipe_ui.py
 Running verification/verify_redstone_interaction.js...
@@ -132,6 +246,14 @@ Running verification/verify_world_gen.js...
 PASS: verification/verify_world_gen.js
 Running verification/verify_xp.js...
 PASS: verification/verify_xp.js
+Running tests/test_5_features_batch.js...
+PASS: tests/test_5_features_batch.js
+Running tests/test_5_new_batch_features.js...
+PASS: tests/test_5_new_batch_features.js
+Running tests/test_5_new_blocks_batch.js...
+PASS: tests/test_5_new_blocks_batch.js
+Running tests/test_5_new_features.js...
+PASS: tests/test_5_new_features.js
 Running tests/test_audit.js...
 PASS: tests/test_audit.js
 Running tests/test_bugs.js...
@@ -146,6 +268,10 @@ Running tests/test_drops.js...
 PASS: tests/test_drops.js
 Running tests/test_features.js...
 PASS: tests/test_features.js
+Running tests/test_glow_frame_redstone_repeaters.js...
+PASS: tests/test_glow_frame_redstone_repeaters.js
+Running tests/test_grindstone_sculk_witch_features.js...
+PASS: tests/test_grindstone_sculk_witch_features.js
 Running tests/test_implemented_features.js...
 PASS: tests/test_implemented_features.js
 Running tests/test_lighting_bug.js...
@@ -154,16 +280,24 @@ Running tests/test_missing_coverage.js...
 PASS: tests/test_missing_coverage.js
 Running tests/test_mob.js...
 PASS: tests/test_mob.js
+Running tests/test_new_5_features.js...
+PASS: tests/test_new_5_features.js
+Running tests/test_new_agent_features.js...
+PASS: tests/test_new_agent_features.js
 Running tests/test_new_blocks.js...
 PASS: tests/test_new_blocks.js
 Running tests/test_new_features.js...
 PASS: tests/test_new_features.js
+Running tests/test_newly_added_features_audit.js...
+PASS: tests/test_newly_added_features_audit.js
 Running tests/test_persistence.js...
 PASS: tests/test_persistence.js
 Running tests/test_recently_added_features.js...
 PASS: tests/test_recently_added_features.js
 Running tests/test_spawning.js...
 PASS: tests/test_spawning.js
+Running tests/test_stonecutter_composter_smoker_features.js...
+PASS: tests/test_stonecutter_composter_smoker_features.js
 Running tests/test_textures.js...
 PASS: tests/test_textures.js
 Running tests/test_water_flow.js...
@@ -174,7 +308,10 @@ Stopping local server...
 
 
 === Test Summary ===
-Passed: 85
-Failed: 0
+Passed: 92
+Failed: 3
 
-All tests passed!
+Failed Tests:
+- verification/verify_all_new_features.js
+- verification/verify_anvil.js
+- verification/verify_recipe_discovery.js
