@@ -17,7 +17,9 @@ const MOB_TYPE = {
     BLAZE: 'blaze',
     WITCH: 'witch',
     MAGMA_CUBE: 'magma_cube',
-    SNOW_GOLEM: 'snow_golem'
+    SNOW_GOLEM: 'snow_golem',
+    WITHER_SKELETON: 'wither_skeleton',
+    ALLAY: 'allay'
 };
 
 class Mob extends Entity {
@@ -290,6 +292,23 @@ class Mob extends Entity {
                 this.maxHealth = 10;
                 this.xpValue = 0;
                 break;
+            case MOB_TYPE.WITHER_SKELETON:
+                this.color = '#222222';
+                this.height = 2.4;
+                this.width = 0.7;
+                this.speed = 2.2;
+                this.maxHealth = 26;
+                this.xpValue = 5;
+                break;
+            case MOB_TYPE.ALLAY:
+                this.color = '#00FFFF';
+                this.height = 0.8;
+                this.width = 0.5;
+                this.speed = 3.0;
+                this.maxHealth = 20;
+                this.xpValue = 0;
+                this.heldItem = null;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -382,6 +401,17 @@ class Mob extends Entity {
             case MOB_TYPE.SNOW_GOLEM:
                 dropType = BLOCK.ITEM_SNOWBALL;
                 count = 2 + Math.floor(Math.random() * 3);
+                break;
+            case MOB_TYPE.WITHER_SKELETON:
+                dropType = Math.random() < 0.6 ? BLOCK.ITEM_BONE : BLOCK.ITEM_COAL;
+                if (Math.random() < 0.2 && this.game.drops) {
+                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.SWORD_STONE, 1));
+                }
+                break;
+            case MOB_TYPE.ALLAY:
+                if (this.heldItem && this.game.drops) {
+                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, this.heldItem.type, this.heldItem.count));
+                }
                 break;
         }
 
@@ -488,7 +518,8 @@ class Mob extends Entity {
             this.type === MOB_TYPE.SPIDER ||
             this.type === MOB_TYPE.CREEPER ||
             this.type === MOB_TYPE.ENDERMAN ||
-            this.type === MOB_TYPE.WITCH) {
+            this.type === MOB_TYPE.WITCH ||
+            this.type === MOB_TYPE.WITHER_SKELETON) {
             this.updateHostileAI(dt);
         } else {
             this.updatePassiveAI(dt);
@@ -844,8 +875,13 @@ class Mob extends Entity {
 
             if (dist < 1.5 && this.attackCooldown <= 0) {
                 // Melee Attack
-                 if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SPIDER || this.type === MOB_TYPE.ENDERMAN) {
-                     this.game.player.takeDamage(this.type === MOB_TYPE.ENDERMAN ? 6 : 3); // Damage player
+                 if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SPIDER || this.type === MOB_TYPE.ENDERMAN || this.type === MOB_TYPE.WITHER_SKELETON) {
+                     const damage = this.type === MOB_TYPE.ENDERMAN ? 6 : (this.type === MOB_TYPE.WITHER_SKELETON ? 5 : 3);
+                     this.game.player.takeDamage(damage); // Damage player
+
+                     if (this.type === MOB_TYPE.WITHER_SKELETON && this.game.player.addEffect) {
+                         this.game.player.addEffect('Wither', '💀', 10);
+                     }
 
                      // Knockback player
                      const dirX = Math.sin(this.yaw);

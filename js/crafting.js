@@ -31,6 +31,21 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]
             },
             {
+                name: "Chiseled Bookshelf",
+                result: { type: BLOCK.CHISELED_BOOKSHELF, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 6 }, { type: BLOCK.SLAB_WOOD, count: 3 } ]
+            },
+            {
+                name: "Dropper",
+                result: { type: BLOCK.DROPPER, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 7 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 } ]
+            },
+            {
+                name: "Respawn Anchor",
+                result: { type: BLOCK.RESPAWN_ANCHOR, count: 1 },
+                ingredients: [ { type: BLOCK.CRYING_OBSIDIAN, count: 6 }, { type: BLOCK.GLOWSTONE, count: 3 } ]
+            },
+            {
                 name: "Slime Block",
                 result: { type: BLOCK.SLIME_BLOCK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_STRING, count: 9 } ]

@@ -9,6 +9,8 @@ class UIManager {
         this.activeSign = null;
         this.activeAnvil = null;
         this.activeStonecutter = null;
+        this.activeChiseledBookshelf = null;
+        this.activeDropper = null;
     }
 
     init() {
@@ -273,6 +275,16 @@ class UIManager {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', () => this.handleStonecutterClick(id));
         });
+
+        const closeBookshelf = document.getElementById('close-chiseled-bookshelf');
+        if (closeBookshelf) {
+            closeBookshelf.addEventListener('click', () => this.closeChiseledBookshelf());
+        }
+
+        const closeDropper = document.getElementById('close-dropper');
+        if (closeDropper) {
+            closeDropper.addEventListener('click', () => this.closeDropper());
+        }
     }
 
     toggleRecipeBook() {
@@ -499,6 +511,187 @@ class UIManager {
         this.activeFurnace = null;
         document.getElementById('furnace-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    openChiseledBookshelf(entity) {
+        this.activeChiseledBookshelf = entity;
+        if (!entity.items) entity.items = new Array(6).fill(null);
+
+        const ui = document.getElementById('chiseled-bookshelf-screen');
+        if (ui) ui.classList.remove('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+
+        document.exitPointerLock();
+        this.refreshChiseledBookshelfUI();
+        this.refreshInventoryUI();
+    }
+
+    closeChiseledBookshelf() {
+        this.activeChiseledBookshelf = null;
+        const ui = document.getElementById('chiseled-bookshelf-screen');
+        if (ui) ui.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    refreshChiseledBookshelfUI() {
+        if (!this.activeChiseledBookshelf) return;
+        const grid = document.getElementById('chiseled-bookshelf-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        const items = this.activeChiseledBookshelf.items;
+
+        for (let i = 0; i < 6; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'inventory-item';
+            slot.dataset.index = i;
+
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            slot.appendChild(count);
+
+            this.renderSlotItem(slot, items[i]);
+
+            slot.addEventListener('click', () => {
+                this.handleChiseledBookshelfClick(i);
+            });
+
+            grid.appendChild(slot);
+        }
+    }
+
+    handleChiseledBookshelfClick(index) {
+        if (!this.activeChiseledBookshelf) return;
+        const items = this.activeChiseledBookshelf.items;
+        const clickedItem = items[index];
+        const cursor = this.cursorItem;
+
+        if (!cursor) {
+            if (clickedItem) {
+                this.cursorItem = clickedItem;
+                items[index] = null;
+            }
+        } else {
+            // Only books/enchanted books/etc or any item
+            if (!clickedItem) {
+                items[index] = cursor;
+                this.cursorItem = null;
+            } else {
+                if (clickedItem.type === cursor.type && clickedItem.count < 64) {
+                    const space = 64 - clickedItem.count;
+                    const toAdd = Math.min(space, cursor.count);
+                    clickedItem.count += toAdd;
+                    cursor.count -= toAdd;
+                    if (cursor.count <= 0) this.cursorItem = null;
+                } else {
+                    items[index] = cursor;
+                    this.cursorItem = clickedItem;
+                }
+            }
+        }
+        this.refreshChiseledBookshelfUI();
+        this.updateCursorUI();
+    }
+
+    openDropper(entity) {
+        this.activeDropper = entity;
+        if (!entity.items) entity.items = new Array(9).fill(null);
+
+        const ui = document.getElementById('dropper-screen');
+        if (ui) ui.classList.remove('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+
+        document.exitPointerLock();
+        this.refreshDropperUI();
+        this.refreshInventoryUI();
+    }
+
+    closeDropper() {
+        this.activeDropper = null;
+        const ui = document.getElementById('dropper-screen');
+        if (ui) ui.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    refreshDropperUI() {
+        if (!this.activeDropper) return;
+        const grid = document.getElementById('dropper-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        const items = this.activeDropper.items;
+
+        for (let i = 0; i < 9; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'inventory-item';
+            slot.dataset.index = i;
+
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            slot.appendChild(count);
+
+            this.renderSlotItem(slot, items[i]);
+
+            slot.addEventListener('click', () => {
+                this.handleDropperClick(i);
+            });
+
+            grid.appendChild(slot);
+        }
+    }
+
+    handleDropperClick(index) {
+        if (!this.activeDropper) return;
+        const items = this.activeDropper.items;
+        const clickedItem = items[index];
+        const cursor = this.cursorItem;
+
+        if (!cursor) {
+            if (clickedItem) {
+                this.cursorItem = clickedItem;
+                items[index] = null;
+            }
+        } else {
+            if (!clickedItem) {
+                items[index] = cursor;
+                this.cursorItem = null;
+            } else {
+                if (clickedItem.type === cursor.type && clickedItem.count < 64) {
+                    const space = 64 - clickedItem.count;
+                    const toAdd = Math.min(space, cursor.count);
+                    clickedItem.count += toAdd;
+                    cursor.count -= toAdd;
+                    if (cursor.count <= 0) this.cursorItem = null;
+                } else {
+                    items[index] = cursor;
+                    this.cursorItem = clickedItem;
+                }
+            }
+        }
+        this.refreshDropperUI();
+        this.updateCursorUI();
     }
 
     openChest(entity) {

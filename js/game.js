@@ -298,6 +298,34 @@ class Game {
             return true;
         }
 
+        // Chiseled Bookshelf
+        if (blockType === BLOCK.CHISELED_BOOKSHELF) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = {
+                    type: 'chiseled_bookshelf',
+                    items: new Array(6).fill(null)
+                };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            this.ui.openChiseledBookshelf(entity);
+            return true;
+        }
+
+        // Dropper
+        if (blockType === BLOCK.DROPPER) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = {
+                    type: 'dropper',
+                    items: new Array(9).fill(null)
+                };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            this.ui.openDropper(entity);
+            return true;
+        }
+
         // Chest
         if (blockType === BLOCK.CHEST) {
              let entity = this.world.getBlockEntity(x, y, z);
@@ -409,6 +437,44 @@ class Game {
             const newMeta = meta ^ 4; // Toggle Bit 2 (Open)
             this.world.setMetadata(x, y, z, newMeta);
             window.soundManager.play('break', pos);
+            return true;
+        }
+
+        // Respawn Anchor Interaction
+        if (blockType === BLOCK.RESPAWN_ANCHOR) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: 'respawn_anchor', charges: 0 };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            const held = this.player.getHeldItem();
+            if (held && (held.type === BLOCK.GLOWSTONE || held.type === BLOCK.ITEM_GLOWSTONE_DUST)) {
+                if (entity.charges < 4) {
+                    entity.charges++;
+                    held.count--;
+                    if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                    this.updateHotbarUI();
+                    if (this.particles) {
+                        this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#FFD700', 12);
+                    }
+                    if (this.ui && this.ui.showNotification) {
+                        this.ui.showNotification(`Respawn Anchor Charged (${entity.charges}/4)`);
+                    }
+                    if (window.soundManager) window.soundManager.play('place', pos);
+                }
+            } else {
+                if (entity.charges > 0) {
+                    this.player.respawnAnchorPos = { x: x + 0.5, y: y + 1.0, z: z + 0.5, blockX: x, blockY: y, blockZ: z };
+                    if (this.ui && this.ui.showNotification) {
+                        this.ui.showNotification(`Respawn point set at Respawn Anchor! Charges: ${entity.charges}/4`);
+                    }
+                    if (window.soundManager) window.soundManager.play('place', pos);
+                } else {
+                    if (this.ui && this.ui.showNotification) {
+                        this.ui.showNotification("Respawn Anchor is empty! Charge with Glowstone or Glowstone Dust.");
+                    }
+                }
+            }
             return true;
         }
 
@@ -762,7 +828,7 @@ class Game {
                  } else if (blockType === BLOCK.MELON_STEM || blockType === BLOCK.PUMPKIN_STEM) {
                      this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, blockType === BLOCK.MELON_STEM ? BLOCK.ITEM_MELON_SEEDS : BLOCK.ITEM_PUMPKIN_SEEDS, 1));
                  }
-             } else if (entity.type === 'chest' && entity.items) {
+             } else if ((entity.type === 'chest' || entity.type === 'chiseled_bookshelf' || entity.type === 'dropper') && entity.items) {
                  entity.items.forEach(item => {
                      if (item) this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, item.type, item.count));
                  });

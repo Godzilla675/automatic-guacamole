@@ -11,11 +11,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Copper Ore, Ingot & Block**: Copper ore, ingot item, and copper block definition and crafting. (Status: Verified and working)
 - [x] **New Task: Add Bamboo & Bamboo Item**: Bamboo block and item definitions for crafting. (Status: Verified and working)
 - [x] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Verified and working)
-- [ ] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Verified and working)
 - [ ] **New Task: Add Vault Hunters Mechanism**: Trial Vault keys with loot drop tables and cooldown timers. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Sculk Shrieker & Darkness Effect**: Sculk Shrieker block triggering proximity darkness status effect and Warden summon. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Breeze Rod Projectile Crafting**: Breeze Rod usage for crafting Wind Charge consumables and Mace components. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Verified and working)
 
 - [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key. (Status: Missing implementation, agents must fix)
@@ -30,7 +30,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## 1. World Generation
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Verified and working)
 - [ ] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Nether Fossils & Soul Soil Biomes**: Bone block structures generated in soul sand valleys. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Mangrove Swamp Trees & Propagules**: Hanging propagule saplings and submerged mangrove tree generation. (Status: Proposed feature, pending implementation)
@@ -97,7 +97,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Ender Dragon Boss** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Witches**: Hostile mobs that throw harmful splash potions at players. (Status: Verified and working)
 - [x] **New Task: Add Rideable Pigs**: Saddle mounting, player riding, and steering mechanics. (Status: Verified and working)
-- [ ] **New Task: Add Allay Entity Mechanics**: Friendly flying mob that collects dropped items matching item in hand. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Allay Entity Mechanics**: Friendly flying mob that collects dropped items matching item in hand. (Status: Verified and working)
 - [ ] **New Task: Add Frog Species & Magma Cube Eating**: Green, warm, and cold frog variants eating small magma cubes to drop Froglight blocks. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Armadillo Scute Brushing**: Using brush on Armadillos in Savanna biomes to collect scutes. (Status: Proposed feature, pending implementation)
 
@@ -225,7 +225,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Glazed Terracotta Crafting**: Smelting dyed terracotta into glazed terracotta. (Status: Verified and working)
 - [ ] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts lack visual debug toggle. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying Obsidian Respawn Anchors. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying Obsidian Respawn Anchors. (Status: Verified and working)
 - [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Honey Block Piston Pushing Logic**: Sticky honey blocks dragging adjacent blocks during piston movement. (Status: Missing implementation, agents must fix)
 
