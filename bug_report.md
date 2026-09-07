@@ -2,6 +2,23 @@
 
 ## Executive Summary
 Comprehensive unit testing (Mocha) and end-to-end browser gameplay testing (Playwright) were performed across all newly added and existing game features in VoxelWeb. All newly added features from the agent tasks file—including Magma Cubes, Magma Blocks, Copper Ore/Ingots/Blocks, Bamboo, Snow Golems, Target Blocks, Lodestone, Flower Pots, Tinted Glass, Lightning Rods, Glow Item Frames, Repeaters, Comparators, Grindstones, Sculk Sensors, Spectator Night Vision, Witch Mobs, Soul Campfires, Moss Carpets, Mud Bricks, Packed Mud, Chiseled Stone Bricks, Stonecutters, Composters, Smokers, Blast Furnaces, Sea Lanterns, Slime Blocks, Glazed Terracotta, Campfires, Glow Berries, Mud Blocks, Sweet Berries, Moss Blocks, Honeycomb Blocks, Amethyst Blocks, Crying Obsidian—were thoroughly audited and verified as working correctly.
+Recent autonomous E2E playtesting via Playwright has passed cleanly with 0 console errors, validating UI navigation, movement, jumping, and block interactions.
+
+## Current Known Bugs (To Be Fixed)
+
+### 1. Missing UI/Mechanics for Crafting & Redstone
+* **Redstone Wire Logic:** Redstone wire logic and connections are currently missing, breaking complex redstone circuit propagation.
+* **Redstone Dust Visuals:** Redstone wire power propagation lacks dynamic multi-direction connecting wire rendering on block surfaces.
+* **Stonecutter UI Missing:** The Stonecutter operates via direct item interaction rather than presenting a dedicated block interaction UI window.
+* **Smoker & Blast Furnace Speed:** Smoker and Blast Furnace blocks currently share the standard furnace smelting speed; they lack the intended 2x acceleration for food and ores.
+
+### 2. Fishing Mechanics Incomplete
+* **Fishing Rod Catch Timer Incomplete:** The fishing bobber entity spawns successfully, but it lacks the timer-based catch mechanics and loot table roll execution required for actual fishing gameplay.
+
+### 3. Rendering & Test Suite Bugs
+* **JSDOM Canvas Mock missing `putImageData`:** In Node.js/JSDOM test suites, the canvas context lacks `putImageData` implementation, causing failures in lighting/texture tests.
+* **Cloud Rendering Depth:** Clouds might not sort correctly with transparent blocks.
+* **Mob Rendering Depth Sorting:** When multiple mobs overlap, depth sorting sometimes renders the further mob in front.
 
 ## Bugs Discovered & Resolved
 
@@ -26,7 +43,7 @@ Comprehensive unit testing (Mocha) and end-to-end browser gameplay testing (Play
   - Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading UI containers: PASS
   - Pause & Settings navigation: PASS
   - Armor grid & Offhand HUD: PASS
-* **Extensive Playwright Action Test (`python3 extensive_test.py`):**
+* **Extensive Playwright Action Test (`python3 extensive_test.py` and `node playwright_test.js`):**
   - Player Movement & Jumping: PASS
   - Menus Navigation (Inventory, Crafting, Settings): PASS
   - HUD Elements Visibility (Health, Hunger, Hotbar): PASS
