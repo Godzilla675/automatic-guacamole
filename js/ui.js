@@ -497,8 +497,8 @@ class UIManager {
         if (ui) {
             const titleEl = ui.querySelector('h2') || ui.querySelector('.ui-title');
             if (titleEl) {
-                if (entity.type === 'smoker') titleEl.textContent = 'Smoker';
-                else if (entity.type === 'blast_furnace') titleEl.textContent = 'Blast Furnace';
+                if (entity && entity.type === 'smoker') titleEl.textContent = 'Smoker';
+                else if (entity && entity.type === 'blast_furnace') titleEl.textContent = 'Blast Furnace';
                 else titleEl.textContent = 'Furnace';
             }
             ui.classList.remove('hidden');
