@@ -455,9 +455,7 @@ class Renderer {
                          const checkConnect = (dx, dz) => {
                              const nb = this.game.world.getBlock(wx + dx, b.y, wz + dz);
                              const nd = window.BLOCKS[nb];
-                             // Connect to Wire, Torch, or Power Source
-                             // Simplified: Connect to anything that is Wire or Torch or Lamp
-                             return (nd && (nd.isWire || nd.isTorch || nd.id === window.BLOCK.REDSTONE_LAMP || nd.id === window.BLOCK.REDSTONE_LAMP_ACTIVE));
+                             return (nd && (nd.isWire || nd.isTorch || nd.id === window.BLOCK.REDSTONE_LAMP || nd.id === window.BLOCK.REDSTONE_LAMP_ACTIVE || nd.id === window.BLOCK.REDSTONE_REPEATER || nd.id === window.BLOCK.REDSTONE_COMPARATOR || nd.id === window.BLOCK.CRAFTER || nd.id === window.BLOCK.TARGET_BLOCK));
                          };
 
                          const armLen = (size - centerSize) / 2;

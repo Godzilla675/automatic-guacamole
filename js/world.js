@@ -394,7 +394,70 @@ class World {
                 } else if (!powered && extended) {
                     this.retractPiston(x, y, z, meta);
                 }
+            } else if (type === window.BLOCK.CRAFTER) {
+                const powered = this.isBlockPowered(x, y, z);
+                const meta = this.getMetadata(x, y, z);
+                const wasPowered = (meta & 1) !== 0;
+
+                if (powered && !wasPowered) {
+                    this.setMetadata(x, y, z, meta | 1);
+                    this.triggerCrafter(x, y, z);
+                } else if (!powered && wasPowered) {
+                    this.setMetadata(x, y, z, meta & ~1);
+                }
             }
+        }
+    }
+
+    triggerCrafter(x, y, z) {
+        let entity = this.getBlockEntity(x, y, z);
+        if (!entity) {
+            entity = { type: 'crafter', items: new Array(9).fill(null) };
+            this.setBlockEntity(x, y, z, entity);
+        }
+
+        if (!this.game || !this.game.crafting) return;
+
+        const grid = entity.items.map(item => item ? item.type : null);
+        let matchedRecipe = null;
+
+        if (this.game.crafting.recipes) {
+            for (const r of this.game.crafting.recipes) {
+                if (r.ingredients && r.ingredients.length > 0) {
+                    let valid = true;
+                    for (const ing of r.ingredients) {
+                        const countInGrid = grid.filter(t => t === ing.type).length;
+                        if (countInGrid < ing.count) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (valid) {
+                        matchedRecipe = r;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (matchedRecipe && matchedRecipe.result) {
+            for (const ing of matchedRecipe.ingredients) {
+                let needed = ing.count;
+                for (let i = 0; i < entity.items.length; i++) {
+                    if (entity.items[i] && entity.items[i].type === ing.type) {
+                        const deduct = Math.min(needed, entity.items[i].count);
+                        entity.items[i].count -= deduct;
+                        needed -= deduct;
+                        if (entity.items[i].count <= 0) entity.items[i] = null;
+                        if (needed <= 0) break;
+                    }
+                }
+            }
+
+            if (this.game.drops && window.Drop) {
+                this.game.drops.push(new window.Drop(this.game, x + 0.5, y + 1.2, z + 0.5, matchedRecipe.result.type, matchedRecipe.result.count));
+            }
+            if (window.soundManager) window.soundManager.play('place', {x: x+0.5, y: y+0.5, z: z+0.5});
         }
     }
 

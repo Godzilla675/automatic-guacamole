@@ -130,6 +130,7 @@ class TextureManager {
         this.textures[B.COPPER_BLOCK] = this.genCopperBlock();
         this.textures[B.BAMBOO] = this.genBamboo();
         this.textures[B.FLETCHING_TABLE] = this.genFletchingTable();
+        this.textures[B.CRAFTER] = this.genCrafter();
 
 
         // Glass
@@ -2723,6 +2724,19 @@ class TextureManager {
         ctx.fillStyle = '#000000';
         ctx.fillRect(4, 4, 8, 2);
         ctx.fillRect(7, 6, 2, 6);
+        return c;
+    }
+
+    genCrafter() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 105, g: 105, b: 105 }, 12);
+        ctx.fillStyle = '#404040';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(6, 6, 4, 4);
         return c;
     }
 

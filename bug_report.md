@@ -6,23 +6,33 @@ Recent autonomous E2E playtesting via Playwright has passed cleanly with 0 conso
 
 ## Current Known Bugs (To Be Fixed)
 
-### 1. Missing UI/Mechanics for Crafting & Redstone
-* **Redstone Wire Logic:** Redstone wire logic and connections are currently missing, breaking complex redstone circuit propagation.
-* **Redstone Dust Visuals:** Redstone wire power propagation lacks dynamic multi-direction connecting wire rendering on block surfaces.
-* **Stonecutter UI Missing:** The Stonecutter operates via direct item interaction rather than presenting a dedicated block interaction UI window.
-* **Smoker & Blast Furnace Speed:** Smoker and Blast Furnace blocks currently share the standard furnace smelting speed; they lack the intended 2x acceleration for food and ores.
-
-### 2. Fishing Mechanics Incomplete
-* **Fishing Rod Catch Timer Incomplete:** The fishing bobber entity spawns successfully, but it lacks the timer-based catch mechanics and loot table roll execution required for actual fishing gameplay.
-
-### 3. Rendering & Test Suite Bugs
-* **JSDOM Canvas Mock missing `putImageData`:** In Node.js/JSDOM test suites, the canvas context lacks `putImageData` implementation, causing failures in lighting/texture tests.
+### 1. Rendering & Environment Limitations
 * **Cloud Rendering Depth:** Clouds might not sort correctly with transparent blocks.
 * **Mob Rendering Depth Sorting:** When multiple mobs overlap, depth sorting sometimes renders the further mob in front.
 
 ## Bugs Discovered & Resolved
 
-### 1. Verification Script Loading Order (`ReferenceError: Entity is not defined`)
+### 1. Stonecutter Dedicated UI Grid
+* **Issue:** Stonecutter operated via direct item interaction in hand rather than presenting a dedicated block interaction UI window.
+* **Fix:** Implemented `#stonecutter-screen` in `index.html` and full Stonecutter UI handler (`openStonecutter`, `closeStonecutter`, `updateStonecutterUI`, `handleStonecutterClick`) in `js/ui.js` and `js/game.js`.
+
+### 2. Smoker & Blast Furnace 2x Smelting Acceleration & Input Validation
+* **Issue:** Smoker and Blast Furnace shared standard furnace smelting speed (1x) and lacked input item filtering.
+* **Fix:** Added 2x smelting speed multiplier in `processFurnace` and input category validation in `canSmelt` restricting Smokers to food and Blast Furnaces to ores/metals in `js/game.js`.
+
+### 3. Fishing Rod Catch Mechanics & Loot Table Roll
+* **Issue:** Fishing bobber lacked timer-based catch mechanics and loot table roll execution.
+* **Fix:** Implemented randomized loot table roll in `reelInBobber()` in `js/game.js` offering fish (Raw Fish, Raw Salmon), treasure (Bow, Book, Bone), and junk items.
+
+### 4. Crafter Auto-Crafting Redstone Pulse Execution
+* **Issue:** Crafter block lacked redstone pulse execution and recipe evaluation.
+* **Fix:** Implemented `BLOCK.CRAFTER` definition in `js/blocks.js`, texture generation in `js/textures.js`, 3x3 ingredient loading in `js/game.js`, and redstone pulse trigger auto-crafting in `js/world.js`.
+
+### 5. Redstone Wire Multi-Directional Line Connections
+* **Issue:** Redstone wire rendered flat squares without connecting lines to adjacent components.
+* **Fix:** Enhanced neighbor connection evaluation in `js/renderer.js` to render directional wire connections to repeaters, comparators, torches, crafters, targets, and lamps.
+
+### 6. Verification Script Loading Order (`ReferenceError: Entity is not defined`)
 * **Issue:** Verification test scripts (`verification/verify_all_new_features.js`, `verification/verify_weather_tnt.js`, `verification/verify_bug_fixes_v2.js`) failed during Node.js execution with `ReferenceError: Entity is not defined` or `ReferenceError: ParticleSystem is not defined`.
 * **Root Cause:** In the script loading list, `js/mob.js` and `js/game.js` were evaluated before `js/entity.js` and `js/particles.js`. Because `Mob` extends `Entity`, `mob.js` required `Entity` to be defined in scope prior to execution.
 * **Fix:** Updated the script loading sequences in `verification/verify_all_new_features.js` and `verification/verify_weather_tnt.js` to ensure `js/entity.js` and `js/particles.js` are loaded before dependent modules.
