@@ -131,6 +131,9 @@ class TextureManager {
         this.textures[B.BAMBOO] = this.genBamboo();
         this.textures[B.FLETCHING_TABLE] = this.genFletchingTable();
         this.textures[B.CRAFTER] = this.genCrafter();
+        this.textures[B.CHISELED_BOOKSHELF] = this.genChiseledBookshelf();
+        this.textures[B.DROPPER] = this.genDropper();
+        this.textures[B.RESPAWN_ANCHOR] = this.genRespawnAnchor();
 
 
         // Glass
@@ -2163,6 +2166,38 @@ class TextureManager {
         this.mobTextures.witch = this.genMobWitch();
         this.mobTextures.magma_cube = this.genMobMagmaCube();
         this.mobTextures.snow_golem = this.genMobSnowGolem();
+        this.mobTextures.wither_skeleton = this.genMobWitherSkeleton();
+        this.mobTextures.allay = this.genMobAllay();
+    }
+
+    genMobWitherSkeleton() {
+        const c = this.createCanvas(8, 20);
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = 'rgba(0,0,0,0)';
+        ctx.clearRect(0, 0, 8, 20);
+        ctx.fillStyle = '#222222';
+        ctx.fillRect(1, 0, 6, 5);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(2, 1, 2, 2);
+        ctx.fillRect(5, 1, 2, 2);
+        ctx.fillStyle = '#222222';
+        ctx.fillRect(2, 5, 4, 8);
+        ctx.fillRect(2, 13, 1, 7);
+        ctx.fillRect(5, 13, 1, 7);
+        return c;
+    }
+
+    genMobAllay() {
+        const c = this.createCanvas(6, 8);
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(1, 0, 4, 4);
+        ctx.fillStyle = '#008B8B';
+        ctx.fillRect(2, 4, 2, 4);
+        ctx.fillStyle = '#E0FFFF';
+        ctx.fillRect(0, 1, 1, 3);
+        ctx.fillRect(5, 1, 1, 3);
+        return c;
     }
 
     genMobBase(w, h, bodyColor, faceYStart) {
@@ -2549,6 +2584,50 @@ class TextureManager {
         ctx.fillRect(4, 4, 8, 8);
         ctx.fillStyle = '#FF0000';
         ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genChiseledBookshelf() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 139, g: 69, b: 19 }, 10);
+        ctx.fillStyle = '#4A2508';
+        ctx.fillRect(1, 1, 14, 1);
+        ctx.fillRect(1, 8, 14, 1);
+        ctx.fillRect(1, 14, 14, 1);
+        ctx.fillStyle = '#1A0D04';
+        ctx.fillRect(2, 2, 12, 6);
+        ctx.fillRect(2, 9, 12, 5);
+        ctx.fillStyle = '#4169E1';
+        ctx.fillRect(3, 3, 3, 4);
+        ctx.fillStyle = '#DC143C';
+        ctx.fillRect(7, 3, 3, 4);
+        ctx.fillStyle = '#32CD32';
+        ctx.fillRect(10, 10, 3, 3);
+        return c;
+    }
+
+    genDropper() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 128, g: 128, b: 128 }, 15);
+        ctx.fillStyle = '#404040';
+        ctx.fillRect(4, 5, 8, 6);
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(5, 6, 6, 4);
+        return c;
+    }
+
+    genRespawnAnchor() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 75, g: 0, b: 130 }, 20);
+        ctx.fillStyle = '#2A004E';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#8A2BE2';
+        ctx.fillRect(5, 5, 6, 6);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(7, 7, 2, 2);
         return c;
     }
 

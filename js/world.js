@@ -264,7 +264,50 @@ class World {
         return false;
     }
 
+    updateDroppers() {
+        for (const [key, entity] of this.blockEntities) {
+            if (entity && entity.type === 'dropper') {
+                const [x, y, z] = key.split(',').map(Number);
+                const isPowered = this.isBlockPowered(x, y, z);
+                if (isPowered && !entity.wasPowered) {
+                    this.ejectDropperItem(x, y, z, entity);
+                }
+                entity.wasPowered = isPowered;
+            }
+        }
+    }
+
+    ejectDropperItem(x, y, z, entity) {
+        if (!entity.items) return;
+        const validIndices = [];
+        for (let i = 0; i < entity.items.length; i++) {
+            if (entity.items[i] && entity.items[i].count > 0) {
+                validIndices.push(i);
+            }
+        }
+        if (validIndices.length === 0) return;
+
+        const index = validIndices[Math.floor(Math.random() * validIndices.length)];
+        const item = entity.items[index];
+
+        const dropX = x + 0.5;
+        const dropY = y + 0.8;
+        const dropZ = z + 0.5;
+
+        if (this.game && this.game.drops && window.Drop) {
+            this.game.drops.push(new window.Drop(this.game, dropX, dropY, dropZ, item.type, 1));
+        }
+
+        item.count--;
+        if (item.count <= 0) {
+            entity.items[index] = null;
+        }
+
+        if (window.soundManager) window.soundManager.play('place', { x: dropX, y: dropY, z: dropZ });
+    }
+
     updateRedstone() {
+        this.updateDroppers();
         if (this.activeRedstone.size === 0) return;
 
         // Process a batch (breadth-firstish)

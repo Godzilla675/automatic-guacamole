@@ -312,7 +312,10 @@ const BLOCK = {
     BAMBOO: 401,
     ITEM_BAMBOO: 402,
     FLETCHING_TABLE: 403,
-    CRAFTER: 404
+    CRAFTER: 404,
+    CHISELED_BOOKSHELF: 405,
+    DROPPER: 406,
+    RESPAWN_ANCHOR: 407
 };
 
 const ARMOR = {
@@ -687,7 +690,10 @@ const BLOCKS = {
     [BLOCK.BAMBOO]: { name: 'Bamboo', color: '#228B22', solid: false, transparent: true, icon: '🎋', hardness: 0.0 },
     [BLOCK.ITEM_BAMBOO]: { name: 'Bamboo Item', color: '#228B22', solid: false, isItem: true, icon: '🎋' },
     [BLOCK.FLETCHING_TABLE]: { name: 'Fletching Table', color: '#C2B280', top: '#D2B48C', solid: true, icon: '🎯', hardness: 2.5, tool: 'axe' },
-    [BLOCK.CRAFTER]: { name: 'Crafter', color: '#696969', top: '#808080', solid: true, icon: '🛠️', hardness: 1.5, tool: 'pickaxe' }
+    [BLOCK.CRAFTER]: { name: 'Crafter', color: '#696969', top: '#808080', solid: true, icon: '🛠️', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.CHISELED_BOOKSHELF]: { name: 'Chiseled Bookshelf', color: '#8B4513', top: '#A0522D', solid: true, icon: '📚', hardness: 1.5, tool: 'axe' },
+    [BLOCK.DROPPER]: { name: 'Dropper', color: '#808080', top: '#696969', solid: true, icon: '📦', hardness: 3.5, tool: 'pickaxe' },
+    [BLOCK.RESPAWN_ANCHOR]: { name: 'Respawn Anchor', color: '#4B0082', top: '#8A2BE2', solid: true, icon: '⚓', hardness: 22.5, tool: 'pickaxe', light: 0 }
 };
 
 if (typeof window !== 'undefined') {

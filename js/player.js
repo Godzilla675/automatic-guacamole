@@ -250,32 +250,54 @@ class Player {
     }
 
     respawn() {
-        // Find safe spawn height dynamically
-        if (this.game.world && this.game.world.getSurfaceHeight) {
-            let safeY = this.game.world.getSurfaceHeight(this.spawnPoint.x, this.spawnPoint.z) + 1;
-            // Ensure 2-block high clear space (non-solid air/liquid) so player does not suffocate inside solid blocks
-            while (safeY < 250) {
-                const bFeet = this.game.world.getBlock(Math.floor(this.spawnPoint.x), Math.floor(safeY), Math.floor(this.spawnPoint.z));
-                const bHead = this.game.world.getBlock(Math.floor(this.spawnPoint.x), Math.floor(safeY + 1), Math.floor(this.spawnPoint.z));
-                const defFeet = window.BLOCKS[bFeet];
-                const defHead = window.BLOCKS[bHead];
-                const feetSolid = defFeet && defFeet.solid;
-                const headSolid = defHead && defHead.solid;
-                if (!feetSolid && !headSolid) break;
-                safeY++;
+        let spawnedAtAnchor = false;
+        if (this.respawnAnchorPos && this.game.world) {
+            const pos = this.respawnAnchorPos;
+            const entity = this.game.world.getBlockEntity(pos.blockX, pos.blockY, pos.blockZ);
+            if (entity && entity.type === 'respawn_anchor' && entity.charges > 0) {
+                entity.charges--;
+                this.x = pos.x;
+                this.y = pos.y;
+                this.z = pos.z;
+                spawnedAtAnchor = true;
+                if (this.game.chat) this.game.chat.addMessage(`Respawned at Respawn Anchor! (${entity.charges} charges remaining)`);
+                if (entity.charges === 0) {
+                    this.respawnAnchorPos = null;
+                }
+            } else {
+                this.respawnAnchorPos = null;
             }
-            this.spawnPoint.y = safeY;
         }
-        this.x = this.spawnPoint.x;
-        this.y = this.spawnPoint.y;
-        this.z = this.spawnPoint.z;
+
+        if (!spawnedAtAnchor) {
+            // Find safe spawn height dynamically
+            if (this.game.world && this.game.world.getSurfaceHeight) {
+                let safeY = this.game.world.getSurfaceHeight(this.spawnPoint.x, this.spawnPoint.z) + 1;
+                // Ensure 2-block high clear space (non-solid air/liquid) so player does not suffocate inside solid blocks
+                while (safeY < 250) {
+                    const bFeet = this.game.world.getBlock(Math.floor(this.spawnPoint.x), Math.floor(safeY), Math.floor(this.spawnPoint.z));
+                    const bHead = this.game.world.getBlock(Math.floor(this.spawnPoint.x), Math.floor(safeY + 1), Math.floor(this.spawnPoint.z));
+                    const defFeet = window.BLOCKS[bFeet];
+                    const defHead = window.BLOCKS[bHead];
+                    const feetSolid = defFeet && defFeet.solid;
+                    const headSolid = defHead && defHead.solid;
+                    if (!feetSolid && !headSolid) break;
+                    safeY++;
+                }
+                this.spawnPoint.y = safeY;
+            }
+            this.x = this.spawnPoint.x;
+            this.y = this.spawnPoint.y;
+            this.z = this.spawnPoint.z;
+            if (this.game.chat) this.game.chat.addMessage("You died! Respawning at world spawn...");
+        }
+
         this.health = this.maxHealth;
         this.hunger = this.maxHunger;
         this.vx = 0;
         this.vy = 0;
         this.vz = 0;
         this.fallDistance = 0;
-        if (this.game.chat) this.game.chat.addMessage("You died! Respawning...");
         if (this.game.updateHealthUI) this.game.updateHealthUI();
     }
 
