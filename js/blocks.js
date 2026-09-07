@@ -311,7 +311,8 @@ const BLOCK = {
     COPPER_BLOCK: 400,
     BAMBOO: 401,
     ITEM_BAMBOO: 402,
-    FLETCHING_TABLE: 403
+    FLETCHING_TABLE: 403,
+    CRAFTER: 404
 };
 
 const ARMOR = {
@@ -685,7 +686,8 @@ const BLOCKS = {
     [BLOCK.COPPER_BLOCK]: { name: 'Block of Copper', color: '#B87333', top: '#D2B48C', solid: true, icon: '🟧', hardness: 3.0, tool: 'pickaxe' },
     [BLOCK.BAMBOO]: { name: 'Bamboo', color: '#228B22', solid: false, transparent: true, icon: '🎋', hardness: 0.0 },
     [BLOCK.ITEM_BAMBOO]: { name: 'Bamboo Item', color: '#228B22', solid: false, isItem: true, icon: '🎋' },
-    [BLOCK.FLETCHING_TABLE]: { name: 'Fletching Table', color: '#C2B280', top: '#D2B48C', solid: true, icon: '🎯', hardness: 2.5, tool: 'axe' }
+    [BLOCK.FLETCHING_TABLE]: { name: 'Fletching Table', color: '#C2B280', top: '#D2B48C', solid: true, icon: '🎯', hardness: 2.5, tool: 'axe' },
+    [BLOCK.CRAFTER]: { name: 'Crafter', color: '#696969', top: '#808080', solid: true, icon: '🛠️', hardness: 1.5, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {

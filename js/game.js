@@ -269,15 +269,31 @@ class Game {
 
         // Stonecutter
         if (blockType === BLOCK.STONECUTTER) {
+            this.ui.openStonecutter();
+            return true;
+        }
+
+        // Crafter
+        if (blockType === BLOCK.CRAFTER) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: 'crafter', items: new Array(9).fill(null) };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
             const held = this.player.getHeldItem();
-            if (held && (held.type === BLOCK.STONE || held.type === BLOCK.COBBLESTONE)) {
-                held.count--;
-                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                const outputType = held.type === BLOCK.STONE ? BLOCK.SLAB_STONE : BLOCK.SLAB_COBBLESTONE;
-                this.player.addItem({ type: outputType, count: 2 });
-                if (this.ui && this.ui.showNotification) this.ui.showNotification(`Stonecutted ${window.BLOCKS[held.type].name} into ${window.BLOCKS[outputType].name} (x2)!`);
+            if (held) {
+                for (let i = 0; i < 9; i++) {
+                    if (!entity.items[i]) {
+                        entity.items[i] = { type: held.type, count: 1 };
+                        held.count--;
+                        if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                        this.updateHotbarUI();
+                        if (this.ui && this.ui.showNotification) this.ui.showNotification(`Loaded ${window.BLOCKS[held.type].name} into Crafter slot ${i+1}`);
+                        return true;
+                    }
+                }
             } else {
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Hold Stone or Cobblestone to use Stonecutter!");
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Crafter: Hold an item to load ingredients into 3x3 grid!");
             }
             return true;
         }
@@ -1357,7 +1373,8 @@ class Game {
 
             // Smelting
             if (entity.input && this.canSmelt(entity)) {
-                entity.progress += dt * 10; // Speed
+                let speedMultiplier = (entity.type === 'smoker' || entity.type === 'blast_furnace') ? 2 : 1;
+                entity.progress += dt * 10 * speedMultiplier; // Speed
                 if (entity.progress >= entity.maxProgress) {
                     this.smelt(entity);
                     entity.progress = 0;
@@ -1390,7 +1407,28 @@ class Game {
     }
 
     canSmelt(entity) {
-        const result = this.getSmeltingResult(entity.input.type);
+        if (!entity || !entity.input) return false;
+        const inputType = entity.input.type;
+
+        // Smoker restriction: food items only
+        if (entity.type === 'smoker') {
+            const isFood = (window.BLOCKS[inputType] && window.BLOCKS[inputType].food) ||
+                           inputType === BLOCK.ITEM_RAW_BEEF || inputType === BLOCK.ITEM_RAW_PORKCHOP ||
+                           inputType === BLOCK.ITEM_RAW_CHICKEN || inputType === BLOCK.ITEM_RAW_FISH ||
+                           inputType === BLOCK.ITEM_POTATO || inputType === BLOCK.ITEM_KELP;
+            if (!isFood) return false;
+        }
+
+        // Blast furnace restriction: ores / metals only
+        if (entity.type === 'blast_furnace') {
+            const isOreMetal = inputType === BLOCK.ORE_IRON || inputType === BLOCK.ORE_GOLD ||
+                               inputType === BLOCK.ORE_COPPER || inputType === BLOCK.QUARTZ_ORE ||
+                               inputType === BLOCK.RAW_IRON || inputType === BLOCK.RAW_GOLD ||
+                               inputType === BLOCK.RAW_COPPER;
+            if (!isOreMetal) return false;
+        }
+
+        const result = this.getSmeltingResult(inputType);
         if (!result) return false;
 
         if (!entity.output) return true;
@@ -1447,10 +1485,41 @@ class Game {
         if (!this.bobber) return;
 
         if (this.bobber.state === 'hooked') {
-            // Catch fish
-            this.drops.push(new Drop(this, this.player.x, this.player.y, this.player.z, BLOCK.ITEM_RAW_FISH, 1));
-            this.chat.addMessage("You caught a fish!");
-            window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z}); // Splash/Catch sound
+            // Catch fish or loot via loot table
+            const rand = Math.random();
+            let rewardType = BLOCK.ITEM_RAW_FISH;
+            let rewardName = "Raw Fish";
+
+            if (rand < 0.60) {
+                rewardType = BLOCK.ITEM_RAW_FISH;
+                rewardName = "Raw Fish";
+            } else if (rand < 0.80) {
+                rewardType = BLOCK.ITEM_RAW_FISH;
+                rewardName = "Raw Salmon";
+            } else if (rand < 0.90) {
+                const treasures = [
+                    { type: BLOCK.BOW, name: "Bow" },
+                    { type: BLOCK.ITEM_BOOK, name: "Book" },
+                    { type: BLOCK.ITEM_BONE, name: "Bone" }
+                ];
+                const item = treasures[Math.floor(Math.random() * treasures.length)];
+                rewardType = item.type;
+                rewardName = item.name;
+            } else {
+                const junk = [
+                    { type: BLOCK.ITEM_STICK, name: "Stick" },
+                    { type: BLOCK.LEAVES, name: "Leaves" }
+                ];
+                const item = junk[Math.floor(Math.random() * junk.length)];
+                rewardType = item.type;
+                rewardName = item.name;
+            }
+
+            if (rewardType !== undefined) {
+                this.drops.push(new Drop(this, this.player.x, this.player.y, this.player.z, rewardType, 1));
+            }
+            this.chat.addMessage(`You caught ${rewardName}!`);
+            window.soundManager.play('place', {x:this.player.x, y:this.player.y, z:this.player.z});
         }
 
         this.bobber = null;

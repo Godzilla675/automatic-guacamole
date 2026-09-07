@@ -8,6 +8,7 @@ class UIManager {
         this.activeBrewingStand = null;
         this.activeSign = null;
         this.activeAnvil = null;
+        this.activeStonecutter = null;
     }
 
     init() {
@@ -263,6 +264,15 @@ class UIManager {
         if (jukeboxSlot) {
             jukeboxSlot.addEventListener('click', () => this.handleJukeboxClick());
         }
+
+        const closeStonecutter = document.getElementById('close-stonecutter');
+        if (closeStonecutter) {
+            closeStonecutter.addEventListener('click', () => this.closeStonecutter());
+        }
+        ['stonecutter-input', 'stonecutter-output'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleStonecutterClick(id));
+        });
     }
 
     toggleRecipeBook() {
@@ -1720,6 +1730,197 @@ class UIManager {
         // Note: This requires re-binding every update which is bad.
         // Better to bind once in init, but we need entity reference.
         // Actually, we can use binding in init that references this.activeFurnace.
+    }
+
+    openStonecutter() {
+        this.activeStonecutter = {
+            input: null,
+            selectedRecipe: null,
+            output: null
+        };
+        const screen = document.getElementById('stonecutter-screen');
+        if (screen) screen.classList.remove('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateStonecutterUI();
+        this.refreshInventoryUI();
+    }
+
+    closeStonecutter() {
+        if (this.activeStonecutter && this.activeStonecutter.input) {
+            const item = this.activeStonecutter.input;
+            let added = false;
+            for (let i = 0; i < this.game.player.inventory.length; i++) {
+                if (!this.game.player.inventory[i]) {
+                    this.game.player.inventory[i] = item;
+                    added = true;
+                    break;
+                }
+            }
+            if (!added && window.Drop) {
+                this.game.drops.push(new window.Drop(this.game, this.game.player.x, this.game.player.y, this.game.player.z, item.type, item.count));
+            }
+        }
+        this.activeStonecutter = null;
+        const screen = document.getElementById('stonecutter-screen');
+        if (screen) screen.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    handleStonecutterClick(id) {
+        if (!this.activeStonecutter) return;
+        const st = this.activeStonecutter;
+        const cursor = this.cursorItem;
+
+        if (id === 'stonecutter-input') {
+            if (!cursor) {
+                if (st.input) {
+                    this.cursorItem = st.input;
+                    st.input = null;
+                    st.selectedRecipe = null;
+                    st.output = null;
+                }
+            } else {
+                if (!st.input) {
+                    st.input = cursor;
+                    this.cursorItem = null;
+                } else {
+                    const temp = st.input;
+                    st.input = cursor;
+                    this.cursorItem = temp;
+                }
+            }
+        } else if (id === 'stonecutter-output') {
+            if (st.output && st.input && st.input.count > 0) {
+                if (!cursor) {
+                    this.cursorItem = { type: st.output.type, count: st.output.count };
+                    st.input.count--;
+                    if (st.input.count <= 0) {
+                        st.input = null;
+                        st.output = null;
+                    }
+                    if (window.soundManager) window.soundManager.play('place');
+                } else if (cursor.type === st.output.type && cursor.count + st.output.count <= 64) {
+                    cursor.count += st.output.count;
+                    st.input.count--;
+                    if (st.input.count <= 0) {
+                        st.input = null;
+                        st.output = null;
+                    }
+                    if (window.soundManager) window.soundManager.play('place');
+                }
+            }
+        }
+        this.updateStonecutterUI();
+        this.updateCursorUI();
+    }
+
+    updateStonecutterUI() {
+        if (!this.activeStonecutter) return;
+        const st = this.activeStonecutter;
+
+        const inputSlot = document.getElementById('stonecutter-input');
+        const optionsDiv = document.getElementById('stonecutter-options');
+        const outputSlot = document.getElementById('stonecutter-output');
+
+        if (inputSlot) {
+            inputSlot.innerHTML = '';
+            if (st.input) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[st.input.type];
+                icon.textContent = def ? def.icon : '';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                inputSlot.appendChild(icon);
+
+                if (st.input.count > 1) {
+                    const count = document.createElement('span');
+                    count.style.position = 'absolute';
+                    count.style.bottom = '2px';
+                    count.style.right = '2px';
+                    count.style.fontSize = '12px';
+                    count.style.color = 'white';
+                    count.textContent = st.input.count;
+                    inputSlot.appendChild(count);
+                }
+            }
+        }
+
+        if (optionsDiv) {
+            optionsDiv.innerHTML = '';
+            if (st.input) {
+                const cuts = [];
+                if (st.input.type === window.BLOCK.STONE) {
+                    cuts.push({ type: window.BLOCK.SLAB_STONE, count: 2 }, { type: window.BLOCK.BRICK, count: 1 }, { type: window.BLOCK.CHISELED_STONE_BRICKS, count: 1 });
+                } else if (st.input.type === window.BLOCK.COBBLESTONE) {
+                    cuts.push({ type: window.BLOCK.SLAB_COBBLESTONE, count: 2 });
+                } else {
+                    cuts.push({ type: window.BLOCK.SLAB_STONE, count: 2 });
+                }
+
+                if (!st.selectedRecipe && cuts.length > 0) {
+                    st.selectedRecipe = cuts[0];
+                }
+
+                cuts.forEach(cut => {
+                    const opt = document.createElement('div');
+                    opt.className = 'furnace-slot';
+                    opt.style.width = '32px';
+                    opt.style.height = '32px';
+                    opt.style.cursor = 'pointer';
+                    if (st.selectedRecipe && st.selectedRecipe.type === cut.type) {
+                        opt.style.border = '2px solid #55FF55';
+                    }
+
+                    const icon = document.createElement('span');
+                    icon.className = 'block-icon';
+                    const def = window.BLOCKS[cut.type];
+                    icon.textContent = def ? def.icon : '';
+                    icon.style.backgroundColor = def ? def.color : 'transparent';
+                    opt.appendChild(icon);
+
+                    opt.onclick = () => {
+                        st.selectedRecipe = cut;
+                        this.updateStonecutterUI();
+                    };
+                    optionsDiv.appendChild(opt);
+                });
+            } else {
+                st.selectedRecipe = null;
+            }
+        }
+
+        if (st.input && st.selectedRecipe) {
+            st.output = { type: st.selectedRecipe.type, count: st.selectedRecipe.count };
+        } else {
+            st.output = null;
+        }
+
+        if (outputSlot) {
+            outputSlot.innerHTML = '';
+            if (st.output) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[st.output.type];
+                icon.textContent = def ? def.icon : '';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                outputSlot.appendChild(icon);
+
+                if (st.output.count > 1) {
+                    const count = document.createElement('span');
+                    count.style.position = 'absolute';
+                    count.style.bottom = '2px';
+                    count.style.right = '2px';
+                    count.style.fontSize = '12px';
+                    count.style.color = 'white';
+                    count.textContent = st.output.count;
+                    outputSlot.appendChild(count);
+                }
+            }
+        }
     }
 
     showNotification(message) {
