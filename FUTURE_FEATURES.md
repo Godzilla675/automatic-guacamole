@@ -5,7 +5,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Armor Trims**: Customize armor appearance with smithing templates. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Verified and working)
 - [x] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Verified and working)
 - [x] **New Task: Add Magma Block**: Block dealing damage when stepped on. (Status: Verified and working)
 - [x] **New Task: Add Copper Ore, Ingot & Block**: Copper ore, ingot item, and copper block definition and crafting. (Status: Verified and working)
@@ -85,6 +85,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Honey Block Fall Damage Reduction**: Landing on Honey Blocks cancels fall damage. (Status: Verified and working)
 
 ### 5. Entities & Mobs
+- [ ] **New Task: Add Wind Charge Consumables**: Throwable wind charges dropped by Breeze mobs dealing knockback explosions and vertical leaps. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Bogged Skeleton Variant**: Poison arrow shooting skeleton mob spawning in Swamps and Trial Chambers. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Polar Bears**: Neutral mobs in snowy biomes that attack if their cubs are near. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Creaking Heart**: Block that spawns and controls Creaking mobs. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Resin**: Item dropped by Creaking Heart. (Status: Missing implementation, agents must fix)
@@ -102,6 +104,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Armadillo Scute Brushing**: Using brush on Armadillos in Savanna biomes to collect scutes. (Status: Proposed feature, pending implementation)
 
 ### 6. Items & Crafting
+- [ ] **New Task: Add Wolf Armor & Armadillo Scute Crafting**: Craft armor for tamed wolves using Armadillo Scutes. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Piglins and Bartering**: Neutral mobs in the Nether that trade items for gold. (Status: Missing implementation, agents must fix)
@@ -145,6 +148,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Proposed feature, pending implementation)
 
 ### 12. Redstone & Mechanics
+- [ ] **New Task: Add Crafter Slot Toggling**: Interactive GUI to disable specific crafting grid slots on Crafter blocks. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals. (Status: Verified and working)
 - [x] **New Task: Add Moss Carpet**: Decorative plant covering crafted from Moss Blocks. (Status: Verified and working)
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
@@ -153,7 +157,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Hoppers**: Blocks that transfer items between containers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Missing implementation, agents must fix)
 - [ ] **Command Block** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Fishing Catch Logic & Loot Tables**: Rod and bobber exist, but fish catch timers and loot tables are incomplete. (Status: Partial implementation, agents must fix)
+- [x] **New Task: Add Fishing Catch Logic & Loot Tables**: Rod and bobber exist, with fish catch timers and loot table roll execution fully implemented. (Status: Verified and working)
 - [ ] **New Task: Add Crafter Auto-Crafting Redstone Signal**: Crafter block triggering full 3x3 recipe evaluation and output ejecting on redstone rising edge. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Hopper Item Transport Logic**: Hoppers pulling items from chest containers above and pushing into facing containers. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Observer Block State Update Pulse**: Observer block emitting 1-tick redstone pulse when facing block state changes. (Status: Proposed feature, pending implementation)
@@ -172,6 +176,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Support for custom models** (Status: Missing implementation, agents must fix)
 
 ### 15. Miscellaneous
+- [ ] **New Task: Add Pale Oak Wood Family**: Pale Oak logs, planks, stairs, slabs, fences, doors, and trapdoors. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Resin Bricks & Resin Clumps**: Orange decorative building blocks crafted from Resin Clumps. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Creaking Heart & Creaking Mob**: Nighttime hostile mob that is invulnerable to direct attacks and controlled by a Creaking Heart block. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Eyeblossoms**: Flowers found in Pale Garden biomes that bloom at night. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Pale Oak Wood Set**: Full wood family (planks, stairs, slabs, fences, doors) harvested from Pale Oak trees. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Missing implementation, agents must fix)
@@ -191,7 +198,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Dual Wielding**: Allow players to hold items in main hand and offhand. (Status: Verified and working)
 - [x] **New Task: Add Spyglass Crafting Recipe**: Combine copper ingots and amethyst shard to craft spyglass. (Status: Verified and working)
 - [x] **New Task: Add Magma Blocks**: Blocks that deal damage when stepped on. (Status: Verified and working)
-- [ ] **New Task: Add Redstone Dust Logic**: Redstone wire logic and connections are missing. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Redstone Dust Logic**: Redstone wire signal propagation and multi-directional visual connections are fully implemented. (Status: Verified and working)
 - [ ] **New Task: Add Amethyst Geodes Structure Generation**: Generate underground amethyst geodes with budding amethyst blocks. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Glowstone Crafting & Dust Drop**: Glowstone blocks craftable from 4 glowstone dust and drop dust when broken. (Status: Verified and working)
 - [ ] **New Task: Add Vault Block**: Standard vault structure rewards block found in Trial Chambers. (Status: Missing implementation, agents must fix)
@@ -291,7 +298,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Custom Hitbox Debug Overlay**: Visual outline toggle for block hitboxes and bounding boxes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Camels**: Desert mounts that can seat two players. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books. (Status: Verified and working)
 - [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Cherry Grove Biome**: A biome featuring pink cherry blossom trees. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Item drops clipping**: Item drops sometimes clip through solid blocks when spawned. (Status: Verified and working - pushes drops out of solid blocks on spawn & update)
@@ -330,7 +337,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Illusioners**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Bundle**: Item that can hold mixed stacks of other items. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Bundle Storage Item**: Item capable of holding up to 64 items of mixed types in a single inventory slot. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Sculk Catalyst**: Block that generates more sculk when mobs die near it. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Recovery Compass**: Item that points to the player's last death location. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown. (Status: Missing implementation, agents must fix)
@@ -397,12 +404,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Trial Chambers**: A new underground structure with challenges. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze**: A hostile mob found in trial chambers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Tool Icons**: Different tool types (axes, picks, etc) need graphical icons. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Bug, missing implementation, agents must fix)
+- [x] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Verified and working)
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Parrots**: Tameable birds that can sit on players' shoulders. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Bamboo**: Fast-growing plant used for scaffolding and sticks. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Bamboo**: Fast-growing plant used for scaffolding and sticks. (Status: Verified and working)
 - [ ] **New Task: Add Scaffolding**: Block used to climb vertically easily. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
@@ -414,7 +421,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Redstone Wire Visual Connections**: Dynamic visual models for redstone wire connecting to adjacent power sources and dust lines. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Redstone Wire Visual Connections**: Dynamic visual models for redstone wire connecting to adjacent power sources and dust lines. (Status: Verified and working)
 - [ ] **Bug: JSDOM Canvas Mock missing putImageData**: In Node.js/JSDOM test suites, canvas context lacks putImageData implementation, causing failures in lighting/texture tests. (Status: Bug, agents must fix)
 
 - [ ] **New Task: Add Copper Doors**: Add oxidation-capable doors crafted from copper blocks. (Status: Missing implementation, agents must fix)
