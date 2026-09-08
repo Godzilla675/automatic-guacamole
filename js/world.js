@@ -306,6 +306,18 @@ class World {
         if (window.soundManager) window.soundManager.play('place', { x: dropX, y: dropY, z: dropZ });
     }
 
+    shriekAt(x, y, z) {
+        if (this.game && this.game.player) {
+            const dist = Math.hypot(this.game.player.x - x, this.game.player.z - z, (this.game.player.y || 0) - y);
+            if (dist < 20) {
+                this.game.player.addEffect('Darkness', '🌑', 15);
+            }
+        }
+        if (this.game && this.game.spawnParticles) {
+            this.game.spawnParticles(x + 0.5, y + 1.0, z + 0.5, '#008080', 15);
+        }
+    }
+
     updateRedstone() {
         this.updateDroppers();
         if (this.activeRedstone.size === 0) return;
@@ -447,6 +459,23 @@ class World {
                     this.triggerCrafter(x, y, z);
                 } else if (!powered && wasPowered) {
                     this.setMetadata(x, y, z, meta & ~1);
+                }
+            } else if (type === window.BLOCK.COPPER_BULB) {
+                const powered = this.isBlockPowered(x, y, z);
+                const meta = this.getMetadata(x, y, z);
+                const wasPowered = (meta & 1) !== 0;
+                let isLit = (meta & 2) !== 0;
+
+                if (powered && !wasPowered) {
+                    isLit = !isLit;
+                }
+
+                let newMeta = 0;
+                if (powered) newMeta |= 1;
+                if (isLit) newMeta |= 2;
+
+                if (newMeta !== meta) {
+                    this.setMetadata(x, y, z, newMeta);
                 }
             }
         }

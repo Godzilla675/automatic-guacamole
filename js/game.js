@@ -514,6 +514,26 @@ class Game {
                 return;
             }
 
+            // Wind Charge Logic
+            if (slot && slot.type === BLOCK.ITEM_WIND_CHARGE) {
+                const dir = {
+                    x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                    y: -Math.sin(this.player.pitch),
+                    z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+                };
+                this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir, 'wind_charge');
+                if (window.soundManager) window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z});
+
+                if (this.player.gamemode !== 1) {
+                    slot.count--;
+                    if (slot.count <= 0) {
+                        this.player.inventory[this.player.selectedSlot] = null;
+                    }
+                }
+                if (this.ui && this.ui.updateHotbarUI) this.ui.updateHotbarUI();
+                return;
+            }
+
             // Snowball Logic
             if (slot && slot.type === BLOCK.ITEM_SNOWBALL) {
                 const dir = {
@@ -1234,9 +1254,11 @@ class Game {
         let life = 2.0;
         let damage = 2;
         if (type === 'arrow') { damage = 4; }
+        else if (type === 'poison_arrow') { speed = 15; life = 2.0; damage = 3; }
         else if (type === 'fireball') { speed = 10; life = 5.0; damage = 6; }
         else if (type === 'firework') { speed = 20; life = 1.2; damage = 0; }
         else if (type === 'snowball') { speed = 18; life = 2.0; damage = 0; }
+        else if (type === 'wind_charge') { speed = 22; life = 3.0; damage = 1; }
         else if (type === 'ender_pearl') { speed = 15; life = 2.0; damage = 0; }
         this.projectiles.push({
             x, y, z,
@@ -1332,6 +1354,41 @@ class Game {
 
         if (type) {
             this.mobs.push(new Mob(this, x, y, z, type));
+        }
+    }
+
+    triggerWindBurst(x, y, z) {
+        if (this.particles) this.particles.spawn(x, y, z, '#E0FFFF', 25);
+        if (window.soundManager) window.soundManager.play('jump', {x, y, z});
+
+        // Impulse to player
+        const pdx = this.player.x - x;
+        const pdy = this.player.y - y;
+        const pdz = this.player.z - z;
+        const pdist = Math.hypot(pdx, pdy, pdz);
+        if (pdist < 6) {
+            const factor = (6 - pdist) / 6;
+            this.player.vy = 12 * factor + 5;
+            this.player.vx += (pdx / (pdist || 1)) * 8 * factor;
+            this.player.vz += (pdz / (pdist || 1)) * 8 * factor;
+        }
+
+        // Impulse to mobs
+        if (this.mobs) {
+            for (const mob of this.mobs) {
+                if (!mob || mob.isDead) continue;
+                const mdx = mob.x - x;
+                const mdy = mob.y - y;
+                const mdz = mob.z - z;
+                const mdist = Math.hypot(mdx, mdy, mdz);
+                if (mdist < 6) {
+                    const factor = (6 - mdist) / 6;
+                    mob.vy = 10 * factor + 4;
+                    mob.vx = (mob.vx || 0) + (mdx / (mdist || 1)) * 8 * factor;
+                    mob.vz = (mob.vz || 0) + (mdz / (mdist || 1)) * 8 * factor;
+                    if (typeof mob.takeDamage === 'function') mob.takeDamage(1, {x: mdx, z: mdz});
+                }
+            }
         }
     }
 
@@ -1552,33 +1609,24 @@ class Game {
 
         if (this.bobber.state === 'hooked') {
             // Catch fish or loot via loot table
-            const rand = Math.random();
-            let rewardType = BLOCK.ITEM_RAW_FISH;
+            let rewardType = this.bobber.rewardType;
             let rewardName = "Raw Fish";
 
-            if (rand < 0.60) {
-                rewardType = BLOCK.ITEM_RAW_FISH;
-                rewardName = "Raw Fish";
-            } else if (rand < 0.80) {
-                rewardType = BLOCK.ITEM_RAW_FISH;
-                rewardName = "Raw Salmon";
-            } else if (rand < 0.90) {
-                const treasures = [
-                    { type: BLOCK.BOW, name: "Bow" },
-                    { type: BLOCK.ITEM_BOOK, name: "Book" },
-                    { type: BLOCK.ITEM_BONE, name: "Bone" }
-                ];
-                const item = treasures[Math.floor(Math.random() * treasures.length)];
-                rewardType = item.type;
-                rewardName = item.name;
-            } else {
-                const junk = [
-                    { type: BLOCK.ITEM_STICK, name: "Stick" },
-                    { type: BLOCK.LEAVES, name: "Leaves" }
-                ];
-                const item = junk[Math.floor(Math.random() * junk.length)];
-                rewardType = item.type;
-                rewardName = item.name;
+            if (!rewardType) {
+                const rand = Math.random();
+                if (rand < 0.85) {
+                    rewardType = BLOCK.ITEM_RAW_FISH;
+                    rewardName = "Raw Fish";
+                } else {
+                    const treasures = [
+                        { type: BLOCK.BOW, name: "Bow" },
+                        { type: BLOCK.ITEM_BOOK, name: "Book" },
+                        { type: BLOCK.ITEM_BONE, name: "Bone" }
+                    ];
+                    const item = treasures[Math.floor(Math.random() * treasures.length)];
+                    rewardType = item.type;
+                    rewardName = item.name;
+                }
             }
 
             if (rewardType !== undefined) {
@@ -1860,6 +1908,8 @@ class Game {
                 p.life = 0;
                 if (p.type === 'fireball') {
                     this.explode(p.x, p.y, p.z, 3);
+                } else if (p.type === 'wind_charge') {
+                    this.triggerWindBurst(p.x, p.y, p.z);
                 } else if (p.type === 'ender_pearl') {
                     // Teleport player
                     this.player.x = p.x;
@@ -1893,11 +1943,16 @@ class Game {
                      p.life = 0;
                      if (p.type === 'fireball') {
                          this.explode(p.x, p.y, p.z, 3);
+                     } else if (p.type === 'wind_charge') {
+                         this.triggerWindBurst(p.x, p.y, p.z);
                      } else {
                          // Push player
                          this.player.vx += p.vx * 0.5;
                          this.player.vz += p.vz * 0.5;
-                         this.player.takeDamage(2);
+                         this.player.takeDamage(p.damage !== undefined ? p.damage : 2);
+                         if (p.type === 'poison_arrow' && this.player.addEffect) {
+                             this.player.addEffect('Poison', '🧪', 8);
+                         }
                      }
                 }
 
@@ -1909,6 +1964,9 @@ class Game {
                         const tMob = this.physics.rayIntersectAABB({x: prevX, y: prevY, z: prevZ}, dir, mobBox);
                         if (tMob !== null && tMob >= 0 && tMob <= dist) {
                             p.life = 0;
+                            if (p.type === 'wind_charge') {
+                                this.triggerWindBurst(p.x, p.y, p.z);
+                            }
                             if (typeof mob.takeDamage === 'function') {
                                 const damageVal = p.damage !== undefined ? p.damage : (p.type === 'snowball' ? 0 : 2);
                                 mob.takeDamage(damageVal, {x: dir.x, z: dir.z});
