@@ -456,6 +456,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Piston & Sticky Piston Mechanics**: Pistons pushing and pulling blocks. (Status: Verified and working)
 - [x] **New Task: Add Weather Cycles**: Clear, rain, and snow weather transitions with thunderstorm logic. (Status: Verified and working)
 - [x] **New Task: Add Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves. (Status: Verified and working)
+- [ ] **Bug: Wooden Door placement is failing in test**: placing wooden doors using right click doesn't register properly. (Status: Bug, agents must fix)
 - [x] **New Task: Add Soul Sand Slowdown Physics**: Movement speed reduction when walking on Soul Sand blocks. (Status: Verified and working)
 - [x] **Bug: Glow Item Frames Missing**: Glow Item Frames item/entity definition is missing from the codebase. (Status: Verified and working)
 - [x] **Bug: Witches Mob Missing**: Witches mob implementation is missing from the codebase. (Status: Verified and working)
