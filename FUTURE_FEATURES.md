@@ -27,6 +27,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Breeze**: A hostile mob in Trial Chambers that uses wind attacks. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Copper Grates & Copper Bulbs**: New oxidation-capable copper blocks and dimmable light sources. (Status: Verified and working)
 - [ ] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Missing implementation, agents must fix)
 
 ## 1. World Generation
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
