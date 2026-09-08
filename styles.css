@@ -823,6 +823,22 @@ body {
 }
 .fire-icon.active {
     opacity: 1.0;
+    animation: flameFlicker 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes flameFlicker {
+    0% {
+        transform: scale(1.0);
+        filter: drop-shadow(0 0 2px #ff4500);
+    }
+    50% {
+        transform: scale(1.15) rotate(-3deg);
+        filter: drop-shadow(0 0 6px #ff8c00);
+    }
+    100% {
+        transform: scale(1.05) rotate(3deg);
+        filter: drop-shadow(0 0 4px #ffd700);
+    }
 }
 
 /* Settings */
