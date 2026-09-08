@@ -243,10 +243,19 @@ class Player {
         // Knockback or sound?
         if (window.soundManager) window.soundManager.play('break'); // Placeholder damage sound
         if (this.health <= 0) {
+            this.lastDeathPos = { x: this.x, y: this.y, z: this.z };
             this.respawn();
         }
         // Update UI if exists
         if (this.game.updateHealthUI) this.game.updateHealthUI();
+    }
+
+    getRecoveryCompassVector() {
+        if (!this.lastDeathPos) return null;
+        const dx = this.lastDeathPos.x - this.x;
+        const dz = this.lastDeathPos.z - this.z;
+        const angle = Math.atan2(dx, dz);
+        return { dx, dz, angle, distance: Math.hypot(dx, dz) };
     }
 
     respawn() {

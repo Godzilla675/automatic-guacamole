@@ -134,6 +134,11 @@ class TextureManager {
         this.textures[B.CHISELED_BOOKSHELF] = this.genChiseledBookshelf();
         this.textures[B.DROPPER] = this.genDropper();
         this.textures[B.RESPAWN_ANCHOR] = this.genRespawnAnchor();
+        this.textures[B.SCULK_SHRIEKER] = this.genSculkShrieker();
+        this.textures[B.ITEM_BREEZE_ROD] = this.genBreezeRod();
+        this.textures[B.ITEM_WIND_CHARGE] = this.genWindCharge();
+        this.textures[B.COPPER_BULB] = this.genCopperBulb();
+        this.textures[B.ITEM_RECOVERY_COMPASS] = this.genRecoveryCompass();
 
 
         // Glass
@@ -2700,6 +2705,64 @@ class TextureManager {
         ctx.fillRect(3, 3, 10, 10);
         ctx.fillStyle = '#A0522D';
         ctx.fillRect(5, 5, 6, 6);
+        return c;
+    }
+
+    genSculkShrieker() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#002222';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#008080';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillStyle = '#80DEEA';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genBreezeRod() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(6, 2, 4, 12);
+        ctx.fillStyle = '#E0FFFF';
+        ctx.fillRect(7, 3, 2, 10);
+        return c;
+    }
+
+    genWindCharge() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#E0FFFF';
+        ctx.beginPath();
+        ctx.arc(8, 8, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#00FFFF';
+        ctx.beginPath();
+        ctx.arc(8, 8, 3, 0, Math.PI * 2);
+        ctx.fill();
+        return c;
+    }
+
+    genCopperBulb() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#B87333';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(4, 4, 8, 8);
+        return c;
+    }
+
+    genRecoveryCompass() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#444444';
+        ctx.beginPath();
+        ctx.arc(8, 8, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(7, 2, 2, 6);
         return c;
     }
 

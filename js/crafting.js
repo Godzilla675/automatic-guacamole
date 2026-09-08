@@ -46,6 +46,26 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.CRYING_OBSIDIAN, count: 6 }, { type: BLOCK.GLOWSTONE, count: 3 } ]
             },
             {
+                name: "Sculk Shrieker",
+                result: { type: BLOCK.SCULK_SHRIEKER, count: 1 },
+                ingredients: [ { type: BLOCK.SCULK_SENSOR, count: 1 }, { type: BLOCK.ITEM_BONE, count: 2 } ]
+            },
+            {
+                name: "Wind Charge",
+                result: { type: BLOCK.ITEM_WIND_CHARGE, count: 4 },
+                ingredients: [ { type: BLOCK.ITEM_BREEZE_ROD, count: 1 } ]
+            },
+            {
+                name: "Copper Bulb",
+                result: { type: BLOCK.COPPER_BULB, count: 1 },
+                ingredients: [ { type: BLOCK.COPPER_BLOCK, count: 1 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 }, { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 1 } ]
+            },
+            {
+                name: "Recovery Compass",
+                result: { type: BLOCK.ITEM_RECOVERY_COMPASS, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_AMETHYST_SHARD, count: 4 }, { type: BLOCK.ITEM_IRON_INGOT, count: 4 } ]
+            },
+            {
                 name: "Slime Block",
                 result: { type: BLOCK.SLIME_BLOCK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_STRING, count: 9 } ]

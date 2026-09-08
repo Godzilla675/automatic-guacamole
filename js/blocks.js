@@ -315,7 +315,12 @@ const BLOCK = {
     CRAFTER: 404,
     CHISELED_BOOKSHELF: 405,
     DROPPER: 406,
-    RESPAWN_ANCHOR: 407
+    RESPAWN_ANCHOR: 407,
+    SCULK_SHRIEKER: 408,
+    ITEM_BREEZE_ROD: 409,
+    ITEM_WIND_CHARGE: 410,
+    COPPER_BULB: 411,
+    ITEM_RECOVERY_COMPASS: 412
 };
 
 const ARMOR = {
@@ -693,7 +698,12 @@ const BLOCKS = {
     [BLOCK.CRAFTER]: { name: 'Crafter', color: '#696969', top: '#808080', solid: true, icon: '🛠️', hardness: 1.5, tool: 'pickaxe' },
     [BLOCK.CHISELED_BOOKSHELF]: { name: 'Chiseled Bookshelf', color: '#8B4513', top: '#A0522D', solid: true, icon: '📚', hardness: 1.5, tool: 'axe' },
     [BLOCK.DROPPER]: { name: 'Dropper', color: '#808080', top: '#696969', solid: true, icon: '📦', hardness: 3.5, tool: 'pickaxe' },
-    [BLOCK.RESPAWN_ANCHOR]: { name: 'Respawn Anchor', color: '#4B0082', top: '#8A2BE2', solid: true, icon: '⚓', hardness: 22.5, tool: 'pickaxe', light: 0 }
+    [BLOCK.RESPAWN_ANCHOR]: { name: 'Respawn Anchor', color: '#4B0082', top: '#8A2BE2', solid: true, icon: '⚓', hardness: 22.5, tool: 'pickaxe', light: 0 },
+    [BLOCK.SCULK_SHRIEKER]: { name: 'Sculk Shrieker', color: '#003333', top: '#008080', solid: true, icon: '📢', hardness: 3.0, tool: 'hoe' },
+    [BLOCK.ITEM_BREEZE_ROD]: { name: 'Breeze Rod', color: '#87CEEB', solid: false, isItem: true, icon: '🥢' },
+    [BLOCK.ITEM_WIND_CHARGE]: { name: 'Wind Charge', color: '#E0FFFF', solid: false, isItem: true, icon: '💨' },
+    [BLOCK.COPPER_BULB]: { name: 'Copper Bulb', color: '#B87333', top: '#FFD700', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 0 },
+    [BLOCK.ITEM_RECOVERY_COMPASS]: { name: 'Recovery Compass', color: '#00FFFF', solid: false, isItem: true, icon: '🧭' }
 };
 
 if (typeof window !== 'undefined') {

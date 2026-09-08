@@ -19,7 +19,8 @@ const MOB_TYPE = {
     MAGMA_CUBE: 'magma_cube',
     SNOW_GOLEM: 'snow_golem',
     WITHER_SKELETON: 'wither_skeleton',
-    ALLAY: 'allay'
+    ALLAY: 'allay',
+    BOGGED: 'bogged'
 };
 
 class Mob extends Entity {
@@ -276,6 +277,13 @@ class Mob extends Entity {
                 this.maxHealth = 26;
                 this.xpValue = 5;
                 break;
+            case MOB_TYPE.BOGGED:
+                this.color = '#4D6E37'; // Mossy green skeleton
+                this.height = 1.8;
+                this.speed = 1.8;
+                this.maxHealth = 16;
+                this.xpValue = 5;
+                break;
             case MOB_TYPE.MAGMA_CUBE:
                 this.color = '#FF4500';
                 this.height = 1.2;
@@ -408,6 +416,12 @@ class Mob extends Entity {
                     this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.SWORD_STONE, 1));
                 }
                 break;
+            case MOB_TYPE.BOGGED:
+                dropType = BLOCK.ITEM_ARROW;
+                if (Math.random() < 0.5 && this.game.drops) {
+                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_BONE, 1));
+                }
+                break;
             case MOB_TYPE.ALLAY:
                 if (this.heldItem && this.game.drops) {
                     this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, this.heldItem.type, this.heldItem.count));
@@ -515,6 +529,7 @@ class Mob extends Entity {
 
         if (this.type === MOB_TYPE.ZOMBIE ||
             this.type === MOB_TYPE.SKELETON ||
+            this.type === MOB_TYPE.BOGGED ||
             this.type === MOB_TYPE.SPIDER ||
             this.type === MOB_TYPE.CREEPER ||
             this.type === MOB_TYPE.ENDERMAN ||
@@ -908,7 +923,7 @@ class Mob extends Entity {
                         this.attackCooldown = 3.5;
                         if (window.soundManager) window.soundManager.play('break', {x: this.x, y: this.y, z: this.z});
                     }
-                } else if (this.type === MOB_TYPE.SKELETON) {
+                } else if (this.type === MOB_TYPE.SKELETON || this.type === MOB_TYPE.BOGGED) {
                  if (dist > 8) {
                      // Move closer
                      this.vx = Math.sin(this.yaw) * this.speed;
@@ -938,7 +953,8 @@ class Mob extends Entity {
                  if (this.attackCooldown <= 0) {
                      if (this.game.spawnProjectile) {
                          const dir = { x: dx/dist, y: (player.y + player.height*0.8 - (this.y + this.height*0.8))/dist, z: dz/dist };
-                         this.game.spawnProjectile(this.x, this.y + this.height * 0.8, this.z, dir);
+                         const projType = this.type === MOB_TYPE.BOGGED ? 'poison_arrow' : 'arrow';
+                         this.game.spawnProjectile(this.x, this.y + this.height*0.8, this.z, dir, projType);
                      }
                      this.attackCooldown = 3.0;
                  }

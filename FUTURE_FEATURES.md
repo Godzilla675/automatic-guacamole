@@ -13,19 +13,19 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Verified and working)
 - [x] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Verified and working)
 - [ ] **New Task: Add Vault Hunters Mechanism**: Trial Vault keys with loot drop tables and cooldown timers. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Sculk Shrieker & Darkness Effect**: Sculk Shrieker block triggering proximity darkness status effect and Warden summon. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Sculk Shrieker & Darkness Effect**: Sculk Shrieker block triggering proximity darkness status effect. (Status: Verified and working)
 - [ ] **New Task: Add Breeze Rod Projectile Crafting**: Breeze Rod usage for crafting Wind Charge consumables and Mace components. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Verified and working)
 
 - [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Wind Charges**: Dropped by the Breeze, used as a projectile with knockback explosion physics. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Wind Charges**: Used as a throwable projectile with knockback explosion physics. (Status: Verified and working)
+- [x] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Verified and working)
 
 - [ ] **New Task: Add Trial Chambers**: Procedural structures found underground. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze**: A hostile mob in Trial Chambers that uses wind attacks. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Copper Grates & Copper Bulbs**: New oxidation-capable copper blocks and dimmable light sources. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Copper Grates & Copper Bulbs**: New oxidation-capable copper blocks and dimmable light sources. (Status: Verified and working)
 - [ ] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Missing implementation, agents must fix)
 
 ## 1. World Generation
@@ -339,7 +339,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Bundle Storage Item**: Item capable of holding up to 64 items of mixed types in a single inventory slot. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Sculk Catalyst**: Block that generates more sculk when mobs die near it. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Recovery Compass**: Item that points to the player's last death location. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Recovery Compass**: Item that points to the player's last death location. (Status: Verified and working)
 - [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix)
@@ -449,7 +449,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [x] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Verified and working)
 - [x] **New Task: Add Target Block**: Redstone component block crafted with hay bale and redstone dust that emits redstone signals based on projectile impact accuracy. (Status: Verified and working)
-- [ ] **New Task: Add Sculk Shrieker**: Deep dark block that emits shrieks and summons Warden when activated by Sculk Sensors. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Sculk Shrieker**: Deep dark block that emits shrieks and applies Darkness effect when activated. (Status: Verified and working)
 - [ ] **New Task: Add Mangrove Roots**: Unique wood-like structural block generating in Mangrove Swamps. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Muddy Mangrove Roots**: Variant of mangrove roots submerged in mud blocks. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Creeper Explosion Mechanics**: Creeper fuse timing and terrain explosion damage. (Status: Verified and working)
