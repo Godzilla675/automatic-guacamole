@@ -54,19 +54,28 @@ def run_tests():
             if (doorIndex === -1) throw new Error("Wood Door not in inventory!");
             window.game.player.selectedSlot = doorIndex;
 
-            // Place block
-            window.game.player.x = 10.5;
-            window.game.player.y = 30;
-            window.game.player.z = 10.5;
-            window.game.player.yaw = 0;
-            window.game.player.pitch = -0.5; // Look down
+            const px = Math.floor(window.game.player.x);
+            const py = Math.floor(window.game.player.y);
+            const pz = Math.floor(window.game.player.z);
+            const groundY = py - 1;
 
-            // clear blocks around
-            window.game.world.setBlock(10, 30, 10, window.BLOCK.AIR);
-            window.game.world.setBlock(10, 31, 10, window.BLOCK.AIR);
+            // Set base dirt block at (px, groundY, pz - 2)
+            window.game.world.setBlock(px, groundY, pz - 2, window.BLOCK.DIRT);
+            window.game.world.setBlock(px, py, pz - 2, window.BLOCK.AIR);
+            window.game.world.setBlock(px, py + 1, pz - 2, window.BLOCK.AIR);
 
-            // Look exactly down and place block using right click simulation?
-            // Better yet, just call interact logic directly or check logic:
+            // Orient player to look toward target block
+            const eyePos = { x: px + 0.5, y: py + 1.6, z: pz + 0.5 };
+            const target = { x: px + 0.5, y: groundY + 0.5, z: pz - 1.5 };
+            const dx = target.x - eyePos.x;
+            const dy = target.y - eyePos.y;
+            const dz = target.z - eyePos.z;
+            const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+            window.game.player.yaw = Math.atan2(dx, dz);
+            window.game.player.pitch = -Math.asin(dy/dist);
+
+            window.game.placeBlock();
         """)
 
         # Take a screenshot after placing the door (Wait, we can't place it easily via evaluate without calling input methods. Let's just use mouse click!)
@@ -84,8 +93,11 @@ def run_tests():
 
         # Let's also run JS evaluation to see if door was placed in the world.
         placed = page.evaluate("""() => {
-            const y1 = window.game.world.getBlock(10, 30, 10);
-            const y2 = window.game.world.getBlock(10, 31, 10);
+            const px = Math.floor(window.game.player.x);
+            const py = Math.floor(window.game.player.y);
+            const pz = Math.floor(window.game.player.z);
+            const y1 = window.game.world.getBlock(px, py, pz - 2);
+            const y2 = window.game.world.getBlock(px, py + 1, pz - 2);
             return y1 === window.BLOCK.DOOR_WOOD_BOTTOM && y2 === window.BLOCK.DOOR_WOOD_TOP;
         }""")
         print(f"Door placed correctly in world memory: {placed}")

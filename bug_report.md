@@ -53,6 +53,14 @@ Recent autonomous E2E playtesting via Playwright has passed cleanly with 0 conso
 * **Issue:** `verification/verify_recipe_discovery.js` failed on `assert.ok(notif.textContent.includes("Fence"))`.
 * **Fix:** Updated `verification/verify_recipe_discovery.js` to use `document.querySelectorAll('.notification')` and search across all active notification elements.
 
+### 10. Wooden Door Placement Positioning in E2E Tests
+* **Issue:** Placing wooden doors in `test_specific_features.py` failed due to the test positioning the player inside the target block coordinates.
+* **Fix:** Repositioned player adjacent to the target placement block so collision checks pass during `placeBlock()`.
+
+### 11. Smoker & Blast Furnace UI Cooking Animations
+* **Issue:** Flame icon in furnace/smoker/blast furnace UI lacked dynamic cooking/smelting animation.
+* **Fix:** Added `@keyframes flameFlicker` in `styles.css` with scaling, rotation, and drop-shadow glow effects when `.fire-icon.active` is toggled on.
+
 ## Detailed Test Execution Summary
 
 * **Mocha Unit Test Suite (`tests/*.js`):** `All 300+ passing`
