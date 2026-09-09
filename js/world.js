@@ -1247,24 +1247,28 @@ class World {
         // We'll filter out chunks too far away to keep it small.
 
         const chunksData = [];
-// Optimized conversion
-        const toBinaryString = (bytes) => {
+        const toBase64 = (bytes) => {
+            if (typeof Buffer !== 'undefined') {
+                return Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength).toString('base64');
+            }
             const CHUNK_SIZE = 8192;
             let binary = '';
             for (let i = 0; i < bytes.length; i += CHUNK_SIZE) {
                 binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK_SIZE));
             }
-            return binary;
+            return btoa(binary);
         };
 
         this.chunks.forEach((chunk) => {
              const packed = chunk.pack();
+             const blocksBytes = new Uint8Array(packed.blocks.buffer, packed.blocks.byteOffset, packed.blocks.byteLength);
+             const metadataBytes = new Uint8Array(packed.metadata.buffer, packed.metadata.byteOffset, packed.metadata.byteLength);
 
              chunksData.push({
                  cx: chunk.cx,
                  cz: chunk.cz,
-                 blocks: btoa(toBinaryString(packed.blocks)),
-                 metadata: btoa(toBinaryString(packed.metadata))
+                 blocks: toBase64(blocksBytes),
+                 metadata: toBase64(metadataBytes)
              });
         });
 
@@ -1296,10 +1300,10 @@ class World {
             console.log("World saved to slot:", slotName, chunksData.length, "chunks");
             // Also notify user
             if (window.game) window.game.chat?.addMessage("World Saved!");
-            alert("World Saved: " + slotName);
+            if (typeof alert !== 'undefined') alert("World Saved: " + slotName);
         } catch(e) {
             console.error("Save failed", e);
-            alert("Save failed (Quota exceeded?)");
+            if (typeof alert !== 'undefined') alert("Save failed (Quota exceeded?)");
         }
     }
 
@@ -1316,6 +1320,10 @@ class World {
                         const chunk = new Chunk(cData.cx, cData.cz);
 
                         const fromBase64 = (str) => {
+                            if (typeof Buffer !== 'undefined') {
+                                const buf = Buffer.from(str, 'base64');
+                                return new Uint8Array(buf.buffer, buf.byteOffset, buf.byteLength);
+                            }
                             const binary = atob(str);
                             const bytes = new Uint8Array(binary.length);
                             for(let i=0; i<binary.length; i++) {
@@ -1324,8 +1332,11 @@ class World {
                             return bytes;
                         };
 
+                        const blocksBytes = fromBase64(cData.blocks);
+                        const blocksUint16 = new Uint16Array(blocksBytes.buffer, blocksBytes.byteOffset, blocksBytes.byteLength / 2);
+
                         chunk.unpack({
-                            blocks: fromBase64(cData.blocks),
+                            blocks: blocksUint16,
                             metadata: cData.metadata ? fromBase64(cData.metadata) : null
                         });
 
@@ -1353,13 +1364,13 @@ class World {
                 }
 
                 console.log("World loaded from slot:", slotName);
-                alert("World Loaded: " + slotName);
+                if (typeof alert !== 'undefined') alert("World Loaded: " + slotName);
             } catch(e) {
                 console.error("Load failed", e);
-                alert("Load Failed");
+                if (typeof alert !== 'undefined') alert("Load Failed");
             }
         } else {
-            alert("No save found for slot: " + slotName);
+            if (typeof alert !== 'undefined') alert("No save found for slot: " + slotName);
         }
     }
 }

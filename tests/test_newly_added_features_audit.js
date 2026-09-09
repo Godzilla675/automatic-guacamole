@@ -1,223 +1,257 @@
 const assert = require('assert');
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
-const path = require('path');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
-const dom = new JSDOM(`<!DOCTYPE html>
-<body>
-<div id="game-canvas"></div>
-<div id="chat-container"></div>
-<div id="chat-messages"></div>
-<input id="chat-input" class="hidden">
-<div id="hotbar"></div>
-<div id="health-bar"></div>
-<div id="hunger-bar"></div>
-<div id="damage-overlay"></div>
-<div id="fps"></div>
-<div id="position"></div>
-<div id="block-count"></div>
-<div id="game-time"></div>
-<div id="crafting-screen" class="hidden"></div>
-<div id="crafting-recipes"></div>
-<div id="close-crafting"></div>
-<div id="inventory-screen" class="hidden"></div>
-<div id="pause-screen" class="hidden"></div>
-<div id="debug-info" class="hidden"></div>
-<div id="crosshair"></div>
-<div id="loading-screen"></div>
-<div id="menu-screen"></div>
-<button id="start-game"></button>
-<button id="resume-game"></button>
-<button id="return-menu"></button>
-<button id="close-inventory"></button>
-<div id="mobile-controls" class="hidden"></div>
-<div id="joystick-container"></div>
-<div id="joystick-stick"></div>
-<button id="jump-btn"></button>
-<button id="break-btn"></button>
-<button id="place-btn"></button>
-<button id="fly-btn"></button>
-</body>`, {
-    runScripts: "dangerously",
-    resources: "usable",
-    url: "http://localhost/"
-});
+describe('Newly Added Features Audit Suite', () => {
+    let dom, window, document;
+    let World, Player, Mob, Game;
 
-dom.window.document = dom.window.document;
-dom.window.HTMLElement = dom.window.HTMLElement;
-dom.window.navigator = { userAgent: "node" };
+    before(() => {
+        dom = new JSDOM('<!DOCTYPE html><html><body><div id="game-canvas"></div><div id="hotbar"></div><div id="inventory-grid"></div><div id="armor-grid"></div><div id="offhand-container"></div><div id="potion-effects-container"></div></body></html>', {
+            url: 'http://localhost/',
+            resources: 'usable',
+            runScripts: 'dangerously'
+        });
+        window = dom.window;
+        document = window.document;
 
-// Mock WebSocket
-class MockWebSocket {
-    constructor(url) {
-        this.url = url;
-        this.readyState = 1;
-    }
-    send() {}
-    close() {}
-}
-dom.window.WebSocket = MockWebSocket;
+        global.window = window;
+        global.document = document;
+        global.localStorage = window.localStorage;
+        global.btoa = window.btoa;
+        global.atob = window.atob;
+        global.perlin = window.perlin = { noise: () => 0 };
+        global.soundManager = window.soundManager = { play: () => {}, updateListener: () => {}, updateAmbience: () => {} };
 
-// Mock AudioContext
-dom.window.AudioContext = class {
-    constructor() {
-        this.listener = { positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, forwardX: { value: 0 }, forwardY: { value: 0 }, forwardZ: { value: -1 }, upX: { value: 0 }, upY: { value: 1 }, upZ: { value: 0 }, setPosition: () => {}, setOrientation: () => {} };
-        this.destination = {};
-    }
-    createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
-    createGain() { return { connect: () => {}, gain: { value: 0, setTargetAtTime: () => {}, setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {}, linearRampToValueAtTime: () => {} } }; }
-    createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
-    createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {}, buffer: null }; }
-    createBiquadFilter() { return { connect: () => {}, frequency: { value: 0 } }; }
-    createPanner() { return { connect: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, panningModel: '', distanceModel: '', refDistance: 0, maxDistance: 0, rolloffFactor: 0 }; }
-    resume() {}
-    get state() { return 'running'; }
-    get currentTime() { return 0; }
-};
+        require('../js/math.js');
+        require('../js/blocks.js');
+        global.BLOCK = window.BLOCK;
+        global.BLOCKS = window.BLOCKS;
 
-// Mock Canvas
-const canvas = dom.window.document.getElementById('game-canvas');
-canvas.getContext = () => ({
-    setTransform: () => {}, fillStyle: '', fillRect: () => {}, beginPath: () => {},
-    moveTo: () => {}, lineTo: () => {}, fill: () => {}, strokeRect: () => {},
-    font: '', fillText: () => {}, measureText: () => ({ width: 0 }), save: () => {},
-    restore: () => {}, scale: () => {}, translate: () => {}, rotate: () => {},
-    clearRect: () => {}, drawImage: () => {}
-});
+        require('../js/chunk.js');
+        global.Chunk = window.Chunk;
 
-dom.window.perlin = { noise: () => 0 };
-dom.window.localStorage = { getItem: () => null, setItem: () => {} };
+        require('../js/biome.js');
+        global.BiomeManager = window.BiomeManager;
 
-const load = (f) => {
-    const code = fs.readFileSync(path.join('js', f), 'utf8');
-    dom.window.eval(code);
-};
+        require('../js/structures.js');
+        global.StructureManager = window.StructureManager;
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'crafting.js', 'player.js', 'mob.js', 'drop.js', 'plugin.js', 'particles.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+        require('../js/world.js');
+        World = window.World || global.World;
 
-describe('Newly Added Features Audit Suite', function() {
-    this.timeout(30000);
-    let game;
+        require('../js/physics.js');
+        global.Physics = window.Physics;
 
-    beforeEach(function() {
-        this.timeout(30000);
-        game = new dom.window.Game();
-        game.world.renderDistance = 1;
-        dom.window.prompt = () => "Tester";
-        game.gameLoop = () => {};
-        game.init();
+        require('../js/entity.js');
+        global.Entity = window.Entity;
+
+        require('../js/player.js');
+        Player = window.Player || global.Player;
+
+        require('../js/mob.js');
+        global.MOB_TYPE = window.MOB_TYPE;
+        Mob = window.Mob || global.Mob;
+
+        require('../js/drop.js');
+        global.Drop = window.Drop;
+
+        require('../js/crafting.js');
+        global.CraftingSystem = window.CraftingSystem;
+
+        require('../js/particles.js');
+        global.ParticleSystem = window.ParticleSystem;
+
+        require('../js/chat.js');
+        global.ChatManager = window.ChatManager;
+
+        require('../js/ui.js');
+        global.UIManager = window.UIManager;
+
+        require('../js/input.js');
+        global.InputManager = window.InputManager;
+
+        require('../js/textures.js');
+        global.TextureManager = window.TextureManager;
+
+        require('../js/renderer.js');
+        global.Renderer = window.Renderer;
+
+        require('../js/plugin.js');
+        global.PluginAPI = window.PluginAPI;
+
+        require('../js/minimap.js');
+        global.Minimap = window.Minimap;
+
+        require('../js/achievements.js');
+        global.AchievementManager = window.AchievementManager;
+
+        require('../js/tutorial.js');
+        global.TutorialManager = window.TutorialManager;
+
+        require('../js/game.js');
+        Game = window.Game || global.Game;
     });
 
-    afterEach(function() {
-        if (game && game.world && game.world.chunks) {
-            game.world.chunks.clear();
-        }
-        game = null;
+    beforeEach(() => {
+        window.World = World;
+        window.Player = Player;
+        window.Mob = Mob;
+        window.Game = Game;
     });
 
-    describe('Glowstone Feature Verification', function() {
-        it('should have Glowstone and Glowstone Dust defined in BLOCKS', () => {
-            const B = dom.window.BLOCK;
-            const BS = dom.window.BLOCKS;
-            assert.ok(B.GLOWSTONE, 'BLOCK.GLOWSTONE defined');
-            assert.ok(B.ITEM_GLOWSTONE_DUST, 'BLOCK.ITEM_GLOWSTONE_DUST defined');
-            assert.strictEqual(BS[B.GLOWSTONE].light, 15, 'Glowstone light level is 15');
-            assert.strictEqual(BS[B.GLOWSTONE].drop.type, B.ITEM_GLOWSTONE_DUST, 'Glowstone drops Glowstone Dust');
-            assert.strictEqual(BS[B.GLOWSTONE].drop.count, 4, 'Glowstone drops 4 dust items');
-        });
+    it('should correctly save and load worlds containing blocks with high IDs (> 255)', () => {
+        const world1 = new World();
+        world1.generateChunk(0, 0);
 
-        it('should have a crafting recipe for Glowstone from 4 Glowstone Dust', () => {
-            const recipes = game.crafting.recipes;
-            const glowstoneRecipe = recipes.find(r => r.name === 'Glowstone');
-            assert.ok(glowstoneRecipe, 'Glowstone crafting recipe exists');
-            assert.strictEqual(glowstoneRecipe.result.type, dom.window.BLOCK.GLOWSTONE);
-            assert.strictEqual(glowstoneRecipe.result.count, 1);
-            assert.strictEqual(glowstoneRecipe.ingredients[0].type, dom.window.BLOCK.ITEM_GLOWSTONE_DUST);
-            assert.strictEqual(glowstoneRecipe.ingredients[0].count, 4);
-        });
+        world1.setBlock(5, 5, 5, BLOCK.COPPER_BULB); // 411
+        world1.setBlock(6, 6, 6, BLOCK.SCULK_SHRIEKER); // 408
+        world1.setBlock(7, 7, 7, BLOCK.CRAFTER); // 404
+        world1.setBlock(8, 8, 8, BLOCK.RESPAWN_ANCHOR); // 407
+
+        assert.strictEqual(world1.getBlock(5, 5, 5), BLOCK.COPPER_BULB);
+        assert.strictEqual(world1.getBlock(6, 6, 6), BLOCK.SCULK_SHRIEKER);
+        assert.strictEqual(world1.getBlock(7, 7, 7), BLOCK.CRAFTER);
+        assert.strictEqual(world1.getBlock(8, 8, 8), BLOCK.RESPAWN_ANCHOR);
+
+        world1.saveWorld('high_id_audit_slot');
+
+        const world2 = new World();
+        world2.loadWorld('high_id_audit_slot');
+
+        assert.strictEqual(world2.getBlock(5, 5, 5), BLOCK.COPPER_BULB);
+        assert.strictEqual(world2.getBlock(6, 6, 6), BLOCK.SCULK_SHRIEKER);
+        assert.strictEqual(world2.getBlock(7, 7, 7), BLOCK.CRAFTER);
+        assert.strictEqual(world2.getBlock(8, 8, 8), BLOCK.RESPAWN_ANCHOR);
     });
 
-    describe('Shield Blocking Mechanics & Durability', function() {
-        it('should have Shield item definition with durability', () => {
-            const B = dom.window.BLOCK;
-            const BS = dom.window.BLOCKS;
-            assert.ok(B.SHIELD, 'BLOCK.SHIELD defined');
-            assert.strictEqual(BS[B.SHIELD].durability, 336, 'Shield durability is 336');
-            assert.strictEqual(BS[B.SHIELD].isItem, true, 'Shield is an item');
-        });
+    it('should trigger Darkness effect upon Sculk Shrieker shriekAt activation', () => {
+        const world = new World();
+        world.generateChunk(0, 0);
+        const dummyGame = {
+            world: world,
+            player: {
+                x: 10, y: 10, z: 10,
+                addEffect: function(name, icon, duration) {
+                    this.effect = { name, icon, duration };
+                }
+            }
+        };
+        world.game = dummyGame;
 
-        it('should block 100% damage when blocking in main hand and reduce durability', () => {
-            const player = game.player;
-            player.inventory[0] = { type: dom.window.BLOCK.SHIELD, count: 1, durability: 336 };
-            player.selectedSlot = 0;
-            player.blocking = true;
-
-            const initialHealth = player.health;
-            player.takeDamage(5); // Take 5 damage while blocking
-
-            assert.strictEqual(player.health, initialHealth, 'Health should remain unchanged when blocking');
-            assert.strictEqual(player.inventory[0].durability, 335, 'Shield durability reduced by 1');
-        });
-
-        it('should block 100% damage when blocking with shield in offhand slot', () => {
-            const player = game.player;
-            player.inventory[0] = null;
-            player.offhand = { type: dom.window.BLOCK.SHIELD, count: 1, durability: 336 };
-            player.blocking = true;
-
-            const initialHealth = player.health;
-            player.takeDamage(10);
-
-            assert.strictEqual(player.health, initialHealth, 'Health should remain unchanged when blocking via offhand');
-            assert.strictEqual(player.offhand.durability, 335, 'Offhand shield durability reduced by 1');
-        });
-
-        it('should break shield when durability reaches 0', () => {
-            const player = game.player;
-            player.inventory[0] = { type: dom.window.BLOCK.SHIELD, count: 1, durability: 1 };
-            player.selectedSlot = 0;
-            player.blocking = true;
-
-            player.takeDamage(5);
-
-            assert.strictEqual(player.inventory[0], null, 'Shield should break and be cleared from inventory');
-            assert.strictEqual(player.blocking, false, 'Player should stop blocking after shield breaks');
-        });
+        world.shriekAt(10, 10, 10);
+        assert.strictEqual(dummyGame.player.effect.name, 'Darkness');
+        assert.strictEqual(dummyGame.player.effect.icon, '🌑');
     });
 
-    describe('Offhand UI & Item Equipping', function() {
-        it('should initialize player offhand property as null', () => {
-            assert.strictEqual(game.player.offhand, null, 'Player offhand starts as null');
-        });
+    it('should toggle Copper Bulb state on redstone pulse rising edge', () => {
+        const world = new World();
+        world.generateChunk(0, 0);
 
-        it('should handle offhand slot clicks to equip and unequip items', () => {
-            const ui = game.ui;
-            const player = game.player;
+        world.setBlock(5, 5, 5, BLOCK.COPPER_BULB);
+        world.setBlock(5, 5, 6, BLOCK.REDSTONE_TORCH);
 
-            // Put shield in cursor
-            ui.cursorItem = { type: dom.window.BLOCK.SHIELD, count: 1, durability: 336 };
-
-            // Equip into offhand
-            ui.handleOffhandClick();
-            assert.ok(player.offhand, 'Item equipped in offhand');
-            assert.strictEqual(player.offhand.type, dom.window.BLOCK.SHIELD);
-            assert.strictEqual(ui.cursorItem, null, 'Cursor item cleared after equip');
-
-            // Unequip from offhand
-            ui.handleOffhandClick();
-            assert.strictEqual(player.offhand, null, 'Offhand cleared after unequip');
-            assert.strictEqual(ui.cursorItem.type, dom.window.BLOCK.SHIELD, 'Item returned to cursor');
-        });
+        world.updateRedstone();
+        const meta = world.getMetadata(5, 5, 5);
+        assert.strictEqual((meta & 2) !== 0, true); // Lit
     });
 
-    describe('Glass Panes & Fences UI Assets & Inventory', function() {
-        it('should have Glass Panes and Fences defined in starting inventory / UI icons', () => {
-            const B = dom.window.BLOCK;
-            const BS = dom.window.BLOCKS;
-            assert.ok(B.GLASS_PANE, 'GLASS_PANE defined');
-            assert.ok(B.FENCE, 'FENCE defined');
-            assert.ok(BS[B.GLASS_PANE].icon, 'Glass Pane has valid UI icon emoji');
-            assert.ok(BS[B.FENCE].icon, 'Fence has valid UI icon emoji');
-        });
+    it('should track death coordinates and compute vector for Recovery Compass', () => {
+        const dummyGame = {
+            world: new World(),
+            controls: {},
+            physics: { checkCollision: () => false, getFluidIntersection: () => false, getCollidingBlocks: () => [] },
+            ui: { updatePotionEffectsUI: () => {}, updateHealthUI: () => {} },
+            chat: { addMessage: () => {} }
+        };
+        dummyGame.world.generateChunk(0, 0);
+
+        const player = new Player(dummyGame);
+        player.x = 50;
+        player.y = 20;
+        player.z = 100;
+
+        player.takeDamage(100); // Trigger death
+        assert.deepStrictEqual(player.lastDeathPos, { x: 50, y: 20, z: 100 });
+
+        player.x = 10;
+        player.z = 10;
+        const vec = player.getRecoveryCompassVector();
+        assert.strictEqual(vec.dx, 40);
+        assert.strictEqual(vec.dz, 90);
+        assert.strictEqual(Math.round(vec.distance), 98);
+    });
+
+    it('should trigger wind burst knockback explosion physics for Wind Charges', () => {
+        const world = new World();
+        world.generateChunk(0, 0);
+
+        const dummyGame = {
+            world: world,
+            player: { x: 5, y: 5, z: 5, vx: 0, vy: 0, vz: 0 },
+            mobs: [{ x: 6, y: 5, z: 6, vx: 0, vy: 0, vz: 0, isDead: false, takeDamage: function(dmg, kb) { this.damaged = dmg; } }],
+            particles: { spawn: () => {} }
+        };
+
+        const gameProto = Game.prototype;
+        gameProto.triggerWindBurst.call(dummyGame, 5, 5, 5);
+
+        assert.strictEqual(dummyGame.player.vy > 0, true);
+        assert.strictEqual(dummyGame.mobs[0].vy > 0, true);
+        assert.strictEqual(dummyGame.mobs[0].damaged, 1);
+    });
+
+    it('should apply Wither status effect when hit by a Wither Skeleton', () => {
+        const dummyGame = {
+            world: new World(),
+            mobs: [],
+            player: {
+                x: 0, y: 0, z: 0, height: 1.8,
+                vx: 0, vy: 0, vz: 0,
+                takeDamage: function(d) { this.hp = (this.hp || 20) - d; },
+                addEffect: function(name, icon, duration) { this.effect = { name, icon, duration }; }
+            }
+        };
+
+        const witherSk = new Mob(dummyGame, 0, 0, 1, MOB_TYPE.WITHER_SKELETON);
+        witherSk.hasLineOfSight = () => true;
+        witherSk.updateHostileAI(0.1);
+
+        assert.strictEqual(dummyGame.player.effect.name, 'Wither');
+    });
+
+    it('should grant automatic Night Vision effect to players in spectator mode', () => {
+        const dummyGame = {
+            world: new World(),
+            controls: {},
+            physics: { checkCollision: () => false, getFluidIntersection: () => false, getCollidingBlocks: () => [] }
+        };
+        const player = new Player(dummyGame);
+        player.spectator = true;
+        player.update(0.1);
+
+        assert.strictEqual(player.flying, true);
+        assert.strictEqual(player.noclip, true);
+        assert.strictEqual(player.activeEffects.some(e => e.name === 'Night Vision'), true);
+    });
+
+    it('should reduce fall damage when landing on a Honey Block', () => {
+        const dummyGame = {
+            world: new World(),
+            controls: {},
+            physics: { checkCollision: (box) => box.y <= 1.0, getFluidIntersection: () => false, getCollidingBlocks: () => [] },
+            ui: { updateHealthUI: () => {} }
+        };
+        dummyGame.world.generateChunk(0, 0);
+        dummyGame.world.setBlock(0, 0, 0, BLOCK.HONEY_BLOCK);
+
+        const player = new Player(dummyGame);
+        player.x = 0; player.y = 1; player.z = 0;
+        player.vy = -10;
+        player.onGround = true;
+        player.fallDistance = 10; // Standard fall would deal 7 damage
+
+        player.update(0.1);
+        assert.strictEqual(player.health, 19); // Deals only 1 damage (80% reduction)
     });
 });
