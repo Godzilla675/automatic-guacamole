@@ -643,6 +643,26 @@ class Player {
             if (this.game.updateHealthUI) this.game.updateHealthUI();
             return true;
         }
+        if (itemType === BLOCK.ITEM_SUSPICIOUS_STEW) {
+            this.hunger = Math.min(this.maxHunger, this.hunger + 6);
+            const effects = [
+                { name: 'Regeneration', icon: '🧪', duration: 15 },
+                { name: 'Speed', icon: '⚡', duration: 20 },
+                { name: 'Jump Boost', icon: '🦘', duration: 20 },
+                { name: 'Night Vision', icon: '👁️', duration: 30 },
+                { name: 'Strength', icon: '💪', duration: 15 },
+                { name: 'Poison', icon: '☠️', duration: 10 },
+                { name: 'Weakness', icon: '🥀', duration: 15 }
+            ];
+            const chosen = effects[Math.floor(Math.random() * effects.length)];
+            this.addEffect(chosen.name, chosen.icon, chosen.duration);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            if (this.game && this.game.ui && this.game.ui.showNotification) {
+                this.game.ui.showNotification(`Ate Suspicious Stew! Applied ${chosen.name}`);
+            }
+            return true;
+        }
         const blockDef = BLOCKS[itemType];
         if (blockDef && blockDef.food) {
             // Restore hunger

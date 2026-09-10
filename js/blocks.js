@@ -320,7 +320,8 @@ const BLOCK = {
     ITEM_BREEZE_ROD: 409,
     ITEM_WIND_CHARGE: 410,
     COPPER_BULB: 411,
-    ITEM_RECOVERY_COMPASS: 412
+    ITEM_RECOVERY_COMPASS: 412,
+    ITEM_SUSPICIOUS_STEW: 413
 };
 
 const ARMOR = {
@@ -703,7 +704,8 @@ const BLOCKS = {
     [BLOCK.ITEM_BREEZE_ROD]: { name: 'Breeze Rod', color: '#87CEEB', solid: false, isItem: true, icon: '🥢' },
     [BLOCK.ITEM_WIND_CHARGE]: { name: 'Wind Charge', color: '#E0FFFF', solid: false, isItem: true, icon: '💨' },
     [BLOCK.COPPER_BULB]: { name: 'Copper Bulb', color: '#B87333', top: '#FFD700', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 0 },
-    [BLOCK.ITEM_RECOVERY_COMPASS]: { name: 'Recovery Compass', color: '#00FFFF', solid: false, isItem: true, icon: '🧭' }
+    [BLOCK.ITEM_RECOVERY_COMPASS]: { name: 'Recovery Compass', color: '#00FFFF', solid: false, isItem: true, icon: '🧭' },
+    [BLOCK.ITEM_SUSPICIOUS_STEW]: { name: 'Suspicious Stew', color: '#8B4513', solid: false, isItem: true, icon: '🍲', food: 6 }
 };
 
 if (typeof window !== 'undefined') {

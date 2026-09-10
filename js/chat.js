@@ -5,6 +5,7 @@ class ChatManager {
         this.messages = document.getElementById('chat-messages');
         this.input = document.getElementById('chat-input');
         this.isOpen = false;
+        this.logVisible = true;
 
         this.input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -59,6 +60,18 @@ class ChatManager {
     toggle() {
         if (this.isOpen) this.close();
         else this.open();
+    }
+
+    toggleLogVisibility(forceState) {
+        if (forceState !== undefined) {
+            this.logVisible = forceState;
+        } else {
+            this.logVisible = !this.logVisible;
+        }
+        if (this.messages) {
+            this.messages.style.display = this.logVisible ? 'block' : 'none';
+        }
+        return this.logVisible;
     }
 
     send() {
@@ -245,6 +258,9 @@ class ChatManager {
             this.game.player.inventory.fill(null);
             this.game.ui.updateHotbarUI();
             this.addMessage("Cleared inventory");
+        } else if (cmd === '/togglechat' || cmd === '/chatlog') {
+            const state = this.toggleLogVisibility();
+            this.addMessage(`Chat history log ${state ? 'shown' : 'hidden'}.`);
         } else {
             this.addMessage("Unknown command: " + cmd);
         }
