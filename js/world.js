@@ -152,7 +152,7 @@ class World {
 
     checkNeighborIntegrity(x, y, z) {
         const neighbors = [
-            {x:x, y:y+1, z:z},
+            {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z},
             {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
             {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
         ];
@@ -166,6 +166,22 @@ class World {
         if (type === BLOCK.AIR) return;
         const def = window.BLOCKS[type];
         if (!def) return;
+
+        if (type === BLOCK.DOOR_WOOD_TOP) {
+             const below = this.getBlock(x, y - 1, z);
+             if (below !== BLOCK.DOOR_WOOD_BOTTOM) {
+                 this.setBlock(x, y, z, BLOCK.AIR);
+             }
+             return;
+        } else if (type === BLOCK.DOOR_WOOD_BOTTOM) {
+             const above = this.getBlock(x, y + 1, z);
+             const below = this.getBlock(x, y - 1, z);
+             const belowDef = window.BLOCKS[below];
+             if (above !== BLOCK.DOOR_WOOD_TOP || !belowDef || !belowDef.solid) {
+                 this.setBlock(x, y, z, BLOCK.AIR);
+             }
+             return;
+        }
 
         // Check if block needs support
         if (def.isTorch || def.isWire || type === BLOCK.REDSTONE_TORCH_OFF || type === BLOCK.REDSTONE_TORCH || type === BLOCK.TORCH || type === BLOCK.RAIL || type === BLOCK.POWERED_RAIL || type === BLOCK.DETECTOR_RAIL || type === BLOCK.BREWING_STAND || type === BLOCK.WHEAT || type === BLOCK.CARROTS || type === BLOCK.POTATOES) {

@@ -138,10 +138,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Share world links** (Status: Missing implementation, agents must fix)
 - [ ] **Leaderboards** (Status: Missing implementation, agents must fix)
 - [ ] **World showcase gallery** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
+- [x] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
 - [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
 - [ ] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Verified and working)
 
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
@@ -234,7 +234,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts lack visual debug toggle. (Status: Missing implementation, agents must fix)
 
 - [x] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying Obsidian Respawn Anchors. (Status: Verified and working)
-- [ ] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Verified and working)
 - [ ] **New Task: Add Honey Block Piston Pushing Logic**: Sticky honey blocks dragging adjacent blocks during piston movement. (Status: Missing implementation, agents must fix)
 
 - [ ] **Bug: JSDOM Game constructor**: In JSDOM Mocha tests, if global.Game becomes undefined within a beforeEach hook, it must be re-assigned using `if (!global.Game) { global.Game = dom.window.Game || window.Game; }` to prevent 'is not a constructor' errors. (Status: Missing implementation, agents must fix)
@@ -387,7 +387,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Pale Garden Biome**: Desaturated woodland biome home to the Creaking. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Resin Bricks**: Decorative building blocks crafted from Resin Clumps. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Verified and working)
-- [ ] **New Task: Add Redstone Lamp Toggle Logic**: Redstone signals toggling Redstone Lamps on/off dynamically. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Redstone Lamp Toggle Logic**: Redstone signals toggling Redstone Lamps on/off dynamically. (Status: Verified and working)
 - [ ] **New Task: Add Axolotl Buckets**: Catching Axolotls in water buckets. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Crafter Redstone Pulse Recipe Execution**: Crafter block automatically outputting items when triggered by redstone pulse. (Status: Missing implementation, agents must fix)
 
@@ -439,8 +439,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## Newly Discovered Bugs & Tasks (From Audit)
 - [x] **Bug: Offhand Quick Swap & HUD Container missing**: Offhand inventory slot and quick swap are missing. (Status: Verified and working)
-- [ ] **Bug: Chat History Log Toggle missing**: Toggle to hide chat messages is missing.
-- [ ] **Bug: Wooden Door Break Synchronization missing**: Breaking one half of a door does not break the other.
+- [x] **Bug: Chat History Log Toggle missing**: Toggle to hide chat messages is missing. (Status: Verified and working)
+- [x] **Bug: Wooden Door Break Synchronization missing**: Breaking one half of a door does not break the other. (Status: Verified and working)
 - [ ] **Bug: Weather Cycles missing**: Weather state and transitions (rain, snow) are not implemented.
 - [ ] **Bug: Piston & Sticky Piston Mechanics missing**: Piston activation and pushing logic is missing.
 - [ ] **Bug: Creeper Explosion Mechanics missing**: Creeper explosion logic is missing from the codebase.
@@ -467,7 +467,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Creeper Explosion Mechanics**: Creeper fuse timing and terrain explosion damage. (Status: Verified and working)
 - [ ] **New Task: Add Piston & Sticky Piston Mechanics**: Pistons pushing and pulling blocks. (Status: Verified and working)
 - [ ] **New Task: Add Weather Cycles**: Clear, rain, and snow weather transitions with thunderstorm logic. (Status: Verified and working)
-- [ ] **New Task: Add Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves. (Status: Verified and working)
+- [x] **New Task: Add Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves. (Status: Verified and working)
 - [x] **Bug: Wooden Door placement is failing in test**: placing wooden doors using right click doesn't register properly. (Status: Verified and working)
 - [x] **New Task: Add Soul Sand Slowdown Physics**: Movement speed reduction when walking on Soul Sand blocks. (Status: Verified and working)
 - [x] **Bug: Glow Item Frames Missing**: Glow Item Frames item/entity definition is missing from the codebase. (Status: Verified and working)
@@ -479,7 +479,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Redstone dust visual line connections**: Redstone wire power propagation functions internally but lacks dynamic multi-direction connecting wire rendering on block surfaces. (Status: Verified and working)
 - [ ] **Bug: JSDOM saveWorld Base64 InvalidCharacterError**: `saveWorld` in `js/world.js` throws `InvalidCharacterError` when evaluated inside JSDOM test environments where `typeof Buffer === 'undefined'` because `String.fromCharCode.apply` passes char codes > 255 to `btoa()`. (Status: Verified and working)
 - [ ] **New Task: Add Crafter GUI Slot Toggling**: Add interactive GUI in Crafter blocks to disable specific crafting grid slots for automated crafting shapes. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Redstone Lamp Dynamic Toggling**: Implement redstone signals dynamically switching Redstone Lamps between lit and unlit states in `js/world.js` and renderer. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Redstone Lamp Dynamic Toggling**: Implement redstone signals dynamically switching Redstone Lamps between lit and unlit states in `js/world.js` and renderer. (Status: Verified and working)
 - [ ] **New Task: Add Hopper Container Transport Logic**: Implement Hoppers pulling items from container blocks above and pushing items into containers they face. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Bundle Storage Container UI**: Add Bundle storage item holding up to 64 items of mixed types with pop-up UI container. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Wolf Armor & Armadillo Scutes Crafting**: Add brush usage on Armadillos to obtain scutes and craft custom Wolf Armor. (Status: Proposed feature, pending implementation)

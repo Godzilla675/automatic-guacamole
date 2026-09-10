@@ -66,6 +66,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_AMETHYST_SHARD, count: 4 }, { type: BLOCK.ITEM_IRON_INGOT, count: 4 } ]
             },
             {
+                name: "Suspicious Stew",
+                result: { type: BLOCK.ITEM_SUSPICIOUS_STEW, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 1 }, { type: BLOCK.ITEM_APPLE, count: 1 } ]
+            },
+            {
                 name: "Slime Block",
                 result: { type: BLOCK.SLIME_BLOCK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_STRING, count: 9 } ]
@@ -450,13 +455,14 @@ class CraftingSystem {
 
     initUI() {
         const container = document.getElementById('crafting-recipes');
+        if (!container) return;
         container.innerHTML = '';
 
         // Clean up previous repair recipes
         this.recipes = this.recipes.filter(r => !r.isRepair);
 
         // Check for repairable items
-        const inventory = this.game.player.inventory;
+        const inventory = this.game.player ? this.game.player.inventory : [];
         const toolIndices = {};
 
         inventory.forEach((item, index) => {
@@ -482,9 +488,15 @@ class CraftingSystem {
             }
         }
 
+        const searchInput = document.getElementById('crafting-search-input');
+        const filterQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
         this.recipes.forEach((recipe, index) => {
             // Filter unlocked
             if (this.game.player && !this.game.player.unlockedRecipes.has(recipe.name) && !recipe.isRepair) return;
+
+            // Search filter
+            if (filterQuery && !recipe.name.toLowerCase().includes(filterQuery)) return;
 
             const el = document.createElement('div');
             el.className = 'inventory-item';
@@ -502,10 +514,19 @@ class CraftingSystem {
             container.appendChild(el);
         });
 
-        document.getElementById('close-crafting').onclick = () => {
-             document.getElementById('crafting-screen').classList.add('hidden');
-             this.game.resumeGame();
-        };
+        if (searchInput && !searchInput.dataset.listening) {
+            searchInput.dataset.listening = 'true';
+            searchInput.addEventListener('input', () => this.initUI());
+            searchInput.addEventListener('keydown', (e) => e.stopPropagation());
+        }
+
+        const closeBtn = document.getElementById('close-crafting');
+        if (closeBtn) {
+            closeBtn.onclick = () => {
+                 document.getElementById('crafting-screen').classList.add('hidden');
+                 this.game.resumeGame();
+            };
+        }
     }
 
     craft(index, element) {

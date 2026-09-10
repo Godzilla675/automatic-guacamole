@@ -295,12 +295,24 @@ class UIManager {
 
     renderRecipeBook() {
         const list = document.getElementById('recipe-list');
+        if (!list) return;
         list.innerHTML = '';
 
         if (!this.game.crafting || !this.game.crafting.recipes) return;
 
+        const searchInput = document.getElementById('recipe-book-search-input');
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+        if (searchInput && !searchInput.dataset.listening) {
+            searchInput.dataset.listening = 'true';
+            searchInput.addEventListener('input', () => this.renderRecipeBook());
+            searchInput.addEventListener('keydown', (e) => e.stopPropagation());
+        }
+
         this.game.crafting.recipes.forEach(recipe => {
              if (this.game.player && !this.game.player.unlockedRecipes.has(recipe.name) && !recipe.isRepair) return;
+
+             if (query && !recipe.name.toLowerCase().includes(query)) return;
 
              const container = document.createElement('div');
              container.className = 'recipe-entry';

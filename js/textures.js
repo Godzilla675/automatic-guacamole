@@ -1309,6 +1309,7 @@ class TextureManager {
         this.textures[B.ITEM_SWEET_BERRIES] = this.genSweetBerries();
         this.textures[B.ITEM_COPPER_INGOT] = this.genIngot('#B87333');
         this.textures[B.ITEM_BAMBOO] = this.genBamboo();
+        this.textures[B.ITEM_SUSPICIOUS_STEW] = this.genSuspiciousStew();
 
         this.textures[B.ITEM_WOOL] = this.genWool('#FFFFFF');
 
@@ -2057,6 +2058,21 @@ class TextureManager {
         ctx.fillRect(6, 5, 4, 6);
         ctx.fillStyle = '#00FFFF';
         ctx.fillRect(12, 6, 1, 4);
+        return c;
+    }
+
+    genSuspiciousStew() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(4, 8, 8, 4);
+        ctx.fillRect(5, 12, 6, 1);
+        ctx.fillStyle = '#A52A2A';
+        ctx.fillRect(4, 7, 8, 2);
+        ctx.fillStyle = '#FF00FF';
+        ctx.fillRect(5, 7, 2, 1);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(9, 7, 2, 1);
         return c;
     }
 
