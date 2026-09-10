@@ -139,7 +139,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Leaderboards** (Status: Missing implementation, agents must fix)
 - [ ] **World showcase gallery** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
-- [ ] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
+- [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
 - [ ] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Proposed feature, pending implementation)
 
@@ -438,7 +438,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
 
 ## Newly Discovered Bugs & Tasks (From Audit)
-- [ ] **Bug: Offhand Quick Swap & HUD Container missing**: Offhand inventory slot and quick swap are missing.
+- [x] **Bug: Offhand Quick Swap & HUD Container missing**: Offhand inventory slot and quick swap are missing. (Status: Verified and working)
 - [ ] **Bug: Chat History Log Toggle missing**: Toggle to hide chat messages is missing.
 - [ ] **Bug: Wooden Door Break Synchronization missing**: Breaking one half of a door does not break the other.
 - [ ] **Bug: Weather Cycles missing**: Weather state and transitions (rain, snow) are not implemented.

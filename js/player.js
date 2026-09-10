@@ -99,6 +99,22 @@ class Player {
         this.activeEffects = [];
     }
 
+    swapOffhand() {
+        const idx = this.selectedSlot;
+        const mainItem = this.inventory[idx];
+        const offhandItem = this.offhand;
+
+        this.inventory[idx] = offhandItem;
+        this.offhand = mainItem;
+
+        if (window.soundManager) window.soundManager.play('place');
+
+        if (this.game && this.game.ui) {
+            this.game.ui.updateHotbarUI();
+            if (this.game.ui.refreshArmorUI) this.game.ui.refreshArmorUI();
+        }
+    }
+
     addEffect(name, icon, duration) {
         if (!this.activeEffects) this.activeEffects = [];
         const existing = this.activeEffects.find(e => e.name === name);
