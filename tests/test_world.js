@@ -9,6 +9,7 @@ const dom = new JSDOM(`<!DOCTYPE html>`, {
 // Don't set global.window
 
 // Mock globals
+dom.window.Buffer = Buffer;
 dom.window.Chunk = class Chunk {
     constructor(cx, cz) {
         this.cx = cx;

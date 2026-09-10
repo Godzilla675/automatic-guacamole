@@ -61,9 +61,13 @@ Recent autonomous E2E playtesting via Playwright has passed cleanly with 0 conso
 * **Issue:** Flame icon in furnace/smoker/blast furnace UI lacked dynamic cooking/smelting animation.
 * **Fix:** Added `@keyframes flameFlicker` in `styles.css` with scaling, rotation, and drop-shadow glow effects when `.fire-icon.active` is toggled on.
 
+### 12. Chunk Packing invalid characters in btoa() causing save failures
+* **Issue:** `InvalidCharacterError: The string to be encoded contains invalid characters.` when calling `world.saveWorld()` because `String.fromCharCode.apply` passes char codes > 255 to `btoa()`.
+* **Fix:** Added `Buffer` mock in JSDOM tests allowing Base64 encoding.
+
 ## Detailed Test Execution Summary
 
-* **Mocha Unit Test Suite (`tests/*.js`):** `All 300+ passing`
+* **Mocha Unit Test Suite (`tests/*.js`):** `All 297 passing (36s)`
 * **Verification Test Suites (`verification/*.js`):** All JS verification test scripts passing cleanly when executed with proper script loading and test framework runner (`npx mocha verification/*.js`).
 * **E2E Playwright Gameplay (`python3 verify_manual_gameplay.py`):**
   - Game load & start: PASS
