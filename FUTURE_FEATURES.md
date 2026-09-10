@@ -10,7 +10,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Magma Block**: Block dealing damage when stepped on. (Status: Verified and working)
 - [x] **New Task: Add Copper Ore, Ingot & Block**: Copper ore, ingot item, and copper block definition and crafting. (Status: Verified and working)
 - [x] **New Task: Add Bamboo & Bamboo Item**: Bamboo block and item definitions for crafting. (Status: Verified and working)
-- [x] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Verified and working)
+- [ ] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Verified and working)
 - [x] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Verified and working)
 - [ ] **New Task: Add Vault Hunters Mechanism**: Trial Vault keys with loot drop tables and cooldown timers. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Sculk Shrieker & Darkness Effect**: Sculk Shrieker block triggering proximity darkness status effect. (Status: Verified and working)
@@ -138,8 +138,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Share world links** (Status: Missing implementation, agents must fix)
 - [ ] **Leaderboards** (Status: Missing implementation, agents must fix)
 - [ ] **World showcase gallery** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
-- [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
+- [ ] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
+- [ ] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
 - [ ] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Proposed feature, pending implementation)
 
@@ -438,14 +438,25 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
 
 ## Newly Discovered Bugs & Tasks (From Audit)
+- [ ] **Bug: Offhand Quick Swap & HUD Container missing**: Offhand inventory slot and quick swap are missing.
+- [ ] **Bug: Chat History Log Toggle missing**: Toggle to hide chat messages is missing.
+- [ ] **Bug: Wooden Door Break Synchronization missing**: Breaking one half of a door does not break the other.
+- [ ] **Bug: Weather Cycles missing**: Weather state and transitions (rain, snow) are not implemented.
+- [ ] **Bug: Piston & Sticky Piston Mechanics missing**: Piston activation and pushing logic is missing.
+- [ ] **Bug: Creeper Explosion Mechanics missing**: Creeper explosion logic is missing from the codebase.
+- [ ] **Bug: Base64 InvalidCharacterError**: `saveWorld` fails due to High IDs Base64 conversion.
+- [ ] **Bug: Fishing Rod Catch Timer missing**: Fishing rod does not catch anything (no timer).
+- [ ] **Bug: Smoker & Blast Furnace UI Animations missing**: Smoker & Blast Furnace do not have UI animations.
+- [ ] **Bug: Stonecutter UI missing**: Stonecutter dedicated crafting UI does not open.
+- [ ] **Bug: Fletching Table UI missing**: Fletching Table interactive UI does not open.
 - [x] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Verified and working)
-- [x] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Verified and working)
+- [ ] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Verified and working)
 - [x] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Verified and working)
-- [x] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Verified and working)
+- [ ] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Verified and working)
 - [x] **New Task: Add Crafter Redstone Pulse Execution**: Crafter block automatically outputs crafted item when powered by a redstone pulse. (Status: Verified and working)
 - [ ] **New Task: Add Pale Garden Features**: Implement Pale Oak Wood Set, Eyeblossoms, and Pale Hanging Moss for Pale Garden biome. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Trials Mechanics**: Ominous Bottles, Bad Omen effect, Ominous Vaults, and Ominous Trial Keys. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Fletching Table, Smoker, Blast Furnace UI Missing**: Utility blocks exist in game registry but lack interactive GUI containers. (Status: Verified and working)
+- [ ] **Bug: Fletching Table, Smoker, Blast Furnace UI Missing**: Utility blocks exist in game registry but lack interactive GUI containers. (Status: Verified and working)
 - [x] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Verified and working)
 
 - [x] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Verified and working)
@@ -453,20 +464,20 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Sculk Shrieker**: Deep dark block that emits shrieks and applies Darkness effect when activated. (Status: Verified and working)
 - [ ] **New Task: Add Mangrove Roots**: Unique wood-like structural block generating in Mangrove Swamps. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Muddy Mangrove Roots**: Variant of mangrove roots submerged in mud blocks. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Creeper Explosion Mechanics**: Creeper fuse timing and terrain explosion damage. (Status: Verified and working)
-- [x] **New Task: Add Piston & Sticky Piston Mechanics**: Pistons pushing and pulling blocks. (Status: Verified and working)
-- [x] **New Task: Add Weather Cycles**: Clear, rain, and snow weather transitions with thunderstorm logic. (Status: Verified and working)
-- [x] **New Task: Add Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves. (Status: Verified and working)
+- [ ] **New Task: Add Creeper Explosion Mechanics**: Creeper fuse timing and terrain explosion damage. (Status: Verified and working)
+- [ ] **New Task: Add Piston & Sticky Piston Mechanics**: Pistons pushing and pulling blocks. (Status: Verified and working)
+- [ ] **New Task: Add Weather Cycles**: Clear, rain, and snow weather transitions with thunderstorm logic. (Status: Verified and working)
+- [ ] **New Task: Add Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves. (Status: Verified and working)
 - [x] **Bug: Wooden Door placement is failing in test**: placing wooden doors using right click doesn't register properly. (Status: Verified and working)
 - [x] **New Task: Add Soul Sand Slowdown Physics**: Movement speed reduction when walking on Soul Sand blocks. (Status: Verified and working)
 - [x] **Bug: Glow Item Frames Missing**: Glow Item Frames item/entity definition is missing from the codebase. (Status: Verified and working)
 - [x] **Bug: Witches Mob Missing**: Witches mob implementation is missing from the codebase. (Status: Verified and working)
 - [x] **Bug: Redstone Repeater and Comparator Logic Missing**: Full signal propagation and delay logic for repeaters and comparators is missing. (Status: Verified and working)
-- [x] **Bug: Stonecutter dedicated UI grid missing**: Stonecutter operates via direct item interaction rather than presenting a dedicated block interaction UI window. (Status: Verified and working)
+- [ ] **Bug: Stonecutter dedicated UI grid missing**: Stonecutter operates via direct item interaction rather than presenting a dedicated block interaction UI window. (Status: Verified and working)
 - [x] **Bug: Smoker & Blast Furnace smelting speed multiplier missing**: Smoker and Blast Furnace blocks share standard furnace speed without 2x acceleration for food and ores. (Status: Verified and working)
-- [x] **Bug: Fishing rod catch timer logic incomplete**: Fishing bobber entity spawns but lacks timer-based catch mechanics and loot table roll execution. (Status: Verified and working)
+- [ ] **Bug: Fishing rod catch timer logic incomplete**: Fishing bobber entity spawns but lacks timer-based catch mechanics and loot table roll execution. (Status: Verified and working)
 - [x] **Bug: Redstone dust visual line connections**: Redstone wire power propagation functions internally but lacks dynamic multi-direction connecting wire rendering on block surfaces. (Status: Verified and working)
-- [x] **Bug: JSDOM saveWorld Base64 InvalidCharacterError**: `saveWorld` in `js/world.js` throws `InvalidCharacterError` when evaluated inside JSDOM test environments where `typeof Buffer === 'undefined'` because `String.fromCharCode.apply` passes char codes > 255 to `btoa()`. (Status: Verified and working)
+- [ ] **Bug: JSDOM saveWorld Base64 InvalidCharacterError**: `saveWorld` in `js/world.js` throws `InvalidCharacterError` when evaluated inside JSDOM test environments where `typeof Buffer === 'undefined'` because `String.fromCharCode.apply` passes char codes > 255 to `btoa()`. (Status: Verified and working)
 - [ ] **New Task: Add Crafter GUI Slot Toggling**: Add interactive GUI in Crafter blocks to disable specific crafting grid slots for automated crafting shapes. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Redstone Lamp Dynamic Toggling**: Implement redstone signals dynamically switching Redstone Lamps between lit and unlit states in `js/world.js` and renderer. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Hopper Container Transport Logic**: Implement Hoppers pulling items from container blocks above and pushing items into containers they face. (Status: Proposed feature, pending implementation)
