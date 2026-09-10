@@ -17,9 +17,10 @@ class InputManager {
             sneak: 'ShiftLeft',
             sprint: 'ControlLeft',
             inventory: 'KeyE',
-            fly: 'KeyF',
+            fly: 'KeyG',
             chat: 'KeyT',
-            crafting: 'KeyC'
+            crafting: 'KeyC',
+            offhandSwap: 'KeyF'
         };
 
         // Load from LocalStorage
@@ -92,6 +93,7 @@ class InputManager {
             else if (e.code === this.keybinds.fly) this.game.player.flying = !this.game.player.flying;
             else if (e.code === this.keybinds.inventory) this.game.ui.toggleInventory();
             else if (e.code === this.keybinds.crafting) this.game.ui.craftingUI();
+            else if (e.code === this.keybinds.offhandSwap) this.game.player.swapOffhand();
 
             // Hotbar keys 1-9
             if (e.code.startsWith('Digit')) {

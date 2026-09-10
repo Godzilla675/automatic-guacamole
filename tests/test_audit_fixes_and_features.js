@@ -257,4 +257,24 @@ describe('Audit Fixes & Features Test Suite', function() {
         // Check if item drop was spawned
         assert.ok(game.drops.length >= 1, 'Crafter should eject crafted item drop on redstone pulse');
     });
+
+    it('should swap hotbar item and offhand item when swapOffhand is called', function() {
+        const game = new window.Game();
+        const player = game.player;
+
+        player.inventory[0] = { type: window.BLOCK.SHIELD, count: 1 };
+        player.offhand = { type: window.BLOCK.ITEM_SWORD_DIAMOND, count: 1 };
+        player.selectedSlot = 0;
+
+        player.swapOffhand();
+
+        assert.strictEqual(player.inventory[0].type, window.BLOCK.ITEM_SWORD_DIAMOND);
+        assert.strictEqual(player.offhand.type, window.BLOCK.SHIELD);
+
+        // Swap back
+        player.swapOffhand();
+
+        assert.strictEqual(player.inventory[0].type, window.BLOCK.SHIELD);
+        assert.strictEqual(player.offhand.type, window.BLOCK.ITEM_SWORD_DIAMOND);
+    });
 });
