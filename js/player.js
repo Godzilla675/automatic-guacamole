@@ -141,6 +141,12 @@ class Player {
     }
 
 
+    addItem(item) {
+        if (!item) return 0;
+        if (typeof item === 'number') return this.giveItem(item, 1);
+        return this.giveItem(item.type, item.count || 1);
+    }
+
     giveItem(type, count = 1) {
         const maxStack = 64;
         let remaining = count;

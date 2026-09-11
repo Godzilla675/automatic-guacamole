@@ -285,6 +285,15 @@ class UIManager {
         if (closeDropper) {
             closeDropper.addEventListener('click', () => this.closeDropper());
         }
+
+        const closeFletching = document.getElementById('close-fletching');
+        if (closeFletching) {
+            closeFletching.addEventListener('click', () => this.closeFletchingTable());
+        }
+        ['fletching-input-flint', 'fletching-input-stick', 'fletching-input-feather', 'fletching-output'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleFletchingClick(id));
+        });
     }
 
     toggleRecipeBook() {
@@ -1926,15 +1935,157 @@ class UIManager {
         const pct = (entity.progress / (entity.maxProgress || 100)) * 100;
         prog.style.width = pct + '%';
 
-        // Burn
+        // Burn & Effect animations
         const burn = document.getElementById('furnace-burn');
-        if (entity.burnTime > 0) burn.classList.add('active');
-        else burn.classList.remove('active');
+        const effectEl = document.getElementById('furnace-burn-effect');
+
+        if (entity.burnTime > 0) {
+            if (burn) burn.classList.add('active');
+            if (effectEl) {
+                effectEl.className = 'furnace-effect active';
+                if (entity.type === 'smoker') {
+                    effectEl.textContent = '💨';
+                    effectEl.classList.add('smoke-mode');
+                } else if (entity.type === 'blast_furnace') {
+                    effectEl.textContent = '💥';
+                    effectEl.classList.add('blast-mode');
+                } else {
+                    effectEl.textContent = '✨';
+                }
+            }
+        } else {
+            if (burn) burn.classList.remove('active');
+            if (effectEl) {
+                effectEl.className = 'furnace-effect';
+                effectEl.textContent = '';
+            }
+        }
 
         // Bind clicks (simple implementation: click to put cursor item in, click to take out)
         // Note: This requires re-binding every update which is bad.
         // Better to bind once in init, but we need entity reference.
         // Actually, we can use binding in init that references this.activeFurnace.
+    }
+
+    openFletchingTable() {
+        this.activeFletchingTable = {
+            flint: null,
+            stick: null,
+            feather: null,
+            output: null
+        };
+        const screen = document.getElementById('fletching-screen');
+        if (screen) screen.classList.remove('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateFletchingUI();
+        this.refreshInventoryUI();
+    }
+
+    closeFletchingTable() {
+        if (this.activeFletchingTable) {
+            const slots = ['flint', 'stick', 'feather'];
+            for (let s of slots) {
+                if (this.activeFletchingTable[s]) {
+                    this.game.player.addItem(this.activeFletchingTable[s]);
+                }
+            }
+            this.activeFletchingTable = null;
+        }
+        const screen = document.getElementById('fletching-screen');
+        if (screen) screen.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+        this.refreshInventoryUI();
+    }
+
+    handleFletchingClick(slotId) {
+        if (!this.activeFletchingTable) return;
+        const ft = this.activeFletchingTable;
+
+        if (slotId === 'fletching-output') {
+            if (ft.flint && ft.stick && ft.feather) {
+                const arrows = { type: window.BLOCK.ITEM_ARROW, count: 4 };
+                this.game.player.addItem(arrows);
+
+                ft.flint.count--;
+                if (ft.flint.count <= 0) ft.flint = null;
+                ft.stick.count--;
+                if (ft.stick.count <= 0) ft.stick = null;
+                ft.feather.count--;
+                if (ft.feather.count <= 0) ft.feather = null;
+            }
+        } else {
+            let slotKey = 'flint';
+            let requiredType = window.BLOCK.ITEM_FLINT;
+            if (slotId === 'fletching-input-stick') {
+                slotKey = 'stick';
+                requiredType = window.BLOCK.ITEM_STICK;
+            } else if (slotId === 'fletching-input-feather') {
+                slotKey = 'feather';
+                requiredType = window.BLOCK.ITEM_FEATHER;
+            }
+
+            const current = ft[slotKey];
+            if (!current && this.cursorItem) {
+                if (this.cursorItem.type === requiredType) {
+                    ft[slotKey] = this.cursorItem;
+                    this.cursorItem = null;
+                }
+            } else if (current && !this.cursorItem) {
+                this.cursorItem = current;
+                ft[slotKey] = null;
+            } else if (current && this.cursorItem && current.type === this.cursorItem.type) {
+                current.count += this.cursorItem.count;
+                this.cursorItem = null;
+            }
+        }
+
+        this.updateFletchingUI();
+        this.updateCursorUI();
+        this.refreshInventoryUI();
+    }
+
+    updateFletchingUI() {
+        if (!this.activeFletchingTable) return;
+        const ft = this.activeFletchingTable;
+
+        const renderSlot = (id, item) => {
+            const slot = document.getElementById(id);
+            if (!slot) return;
+            slot.innerHTML = '';
+            if (item) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[item.type];
+                icon.textContent = def ? def.icon : '?';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                slot.appendChild(icon);
+
+                if (item.count > 1) {
+                    const cnt = document.createElement('span');
+                    cnt.style.position = 'absolute';
+                    cnt.style.bottom = '2px';
+                    cnt.style.right = '2px';
+                    cnt.style.fontSize = '12px';
+                    cnt.style.color = 'white';
+                    cnt.textContent = item.count;
+                    slot.appendChild(cnt);
+                }
+            }
+        };
+
+        renderSlot('fletching-input-flint', ft.flint);
+        renderSlot('fletching-input-stick', ft.stick);
+        renderSlot('fletching-input-feather', ft.feather);
+
+        if (ft.flint && ft.stick && ft.feather) {
+            renderSlot('fletching-output', { type: window.BLOCK.ITEM_ARROW, count: 4 });
+        } else {
+            renderSlot('fletching-output', null);
+        }
     }
 
     openStonecutter() {
