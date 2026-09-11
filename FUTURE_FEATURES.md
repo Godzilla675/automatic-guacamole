@@ -3,7 +3,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ## Core Features
 - [ ] **New Task: Add Armor Trims**: Customize armor appearance with smithing templates. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation. (Status: Verified and working)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Verified and working)
 - [x] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Verified and working)
@@ -17,7 +17,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Breeze Rod Projectile Crafting**: Breeze Rod usage for crafting Wind Charge consumables and Mace components. (Status: Verified and working)
 - [x] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Verified and working)
 
-- [ ] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Verified and working)
 - [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Wind Charges**: Used as a throwable projectile with knockback explosion physics. (Status: Verified and working)
 - [x] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Verified and working)
@@ -26,9 +26,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Breeze**: A hostile mob in Trial Chambers that uses wind attacks. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Copper Grates & Copper Bulbs**: New oxidation-capable copper blocks and dimmable light sources. (Status: Verified and working)
-- [ ] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Verified and working)
 - [ ] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Mace Smash Attack Damage Multiplier**: Falling from heights increases Mace weapon damage proportionally to fall distance. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Mace Smash Attack Damage Multiplier**: Falling from heights increases Mace weapon damage proportionally to fall distance. (Status: Verified and working)
 
 ## 1. World Generation
 - [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
@@ -111,7 +111,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 6. Items & Crafting
 - [ ] **New Task: Add Wolf Armor & Armadillo Scute Crafting**: Craft armor for tamed wolves using Armadillo Scutes. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Verified and working)
 - [ ] **New Task: Add Piglins and Bartering**: Neutral mobs in the Nether that trade items for gold. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava. (Status: Missing implementation, agents must fix)
 - [ ] **Map item** (Status: Missing implementation, agents must fix)
@@ -288,8 +288,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Mob rendering depth sorting**: When multiple mobs overlap, depth sorting sometimes renders the further mob in front. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Beehives**: Natural blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Bees**: Neutral flying mob that pollinates crops and produces honey. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Beehives**: Natural blocks where bees live and produce honey. (Status: Verified and working)
+- [x] **New Task: Add Bees**: Neutral flying mob that pollinates crops and produces honey. (Status: Verified and working)
 - [ ] **New Task: Implement Tool Durability**: Tools should lose durability when used. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Heavy Core**: Block used to craft the Mace. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld. (Status: Missing implementation, agents must fix)

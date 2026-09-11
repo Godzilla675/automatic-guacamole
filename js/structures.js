@@ -52,6 +52,33 @@ class StructureManager {
         }
     }
 
+    generateCoralReef(chunk, x, y, z, sync = false) {
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        const coralTypes = [
+            window.BLOCK.CORAL_BRAIN,
+            window.BLOCK.CORAL_TUBE,
+            window.BLOCK.CORAL_HORN,
+            window.BLOCK.CORAL_FIRE,
+            window.BLOCK.CORAL_BUBBLE
+        ];
+
+        for (let dx = -2; dx <= 2; dx++) {
+            for (let dz = -2; dz <= 2; dz++) {
+                if (Math.abs(dx) + Math.abs(dz) <= 3 && Math.random() < 0.75) {
+                    const chosenCoral = coralTypes[Math.floor(Math.random() * coralTypes.length)];
+                    const h = 1 + Math.floor(Math.random() * 2);
+                    for (let dh = 0; dh < h; dh++) {
+                        this.world.setBlock(wx + dx, y + dh, wz + dz, chosenCoral);
+                        if (sync && this.world.game && this.world.game.network) {
+                            this.world.game.network.sendBlockUpdate(wx + dx, y + dh, wz + dz, chosenCoral);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     generateCactus(chunk, x, y, z, sync = false) {
         const wx = chunk.cx * 16 + x;
         const wz = chunk.cz * 16 + z;

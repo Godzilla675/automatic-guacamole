@@ -20,7 +20,8 @@ const MOB_TYPE = {
     SNOW_GOLEM: 'snow_golem',
     WITHER_SKELETON: 'wither_skeleton',
     ALLAY: 'allay',
-    BOGGED: 'bogged'
+    BOGGED: 'bogged',
+    BEE: 'bee'
 };
 
 class Mob extends Entity {
@@ -317,6 +318,14 @@ class Mob extends Entity {
                 this.xpValue = 0;
                 this.heldItem = null;
                 break;
+            case MOB_TYPE.BEE:
+                this.color = '#FFD700';
+                this.height = 0.6;
+                this.width = 0.6;
+                this.speed = 2.5;
+                this.maxHealth = 10;
+                this.xpValue = 2;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -427,6 +436,9 @@ class Mob extends Entity {
                     this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, this.heldItem.type, this.heldItem.count));
                 }
                 break;
+            case MOB_TYPE.BEE:
+                dropType = BLOCK.HONEYCOMB_BLOCK;
+                break;
         }
 
         if (dropType && this.game.drops) {
@@ -510,6 +522,11 @@ class Mob extends Entity {
 
         if (this.type === MOB_TYPE.MAGMA_CUBE) {
             this.updateMagmaCubeAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.BEE) {
+            this.updateBeeAI(dt);
             return;
         }
 
@@ -617,6 +634,18 @@ class Mob extends Entity {
              this.updateHostileAI(dt);
         } else {
              this.updatePassiveAI(dt);
+        }
+    }
+
+    updateBeeAI(dt) {
+        // Flying floating motion around flowers/beehives
+        this.moveTimer -= dt;
+        if (this.moveTimer <= 0) {
+            this.moveTimer = 2 + Math.random() * 3;
+            this.yaw = Math.random() * Math.PI * 2;
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+            this.vy = (Math.random() - 0.5) * 2;
         }
     }
 

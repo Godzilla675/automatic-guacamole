@@ -253,6 +253,14 @@ class Game {
             return true;
         }
 
+        // Smithing Table
+        if (blockType === BLOCK.SMITHING_TABLE) {
+            if (this.ui && this.ui.openSmithingTable) {
+                this.ui.openSmithingTable();
+            }
+            return true;
+        }
+
         // Fletching Table
         if (blockType === BLOCK.FLETCHING_TABLE) {
             if (this.ui && this.ui.openFletchingTable) {
@@ -432,6 +440,33 @@ class Game {
             this.world.setMetadata(x, y, z, newMeta);
             window.soundManager.play('break', pos);
             return true;
+        }
+
+        // Beehive Interaction
+        if (blockType === BLOCK.BEEHIVE) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: 'beehive', honeyLevel: 5 };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            const held = this.player.getHeldItem();
+            if (held && held.type === BLOCK.ITEM_SHEARS) {
+                this.player.addItem({ type: BLOCK.HONEYCOMB_BLOCK, count: 1 });
+                if (this.particles) this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#FFD700', 12);
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Harvested Honeycomb from Beehive!");
+                return true;
+            } else if (held && held.type === BLOCK.ITEM_GLASS_BOTTLE) {
+                held.count--;
+                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                this.player.addItem({ type: BLOCK.ITEM_POTION, count: 1 });
+                this.updateHotbarUI();
+                if (this.particles) this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#FFA500', 12);
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Collected Honey Bottle from Beehive!");
+                return true;
+            } else {
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Beehive: Use Shears for Honeycomb or Glass Bottle for Honey!");
+                return true;
+            }
         }
 
         // Respawn Anchor Interaction

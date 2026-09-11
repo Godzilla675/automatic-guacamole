@@ -633,6 +633,36 @@ class Player {
         }
     }
 
+    attack(targetEntity) {
+        if (!targetEntity) return;
+        const currentSlot = this.inventory[this.selectedSlot];
+        let baseDamage = 1;
+        let isMaceSmash = false;
+        if (currentSlot && window.TOOLS && window.TOOLS[currentSlot.type]) {
+            baseDamage = window.TOOLS[currentSlot.type].damage || 1;
+            if (currentSlot.type === window.BLOCK.ITEM_MACE && this.fallDistance > 1.5 && this.vy < 0) {
+                isMaceSmash = true;
+                const smashBonus = Math.floor(this.fallDistance * 1.5);
+                baseDamage += smashBonus;
+                this.fallDistance = 0;
+            }
+        }
+        targetEntity.takeDamage(baseDamage);
+        if (isMaceSmash && this.game && this.game.particleSystem) {
+            for (let i = 0; i < 16; i++) {
+                const angle = (i / 16) * Math.PI * 2;
+                const px = targetEntity.x + Math.cos(angle) * 1.2;
+                const pz = targetEntity.z + Math.sin(angle) * 1.2;
+                this.game.particleSystem.spawn(px, targetEntity.y + 0.2, pz, Math.cos(angle) * 3, 2, Math.sin(angle) * 3, '#00FFFF', 0.5);
+            }
+            if (window.soundManager) window.soundManager.play('break');
+        }
+    }
+
+    getHeldItem() {
+        return this.inventory[this.selectedSlot];
+    }
+
     isBlocking() {
         return !!this.blocking;
     }
@@ -647,6 +677,14 @@ class Player {
             this.addEffect('Regeneration', '🧪', 45);
             if (window.soundManager) window.soundManager.play('eat');
             if (this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_OMINOUS_BOTTLE) {
+            this.addEffect('Bad Omen', '☠️', 300);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.ui && this.game.ui.showNotification) {
+                this.game.ui.showNotification('Drank Ominous Bottle! Applied Bad Omen effect.');
+            }
             return true;
         }
         if (itemType === BLOCK.ITEM_SUSPICIOUS_STEW) {

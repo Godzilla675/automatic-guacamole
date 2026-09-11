@@ -321,7 +321,17 @@ const BLOCK = {
     ITEM_WIND_CHARGE: 410,
     COPPER_BULB: 411,
     ITEM_RECOVERY_COMPASS: 412,
-    ITEM_SUSPICIOUS_STEW: 413
+    ITEM_SUSPICIOUS_STEW: 413,
+    HEAVY_CORE: 414,
+    ITEM_MACE: 415,
+    ITEM_OMINOUS_BOTTLE: 416,
+    CORAL_BRAIN: 417,
+    CORAL_TUBE: 418,
+    CORAL_HORN: 419,
+    CORAL_FIRE: 420,
+    CORAL_BUBBLE: 421,
+    SMITHING_TABLE: 422,
+    BEEHIVE: 423
 };
 
 const ARMOR = {
@@ -371,6 +381,7 @@ const TOOLS = {
     [BLOCK.SWORD_STONE]: { type: 'sword', speed: 1.5, damage: 5, durability: 132 },
     [BLOCK.SWORD_IRON]: { type: 'sword', speed: 1.5, damage: 6, durability: 250 },
     [BLOCK.SWORD_DIAMOND]: { type: 'sword', speed: 1.5, damage: 7, durability: 1561 },
+    [BLOCK.ITEM_MACE]: { type: 'mace', speed: 1.0, damage: 7, durability: 500 },
 
     [BLOCK.BOW]: { type: 'bow', speed: 1, damage: 4, durability: 384 },
     [BLOCK.SHIELD]: { type: 'shield', durability: 336 },
@@ -705,7 +716,17 @@ const BLOCKS = {
     [BLOCK.ITEM_WIND_CHARGE]: { name: 'Wind Charge', color: '#E0FFFF', solid: false, isItem: true, icon: '💨' },
     [BLOCK.COPPER_BULB]: { name: 'Copper Bulb', color: '#B87333', top: '#FFD700', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 0 },
     [BLOCK.ITEM_RECOVERY_COMPASS]: { name: 'Recovery Compass', color: '#00FFFF', solid: false, isItem: true, icon: '🧭' },
-    [BLOCK.ITEM_SUSPICIOUS_STEW]: { name: 'Suspicious Stew', color: '#8B4513', solid: false, isItem: true, icon: '🍲', food: 6 }
+    [BLOCK.ITEM_SUSPICIOUS_STEW]: { name: 'Suspicious Stew', color: '#8B4513', solid: false, isItem: true, icon: '🍲', food: 6 },
+    [BLOCK.HEAVY_CORE]: { name: 'Heavy Core', color: '#4A4A5A', top: '#6A6A7A', solid: true, icon: '🗿', hardness: 5.0, tool: 'pickaxe' },
+    [BLOCK.ITEM_MACE]: { name: 'Mace', color: '#708090', solid: false, isItem: true, icon: '🔨' },
+    [BLOCK.ITEM_OMINOUS_BOTTLE]: { name: 'Ominous Bottle', color: '#4B0082', solid: false, isItem: true, icon: '🍾' },
+    [BLOCK.CORAL_BRAIN]: { name: 'Brain Coral', color: '#FF69B4', top: '#FF1493', solid: true, icon: '🪸', hardness: 0.5, tool: 'pickaxe' },
+    [BLOCK.CORAL_TUBE]: { name: 'Tube Coral', color: '#4169E1', top: '#0000FF', solid: true, icon: '🪸', hardness: 0.5, tool: 'pickaxe' },
+    [BLOCK.CORAL_HORN]: { name: 'Horn Coral', color: '#FFD700', top: '#FFA500', solid: true, icon: '🪸', hardness: 0.5, tool: 'pickaxe' },
+    [BLOCK.CORAL_FIRE]: { name: 'Fire Coral', color: '#FF4500', top: '#FF0000', solid: true, icon: '🪸', hardness: 0.5, tool: 'pickaxe' },
+    [BLOCK.CORAL_BUBBLE]: { name: 'Bubble Coral', color: '#9370DB', top: '#8A2BE2', solid: true, icon: '🪸', hardness: 0.5, tool: 'pickaxe' },
+    [BLOCK.SMITHING_TABLE]: { name: 'Smithing Table', color: '#2B2B36', top: '#4A4A5A', solid: true, icon: '⚒️', hardness: 2.5, tool: 'axe' },
+    [BLOCK.BEEHIVE]: { name: 'Beehive', color: '#B8860B', top: '#DAA520', solid: true, icon: '🐝', hardness: 0.6, tool: 'axe' }
 };
 
 if (typeof window !== 'undefined') {

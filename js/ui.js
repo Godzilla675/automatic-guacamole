@@ -11,6 +11,7 @@ class UIManager {
         this.activeStonecutter = null;
         this.activeChiseledBookshelf = null;
         this.activeDropper = null;
+        this.activeSmithingTable = null;
     }
 
     init() {
@@ -294,6 +295,117 @@ class UIManager {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', () => this.handleFletchingClick(id));
         });
+
+        const closeSmithing = document.getElementById('close-smithing');
+        if (closeSmithing) {
+            closeSmithing.addEventListener('click', () => this.closeSmithingTable());
+        }
+        ['smithing-base', 'smithing-addition', 'smithing-output'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleSmithingClick(id));
+        });
+    }
+
+    openSmithingTable() {
+        this.activeSmithingTable = {
+            base: null,
+            addition: null,
+            output: null
+        };
+        const screen = document.getElementById('smithing-screen');
+        if (screen) screen.classList.remove('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+        document.exitPointerLock();
+        this.updateSmithingUI();
+        this.refreshInventoryUI();
+    }
+
+    closeSmithingTable() {
+        if (this.activeSmithingTable) {
+            if (this.activeSmithingTable.base) this.game.player.addItem(this.activeSmithingTable.base);
+            if (this.activeSmithingTable.addition) this.game.player.addItem(this.activeSmithingTable.addition);
+            this.activeSmithingTable = null;
+        }
+        const screen = document.getElementById('smithing-screen');
+        if (screen) screen.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+        this.refreshInventoryUI();
+    }
+
+    handleSmithingClick(slotId) {
+        if (!this.activeSmithingTable) return;
+        const st = this.activeSmithingTable;
+
+        if (slotId === 'smithing-output') {
+            if (st.output && st.base && st.addition) {
+                this.game.player.addItem(st.output);
+                st.base = null;
+                st.addition.count--;
+                if (st.addition.count <= 0) st.addition = null;
+                st.output = null;
+                if (window.soundManager) window.soundManager.play('place');
+            }
+        } else {
+            const key = slotId === 'smithing-base' ? 'base' : 'addition';
+            const current = st[key];
+            if (!current && this.cursorItem) {
+                st[key] = this.cursorItem;
+                this.cursorItem = null;
+            } else if (current && !this.cursorItem) {
+                this.cursorItem = current;
+                st[key] = null;
+            } else if (current && this.cursorItem) {
+                st[key] = this.cursorItem;
+                this.cursorItem = current;
+            }
+        }
+        this.updateSmithingUI();
+        this.updateCursorUI();
+        this.refreshInventoryUI();
+    }
+
+    updateSmithingUI() {
+        if (!this.activeSmithingTable) return;
+        const st = this.activeSmithingTable;
+
+        const renderSlot = (id, item) => {
+            const slot = document.getElementById(id);
+            if (!slot) return;
+            slot.innerHTML = '';
+            if (item) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[item.type];
+                icon.textContent = def ? def.icon : '?';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                slot.appendChild(icon);
+                if (item.count > 1) {
+                    const cnt = document.createElement('span');
+                    cnt.style.position = 'absolute';
+                    cnt.style.bottom = '2px';
+                    cnt.style.right = '2px';
+                    cnt.style.fontSize = '12px';
+                    cnt.style.color = 'white';
+                    cnt.textContent = item.count;
+                    slot.appendChild(cnt);
+                }
+            }
+        };
+
+        renderSlot('smithing-base', st.base);
+        renderSlot('smithing-addition', st.addition);
+
+        if (st.base && st.addition) {
+            // Repair gear or upgrade to diamond/gold
+            st.output = { type: st.base.type, count: 1, durability: window.TOOLS && window.TOOLS[st.base.type] ? window.TOOLS[st.base.type].durability : 100 };
+            renderSlot('smithing-output', st.output);
+        } else {
+            st.output = null;
+            renderSlot('smithing-output', null);
+        }
     }
 
     toggleRecipeBook() {
