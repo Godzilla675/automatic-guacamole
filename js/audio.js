@@ -129,9 +129,17 @@ class SoundManager {
             panner.refDistance = 1;
             panner.maxDistance = 100;
             panner.rolloffFactor = 1;
-            panner.positionX.value = Number.isFinite(position.x) ? position.x : 0;
-            panner.positionY.value = Number.isFinite(position.y) ? position.y : 0;
-            panner.positionZ.value = Number.isFinite(position.z) ? position.z : 0;
+            if (panner.positionX) {
+                panner.positionX.value = Number.isFinite(position.x) ? position.x : 0;
+                panner.positionY.value = Number.isFinite(position.y) ? position.y : 0;
+                panner.positionZ.value = Number.isFinite(position.z) ? position.z : 0;
+            } else if (panner.setPosition) {
+                panner.setPosition(
+                    Number.isFinite(position.x) ? position.x : 0,
+                    Number.isFinite(position.y) ? position.y : 0,
+                    Number.isFinite(position.z) ? position.z : 0
+                );
+            }
 
             osc.connect(panner);
             panner.connect(gain);

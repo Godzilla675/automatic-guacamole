@@ -51,6 +51,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.SCULK_SENSOR, count: 1 }, { type: BLOCK.ITEM_BONE, count: 2 } ]
             },
             {
+                name: "Mace",
+                result: { type: BLOCK.ITEM_MACE, count: 1 },
+                ingredients: [ { type: BLOCK.HEAVY_CORE, count: 1 }, { type: BLOCK.ITEM_BREEZE_ROD, count: 1 } ]
+            },
+            {
                 name: "Wind Charge",
                 result: { type: BLOCK.ITEM_WIND_CHARGE, count: 4 },
                 ingredients: [ { type: BLOCK.ITEM_BREEZE_ROD, count: 1 } ]
@@ -89,6 +94,11 @@ class CraftingSystem {
                 name: "Amethyst Block",
                 result: { type: BLOCK.AMETHYST_BLOCK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_QUARTZ, count: 4 } ]
+            },
+            {
+                name: "Smithing Table",
+                result: { type: BLOCK.SMITHING_TABLE, count: 1 },
+                ingredients: [ { type: BLOCK.PLANK, count: 4 }, { type: BLOCK.ITEM_IRON_INGOT, count: 2 } ]
             },
             {
                 name: "Fletching Table",
