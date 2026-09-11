@@ -255,14 +255,8 @@ class Game {
 
         // Fletching Table
         if (blockType === BLOCK.FLETCHING_TABLE) {
-            const held = this.player.getHeldItem();
-            if (held && (held.type === BLOCK.ITEM_STICK || held.type === BLOCK.ITEM_FEATHER)) {
-                held.count--;
-                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                this.player.addItem({ type: BLOCK.ITEM_ARROW, count: 4 });
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Crafted Arrows (x4) at Fletching Table!");
-            } else {
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Fletching Table: Interact with Sticks or Feathers to fletch Arrows!");
+            if (this.ui && this.ui.openFletchingTable) {
+                this.ui.openFletchingTable();
             }
             return true;
         }
@@ -1369,8 +1363,11 @@ class Game {
         if (pdist < 6) {
             const factor = (6 - pdist) / 6;
             this.player.vy = 12 * factor + 5;
-            this.player.vx += (pdx / (pdist || 1)) * 8 * factor;
-            this.player.vz += (pdz / (pdist || 1)) * 8 * factor;
+            const hDist = Math.hypot(pdx, pdz);
+            if (hDist > 0.3) {
+                this.player.vx += (pdx / (pdist || 1)) * 8 * factor;
+                this.player.vz += (pdz / (pdist || 1)) * 8 * factor;
+            }
         }
 
         // Impulse to mobs

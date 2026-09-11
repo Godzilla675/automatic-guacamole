@@ -121,6 +121,14 @@ class Renderer {
             ctx.fillRect(0, 0, w, h);
         }
 
+        // Spectator Block Occlusion Overlay
+        const isSpectator = this.game.player.spectator || this.game.player.gamemode === 3;
+        const headBlockDef = window.BLOCKS[headBlock];
+        if (isSpectator && headBlockDef && headBlockDef.solid) {
+            ctx.fillStyle = 'rgba(15, 15, 20, 0.7)';
+            ctx.fillRect(0, 0, w, h);
+        }
+
         // Render Blocks
         // Chunk-based rendering + Frustum/Distance Culling
 

@@ -167,6 +167,7 @@
                 <div class="furnace-fuel-container">
                      <div class="furnace-slot" id="furnace-fuel" title="Fuel"></div>
                      <div class="fire-icon" id="furnace-burn">🔥</div>
+                     <div class="furnace-effect" id="furnace-burn-effect"></div>
                 </div>
                 <button type="button" id="close-furnace" class="menu-button">Close</button>
             </div>
@@ -236,6 +237,22 @@
                     <div class="furnace-slot" id="stonecutter-output" title="Cut Result"></div>
                 </div>
                 <button type="button" id="close-stonecutter" class="menu-button">Close</button>
+            </div>
+        </div>
+
+        <div id="fletching-screen" class="hidden">
+            <div class="menu-content" style="max-width: 450px; text-align: center;">
+                <h2>Fletching Table</h2>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="furnace-slot" id="fletching-input-flint" title="Flint"></div>
+                        <div class="furnace-slot" id="fletching-input-stick" title="Stick"></div>
+                        <div class="furnace-slot" id="fletching-input-feather" title="Feather"></div>
+                    </div>
+                    <span style="font-size: 24px;">➔</span>
+                    <div class="furnace-slot" id="fletching-output" title="Crafted Arrows"></div>
+                </div>
+                <button type="button" id="close-fletching" class="menu-button">Close</button>
             </div>
         </div>
 
