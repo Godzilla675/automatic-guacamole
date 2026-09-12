@@ -66,6 +66,69 @@ class Renderer {
         this.drawCelestialBody(w, h, -sunX, -sunY, 0, 'moon');
     }
 
+    drawClouds(w, h) {
+        const ctx = this.ctx;
+        const px = this.game.player.x;
+        const py = this.game.player.y + this.game.player.height - 0.2;
+        const pz = this.game.player.z;
+        const yaw = this.game.player.yaw;
+        const pitch = this.game.player.pitch;
+
+        const sinY = Math.sin(-yaw);
+        const cosY = Math.cos(-yaw);
+        const sinP = Math.sin(-pitch);
+        const cosP = Math.cos(-pitch);
+        const scale = (h / 2) / Math.tan(this.game.fov * Math.PI / 360);
+
+        const cloudY = 120;
+        const cloudTime = (Date.now() / 10000) % 1000;
+        const cloudRadius = 15;
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+
+        const startX = Math.floor((px - cloudRadius * 16) / 16);
+        const endX = Math.ceil((px + cloudRadius * 16) / 16);
+        const startZ = Math.floor((pz - cloudRadius * 16) / 16);
+        const endZ = Math.ceil((pz + cloudRadius * 16) / 16);
+
+        const cloudsToDraw = [];
+
+        for (let cx = startX; cx <= endX; cx += 2) {
+            for (let cz = startZ; cz <= endZ; cz += 2) {
+                const noiseVal = Math.sin(cx * 0.3 + cloudTime * 0.1) * Math.cos(cz * 0.3);
+                if (noiseVal > 0.2) {
+                    const wx = cx * 16;
+                    const wz = cz * 16;
+                    const dx = wx - px;
+                    const dy = cloudY - py;
+                    const dz = wz - pz;
+
+                    const rx = dx * cosY - dz * sinY;
+                    const rz = dx * sinY + dz * cosY;
+                    const ry = dy * cosP - rz * sinP;
+                    const rz2 = dy * sinP + rz * cosP;
+
+                    if (rz2 > 0.1) {
+                        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                        cloudsToDraw.push({ rx, ry, rz: rz2, dist });
+                    }
+                }
+            }
+        }
+
+        cloudsToDraw.sort((a, b) => b.dist - a.dist);
+
+        cloudsToDraw.forEach(c => {
+            const size = (scale / c.rz) * 32;
+            const sx = (c.rx / c.rz) * scale + w / 2;
+            const sy = h / 2 - (c.ry / c.rz) * scale;
+
+            if (sx > -size && sx < w + size && sy > -size && sy < h + size) {
+                ctx.fillRect(Math.floor(sx - size / 2), Math.floor(sy - size / 2), Math.ceil(size), Math.ceil(size * 0.4));
+            }
+        });
+    }
+
     drawCelestialBody(w, h, x, y, z, type) {
         const yaw = this.game.player.yaw;
         const pitch = this.game.player.pitch;
@@ -113,6 +176,7 @@ class Renderer {
 
         // Sky
         this.drawSky(w, h);
+        this.drawClouds(w, h);
 
         // Water Overlay (Under water)
         const headBlock = this.game.world.getBlock(Math.floor(this.game.player.x), Math.floor(this.game.player.y + this.game.player.height - 0.2), Math.floor(this.game.player.z));
@@ -556,6 +620,7 @@ class Renderer {
         });
 
         // Draw Mobs (simple billboards)
+        const mobsToDraw = [];
         this.game.mobs.forEach(mob => {
              const dx = mob.x - px;
              const dy = mob.y - py;
@@ -567,17 +632,24 @@ class Renderer {
              const rz2 = dy * sinP + rz * cosP;
 
              if (rz2 > 0.1) {
-                 const size = (scale / rz2) * mob.height;
-                 const sx = (rx / rz2) * scale + w / 2;
-                 const sy = h / 2 - (ry / rz2) * scale;
+                 const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                 mobsToDraw.push({ mob, rx, ry, rz2, dist });
+             }
+        });
 
-                 ctx.fillStyle = mob.color;
-                 const mobTex = this.textureManager ? this.textureManager.getMobTexture(mob.type) : null;
-                 if (mobTex) {
-                     ctx.drawImage(mobTex, sx - size/4, sy - size, size/2, size);
-                 } else {
-                     ctx.fillRect(sx - size/4, sy - size, size/2, size);
-                 }
+        mobsToDraw.sort((a, b) => b.dist - a.dist);
+
+        mobsToDraw.forEach(({ mob, rx, ry, rz2 }) => {
+             const size = (scale / rz2) * mob.height;
+             const sx = (rx / rz2) * scale + w / 2;
+             const sy = h / 2 - (ry / rz2) * scale;
+
+             ctx.fillStyle = mob.color;
+             const mobTex = this.textureManager ? this.textureManager.getMobTexture(mob.type) : null;
+             if (mobTex) {
+                 ctx.drawImage(mobTex, sx - size/4, sy - size, size/2, size);
+             } else {
+                 ctx.fillRect(sx - size/4, sy - size, size/2, size);
              }
         });
 

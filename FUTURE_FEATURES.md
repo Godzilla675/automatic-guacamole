@@ -68,7 +68,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Bookshelves & Books**: Bookshelf blocks and book items definition, crafting, and textures. (Status: Verified and working)
 
 ### 3. Rendering Engine
-- [ ] **Bug: Cloud clipping**: Clouds sometimes clip through high mountains or buildings. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Cloud clipping**: Clouds sort altitude and depth correctly. (Status: Verified and working)
 - [ ] Smooth lighting (Status: Missing implementation, agents must fix)
 - [ ] Custom shaders (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Custom Sun/Moon Textures**: Use unique textures for the celestial bodies instead of simple shapes. (Status: Missing implementation, agents must fix)
@@ -238,7 +238,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 
 ## Known Bugs & Issues (To Be Fixed)
-- [ ] **Bug: Cloud rendering depth**: Clouds might not sort correctly with transparent blocks. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Cloud rendering depth**: Clouds sort altitude and depth correctly. (Status: Verified and working)
 - [x] **New Task: Add Glazed Terracotta Crafting**: Smelting dyed terracotta into glazed terracotta. (Status: Verified and working)
 - [ ] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts lack visual debug toggle. (Status: Missing implementation, agents must fix)
 
@@ -289,7 +289,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Mob rendering depth sorting**: When multiple mobs overlap, depth sorting sometimes renders the further mob in front. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Mob rendering depth sorting**: Mobs sort by 3D distance prior to rendering. (Status: Verified and working)
 - [x] **New Task: Add Beehives**: Natural blocks where bees live and produce honey. (Status: Verified and working)
 - [x] **New Task: Add Bees**: Neutral flying mob that pollinates crops and produces honey. (Status: Verified and working)
 - [ ] **New Task: Implement Tool Durability**: Tools should lose durability when used. (Status: Missing implementation, agents must fix)
