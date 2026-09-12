@@ -27,6 +27,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Verified and working)
 - [x] **New Task: Add Copper Bulbs**: Dimmable light sources that toggle state on redstone signals. (Status: Verified and working)
 - [ ] **New Task: Add Copper Grates**: Oxidation-capable decorative grate blocks. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Bundles & Tooltip Inventory Preview**: Sack items holding up to 64 mixed items with tooltip grid display. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Pale Oak Wood Family & Eyeblossoms**: Full wood family (planks, logs, doors, slabs) and nocturnal blooming flowers for Pale Garden biomes. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Verified and working)
 - [ ] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Mace Smash Attack Damage Multiplier**: Falling from heights increases Mace weapon damage proportionally to fall distance. (Status: Verified and working)
@@ -443,7 +445,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental flow. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Animal Taming and Pet System**: Mechanics for taming, breeding, and commanding domestic pets. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue and task progression tracking for rewards. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Coral, Seagrass, and Kelp**: Underwater vegetation and blocks. (Status: Coral reefs & blocks verified and working; Seagrass & Kelp remain missing)
+- [ ] **New Task: Add Seagrass & Dried Kelp Mechanics**: Underwater seagrass vegetation blocks and kelp cooking/drying mechanics. (Status: Kelp item registered for smelting input, but seagrass blocks and kelp placing/drying missing, agents must fix)
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
 
 ## Newly Discovered Bugs & Tasks (From Audit)
