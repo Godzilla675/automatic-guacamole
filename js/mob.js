@@ -21,7 +21,9 @@ const MOB_TYPE = {
     WITHER_SKELETON: 'wither_skeleton',
     ALLAY: 'allay',
     BOGGED: 'bogged',
-    BEE: 'bee'
+    BEE: 'bee',
+    BREEZE: 'breeze',
+    POLAR_BEAR: 'polar_bear'
 };
 
 class Mob extends Entity {
@@ -326,6 +328,22 @@ class Mob extends Entity {
                 this.maxHealth = 10;
                 this.xpValue = 2;
                 break;
+            case MOB_TYPE.BREEZE:
+                this.color = '#E0FFFF';
+                this.height = 1.8;
+                this.width = 0.8;
+                this.speed = 3.5;
+                this.maxHealth = 30;
+                this.xpValue = 10;
+                break;
+            case MOB_TYPE.POLAR_BEAR:
+                this.color = '#F5F5FA';
+                this.height = 1.4;
+                this.width = 1.3;
+                this.speed = 2.0;
+                this.maxHealth = 30;
+                this.xpValue = 3;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -439,6 +457,14 @@ class Mob extends Entity {
             case MOB_TYPE.BEE:
                 dropType = BLOCK.HONEYCOMB_BLOCK;
                 break;
+            case MOB_TYPE.BREEZE:
+                dropType = BLOCK.ITEM_BREEZE_ROD;
+                count = 1 + Math.floor(Math.random() * 2);
+                break;
+            case MOB_TYPE.POLAR_BEAR:
+                dropType = BLOCK.ITEM_RAW_FISH;
+                count = 1 + Math.floor(Math.random() * 3);
+                break;
         }
 
         if (dropType && this.game.drops) {
@@ -527,6 +553,16 @@ class Mob extends Entity {
 
         if (this.type === MOB_TYPE.BEE) {
             this.updateBeeAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.BREEZE) {
+            this.updateBreezeAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.POLAR_BEAR) {
+            this.updatePolarBearAI(dt);
             return;
         }
 
@@ -646,6 +682,68 @@ class Mob extends Entity {
             this.vx = Math.sin(this.yaw) * this.speed;
             this.vz = Math.cos(this.yaw) * this.speed;
             this.vy = (Math.random() - 0.5) * 2;
+        }
+    }
+
+    updateBreezeAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const dz = player.z - this.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        if (dist < 22 && this.hasLineOfSight(player)) {
+            this.yaw = Math.atan2(dx, dz);
+
+            // Hover and burst jump around player
+            if (this.onGround || Math.random() < 0.02) {
+                this.vy = 8 + Math.random() * 4;
+                const leapAngle = this.yaw + (Math.random() - 0.5) * Math.PI;
+                this.vx = Math.sin(leapAngle) * this.speed * 1.5;
+                this.vz = Math.cos(leapAngle) * this.speed * 1.5;
+            }
+
+            this.attackCooldown -= dt;
+            if (this.attackCooldown <= 0) {
+                if (this.game.spawnProjectile) {
+                    const normDist = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
+                    const dir = { x: dx / normDist, y: dy / normDist, z: dz / normDist };
+                    this.game.spawnProjectile(this.x, this.y + this.height * 0.7, this.z, dir, 'wind_charge');
+                }
+                this.attackCooldown = 2.5;
+            }
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updatePolarBearAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        let isAggro = Date.now() - this.lastDamageTime < 10000;
+        // Aggro if player is near baby polar bears
+        if (!isAggro && !this.isBaby && this.game.mobs) {
+            const hasBabyNearby = this.game.mobs.some(m => m !== this && m.type === MOB_TYPE.POLAR_BEAR && m.isBaby && Math.hypot(m.x - this.x, m.z - this.z) < 8);
+            if (hasBabyNearby && dist < 10) {
+                isAggro = true;
+            }
+        }
+
+        if (isAggro && dist < 16) {
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed * 1.2;
+            this.vz = Math.cos(this.yaw) * this.speed * 1.2;
+
+            if (dist < 2.0 && this.attackCooldown <= 0) {
+                player.takeDamage(6);
+                this.attackCooldown = 1.2;
+            }
+            this.attackCooldown -= dt;
+        } else {
+            this.updatePassiveAI(dt);
         }
     }
 

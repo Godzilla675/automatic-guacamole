@@ -24,7 +24,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Trial Chambers**: Procedural structures found underground. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Wind Charges and Breeze Rod exist, but Breeze mob entity AI is missing; agents must fix)
+- [x] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Verified and working)
 - [x] **New Task: Add Copper Bulbs**: Dimmable light sources that toggle state on redstone signals. (Status: Verified and working)
 - [ ] **New Task: Add Copper Grates**: Oxidation-capable decorative grate blocks. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Verified and working)
@@ -92,7 +92,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Bogged Skeleton Variant**: Poison arrow shooting skeleton mob spawning in Swamps and Trial Chambers. (Status: Verified and working)
 - [ ] **New Task: Add Bogged Shearable Mushrooms**: Right clicking Bogged mobs with shears yields brown or red mushrooms and changes model appearance. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Breeze Wind Charge Deflection**: Melee hits on flying Wind Charge projectiles redirect their trajectory back at the Breeze. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Polar Bears**: Neutral mobs in snowy biomes that attack if their cubs are near. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Polar Bears**: Neutral mobs in snowy biomes that attack if their cubs are near. (Status: Verified and working)
 - [ ] **New Task: Add Creaking Heart**: Block that spawns and controls Creaking mobs. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Creaking Heart Resin Drop Logic**: Attacking Creaking mob triggers Resin drops around its linked Creaking Heart block. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Resin**: Item dropped by Creaking Heart. (Status: Missing implementation, agents must fix)
@@ -153,7 +153,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
 - [ ] **Proper block placement sound based on block type** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Verified and working)
 
 ### 12. Redstone & Mechanics
 - [ ] **New Task: Add Crafter Slot Toggling**: Interactive GUI to disable specific crafting grid slots on Crafter blocks. (Status: Proposed feature, pending implementation)
@@ -162,13 +162,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Honeycomb Block Crafting**: Crafting recipe for turning honeycombs into honeycomb blocks. (Status: Verified and working)
 - [x] **Redstone Repeaters & Comparators** (Status: Verified and working)
-- [ ] **New Task: Add Hoppers**: Blocks that transfer items between containers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Hoppers**: Blocks that transfer items between containers. (Status: Verified and working)
+- [x] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Verified and working)
 - [ ] **Command Block** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Fishing Catch Logic & Loot Tables**: Rod and bobber exist, with fish catch timers and loot table roll execution fully implemented. (Status: Verified and working)
 - [x] **New Task: Add Crafter Auto-Crafting Redstone Signal**: Crafter block triggering full 3x3 recipe evaluation and output ejecting on redstone rising edge. (Status: Verified and working)
-- [ ] **New Task: Add Hopper Item Transport Logic**: Hoppers pulling items from chest containers above and pushing into facing containers. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Observer Block State Update Pulse**: Observer block emitting 1-tick redstone pulse when facing block state changes. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Hopper Item Transport Logic**: Hoppers pulling items from chest containers above and pushing into facing containers. (Status: Verified and working)
+- [x] **New Task: Add Observer Block State Update Pulse**: Observer block emitting 1-tick redstone pulse when facing block state changes. (Status: Verified and working)
 
 ### 13. Networking (Multiplayer)
 - [ ] Entity synchronization (Status: Missing implementation, agents must fix)

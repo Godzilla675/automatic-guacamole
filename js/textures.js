@@ -149,6 +149,8 @@ class TextureManager {
         this.textures[B.CORAL_BUBBLE] = this.genCoral('#9370DB');
         this.textures[B.SMITHING_TABLE] = this.genSmithingTable();
         this.textures[B.BEEHIVE] = this.genBeehive();
+        this.textures[B.HOPPER] = this.genHopper();
+        this.textures[B.OBSERVER] = this.genObserver();
 
 
         // Glass
@@ -2223,6 +2225,8 @@ class TextureManager {
         this.mobTextures.wither_skeleton = this.genMobWitherSkeleton();
         this.mobTextures.allay = this.genMobAllay();
         this.mobTextures.bee = this.genMobBee();
+        this.mobTextures.breeze = this.genMobBreeze();
+        this.mobTextures.polar_bear = this.genMobPolarBear();
     }
 
     genMobWitherSkeleton() {
@@ -2659,6 +2663,55 @@ class TextureManager {
         ctx.fillRect(7, 3, 3, 4);
         ctx.fillStyle = '#32CD32';
         ctx.fillRect(10, 10, 3, 3);
+        return c;
+    }
+
+    genHopper() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#4A4A4A';
+        ctx.fillRect(0, 0, 16, 4);
+        ctx.fillRect(2, 4, 12, 6);
+        ctx.fillRect(5, 10, 6, 6);
+        ctx.fillStyle = '#2A2A2A';
+        ctx.fillRect(2, 2, 12, 2);
+        return c;
+    }
+
+    genObserver() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 100, g: 100, b: 100 }, 10);
+        ctx.fillStyle = '#2A2A2A';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(6, 6, 4, 4);
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(7, 14, 2, 2);
+        return c;
+    }
+
+    genMobBreeze() {
+        const c = this.createCanvas(8, 14);
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#E0FFFF';
+        ctx.fillRect(1, 0, 6, 6);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(2, 2, 1, 1);
+        ctx.fillRect(5, 2, 1, 1);
+        ctx.fillStyle = '#B0E0E6';
+        ctx.fillRect(0, 6, 8, 8);
+        return c;
+    }
+
+    genMobPolarBear() {
+        const c = this.createCanvas(12, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 245, g: 245, b: 250 }, 5, 12, 16);
+        ctx.fillStyle = '#2A2A2A';
+        ctx.fillRect(3, 3, 2, 2);
+        ctx.fillRect(7, 3, 2, 2);
+        ctx.fillRect(5, 5, 2, 2);
         return c;
     }
 

@@ -31,6 +31,16 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]
             },
             {
+                name: "Hopper",
+                result: { type: BLOCK.HOPPER, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 5 }, { type: BLOCK.CHEST, count: 1 } ]
+            },
+            {
+                name: "Observer",
+                result: { type: BLOCK.OBSERVER, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 6 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 2 }, { type: BLOCK.ITEM_QUARTZ, count: 1 } ]
+            },
+            {
                 name: "Chiseled Bookshelf",
                 result: { type: BLOCK.CHISELED_BOOKSHELF, count: 1 },
                 ingredients: [ { type: BLOCK.PLANK, count: 6 }, { type: BLOCK.SLAB_WOOD, count: 3 } ]
