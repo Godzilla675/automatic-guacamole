@@ -72,6 +72,11 @@ class World {
         const oldType = chunk.getBlock(lx, y, lz);
         chunk.setBlock(lx, y, lz, type);
 
+        // Observer detection on block change
+        if (oldType !== type) {
+            this.checkObserverUpdates(x, y, z);
+        }
+
         // Remove old block entity if it exists
         this.removeBlockEntity(x, y, z);
 
@@ -280,6 +285,22 @@ class World {
         return false;
     }
 
+    checkObserverUpdates(x, y, z) {
+        const neighbors = [
+            { x: x + 1, y, z }, { x: x - 1, y, z },
+            { x, y: y + 1, z }, { x, y: y - 1, z },
+            { x, y, z: z + 1 }, { x, y, z: z - 1 }
+        ];
+
+        for (const n of neighbors) {
+            if (this.getBlock(n.x, n.y, n.z) === window.BLOCK.OBSERVER) {
+                this.setMetadata(n.x, n.y, n.z, 15);
+                this.activeRedstone.add(`${n.x},${n.y},${n.z}`);
+                this.scheduleNeighborRedstoneUpdates(n.x, n.y, n.z);
+            }
+        }
+    }
+
     updateDroppers() {
         for (const [key, entity] of this.blockEntities) {
             if (entity && entity.type === 'dropper') {
@@ -289,6 +310,74 @@ class World {
                     this.ejectDropperItem(x, y, z, entity);
                 }
                 entity.wasPowered = isPowered;
+            }
+        }
+    }
+
+    updateHoppers() {
+        for (let x = -30; x <= 30; x += 16) {
+            for (let z = -30; z <= 30; z += 16) {
+                const chunk = this.getChunkAt(x, z);
+                if (!chunk) continue;
+                for (let lx = 0; lx < 16; lx++) {
+                    for (let lz = 0; lz < 16; lz++) {
+                        for (let y = 1; y < 120; y++) {
+                            if (chunk.getBlock(lx, y, lz) === window.BLOCK.HOPPER) {
+                                this.processHopper(chunk.cx * 16 + lx, y, chunk.cz * 16 + lz);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    processHopper(x, y, z) {
+        let hopperEntity = this.getBlockEntity(x, y, z);
+        if (!hopperEntity) {
+            hopperEntity = { type: 'hopper', items: new Array(5).fill(null) };
+            this.setBlockEntity(x, y, z, hopperEntity);
+        }
+
+        // Pull item drops from top
+        if (this.game && this.game.drops) {
+            for (let i = this.game.drops.length - 1; i >= 0; i--) {
+                const drop = this.game.drops[i];
+                if (Math.abs(drop.x - (x + 0.5)) < 0.8 && Math.abs(drop.z - (z + 0.5)) < 0.8 && drop.y >= y + 0.5 && drop.y <= y + 1.8) {
+                    for (let s = 0; s < hopperEntity.items.length; s++) {
+                        if (!hopperEntity.items[s]) {
+                            hopperEntity.items[s] = { type: drop.type, count: drop.count };
+                            this.game.drops.splice(i, 1);
+                            break;
+                        } else if (hopperEntity.items[s].type === drop.type && hopperEntity.items[s].count < 64) {
+                            hopperEntity.items[s].count += drop.count;
+                            this.game.drops.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Push items down
+        let itemIndex = hopperEntity.items.findIndex(it => it && it.count > 0);
+        if (itemIndex === -1) return;
+
+        const targetEntity = this.getBlockEntity(x, y - 1, z);
+        if (targetEntity && targetEntity.items) {
+            const itemToPush = hopperEntity.items[itemIndex];
+            for (let s = 0; s < targetEntity.items.length; s++) {
+                if (!targetEntity.items[s]) {
+                    targetEntity.items[s] = { type: itemToPush.type, count: 1 };
+                    itemToPush.count--;
+                    if (itemToPush.count <= 0) hopperEntity.items[itemIndex] = null;
+                    break;
+                } else if (targetEntity.items[s].type === itemToPush.type && targetEntity.items[s].count < 64) {
+                    targetEntity.items[s].count++;
+                    itemToPush.count--;
+                    if (itemToPush.count <= 0) hopperEntity.items[itemIndex] = null;
+                    break;
+                }
             }
         }
     }
@@ -336,6 +425,7 @@ class World {
 
     updateRedstone() {
         this.updateDroppers();
+        this.updateHoppers();
         if (this.activeRedstone.size === 0) return;
 
         // Process a batch (breadth-firstish)
@@ -380,6 +470,12 @@ class World {
                 if (newPower !== currentPower) {
                     this.setMetadata(x, y, z, newPower);
                     // Notify neighbors of change
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+            } else if (type === window.BLOCK.OBSERVER) {
+                const currentPower = this.getMetadata(x, y, z);
+                if (currentPower > 0) {
+                    this.setMetadata(x, y, z, 0);
                     this.scheduleNeighborRedstoneUpdates(x, y, z);
                 }
             } else if (type === window.BLOCK.REDSTONE_REPEATER) {

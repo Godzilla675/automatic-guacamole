@@ -331,7 +331,9 @@ const BLOCK = {
     CORAL_FIRE: 420,
     CORAL_BUBBLE: 421,
     SMITHING_TABLE: 422,
-    BEEHIVE: 423
+    BEEHIVE: 423,
+    HOPPER: 424,
+    OBSERVER: 425
 };
 
 const ARMOR = {
@@ -726,7 +728,9 @@ const BLOCKS = {
     [BLOCK.CORAL_FIRE]: { name: 'Fire Coral', color: '#FF4500', top: '#FF0000', solid: true, icon: '🪸', hardness: 0.5, tool: 'pickaxe' },
     [BLOCK.CORAL_BUBBLE]: { name: 'Bubble Coral', color: '#9370DB', top: '#8A2BE2', solid: true, icon: '🪸', hardness: 0.5, tool: 'pickaxe' },
     [BLOCK.SMITHING_TABLE]: { name: 'Smithing Table', color: '#2B2B36', top: '#4A4A5A', solid: true, icon: '⚒️', hardness: 2.5, tool: 'axe' },
-    [BLOCK.BEEHIVE]: { name: 'Beehive', color: '#B8860B', top: '#DAA520', solid: true, icon: '🐝', hardness: 0.6, tool: 'axe' }
+    [BLOCK.BEEHIVE]: { name: 'Beehive', color: '#B8860B', top: '#DAA520', solid: true, icon: '🐝', hardness: 0.6, tool: 'axe' },
+    [BLOCK.HOPPER]: { name: 'Hopper', color: '#696969', top: '#404040', solid: false, transparent: true, icon: '📥', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.OBSERVER]: { name: 'Observer', color: '#505050', top: '#303030', solid: true, icon: '👁️', hardness: 3.5, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {

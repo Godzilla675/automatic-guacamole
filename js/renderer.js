@@ -178,11 +178,21 @@ class Renderer {
         this.drawSky(w, h);
         this.drawClouds(w, h);
 
-        // Water Overlay (Under water)
+        // Water Overlay & Deep Underwater Fog
         const headBlock = this.game.world.getBlock(Math.floor(this.game.player.x), Math.floor(this.game.player.y + this.game.player.height - 0.2), Math.floor(this.game.player.z));
         if (headBlock === BLOCK.WATER) {
-            ctx.fillStyle = 'rgba(0, 50, 150, 0.5)';
+            ctx.fillStyle = 'rgba(10, 40, 90, 0.85)';
             ctx.fillRect(0, 0, w, h);
+
+            // Ambient underwater bubbles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            for (let i = 0; i < 15; i++) {
+                const bx = (Math.sin(Date.now() * 0.002 + i) * 0.5 + 0.5) * w;
+                const by = ((Date.now() * 0.05 + i * 50) % h);
+                ctx.beginPath();
+                ctx.arc(bx, h - by, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
         // Spectator Block Occlusion Overlay
