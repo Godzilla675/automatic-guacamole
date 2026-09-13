@@ -960,7 +960,19 @@ class Mob extends Entity {
 
         const dir = { x: dx / dist, y: dy / dist, z: dz / dist };
         const hit = this.game.physics.raycast(origin, dir, dist, false);
-        return !hit;
+        const hasSight = !hit;
+
+        if (typeof window !== 'undefined' && window.debugLineOfSight) {
+            if (!this.game.debugRays) this.game.debugRays = [];
+            this.game.debugRays.push({
+                origin,
+                target: targetEye,
+                hit: !!hit,
+                time: Date.now()
+            });
+        }
+
+        return hasSight;
     }
 
     updateHostileAI(dt) {
