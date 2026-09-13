@@ -469,6 +469,70 @@ class Game {
             }
         }
 
+        // Trial Spawner Interaction
+        if (blockType === BLOCK.TRIAL_SPAWNER) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: 'trial_spawner', wave: 0, maxWaves: 3, mobCount: 0 };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            if (entity.wave < entity.maxWaves && entity.mobCount <= 0) {
+                entity.wave++;
+                entity.mobCount = 2;
+                for (let i = 0; i < 2; i++) {
+                    const mob = new Mob(this, x + 1 + i, y + 1, z, MOB_TYPE.BREEZE || MOB_TYPE.ZOMBIE);
+                    this.mobs.push(mob);
+                }
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#FFA500', 15);
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification(`Trial Spawner Wave ${entity.wave}/${entity.maxWaves} Started!`);
+                }
+            } else if (entity.wave >= entity.maxWaves) {
+                this.player.addItem({ type: BLOCK.ITEM_TRIAL_KEY, count: 1 });
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification("Trial Spawner Defeated! Earned Trial Key!");
+                }
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#FFD700', 25);
+            } else {
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification("Trial Spawner: Defeat active trial mobs!");
+                }
+            }
+            return true;
+        }
+
+        // Trial Vault Interaction
+        if (blockType === BLOCK.TRIAL_VAULT) {
+            const held = this.player.getHeldItem();
+            if (held && held.type === BLOCK.ITEM_TRIAL_KEY) {
+                held.count--;
+                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                this.updateHotbarUI();
+
+                // High tier loot table
+                const rewards = [
+                    { type: BLOCK.ITEM_DIAMOND, count: 3 },
+                    { type: BLOCK.HEAVY_CORE, count: 1 },
+                    { type: BLOCK.ITEM_MACE, count: 1 },
+                    { type: BLOCK.ITEM_GOLD_INGOT, count: 5 }
+                ];
+                const loot = rewards[Math.floor(Math.random() * rewards.length)];
+                this.player.addItem(loot);
+
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#00FFFF', 30);
+                if (this.ui && this.ui.showNotification) {
+                    const def = window.BLOCKS[loot.type];
+                    this.ui.showNotification(`Trial Vault Unlocked! Rewarded ${def ? def.name : 'Loot'} x${loot.count}!`);
+                }
+                if (window.soundManager) window.soundManager.play('place', pos);
+            } else {
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification("Trial Vault: Requires a Trial Key to unlock!");
+                }
+            }
+            return true;
+        }
+
         // Respawn Anchor Interaction
         if (blockType === BLOCK.RESPAWN_ANCHOR) {
             let entity = this.world.getBlockEntity(x, y, z);
@@ -887,13 +951,15 @@ class Game {
         this.world.setBlock(x, y, z, BLOCK.AIR);
 
         // Door Double-Block Cleanup
-        if (blockType === BLOCK.DOOR_WOOD_BOTTOM) {
-            if (this.world.getBlock(x, y + 1, z) === BLOCK.DOOR_WOOD_TOP) {
+        if (blockType === BLOCK.DOOR_WOOD_BOTTOM || blockType === BLOCK.COPPER_DOOR_BOTTOM) {
+            const topType = blockType === BLOCK.COPPER_DOOR_BOTTOM ? BLOCK.COPPER_DOOR_TOP : BLOCK.DOOR_WOOD_TOP;
+            if (this.world.getBlock(x, y + 1, z) === topType) {
                 this.world.setBlock(x, y + 1, z, BLOCK.AIR);
                 this.network.sendBlockUpdate(x, y + 1, z, BLOCK.AIR);
             }
-        } else if (blockType === BLOCK.DOOR_WOOD_TOP) {
-            if (this.world.getBlock(x, y - 1, z) === BLOCK.DOOR_WOOD_BOTTOM) {
+        } else if (blockType === BLOCK.DOOR_WOOD_TOP || blockType === BLOCK.COPPER_DOOR_TOP) {
+            const bottomType = blockType === BLOCK.COPPER_DOOR_TOP ? BLOCK.COPPER_DOOR_BOTTOM : BLOCK.DOOR_WOOD_BOTTOM;
+            if (this.world.getBlock(x, y - 1, z) === bottomType) {
                 this.world.setBlock(x, y - 1, z, BLOCK.AIR);
                 this.network.sendBlockUpdate(x, y - 1, z, BLOCK.AIR);
             }
@@ -1096,11 +1162,14 @@ class Game {
                  }
 
                  // Door Placement Logic
-                 if (slot.type === BLOCK.DOOR_WOOD_BOTTOM) {
+                 if (slot.type === BLOCK.DOOR_WOOD_BOTTOM || slot.type === BLOCK.ITEM_COPPER_DOOR) {
+                     const bottomType = slot.type === BLOCK.ITEM_COPPER_DOOR ? BLOCK.COPPER_DOOR_BOTTOM : BLOCK.DOOR_WOOD_BOTTOM;
+                     const topType = slot.type === BLOCK.ITEM_COPPER_DOOR ? BLOCK.COPPER_DOOR_TOP : BLOCK.DOOR_WOOD_TOP;
+
                      // Check vertical space (needs 2 blocks)
                      if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR && this.world.getBlock(nx, ny+1, nz) === BLOCK.AIR) {
-                         this.world.setBlock(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
-                         this.world.setBlock(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
+                         this.world.setBlock(nx, ny, nz, bottomType);
+                         this.world.setBlock(nx, ny+1, nz, topType);
 
                          // Calculate orientation
                          let r = this.player.yaw % (2*Math.PI);
@@ -1115,9 +1184,9 @@ class Game {
                          this.world.setMetadata(nx, ny, nz, meta);
                          this.world.setMetadata(nx, ny+1, nz, meta);
 
-                         window.soundManager.play('place', pos, BLOCK.DOOR_WOOD_BOTTOM);
-                         this.network.sendBlockUpdate(nx, ny, nz, BLOCK.DOOR_WOOD_BOTTOM);
-                         this.network.sendBlockUpdate(nx, ny+1, nz, BLOCK.DOOR_WOOD_TOP);
+                         window.soundManager.play('place', pos, bottomType);
+                         this.network.sendBlockUpdate(nx, ny, nz, bottomType);
+                         this.network.sendBlockUpdate(nx, ny+1, nz, topType);
 
                          if (this.player.gamemode !== 1) {
                              slot.count--;
@@ -1773,6 +1842,24 @@ class Game {
         if (this.minimap) this.minimap.update();
         if (this.achievements) this.achievements.update();
         if (this.tutorial) this.tutorial.update(dt / 1000);
+
+        // Eyeblossom Nocturnal Blooming Logic
+        const dayCycle = (this.gameTime % this.dayLength) / this.dayLength;
+        const isNight = dayCycle >= 0.5;
+
+        if (this.frameCount % 20 === 0 && isNight && this.particles) {
+            for (let x = Math.floor(this.player.x - 15); x <= Math.floor(this.player.x + 15); x++) {
+                for (let z = Math.floor(this.player.z - 15); z <= Math.floor(this.player.z + 15); z++) {
+                    for (let y = Math.floor(this.player.y - 5); y <= Math.floor(this.player.y + 5); y++) {
+                        if (this.world.getBlock(x, y, z) === BLOCK.EYEBLOSSOM) {
+                            if (Math.random() < 0.3) {
+                                this.particles.spawn(x + 0.5, y + 0.5, z + 0.5, '#FF8C00', 2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         // Process Block Entities (Furnaces & Crops)
         for (const [key, entity] of this.world.blockEntities) {

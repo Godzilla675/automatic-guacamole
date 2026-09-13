@@ -23,14 +23,14 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Verified and working)
 
 - [ ] **New Task: Add Trial Chambers**: Procedural structures found underground. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Verified and working)
 - [x] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Verified and working)
 - [x] **New Task: Add Copper Bulbs**: Dimmable light sources that toggle state on redstone signals. (Status: Verified and working)
-- [ ] **New Task: Add Copper Grates**: Oxidation-capable decorative grate blocks. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Bundles & Tooltip Inventory Preview**: Sack items holding up to 64 mixed items with tooltip grid display. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Pale Oak Wood Family & Eyeblossoms**: Full wood family (planks, logs, doors, slabs) and nocturnal blooming flowers for Pale Garden biomes. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Copper Grates**: Oxidation-capable decorative grate blocks. (Status: Verified and working)
+- [x] **New Task: Add Bundles & Tooltip Inventory Preview**: Sack items holding up to 64 mixed items with tooltip grid display. (Status: Verified and working)
+- [x] **New Task: Add Pale Oak Wood Family & Eyeblossoms**: Full wood family (planks, logs, doors, slabs) and nocturnal blooming flowers for Pale Garden biomes. (Status: Verified and working)
 - [x] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Verified and working)
-- [ ] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Verified and working)
 - [x] **New Task: Add Mace Smash Attack Damage Multiplier**: Falling from heights increases Mace weapon damage proportionally to fall distance. (Status: Verified and working)
 
 ## 1. World Generation

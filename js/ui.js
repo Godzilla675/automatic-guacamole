@@ -1881,8 +1881,14 @@ class UIManager {
                     icon.style.backgroundImage = 'none';
                 }
 
-                // Add tooltip for custom names
-                if (item.name) {
+                // Add tooltip for custom names or bundle contents
+                if (item.type === window.BLOCK.ITEM_BUNDLE && item.bundleItems) {
+                    const contentsStr = item.bundleItems.map(it => {
+                        const def = window.BLOCKS[it.type];
+                        return `${def ? def.name : 'Item'} x${it.count}`;
+                    }).join(', ');
+                    slotElement.title = `Bundle (${item.bundleCount || 0}/64): ${contentsStr || 'Empty'}`;
+                } else if (item.name) {
                     slotElement.title = item.name;
                 } else {
                     slotElement.title = blockDef.name || '';
@@ -1931,6 +1937,45 @@ class UIManager {
         const player = this.game.player;
         const clickedItem = player.inventory[index];
         const cursor = this.cursorItem;
+
+        // Bundle Interaction
+        if (clickedItem && clickedItem.type === window.BLOCK.ITEM_BUNDLE) {
+            if (!clickedItem.bundleItems) clickedItem.bundleItems = [];
+            if (clickedItem.bundleCount === undefined) clickedItem.bundleCount = 0;
+
+            if (cursor && cursor.type !== window.BLOCK.ITEM_BUNDLE) {
+                // Insert cursor item into bundle up to 64
+                const currentCount = clickedItem.bundleCount;
+                const space = 64 - currentCount;
+                if (space > 0) {
+                    const toAdd = Math.min(space, cursor.count);
+                    const existing = clickedItem.bundleItems.find(it => it.type === cursor.type);
+                    if (existing) {
+                        existing.count += toAdd;
+                    } else {
+                        clickedItem.bundleItems.push({ type: cursor.type, count: toAdd });
+                    }
+                    clickedItem.bundleCount += toAdd;
+                    cursor.count -= toAdd;
+                    if (cursor.count <= 0) this.cursorItem = null;
+                    if (window.soundManager) window.soundManager.play('place');
+                    this.refreshInventoryUI();
+                    this.updateHotbarUI();
+                    this.updateCursorUI();
+                    return;
+                }
+            } else if (!cursor && clickedItem.bundleItems.length > 0) {
+                // Eject top item from bundle
+                const popped = clickedItem.bundleItems.pop();
+                clickedItem.bundleCount -= popped.count;
+                this.cursorItem = { type: popped.type, count: popped.count };
+                if (window.soundManager) window.soundManager.play('place');
+                this.refreshInventoryUI();
+                this.updateHotbarUI();
+                this.updateCursorUI();
+                return;
+            }
+        }
 
         if (!cursor) {
             // Pick up
