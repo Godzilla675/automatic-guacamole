@@ -236,6 +236,31 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.COPPER_BLOCK, count: 1 } ]
             },
             {
+                name: "Copper Grate (4)",
+                result: { type: BLOCK.COPPER_GRATE, count: 4 },
+                ingredients: [ { type: BLOCK.COPPER_BLOCK, count: 4 } ]
+            },
+            {
+                name: "Copper Door (3)",
+                result: { type: BLOCK.ITEM_COPPER_DOOR, count: 3 },
+                ingredients: [ { type: BLOCK.ITEM_COPPER_INGOT, count: 6 } ]
+            },
+            {
+                name: "Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_LEATHER, count: 6 }, { type: BLOCK.ITEM_STRING, count: 1 } ]
+            },
+            {
+                name: "Pale Oak Planks (4)",
+                result: { type: BLOCK.PALE_OAK_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.PALE_OAK_LOG, count: 1 } ]
+            },
+            {
+                name: "Daylight Sensor",
+                result: { type: BLOCK.DAYLIGHT_SENSOR, count: 1 },
+                ingredients: [ { type: BLOCK.GLASS, count: 3 }, { type: BLOCK.ITEM_QUARTZ, count: 3 }, { type: BLOCK.SLAB_WOOD, count: 3 } ]
+            },
+            {
                 name: "Stick from Bamboo",
                 result: { type: BLOCK.ITEM_STICK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 2 } ]

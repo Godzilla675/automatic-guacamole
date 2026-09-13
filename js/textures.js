@@ -151,6 +151,20 @@ class TextureManager {
         this.textures[B.BEEHIVE] = this.genBeehive();
         this.textures[B.HOPPER] = this.genHopper();
         this.textures[B.OBSERVER] = this.genObserver();
+        this.textures[B.COPPER_GRATE] = this.genCopperGrate();
+        this.textures[B.COPPER_DOOR_BOTTOM] = this.genDoor('#B87333');
+        this.textures[B.COPPER_DOOR_TOP] = this.genDoor('#B87333');
+        this.textures[B.ITEM_COPPER_DOOR] = this.genDoor('#B87333');
+        this.textures[B.ITEM_BUNDLE] = this.genBundleItem();
+        this.textures[B.PALE_OAK_LOG] = this.genWood('#808080', '#606060');
+        this.textures[B.PALE_OAK_PLANK] = this.genPlank('#E0E0E0');
+        this.textures[B.PALE_OAK_LEAVES] = this.genLeaves('#CCCCCC', '#909090');
+        this.textures[B.PALE_OAK_SAPLING] = this.genSapling('#D0D0D0');
+        this.textures[B.EYEBLOSSOM] = this.genEyeblossom();
+        this.textures[B.DAYLIGHT_SENSOR] = this.genDaylightSensor();
+        this.textures[B.TRIAL_SPAWNER] = this.genTrialSpawner();
+        this.textures[B.ITEM_TRIAL_KEY] = this.genTrialKeyItem();
+        this.textures[B.TRIAL_VAULT] = this.genTrialVault();
 
 
         // Glass
@@ -1159,12 +1173,13 @@ class TextureManager {
         return c;
     }
 
-    genDoor() {
+    genDoor(colorHex = '#8B4513') {
         const c = this.createCanvas();
         const ctx = c.getContext('2d');
-        this.fillNoise(ctx, { r: 139, g: 69, b: 19 }, 8);
+        const rgb = this.hexToRgb(colorHex);
+        this.fillNoise(ctx, rgb, 8);
         // Panels
-        ctx.fillStyle = '#6B3410';
+        ctx.fillStyle = `rgb(${Math.max(0, rgb.r - 40)},${Math.max(0, rgb.g - 40)},${Math.max(0, rgb.b - 40)})`;
         ctx.fillRect(2, 1, 5, 6);
         ctx.fillRect(9, 1, 5, 6);
         ctx.fillRect(2, 9, 5, 6);
@@ -1172,6 +1187,97 @@ class TextureManager {
         // Handle
         ctx.fillStyle = '#FFD700';
         ctx.fillRect(11, 7, 2, 2);
+        return c;
+    }
+
+    genCopperGrate() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = 'rgba(0,0,0,0)';
+        ctx.clearRect(0, 0, 16, 16);
+        ctx.fillStyle = '#B87333';
+        ctx.fillRect(0, 0, 16, 2);
+        ctx.fillRect(0, 14, 16, 2);
+        ctx.fillRect(0, 0, 2, 16);
+        ctx.fillRect(14, 0, 2, 16);
+        ctx.fillRect(7, 0, 2, 16);
+        ctx.fillRect(0, 7, 16, 2);
+        return c;
+    }
+
+    genBundleItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(4, 5, 8, 9);
+        ctx.fillRect(5, 3, 6, 2);
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(5, 4, 6, 1);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(7, 2, 2, 2);
+        return c;
+    }
+
+    genEyeblossom() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(7, 8, 2, 8);
+        ctx.fillStyle = '#FF8C00';
+        ctx.beginPath();
+        ctx.arc(8, 6, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#1A1A1A';
+        ctx.beginPath();
+        ctx.arc(8, 6, 2, 0, Math.PI * 2);
+        ctx.fill();
+        return c;
+    }
+
+    genDaylightSensor() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 222, g: 184, b: 135 }, 10);
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#4682B4';
+        ctx.fillRect(2, 6, 12, 1);
+        ctx.fillRect(2, 10, 12, 1);
+        ctx.fillRect(6, 2, 1, 12);
+        ctx.fillRect(10, 2, 1, 12);
+        return c;
+    }
+
+    genTrialSpawner() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 74, g: 74, b: 74 }, 15);
+        ctx.fillStyle = '#FFA500';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#FF4500';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genTrialKeyItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(6, 2, 4, 4);
+        ctx.fillRect(7, 6, 2, 9);
+        ctx.fillRect(9, 10, 2, 2);
+        ctx.fillRect(9, 13, 2, 2);
+        return c;
+    }
+
+    genTrialVault() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 42, g: 42, b: 58 }, 15);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(5, 5, 6, 6);
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(7, 7, 2, 3);
         return c;
     }
 

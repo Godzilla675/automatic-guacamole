@@ -333,7 +333,21 @@ const BLOCK = {
     SMITHING_TABLE: 422,
     BEEHIVE: 423,
     HOPPER: 424,
-    OBSERVER: 425
+    OBSERVER: 425,
+    COPPER_GRATE: 426,
+    COPPER_DOOR_BOTTOM: 427,
+    COPPER_DOOR_TOP: 428,
+    ITEM_COPPER_DOOR: 429,
+    ITEM_BUNDLE: 430,
+    PALE_OAK_LOG: 431,
+    PALE_OAK_PLANK: 432,
+    PALE_OAK_LEAVES: 433,
+    PALE_OAK_SAPLING: 434,
+    EYEBLOSSOM: 435,
+    DAYLIGHT_SENSOR: 436,
+    TRIAL_SPAWNER: 437,
+    ITEM_TRIAL_KEY: 438,
+    TRIAL_VAULT: 439
 };
 
 const ARMOR = {
@@ -730,7 +744,31 @@ const BLOCKS = {
     [BLOCK.SMITHING_TABLE]: { name: 'Smithing Table', color: '#2B2B36', top: '#4A4A5A', solid: true, icon: '⚒️', hardness: 2.5, tool: 'axe' },
     [BLOCK.BEEHIVE]: { name: 'Beehive', color: '#B8860B', top: '#DAA520', solid: true, icon: '🐝', hardness: 0.6, tool: 'axe' },
     [BLOCK.HOPPER]: { name: 'Hopper', color: '#696969', top: '#404040', solid: false, transparent: true, icon: '📥', hardness: 3.0, tool: 'pickaxe' },
-    [BLOCK.OBSERVER]: { name: 'Observer', color: '#505050', top: '#303030', solid: true, icon: '👁️', hardness: 3.5, tool: 'pickaxe' }
+    [BLOCK.OBSERVER]: { name: 'Observer', color: '#505050', top: '#303030', solid: true, icon: '👁️', hardness: 3.5, tool: 'pickaxe' },
+
+    // Feature 1: Copper Grates & Copper Doors
+    [BLOCK.COPPER_GRATE]: { name: 'Copper Grate', color: '#B87333', top: '#D2B48C', solid: true, transparent: true, icon: '▦', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.COPPER_DOOR_BOTTOM]: { name: 'Copper Door', color: '#B87333', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_COPPER_DOOR, count: 1 } },
+    [BLOCK.COPPER_DOOR_TOP]: { name: 'Copper Door', color: '#B87333', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_COPPER_DOOR, count: 1 } },
+    [BLOCK.ITEM_COPPER_DOOR]: { name: 'Copper Door', color: '#B87333', solid: false, isItem: true, icon: '🚪' },
+
+    // Feature 2: Bundles
+    [BLOCK.ITEM_BUNDLE]: { name: 'Bundle', color: '#8B4513', solid: false, isItem: true, icon: '🎒' },
+
+    // Feature 3: Pale Oak Wood Family & Eyeblossom
+    [BLOCK.PALE_OAK_LOG]: { name: 'Pale Oak Log', color: '#787878', top: '#D0D0D0', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.PALE_OAK_PLANK]: { name: 'Pale Oak Plank', color: '#E8E8E8', top: '#E8E8E8', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
+    [BLOCK.PALE_OAK_LEAVES]: { name: 'Pale Oak Leaves', color: '#B0B0B0', top: '#C0C0C0', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.PALE_OAK_SAPLING, count: 1, chance: 0.05 } },
+    [BLOCK.PALE_OAK_SAPLING]: { name: 'Pale Oak Sapling', color: '#D0D0D0', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.PALE_OAK_SAPLING, count: 1 } },
+    [BLOCK.EYEBLOSSOM]: { name: 'Eyeblossom', color: '#FF8C00', solid: false, transparent: true, icon: '👁️', hardness: 0.0, drop: { type: BLOCK.EYEBLOSSOM, count: 1 } },
+
+    // Feature 4: Daylight Sensor
+    [BLOCK.DAYLIGHT_SENSOR]: { name: 'Daylight Sensor', color: '#DEB887', top: '#87CEEB', solid: true, transparent: true, icon: '☀️', hardness: 0.2, tool: 'axe' },
+
+    // Feature 5: Trial Spawner & Trial Vault
+    [BLOCK.TRIAL_SPAWNER]: { name: 'Trial Spawner', color: '#4A4A4A', top: '#FFA500', solid: true, icon: '🔥', hardness: 5.0, tool: 'pickaxe', light: 7 },
+    [BLOCK.ITEM_TRIAL_KEY]: { name: 'Trial Key', color: '#FFD700', solid: false, isItem: true, icon: '🔑' },
+    [BLOCK.TRIAL_VAULT]: { name: 'Trial Vault', color: '#2A2A3A', top: '#00FFFF', solid: true, icon: '🔒', hardness: 5.0, tool: 'pickaxe', light: 5 }
 };
 
 if (typeof window !== 'undefined') {

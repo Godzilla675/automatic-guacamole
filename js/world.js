@@ -589,6 +589,17 @@ class World {
                 if (newMeta !== meta) {
                     this.setMetadata(x, y, z, newMeta);
                 }
+            } else if (type === window.BLOCK.DAYLIGHT_SENSOR) {
+                const gameTime = this.game ? this.game.gameTime : 0;
+                const dayLength = this.game ? this.game.dayLength : 120000;
+                const cycle = (gameTime % dayLength) / dayLength;
+                const isDay = cycle < 0.5;
+                const signal = isDay ? Math.floor(15 * Math.sin(cycle * 2 * Math.PI)) : 0;
+                const meta = this.getMetadata(x, y, z);
+                if (meta !== signal) {
+                    this.setMetadata(x, y, z, signal);
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
             }
         }
     }
