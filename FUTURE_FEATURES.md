@@ -242,7 +242,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ## Known Bugs & Issues (To Be Fixed)
 - [x] **Bug: Cloud rendering depth**: Clouds sort altitude and depth correctly. (Status: Verified and working)
 - [x] **New Task: Add Glazed Terracotta Crafting**: Smelting dyed terracotta into glazed terracotta. (Status: Verified and working)
-- [ ] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts lack visual debug toggle. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts visual debug toggle and ray overlay added. (Status: Verified and working)
 
 - [x] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying Obsidian Respawn Anchors. (Status: Verified and working)
 - [x] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Verified and working)
@@ -297,7 +297,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Implement Tool Durability**: Tools should lose durability when used. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Heavy Core**: Block used to craft the Mace. (Status: Verified and working)
 - [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: ImageData Mock Incomplete**: JSDOM canvas mock is missing proper putImageData implementation for lighting tests. (Status: Missing implementation, agents must fix)
+- [x] **Bug: ImageData Mock Incomplete**: JSDOM canvas mock putImageData implementation added for lighting tests. (Status: Verified and working)
 - [ ] **New Task: Add Warden**: A blind, powerful mob that spawns in the Deep Dark biome and hunts by sound. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Axolotls**: Passive aquatic mobs that fight hostile aquatic mobs and provide regeneration. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra. (Status: Missing implementation, agents must fix)
@@ -434,7 +434,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Redstone Wire Visual Connections**: Dynamic visual models for redstone wire connecting to adjacent power sources and dust lines. (Status: Verified and working)
-- [ ] **Bug: JSDOM Canvas Mock missing putImageData**: In Node.js/JSDOM test suites, canvas context lacks putImageData implementation, causing failures in lighting/texture tests. (Status: Bug, agents must fix)
+- [x] **Bug: JSDOM Canvas Mock missing putImageData**: Canvas context putImageData and createPattern fallbacks added. (Status: Verified and working)
 
 - [ ] **New Task: Add Copper Doors**: Add oxidation-capable doors crafted from copper blocks. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Torchflowers**: Ancient plants grown from Torchflower Seeds found by Sniffers. (Status: Missing implementation, agents must fix)

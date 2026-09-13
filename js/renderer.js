@@ -773,6 +773,46 @@ class Renderer {
              }
         });
 
+        // Draw Line-of-sight Debug Rays
+        if (typeof window !== 'undefined' && window.debugLineOfSight && this.game.debugRays) {
+            const now = Date.now();
+            this.game.debugRays = this.game.debugRays.filter(ray => now - ray.time < 1000);
+
+            this.game.debugRays.forEach(ray => {
+                const oDx = ray.origin.x - px;
+                const oDy = ray.origin.y - py;
+                const oDz = ray.origin.z - pz;
+
+                const oRx = oDx * cosY - oDz * sinY;
+                const oRz = oDx * sinY + oDz * cosY;
+                const oRy = oDy * cosP - oRz * sinP;
+                const oRz2 = oDy * sinP + oRz * cosP;
+
+                const tDx = ray.target.x - px;
+                const tDy = ray.target.y - py;
+                const tDz = ray.target.z - pz;
+
+                const tRx = tDx * cosY - tDz * sinY;
+                const tRz = tDx * sinY + tDz * cosY;
+                const tRy = tDy * cosP - tRz * sinP;
+                const tRz2 = tDy * sinP + tRz * cosP;
+
+                if (oRz2 > 0.1 || tRz2 > 0.1) {
+                    const oSx = (oRx / Math.max(0.1, oRz2)) * scale + w / 2;
+                    const oSy = h / 2 - (oRy / Math.max(0.1, oRz2)) * scale;
+                    const tSx = (tRx / Math.max(0.1, tRz2)) * scale + w / 2;
+                    const tSy = h / 2 - (tRy / Math.max(0.1, tRz2)) * scale;
+
+                    ctx.beginPath();
+                    ctx.moveTo(oSx, oSy);
+                    ctx.lineTo(tSx, tSy);
+                    ctx.strokeStyle = ray.hit ? 'rgba(255, 0, 0, 0.8)' : 'rgba(0, 255, 0, 0.8)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            });
+        }
+
         // Draw Projectiles
         this.game.projectiles.forEach(p => {
              const dx = p.x - px;

@@ -66,6 +66,14 @@ class InputManager {
                 return;
             }
 
+            // Line of sight visual debug toggle (F4 key or KeyK)
+            if (e.code === 'F4' || e.code === 'KeyK') {
+                e.preventDefault();
+                window.debugLineOfSight = !window.debugLineOfSight;
+                console.log(`Line of sight visual debug: ${window.debugLineOfSight ? 'ON' : 'OFF'}`);
+                return;
+            }
+
             // Save/Load
             if (e.code === 'KeyO') {
                 const name = prompt("Save World Name:", "default");
