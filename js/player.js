@@ -75,8 +75,10 @@ class Player {
 
         // Skin
         this.skinColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-        const savedSkin = localStorage.getItem('voxel_skin_color');
-        if (savedSkin) this.skinColor = savedSkin;
+        if (typeof localStorage !== 'undefined' && localStorage.getItem) {
+            const savedSkin = localStorage.getItem('voxel_skin_color');
+            if (savedSkin) this.skinColor = savedSkin;
+        }
 
         // Recipe Discovery
         this.unlockedRecipes = new Set();

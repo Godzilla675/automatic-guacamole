@@ -379,7 +379,7 @@ class UIManager {
                 const icon = document.createElement('span');
                 icon.className = 'block-icon';
                 const def = window.BLOCKS[item.type];
-                icon.textContent = def ? def.icon : '?';
+                icon.textContent = (def && def.icon) ? def.icon : '📦';
                 icon.style.backgroundColor = def ? def.color : 'transparent';
                 slot.appendChild(icon);
                 if (item.count > 1) {
@@ -1876,7 +1876,7 @@ class UIManager {
                     icon.style.backgroundColor = 'transparent';
                     icon.style.imageRendering = 'pixelated';
                 } else {
-                    icon.textContent = blockDef.icon || '';
+                    icon.textContent = blockDef.icon || '📦';
                     icon.style.backgroundColor = blockDef.color || 'transparent';
                     icon.style.backgroundImage = 'none';
                 }

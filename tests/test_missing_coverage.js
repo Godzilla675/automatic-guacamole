@@ -15,11 +15,18 @@ global.HTMLElement = dom.window.HTMLElement;
 global.Image = dom.window.Image;
 
 // Mocks
-global.localStorage = {
+global.localStorage = dom.window.localStorage || {
     getItem: () => null,
     setItem: () => {},
     removeItem: () => {}
 };
+global.sessionStorage = dom.window.sessionStorage || {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {}
+};
+dom.window.localStorage = global.localStorage;
+dom.window.sessionStorage = global.sessionStorage;
 global.alert = () => {};
 global.prompt = () => "TestPlayer";
 global.window.AudioContext = class {
