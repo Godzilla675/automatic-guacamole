@@ -161,6 +161,11 @@ describe('Verification of Missing Coverage', function() {
     let world;
 
     beforeEach(function() {
+        global.window = dom.window;
+        global.document = dom.window.document;
+        global.navigator = dom.window.navigator;
+        global.HTMLElement = dom.window.HTMLElement;
+
         if (!global.Game) {
             if (!global.Game) { global.Game = dom.window.Game || window.Game; }
 if (!global.BiomeManager) { global.BiomeManager = dom.window.BiomeManager || window.BiomeManager; }
@@ -212,21 +217,21 @@ if (!document.getElementById('game-canvas')) {
             'chest-grid'
         ];
         ids.forEach(id => {
-            if (!document.getElementById(id)) {
-                const el = document.createElement('div');
+            if (!dom.window.document.getElementById(id)) {
+                const el = dom.window.document.createElement('div');
                 el.id = id;
-                document.body.appendChild(el);
+                dom.window.document.body.appendChild(el);
             }
         });
 
         // Ensure inputs are inputs
         const inputs = ['chat-input', 'volume-slider'];
         inputs.forEach(id => {
-             const el = document.getElementById(id);
-             if (el.tagName !== 'INPUT') {
-                 const inp = document.createElement('input');
+             const el = dom.window.document.getElementById(id);
+             if (el && el.tagName !== 'INPUT') {
+                 const inp = dom.window.document.createElement('input');
                  inp.id = id;
-                 document.body.replaceChild(inp, el);
+                 dom.window.document.body.replaceChild(inp, el);
              }
         });
 

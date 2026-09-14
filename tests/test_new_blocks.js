@@ -14,9 +14,14 @@ const blocksContent = fs.readFileSync('./js/blocks.js', 'utf8');
 eval(blocksContent); // execute in global scope
 
 describe('New Blocks Verification', () => {
+    beforeEach(() => {
+        global.window = dom.window;
+        global.document = dom.window.document;
+    });
+
     it('should have Concrete blocks defined', () => {
-        const BLOCK = window.BLOCK;
-        const BLOCKS = window.BLOCKS;
+        const BLOCK = window.BLOCK || dom.window.BLOCK;
+        const BLOCKS = window.BLOCKS || dom.window.BLOCKS;
 
         assert.strictEqual(BLOCK.CONCRETE_WHITE, 30);
         assert.strictEqual(BLOCK.CONCRETE_BLACK, 45);
@@ -29,8 +34,8 @@ describe('New Blocks Verification', () => {
     });
 
     it('should have Wool blocks defined', () => {
-        const BLOCK = window.BLOCK;
-        const BLOCKS = window.BLOCKS;
+        const BLOCK = window.BLOCK || dom.window.BLOCK;
+        const BLOCKS = window.BLOCKS || dom.window.BLOCKS;
 
         assert.strictEqual(BLOCK.WOOL_WHITE, 50);
         assert.strictEqual(BLOCK.WOOL_BLACK, 65);
@@ -43,8 +48,8 @@ describe('New Blocks Verification', () => {
     });
 
     it('should have deprecated ITEM_WOOL correctly', () => {
-        const BLOCK = window.BLOCK;
-        const BLOCKS = window.BLOCKS;
+        const BLOCK = window.BLOCK || dom.window.BLOCK;
+        const BLOCKS = window.BLOCKS || dom.window.BLOCKS;
 
         // ITEM_WOOL is 205
         assert.strictEqual(BLOCK.ITEM_WOOL, 205);

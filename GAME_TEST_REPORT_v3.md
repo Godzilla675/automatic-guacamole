@@ -1,109 +1,117 @@
-# VoxelWeb Comprehensive Gameplay & Feature Test Report (v3)
-Date: September 12, 2026
+# VoxelWeb Game Test & Feature Audit Report v3
 
-## Executive Summary
-A comprehensive audit and end-to-end testing session was executed across all newly added features, block definitions, mob mechanics, redstone logic, user interfaces, and audio/graphics engine components in VoxelWeb. Testing encompassed both Node.js/JSDOM Mocha unit test suites (36 test files) and Playwright browser integration testing (Python & Node.js test scripts).
-
-All newly implemented features operate as expected with 0 critical gameplay regressions or failing tests.
+## Overview
+This report summarizes the testing, audit, and verification of newly added gameplay features, bug fixes, unit tests, and automated browser gameplay in VoxelWeb. All newly added tasks in `FUTURE_FEATURES.md` were evaluated, tested, and verified.
 
 ---
 
-## Verified Newly Added Features & Gameplay Mechanics
+## 1. Newly Added Agent Tasks & Features Audit
+All major feature additions tracked in `FUTURE_FEATURES.md` were thoroughly verified via dedicated unit tests and Playwright end-to-end browser gameplay scripts.
 
-### 1. Weapons, Tools & Combat
-- **Mace Weapon & Heavy Core**:
-  - `BLOCK.ITEM_MACE` (ID 415) and `BLOCK.HEAVY_CORE` (ID 414) crafting recipe and textures verified.
-  - Fall-distance smash attack physics accurately applies damage multipliers based on falling height.
-- **Wind Charges & Breeze Rod**:
-  - `BLOCK.ITEM_BREEZE_ROD` (ID 409) and `BLOCK.ITEM_WIND_CHARGE` (ID 410) throwable physics verified.
-  - Wind charge explosions deal knockback and provide vertical leap boost.
-- **Ominous Bottle & Bad Omen**:
-  - `BLOCK.ITEM_OMINOUS_BOTTLE` (ID 416) grants Bad Omen potion effect upon consumption.
-- **Snowballs**:
-  - Throwable snowball projectile mechanics with knockback and entity damage verified.
+### Verified High-Quality Gameplay Features
+1. **Copper Grates, Copper Doors & Oxidation Family (`BLOCK.COPPER_GRATE`, `BLOCK.COPPER_DOOR_*`)**:
+   - Copper Grates and oxidation-capable doors defined with procedural textures and crafting recipes.
+   - Verified via `tests/test_5_new_high_quality_features_batch.js`.
 
-### 2. Mobs & Entity Mechanics
-- **Bogged Skeleton Variant**:
-  - Shoots poison arrows and drops poison arrows on death.
-- **Wither Skeleton**:
-  - Nether fortress spawn and Wither status effect on attack verified.
-- **Bee Mob & Beehive**:
-  - Honey harvesting, shearing, and pollination behaviors verified.
-- **Rideable Pigs**:
-  - Saddle mounting, player riding, and steering mechanics verified.
-- **Allay**:
-  - Flying friendly entity collecting dropped items matching held item verified.
-- **Witch**:
-  - Splash potion attack logic and poison application verified.
-- **Snow Golem**:
-  - Throwing snowballs at hostile mobs verified.
+2. **Bundle Storage Item & Inventory Grid Tooltip Preview (`BLOCK.ITEM_BUNDLE`)**:
+   - Sack item holding up to 64 mixed items with hovering 2D inventory grid tooltip display.
+   - Verified via `tests/test_5_new_high_quality_features_batch.js`.
 
-### 3. Utility & Container Blocks
-- **Chiseled Bookshelf**:
-  - Interactive 6-slot book storage UI container verified.
-- **Smithing Table**:
-  - Gear upgrade UI screen verified.
-- **Dropper Block**:
-  - Redstone item ejection logic verified.
-- **Respawn Anchor**:
-  - Crying Obsidian base with Glowstone charging and respawn mechanics verified.
-- **Fletching Table**:
-  - Interactive crafting UI with Flint, Stick, and Feather inputs producing arrows verified.
-- **Smoker & Blast Furnace**:
-  - 2x speed smelting multipliers for food and ores with custom UI particle animations verified.
-- **Crafter Block**:
-  - Redstone rising-edge auto-crafting and item output ejecting verified.
-- **Stonecutter & Composter**:
-  - Stonecutter UI grid and Composter bone meal green particle feedback verified.
+3. **Pale Oak Wood Set, Eyeblossoms & Nocturnal Particles (`BLOCK.PALE_OAK_*`, `BLOCK.EYEBLOSSOM`)**:
+   - Full wood family (planks, logs, saplings, doors) and nocturnal blooming flowers emitting orange particles.
+   - Verified via `tests/test_5_new_high_quality_features_batch.js`.
 
-### 4. Redstone Logic & World Objects
-- **Sculk Shrieker & Sculk Sensor**:
-  - Vibration detection and proximity Darkness status effect application verified.
-- **Copper Bulb**:
-  - Redstone rising-edge light level toggle verified.
-- **Target Block & Lodestone**:
-  - Target block signal output proportional to projectile hit accuracy and Lodestone compass redirection verified.
-- **Redstone Repeaters & Comparators**:
-  - Dynamic redstone signal delay, repeater lock, and comparator container state detection verified.
-- **Redstone Wire Visuals**:
-  - Multi-directional connecting wire texture rendering on block surfaces verified.
+4. **Daylight Sensor Signal Propagation (`BLOCK.DAYLIGHT_SENSOR`)**:
+   - Emits redstone signal proportional to sunlight level / time of day.
+   - Verified via `tests/test_5_new_high_quality_features_batch.js`.
 
-### 5. Biomes & World Generation
-- **Coral Reefs**:
-  - 5 Coral block types (Brain, Tube, Horn, Fire, Bubble; IDs 417-421) and underwater structure generation verified.
-- **Copper, Bamboo & Decorative Blocks**:
-  - Copper Ores/Blocks/Ingots, Bamboo, Mud Bricks, Moss Carpets, Soul Campfires, Tinted Glass, and Lightning Rods verified.
+5. **Trial Spawners, Trial Keys & Trial Vaults (`BLOCK.TRIAL_SPAWNER`, `BLOCK.TRIAL_VAULT`, `BLOCK.ITEM_TRIAL_KEY`)**:
+   - Spawns mob waves, drops Trial Keys upon challenge completion, and unlocks Trial Vaults for rare loot.
+   - Verified via `tests/test_5_new_high_quality_features_batch.js`.
 
-### 6. User Interface & Quality of Life
-- **Offhand Quick Swap & HUD Container**:
-  - Quick swap hotbar shortcut ('F' key default) and offhand HUD slot verified.
-- **Chat History Log Toggle**:
-  - `/togglechat` command toggling chat overlay visibility verified.
-- **Recipe Book Search Filtering**:
-  - Real-time search filter in crafting UI verified.
-- **Active Potion Status UI**:
-  - Active potion effect HUD cards verified.
-- **Spectator Night Vision & Occlusion**:
-  - Automatic night vision in spectator mode and dark occlusion overlay inside solid blocks verified.
+6. **Mace Weapon & Heavy Core Fall-Distance Smash Attack (`BLOCK.ITEM_MACE`, `BLOCK.HEAVY_CORE`)**:
+   - Heavy melee weapon dealing bonus damage proportional to fall height.
+   - Verified via `tests/test_5_major_new_features.js`.
+
+7. **Ominous Bottle & Bad Omen Effect (`BLOCK.ITEM_OMINOUS_BOTTLE`)**:
+   - Consumable item granting Bad Omen status effect.
+   - Verified via `tests/test_5_major_new_features.js`.
+
+8. **Coral Reefs & Underwater Structures (5 Coral Types)**:
+   - Ocean generation with Brain, Tube, Horn, Fire, and Bubble coral blocks.
+   - Verified via `tests/test_5_major_new_features.js`.
+
+9. **Smithing Table Block & Custom UI Screen (`BLOCK.SMITHING_TABLE`)**:
+   - Functional workstation with dedicated upgrade UI screen.
+   - Verified via `tests/test_5_major_new_features.js`.
+
+10. **Bee Mob, Beehive & Shearing/Honey Harvesting (`BLOCK.BEEHIVE`, `MOB_TYPE.BEE`)**:
+    - Pollinating bees, honey production, and shears/bottle harvesting interactions.
+    - Verified via `tests/test_5_major_new_features.js`.
+
+11. **Breeze Mob, Breeze Rods & Wind Charge Projectiles (`MOB_TYPE.BREEZE`, `BLOCK.ITEM_WIND_CHARGE`)**:
+    - Hostile Breeze entity firing Wind Charges with clean vertical leap self-knockback and explosion physics.
+    - Verified via `tests/test_5_new_high_quality_features.js` and `tests/test_audit_bugs_and_new_features.js`.
+
+12. **Polar Bear Mob & Baby Protection Aggro (`MOB_TYPE.POLAR_BEAR`)**:
+    - Neutral Arctic mobs that defend nearby cubs.
+    - Verified via `tests/test_5_new_high_quality_features.js`.
+
+13. **Hopper Block & Container Transport Logic (`BLOCK.HOPPER`)**:
+    - Container item transfer pulling from containers above and pushing into facing containers.
+    - Verified via `tests/test_5_new_high_quality_features.js`.
+
+14. **Observer Block State Update Pulse (`BLOCK.OBSERVER`)**:
+    - Emits a 1-tick redstone signal pulse when facing block state changes.
+    - Verified via `tests/test_5_new_high_quality_features.js`.
+
+15. **Underwater Depth Fog & Submerged FX (`js/renderer.js`)**:
+    - Blue depth fog rendering and submerged ambient audio / bubble FX.
+    - Verified via `tests/test_5_new_high_quality_features.js`.
 
 ---
 
-## Test Execution Matrix
+## 2. Bug Fixes & Improvements
 
-| Test Suite | Scope | Status | Result |
-| :--- | :--- | :--- | :--- |
-| `tests/test_5_major_new_features.js` | Mace, Coral, Ominous Bottle, Smithing Table, Bees | Passed | 5/5 |
-| `tests/test_5_new_batch3_features.js` | Wooden Door sync, Redstone Lamp, Chat toggle, Recipe Search, Suspicious Stew | Passed | 5/5 |
-| `tests/test_5_new_features_batch2.js` | Breeze Rod, Wind Charge, Copper Bulb, Bogged, Recovery Compass | Passed | 5/5 |
-| `tests/test_audit_bugs_and_new_features.js` | Smoker/Blast Furnace UI, Fletching UI, Wind Charge leap angle | Passed | 5/5 |
-| `tests/test_newly_added_features_audit.js` | Base64 Uint16 save/load, Sculk Shrieker Darkness, Copper Bulb, Recovery Compass | Passed | 8/8 |
-| `extensive_test.py` | Playwright movement, jumping, UI menus, block interaction | Passed | 4/4 |
-| `manual_ui_test.py` | Playwright inventory, crafting, settings, flight mode | Passed | 5/5 |
-| `test_specific_features.py` | Playwright wooden door placement & collision checks | Passed | 1/1 |
-| `verify_manual_gameplay.py` | Playwright inventory, crafting, furnace, jukebox, anvil, enchant, brew, trade | Passed | 1/1 |
-| `playwright_test.js` & `playwright_test2.js` | Playwright canvas interaction and pause menu ESC key sequence | Passed | 2/2 |
+1. **JSDOM DOM Environment Setup in `tests/test_missing_coverage.js`**:
+   - **Bug**: `beforeEach` hook failed with `TypeError: Cannot read properties of undefined (reading 'getElementById')` when `global.window` was reset.
+   - **Fix**: Maintained `global.window = dom.window` and `global.document = dom.window.document` prior to DOM element lookup.
+
+2. **Global Reference Error in `tests/test_new_blocks.js`**:
+   - **Bug**: `ReferenceError: window is not defined` occurred when evaluating `window.BLOCK`.
+   - **Fix**: Added `beforeEach` global window binding and fallback `window.BLOCK || dom.window.BLOCK`.
+
+3. **Base64 Serialization for Large World Block IDs**:
+   - **Bug**: Blocks with ID > 255 caused `InvalidCharacterError` when using `btoa()` in JSDOM environments.
+   - **Fix**: `saveWorld` converts `Uint16Array` chunk block arrays to `Uint8Array` prior to serialization, verified in `tests/test_newly_added_features_audit.js`.
+
+4. **Spectator Mode Block Occlusion & Night Vision**:
+   - **Bug**: Flying through dense terrain in spectator mode lacked inner face occlusion visual feedback.
+   - **Fix**: Added spectator dark inner face culling overlay and automatic Night Vision effect application (`tests/test_audit_bugs_and_new_features.js`).
+
+---
+
+## 3. Automated Test Execution Results
+
+### Node / Mocha Unit Tests
+- Executed all 40 Mocha test files individually.
+- **Pass Rate**: 100% (All test suites passed).
+
+### Playwright E2E Automated Gameplay Scripts
+1. `python3 verify_manual_gameplay.py`:
+   - Canvas load, Start Game, Inventory UI, Crafting UI, Furnace UI, Jukebox UI, Anvil UI, Enchanting UI, Brewing UI, Trading UI, Settings Menu, Armor Grid.
+   - **Result**: PASSED (0 console errors).
+2. `python3 test_specific_features.py`:
+   - Door placement, block interactions, UI screens.
+   - **Result**: PASSED.
+3. `python3 manual_ui_test.py`:
+   - Hotbar navigation, inventory contents, fly mode toggle, settings UI.
+   - **Result**: PASSED.
+4. `python3 extensive_test.py`:
+   - Player movement, jumping, block breaking/placement, pause screen.
+   - **Result**: PASSED (4/4 test modules passed, 0 console errors).
 
 ---
 
 ## Conclusion
-All 36 Mocha unit test suites and 6 automated Playwright integration test scripts pass cleanly with 0 errors. The codebase is fully stable and ready for deployment.
+All newly added features in `FUTURE_FEATURES.md` are verified and fully operational. No outstanding bugs or anomalies remain.
