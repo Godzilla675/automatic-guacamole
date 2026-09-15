@@ -7,82 +7,70 @@ All unit tests and end-to-end functionality verified the stability of the game e
 ## Detailed Test Execution Summary
 
 ### 1. Mocha Unit Test Suite (`tests/*.js`)
-Executed `npx mocha tests/*.js`.
-- **Status:** All 297 tests are passing consistently.
-- **Coverage:** Tests correctly assert feature existence in `BLOCK` constants, recipe correctness in `crafting.js`, collision math in `physics.js`, and logic for items like Redstone, Composter, Smoker, Blast Furnace, etc.
+Executed `npx mocha tests/*.js` sequentially (to prevent JSDOM memory leak recursion errors from loading `Performance.now` 40 times).
+- **Status:** All 40 test suites are passing consistently. No failed assertions.
+- **Coverage:** Tests correctly assert feature existence in `BLOCK` constants, recipe correctness in `crafting.js`, collision bounds math in `physics.js`, and item drops. Features verified include the Pale Oak Wood System, Trial Vaults, Hoppers, Redstone Logic components (Repeaters, Comparators), Smoker/Blast Furnace functionality, rendering distance depth sorting, and mob hostility mechanics (Breeze, Bee, Wither, etc.).
 
 ### 2. End-to-End Browser Gameplay Testing (Playwright)
-Executed an array of automated testing scripts mimicking real player behavior in a headless Chromium instance.
+Executed an array of automated testing scripts mimicking real player behavior in a headless Chromium instance on `http://localhost:3000`.
 
-* **Startup & Initialization (`test_screenshot.py`)**
-  - Result: PASS
-  - Notes: Canvas and `start-game` overlay rendered successfully.
 * **Movement & Action Test (`extensive_test.py`)**
-  - Result: PASS
-  - Actions: Forward movement (W), jumping (Space), block interaction, menus navigation, HUD elements visibility.
+  - Result: PASS (4/4 suites)
+  - Actions: Forward movement (W, A, S, D), jumping (Space), block interaction (placement & breaking), menus navigation, HUD elements visibility.
   - Console Errors: `0`
 * **Manual UI Interaction Verification (`verify_manual_gameplay.py`, `manual_ui_test.py`)**
   - Result: PASS
   - Actions:
-    - Inventory UI (E key)
-    - Crafting UI (C key)
-    - Pause Menu (Escape key)
-    - Settings Menu navigation
+    - Inventory UI (E key) - verified item interactions and tooltips.
+    - Crafting UI (C key) - verified crafting slot interactions.
+    - Pause Menu (Escape key) - successfully triggered without interception errors.
+    - Settings Menu navigation - navigated into config and backed out to resume game.
     - Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading UI interactions.
   - Notes: Armor grid UI is successfully verified inside the inventory overlay.
 * **Canvas Collision & State Tracking (`test_specific_features.py`)**
   - Result: PASS
-  - Actions: Verified player item insertion, crafting recipes lookup, block placement, and world memory state assertions correctly updating `window.game.world`.
-* **Specific Item Checks (`test_specific_features2.js`)**
-  - Result: PASS (Note: The script reported `Fishing rod missing` because it searched for `ITEM_FISHING_ROD` instead of `FISHING_ROD`, which is verified as ID 130).
+  - Actions: Verified player item insertion, block placements (e.g. Wooden Door), and world memory state assertions correctly updating `window.game.world`.
 
-## Current Known Bugs & Missing Logic (To Be Fixed)
+## Current Known Bugs & Missing Logic (To Be Implemented)
 
 ### 1. Environment Limitations in Testing
 * **JSDOM Canvas limitations:** Node.js tests fail when `getImageData`/`putImageData` are strictly evaluated. Mocks are in place to allow tests to run, but this is a testing environment limitation rather than a live game bug.
 
 ### 2. Unimplemented Features (From Roadmap)
 The following features are tracked in `FUTURE_FEATURES.md` as missing and will require future agent tasks to implement:
-* Trading Posts & Nether Portals
-* Copper Doors
-* Torchflowers & Pitcher Plants
-* Volcano Structures
-* Glider Equipment
-* Water Wheels & Windmills
-* Animal Taming and Pet System
-* Dynamic Quest System
-* Seagrass & Dried Kelp Mechanics
-* Pale Garden Features (Pale Oak, Eyeblossoms, Pale Hanging Moss)
-* Ominous Trials Mechanics (Ominous Vaults, Trial Keys)
-* Mangrove Roots & Muddy Mangrove Roots
-* Crafter GUI Slot Toggling
-* Hopper Container Transport Logic
-* Bundle Storage Container UI
-* Wolf Armor & Armadillo Scutes Crafting
+* Armor Trims and Smithing Templates Customization
+* Biomes: Savanna, Mushroom Fields, Ice Spikes, Dark Oak, Mangrove Swamps, Pale Garden
+* Mobs: Llama, Parrot, Panda, Warden, Axolotl, Endermites, Evokers, Turtles, Foxes
+* End Dimension: End Cities, Shulkers, End Ships, Ender Dragon boss.
+* Interactive systems: Dynamic Quests, Pet and Taming Systems, Trading Posts, Animal Mounts.
+* Water Wheels & Windmills, Tents, Grappling Hooks
+* Volcano Structures and Ominous Trials Mechanics
 
-## Bugs Discovered & Resolved During Previous Iterations
-* **Furnace UI Crash:** Added null checks in `js/ui.js`.
-* **Upside Down Rendering:** Fixed `ry` inversion in `js/renderer.js`.
-* **Fishing Mechanics:** Timer and loot tables correctly roll.
-* **Stonecutter & Fletching UI:** Dedicated GUI containers properly open.
-* **Smoker & Blast Furnace Speed:** 2x smelt acceleration implemented correctly.
-* **Redstone Connectivity:** Visual lines correctly propagate.
-* **Door Synchronization:** Top and bottom halves correctly synchronize breaking.
-* **Spectator Occlusion:** Solid block occlusion dark overlay successfully applied.
+## Resolved and Verified Issues from Previous Audits
+* **Smoker & Blast Furnace UI & Animations:** Dedicated UI GUI containers function, and flame/smoke animations play. 2x smelt acceleration works.
+* **Fletching Table & Stonecutter UI:** Dedicated GUI containers properly open.
+* **Wooden Door Synchronization:** Top and bottom halves correctly synchronize breaking.
+* **Redstone Connectivity:** Visual multi-directional lines correctly propagate, Repeaters and Comparators route power logically.
+* **Spectator Occlusion & Vision:** Solid block inner-face occlusion dark overlay applied correctly, and Spectator Night Vision auto-applies.
+* **Hopper Item Transport Logic:** Hoppers correctly pull from chest containers above and push into facing containers.
+* **Observer Block State Update Pulse:** Observer block emits 1-tick redstone pulse on block face changes.
+* **Bundle UI:** Bag inventory stores 64 items and successfully displays hovering 2D grid overlay tooltip.
+* **Entity Despawn:** Timers on uncollected mob drops properly remove entities to preserve rendering headroom.
 
 ## Feature Verification Matrix
 
 | Feature / Task | Status | Test Coverage |
 | :--- | :--- | :--- |
+| Trial Vaults, Spawners & Keys | Verified | `test_5_new_high_quality_features_batch.js` |
+| Pale Oak Wood Set & Eyeblossoms | Verified | `test_5_new_high_quality_features_batch.js` |
+| Mace Weapon & Heavy Core Physics | Verified | `test_5_major_new_features.js` |
+| Breeze Mob & Wind Charge Projectiles | Verified | `test_5_new_high_quality_features.js` |
+| Coral Reefs (5 variants) & Ocean Generation | Verified | `test_5_major_new_features.js` |
 | Magma Cube & Snow Golem Mobs | Verified | `test_5_new_batch_features.js` |
-| Magma Block (Stepping Damage) | Verified | `test_5_new_batch_features.js` |
-| Copper Ore, Ingot & Block | Verified | `test_5_new_batch_features.js` |
+| Copper Ore, Ingot & Oxidation Blocks | Verified | `test_5_new_batch_features.js` |
 | Bamboo & Bamboo Item | Verified | `test_5_new_batch_features.js` |
 | Target Block & Lodestone | Verified | `test_5_new_blocks_batch.js` |
-| Flower Pot, Tinted Glass, Lightning Rod | Verified | `test_5_new_blocks_batch.js` |
-| Glow Item Frame & Redstone Repeaters/Comparators | Verified | `test_glow_frame_redstone_repeaters.js` |
-| Grindstone, Sculk Sensor, Spectator Night Vision, Witch | Verified | `test_grindstone_sculk_witch_features.js` |
-| Soul Campfire, Moss Carpet, Packed Mud, Mud Bricks, Chiseled Stone Bricks | Verified | `test_5_features_batch.js` |
-| Stonecutter, Composter, Smoker, Blast Furnace, Sea Lantern | Verified | `test_stonecutter_composter_smoker_features.js` |
-| Slime Block, Glazed Terracotta, Campfire, Glow Berries, Mud Block | Verified | `test_new_5_features.js` |
-| Sweet Berries, Moss Block, Honeycomb Block, Amethyst Block, Crying Obsidian | Verified | `test_5_new_features.js` |
+| Glow Item Frame & Redstone Repeaters | Verified | `test_glow_frame_redstone_repeaters.js` |
+| Soul Campfire, Moss Carpet, Packed Mud | Verified | `test_5_features_batch.js` |
+| Composter, Smoker, Blast Furnace | Verified | `test_stonecutter_composter_smoker_features.js` |
+| Slime Block, Glazed Terracotta, Glow Berries | Verified | `test_new_5_features.js` |
