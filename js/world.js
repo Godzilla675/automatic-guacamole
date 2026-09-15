@@ -72,6 +72,13 @@ class World {
         const oldType = chunk.getBlock(lx, y, lz);
         chunk.setBlock(lx, y, lz, type);
 
+        if (oldType === BLOCK.INFESTED_STONE && type === BLOCK.AIR) {
+            if (this.game && this.game.mobs && window.Mob && window.MOB_TYPE) {
+                const sf = new window.Mob(this.game, x + 0.5, y, z + 0.5, window.MOB_TYPE.SILVERFISH);
+                this.game.mobs.push(sf);
+            }
+        }
+
         // Observer detection on block change
         if (oldType !== type) {
             this.checkObserverUpdates(x, y, z);

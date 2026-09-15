@@ -25,6 +25,10 @@ class StructureManager {
             trunk = BLOCK.BIRCH_WOOD;
             leaves = BLOCK.BIRCH_LEAVES;
         }
+        if (type === 'acacia') {
+            trunk = BLOCK.ACACIA_LOG;
+            leaves = BLOCK.ACACIA_LEAVES;
+        }
         if (type === 'jungle') {
             this.generateJungleTree(chunk, x, y, z, sync);
             return;
