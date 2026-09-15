@@ -34,9 +34,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Mace Smash Attack Damage Multiplier**: Falling from heights increases Mace weapon damage proportionally to fall distance. (Status: Verified and working)
 
 ## 1. World Generation
-- [ ] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Verified and working)
 - [x] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Verified and working)
-- [ ] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Verified and working)
 - [ ] **New Task: Add Nether Fossils & Soul Soil Biomes**: Bone block structures generated in soul sand valleys. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Mangrove Swamp Trees & Propagules**: Hanging propagule saplings and submerged mangrove tree generation. (Status: Proposed feature, pending implementation)
 
@@ -81,7 +81,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 4. Player Mechanics
 - [ ] **New Task: Add Trial Spawners**: Blocks that spawn waves of mobs. (Status: Missing implementation, agents must fix)
-- [ ] Drowning (Status: Missing implementation, agents must fix)
+- [x] Drowning (Status: Verified and working)
 - [ ] **New Task: Add Creaking**: Hostile mob that only moves when not looked at and is vulnerable through its Creaking Heart. (Status: Missing implementation, agents must fix)
 - [ ] **Elytra** (Gliding mechanics) (Status: Missing implementation, agents must fix)
 - [ ] **Tridents** (Throwing, returning, Riptide) (Status: Missing implementation, agents must fix)
@@ -259,7 +259,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Spawning in Solid Blocks**: Players occasionally spawn suffocating inside solid blocks like stone. (Status: Verified and working - checks 2-block height air space on spawn/respawn)
 - [x] **New Task: Add Grindstones**: Block used to repair items and remove enchantments. (Status: Verified and working)
 - [ ] **New Task: Add Ocean Monument Structures**: Ocean monuments generating in deep ocean biomes containing Sea Lanterns and Elder Guardians. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Carrots on a Stick**: Item used to control saddled pigs. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Carrots on a Stick**: Item used to control saddled pigs. (Status: Verified and working)
 - [x] **New Task: Add Flower Pots**: Decorative blocks to hold saplings and flowers. (Status: Verified and working)
 - [ ] **New Task: Add Pale Oak Forest**: New biome for Creaking. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Canvas Pattern Creation Fails in Headless**: createPattern throws an error in certain headless test environments. (Status: Missing implementation, agents must fix)
@@ -374,7 +374,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Command Blocks**: Blocks that can execute server commands when powered by redstone. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Witches**: Hostile mobs that throw potions. (Status: Verified and working)
-- [ ] **New Task: Add Carrot on a Stick Steering Logic**: Right clicking with Carrot on a Stick speeds up rideable pigs in player direction. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Carrot on a Stick Steering Logic**: Right clicking with Carrot on a Stick speeds up rideable pigs in player direction. (Status: Verified and working)
 - [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Copper Bulbs**: Light blocks that dim as they oxidize. (Status: Verified and working)
 - [x] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Verified and working)
@@ -503,3 +503,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Death Screen Coordinates**: HUD display on player death screen showing exact X, Y, Z death coordinates. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Pale Garden Biome Generation**: World generator support for Pale Garden biomes spawning Pale Oak trees, Pale Hanging Moss, and nocturnal Eyeblossoms. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Ominous Vaults & Ominous Trial Keys**: Special high-tier Ominous Vaults found in Trial Chambers requiring Ominous Trial Keys. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Wind Charge Explosion Entity Damage**: Throwable wind charges dealing localized knockback and damage to surrounding entities. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Anvil Item Renaming and Repair GUI**: Complete repair and item renaming functionality within dedicated Anvil UI. (Status: Verified and working)
