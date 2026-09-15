@@ -347,7 +347,15 @@ const BLOCK = {
     DAYLIGHT_SENSOR: 436,
     TRIAL_SPAWNER: 437,
     ITEM_TRIAL_KEY: 438,
-    TRIAL_VAULT: 439
+    TRIAL_VAULT: 439,
+
+    // Feature Batch 2
+    INFESTED_STONE: 440,
+    ITEM_CARROT_STICK: 441,
+    ACACIA_LOG: 442,
+    ACACIA_PLANK: 443,
+    ACACIA_LEAVES: 444,
+    ACACIA_SAPLING: 445
 };
 
 const ARMOR = {
@@ -768,7 +776,15 @@ const BLOCKS = {
     // Feature 5: Trial Spawner & Trial Vault
     [BLOCK.TRIAL_SPAWNER]: { name: 'Trial Spawner', color: '#4A4A4A', top: '#FFA500', solid: true, icon: '🔥', hardness: 5.0, tool: 'pickaxe', light: 7 },
     [BLOCK.ITEM_TRIAL_KEY]: { name: 'Trial Key', color: '#FFD700', solid: false, isItem: true, icon: '🔑' },
-    [BLOCK.TRIAL_VAULT]: { name: 'Trial Vault', color: '#2A2A3A', top: '#00FFFF', solid: true, icon: '🔒', hardness: 5.0, tool: 'pickaxe', light: 5 }
+    [BLOCK.TRIAL_VAULT]: { name: 'Trial Vault', color: '#2A2A3A', top: '#00FFFF', solid: true, icon: '🔒', hardness: 5.0, tool: 'pickaxe', light: 5 },
+
+    // Feature Batch 2: Silverfish, Carrot Stick, Acacia Family
+    [BLOCK.INFESTED_STONE]: { name: 'Infested Stone', color: '#787878', top: '#888888', solid: true, icon: '🪨', hardness: 0.75, tool: 'pickaxe', drop: null },
+    [BLOCK.ITEM_CARROT_STICK]: { name: 'Carrot on a Stick', color: '#FFA500', solid: false, isItem: true, icon: '🎣', durability: 25 },
+    [BLOCK.ACACIA_LOG]: { name: 'Acacia Log', color: '#685A4E', top: '#A0522D', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.ACACIA_PLANK]: { name: 'Acacia Plank', color: '#BA5536', top: '#BA5536', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
+    [BLOCK.ACACIA_LEAVES]: { name: 'Acacia Leaves', color: '#4A7023', top: '#558B2F', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.ACACIA_SAPLING, count: 1, chance: 0.05 } },
+    [BLOCK.ACACIA_SAPLING]: { name: 'Acacia Sapling', color: '#558B2F', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.ACACIA_SAPLING, count: 1 } }
 };
 
 if (typeof window !== 'undefined') {

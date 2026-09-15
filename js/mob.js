@@ -23,7 +23,8 @@ const MOB_TYPE = {
     BOGGED: 'bogged',
     BEE: 'bee',
     BREEZE: 'breeze',
-    POLAR_BEAR: 'polar_bear'
+    POLAR_BEAR: 'polar_bear',
+    SILVERFISH: 'silverfish'
 };
 
 class Mob extends Entity {
@@ -344,6 +345,14 @@ class Mob extends Entity {
                 this.maxHealth = 30;
                 this.xpValue = 3;
                 break;
+            case MOB_TYPE.SILVERFISH:
+                this.color = '#A0A0A0';
+                this.height = 0.3;
+                this.width = 0.4;
+                this.speed = 3.0;
+                this.maxHealth = 8;
+                this.xpValue = 5;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -465,6 +474,9 @@ class Mob extends Entity {
                 dropType = BLOCK.ITEM_RAW_FISH;
                 count = 1 + Math.floor(Math.random() * 3);
                 break;
+            case MOB_TYPE.SILVERFISH:
+                // No drop or small chance of xp
+                break;
         }
 
         if (dropType && this.game.drops) {
@@ -563,6 +575,11 @@ class Mob extends Entity {
 
         if (this.type === MOB_TYPE.POLAR_BEAR) {
             this.updatePolarBearAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.SILVERFISH) {
+            this.updateSilverfishAI(dt);
             return;
         }
 
@@ -713,6 +730,41 @@ class Mob extends Entity {
                 this.attackCooldown = 2.5;
             }
         } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updateSilverfishAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.hypot(dx, dz);
+
+        if (dist < 16 && this.hasLineOfSight(player)) {
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+
+            if (dist < 1.2 && this.attackCooldown <= 0) {
+                player.takeDamage(2);
+                this.attackCooldown = 1.0;
+            }
+            this.attackCooldown -= dt;
+        } else {
+            // Chance to hide/infest nearby stone
+            if (Math.random() < 0.005 && this.world) {
+                const bx = Math.floor(this.x);
+                const by = Math.floor(this.y);
+                const bz = Math.floor(this.z);
+                if (this.world.getBlock(bx, by, bz) === window.BLOCK.STONE) {
+                    this.world.setBlock(bx, by, bz, window.BLOCK.INFESTED_STONE);
+                    this.isDead = true;
+                    if (this.game.mobs) {
+                        this.game.mobs = this.game.mobs.filter(m => m !== this);
+                    }
+                    return;
+                }
+            }
             this.updatePassiveAI(dt);
         }
     }

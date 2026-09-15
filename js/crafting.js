@@ -261,6 +261,16 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.GLASS, count: 3 }, { type: BLOCK.ITEM_QUARTZ, count: 3 }, { type: BLOCK.SLAB_WOOD, count: 3 } ]
             },
             {
+                name: "Carrot on a Stick",
+                result: { type: BLOCK.ITEM_CARROT_STICK, count: 1 },
+                ingredients: [ { type: BLOCK.FISHING_ROD, count: 1 }, { type: BLOCK.ITEM_CARROT, count: 1 } ]
+            },
+            {
+                name: "Acacia Planks (4)",
+                result: { type: BLOCK.ACACIA_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.ACACIA_LOG, count: 1 } ]
+            },
+            {
                 name: "Stick from Bamboo",
                 result: { type: BLOCK.ITEM_STICK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 2 } ]

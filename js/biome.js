@@ -9,7 +9,8 @@ class BiomeManager {
             DESERT: { name: 'Desert', topBlock: BLOCK.SAND, underBlock: BLOCK.SAND, heightOffset: 1, treeChance: 0, cactusChance: 0.02 },
             SNOW: { name: 'Snow', topBlock: BLOCK.SNOW, underBlock: BLOCK.DIRT, heightOffset: 5, treeChance: 0.02, snow: true },
             BIRCH_FOREST: { name: 'Birch Forest', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 2, treeChance: 0.1 },
-            JUNGLE: { name: 'Jungle', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 4, treeChance: 0.15 }
+            JUNGLE: { name: 'Jungle', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 4, treeChance: 0.15 },
+            SAVANNA: { name: 'Savanna', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 1, treeChance: 0.02 }
         };
     }
 
@@ -19,7 +20,8 @@ class BiomeManager {
         const humidity = window.perlin.noise(x * scale + 1000, z * scale + 1000, this.seed);
 
         if (temp > 0.5) {
-            if (humidity < 0) return this.biomes.DESERT;
+            if (humidity < -0.2) return this.biomes.DESERT;
+            if (humidity < 0.1) return this.biomes.SAVANNA;
             if (humidity > 0.6) return this.biomes.JUNGLE;
             if (humidity > 0.4) return this.biomes.BIRCH_FOREST;
             return this.biomes.FOREST;

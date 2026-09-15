@@ -99,6 +99,11 @@ class Player {
 
         // Active potion status effects
         this.activeEffects = [];
+
+        // Oxygen / Drowning
+        this.oxygen = 10;
+        this.maxOxygen = 10;
+        this.drowningTimer = 0;
     }
 
     swapOffhand() {
@@ -389,6 +394,24 @@ class Player {
             if (this.riding.isDead) {
                 this.riding = null;
             } else {
+                // Pig steering with Carrot on a Stick
+                const held = this.getHeldItem();
+                if (held && held.type === window.BLOCK.ITEM_CARROT_STICK && this.riding.type === window.MOB_TYPE.PIG) {
+                    this.riding.yaw = this.yaw;
+                    let speedMult = 2.0;
+                    if (this.game && this.game.controls && this.game.controls.mouseButtons && this.game.controls.mouseButtons[2]) {
+                        speedMult = 3.5;
+                        if (held.durability !== undefined) {
+                            held.durability -= 0.1 * dt;
+                            if (held.durability <= 0) {
+                                this.inventory[this.selectedSlot] = { type: window.BLOCK.FISHING_ROD, count: 1 };
+                            }
+                        }
+                    }
+                    this.riding.vx = Math.sin(this.yaw) * this.riding.speed * speedMult;
+                    this.riding.vz = Math.cos(this.yaw) * this.riding.speed * speedMult;
+                }
+
                 this.x = this.riding.x;
                 this.y = this.riding.y + this.riding.height * 0.75; // Sit slightly inside/on top
                 this.z = this.riding.z;
@@ -459,8 +482,23 @@ class Player {
             this.vy = -2.0; // Slide down slowly on honey block
         }
 
-        // Fluid Physics
+        // Fluid Physics & Drowning
         const inWater = this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
+        const headInWater = this.game.physics.getFluidIntersection({x: this.x, y: this.y + this.height * 0.8, z: this.z, width: 0.1, height: 0.1});
+        if (headInWater && this.gamemode !== 1 && this.gamemode !== 3 && !this.spectator) {
+            this.drowningTimer += dt;
+            if (this.drowningTimer >= 1.0) {
+                this.drowningTimer = 0;
+                this.oxygen = Math.max(0, this.oxygen - 1);
+                if (this.oxygen === 0) {
+                    this.takeDamage(2);
+                }
+            }
+        } else {
+            this.oxygen = this.maxOxygen;
+            this.drowningTimer = 0;
+        }
+
         if (inWater) {
              moveSpeed *= 0.5;
              this.fallDistance = 0;

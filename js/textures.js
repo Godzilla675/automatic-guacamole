@@ -166,6 +166,14 @@ class TextureManager {
         this.textures[B.ITEM_TRIAL_KEY] = this.genTrialKeyItem();
         this.textures[B.TRIAL_VAULT] = this.genTrialVault();
 
+        // Feature Batch 2
+        this.textures[B.INFESTED_STONE] = this.genStone();
+        this.textures[B.ITEM_CARROT_STICK] = this.genCarrotStickItem();
+        this.textures[B.ACACIA_LOG] = this.genWood('#685A4E', '#4A3B30');
+        this.textures[B.ACACIA_PLANK] = this.genPlank('#BA5536');
+        this.textures[B.ACACIA_LEAVES] = this.genLeaves('#558B2F', '#33691E');
+        this.textures[B.ACACIA_SAPLING] = this.genSapling('#558B2F');
+
 
         // Glass
         this.textures[B.GLASS] = this.genGlass();
@@ -2308,6 +2316,35 @@ class TextureManager {
         return c;
     }
 
+    genCarrotStickItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(3, 11, 2, 2);
+        ctx.fillRect(5, 9, 2, 2);
+        ctx.fillRect(7, 7, 2, 2);
+        ctx.fillRect(9, 5, 2, 2);
+        ctx.fillStyle = '#CCCCCC';
+        ctx.fillRect(11, 6, 1, 4);
+        ctx.fillStyle = '#FFA500';
+        ctx.fillRect(10, 10, 3, 3);
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(11, 9, 1, 1);
+        return c;
+    }
+
+    genMobSilverfish() {
+        const c = this.createCanvas(8, 6);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 160, g: 160, b: 160 }, 15, 8, 6);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(1, 1, 1, 1);
+        ctx.fillRect(6, 1, 1, 1);
+        ctx.fillStyle = '#A0A0A0';
+        ctx.fillRect(2, 3, 4, 2);
+        return c;
+    }
+
     generateMobTextures() {
         this.mobTextures.cow = this.genMobCow();
         this.mobTextures.pig = this.genMobPig();
@@ -2333,6 +2370,7 @@ class TextureManager {
         this.mobTextures.bee = this.genMobBee();
         this.mobTextures.breeze = this.genMobBreeze();
         this.mobTextures.polar_bear = this.genMobPolarBear();
+        this.mobTextures.silverfish = this.genMobSilverfish();
     }
 
     genMobWitherSkeleton() {

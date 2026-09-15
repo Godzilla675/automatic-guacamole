@@ -188,6 +188,13 @@ class UIManager {
             });
         }
 
+        const anvilOutput = document.getElementById('anvil-output');
+        if (anvilOutput) {
+            anvilOutput.onclick = () => {
+                this.performAnvilAction();
+            };
+        }
+
         // Bind Furnace Close
         const closeFurnace = document.getElementById('close-furnace');
         if (closeFurnace) {
