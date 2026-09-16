@@ -8,8 +8,8 @@ All unit tests and end-to-end functionality verified the stability of the game e
 
 ### 1. Mocha Unit Test Suite (`tests/*.js`)
 Executed `npx mocha tests/*.js` sequentially (to prevent JSDOM memory leak recursion errors from loading `Performance.now` 40 times).
-- **Status:** All 40 test suites are passing consistently. No failed assertions.
-- **Coverage:** Tests correctly assert feature existence in `BLOCK` constants, recipe correctness in `crafting.js`, collision bounds math in `physics.js`, and item drops. Features verified include the Pale Oak Wood System, Trial Vaults, Hoppers, Redstone Logic components (Repeaters, Comparators), Smoker/Blast Furnace functionality, rendering distance depth sorting, and mob hostility mechanics (Breeze, Bee, Wither, etc.).
+- **Status:** All 297 test cases across all suites are passing consistently. No failed assertions.
+- **Coverage:** Tests correctly assert feature existence in `BLOCK` constants, recipe correctness in `crafting.js`, collision bounds math in `physics.js`, and item drops. Features verified include the Pale Oak Wood System, Trial Vaults, Hoppers, Redstone Logic components (Repeaters, Comparators), Smoker/Blast Furnace functionality, rendering distance depth sorting, and mob hostility mechanics (Breeze, Bee, Wither, etc.). Resolved the InvalidCharacterError that previously failed tests related to base64 encoding/decoding during `world.saveWorld()` within JSDOM contexts.
 
 ### 2. End-to-End Browser Gameplay Testing (Playwright)
 Executed an array of automated testing scripts mimicking real player behavior in a headless Chromium instance on `http://localhost:3000`.
@@ -35,11 +35,12 @@ Executed an array of automated testing scripts mimicking real player behavior in
 
 ### 1. Environment Limitations in Testing
 * **JSDOM Canvas limitations:** Node.js tests fail when `getImageData`/`putImageData` are strictly evaluated. Mocks are in place to allow tests to run, but this is a testing environment limitation rather than a live game bug.
+* **Concurrent Test Execution Recursion:** Executing all Mocha tests concurrently in a single node invocation triggers JSDOM PerformanceImpl.now stack overflow error; running test files individually or in loops (sequentially) resolves this.
 
 ### 2. Unimplemented Features (From Roadmap)
 The following features are tracked in `FUTURE_FEATURES.md` as missing and will require future agent tasks to implement:
 * Armor Trims and Smithing Templates Customization
-* Biomes: Savanna, Mushroom Fields, Ice Spikes, Dark Oak, Mangrove Swamps, Pale Garden
+* Biomes: Mushroom Fields, Ice Spikes, Dark Oak, Mangrove Swamps, Pale Garden
 * Mobs: Llama, Parrot, Panda, Warden, Axolotl, Endermites, Evokers, Turtles, Foxes
 * End Dimension: End Cities, Shulkers, End Ships, Ender Dragon boss.
 * Interactive systems: Dynamic Quests, Pet and Taming Systems, Trading Posts, Animal Mounts.
@@ -56,6 +57,7 @@ The following features are tracked in `FUTURE_FEATURES.md` as missing and will r
 * **Observer Block State Update Pulse:** Observer block emits 1-tick redstone pulse on block face changes.
 * **Bundle UI:** Bag inventory stores 64 items and successfully displays hovering 2D grid overlay tooltip.
 * **Entity Despawn:** Timers on uncollected mob drops properly remove entities to preserve rendering headroom.
+* **InvalidCharacterError:** Base64 InvalidCharacterError fixed; saveWorld base64 encoding correctly converts Uint16Array to Uint8Array prior to serialization.
 
 ## Feature Verification Matrix
 
