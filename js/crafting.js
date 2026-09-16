@@ -271,6 +271,26 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ACACIA_LOG, count: 1 } ]
             },
             {
+                name: "Dark Oak Planks (4)",
+                result: { type: BLOCK.DARK_OAK_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.DARK_OAK_LOG, count: 1 } ]
+            },
+            {
+                name: "Crossbow",
+                result: { type: BLOCK.ITEM_CROSSBOW, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.ITEM_IRON_INGOT, count: 1 }, { type: BLOCK.ITEM_STRING, count: 2 } ]
+            },
+            {
+                name: "Wolf Armor",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_ARMADILLO_SCUTE, count: 6 } ]
+            },
+            {
+                name: "Sculk Catalyst",
+                result: { type: BLOCK.SCULK_CATALYST, count: 1 },
+                ingredients: [ { type: BLOCK.SCULK_SENSOR, count: 2 }, { type: BLOCK.ITEM_BONE, count: 4 } ]
+            },
+            {
                 name: "Stick from Bamboo",
                 result: { type: BLOCK.ITEM_STICK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 2 } ]

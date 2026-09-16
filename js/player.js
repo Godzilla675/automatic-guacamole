@@ -273,7 +273,11 @@ class Player {
         if (window.soundManager) window.soundManager.play('break'); // Placeholder damage sound
         if (this.health <= 0) {
             this.lastDeathPos = { x: this.x, y: this.y, z: this.z };
-            this.respawn();
+            if (this.game && this.game.ui && this.game.ui.showDeathScreen) {
+                this.game.ui.showDeathScreen(this.lastDeathPos);
+            } else {
+                this.respawn();
+            }
         }
         // Update UI if exists
         if (this.game.updateHealthUI) this.game.updateHealthUI();

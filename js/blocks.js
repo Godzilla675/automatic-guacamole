@@ -355,7 +355,17 @@ const BLOCK = {
     ACACIA_LOG: 442,
     ACACIA_PLANK: 443,
     ACACIA_LEAVES: 444,
-    ACACIA_SAPLING: 445
+    ACACIA_SAPLING: 445,
+
+    // Feature Batch 3
+    DARK_OAK_LOG: 446,
+    DARK_OAK_PLANK: 447,
+    DARK_OAK_LEAVES: 448,
+    DARK_OAK_SAPLING: 449,
+    ITEM_CROSSBOW: 450,
+    ITEM_ARMADILLO_SCUTE: 451,
+    ITEM_WOLF_ARMOR: 452,
+    SCULK_CATALYST: 453
 };
 
 const ARMOR = {
@@ -408,6 +418,7 @@ const TOOLS = {
     [BLOCK.ITEM_MACE]: { type: 'mace', speed: 1.0, damage: 7, durability: 500 },
 
     [BLOCK.BOW]: { type: 'bow', speed: 1, damage: 4, durability: 384 },
+    [BLOCK.ITEM_CROSSBOW]: { type: 'crossbow', speed: 1.2, damage: 6, durability: 465 },
     [BLOCK.SHIELD]: { type: 'shield', durability: 336 },
     [BLOCK.ITEM_SHEARS]: { type: 'shears', durability: 238 }
 };
@@ -784,7 +795,19 @@ const BLOCKS = {
     [BLOCK.ACACIA_LOG]: { name: 'Acacia Log', color: '#685A4E', top: '#A0522D', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
     [BLOCK.ACACIA_PLANK]: { name: 'Acacia Plank', color: '#BA5536', top: '#BA5536', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
     [BLOCK.ACACIA_LEAVES]: { name: 'Acacia Leaves', color: '#4A7023', top: '#558B2F', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.ACACIA_SAPLING, count: 1, chance: 0.05 } },
-    [BLOCK.ACACIA_SAPLING]: { name: 'Acacia Sapling', color: '#558B2F', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.ACACIA_SAPLING, count: 1 } }
+    [BLOCK.ACACIA_SAPLING]: { name: 'Acacia Sapling', color: '#558B2F', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.ACACIA_SAPLING, count: 1 } },
+
+    // Dark Oak Family
+    [BLOCK.DARK_OAK_LOG]: { name: 'Dark Oak Log', color: '#302217', top: '#281B10', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.DARK_OAK_PLANK]: { name: 'Dark Oak Plank', color: '#422B18', top: '#422B18', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
+    [BLOCK.DARK_OAK_LEAVES]: { name: 'Dark Oak Leaves', color: '#1B3B12', top: '#234C18', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.DARK_OAK_SAPLING, count: 1, chance: 0.05 } },
+    [BLOCK.DARK_OAK_SAPLING]: { name: 'Dark Oak Sapling', color: '#234C18', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.DARK_OAK_SAPLING, count: 1 } },
+
+    // Batch 3 items/blocks
+    [BLOCK.ITEM_CROSSBOW]: { name: 'Crossbow', color: '#8B4513', solid: false, isItem: true, icon: '🏹', durability: 465 },
+    [BLOCK.ITEM_ARMADILLO_SCUTE]: { name: 'Armadillo Scute', color: '#A07050', solid: false, isItem: true, icon: '🛡️' },
+    [BLOCK.ITEM_WOLF_ARMOR]: { name: 'Wolf Armor', color: '#8B5A2B', solid: false, isItem: true, icon: '🐕' },
+    [BLOCK.SCULK_CATALYST]: { name: 'Sculk Catalyst', color: '#002222', top: '#008080', solid: true, icon: '🌌', hardness: 3.0, tool: 'hoe', light: 6 }
 };
 
 if (typeof window !== 'undefined') {

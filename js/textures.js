@@ -174,6 +174,16 @@ class TextureManager {
         this.textures[B.ACACIA_LEAVES] = this.genLeaves('#558B2F', '#33691E');
         this.textures[B.ACACIA_SAPLING] = this.genSapling('#558B2F');
 
+        // Feature Batch 3
+        this.textures[B.DARK_OAK_LOG] = this.genWood('#302217', '#1F140C');
+        this.textures[B.DARK_OAK_PLANK] = this.genPlank('#422B18');
+        this.textures[B.DARK_OAK_LEAVES] = this.genLeaves('#1B3B12', '#0E240B');
+        this.textures[B.DARK_OAK_SAPLING] = this.genSapling('#234C18');
+        this.textures[B.ITEM_CROSSBOW] = this.genCrossbowItem();
+        this.textures[B.ITEM_ARMADILLO_SCUTE] = this.genScuteItem();
+        this.textures[B.ITEM_WOLF_ARMOR] = this.genWolfArmorItem();
+        this.textures[B.SCULK_CATALYST] = this.genSculkCatalyst();
+
 
         // Glass
         this.textures[B.GLASS] = this.genGlass();
@@ -2345,6 +2355,52 @@ class TextureManager {
         return c;
     }
 
+    genCrossbowItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(7, 4, 2, 9);
+        ctx.fillStyle = '#A0A0A0';
+        ctx.fillRect(2, 4, 12, 2);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(3, 3, 1, 1);
+        ctx.fillRect(12, 3, 1, 1);
+        ctx.fillRect(7, 3, 2, 1);
+        return c;
+    }
+
+    genScuteItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#A07050';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#7A5030';
+        ctx.fillRect(5, 5, 6, 6);
+        return c;
+    }
+
+    genWolfArmorItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#8B5A2B';
+        ctx.fillRect(3, 4, 10, 8);
+        ctx.fillStyle = '#5C3A1B';
+        ctx.fillRect(5, 6, 6, 4);
+        return c;
+    }
+
+    genSculkCatalyst() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#002222';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#008080';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#80DEEA';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
     generateMobTextures() {
         this.mobTextures.cow = this.genMobCow();
         this.mobTextures.pig = this.genMobPig();
@@ -2371,6 +2427,29 @@ class TextureManager {
         this.mobTextures.breeze = this.genMobBreeze();
         this.mobTextures.polar_bear = this.genMobPolarBear();
         this.mobTextures.silverfish = this.genMobSilverfish();
+        this.mobTextures.pillager = this.genMobPillager();
+        this.mobTextures.armadillo = this.genMobArmadillo();
+    }
+
+    genMobPillager() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 120, g: 120, b: 120 }, 10, 8, 16);
+        ctx.fillStyle = '#3A3A3A';
+        ctx.fillRect(0, 5, 8, 8);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(2, 2, 1, 1);
+        ctx.fillRect(5, 2, 1, 1);
+        return c;
+    }
+
+    genMobArmadillo() {
+        const c = this.createCanvas(10, 8);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 160, g: 110, b: 80 }, 10, 10, 8);
+        ctx.fillStyle = '#A07050';
+        ctx.fillRect(2, 2, 6, 4);
+        return c;
     }
 
     genMobWitherSkeleton() {

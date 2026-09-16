@@ -10,7 +10,8 @@ class BiomeManager {
             SNOW: { name: 'Snow', topBlock: BLOCK.SNOW, underBlock: BLOCK.DIRT, heightOffset: 5, treeChance: 0.02, snow: true },
             BIRCH_FOREST: { name: 'Birch Forest', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 2, treeChance: 0.1 },
             JUNGLE: { name: 'Jungle', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 4, treeChance: 0.15 },
-            SAVANNA: { name: 'Savanna', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 1, treeChance: 0.02 }
+            SAVANNA: { name: 'Savanna', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 1, treeChance: 0.02 },
+            DARK_OAK_FOREST: { name: 'Dark Oak Forest', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 3, treeChance: 0.2 }
         };
     }
 
@@ -28,6 +29,7 @@ class BiomeManager {
         } else if (temp < -0.3) {
             return this.biomes.SNOW;
         } else {
+            if (humidity > 0.5) return this.biomes.DARK_OAK_FOREST;
             if (humidity > 0.2) return this.biomes.FOREST;
             return this.biomes.PLAINS;
         }

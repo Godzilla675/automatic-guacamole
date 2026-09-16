@@ -29,6 +29,11 @@ class StructureManager {
             trunk = BLOCK.ACACIA_LOG;
             leaves = BLOCK.ACACIA_LEAVES;
         }
+        if (type === 'dark_oak') {
+            trunk = BLOCK.DARK_OAK_LOG;
+            leaves = BLOCK.DARK_OAK_LEAVES;
+            height = 6 + Math.floor(Math.random() * 3);
+        }
         if (type === 'jungle') {
             this.generateJungleTree(chunk, x, y, z, sync);
             return;

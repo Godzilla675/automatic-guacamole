@@ -188,6 +188,16 @@ class UIManager {
             });
         }
 
+        const respawnBtn = document.getElementById('respawn-btn');
+        if (respawnBtn) {
+            respawnBtn.addEventListener('click', () => {
+                this.closeDeathScreen();
+                if (this.game && this.game.player) {
+                    this.game.player.respawn();
+                }
+            });
+        }
+
         const anvilOutput = document.getElementById('anvil-output');
         if (anvilOutput) {
             anvilOutput.onclick = () => {
@@ -1641,6 +1651,22 @@ class UIManager {
         }
         this.refreshChestUI();
         this.updateCursorUI();
+    }
+
+    showDeathScreen(deathPos) {
+        const screen = document.getElementById('death-screen');
+        const coords = document.getElementById('death-coords');
+        if (screen) screen.classList.remove('hidden');
+        if (coords && deathPos) {
+            coords.textContent = `Death Coordinates: X: ${Math.floor(deathPos.x)}, Y: ${Math.floor(deathPos.y)}, Z: ${Math.floor(deathPos.z)}`;
+        }
+        document.exitPointerLock();
+    }
+
+    closeDeathScreen() {
+        const screen = document.getElementById('death-screen');
+        if (screen) screen.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
     }
 
     pauseGame() {

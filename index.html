@@ -315,6 +315,16 @@
         <button type="button" id="pause-btn" class="ui-button" aria-label="Pause game">⏸️ Pause</button>
     </div>
 
+    <div id="death-screen" class="hidden">
+        <div class="menu-content" style="text-align: center; max-width: 450px;">
+            <h1 style="color: #FF3333; margin-bottom: 10px;">You Died!</h1>
+            <p id="death-coords" style="font-size: 16px; margin-bottom: 20px; color: #FFD700;">Death Coordinates: X: 0, Y: 0, Z: 0</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+                <button type="button" id="respawn-btn" class="menu-button">Respawn</button>
+            </div>
+        </div>
+    </div>
+
     <div id="pause-screen" class="hidden">
         <div class="menu-content">
             <h1>Game Paused</h1>

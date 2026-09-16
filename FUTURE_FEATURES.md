@@ -42,11 +42,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ice Spikes Biome**: Rare biome featuring large spikes of packed ice. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees. (Status: Verified and working)
 - [ ] **Snowy Taiga** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mushroom Fields Biome**: Rare biome where Mooshrooms spawn and giant mushrooms grow. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Igloos**: Snow structures found in snowy biomes. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Pillagers**: Hostile illager mob with crossbows. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Pillagers**: Hostile illager mob with crossbows. (Status: Verified and working)
 - [ ] **Nether Fortresses** (Generation logic in Nether) (Status: Missing implementation, agents must fix)
 - [ ] **Badlands Biome** (Status: Missing implementation, agents must fix)
 - [ ] **Desert Temple** (Status: Missing implementation, agents must fix)
@@ -113,7 +113,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 6. Items & Crafting
 - [ ] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Wolf Armor & Armadillo Scute Crafting**: Craft armor for tamed wolves using Armadillo Scutes and equip onto tamed wolves. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Wolf Armor & Armadillo Scute Crafting**: Craft armor for tamed wolves using Armadillo Scutes and equip onto tamed wolves. (Status: Verified and working)
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Verified and working)
 - [ ] **New Task: Add Piglins and Bartering**: Neutral mobs in the Nether that trade items for gold. (Status: Missing implementation, agents must fix)
@@ -148,7 +148,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **World showcase gallery** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
 - [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
-- [ ] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Verified and working)
 - [x] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Verified and working)
 - [x] **New Task: Add Bundle Item Tooltip Preview**: Hovering over Bundle in inventory displays 2D grid preview of stored items. (Status: Verified and working)
 
@@ -353,7 +353,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
 
 - [x] **New Task: Add Bundle Storage Item**: Item capable of holding up to 64 items of mixed types in a single inventory slot. (Status: Verified and working)
-- [ ] **New Task: Add Sculk Catalyst**: Block that generates more sculk when mobs die near it. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Sculk Catalyst**: Block that generates more sculk when mobs die near it. (Status: Verified and working)
 - [x] **New Task: Add Recovery Compass**: Item that points to the player's last death location. (Status: Verified and working)
 - [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries. (Status: Missing implementation, agents must fix)
