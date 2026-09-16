@@ -7,7 +7,7 @@ All unit tests and end-to-end functionality verified the stability of the game e
 ## Detailed Test Execution Summary
 
 ### 1. Mocha Unit Test Suite (`tests/*.js`)
-Executed `npx mocha tests/*.js` sequentially (to prevent JSDOM memory leak recursion errors from loading `Performance.now` 40 times).
+Executed `for f in tests/test_*.js; do npx mocha "$f"; done` sequentially (to prevent JSDOM memory leak recursion errors from loading `Performance.now` 40 times).
 - **Status:** All 297 test cases across all suites are passing consistently. No failed assertions.
 - **Coverage:** Tests correctly assert feature existence in `BLOCK` constants, recipe correctness in `crafting.js`, collision bounds math in `physics.js`, and item drops. Features verified include the Pale Oak Wood System, Trial Vaults, Hoppers, Redstone Logic components (Repeaters, Comparators), Smoker/Blast Furnace functionality, rendering distance depth sorting, and mob hostility mechanics (Breeze, Bee, Wither, etc.). Resolved the InvalidCharacterError that previously failed tests related to base64 encoding/decoding during `world.saveWorld()` within JSDOM contexts.
 
