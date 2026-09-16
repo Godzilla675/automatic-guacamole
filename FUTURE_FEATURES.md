@@ -240,6 +240,9 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 
 ## Known Bugs & Issues (To Be Fixed)
+- [ ] **Bug: PluginAPI JSDOM test failure**: `window.PluginAPI` is not a constructor in JSDOM environments, causing test failures in `verification/verify_all_new_features.js`. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: verify_bug_fixes.js execution error**: `verify_bug_fixes.js` fails with `describe is not defined` because it is run with `node` instead of `mocha` in `test_runner.py`. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Fishing Rod missing in test**: `test_specific_features2.js` incorrectly references `window.BLOCK.ITEM_FISHING_ROD` instead of `window.BLOCK.FISHING_ROD`. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Cloud rendering depth**: Clouds sort altitude and depth correctly. (Status: Verified and working)
 - [x] **New Task: Add Glazed Terracotta Crafting**: Smelting dyed terracotta into glazed terracotta. (Status: Verified and working)
 - [x] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts visual debug toggle and ray overlay added. (Status: Verified and working)
