@@ -2,7 +2,7 @@
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 
 ## Core Features
-- [ ] **New Task: Add Armor Trims**: Customize armor appearance with smithing templates. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation. (Status: Verified and working)
 - [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Verified and working)
@@ -18,11 +18,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Verified and working)
 
 - [x] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Verified and working)
-- [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key to unlock high-tier rewards. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Wind Charges**: Used as a throwable projectile with knockback explosion physics. (Status: Verified and working)
 - [x] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Verified and working)
 
-- [ ] **New Task: Add Trial Chambers**: Procedural structures found underground. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Trial Chambers Underground Structure Generation**: Procedural room generation logic in `js/structures.js` featuring Trial Spawners, Trial Vaults, and Chiseled Tuff blocks. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Verified and working)
 - [x] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Verified and working)
 - [x] **New Task: Add Copper Bulbs**: Dimmable light sources that toggle state on redstone signals. (Status: Verified and working)
@@ -80,7 +80,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Missing implementation, agents must fix)
 
 ### 4. Player Mechanics
-- [ ] **New Task: Add Trial Spawners**: Blocks that spawn waves of mobs. (Status: Missing implementation, agents must fix)
 - [x] Drowning (Status: Verified and working)
 - [ ] **New Task: Add Creaking**: Hostile mob that only moves when not looked at and is vulnerable through its Creaking Heart. (Status: Missing implementation, agents must fix)
 - [ ] **Elytra** (Gliding mechanics) (Status: Missing implementation, agents must fix)
@@ -109,7 +108,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Rideable Pigs**: Saddle mounting, player riding, and steering mechanics. (Status: Verified and working)
 - [x] **New Task: Add Allay Entity Mechanics**: Friendly flying mob that collects dropped items matching item in hand. (Status: Verified and working)
 - [ ] **New Task: Add Frog Species & Magma Cube Eating**: Green, warm, and cold frog variants eating small magma cubes to drop Froglight blocks. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Armadillo Scute Brushing**: Using brush on Armadillos in Savanna biomes to collect scutes. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Armadillo Scute Brushing**: Interacting with Armadillos in Savanna biomes yields Scutes for crafting. (Status: Verified and working)
+- [x] **New Task: Add Armadillos**: Neutral mobs found in savannas and badlands that drop scutes. (Status: Verified and working)
 
 ### 6. Items & Crafting
 - [ ] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items. (Status: Proposed feature, pending implementation)
@@ -125,6 +125,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Snowball Items & Throwing Mechanics**: Snowballs throwable as projectiles causing knockback and damage to entities. (Status: Verified and working)
 - [x] **New Task: Add Nether Wart Item**: Nether wart item definition, texture, and farming component. (Status: Verified and working)
 - [ ] **Beacons** (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Crossbows**: Implement ranged weapon with high durability, crafting recipe, and Pillager mob drops. (Status: Verified and working)
 
 ### 7. Lighting System
 - [ ] Colored lighting (Status: Missing implementation, agents must fix)
@@ -133,6 +134,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 8. Physics
 - [ ] **New Task: Add Soft Falling Blocks**: Powder snow block physics and entity freezing/sinking mechanics. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Item Despawn Timers & Out-of-Block Pushing**: Item drops despawn gracefully after timer and push out of solid blocks when stuck. (Status: Verified and working)
+- [ ] **New Task: Add Wind Charge Radial Knockback**: Radial knockback physics for Wind Charge impact within a 3-block radius. (Status: Proposed feature, pending implementation)
 
 ### 9. World Management
 - [ ] **LOD (Level of Detail) system** (Status: Missing implementation, agents must fix)
@@ -151,6 +153,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Verified and working)
 - [x] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Verified and working)
 - [x] **New Task: Add Bundle Item Tooltip Preview**: Hovering over Bundle in inventory displays 2D grid preview of stored items. (Status: Verified and working)
+- [x] **New Task: Add Crafter Slot Toggling UI**: Interactive 3x3 GUI grid to enable/disable specific crafting slots on Crafter blocks for shaped automated crafting. (Status: Verified and working)
 
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
@@ -158,7 +161,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Verified and working)
 
 ### 12. Redstone & Mechanics
-- [ ] **New Task: Add Crafter Slot Toggling**: Interactive GUI to disable specific crafting grid slots on Crafter blocks. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals. (Status: Verified and working)
 - [x] **New Task: Add Moss Carpet**: Decorative plant covering crafted from Moss Blocks. (Status: Verified and working)
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
@@ -186,7 +188,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Support for custom models** (Status: Missing implementation, agents must fix)
 
 ### 15. Miscellaneous
-- [ ] **New Task: Add Pale Oak Wood Family**: Pale Oak logs, planks, stairs, slabs, fences, doors, and trapdoors. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Pale Oak Wood Family**: Pale Oak logs, planks, leaves, and saplings fully implemented. (Status: Verified and working)
+- [ ] **New Task: Add Pale Hanging Moss & Pale Garden Biome Generation**: Hanging foliage blocks on Pale Oak trees and world generator support for Pale Garden biomes. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Pale Oak Bark Block & Stripped Pale Log**: Full tree family wood variants for Pale Oak biomes. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Resin Bricks & Resin Clumps**: Orange decorative building blocks crafted from Resin Clumps. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Creaking Heart & Creaking Mob**: Nighttime hostile mob that is invulnerable to direct attacks and controlled by a Creaking Heart block. (Status: Proposed feature, pending implementation)
@@ -240,6 +243,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 
 ## Known Bugs & Issues (To Be Fixed)
+- [ ] **Bug: JSDOM Concurrent Test Execution Recursion**: Executing all Mocha test files in a single node command causes a JSDOM `PerformanceImpl.now` stack overflow recursion; running test files individually or in smaller batches resolves this environment limit. (Status: Known test runner limit, documented in guidelines)
 - [ ] **Bug: PluginAPI JSDOM test failure**: `window.PluginAPI` is not a constructor in JSDOM environments, causing test failures in `verification/verify_all_new_features.js`. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: verify_bug_fixes.js execution error**: `verify_bug_fixes.js` fails with `describe is not defined` because it is run with `node` instead of `mocha` in `test_runner.py`. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Fishing Rod missing in test**: `test_specific_features2.js` incorrectly references `window.BLOCK.ITEM_FISHING_ROD` instead of `window.BLOCK.FISHING_ROD`. (Status: Missing implementation, agents must fix)
@@ -264,7 +268,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Ocean Monument Structures**: Ocean monuments generating in deep ocean biomes containing Sea Lanterns and Elder Guardians. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Carrots on a Stick**: Item used to control saddled pigs. (Status: Verified and working)
 - [x] **New Task: Add Flower Pots**: Decorative blocks to hold saplings and flowers. (Status: Verified and working)
-- [ ] **New Task: Add Pale Oak Forest**: New biome for Creaking. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Pale Oak Forest Biome Generation**: World generation support for Pale Oak Forest biomes. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Canvas Pattern Creation Fails in Headless**: createPattern throws an error in certain headless test environments. (Status: Missing implementation, agents must fix)
 - [ ] **Implement Droppers and Dispensers**: Redstone interaction for items. (Status: Missing implementation, agents must fix)
 - [x] **Implement Hoppers**: Add transfer logic to move items between inventories/containers. (Status: Verified and working)
@@ -307,8 +311,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add End Stone**: Block that makes up End islands. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Trial Chambers**: New procedural combat structures. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Implement Tricky Trials**: Expand Trial Chambers with Trial Spawners. (Status: Missing implementation, agents must fix)
 - [x] **Bug: UI Scaling broken on ultra-wide screens**: The hotbar doesn't center properly on very wide displays. (Status: Verified and working - max-width and centering adjustments applied)
 - [ ] **New Task: Add Custom Hitbox Debug Overlay**: Visual outline toggle for block hitboxes and bounding boxes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
@@ -330,7 +332,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals. (Status: Verified and working)
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Chorus Plants**: Plant found in the End. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Crossbows**: Implement ranged weapon that takes longer to charge than bows but holds the arrow, and can shoot fireworks. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Bounding Box Intersection Inaccuracies**: Some collision tests fail intermittently due to floating point imprecision. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Missing SessionStorage Mock**: SessionStorage needs to be mocked for tests checking temporary game states. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Elytra Boosting**: Allow using fireworks to boost Elytra speed. (Status: Missing implementation, agents must fix)
@@ -398,7 +399,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Pale Garden Biome**: Desaturated woodland biome home to the Creaking. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Resin Bricks**: Decorative building blocks crafted from Resin Clumps. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Verified and working)
 - [x] **New Task: Add Redstone Lamp Toggle Logic**: Redstone signals toggling Redstone Lamps on/off dynamically. (Status: Verified and working)
@@ -406,17 +406,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Crafter Redstone Pulse Recipe Execution**: Crafter block automatically outputting items when triggered by redstone pulse. (Status: Verified and working)
 
 - [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Armadillos**: Neutral mobs found in savannas and badlands that drop scutes. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Cherry Wood**: Add cherry wood logs, planks, and leaves to match Cherry Grove biome. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Armor Trims**: Add smithing templates and customization for armor. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Evokers**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Wither**: A new boss mob to spawn and fight. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Dragon**: A boss mob to fight in the End dimension. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Crossbows**: A weapon that shoots arrows with more power but slower reload. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Maces**: A heavy melee weapon for close combat. (Status: Verified and working)
-- [ ] **New Task: Add Trial Chambers**: A new underground structure with challenges. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Breeze**: A hostile mob found in trial chambers that shoots Wind Charges at players. (Status: Verified and working)
 - [ ] **New Task: Add Tool Icons**: Different tool types (axes, picks, etc) need graphical icons. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Verified and working)
@@ -430,7 +426,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Pale Hanging Moss**: Unique foliage item hanging from Pale Oak trees in the Pale Garden. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
 
@@ -468,8 +463,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Verified and working)
 - [x] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Verified and working)
 - [x] **New Task: Add Crafter Redstone Pulse Execution**: Crafter block automatically outputs crafted item when powered by a redstone pulse. (Status: Verified and working)
-- [ ] **New Task: Add Pale Garden Features**: Implement Pale Oak Wood Set, Eyeblossoms, and Pale Hanging Moss for Pale Garden biome. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Ominous Trials Mechanics**: Ominous Bottles, Bad Omen effect, Ominous Vaults, and Ominous Trial Keys. (Status: Missing implementation, agents must fix)
 - [x] **Bug: Fletching Table, Smoker, Blast Furnace UI Missing**: Utility blocks exist in game registry but lack interactive GUI containers. (Status: Verified and working)
 - [x] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Verified and working)
 
@@ -492,19 +485,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Fishing rod catch timer logic incomplete**: Fishing bobber entity spawns but lacks timer-based catch mechanics and loot table roll execution. (Status: Verified and working)
 - [x] **Bug: Redstone dust visual line connections**: Redstone wire power propagation functions internally but lacks dynamic multi-direction connecting wire rendering on block surfaces. (Status: Verified and working)
 - [x] **Bug: JSDOM saveWorld Base64 InvalidCharacterError**: `saveWorld` in `js/world.js` throws `InvalidCharacterError` when evaluated inside JSDOM test environments where `typeof Buffer === 'undefined'` because `String.fromCharCode.apply` passes char codes > 255 to `btoa()`. (Status: Verified and working)
-- [ ] **New Task: Add Crafter GUI Slot Toggling**: Add interactive GUI in Crafter blocks to disable specific crafting grid slots for automated crafting shapes. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Redstone Lamp Dynamic Toggling**: Implement redstone signals dynamically switching Redstone Lamps between lit and unlit states in `js/world.js` and renderer. (Status: Verified and working)
 - [x] **New Task: Add Hopper Container Transport Logic**: Implement Hoppers pulling items from container blocks above and pushing items into containers they face. (Status: Verified and working)
 - [x] **New Task: Add Bundle Storage Container UI**: Add Bundle storage item holding up to 64 items of mixed types with pop-up UI container. (Status: Verified and working)
-- [ ] **New Task: Add Wolf Armor & Armadillo Scutes Crafting**: Add brush usage on Armadillos to obtain scutes and craft custom Wolf Armor. (Status: Proposed feature, pending implementation)
 - [x] **Bug: Wind Charge Self-Knockback Angle**: Vertical leap boost angle when throwing Wind Charge directly downward requires fine-tuning. (Status: Verified and working)
 - [x] **Bug: Spectator Mode Block Occlusion**: Flying through dense solid blocks in spectator mode should render dark inner face culling or vision overlay. (Status: Verified and working)
 
-- [ ] **Bug: JSDOM Concurrent Test Execution Recursion**: Executing all Mocha tests concurrently in a single node invocation triggers JSDOM PerformanceImpl.now stack overflow error; running test files individually or in batches resolves this. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Crafter Container UI Missing Grid Toggle**: Crafter block currently uses basic inventory loading instead of an interactive 3x3 slot-disabling grid UI. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Crafter Slot Toggling UI**: Interactive 3x3 GUI grid to enable/disable specific crafting slots on Crafter blocks for shaped automated crafting. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Death Screen Coordinates**: HUD display on player death screen showing exact X, Y, Z death coordinates. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Pale Garden Biome Generation**: World generator support for Pale Garden biomes spawning Pale Oak trees, Pale Hanging Moss, and nocturnal Eyeblossoms. (Status: Proposed feature, pending implementation)
+- [ ] **Bug: Audio Context Missing AnalyserNode in test mocks**: Headless Web Audio API mocks need AnalyserNode support for sound visualization tests. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ominous Vaults & Ominous Trial Keys**: Special high-tier Ominous Vaults found in Trial Chambers requiring Ominous Trial Keys. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Wind Charge Explosion Entity Damage**: Throwable wind charges dealing localized knockback and damage to surrounding entities. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Anvil Item Renaming and Repair GUI**: Complete repair and item renaming functionality within dedicated Anvil UI. (Status: Verified and working)
