@@ -1329,6 +1329,7 @@ class World {
 
                         else if (biome.name === 'Forest' && Math.random() < 0.2) type = 'birch';
                         else if (biome.name === 'Birch Forest') type = 'birch';
+                        else if (biome.name === 'Dark Oak Forest') type = 'dark_oak';
 
                         if (biome.name === 'Jungle') { this.structureManager.generateJungleTree(chunk, x, height + 1, z); } else { this.structureManager.generateTree(chunk, x, height + 1, z, type); }
                     }

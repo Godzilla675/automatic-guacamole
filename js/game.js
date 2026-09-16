@@ -1443,6 +1443,59 @@ class Game {
         }
     }
 
+    checkSculkCatalyst(x, y, z) {
+        const radius = 8;
+        const bx = Math.floor(x);
+        const by = Math.floor(y);
+        const bz = Math.floor(z);
+
+        let catalystFound = false;
+        let catX = bx, catY = by, catZ = bz;
+
+        for (let dx = -radius; dx <= radius; dx++) {
+            for (let dy = -radius; dy <= radius; dy++) {
+                for (let dz = -radius; dz <= radius; dz++) {
+                    if (this.world.getBlock(bx + dx, by + dy, bz + dz) === window.BLOCK.SCULK_CATALYST) {
+                        catalystFound = true;
+                        catX = bx + dx;
+                        catY = by + dy;
+                        catZ = bz + dz;
+                        break;
+                    }
+                }
+                if (catalystFound) break;
+            }
+            if (catalystFound) break;
+        }
+
+        if (catalystFound) {
+            let converted = 0;
+            for (let dx = -3; dx <= 3; dx++) {
+                for (let dy = -2; dy <= 2; dy++) {
+                    for (let dz = -3; dz <= 3; dz++) {
+                        const targetX = catX + dx;
+                        const targetY = catY + dy;
+                        const targetZ = catZ + dz;
+                        const targetType = this.world.getBlock(targetX, targetY, targetZ);
+                        if (targetType === window.BLOCK.STONE || targetType === window.BLOCK.DIRT || targetType === window.BLOCK.GRASS || targetType === window.BLOCK.COBBLESTONE) {
+                            this.world.setBlock(targetX, targetY, targetZ, window.BLOCK.SCULK_SENSOR);
+                            converted++;
+                            if (converted >= 3) break;
+                        }
+                    }
+                    if (converted >= 3) break;
+                }
+                if (converted >= 3) break;
+            }
+            if (this.particles) {
+                this.particles.spawn(catX + 0.5, catY + 1.0, catZ + 0.5, '#008080', 25);
+            }
+            if (this.ui && this.ui.showNotification) {
+                this.ui.showNotification("Sculk Catalyst activated! Sculk spreading...");
+            }
+        }
+    }
+
     triggerWindBurst(x, y, z) {
         if (this.particles) this.particles.spawn(x, y, z, '#E0FFFF', 25);
         if (window.soundManager) window.soundManager.play('jump', {x, y, z});

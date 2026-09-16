@@ -24,7 +24,9 @@ const MOB_TYPE = {
     BEE: 'bee',
     BREEZE: 'breeze',
     POLAR_BEAR: 'polar_bear',
-    SILVERFISH: 'silverfish'
+    SILVERFISH: 'silverfish',
+    PILLAGER: 'pillager',
+    ARMADILLO: 'armadillo'
 };
 
 class Mob extends Entity {
@@ -78,14 +80,32 @@ class Mob extends Entity {
              return false;
         }
 
-        // Taming Wolf
-        if (this.type === MOB_TYPE.WOLF && !this.isTamed && itemType === BLOCK.ITEM_BONE) {
-            if (Math.random() < 0.3) {
-                this.isTamed = true;
-                this.color = '#FFFFFF'; // White collar indication
+        // Taming Wolf or Equipping Wolf Armor
+        if (this.type === MOB_TYPE.WOLF) {
+            if (!this.isTamed && itemType === BLOCK.ITEM_BONE) {
+                if (Math.random() < 0.3) {
+                    this.isTamed = true;
+                    this.color = '#FFFFFF'; // White collar indication
+                    if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                }
+                return true;
+            } else if (this.isTamed && itemType === BLOCK.ITEM_WOLF_ARMOR && !this.hasWolfArmor) {
+                this.hasWolfArmor = true;
+                this.maxHealth += 20;
+                this.health += 20;
+                this.color = '#8B5A2B'; // Armored appearance
                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
             }
-            return true;
+        }
+
+        // Armadillo brushing / interact for Scutes
+        if (this.type === MOB_TYPE.ARMADILLO) {
+            if (this.game && this.game.drops) {
+                this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.ITEM_ARMADILLO_SCUTE, 1));
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
+            }
         }
 
         // Toggle Sit for Tamed Wolf/Cat
@@ -353,6 +373,22 @@ class Mob extends Entity {
                 this.maxHealth = 8;
                 this.xpValue = 5;
                 break;
+            case MOB_TYPE.PILLAGER:
+                this.color = '#5A5A5A';
+                this.height = 1.9;
+                this.width = 0.6;
+                this.speed = 2.0;
+                this.maxHealth = 24;
+                this.xpValue = 5;
+                break;
+            case MOB_TYPE.ARMADILLO:
+                this.color = '#A07050';
+                this.height = 0.7;
+                this.width = 0.9;
+                this.speed = 1.2;
+                this.maxHealth = 12;
+                this.xpValue = 2;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -393,6 +429,9 @@ class Mob extends Entity {
     die() {
         this.isDead = true;
         if (this.game.pluginAPI) this.game.pluginAPI.emit('mobDeath', { mob: this });
+        if (this.game && this.game.checkSculkCatalyst) {
+            this.game.checkSculkCatalyst(this.x, this.y, this.z);
+        }
         // Drop items
         let dropType = null;
         let count = 1;
@@ -476,6 +515,17 @@ class Mob extends Entity {
                 break;
             case MOB_TYPE.SILVERFISH:
                 // No drop or small chance of xp
+                break;
+            case MOB_TYPE.PILLAGER:
+                dropType = BLOCK.ITEM_ARROW;
+                count = 2 + Math.floor(Math.random() * 3);
+                if (Math.random() < 0.15 && this.game.drops) {
+                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_CROSSBOW, 1));
+                }
+                break;
+            case MOB_TYPE.ARMADILLO:
+                dropType = BLOCK.ITEM_ARMADILLO_SCUTE;
+                count = 1;
                 break;
         }
 
@@ -580,6 +630,16 @@ class Mob extends Entity {
 
         if (this.type === MOB_TYPE.SILVERFISH) {
             this.updateSilverfishAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.PILLAGER) {
+            this.updatePillagerAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.ARMADILLO) {
+            this.updateArmadilloAI(dt);
             return;
         }
 
@@ -732,6 +792,44 @@ class Mob extends Entity {
         } else {
             this.updatePassiveAI(dt);
         }
+    }
+
+    updatePillagerAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.hypot(dx, dz);
+
+        if (dist < 18 && this.hasLineOfSight(player)) {
+            this.yaw = Math.atan2(dx, dz);
+
+            if (dist > 10) {
+                this.vx = Math.sin(this.yaw) * this.speed;
+                this.vz = Math.cos(this.yaw) * this.speed;
+            } else if (dist < 4) {
+                this.vx = -Math.sin(this.yaw) * this.speed;
+                this.vz = -Math.cos(this.yaw) * this.speed;
+            } else {
+                this.vx = 0;
+                this.vz = 0;
+            }
+
+            this.attackCooldown -= dt;
+            if (this.attackCooldown <= 0) {
+                if (this.game.spawnProjectile) {
+                    const normDist = Math.sqrt(dx * dx + dz * dz) || 1;
+                    const dir = { x: dx / normDist, y: (player.y + player.height * 0.8 - (this.y + this.height * 0.8)) / normDist, z: dz / normDist };
+                    this.game.spawnProjectile(this.x, this.y + this.height * 0.8, this.z, dir, 'arrow');
+                }
+                this.attackCooldown = 2.2;
+            }
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updateArmadilloAI(dt) {
+        this.updatePassiveAI(dt);
     }
 
     updateSilverfishAI(dt) {
