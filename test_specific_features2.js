@@ -30,7 +30,7 @@ const { chromium } = require('playwright');
         if (!window.BLOCK.ITEM_SPYGLASS) issues.push("Spyglass missing");
 
         // Fishing check? Partially implemented
-        if (!window.BLOCK.ITEM_FISHING_ROD) issues.push("Fishing rod missing");
+        if (!window.BLOCK.FISHING_ROD) issues.push("Fishing rod missing");
 
         return issues;
     });

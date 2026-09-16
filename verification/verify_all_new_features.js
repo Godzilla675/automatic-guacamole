@@ -71,6 +71,8 @@ dom.window.AudioContext = class {
     createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
     createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
     createBiquadFilter() { return { connect: () => {} }; }
+    createPanner() { return { connect: () => {}, setPosition: () => {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } }; }
+    createAnalyser() { return { connect: () => {}, getByteFrequencyData: () => {} }; }
     resume() {}
     get state() { return 'running'; }
 };
@@ -129,7 +131,7 @@ const load = (f) => {
     }
 };
 
-['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'particles.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
+['math.js', 'blocks.js', 'chunk.js', 'biome.js', 'structures.js', 'village.js', 'world.js', 'physics.js', 'audio.js', 'network.js', 'entity.js', 'vehicle.js', 'particles.js', 'drop.js', 'crafting.js', 'player.js', 'mob.js', 'plugin.js', 'minimap.js', 'achievements.js', 'tutorial.js', 'chat.js', 'ui.js', 'input.js', 'renderer.js', 'game.js'].forEach(load);
 
 async function runTests() {
     console.log("=== Starting All New Features Verification ===\n");

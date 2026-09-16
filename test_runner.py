@@ -42,7 +42,7 @@ def run_tests():
                         results['failed'].append(filepath)
                         continue
 
-                    if is_mocha:
+                    if is_mocha or filepath.endswith(('verify_bug_fixes.js', 'verify_bug_fixes_v2.js', 'verify_bug_fixes_v3.js')):
                         cmd = ['npx', 'mocha', filepath]
                     else:
                         cmd = ['node', filepath]

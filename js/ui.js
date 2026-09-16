@@ -294,6 +294,11 @@ class UIManager {
             closeDropper.addEventListener('click', () => this.closeDropper());
         }
 
+        const closeCrafter = document.getElementById('close-crafter');
+        if (closeCrafter) {
+            closeCrafter.addEventListener('click', () => this.closeCrafter());
+        }
+
         const closeFletching = document.getElementById('close-fletching');
         if (closeFletching) {
             closeFletching.addEventListener('click', () => this.closeFletchingTable());
@@ -831,6 +836,110 @@ class UIManager {
             }
         }
         this.refreshDropperUI();
+        this.updateCursorUI();
+    }
+
+    openCrafter(entity) {
+        this.activeCrafter = entity;
+        if (!entity.items) entity.items = new Array(9).fill(null);
+        if (!entity.disabledSlots) entity.disabledSlots = new Array(9).fill(false);
+
+        const ui = document.getElementById('crafter-screen');
+        if (ui) ui.classList.remove('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+
+        document.exitPointerLock();
+        this.refreshCrafterUI();
+        this.refreshInventoryUI();
+    }
+
+    closeCrafter() {
+        this.activeCrafter = null;
+        const ui = document.getElementById('crafter-screen');
+        if (ui) ui.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    refreshCrafterUI() {
+        if (!this.activeCrafter) return;
+        const grid = document.getElementById('crafter-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        const items = this.activeCrafter.items;
+        const disabledSlots = this.activeCrafter.disabledSlots || [];
+
+        for (let i = 0; i < 9; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'inventory-item';
+            slot.dataset.index = i;
+            if (disabledSlots[i]) {
+                slot.style.backgroundColor = 'rgba(255, 0, 0, 0.4)';
+                slot.style.borderColor = '#ff3333';
+            }
+
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            slot.appendChild(count);
+
+            this.renderSlotItem(slot, items[i]);
+
+            slot.addEventListener('click', () => {
+                this.handleCrafterClick(i);
+            });
+
+            grid.appendChild(slot);
+        }
+    }
+
+    handleCrafterClick(index) {
+        if (!this.activeCrafter) return;
+        const items = this.activeCrafter.items;
+        if (!this.activeCrafter.disabledSlots) this.activeCrafter.disabledSlots = new Array(9).fill(false);
+        const disabledSlots = this.activeCrafter.disabledSlots;
+
+        const clickedItem = items[index];
+        const cursor = this.cursorItem;
+
+        if (!cursor) {
+            if (clickedItem) {
+                this.cursorItem = clickedItem;
+                items[index] = null;
+            } else {
+                // Toggle disabled state when clicking an empty slot without holding an item
+                disabledSlots[index] = !disabledSlots[index];
+            }
+        } else {
+            if (disabledSlots[index]) return; // Cannot place item in disabled slot
+
+            if (!clickedItem) {
+                items[index] = cursor;
+                this.cursorItem = null;
+            } else {
+                if (clickedItem.type === cursor.type && clickedItem.count < 64) {
+                    const space = 64 - clickedItem.count;
+                    const toAdd = Math.min(space, cursor.count);
+                    clickedItem.count += toAdd;
+                    cursor.count -= toAdd;
+                    if (cursor.count <= 0) this.cursorItem = null;
+                } else {
+                    items[index] = cursor;
+                    this.cursorItem = clickedItem;
+                }
+            }
+        }
+        this.refreshCrafterUI();
         this.updateCursorUI();
     }
 

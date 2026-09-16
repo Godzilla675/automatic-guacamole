@@ -279,23 +279,11 @@ class Game {
         if (blockType === BLOCK.CRAFTER) {
             let entity = this.world.getBlockEntity(x, y, z);
             if (!entity) {
-                entity = { type: 'crafter', items: new Array(9).fill(null) };
+                entity = { type: 'crafter', items: new Array(9).fill(null), disabledSlots: new Array(9).fill(false) };
                 this.world.setBlockEntity(x, y, z, entity);
             }
-            const held = this.player.getHeldItem();
-            if (held) {
-                for (let i = 0; i < 9; i++) {
-                    if (!entity.items[i]) {
-                        entity.items[i] = { type: held.type, count: 1 };
-                        held.count--;
-                        if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                        this.updateHotbarUI();
-                        if (this.ui && this.ui.showNotification) this.ui.showNotification(`Loaded ${window.BLOCKS[held.type].name} into Crafter slot ${i+1}`);
-                        return true;
-                    }
-                }
-            } else {
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Crafter: Hold an item to load ingredients into 3x3 grid!");
+            if (this.ui && this.ui.openCrafter) {
+                this.ui.openCrafter(entity);
             }
             return true;
         }
