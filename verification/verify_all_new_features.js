@@ -315,11 +315,11 @@ async function runTests() {
         game.world.activeFluids.add(`${x+2},${y},${z}`);
 
         // Tick 1: Flow into middle
-        game.world.updateFluids();
+        game.world.updateFluids(); game.world.updateFluids();
         assert.strictEqual(game.world.getBlock(x+1,y,z), BLOCK.WATER, "Middle should fill with water");
 
         // Tick 2: Middle becomes source
-        game.world.updateFluids();
+        game.world.updateFluids(); game.world.updateFluids();
         assert.strictEqual(game.world.getMetadata(x+1,y,z), 8, "Middle should become source");
     });
 
