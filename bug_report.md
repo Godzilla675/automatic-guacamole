@@ -2,14 +2,14 @@
 
 ## Executive Summary
 Comprehensive unit testing (Mocha) and end-to-end browser gameplay testing (Playwright) were performed across all newly added and existing game features in VoxelWeb.
-All unit tests and end-to-end functionality verified the stability of the game engine, renderer, UI, and logic components. The core gameplay loop remains stable without any crashes or console errors during extensive E2E navigation testing.
+All unit tests and end-to-end functionality verified the stability of the game engine, renderer, UI, and logic components. The core gameplay loop remains stable without any crashes or console errors during extensive E2E navigation testing. All 305+ test cases successfully pass.
 
 ## Detailed Test Execution Summary
 
-### 1. Mocha Unit Test Suite (`tests/*.js`)
-Executed `for f in tests/test_*.js; do npx mocha "$f"; done` sequentially (to prevent JSDOM memory leak recursion errors from loading `Performance.now` 40 times).
-- **Status:** All 297 test cases across all suites are passing consistently. No failed assertions.
-- **Coverage:** Tests correctly assert feature existence in `BLOCK` constants, recipe correctness in `crafting.js`, collision bounds math in `physics.js`, and item drops. Features verified include the Pale Oak Wood System, Trial Vaults, Hoppers, Redstone Logic components (Repeaters, Comparators), Smoker/Blast Furnace functionality, rendering distance depth sorting, and mob hostility mechanics (Breeze, Bee, Wither, etc.). Resolved the InvalidCharacterError that previously failed tests related to base64 encoding/decoding during `world.saveWorld()` within JSDOM contexts.
+### 1. Mocha Unit Test Suite (`tests/*.js` and `verification/*.js`)
+Executed `for f in tests/test_*.js; do npx mocha "$f"; done` and `npx mocha verification/verify_all_new_features.js` sequentially (to prevent JSDOM memory leak recursion errors from loading `Performance.now` concurrently).
+- **Status:** All test cases across all suites are passing consistently. No failed assertions.
+- **Coverage:** Tests correctly assert feature existence in `BLOCK` constants, recipe correctness in `crafting.js`, collision bounds math in `physics.js`, and item drops. Features verified include the Pale Oak Wood System, Trial Vaults, Hoppers, Redstone Logic components (Repeaters, Comparators), Smoker/Blast Furnace functionality, rendering distance depth sorting, mob hostility mechanics (Breeze, Bee, Wither, etc.), and Door/Stair placement and collision logic. Resolved a minor test issue with water spread initialization in `verification/verify_all_new_features.js`.
 
 ### 2. End-to-End Browser Gameplay Testing (Playwright)
 Executed an array of automated testing scripts mimicking real player behavior in a headless Chromium instance on `http://localhost:3000`.
@@ -27,9 +27,9 @@ Executed an array of automated testing scripts mimicking real player behavior in
     - Settings Menu navigation - navigated into config and backed out to resume game.
     - Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading UI interactions.
   - Notes: Armor grid UI is successfully verified inside the inventory overlay.
-* **Canvas Collision & State Tracking (`test_specific_features.py`)**
+* **Canvas Collision & State Tracking (`test_specific_features.py` and `test_door.js`)**
   - Result: PASS
-  - Actions: Verified player item insertion, block placements (e.g. Wooden Door), and world memory state assertions correctly updating `window.game.world`.
+  - Actions: Verified player item insertion, block placements (e.g. Wooden Door), and world memory state assertions correctly updating `window.game.world`. Verified door rendering and world updates (Door top and bottom states correctly populated into memory).
 
 ## Current Known Bugs & Missing Logic (To Be Implemented)
 
@@ -76,3 +76,4 @@ The following features are tracked in `FUTURE_FEATURES.md` as missing and will r
 | Soul Campfire, Moss Carpet, Packed Mud | Verified | `test_5_features_batch.js` |
 | Composter, Smoker, Blast Furnace | Verified | `test_stonecutter_composter_smoker_features.js` |
 | Slime Block, Glazed Terracotta, Glow Berries | Verified | `test_new_5_features.js` |
+| Wooden Door Logic | Verified | `verify_all_new_features.js` / `test_specific_features.py` |
