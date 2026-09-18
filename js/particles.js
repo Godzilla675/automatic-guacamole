@@ -71,4 +71,5 @@ class ParticleSystem {
     }
 }
 
-window.ParticleSystem = ParticleSystem;
+if (typeof window !== 'undefined') window.ParticleSystem = ParticleSystem;
+if (typeof global !== 'undefined') global.ParticleSystem = ParticleSystem;

@@ -1427,7 +1427,9 @@ class World {
         }
 
         try {
-            localStorage.setItem('voxelWorldSave_' + slotName, JSON.stringify(data));
+            if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                localStorage.setItem('voxelWorldSave_' + slotName, JSON.stringify(data));
+            }
             console.log("World saved to slot:", slotName, chunksData.length, "chunks");
             // Also notify user
             if (window.game) window.game.chat?.addMessage("World Saved!");
@@ -1439,7 +1441,12 @@ class World {
     }
 
     loadWorld(slotName = 'default') {
-        const dataStr = localStorage.getItem('voxelWorldSave_' + slotName);
+        let dataStr = null;
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem) {
+                dataStr = localStorage.getItem('voxelWorldSave_' + slotName);
+            }
+        } catch(e) {}
         if (dataStr) {
             try {
                 const data = JSON.parse(dataStr);
