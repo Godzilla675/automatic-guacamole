@@ -17,7 +17,8 @@ class Game {
         this.tntPrimed = [];
         this.network = new NetworkManager(this);
         this.crafting = new CraftingSystem(this);
-        this.particles = new ParticleSystem(this); // Init Particles
+        const ParticleSys = typeof ParticleSystem !== 'undefined' ? ParticleSystem : (typeof window !== 'undefined' && window.ParticleSystem ? window.ParticleSystem : null);
+        this.particles = ParticleSys ? new ParticleSys(this) : null; // Init Particles
 
         // New Managers
         this.chat = new ChatManager(this);
@@ -47,12 +48,20 @@ class Game {
             enabled: true
         };
 
+        // Helper function for safe localStorage access
+        const getItem = (key) => {
+            try {
+                if (typeof localStorage !== 'undefined' && localStorage.getItem) return localStorage.getItem(key);
+            } catch (e) {}
+            return null;
+        };
+
         // Rendering state
-        this.fov = parseInt(localStorage.getItem('voxel_fov')) || 60;
-        this.renderDistance = parseInt(localStorage.getItem('voxel_renderDistance')) || 50; // blocks
+        this.fov = parseInt(getItem('voxel_fov')) || 60;
+        this.renderDistance = parseInt(getItem('voxel_renderDistance')) || 50; // blocks
 
         // Chat settings
-        const savedChat = localStorage.getItem('voxel_chat_visible');
+        const savedChat = getItem('voxel_chat_visible');
         this.chatVisible = savedChat !== null ? savedChat === 'true' : true;
         // The DOM update for chat will be done in UI manager or here if DOM is ready
         this.world.renderDistance = Math.ceil(this.renderDistance / 16);
@@ -81,13 +90,21 @@ class Game {
     setRenderDistance(val) {
         this.renderDistance = val;
         this.world.renderDistance = Math.ceil(val / 16);
-        localStorage.setItem('voxel_renderDistance', val);
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                localStorage.setItem('voxel_renderDistance', val);
+            }
+        } catch (e) {}
         this.updateChunks();
     }
 
     setFOV(val) {
         this.fov = val;
-        localStorage.setItem('voxel_fov', val);
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                localStorage.setItem('voxel_fov', val);
+            }
+        } catch (e) {}
     }
 
     async init() {
@@ -133,10 +150,19 @@ class Game {
         // this.network.connect('ws://localhost:8080');
 
         // Get Player Name
-        const savedName = localStorage.getItem('voxel_player_name');
+        let savedName = null;
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem) {
+                savedName = localStorage.getItem('voxel_player_name');
+            }
+        } catch (e) {}
         let name = prompt("Enter your name:", savedName || "Player");
         if (!name) name = "Guest" + Math.floor(Math.random()*1000);
-        localStorage.setItem('voxel_player_name', name);
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                localStorage.setItem('voxel_player_name', name);
+            }
+        } catch (e) {}
         this.player.name = name;
 
         this.crafting.initUI();

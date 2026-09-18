@@ -5,7 +5,16 @@ class InputManager {
         this.joystick = { active: false, x: 0, y: 0 };
         this.lookTouch = { active: false, startX: 0, startY: 0 };
 
-        this.sensitivity = parseFloat(localStorage.getItem('voxel_sensitivity')) || 1.0;
+        let sens = null;
+        let saved = null;
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem) {
+                sens = localStorage.getItem('voxel_sensitivity');
+                saved = localStorage.getItem('voxel_keybinds');
+            }
+        } catch (e) {}
+
+        this.sensitivity = parseFloat(sens) || 1.0;
 
         // Default Keybinds
         this.keybinds = {
@@ -22,9 +31,6 @@ class InputManager {
             crafting: 'KeyC',
             offhandSwap: 'KeyF'
         };
-
-        // Load from LocalStorage
-        const saved = localStorage.getItem('voxel_keybinds');
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
@@ -38,7 +44,11 @@ class InputManager {
     bindKey(action, code) {
         if (this.keybinds.hasOwnProperty(action)) {
             this.keybinds[action] = code;
-            localStorage.setItem('voxel_keybinds', JSON.stringify(this.keybinds));
+            try {
+                if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                    localStorage.setItem('voxel_keybinds', JSON.stringify(this.keybinds));
+                }
+            } catch (e) {}
         }
     }
 

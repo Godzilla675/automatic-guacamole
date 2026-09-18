@@ -258,8 +258,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **Bug: JSDOM Game constructor**: In JSDOM Mocha tests, if global.Game becomes undefined within a beforeEach hook, it must be re-assigned using `if (!global.Game) { global.Game = dom.window.Game || window.Game; }` to prevent 'is not a constructor' errors. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM loadScript mapping**: In JSDOM test scripts, classes loaded via loadScript must be mapped to global and window via the JSDOM window object. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Inventory Emoji Rendering on Legacy Browsers**: Fallback rendering for emoji block icons on older browsers without full Unicode support. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: JSDOM LocalStorage**: Testing `js/player.js` via JSDOM throws ReferenceError because `localStorage` must be mocked on `dom.window`. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Inventory Emoji Rendering on Legacy Browsers**: Fallback rendering for block icons with '📦' fallback emoji across UI elements. (Status: Verified and working)
+- [x] **Bug: JSDOM LocalStorage**: Testing via JSDOM or bare environments without storage APIs runs cleanly with try-catch and existence guards on localStorage and sessionStorage. (Status: Verified and working)
 
 - [x] **Bug: Slab and Door collision test flakiness**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates. (Status: Verified and working)
 - [ ] **Bug: Flaky Chunk Loading Test**: The chunk loading boundary test occasionally fails under heavy load. (Status: Missing implementation, agents must fix)
@@ -395,7 +395,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Windmills**: Multiblock structures that generate power from wind. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Water Wheels**: Multiblock structures that generate power from water flow. (Status: Missing implementation, agents must fix)
 
-- [ ] **Bug: ReferenceError: ParticleSystem is not defined** (Status: Missing implementation, agents must fix)
+- [x] **Bug: ReferenceError: ParticleSystem is not defined**: ParticleSystem global export and game constructor safe resolution implemented and verified. (Status: Verified and working)
 - [ ] **New Task: Add Pet System**: Allow players to tame and breed various animals. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Quests**: A quest system for players to earn rewards. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands. (Status: Missing implementation, agents must fix)

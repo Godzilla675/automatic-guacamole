@@ -52,13 +52,25 @@ class UIManager {
             });
         }
 
+        const setStorage = (k, v) => {
+            try {
+                if (typeof localStorage !== 'undefined' && localStorage.setItem) localStorage.setItem(k, v);
+            } catch (e) {}
+        };
+        const getStorage = (k) => {
+            try {
+                if (typeof localStorage !== 'undefined' && localStorage.getItem) return localStorage.getItem(k);
+            } catch (e) {}
+            return null;
+        };
+
         const skinPicker = document.getElementById('skin-color-picker');
         if (skinPicker) {
             // Need to set initial value after player is ready, or update logic later
             // We can set it in toggleSettings
             skinPicker.addEventListener('change', (e) => {
                 this.game.player.skinColor = e.target.value;
-                localStorage.setItem('voxel_skin_color', e.target.value);
+                setStorage('voxel_skin_color', e.target.value);
             });
         }
 
@@ -66,7 +78,7 @@ class UIManager {
         if (chatVisibleCheckbox) {
             chatVisibleCheckbox.addEventListener('change', (e) => {
                 this.game.chatVisible = e.target.checked;
-                localStorage.setItem('voxel_chat_visible', e.target.checked);
+                setStorage('voxel_chat_visible', e.target.checked);
                 const chatMessages = document.getElementById('chat-messages');
                 if (chatMessages) {
                     chatMessages.style.display = e.target.checked ? 'block' : 'none';
@@ -82,13 +94,13 @@ class UIManager {
             sensitivitySlider.addEventListener('input', (e) => {
                 const val = parseFloat(e.target.value);
                 this.game.input.sensitivity = val;
-                localStorage.setItem('voxel_sensitivity', val);
+                setStorage('voxel_sensitivity', val);
                 document.getElementById('sensitivity-value').textContent = val.toFixed(1);
             });
         }
 
         // UI Scale
-        const scaleVal = localStorage.getItem('voxel_ui_scale') || 1.0;
+        const scaleVal = getStorage('voxel_ui_scale') || 1.0;
         if (document.documentElement && document.documentElement.style) {
             document.documentElement.style.setProperty('--ui-scale', scaleVal);
         }
@@ -101,7 +113,7 @@ class UIManager {
             uiScaleSlider.addEventListener('input', (e) => {
                 const val = parseFloat(e.target.value);
                 if (document.documentElement && document.documentElement.style) document.documentElement.style.setProperty('--ui-scale', val);
-                localStorage.setItem('voxel_ui_scale', val);
+                setStorage('voxel_ui_scale', val);
                 if (uiScaleValDisplay) uiScaleValDisplay.textContent = val.toFixed(1);
             });
         }
@@ -161,7 +173,11 @@ class UIManager {
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
                 if (confirm("Reset all keybinds to default?")) {
-                    localStorage.removeItem('voxel_keybinds');
+                    try {
+                        if (typeof localStorage !== 'undefined' && localStorage.removeItem) {
+                            localStorage.removeItem('voxel_keybinds');
+                        }
+                    } catch (e) {}
                     this.game.input.keybinds = {
                         forward: 'KeyW',
                         backward: 'KeyS',
@@ -477,7 +493,7 @@ class UIManager {
              const icon = document.createElement('span');
              icon.className = 'block-icon';
              const blockDef = window.BLOCKS[recipe.result.type];
-             icon.textContent = blockDef ? blockDef.icon : '?';
+             icon.textContent = (blockDef && blockDef.icon) ? blockDef.icon : '📦';
              icon.style.backgroundColor = blockDef ? blockDef.color : 'transparent';
 
              const name = document.createElement('span');
@@ -509,7 +525,7 @@ class UIManager {
                  iIcon.style.height = '20px';
                  iIcon.style.fontSize = '14px';
                  const iDef = window.BLOCKS[ing.type];
-                 iIcon.textContent = iDef ? iDef.icon : '?';
+                 iIcon.textContent = (iDef && iDef.icon) ? iDef.icon : '📦';
                  iIcon.style.backgroundColor = iDef ? iDef.color : 'transparent';
                  iIcon.title = `${iDef ? iDef.name : 'Unknown'} x${ing.count}`;
 
@@ -561,7 +577,12 @@ class UIManager {
             }
             const uiScaleSlider = document.getElementById('ui-scale-slider');
             if (uiScaleSlider) {
-                const val = localStorage.getItem('voxel_ui_scale') || 1.0;
+                let val = 1.0;
+                try {
+                    if (typeof localStorage !== 'undefined' && localStorage.getItem) {
+                        val = localStorage.getItem('voxel_ui_scale') || 1.0;
+                    }
+                } catch (e) {}
                 uiScaleSlider.value = val;
                 const uiScaleValDisplay = document.getElementById('ui-scale-value');
                 if (uiScaleValDisplay) uiScaleValDisplay.textContent = parseFloat(val).toFixed(1);
@@ -1156,7 +1177,7 @@ class UIManager {
             const icon = document.createElement('span');
             icon.className = 'block-icon';
             const def = window.BLOCKS[this.activeJukebox.disc];
-            icon.textContent = def ? def.icon : '';
+            icon.textContent = (def && def.icon) ? def.icon : '📦';
             icon.style.backgroundColor = def ? def.color : 'transparent';
             slot.appendChild(icon);
         }
@@ -2207,7 +2228,7 @@ class UIManager {
                 const icon = document.createElement('span');
                 icon.className = 'block-icon';
                 const blockDef = window.BLOCKS[item.type];
-                icon.textContent = blockDef ? blockDef.icon : '';
+                icon.textContent = (blockDef && blockDef.icon) ? blockDef.icon : '📦';
                 icon.style.backgroundColor = blockDef ? blockDef.color : 'transparent';
                 slot.appendChild(icon);
 
@@ -2359,7 +2380,7 @@ class UIManager {
                 const icon = document.createElement('span');
                 icon.className = 'block-icon';
                 const def = window.BLOCKS[item.type];
-                icon.textContent = def ? def.icon : '?';
+                icon.textContent = (def && def.icon) ? def.icon : '📦';
                 icon.style.backgroundColor = def ? def.color : 'transparent';
                 slot.appendChild(icon);
 
@@ -2487,7 +2508,7 @@ class UIManager {
                 const icon = document.createElement('span');
                 icon.className = 'block-icon';
                 const def = window.BLOCKS[st.input.type];
-                icon.textContent = def ? def.icon : '';
+                icon.textContent = (def && def.icon) ? def.icon : '📦';
                 icon.style.backgroundColor = def ? def.color : 'transparent';
                 inputSlot.appendChild(icon);
 
@@ -2533,7 +2554,7 @@ class UIManager {
                     const icon = document.createElement('span');
                     icon.className = 'block-icon';
                     const def = window.BLOCKS[cut.type];
-                    icon.textContent = def ? def.icon : '';
+                    icon.textContent = (def && def.icon) ? def.icon : '📦';
                     icon.style.backgroundColor = def ? def.color : 'transparent';
                     opt.appendChild(icon);
 
@@ -2560,7 +2581,7 @@ class UIManager {
                 const icon = document.createElement('span');
                 icon.className = 'block-icon';
                 const def = window.BLOCKS[st.output.type];
-                icon.textContent = def ? def.icon : '';
+                icon.textContent = (def && def.icon) ? def.icon : '📦';
                 icon.style.backgroundColor = def ? def.color : 'transparent';
                 outputSlot.appendChild(icon);
 

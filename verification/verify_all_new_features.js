@@ -214,6 +214,7 @@ async function runTests() {
     // --- 2. Doors ---
     test('Doors Placement & Interaction', () => {
         const x=4, y=10, z=4;
+        game.player.x = 0; game.player.y = 10; game.player.z = 0;
         game.world.setBlock(x,y,z, BLOCK.AIR);
         game.world.setBlock(x,y+1,z, BLOCK.AIR);
         game.player.inventory[0] = { type: BLOCK.DOOR_WOOD_BOTTOM, count: 1 };
@@ -308,7 +309,9 @@ async function runTests() {
         game.world.setBlock(x,y,z, BLOCK.WATER); game.world.setMetadata(x,y,z, 8); // Source
         game.world.setBlock(x+2,y,z, BLOCK.WATER); game.world.setMetadata(x+2,y,z, 8); // Source
         game.world.setBlock(x+1,y,z, BLOCK.AIR);
-        game.world.setBlock(x+1,y-1,z, BLOCK.STONE); // Floor
+        game.world.setBlock(x,y-1,z, BLOCK.STONE);
+        game.world.setBlock(x+1,y-1,z, BLOCK.STONE);
+        game.world.setBlock(x+2,y-1,z, BLOCK.STONE); // Floor
 
         // Add to active fluids
         game.world.activeFluids.add(`${x},${y},${z}`);
