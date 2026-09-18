@@ -44,6 +44,7 @@ class Vehicle extends Entity {
                 let dropType = null;
                 if (this.type === 'boat') dropType = window.BLOCK.ITEM_BOAT;
                 else if (this.type === 'minecart') dropType = window.BLOCK.ITEM_MINECART;
+                else if (this.type === 'flying_carpet') dropType = window.BLOCK.ITEM_FLYING_CARPET;
 
                 if (dropType !== null) {
                     this.game.drops.push(new window.Drop(this.game, this.x, this.y, this.z, dropType, 1));
@@ -221,13 +222,85 @@ class Boat extends Vehicle {
     }
 }
 
+class FlyingCarpet extends Vehicle {
+    constructor(game, x, y, z) {
+        super(game, x, y, z);
+        this.type = 'flying_carpet';
+        this.width = 1.5;
+        this.height = 0.2;
+        this.speed = 12.0;
+    }
+
+    update(dt) {
+        if (this.rider) {
+            const controls = this.game.controls;
+            const yaw = this.rider.yaw;
+            const pitch = this.rider.pitch;
+
+            let moveSpeed = this.speed;
+            let forward = 0;
+            let strafe = 0;
+
+            if (controls.forward) forward += 1;
+            if (controls.backward) forward -= 1;
+            if (controls.left) strafe -= 1;
+            if (controls.right) strafe += 1;
+
+            const sin = Math.sin(yaw);
+            const cos = Math.cos(yaw);
+
+            this.vx = (forward * -sin + strafe * cos) * moveSpeed;
+            this.vz = (forward * cos + strafe * sin) * moveSpeed;
+
+            if (controls.jump) {
+                this.vy = 6.0;
+            } else if (controls.sneak) {
+                this.vy = -6.0;
+            } else {
+                this.vy = 0; // Perfect hover in place
+            }
+        } else {
+            // Gentle descent if unmounted
+            this.vy = -2.0;
+            this.vx *= 0.9;
+            this.vz *= 0.9;
+            const bx = Math.floor(this.x);
+            const by = Math.floor(this.y - 0.1);
+            const bz = Math.floor(this.z);
+            const ground = this.game.world ? this.game.world.getBlock(bx, by, bz) : 0;
+            if (ground !== window.BLOCK.AIR && ground !== window.BLOCK.WATER) {
+                if (this.y - by < 0.2) {
+                    this.y = by + 0.2;
+                    this.vy = 0;
+                }
+            }
+        }
+
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+        this.z += this.vz * dt;
+
+        if (this.rider) {
+            this.rider.x = this.x;
+            this.rider.y = this.y + 0.3;
+            this.rider.z = this.z;
+            this.rider.vx = this.vx;
+            this.rider.vy = this.vy;
+            this.rider.vz = this.vz;
+            this.rider.fallDistance = 0;
+        }
+    }
+}
+
 if (typeof window !== 'undefined') {
     window.Vehicle = Vehicle;
     window.Minecart = Minecart;
     window.Boat = Boat;
+    window.FlyingCarpet = FlyingCarpet;
 } else {
     // For Node.js
     global.Vehicle = Vehicle;
     global.Minecart = Minecart;
     global.Boat = Boat;
+    global.FlyingCarpet = FlyingCarpet;
 }

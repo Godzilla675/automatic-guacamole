@@ -184,6 +184,14 @@ class TextureManager {
         this.textures[B.ITEM_WOLF_ARMOR] = this.genWolfArmorItem();
         this.textures[B.SCULK_CATALYST] = this.genSculkCatalyst();
 
+        // Feature Batch 4
+        this.textures[B.ITEM_ELYTRA] = this.genElytraItem();
+        this.textures[B.ITEM_FLYING_CARPET] = this.genFlyingCarpetItem();
+        this.textures[B.ITEM_SMITHING_TEMPLATE] = this.genSmithingTemplateItem();
+        this.textures[B.OMINOUS_VAULT] = this.genOminousVault();
+        this.textures[B.ITEM_OMINOUS_TRIAL_KEY] = this.genOminousTrialKeyItem();
+        this.textures[B.CHISELED_TUFF] = this.genChiseledTuff();
+
 
         // Glass
         this.textures[B.GLASS] = this.genGlass();
@@ -2397,6 +2405,76 @@ class TextureManager {
         ctx.fillStyle = '#008080';
         ctx.fillRect(4, 4, 8, 8);
         ctx.fillStyle = '#80DEEA';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genElytraItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#708090';
+        ctx.fillRect(3, 2, 4, 12);
+        ctx.fillRect(9, 2, 4, 12);
+        ctx.fillStyle = '#B0C4DE';
+        ctx.fillRect(4, 3, 2, 10);
+        ctx.fillRect(10, 3, 2, 10);
+        return c;
+    }
+
+    genFlyingCarpetItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#C71585';
+        ctx.fillRect(1, 4, 14, 8);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(2, 5, 12, 6);
+        ctx.fillRect(0, 4, 1, 8);
+        ctx.fillRect(15, 4, 1, 8);
+        return c;
+    }
+
+    genSmithingTemplateItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#708090';
+        ctx.fillRect(3, 2, 10, 12);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(5, 4, 6, 8);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genOminousVault() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 26, g: 0, b: 51 }, 15);
+        ctx.fillStyle = '#8A2BE2';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genOminousTrialKeyItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#9400D3';
+        ctx.fillRect(6, 2, 4, 4);
+        ctx.fillRect(7, 6, 2, 9);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(9, 10, 2, 2);
+        ctx.fillRect(9, 13, 2, 2);
+        return c;
+    }
+
+    genChiseledTuff() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 79, g: 91, b: 102 }, 15);
+        ctx.fillStyle = '#38424B';
+        ctx.fillRect(2, 2, 12, 2);
+        ctx.fillRect(2, 12, 12, 2);
         ctx.fillRect(6, 6, 4, 4);
         return c;
     }

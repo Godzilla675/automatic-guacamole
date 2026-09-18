@@ -2,9 +2,9 @@
 This file tracks the status of major gameplay features, architectural tasks, and known bugs.
 
 ## Core Features
-- [ ] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table. (Status: Verified and working)
 - [x] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation. (Status: Verified and working)
-- [ ] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Verified and working)
 - [x] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Verified and working)
 - [x] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Verified and working)
 - [x] **New Task: Add Magma Block**: Block dealing damage when stepped on. (Status: Verified and working)
@@ -18,11 +18,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Verified and working)
 
 - [x] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Verified and working)
-- [ ] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key to unlock high-tier rewards. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key to unlock high-tier rewards. (Status: Verified and working)
 - [x] **New Task: Add Wind Charges**: Used as a throwable projectile with knockback explosion physics. (Status: Verified and working)
 - [x] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Verified and working)
 
-- [ ] **New Task: Add Trial Chambers Underground Structure Generation**: Procedural room generation logic in `js/structures.js` featuring Trial Spawners, Trial Vaults, and Chiseled Tuff blocks. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Trial Chambers Underground Structure Generation**: Procedural room generation logic in `js/structures.js` featuring Trial Spawners, Trial Vaults, and Chiseled Tuff blocks. (Status: Verified and working)
 - [x] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Verified and working)
 - [x] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Verified and working)
 - [x] **New Task: Add Copper Bulbs**: Dimmable light sources that toggle state on redstone signals. (Status: Verified and working)
@@ -82,7 +82,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 4. Player Mechanics
 - [x] Drowning (Status: Verified and working)
 - [ ] **New Task: Add Creaking**: Hostile mob that only moves when not looked at and is vulnerable through its Creaking Heart. (Status: Missing implementation, agents must fix)
-- [ ] **Elytra** (Gliding mechanics) (Status: Missing implementation, agents must fix)
+- [x] **Elytra** (Gliding mechanics) (Status: Verified and working)
 - [ ] **Tridents** (Throwing, returning, Riptide) (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Spectator Flying through Blocks**: Spectator mode allows clip-free flying through solid terrain. (Status: Verified and working)
 - [x] **New Task: Add Spyglass Zoom FOV**: Right clicking with Spyglass zooms in FOV camera view. (Status: Verified and working)

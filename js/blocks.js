@@ -365,7 +365,15 @@ const BLOCK = {
     ITEM_CROSSBOW: 450,
     ITEM_ARMADILLO_SCUTE: 451,
     ITEM_WOLF_ARMOR: 452,
-    SCULK_CATALYST: 453
+    SCULK_CATALYST: 453,
+
+    // Batch 4
+    ITEM_ELYTRA: 454,
+    ITEM_FLYING_CARPET: 455,
+    ITEM_SMITHING_TEMPLATE: 456,
+    OMINOUS_VAULT: 457,
+    ITEM_OMINOUS_TRIAL_KEY: 458,
+    CHISELED_TUFF: 459
 };
 
 const ARMOR = {
@@ -807,7 +815,15 @@ const BLOCKS = {
     [BLOCK.ITEM_CROSSBOW]: { name: 'Crossbow', color: '#8B4513', solid: false, isItem: true, icon: '🏹', durability: 465 },
     [BLOCK.ITEM_ARMADILLO_SCUTE]: { name: 'Armadillo Scute', color: '#A07050', solid: false, isItem: true, icon: '🛡️' },
     [BLOCK.ITEM_WOLF_ARMOR]: { name: 'Wolf Armor', color: '#8B5A2B', solid: false, isItem: true, icon: '🐕' },
-    [BLOCK.SCULK_CATALYST]: { name: 'Sculk Catalyst', color: '#002222', top: '#008080', solid: true, icon: '🌌', hardness: 3.0, tool: 'hoe', light: 6 }
+    [BLOCK.SCULK_CATALYST]: { name: 'Sculk Catalyst', color: '#002222', top: '#008080', solid: true, icon: '🌌', hardness: 3.0, tool: 'hoe', light: 6 },
+
+    // Batch 4 items/blocks
+    [BLOCK.ITEM_ELYTRA]: { name: 'Elytra', color: '#708090', solid: false, isItem: true, icon: '🪽', durability: 432 },
+    [BLOCK.ITEM_FLYING_CARPET]: { name: 'Flying Carpet', color: '#C71585', solid: false, isItem: true, icon: '🪔' },
+    [BLOCK.ITEM_SMITHING_TEMPLATE]: { name: 'Armor Trim Smithing Template', color: '#708090', solid: false, isItem: true, icon: '📋' },
+    [BLOCK.OMINOUS_VAULT]: { name: 'Ominous Vault', color: '#1A0033', top: '#8A2BE2', solid: true, icon: '🔮', hardness: 5.0, tool: 'pickaxe', light: 8 },
+    [BLOCK.ITEM_OMINOUS_TRIAL_KEY]: { name: 'Ominous Trial Key', color: '#9400D3', solid: false, isItem: true, icon: '🔑' },
+    [BLOCK.CHISELED_TUFF]: { name: 'Chiseled Tuff', color: '#4F5B66', top: '#627280', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {

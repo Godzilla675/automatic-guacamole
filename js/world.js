@@ -121,6 +121,40 @@ class World {
              this.recalcLocalLight(x, y, z);
         }
 
+        // Ominous Vault or Trial Vault Activation
+        if ((type === window.BLOCK.TRIAL_VAULT || type === window.BLOCK.OMINOUS_VAULT) && this.game && this.game.player) {
+            const player = this.game.player;
+            const held = player.getHeldItem();
+            const requiredKey = type === window.BLOCK.OMINOUS_VAULT ? window.BLOCK.ITEM_OMINOUS_TRIAL_KEY : window.BLOCK.ITEM_TRIAL_KEY;
+
+            if (held && held.type === requiredKey) {
+                held.count--;
+                if (held.count <= 0) player.inventory[player.selectedSlot] = null;
+
+                // Dispense high-tier rewards
+                const lootTable = type === window.BLOCK.OMINOUS_VAULT ? [
+                    { type: window.BLOCK.HEAVY_CORE, count: 1 },
+                    { type: window.BLOCK.ITEM_OMINOUS_BOTTLE, count: 2 },
+                    { type: window.BLOCK.ITEM_APPLE, count: 5 },
+                    { type: window.BLOCK.ITEM_MACE, count: 1 },
+                    { type: window.BLOCK.ITEM_DIAMOND, count: 4 }
+                ] : [
+                    { type: window.BLOCK.ITEM_TRIAL_KEY, count: 1 },
+                    { type: window.BLOCK.ITEM_IRON_INGOT, count: 3 },
+                    { type: window.BLOCK.ITEM_DIAMOND, count: 1 }
+                ];
+
+                const reward = lootTable[Math.floor(Math.random() * lootTable.length)];
+                if (this.game.drops && window.Drop) {
+                    this.game.drops.push(new window.Drop(this.game, x + 0.5, y + 1.2, z + 0.5, reward.type, reward.count));
+                }
+                if (window.soundManager) window.soundManager.play('place', { x: x + 0.5, y: y + 0.5, z: z + 0.5 });
+                if (this.game.ui && this.game.ui.showNotification) {
+                    this.game.ui.showNotification(`Unlocked ${window.BLOCKS[type].name}! Dispensed reward.`);
+                }
+            }
+        }
+
         // Check Structural Integrity of neighbors
         this.checkNeighborIntegrity(x, y, z);
 

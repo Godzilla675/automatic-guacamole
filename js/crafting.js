@@ -111,6 +111,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.PLANK, count: 4 }, { type: BLOCK.ITEM_IRON_INGOT, count: 2 } ]
             },
             {
+                name: "Smithing Template",
+                result: { type: BLOCK.ITEM_SMITHING_TEMPLATE, count: 2 },
+                ingredients: [ { type: BLOCK.ITEM_SMITHING_TEMPLATE, count: 1 }, { type: BLOCK.CHISELED_STONE_BRICKS, count: 1 }, { type: BLOCK.ITEM_DIAMOND, count: 7 } ]
+            },
+            {
                 name: "Fletching Table",
                 result: { type: BLOCK.FLETCHING_TABLE, count: 1 },
                 ingredients: [ { type: BLOCK.PLANK, count: 4 }, { type: BLOCK.ITEM_STICK, count: 2 } ]

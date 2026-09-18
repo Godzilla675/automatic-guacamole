@@ -338,7 +338,7 @@ class UIManager {
         if (closeSmithing) {
             closeSmithing.addEventListener('click', () => this.closeSmithingTable());
         }
-        ['smithing-base', 'smithing-addition', 'smithing-output'].forEach(id => {
+        ['smithing-template', 'smithing-base', 'smithing-addition', 'smithing-output'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', () => this.handleSmithingClick(id));
         });
@@ -346,6 +346,7 @@ class UIManager {
 
     openSmithingTable() {
         this.activeSmithingTable = {
+            template: null,
             base: null,
             addition: null,
             output: null
@@ -361,6 +362,7 @@ class UIManager {
 
     closeSmithingTable() {
         if (this.activeSmithingTable) {
+            if (this.activeSmithingTable.template) this.game.player.addItem(this.activeSmithingTable.template);
             if (this.activeSmithingTable.base) this.game.player.addItem(this.activeSmithingTable.base);
             if (this.activeSmithingTable.addition) this.game.player.addItem(this.activeSmithingTable.addition);
             this.activeSmithingTable = null;
@@ -381,13 +383,20 @@ class UIManager {
             if (st.output && st.base && st.addition) {
                 this.game.player.addItem(st.output);
                 st.base = null;
+                if (st.template) {
+                    st.template.count--;
+                    if (st.template.count <= 0) st.template = null;
+                }
                 st.addition.count--;
                 if (st.addition.count <= 0) st.addition = null;
                 st.output = null;
                 if (window.soundManager) window.soundManager.play('place');
             }
         } else {
-            const key = slotId === 'smithing-base' ? 'base' : 'addition';
+            let key = 'base';
+            if (slotId === 'smithing-template') key = 'template';
+            else if (slotId === 'smithing-addition') key = 'addition';
+
             const current = st[key];
             if (!current && this.cursorItem) {
                 st[key] = this.cursorItem;
@@ -433,12 +442,23 @@ class UIManager {
             }
         };
 
+        renderSlot('smithing-template', st.template);
         renderSlot('smithing-base', st.base);
         renderSlot('smithing-addition', st.addition);
 
         if (st.base && st.addition) {
-            // Repair gear or upgrade to diamond/gold
-            st.output = { type: st.base.type, count: 1, durability: window.TOOLS && window.TOOLS[st.base.type] ? window.TOOLS[st.base.type].durability : 100 };
+            let trimmedName = (st.base.name || (window.BLOCKS[st.base.type] ? window.BLOCKS[st.base.type].name : 'Armor'));
+            if (st.template && st.template.type === window.BLOCK.ITEM_SMITHING_TEMPLATE) {
+                const materialName = window.BLOCKS[st.addition.type] ? window.BLOCKS[st.addition.type].name : 'Trimmed';
+                trimmedName += ` (${materialName} Trim)`;
+            }
+            st.output = {
+                type: st.base.type,
+                count: 1,
+                name: trimmedName,
+                durability: window.TOOLS && window.TOOLS[st.base.type] ? window.TOOLS[st.base.type].durability : 100,
+                trimmed: true
+            };
             renderSlot('smithing-output', st.output);
         } else {
             st.output = null;

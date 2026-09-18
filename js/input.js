@@ -155,8 +155,23 @@ class InputManager {
 
         document.addEventListener('mousedown', (e) => {
             if (this.mouse.locked) {
-                if (e.button === 0) this.game.startAction(true); // Attack/Break
-                else if (e.button === 2) this.game.startAction(false); // Place
+                if (e.button === 0) {
+                    this.game.startAction(true); // Attack/Break
+                } else if (e.button === 2) {
+                    // Check Firework Elytra boost
+                    const player = this.game.player;
+                    if (player && player.gliding) {
+                        const held = player.getHeldItem();
+                        if (held && held.type === window.BLOCK.ITEM_FIREWORK) {
+                            held.count--;
+                            if (held.count <= 0) player.inventory[player.selectedSlot] = null;
+                            player.fireworkBoost();
+                            if (this.game.ui && this.game.ui.updateHotbarUI) this.game.ui.updateHotbarUI();
+                            return;
+                        }
+                    }
+                    this.game.startAction(false); // Place
+                }
             }
         });
 
