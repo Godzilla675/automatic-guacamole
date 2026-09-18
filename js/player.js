@@ -104,6 +104,30 @@ class Player {
         this.oxygen = 10;
         this.maxOxygen = 10;
         this.drowningTimer = 0;
+
+        // Elytra gliding state
+        this.gliding = false;
+    }
+
+    fireworkBoost() {
+        if (!this.gliding) return false;
+        const boost = 16.0;
+        const sin = Math.sin(this.yaw);
+        const cos = Math.cos(this.yaw);
+        const pitchCos = Math.cos(this.pitch);
+        const pitchSin = Math.sin(this.pitch);
+
+        this.vx += -sin * pitchCos * boost;
+        this.vy += pitchSin * boost;
+        this.vz += cos * pitchCos * boost;
+
+        if (this.game && this.game.particleSystem) {
+            for (let i = 0; i < 12; i++) {
+                this.game.particleSystem.spawn(this.x, this.y, this.z, (Math.random() - 0.5) * 2, -1, (Math.random() - 0.5) * 2, '#FF0055', 0.5);
+            }
+        }
+        if (window.soundManager) window.soundManager.play('fuse');
+        return true;
     }
 
     swapOffhand() {
@@ -151,6 +175,39 @@ class Player {
     addItem(item) {
         if (!item) return 0;
         if (typeof item === 'number') return this.giveItem(item, 1);
+        if (typeof item === 'object') {
+            const maxStack = 64;
+            const type = item.type;
+            let remaining = item.count || 1;
+
+            for (let i = 0; i < this.inventory.length; i++) {
+                if (remaining <= 0) break;
+                const slot = this.inventory[i];
+                if (slot && slot.type === type && slot.name === item.name && slot.trimmed === item.trimmed) {
+                    const space = maxStack - slot.count;
+                    if (space > 0) {
+                        const add = Math.min(space, remaining);
+                        slot.count += add;
+                        remaining -= add;
+                    }
+                }
+            }
+
+            for (let i = 0; i < this.inventory.length; i++) {
+                if (remaining <= 0) break;
+                if (!this.inventory[i]) {
+                    const add = Math.min(maxStack, remaining);
+                    this.inventory[i] = { ...item, count: add };
+                    remaining -= add;
+                }
+            }
+
+            if (this.game && this.game.ui && this.game.ui.updateHotbarUI) {
+                this.game.ui.updateHotbarUI();
+            }
+
+            return remaining;
+        }
         return this.giveItem(item.type, item.count || 1);
     }
 
@@ -550,6 +607,21 @@ class Player {
         this.vx = moveX * moveSpeed;
         this.vz = moveZ * moveSpeed;
 
+        // Check for equipped Elytra in chestplate slot or offhand
+        const isElytraEquipped = (this.armor && this.armor[1] && this.armor[1].type === window.BLOCK.ITEM_ELYTRA) ||
+                                (this.offhand && this.offhand.type === window.BLOCK.ITEM_ELYTRA) ||
+                                (this.inventory[this.selectedSlot] && this.inventory[this.selectedSlot].type === window.BLOCK.ITEM_ELYTRA);
+
+        // Elytra Gliding Toggle
+        if (controls.jump && !this.wasJumpDown && !this.onGround && !this.flying && !inWater && isElytraEquipped) {
+            this.gliding = !this.gliding;
+            if (this.gliding && window.soundManager) window.soundManager.play('place');
+        }
+
+        if (this.onGround || inWater || this.flying || !isElytraEquipped) {
+            this.gliding = false;
+        }
+
         // Double Jump Logic for Creative Fly Toggle
         if (controls.jump && !this.wasJumpDown) {
             const now = Date.now();
@@ -562,30 +634,48 @@ class Player {
         }
         this.wasJumpDown = controls.jump;
 
-        if (controls.jump && (this.onGround || this.flying || inWater)) {
-            if (this.flying) {
-                 this.vy = moveSpeed;
-            } else if (inWater) {
-                 this.vy = 2.0; // Swim up
-            } else {
-                 // Only jump if we didn't just toggle flying
-                 this.vy = this.jumpForce;
-                 this.onGround = false;
-                 window.soundManager.play('jump');
-            }
-        } else if (controls.sneak && this.flying) {
-            this.vy = -moveSpeed;
-        }
+        if (this.gliding) {
+            // Elytra Gliding Physics
+            const pitchCos = Math.cos(this.pitch);
+            const pitchSin = Math.sin(this.pitch);
+            const lookX = -Math.sin(this.yaw) * pitchCos;
+            const lookZ = Math.cos(this.yaw) * pitchCos;
 
-        if (!this.flying) {
-            if (inWater) {
-                this.vy -= this.gravity * dt * 0.2; // Reduced gravity
-                this.vy *= 0.8; // Water drag
-            } else {
-                this.vy -= this.gravity * dt;
-            }
+            // Pitch controls lift & forward momentum
+            const forwardSpeed = Math.max(12.0, 18.0 * pitchCos);
+            this.vx = lookX * forwardSpeed;
+            this.vz = lookZ * forwardSpeed;
+
+            // Slow fall when looking up, diving when looking down
+            this.vy = pitchSin * 10.0 - 2.0;
+
+            this.fallDistance = 0; // Elytra mitigates fall damage
         } else {
-            if (!controls.jump && !controls.sneak) this.vy = 0;
+            if (controls.jump && (this.onGround || this.flying || inWater)) {
+                if (this.flying) {
+                     this.vy = moveSpeed;
+                } else if (inWater) {
+                     this.vy = 2.0; // Swim up
+                } else {
+                     // Only jump if we didn't just toggle flying
+                     this.vy = this.jumpForce;
+                     this.onGround = false;
+                     window.soundManager.play('jump');
+                }
+            } else if (controls.sneak && this.flying) {
+                this.vy = -moveSpeed;
+            }
+
+            if (!this.flying) {
+                if (inWater) {
+                    this.vy -= this.gravity * dt * 0.2; // Reduced gravity
+                    this.vy *= 0.8; // Water drag
+                } else {
+                    this.vy -= this.gravity * dt;
+                }
+            } else {
+                if (!controls.jump && !controls.sneak) this.vy = 0;
+            }
         }
 
         // Apply Velocity

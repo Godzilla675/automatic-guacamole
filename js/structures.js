@@ -111,6 +111,38 @@ class StructureManager {
             if (structureName === 'path') this.world.villageManager.generatePath(chunk, x, y, z);
             if (structureName === 'village') this.world.villageManager.generateVillage(chunk, x, y, z);
         }
+        if (structureName === 'trial_chamber') {
+            this.generateTrialChamber(chunk, x, y, z);
+        }
+    }
+
+    generateTrialChamber(chunk, x, y, z, sync = false) {
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+
+        // Chamber room 7x5x7
+        for (let dx = -3; dx <= 3; dx++) {
+            for (let dz = -3; dz <= 3; dz++) {
+                for (let dy = 0; dy <= 4; dy++) {
+                    const blockX = wx + dx;
+                    const blockY = y + dy;
+                    const blockZ = wz + dz;
+
+                    if (dy === 0 || dy === 4 || Math.abs(dx) === 3 || Math.abs(dz) === 3) {
+                        this.world.setBlock(blockX, blockY, blockZ, window.BLOCK.CHISELED_TUFF);
+                    } else {
+                        this.world.setBlock(blockX, blockY, blockZ, window.BLOCK.AIR);
+                    }
+                }
+            }
+        }
+
+        // Place Trial Spawner & Vaults
+        this.world.setBlock(wx, y + 1, wz, window.BLOCK.TRIAL_SPAWNER);
+        this.world.setBlock(wx - 2, y + 1, wz - 2, window.BLOCK.TRIAL_VAULT);
+        this.world.setBlock(wx + 2, y + 1, wz + 2, window.BLOCK.OMINOUS_VAULT);
+        this.world.setBlock(wx + 2, y + 1, wz - 2, window.BLOCK.COPPER_BULB);
+        this.world.setBlock(wx - 2, y + 1, wz + 2, window.BLOCK.COPPER_GRATE);
     }
 
     generateJungleTree(chunk, x, y, z, sync = false) {
