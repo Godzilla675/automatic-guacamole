@@ -206,6 +206,14 @@ class TextureManager {
         this.textures[B.DISPENSER] = this.genDropper();
         this.textures[B.FIRE] = this.genTorch('#FF4500');
 
+        // Feature Batch 5
+        this.textures[B.POWERED_RAIL] = this.genTorch('#FFD700');
+        this.textures[B.DETECTOR_RAIL] = this.genTorch('#B22222');
+        this.textures[B.FROGLIGHT] = this.genSeaLantern();
+        this.textures[B.ITEM_ARMOR_STAND] = this.genStick();
+        this.textures[B.ITEM_BRUSH] = this.genFeather();
+        this.textures[B.SUSPICIOUS_SAND] = this.genSand();
+
 
         // Glass
         this.textures[B.GLASS] = this.genGlass();
@@ -2522,6 +2530,30 @@ class TextureManager {
         this.mobTextures.silverfish = this.genMobSilverfish();
         this.mobTextures.pillager = this.genMobPillager();
         this.mobTextures.armadillo = this.genMobArmadillo();
+        this.mobTextures.mooshroom = this.genMobMooshroom();
+        this.mobTextures.frog = this.genMobFrog();
+    }
+
+    genMobMooshroom() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 180, g: 30, b: 30 }, 12, 8, 16);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(1, 3, 3, 4);
+        ctx.fillRect(5, 8, 2, 3);
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(3, 2, 2, 2);
+        return c;
+    }
+
+    genMobFrog() {
+        const c = this.createCanvas(8, 8);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 50, g: 160, b: 50 }, 10, 8, 8);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(2, 2, 1, 1);
+        ctx.fillRect(5, 2, 1, 1);
+        return c;
     }
 
     genMobPillager() {

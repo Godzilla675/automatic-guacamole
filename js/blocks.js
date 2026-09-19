@@ -376,7 +376,13 @@ const BLOCK = {
     CHISELED_TUFF: 459,
     DISPENSER: 460,
     ITEM_FLINT_AND_STEEL: 461,
-    FIRE: 462
+    FIRE: 462,
+
+    // Batch 5 Features
+    FROGLIGHT: 463,
+    ITEM_ARMOR_STAND: 464,
+    ITEM_BRUSH: 465,
+    SUSPICIOUS_SAND: 466
 };
 
 const ARMOR = {
@@ -569,7 +575,9 @@ const BLOCKS = {
     [BLOCK.CAULDRON]: { name: 'Cauldron', color: '#404040', solid: false, transparent: true, icon: '🍲', hardness: 2.0, tool: 'pickaxe' },
     [BLOCK.ENCHANTING_TABLE]: { name: 'Enchanting Table', color: '#800000', top: '#FFD700', solid: false, transparent: true, icon: '📖', hardness: 5.0, tool: 'pickaxe', light: 7 },
     [BLOCK.BOOKSHELF]: { name: 'Bookshelf', color: '#8B4513', top: '#8B4513', solid: true, icon: '📚', hardness: 1.5, tool: 'axe', drop: { type: BLOCK.BOOKSHELF, count: 1 } },
-    [BLOCK.RAIL]: { name: 'Rail', color: '#808080', solid: false, transparent: true, icon: '🛤️', hardness: 0.0 },
+    [BLOCK.RAIL]: { name: 'Rail', color: '#808080', solid: false, transparent: true, icon: '🛤️', hardness: 0.0, drop: { type: BLOCK.RAIL, count: 1 } },
+    [BLOCK.POWERED_RAIL]: { name: 'Powered Rail', color: '#FFD700', solid: false, transparent: true, icon: '🛤️', hardness: 0.0, drop: { type: BLOCK.POWERED_RAIL, count: 1 } },
+    [BLOCK.DETECTOR_RAIL]: { name: 'Detector Rail', color: '#B22222', solid: false, transparent: true, icon: '🛤️', hardness: 0.0, drop: { type: BLOCK.DETECTOR_RAIL, count: 1 } },
     [BLOCK.NOTE_BLOCK]: { name: 'Note Block', color: '#8B4513', top: '#A0522D', solid: true, icon: '🎵', hardness: 0.8, tool: 'axe' },
 
     // Saplings
@@ -829,7 +837,13 @@ const BLOCKS = {
     [BLOCK.CHISELED_TUFF]: { name: 'Chiseled Tuff', color: '#4F5B66', top: '#627280', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe' },
     [BLOCK.DISPENSER]: { name: 'Dispenser', color: '#696969', top: '#505050', solid: true, icon: '📦', hardness: 3.5, tool: 'pickaxe' },
     [BLOCK.ITEM_FLINT_AND_STEEL]: { name: 'Flint and Steel', color: '#C0C0C0', solid: false, isItem: true, icon: '🔥', durability: 64 },
-    [BLOCK.FIRE]: { name: 'Fire', color: '#FF4500', top: '#FF6347', solid: false, transparent: true, icon: '🔥', hardness: 0.0, light: 15 }
+    [BLOCK.FIRE]: { name: 'Fire', color: '#FF4500', top: '#FF6347', solid: false, transparent: true, icon: '🔥', hardness: 0.0, light: 15 },
+
+    // Batch 5
+    [BLOCK.FROGLIGHT]: { name: 'Froglight', color: '#7FFFD4', top: '#90EE90', solid: true, icon: '🐸', hardness: 0.3, light: 15 },
+    [BLOCK.ITEM_ARMOR_STAND]: { name: 'Armor Stand', color: '#8B4513', solid: false, isItem: true, icon: '👔' },
+    [BLOCK.ITEM_BRUSH]: { name: 'Brush', color: '#D2B48C', solid: false, isItem: true, icon: '🧹', durability: 64 },
+    [BLOCK.SUSPICIOUS_SAND]: { name: 'Suspicious Sand', color: '#E0C080', top: '#E8C888', solid: true, icon: '🏺', hardness: 0.5, tool: 'shovel', drop: { type: BLOCK.SAND, count: 1 } }
 };
 
 if (typeof window !== 'undefined') {

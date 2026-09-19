@@ -12,6 +12,7 @@ class Game {
         this.player = new Player(this);
         this.mobs = [];
         this.vehicles = [];
+        this.entities = [];
         this.drops = [];
         this.projectiles = [];
         this.tntPrimed = [];
@@ -610,6 +611,52 @@ class Game {
                 z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
             };
 
+            // Brush Tool Archaeology Logic
+            if (slot && slot.type === BLOCK.ITEM_BRUSH) {
+                const hit = this.physics.raycast(this.player, dir, 5);
+                if (hit) {
+                    const targetType = this.world.getBlock(hit.x, hit.y, hit.z);
+                    if (targetType === BLOCK.SUSPICIOUS_SAND) {
+                        let entity = this.world.getBlockEntity(hit.x, hit.y, hit.z);
+                        if (!entity) {
+                            entity = { type: 'suspicious_sand', brushProgress: 0 };
+                            this.world.setBlockEntity(hit.x, hit.y, hit.z, entity);
+                        }
+                        entity.brushProgress++;
+                        if (this.particles) {
+                            this.particles.spawn(hit.x + 0.5, hit.y + 1.0, hit.z + 0.5, '#E0C080', 10);
+                        }
+                        if (window.soundManager) window.soundManager.play('break', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
+
+                        if (entity.brushProgress >= 4) {
+                            const lootTable = [
+                                BLOCK.ITEM_EMERALD,
+                                BLOCK.ITEM_DIAMOND,
+                                BLOCK.ITEM_TRIAL_KEY,
+                                BLOCK.ITEM_QUARTZ,
+                                BLOCK.ITEM_GOLD_INGOT
+                            ];
+                            const reward = lootTable[Math.floor(Math.random() * lootTable.length)];
+                            if (this.drops && window.Drop) {
+                                this.drops.push(new window.Drop(this, hit.x + 0.5, hit.y + 0.5, hit.z + 0.5, reward, 1));
+                            }
+                            this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.SAND);
+                            if (this.ui && this.ui.showNotification) {
+                                this.ui.showNotification(`Brushed Suspicious Sand! Unburied ${window.BLOCKS[reward] ? window.BLOCKS[reward].name : 'Item'}!`);
+                            }
+                        }
+
+                        if (this.player.gamemode !== 1) {
+                            if (slot.durability === undefined) slot.durability = 64;
+                            slot.durability--;
+                            if (slot.durability <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                            this.updateHotbarUI();
+                        }
+                        return;
+                    }
+                }
+            }
+
             // Flint and Steel Logic
             if (slot && slot.type === BLOCK.ITEM_FLINT_AND_STEEL) {
                 const hit = this.physics.raycast(this.player, dir, 5);
@@ -790,12 +837,6 @@ class Game {
                 return;
             }
 
-            const dir = {
-                x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
-                y: -Math.sin(this.player.pitch),
-                z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
-            };
-
             // Check if holding a boat, if so include liquids in raycast
             const includeLiquids = slot && slot.type === BLOCK.ITEM_BOAT;
             const hit = this.physics.raycast(this.player, dir, 5, includeLiquids);
@@ -856,6 +897,7 @@ class Game {
         // 1. Check Mobs and Vehicles
         const hitMob = this.physics.raycastEntities(eyePos, dir, this.mobs);
         const hitVehicle = this.physics.raycastEntities(eyePos, dir, this.vehicles);
+        const hitEntity = this.entities ? this.physics.raycastEntities(eyePos, dir, this.entities) : { entity: null };
 
         let closestMob = null;
         let minMobDist = 4.0; // Melee range
@@ -867,6 +909,10 @@ class Game {
         if (hitVehicle.entity && hitVehicle.dist < minMobDist) {
             closestMob = hitVehicle.entity;
             minMobDist = hitVehicle.dist;
+        }
+        if (hitEntity.entity && hitEntity.dist < minMobDist) {
+            closestMob = hitEntity.entity;
+            minMobDist = hitEntity.dist;
         }
 
         if (closestMob) {
@@ -1153,6 +1199,26 @@ class Game {
                          return;
                      } else {
                          return; // Can't place
+                     }
+                 }
+
+                 // Armor Stand Placement Logic
+                 if (slot.type === BLOCK.ITEM_ARMOR_STAND) {
+                     if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR) {
+                         const stand = new window.ArmorStand(this, nx + 0.5, ny, nz + 0.5);
+                         if (!this.entities) this.entities = [];
+                         this.entities.push(stand);
+
+                         window.soundManager.play('place', pos, slot.type);
+
+                         if (this.player.gamemode !== 1) {
+                             slot.count--;
+                             if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                         }
+                         this.updateHotbarUI();
+                         return;
+                     } else {
+                         return;
                      }
                  }
 
@@ -2037,6 +2103,18 @@ class Game {
             // Despawn if out of world?
             if (v.y < -10) {
                 this.vehicles.splice(i, 1);
+            }
+        }
+
+        // Entities
+        if (this.entities) {
+            for (let i = this.entities.length - 1; i >= 0; i--) {
+                const e = this.entities[i];
+                if (e.isDead) {
+                    this.entities.splice(i, 1);
+                    continue;
+                }
+                e.update(dt / 1000);
             }
         }
 

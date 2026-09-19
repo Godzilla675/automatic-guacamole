@@ -77,7 +77,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Better shadows and lighting** (Dynamic shadows) (Status: Missing implementation, agents must fix)
 - [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
 - [ ] **Head bobbing animation** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Verified and working)
 
 ### 4. Player Mechanics
 - [x] Drowning (Status: Verified and working)
@@ -107,12 +107,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Witches**: Hostile mobs that throw harmful splash potions at players. (Status: Verified and working)
 - [x] **New Task: Add Rideable Pigs**: Saddle mounting, player riding, and steering mechanics. (Status: Verified and working)
 - [x] **New Task: Add Allay Entity Mechanics**: Friendly flying mob that collects dropped items matching item in hand. (Status: Verified and working)
-- [ ] **New Task: Add Frog Species & Magma Cube Eating**: Green, warm, and cold frog variants eating small magma cubes to drop Froglight blocks. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Frog Species & Magma Cube Eating**: Green, warm, and cold frog variants eating small magma cubes to drop Froglight blocks. (Status: Verified and working)
 - [x] **New Task: Add Armadillo Scute Brushing**: Interacting with Armadillos in Savanna biomes yields Scutes for crafting. (Status: Verified and working)
 - [x] **New Task: Add Armadillos**: Neutral mobs found in savannas and badlands that drop scutes. (Status: Verified and working)
 
 ### 6. Items & Crafting
-- [ ] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items. (Status: Verified and working)
 - [x] **New Task: Add Wolf Armor & Armadillo Scute Crafting**: Craft armor for tamed wolves using Armadillo Scutes and equip onto tamed wolves. (Status: Verified and working)
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Verified and working)
@@ -201,7 +201,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Seagrass**: Underwater vegetation. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Kelp**: Tall underwater plant that can be smelted into dried kelp. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Redstone Rails**: Powered rails and detector rails. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Redstone Rails**: Powered rails and detector rails. (Status: Verified and working)
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Dolphins**: Neutral aquatic mobs that guide players to treasure. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Entity Despawn Timers**: Clear uncollected mob drops and temporary entities. (Status: Verified and working)
@@ -311,7 +311,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add End Stone**: Block that makes up End islands. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items. (Status: Verified and working)
 - [x] **Bug: UI Scaling broken on ultra-wide screens**: The hotbar doesn't center properly on very wide displays. (Status: Verified and working - max-width and centering adjustments applied)
 - [ ] **New Task: Add Custom Hitbox Debug Overlay**: Visual outline toggle for block hitboxes and bounding boxes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
@@ -362,7 +362,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Froglights**: Light source blocks dropped when a frog eats a magma cube. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Froglights**: Light source blocks dropped when a frog eats a magma cube. (Status: Verified and working)
 - [x] **New Task: Add Allays**: Flying friendly mobs that collect items for you. (Status: Verified and working)
 
 - [ ] **New Task: Add Tadpoles**: Baby version of frogs that grow up into different frogs based on biome. (Status: Missing implementation, agents must fix)
@@ -411,7 +411,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Cherry Wood**: Add cherry wood logs, planks, and leaves to match Cherry Grove biome. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Verified and working)
 - [ ] **New Task: Add Evokers**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Wither**: A new boss mob to spawn and fight. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Ender Dragon**: A boss mob to fight in the End dimension. (Status: Missing implementation, agents must fix)
@@ -430,7 +430,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
 
 - [ ] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Verified and working)
 
 - [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers. (Status: Missing implementation, agents must fix)

@@ -26,7 +26,9 @@ const MOB_TYPE = {
     POLAR_BEAR: 'polar_bear',
     SILVERFISH: 'silverfish',
     PILLAGER: 'pillager',
-    ARMADILLO: 'armadillo'
+    ARMADILLO: 'armadillo',
+    MOOSHROOM: 'mooshroom',
+    FROG: 'frog'
 };
 
 class Mob extends Entity {
@@ -94,6 +96,26 @@ class Mob extends Entity {
                 this.maxHealth += 20;
                 this.health += 20;
                 this.color = '#8B5A2B'; // Armored appearance
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
+            }
+        }
+
+        // Mooshroom Shearing & Bowl Mushroom Stew
+        if (this.type === MOB_TYPE.MOOSHROOM) {
+            if (itemType === BLOCK.ITEM_SHEARS) {
+                this.type = MOB_TYPE.COW;
+                this.initType();
+                if (this.game && this.game.drops) {
+                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height, this.z, BLOCK.EYEBLOSSOM, 5));
+                }
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
+            } else if (itemType === BLOCK.ITEM_GLASS_BOTTLE || itemType === BLOCK.ITEM_POTION || itemType === 0) {
+                if (this.game && this.game.player) {
+                    this.game.player.giveItem(BLOCK.ITEM_SUSPICIOUS_STEW, 1);
+                    if (this.game.updateHotbarUI) this.game.updateHotbarUI();
+                }
                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
                 return true;
             }
@@ -202,6 +224,13 @@ class Mob extends Entity {
         switch(this.type) {
             case MOB_TYPE.COW:
                 this.color = '#8B4513'; // Brown
+                this.height = 1.4;
+                this.speed = 1.0;
+                this.maxHealth = 10;
+                this.xpValue = 2;
+                break;
+            case MOB_TYPE.MOOSHROOM:
+                this.color = '#B22222'; // Red
                 this.height = 1.4;
                 this.speed = 1.0;
                 this.maxHealth = 10;
@@ -389,6 +418,14 @@ class Mob extends Entity {
                 this.maxHealth = 12;
                 this.xpValue = 2;
                 break;
+            case MOB_TYPE.FROG:
+                this.color = '#32CD32';
+                this.height = 0.5;
+                this.width = 0.6;
+                this.speed = 2.0;
+                this.maxHealth = 10;
+                this.xpValue = 1;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -438,6 +475,7 @@ class Mob extends Entity {
 
         switch(this.type) {
             case MOB_TYPE.COW:
+            case MOB_TYPE.MOOSHROOM:
                 if (Math.random() < 0.5) {
                     dropType = BLOCK.ITEM_LEATHER;
                 } else {
@@ -643,6 +681,11 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.FROG) {
+            this.updateFrogAI(dt);
+            return;
+        }
+
         // Nether Mobs
         if (this.type === MOB_TYPE.GHAST) {
             this.updateGhastAI(dt);
@@ -830,6 +873,51 @@ class Mob extends Entity {
 
     updateArmadilloAI(dt) {
         this.updatePassiveAI(dt);
+    }
+
+    updateFrogAI(dt) {
+        const target = this.game && this.game.mobs ? this.game.mobs.find(m =>
+            m !== this && m.type === MOB_TYPE.MAGMA_CUBE && !m.isDead
+        ) : null;
+
+        if (target) {
+            const dx = target.x - this.x;
+            const dz = target.z - this.z;
+            const dist = Math.hypot(dx, dz);
+
+            if (dist < 12) {
+                this.yaw = Math.atan2(dx, dz);
+                if (this.onGround && Math.random() < 0.1) {
+                    this.vy = 6;
+                    this.vx = Math.sin(this.yaw) * this.speed * 1.5;
+                    this.vz = Math.cos(this.yaw) * this.speed * 1.5;
+                }
+
+                if (dist < 1.5) {
+                    target.isDead = true;
+                    target.health = 0;
+                    if (this.game.mobs) {
+                        this.game.mobs = this.game.mobs.filter(m => m !== target);
+                    }
+                    if (this.game.drops && window.Drop) {
+                        this.game.drops.push(new window.Drop(this.game, target.x, target.y + 0.5, target.z, window.BLOCK.FROGLIGHT, 1));
+                    }
+                    if (window.soundManager) window.soundManager.play('eat', {x: this.x, y: this.y, z: this.z});
+                }
+                return;
+            }
+        }
+
+        this.moveTimer -= dt;
+        if (this.moveTimer <= 0) {
+            this.moveTimer = 1.5 + Math.random() * 3;
+            this.yaw = Math.random() * Math.PI * 2;
+            if (this.onGround) {
+                this.vy = 5;
+                this.vx = Math.sin(this.yaw) * this.speed;
+                this.vz = Math.cos(this.yaw) * this.speed;
+            }
+        }
     }
 
     updateSilverfishAI(dt) {
