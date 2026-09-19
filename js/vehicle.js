@@ -77,7 +77,7 @@ class Minecart extends Vehicle {
         // Simple rail check
         const isRail = (id) => {
             const def = window.BLOCKS[id];
-            return id === window.BLOCK.RAIL || id === window.BLOCK.POWERED_RAIL || (def && def.name && def.name.includes('Rail'));
+            return id === window.BLOCK.RAIL || id === window.BLOCK.POWERED_RAIL || id === window.BLOCK.DETECTOR_RAIL || (def && def.name && def.name.includes('Rail'));
         };
 
         if (!isRail(railBlock)) {
@@ -92,6 +92,38 @@ class Minecart extends Vehicle {
              this.onGround = true;
              this.y = railY + 0.1; // Snap to rail height
              this.vy = 0;
+
+             // Special rail behaviors
+             if (railBlock === window.BLOCK.POWERED_RAIL) {
+                 const isPowered = this.game.world.isBlockPowered(bx, railY, bz);
+                 if (isPowered) {
+                     let speed = Math.hypot(this.vx, this.vz);
+                     if (speed < 0.1) {
+                         let dirX = 0, dirZ = 0;
+                         if (this.rider) {
+                             dirX = Math.sin(this.rider.yaw);
+                             dirZ = Math.cos(this.rider.yaw);
+                         } else {
+                             dirX = 1;
+                         }
+                         this.vx = dirX * 12;
+                         this.vz = dirZ * 12;
+                     } else {
+                         const boost = 20 * dt;
+                         this.vx += (this.vx / speed) * boost;
+                         this.vz += (this.vz / speed) * boost;
+                     }
+                 } else {
+                     this.vx *= 0.5;
+                     this.vz *= 0.5;
+                 }
+             } else if (railBlock === window.BLOCK.DETECTOR_RAIL) {
+                 if (this.game.world.getMetadata(bx, railY, bz) !== 15) {
+                     this.game.world.setMetadata(bx, railY, bz, 15);
+                     this.game.world.scheduleNeighborRedstoneUpdates(bx, railY, bz);
+                     this.game.world.activeRedstone.add(`${bx},${railY},${bz}`);
+                 }
+             }
 
              // Friction / Drag
              this.vx *= 0.99;

@@ -312,11 +312,9 @@ class World {
             const def = window.BLOCKS[type];
             if (def) {
                 if (def.isWire && this.getMetadata(n.x, n.y, n.z) > 0) return true;
-                if (def.isTorch && def.id !== window.BLOCK.TORCH && type !== window.BLOCK.REDSTONE_TORCH_OFF) {
+                if (type === window.BLOCK.DETECTOR_RAIL && this.getMetadata(n.x, n.y, n.z) > 0) return true;
+                if (def.isTorch && type === window.BLOCK.REDSTONE_TORCH) {
                     // Torch powers neighbors EXCEPT the one it is attached to.
-                    // Assuming standing torch attached to block below (n.y - 1).
-                    // If the torch is at n.x, n.y, n.z, and we are checking x, y, z.
-                    // If n.y == y + 1, then the torch is above us, so we are the block below.
                     if (n.y === y + 1) continue;
                     return true;
                 }
@@ -579,7 +577,7 @@ class World {
 
                     if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) {
                         newPower = 15;
-                    } else if (nType === window.BLOCK.REDSTONE_REPEATER || nType === window.BLOCK.REDSTONE_COMPARATOR) {
+                    } else if (nType === window.BLOCK.REDSTONE_REPEATER || nType === window.BLOCK.REDSTONE_COMPARATOR || nType === window.BLOCK.DETECTOR_RAIL) {
                         const repPower = this.getMetadata(n.x, n.y, n.z);
                         if (repPower > newPower) newPower = repPower;
                     } else if (nDef.isWire) {

@@ -291,6 +291,26 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.DARK_OAK_LOG, count: 1 } ]
             },
             {
+                name: "Powered Rail (6)",
+                result: { type: BLOCK.POWERED_RAIL, count: 6 },
+                ingredients: [ { type: BLOCK.ITEM_GOLD_INGOT || BLOCK.ITEM_IRON_INGOT, count: 6 }, { type: BLOCK.ITEM_STICK, count: 1 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 } ]
+            },
+            {
+                name: "Detector Rail (6)",
+                result: { type: BLOCK.DETECTOR_RAIL, count: 6 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 6 }, { type: BLOCK.STONE, count: 1 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 } ]
+            },
+            {
+                name: "Armor Stand",
+                result: { type: BLOCK.ITEM_ARMOR_STAND, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_STICK, count: 6 }, { type: BLOCK.SLAB_STONE, count: 1 } ]
+            },
+            {
+                name: "Brush",
+                result: { type: BLOCK.ITEM_BRUSH, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_FEATHER, count: 1 }, { type: BLOCK.ITEM_COPPER_INGOT || BLOCK.ITEM_IRON_INGOT, count: 1 }, { type: BLOCK.ITEM_STICK, count: 1 } ]
+            },
+            {
                 name: "Crossbow",
                 result: { type: BLOCK.ITEM_CROSSBOW, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.ITEM_IRON_INGOT, count: 1 }, { type: BLOCK.ITEM_STRING, count: 2 } ]
