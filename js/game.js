@@ -423,9 +423,11 @@ class Game {
                 this.gameTime += timeToMorning;
 
                 this.player.spawnPoint = { x: this.player.x, y: this.player.y, z: this.player.z };
-                this.chat.addMessage("Sleeping... Spawn point set.");
+                this.player.health = Math.min(this.player.maxHealth, this.player.health + 10);
+                if (this.chat) this.chat.addMessage("Slept through the night. Spawn point set!");
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Slept through the night!");
             } else {
-                this.chat.addMessage("You can only sleep at night.");
+                if (this.chat) this.chat.addMessage("You can only sleep at night.");
             }
             return true;
         }
@@ -602,6 +604,41 @@ class Game {
 
             const slot = this.player.inventory[this.player.selectedSlot];
 
+            const dir = {
+                x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                y: -Math.sin(this.player.pitch),
+                z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+            };
+
+            // Flint and Steel Logic
+            if (slot && slot.type === BLOCK.ITEM_FLINT_AND_STEEL) {
+                const hit = this.physics.raycast(this.player, dir, 5);
+                if (hit) {
+                    const blockType = this.world.getBlock(hit.x, hit.y, hit.z);
+                    if (blockType === BLOCK.TNT) {
+                        this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.AIR);
+                        this.tntPrimed.push({ x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5, fuse: 4.0, vy: 5 });
+                        if (window.soundManager) window.soundManager.play('fuse', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
+                    } else if (hit.face) {
+                        const fx = hit.x + hit.face.x;
+                        const fy = hit.y + hit.face.y;
+                        const fz = hit.z + hit.face.z;
+                        if (this.world.getBlock(fx, fy, fz) === BLOCK.AIR) {
+                            this.world.setBlock(fx, fy, fz, BLOCK.FIRE);
+                            if (!this.world.activeFires) this.world.activeFires = new Set();
+                            this.world.activeFires.add(`${fx},${fy},${fz}`);
+                            if (window.soundManager) window.soundManager.play('place', { x: fx + 0.5, y: fy + 0.5, z: fz + 0.5 });
+                        }
+                    }
+                    if (this.player.gamemode !== 1) {
+                        if (slot.durability === undefined) slot.durability = 64;
+                        slot.durability--;
+                        if (slot.durability <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                        this.updateHotbarUI();
+                    }
+                    return;
+                }
+            }
 
             // Firework Logic
             if (slot && slot.type === BLOCK.ITEM_FIREWORK) {

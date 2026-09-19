@@ -51,6 +51,16 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.COBBLESTONE, count: 7 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 } ]
             },
             {
+                name: "Dispenser",
+                result: { type: BLOCK.DISPENSER, count: 1 },
+                ingredients: [ { type: BLOCK.COBBLESTONE, count: 7 }, { type: BLOCK.BOW, count: 1 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 1 } ]
+            },
+            {
+                name: "Flint and Steel",
+                result: { type: BLOCK.ITEM_FLINT_AND_STEEL, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 1 }, { type: BLOCK.ITEM_COAL, count: 1 } ]
+            },
+            {
                 name: "Respawn Anchor",
                 result: { type: BLOCK.RESPAWN_ANCHOR, count: 1 },
                 ingredients: [ { type: BLOCK.CRYING_OBSIDIAN, count: 6 }, { type: BLOCK.GLOWSTONE, count: 3 } ]

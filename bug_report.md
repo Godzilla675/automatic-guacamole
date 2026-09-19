@@ -77,3 +77,9 @@ The following features are tracked in `FUTURE_FEATURES.md` as missing and will r
 | Composter, Smoker, Blast Furnace | Verified | `test_stonecutter_composter_smoker_features.js` |
 | Slime Block, Glazed Terracotta, Glow Berries | Verified | `test_new_5_features.js` |
 | Wooden Door Logic | Verified | `verify_all_new_features.js` / `test_specific_features.py` |
+| Honey Block & Slime Block Piston Dragging | Verified | `test_bugs_and_new_features.js` |
+| Pale Oak Forest Biome Generation & Trees | Verified | `test_bugs_and_new_features.js` |
+| Dispensers & Redstone Ejection | Verified | `test_bugs_and_new_features.js` |
+| Flint & Steel TNT Ignition & Fire Spread | Verified | `test_bugs_and_new_features.js` |
+| Lava Flow Decay & Fluid Spread | Verified | `test_bugs_and_new_features.js` |
+| Bed Sleeping & Morning Time Advancement | Verified | `test_bugs_and_new_features.js` |
