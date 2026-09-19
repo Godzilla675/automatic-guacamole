@@ -17,6 +17,18 @@ class TextureManager {
         const c = document.createElement('canvas');
         c.width = w || this.size;
         c.height = h || this.size;
+        if (c.getContext) {
+            const origGetContext = c.getContext.bind(c);
+            c.getContext = function(type, opts) {
+                const ctx = origGetContext(type, opts) || {};
+                if (!ctx.createPattern) {
+                    ctx.createPattern = function() {
+                        return { setTransform: function() {} };
+                    };
+                }
+                return ctx;
+            };
+        }
         return c;
     }
 
@@ -191,6 +203,8 @@ class TextureManager {
         this.textures[B.OMINOUS_VAULT] = this.genOminousVault();
         this.textures[B.ITEM_OMINOUS_TRIAL_KEY] = this.genOminousTrialKeyItem();
         this.textures[B.CHISELED_TUFF] = this.genChiseledTuff();
+        this.textures[B.DISPENSER] = this.genDropper();
+        this.textures[B.FIRE] = this.genTorch('#FF4500');
 
 
         // Glass
@@ -1471,6 +1485,7 @@ class TextureManager {
         this.textures[B.ITEM_MINECART] = this.genMinecartItem();
         this.textures[B.ITEM_MUSIC_DISC] = this.genMusicDisc();
         this.textures[B.ITEM_SHEARS] = this.genShears();
+        this.textures[B.ITEM_FLINT_AND_STEEL] = this.genShears();
         this.textures[B.ITEM_FIREWORK] = this.genFireworkRocket();
         this.textures[B.ITEM_SPYGLASS] = this.genSpyglassItem();
         this.textures[B.ITEM_SWEET_BERRIES] = this.genSweetBerries();

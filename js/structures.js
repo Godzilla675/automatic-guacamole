@@ -4,6 +4,7 @@ class StructureManager {
     }
 
     generateTree(chunk, x, y, z, type = 'oak', sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
         const wx = chunk.cx * 16 + x;
         const wz = chunk.cz * 16 + z;
 
@@ -33,6 +34,11 @@ class StructureManager {
             trunk = BLOCK.DARK_OAK_LOG;
             leaves = BLOCK.DARK_OAK_LEAVES;
             height = 6 + Math.floor(Math.random() * 3);
+        }
+        if (type === 'pale_oak') {
+            trunk = BLOCK.PALE_OAK_LOG;
+            leaves = BLOCK.PALE_OAK_LEAVES;
+            height = 5 + Math.floor(Math.random() * 3);
         }
         if (type === 'jungle') {
             this.generateJungleTree(chunk, x, y, z, sync);

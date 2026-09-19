@@ -254,7 +254,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [x] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying Obsidian Respawn Anchors. (Status: Verified and working)
 - [x] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Verified and working)
-- [ ] **New Task: Add Honey Block Piston Pushing Logic**: Sticky honey blocks dragging adjacent blocks during piston movement. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Honey Block Piston Pushing Logic**: Sticky honey blocks dragging adjacent blocks during piston movement. (Status: Verified and working)
 
 - [ ] **Bug: JSDOM Game constructor**: In JSDOM Mocha tests, if global.Game becomes undefined within a beforeEach hook, it must be re-assigned using `if (!global.Game) { global.Game = dom.window.Game || window.Game; }` to prevent 'is not a constructor' errors. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: JSDOM loadScript mapping**: In JSDOM test scripts, classes loaded via loadScript must be mapped to global and window via the JSDOM window object. (Status: Missing implementation, agents must fix)

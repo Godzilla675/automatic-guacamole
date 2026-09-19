@@ -373,7 +373,10 @@ const BLOCK = {
     ITEM_SMITHING_TEMPLATE: 456,
     OMINOUS_VAULT: 457,
     ITEM_OMINOUS_TRIAL_KEY: 458,
-    CHISELED_TUFF: 459
+    CHISELED_TUFF: 459,
+    DISPENSER: 460,
+    ITEM_FLINT_AND_STEEL: 461,
+    FIRE: 462
 };
 
 const ARMOR = {
@@ -823,7 +826,10 @@ const BLOCKS = {
     [BLOCK.ITEM_SMITHING_TEMPLATE]: { name: 'Armor Trim Smithing Template', color: '#708090', solid: false, isItem: true, icon: '📋' },
     [BLOCK.OMINOUS_VAULT]: { name: 'Ominous Vault', color: '#1A0033', top: '#8A2BE2', solid: true, icon: '🔮', hardness: 5.0, tool: 'pickaxe', light: 8 },
     [BLOCK.ITEM_OMINOUS_TRIAL_KEY]: { name: 'Ominous Trial Key', color: '#9400D3', solid: false, isItem: true, icon: '🔑' },
-    [BLOCK.CHISELED_TUFF]: { name: 'Chiseled Tuff', color: '#4F5B66', top: '#627280', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe' }
+    [BLOCK.CHISELED_TUFF]: { name: 'Chiseled Tuff', color: '#4F5B66', top: '#627280', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.DISPENSER]: { name: 'Dispenser', color: '#696969', top: '#505050', solid: true, icon: '📦', hardness: 3.5, tool: 'pickaxe' },
+    [BLOCK.ITEM_FLINT_AND_STEEL]: { name: 'Flint and Steel', color: '#C0C0C0', solid: false, isItem: true, icon: '🔥', durability: 64 },
+    [BLOCK.FIRE]: { name: 'Fire', color: '#FF4500', top: '#FF6347', solid: false, transparent: true, icon: '🔥', hardness: 0.0, light: 15 }
 };
 
 if (typeof window !== 'undefined') {

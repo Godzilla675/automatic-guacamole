@@ -342,6 +342,86 @@ class World {
         }
     }
 
+    updateDispensers() {
+        for (const [key, entity] of this.blockEntities) {
+            if (entity && entity.type === 'dispenser') {
+                const [x, y, z] = key.split(',').map(Number);
+                const isPowered = this.isBlockPowered(x, y, z);
+                if (isPowered && !entity.wasPowered) {
+                    this.dispenseItem(x, y, z, entity);
+                }
+                entity.wasPowered = isPowered;
+            }
+        }
+    }
+
+    dispenseItem(x, y, z, entity) {
+        if (!entity.items) return;
+        const validIndices = [];
+        for (let i = 0; i < entity.items.length; i++) {
+            if (entity.items[i] && entity.items[i].count > 0) {
+                validIndices.push(i);
+            }
+        }
+        if (validIndices.length === 0) return;
+
+        const index = validIndices[Math.floor(Math.random() * validIndices.length)];
+        const item = entity.items[index];
+
+        const dropX = x + 0.5;
+        const dropY = y + 0.5;
+        const dropZ = z + 0.5;
+
+        if (this.game && this.game.drops && window.Drop) {
+            this.game.drops.push(new window.Drop(this.game, dropX, dropY + 0.5, dropZ, item.type, 1));
+        }
+
+        item.count--;
+        if (item.count <= 0) {
+            entity.items[index] = null;
+        }
+
+        if (window.soundManager) window.soundManager.play('place', { x: dropX, y: dropY, z: dropZ });
+    }
+
+    updateFireSpread() {
+        if (!this.activeFires) this.activeFires = new Set();
+        if (this.activeFires.size === 0) return;
+
+        this.fireTick = (this.fireTick || 0) + 1;
+        if (this.fireTick % 30 !== 0) return;
+
+        const processing = Array.from(this.activeFires);
+        for (const key of processing) {
+            const [x, y, z] = key.split(',').map(Number);
+            if (this.getBlock(x, y, z) !== window.BLOCK.FIRE) {
+                this.activeFires.delete(key);
+                continue;
+            }
+
+            const adj = [
+                {x:x+1, y, z}, {x:x-1, y, z},
+                {x, y:y+1, z}, {x, y:y-1, z},
+                {x, y, z:z+1}, {x, y, z:z-1}
+            ];
+
+            for (const a of adj) {
+                const b = this.getBlock(a.x, a.y, a.z);
+                const def = window.BLOCKS[b];
+                if (def && (b === window.BLOCK.WOOD || b === window.BLOCK.PLANK || b === window.BLOCK.LEAVES || b === window.BLOCK.WOOL_WHITE)) {
+                    if (Math.random() < 0.2) {
+                        this.setBlock(a.x, a.y, a.z, window.BLOCK.FIRE);
+                        this.activeFires.add(`${a.x},${a.y},${a.z}`);
+                    }
+                }
+            }
+            if (Math.random() < 0.15) {
+                this.setBlock(x, y, z, window.BLOCK.AIR);
+                this.activeFires.delete(key);
+            }
+        }
+    }
+
     updateDroppers() {
         for (const [key, entity] of this.blockEntities) {
             if (entity && entity.type === 'dropper') {
@@ -466,7 +546,9 @@ class World {
 
     updateRedstone() {
         this.updateDroppers();
+        this.updateDispensers();
         this.updateHoppers();
+        this.updateFireSpread();
         if (this.activeRedstone.size === 0) return;
 
         // Process a batch (breadth-firstish)
@@ -736,6 +818,25 @@ class World {
              // Add to list
              toPush.push({x: curr.x, y: curr.y, z: curr.z, type: b, meta: this.getMetadata(curr.x, curr.y, curr.z)});
 
+             // Check honey/slime block dragging adjacent
+             if (b === window.BLOCK.HONEY_BLOCK || b === window.BLOCK.SLIME_BLOCK) {
+                 const adj = [
+                     {x: curr.x+1, y: curr.y, z: curr.z}, {x: curr.x-1, y: curr.y, z: curr.z},
+                     {x: curr.x, y: curr.y+1, z: curr.z}, {x: curr.x, y: curr.y-1, z: curr.z},
+                     {x: curr.x, y: curr.y, z: curr.z+1}, {x: curr.x, y: curr.y, z: curr.z-1}
+                 ];
+                 for (const a of adj) {
+                     if (a.x === curr.x + dir.x && a.y === curr.y + dir.y && a.z === curr.z + dir.z) continue;
+                     if (a.x === curr.x - dir.x && a.y === curr.y - dir.y && a.z === curr.z - dir.z) continue;
+                     const ab = this.getBlock(a.x, a.y, a.z);
+                     if (ab !== BLOCK.AIR && ab !== BLOCK.BEDROCK && ab !== BLOCK.OBSIDIAN) {
+                         if (!toPush.some(p => p.x === a.x && p.y === a.y && p.z === a.z)) {
+                             toPush.push({x: a.x, y: a.y, z: a.z, type: ab, meta: this.getMetadata(a.x, a.y, a.z)});
+                         }
+                     }
+                 }
+             }
+
              curr.x += dir.x;
              curr.y += dir.y;
              curr.z += dir.z;
@@ -811,6 +912,30 @@ class World {
                       this.setMetadata(headPos.x, headPos.y, headPos.z, metaPull);
 
                       this.setBlock(pullPos.x, pullPos.y, pullPos.z, BLOCK.AIR);
+
+                      // Honey / Slime dragging adjacent
+                      if (pullBlock === window.BLOCK.HONEY_BLOCK || pullBlock === window.BLOCK.SLIME_BLOCK) {
+                          const adj = [
+                              {x: pullPos.x+1, y: pullPos.y, z: pullPos.z}, {x: pullPos.x-1, y: pullPos.y, z: pullPos.z},
+                              {x: pullPos.x, y: pullPos.y+1, z: pullPos.z}, {x: pullPos.x, y: pullPos.y-1, z: pullPos.z},
+                              {x: pullPos.x, y: pullPos.y, z: pullPos.z+1}, {x: pullPos.x, y: pullPos.y, z: pullPos.z-1}
+                          ];
+                          for (const a of adj) {
+                              if (a.x === pullPos.x - dir.x && a.y === pullPos.y - dir.y && a.z === pullPos.z - dir.z) continue;
+                              const ab = this.getBlock(a.x, a.y, a.z);
+                              if (ab !== BLOCK.AIR && ab !== BLOCK.BEDROCK && ab !== BLOCK.OBSIDIAN) {
+                                  const targetX = a.x - dir.x;
+                                  const targetY = a.y - dir.y;
+                                  const targetZ = a.z - dir.z;
+                                  if (this.getBlock(targetX, targetY, targetZ) === BLOCK.AIR) {
+                                      const ameta = this.getMetadata(a.x, a.y, a.z);
+                                      this.setBlock(targetX, targetY, targetZ, ab);
+                                      this.setMetadata(targetX, targetY, targetZ, ameta);
+                                      this.setBlock(a.x, a.y, a.z, BLOCK.AIR);
+                                  }
+                              }
+                          }
+                      }
                  }
              }
         }
@@ -849,7 +974,43 @@ class World {
         for (const key of processing) {
             const [x, y, z] = key.split(',').map(Number);
             const type = this.getBlock(x, y, z);
-            if (type !== BLOCK.WATER) continue;
+            if (type !== BLOCK.WATER && type !== BLOCK.LAVA) continue;
+
+            if (type === BLOCK.LAVA) {
+                let meta = this.getMetadata(x, y, z);
+                if (meta === 0) meta = 8;
+
+                const below = { x, y: y - 1, z };
+                const belowType = this.getBlock(below.x, below.y, below.z);
+                if (belowType === BLOCK.AIR) {
+                    this.setBlock(below.x, below.y, below.z, BLOCK.LAVA);
+                    this.setMetadata(below.x, below.y, below.z, 7);
+                    continue;
+                } else if (belowType === BLOCK.WATER) {
+                    this.setBlock(below.x, below.y, below.z, BLOCK.COBBLESTONE);
+                    continue;
+                }
+
+                if (belowType !== BLOCK.AIR && (belowType === BLOCK.LAVA || (window.BLOCKS[belowType] && window.BLOCKS[belowType].solid))) {
+                    const newMeta = meta - 2;
+                    if (newMeta > 0) {
+                        const neighbors = [
+                            {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+                            {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+                        ];
+                        for (const n of neighbors) {
+                            const nType = this.getBlock(n.x, n.y, n.z);
+                            if (nType === BLOCK.AIR) {
+                                this.setBlock(n.x, n.y, n.z, BLOCK.LAVA);
+                                this.setMetadata(n.x, n.y, n.z, newMeta);
+                            } else if (nType === BLOCK.WATER) {
+                                this.setBlock(n.x, n.y, n.z, BLOCK.COBBLESTONE);
+                            }
+                        }
+                    }
+                }
+                continue;
+            }
 
             let meta = this.getMetadata(x, y, z);
 
@@ -1364,8 +1525,14 @@ class World {
                         else if (biome.name === 'Forest' && Math.random() < 0.2) type = 'birch';
                         else if (biome.name === 'Birch Forest') type = 'birch';
                         else if (biome.name === 'Dark Oak Forest') type = 'dark_oak';
+                        else if (biome.name === 'Pale Oak Forest') type = 'pale_oak';
 
                         if (biome.name === 'Jungle') { this.structureManager.generateJungleTree(chunk, x, height + 1, z); } else { this.structureManager.generateTree(chunk, x, height + 1, z, type); }
+                    }
+                    if (biome.name === 'Pale Oak Forest' && Math.random() < 0.05) {
+                        if (chunk.getBlock(x, height + 1, z) === BLOCK.AIR) {
+                            chunk.setBlock(x, height + 1, z, BLOCK.EYEBLOSSOM);
+                        }
                     }
                     if (biome.cactusChance && Math.random() < biome.cactusChance) {
                         this.structureManager.generateCactus(chunk, x, height + 1, z);
