@@ -2121,12 +2121,13 @@ class UIManager {
         const clickedItem = player.inventory[index];
         const cursor = this.cursorItem;
 
-        // Bundle Interaction
-        if (clickedItem && clickedItem.type === window.BLOCK.ITEM_BUNDLE) {
+        // Bundle Interaction (supports base and colored bundles)
+        const isBundleItem = clickedItem && (clickedItem.type === window.BLOCK.ITEM_BUNDLE || (clickedItem.type >= window.BLOCK.ITEM_BUNDLE_WHITE && clickedItem.type <= window.BLOCK.ITEM_BUNDLE_BLACK));
+        if (isBundleItem) {
             if (!clickedItem.bundleItems) clickedItem.bundleItems = [];
             if (clickedItem.bundleCount === undefined) clickedItem.bundleCount = 0;
 
-            if (cursor && cursor.type !== window.BLOCK.ITEM_BUNDLE) {
+            if (cursor && !(cursor.type === window.BLOCK.ITEM_BUNDLE || (cursor.type >= window.BLOCK.ITEM_BUNDLE_WHITE && cursor.type <= window.BLOCK.ITEM_BUNDLE_BLACK))) {
                 // Insert cursor item into bundle up to 64
                 const currentCount = clickedItem.bundleCount;
                 const space = 64 - currentCount;

@@ -271,6 +271,41 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_LEATHER, count: 6 }, { type: BLOCK.ITEM_STRING, count: 1 } ]
             },
             {
+                name: "Resin Bricks",
+                result: { type: BLOCK.RESIN_BRICKS, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_RESIN_CLUMP, count: 4 } ]
+            },
+            {
+                name: "Resin Brick Slab (6)",
+                result: { type: BLOCK.RESIN_BRICK_SLAB, count: 6 },
+                ingredients: [ { type: BLOCK.RESIN_BRICKS, count: 3 } ]
+            },
+            {
+                name: "Eyeblossom Stew",
+                result: { type: BLOCK.ITEM_SUSPICIOUS_STEW, count: 1 },
+                ingredients: [ { type: BLOCK.EYEBLOSSOM, count: 1 }, { type: BLOCK.PLANK, count: 1 } ]
+            },
+            {
+                name: "Red Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_RED, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_RED, count: 1 } ]
+            },
+            {
+                name: "Blue Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_BLUE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_BLUE, count: 1 } ]
+            },
+            {
+                name: "Green Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_GREEN, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_GREEN, count: 1 } ]
+            },
+            {
+                name: "Yellow Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_YELLOW, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_YELLOW, count: 1 } ]
+            },
+            {
                 name: "Pale Oak Planks (4)",
                 result: { type: BLOCK.PALE_OAK_PLANK, count: 4 },
                 ingredients: [ { type: BLOCK.PALE_OAK_LOG, count: 1 } ]

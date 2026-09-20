@@ -28,7 +28,8 @@ const MOB_TYPE = {
     PILLAGER: 'pillager',
     ARMADILLO: 'armadillo',
     MOOSHROOM: 'mooshroom',
-    FROG: 'frog'
+    FROG: 'frog',
+    CREAKING: 'creaking'
 };
 
 class Mob extends Entity {
@@ -426,6 +427,15 @@ class Mob extends Entity {
                 this.maxHealth = 10;
                 this.xpValue = 1;
                 break;
+            case MOB_TYPE.CREAKING:
+                this.color = '#8B4500';
+                this.height = 2.2;
+                this.width = 0.7;
+                this.speed = 4.0;
+                this.maxHealth = 30;
+                this.xpValue = 10;
+                this.linkedHeartPos = null;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -686,6 +696,11 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.CREAKING) {
+            this.updateCreakingAI(dt);
+            return;
+        }
+
         // Nether Mobs
         if (this.type === MOB_TYPE.GHAST) {
             this.updateGhastAI(dt);
@@ -873,6 +888,60 @@ class Mob extends Entity {
 
     updateArmadilloAI(dt) {
         this.updatePassiveAI(dt);
+    }
+
+    isLookedAtByPlayer() {
+        const player = this.game.player;
+        if (!player) return false;
+
+        const dirX = this.x - player.x;
+        const dirY = (this.y + this.height * 0.5) - (player.y + (player.height || 1.8) * 0.8);
+        const dirZ = this.z - player.z;
+        const dist = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        if (dist < 0.1) return true;
+        if (dist > 25) return false;
+
+        const normX = dirX / dist;
+        const normY = dirY / dist;
+        const normZ = dirZ / dist;
+
+        const pitchCos = Math.cos(player.pitch || 0);
+        const lookX = -Math.sin(player.yaw || 0) * pitchCos;
+        const lookY = Math.sin(player.pitch || 0);
+        const lookZ = Math.cos(player.yaw || 0) * pitchCos;
+
+        const dot = lookX * normX + lookY * normY + lookZ * normZ;
+        return dot > 0.4 && this.hasLineOfSight(player);
+    }
+
+    updateCreakingAI(dt) {
+        const player = this.game.player;
+        if (!player) return;
+
+        if (this.isLookedAtByPlayer()) {
+            // Frozen when looked at
+            this.vx = 0;
+            this.vz = 0;
+            return;
+        }
+
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.hypot(dx, dz);
+
+        if (dist < 20) {
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+
+            if (dist < 1.5 && this.attackCooldown <= 0) {
+                player.takeDamage(5);
+                this.attackCooldown = 1.2;
+            }
+            this.attackCooldown -= dt;
+        } else {
+            this.updatePassiveAI(dt);
+        }
     }
 
     updateFrogAI(dt) {

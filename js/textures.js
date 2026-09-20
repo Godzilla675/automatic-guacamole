@@ -178,6 +178,24 @@ class TextureManager {
         this.textures[B.ITEM_TRIAL_KEY] = this.genTrialKeyItem();
         this.textures[B.TRIAL_VAULT] = this.genTrialVault();
 
+        // Batch 6 Features
+        this.textures[B.CREAKING_HEART] = this.genCreakingHeart();
+        this.textures[B.ITEM_RESIN_CLUMP] = this.genResinClump();
+        this.textures[B.RESIN_BRICKS] = this.genResinBricks();
+        this.textures[B.RESIN_BRICK_SLAB] = this.genResinBricks();
+
+        const bundleColors = {
+            WHITE: '#FFFFFF', ORANGE: '#FFA500', MAGENTA: '#FF00FF',
+            LIGHT_BLUE: '#ADD8E6', YELLOW: '#FFFF00', LIME: '#00FF00',
+            PINK: '#FFC0CB', GRAY: '#808080', LIGHT_GRAY: '#D3D3D3',
+            CYAN: '#00FFFF', PURPLE: '#800080', BLUE: '#0000FF',
+            BROWN: '#8B4513', GREEN: '#008000', RED: '#FF0000', BLACK: '#1A1A1A'
+        };
+        for (const [cName, cHex] of Object.entries(bundleColors)) {
+            const bId = B['ITEM_BUNDLE_' + cName];
+            if (bId !== undefined) this.textures[bId] = this.genBundleItem(cHex);
+        }
+
         // Feature Batch 2
         this.textures[B.INFESTED_STONE] = this.genStone();
         this.textures[B.ITEM_CARROT_STICK] = this.genCarrotStickItem();
@@ -1254,10 +1272,10 @@ class TextureManager {
         return c;
     }
 
-    genBundleItem() {
+    genBundleItem(colorHex = '#8B4513') {
         const c = this.createCanvas();
         const ctx = c.getContext('2d');
-        ctx.fillStyle = '#8B4513';
+        ctx.fillStyle = colorHex;
         ctx.fillRect(4, 5, 8, 9);
         ctx.fillRect(5, 3, 6, 2);
         ctx.fillStyle = '#D2B48C';
@@ -1267,19 +1285,54 @@ class TextureManager {
         return c;
     }
 
-    genEyeblossom() {
+    genEyeblossom(blooming = false) {
         const c = this.createCanvas();
         const ctx = c.getContext('2d');
         ctx.fillStyle = '#228B22';
         ctx.fillRect(7, 8, 2, 8);
-        ctx.fillStyle = '#FF8C00';
+        ctx.fillStyle = blooming ? '#FF4500' : '#FF8C00';
         ctx.beginPath();
         ctx.arc(8, 6, 5, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#1A1A1A';
+        ctx.fillStyle = blooming ? '#FFFF00' : '#1A1A1A';
         ctx.beginPath();
         ctx.arc(8, 6, 2, 0, Math.PI * 2);
         ctx.fill();
+        return c;
+    }
+
+    genCreakingHeart() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 139, g: 69, b: 0 }, 15);
+        ctx.fillStyle = '#FF6600';
+        ctx.fillRect(4, 4, 8, 8);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genResinClump() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#FF6600';
+        ctx.beginPath();
+        ctx.arc(8, 8, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#FF9933';
+        ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genResinBricks() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 211, g: 84, b: 0 }, 15);
+        ctx.fillStyle = '#A04000';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 8, 16, 1);
+        ctx.fillRect(8, 0, 1, 8);
+        ctx.fillRect(4, 8, 1, 8);
         return c;
     }
 
