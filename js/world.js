@@ -94,10 +94,10 @@ class World {
         if (lz === this.chunkSize - 1) { const c = this.getChunk(cx, cz + 1); if (c) c.modified = true; }
 
         // Fluid Updates
-        if (type === BLOCK.WATER) {
+        if (type === BLOCK.WATER || type === BLOCK.LAVA) {
             this.activeFluids.add(`${x},${y},${z}`);
-        } else if (oldType === BLOCK.WATER) {
-             // Removed water, check neighbors to update their flow
+        } else if (oldType === BLOCK.WATER || oldType === BLOCK.LAVA) {
+             // Removed water/lava, check neighbors to update their flow
              this.scheduleNeighborFluidUpdates(x, y, z);
         } else {
              // Placed/Removed solid block, neighbors might flow into this or stop flowing
@@ -185,8 +185,8 @@ class World {
 
         // Redstone Updates
         // If we placed or removed something that interacts with redstone
-        if ((blockDef && (blockDef.isWire || blockDef.isTorch || blockDef.id === window.BLOCK.REDSTONE_LAMP || blockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE || blockDef.id === window.BLOCK.REDSTONE_REPEATER || blockDef.id === window.BLOCK.REDSTONE_COMPARATOR)) ||
-            (oldBlockDef && (oldBlockDef.isWire || oldBlockDef.isTorch || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP || oldBlockDef.id === window.BLOCK.REDSTONE_LAMP_ACTIVE || oldBlockDef.id === window.BLOCK.REDSTONE_REPEATER || oldBlockDef.id === window.BLOCK.REDSTONE_COMPARATOR))) {
+        if ((blockDef && (blockDef.isWire || blockDef.isTorch || type === window.BLOCK.REDSTONE_LAMP || type === window.BLOCK.REDSTONE_LAMP_ACTIVE || type === window.BLOCK.REDSTONE_REPEATER || type === window.BLOCK.REDSTONE_COMPARATOR || type === window.BLOCK.REDSTONE_CLOCK)) ||
+            (oldBlockDef && (oldBlockDef.isWire || oldBlockDef.isTorch || oldType === window.BLOCK.REDSTONE_LAMP || oldType === window.BLOCK.REDSTONE_LAMP_ACTIVE || oldType === window.BLOCK.REDSTONE_REPEATER || oldType === window.BLOCK.REDSTONE_COMPARATOR || oldType === window.BLOCK.REDSTONE_CLOCK))) {
             this.scheduleNeighborRedstoneUpdates(x, y, z);
             this.activeRedstone.add(`${x},${y},${z}`);
         } else {
@@ -311,7 +311,7 @@ class World {
             const type = this.getBlock(n.x, n.y, n.z);
             const def = window.BLOCKS[type];
             if (def) {
-                if (def.isWire && this.getMetadata(n.x, n.y, n.z) > 0) return true;
+                if ((type === window.BLOCK.REDSTONE_CLOCK || def.isWire) && this.getMetadata(n.x, n.y, n.z) > 0) return true;
                 if (type === window.BLOCK.DETECTOR_RAIL && this.getMetadata(n.x, n.y, n.z) > 0) return true;
                 if (def.isTorch && type === window.BLOCK.REDSTONE_TORCH) {
                     // Torch powers neighbors EXCEPT the one it is attached to.
@@ -575,7 +575,10 @@ class World {
                     const nDef = window.BLOCKS[nType];
                     if (!nDef) continue;
 
-                    if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) {
+                    if (nType === window.BLOCK.REDSTONE_CLOCK) {
+                        const clkPower = this.getMetadata(n.x, n.y, n.z);
+                        if (clkPower > newPower) newPower = clkPower;
+                    } else if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) {
                         newPower = 15;
                     } else if (nType === window.BLOCK.REDSTONE_REPEATER || nType === window.BLOCK.REDSTONE_COMPARATOR || nType === window.BLOCK.DETECTOR_RAIL) {
                         const repPower = this.getMetadata(n.x, n.y, n.z);
@@ -710,6 +713,14 @@ class World {
                 if (newMeta !== meta) {
                     this.setMetadata(x, y, z, newMeta);
                 }
+            } else if (type === window.BLOCK.REDSTONE_CLOCK) {
+                const currentPower = this.getMetadata(x, y, z);
+                const pulse = Math.floor((this.game ? this.game.gameTime : Date.now()) / 500) % 2 === 0 ? 15 : 0;
+                if (pulse !== currentPower) {
+                    this.setMetadata(x, y, z, pulse);
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+                this.activeRedstone.add(key);
             } else if (type === window.BLOCK.DAYLIGHT_SENSOR) {
                 const gameTime = this.game ? this.game.gameTime : 0;
                 const dayLength = this.game ? this.game.dayLength : 120000;
@@ -942,11 +953,12 @@ class World {
     scheduleNeighborFluidUpdates(x, y, z) {
         const neighbors = [
             {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
-            {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z}, // Check Up too? If water is above, it flows down.
+            {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z},
             {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
         ];
         for (const n of neighbors) {
-            if (this.getBlock(n.x, n.y, n.z) === BLOCK.WATER) {
+            const b = this.getBlock(n.x, n.y, n.z);
+            if (b === BLOCK.WATER || b === BLOCK.LAVA) {
                 this.activeFluids.add(`${n.x},${n.y},${n.z}`);
             }
         }
@@ -978,11 +990,31 @@ class World {
                 let meta = this.getMetadata(x, y, z);
                 if (meta === 0) meta = 8;
 
+                // Fire spread / ignition check for adjacent flammable blocks
+                const fireNeighbors = [
+                    {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
+                    {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z},
+                    {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+                ];
+                for (const fn of fireNeighbors) {
+                    const fnType = this.getBlock(fn.x, fn.y, fn.z);
+                    const fnDef = window.BLOCKS[fnType];
+                    if (fnDef && (fnType === BLOCK.WOOD || fnType === BLOCK.PLANK || fnType === BLOCK.LEAVES || fnType === BLOCK.WOOL_WHITE || fnType === BLOCK.DARK_OAK_LOG || fnType === BLOCK.ACACIA_LOG || fnType === BLOCK.PALE_OAK_LOG)) {
+                        const aboveFn = {x: fn.x, y: fn.y + 1, z: fn.z};
+                        if (this.getBlock(aboveFn.x, aboveFn.y, aboveFn.z) === BLOCK.AIR) {
+                            this.setBlock(aboveFn.x, aboveFn.y, aboveFn.z, BLOCK.FIRE);
+                            if (!this.activeFires) this.activeFires = new Set();
+                            this.activeFires.add(`${aboveFn.x},${aboveFn.y},${aboveFn.z}`);
+                        }
+                    }
+                }
+
                 const below = { x, y: y - 1, z };
                 const belowType = this.getBlock(below.x, below.y, below.z);
                 if (belowType === BLOCK.AIR) {
                     this.setBlock(below.x, below.y, below.z, BLOCK.LAVA);
                     this.setMetadata(below.x, below.y, below.z, 7);
+                    this.activeFluids.add(`${below.x},${below.y},${below.z}`);
                     continue;
                 } else if (belowType === BLOCK.WATER) {
                     this.setBlock(below.x, below.y, below.z, BLOCK.COBBLESTONE);
@@ -1001,12 +1033,14 @@ class World {
                             if (nType === BLOCK.AIR) {
                                 this.setBlock(n.x, n.y, n.z, BLOCK.LAVA);
                                 this.setMetadata(n.x, n.y, n.z, newMeta);
+                                this.activeFluids.add(`${n.x},${n.y},${n.z}`);
                             } else if (nType === BLOCK.WATER) {
                                 this.setBlock(n.x, n.y, n.z, BLOCK.COBBLESTONE);
                             }
                         }
                     }
                 }
+
                 continue;
             }
 

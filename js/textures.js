@@ -289,6 +289,7 @@ class TextureManager {
         this.textures[B.REDSTONE_TORCH] = this.genTorch('#FF0000');
         this.textures[B.REDSTONE_TORCH_OFF] = this.genTorch('#550000');
         this.textures[B.REDSTONE_WIRE] = this.genDust('#FF0000');
+        this.textures[B.REDSTONE_CLOCK] = this.genRedstoneClock();
 
         // Signs
         this.textures[B.WALL_SIGN] = this.genPlank('#DEB887');
@@ -3306,6 +3307,20 @@ class TextureManager {
         ctx.fillRect(7, 9, 2, 3);
         ctx.fillStyle = '#B0B0B0';
         ctx.fillRect(3, 12, 10, 2);
+        return c;
+    }
+
+    genRedstoneClock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#404040';
+        ctx.fillRect(2, 2, 12, 12);
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(5, 5, 6, 6);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(7, 7, 2, 2);
         return c;
     }
 
