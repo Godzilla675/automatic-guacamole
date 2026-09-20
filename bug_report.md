@@ -83,3 +83,68 @@ The following features are tracked in `FUTURE_FEATURES.md` as missing and will r
 | Flint & Steel TNT Ignition & Fire Spread | Verified | `test_bugs_and_new_features.js` |
 | Lava Flow Decay & Fluid Spread | Verified | `test_bugs_and_new_features.js` |
 | Bed Sleeping & Morning Time Advancement | Verified | `test_bugs_and_new_features.js` |
+
+## New Test Run (Automated Agent Run)
+
+### 1. Mocha Unit Test Suite (`tests/test_*.js`)
+Executed `for f in tests/test_*.js; do npx mocha "$f"; done`.
+- **Status:** All 45 test files are passing with no failures.
+- **Observations:** No assertions failed. Tested modules included `test_5_features_batch.js`, `test_5_major_new_features.js`, `test_audit.js`, `test_crafting.js`, `test_world.js` and other testing modules.
+- **Test Modules Run:**
+    - `tests/test_5_features_batch.js`
+    - `tests/test_5_major_new_features.js`
+    - `tests/test_5_new_batch3_features.js`
+    - `tests/test_5_new_batch_features.js`
+    - `tests/test_5_new_blocks_batch.js`
+    - `tests/test_5_new_features.js`
+    - `tests/test_5_new_features_batch2.js`
+    - `tests/test_5_new_features_suite.js`
+    - `tests/test_5_new_high_quality_features.js`
+    - `tests/test_5_new_high_quality_features_batch.js`
+    - `tests/test_5_new_high_quality_features_batch2.js`
+    - `tests/test_5_new_high_quality_features_batch3.js`
+    - `tests/test_5_new_high_quality_features_batch4.js`
+    - `tests/test_5_new_high_quality_features_batch5.js`
+    - `tests/test_audit.js`
+    - `tests/test_audit_bugs_and_new_features.js`
+    - `tests/test_audit_fixes.js`
+    - `tests/test_audit_fixes_and_features.js`
+    - `tests/test_bugs.js`
+    - `tests/test_bugs_and_new_features.js`
+    - `tests/test_cactus_damage.js`
+    - `tests/test_comprehensive_coverage.js`
+    - `tests/test_crafting.js`
+    - `tests/test_drops.js`
+    - `tests/test_features.js`
+    - `tests/test_glow_frame_redstone_repeaters.js`
+    - `tests/test_grindstone_sculk_witch_features.js`
+    - `tests/test_implemented_features.js`
+    - `tests/test_lighting_bug.js`
+    - `tests/test_line_of_sight_debug.js`
+    - `tests/test_missing_coverage.js`
+    - `tests/test_mob.js`
+    - `tests/test_new_5_features.js`
+    - `tests/test_new_agent_features.js`
+    - `tests/test_new_blocks.js`
+    - `tests/test_new_features.js`
+    - `tests/test_newly_added_features_audit.js`
+    - `tests/test_persistence.js`
+    - `tests/test_recently_added_features.js`
+    - `tests/test_renderer_bugs.js`
+    - `tests/test_spawning.js`
+    - `tests/test_stonecutter_composter_smoker_features.js`
+    - `tests/test_textures.js`
+    - `tests/test_water_flow.js`
+    - `tests/test_world.js`
+
+### 2. End-to-End Browser Gameplay Testing (Playwright)
+Executed headless testing against the server running on `http://localhost:3000`.
+- **`extensive_test.py`:**
+  - Status: PASS
+  - Verified movement, jumping, menus (inventory, crafting, settings), UI elements visibility, and block interaction.
+  - Zero console errors reported.
+- **`manual_ui_test.py`:**
+  - Status: PASS
+  - Verified UI functionality of Inventory (e), Crafting (c), Fly mode (f), Settings (Esc menu), and Inventory contents.
+
+No new bugs were discovered. The game remains completely stable in E2E environments and all test specs pass consistently.
