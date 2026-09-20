@@ -588,6 +588,24 @@ class Game {
             return true;
         }
 
+        // Creaking Heart Interaction
+        if (blockType === BLOCK.CREAKING_HEART) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: 'creaking_heart' };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            if (this.drops && window.Drop) {
+                this.drops.push(new window.Drop(this, x + 0.5, y + 1.0, z + 0.5, BLOCK.ITEM_RESIN_CLUMP, 2));
+            }
+            if (this.particles) this.particles.spawn(x + 0.5, y + 0.5, z + 0.5, '#FF6600', 15);
+            if (window.soundManager) window.soundManager.play('break', pos);
+            if (this.ui && this.ui.showNotification) {
+                this.ui.showNotification("Creaking Heart struck! Dropped Resin Clumps!");
+            }
+            return true;
+        }
+
         // TNT
         if (blockType === BLOCK.TNT) {
             this.world.setBlock(x, y, z, BLOCK.AIR);
@@ -1046,6 +1064,7 @@ class Game {
         }
 
         this.world.setBlock(x, y, z, BLOCK.AIR);
+        if (this.world && this.world.emitVibration) this.world.emitVibration(x, y, z, 'break');
 
         // Door Double-Block Cleanup
         if (blockType === BLOCK.DOOR_WOOD_BOTTOM || blockType === BLOCK.COPPER_DOOR_BOTTOM) {
@@ -1390,6 +1409,7 @@ class Game {
                  }
 
                  this.world.setBlock(nx, ny, nz, slot.type);
+                 if (this.world && this.world.emitVibration) this.world.emitVibration(nx, ny, nz, 'place');
                  if (slot.type === BLOCK.WATER) {
                      this.world.setMetadata(nx, ny, nz, 8);
                  } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isSlab) {
@@ -2080,6 +2100,25 @@ class Game {
                             this.world.setBlock(x, y, z, BLOCK.AIR); // Remove sapling block (replaced by tree trunk)
 
                             this.world.structureManager.generateTree(chunk, lx, y, lz, entity.treeType || 'oak', true);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Creaking Heart Spawning & Heart Mechanics
+        if (this.frameCount % 40 === 0) {
+            const isNight = ((this.gameTime % this.dayLength) / this.dayLength) >= 0.5;
+            for (const [key, entity] of this.world.blockEntities) {
+                if (entity && entity.type === 'creaking_heart') {
+                    const [hx, hy, hz] = key.split(',').map(Number);
+                    if (isNight) {
+                        let linkedCreaking = this.mobs.find(m => m.type === MOB_TYPE.CREAKING && m.linkedHeartPos && m.linkedHeartPos.x === hx && m.linkedHeartPos.y === hy && m.linkedHeartPos.z === hz && !m.isDead);
+                        if (!linkedCreaking) {
+                            const creaking = new Mob(this, hx + 1, hy, hz, MOB_TYPE.CREAKING);
+                            creaking.linkedHeartPos = { x: hx, y: hy, z: hz };
+                            this.mobs.push(creaking);
+                            if (this.particles) this.particles.spawn(hx + 0.5, hy + 0.5, hz + 0.5, '#FF6600', 10);
                         }
                     }
                 }

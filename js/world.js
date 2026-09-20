@@ -542,6 +542,42 @@ class World {
         }
     }
 
+    emitVibration(x, y, z, eventType = 'step') {
+        const frequencies = {
+            'step': 1,
+            'swim': 2,
+            'flap': 3,
+            'place': 4,
+            'break': 5,
+            'hit': 7,
+            'explosion': 10,
+            'projectile': 11
+        };
+        const signalStrength = frequencies[eventType] || 1;
+        const radius = 10;
+        const bx = Math.floor(x);
+        const by = Math.floor(y);
+        const bz = Math.floor(z);
+
+        for (let dx = -radius; dx <= radius; dx++) {
+            for (let dy = -radius; dy <= radius; dy++) {
+                for (let dz = -radius; dz <= radius; dz++) {
+                    const sx = bx + dx;
+                    const sy = by + dy;
+                    const sz = bz + dz;
+                    if (this.getBlock(sx, sy, sz) === window.BLOCK.SCULK_SENSOR) {
+                        this.setMetadata(sx, sy, sz, signalStrength);
+                        this.activeRedstone.add(`${sx},${sy},${sz}`);
+                        this.scheduleNeighborRedstoneUpdates(sx, sy, sz);
+                        if (this.game && this.game.particles) {
+                            this.game.particles.spawn(sx + 0.5, sy + 1.0, sz + 0.5, '#00ACC1', 8);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     updateRedstone() {
         this.updateDroppers();
         this.updateDispensers();

@@ -383,7 +383,30 @@ const BLOCK = {
     ITEM_ARMOR_STAND: 464,
     ITEM_BRUSH: 465,
     SUSPICIOUS_SAND: 466,
-    REDSTONE_CLOCK: 467
+    REDSTONE_CLOCK: 467,
+
+    // Batch 6 Features
+    CREAKING_HEART: 468,
+    ITEM_RESIN_CLUMP: 469,
+    RESIN_BRICKS: 470,
+    RESIN_BRICK_SLAB: 471,
+
+    ITEM_BUNDLE_WHITE: 472,
+    ITEM_BUNDLE_ORANGE: 473,
+    ITEM_BUNDLE_MAGENTA: 474,
+    ITEM_BUNDLE_LIGHT_BLUE: 475,
+    ITEM_BUNDLE_YELLOW: 476,
+    ITEM_BUNDLE_LIME: 477,
+    ITEM_BUNDLE_PINK: 478,
+    ITEM_BUNDLE_GRAY: 479,
+    ITEM_BUNDLE_LIGHT_GRAY: 480,
+    ITEM_BUNDLE_CYAN: 481,
+    ITEM_BUNDLE_PURPLE: 482,
+    ITEM_BUNDLE_BLUE: 483,
+    ITEM_BUNDLE_BROWN: 484,
+    ITEM_BUNDLE_GREEN: 485,
+    ITEM_BUNDLE_RED: 486,
+    ITEM_BUNDLE_BLACK: 487
 };
 
 const ARMOR = {
@@ -845,7 +868,30 @@ const BLOCKS = {
     [BLOCK.ITEM_ARMOR_STAND]: { name: 'Armor Stand', color: '#8B4513', solid: false, isItem: true, icon: '👔' },
     [BLOCK.ITEM_BRUSH]: { name: 'Brush', color: '#D2B48C', solid: false, isItem: true, icon: '🧹', durability: 64 },
     [BLOCK.SUSPICIOUS_SAND]: { name: 'Suspicious Sand', color: '#E0C080', top: '#E8C888', solid: true, icon: '🏺', hardness: 0.5, tool: 'shovel', drop: { type: BLOCK.SAND, count: 1 } },
-    [BLOCK.REDSTONE_CLOCK]: { name: 'Redstone Clock', color: '#B22222', top: '#FF0000', solid: true, icon: '⏰', hardness: 0.5, tool: 'pickaxe' }
+    [BLOCK.REDSTONE_CLOCK]: { name: 'Redstone Clock', color: '#B22222', top: '#FF0000', solid: true, icon: '⏰', hardness: 0.5, tool: 'pickaxe' },
+
+    // Batch 6 Features
+    [BLOCK.CREAKING_HEART]: { name: 'Creaking Heart', color: '#8B4500', top: '#FF6600', solid: true, icon: '🧡', hardness: 3.0, tool: 'axe', light: 5 },
+    [BLOCK.ITEM_RESIN_CLUMP]: { name: 'Resin Clump', color: '#FF6600', solid: false, isItem: true, icon: '🟠' },
+    [BLOCK.RESIN_BRICKS]: { name: 'Resin Bricks', color: '#D35400', top: '#E67E22', solid: true, icon: '🧱', hardness: 2.0, tool: 'pickaxe' },
+    [BLOCK.RESIN_BRICK_SLAB]: { name: 'Resin Brick Slab', color: '#D35400', top: '#E67E22', solid: true, icon: '🧱', hardness: 2.0, tool: 'pickaxe', isSlab: true },
+
+    [BLOCK.ITEM_BUNDLE_WHITE]: { name: 'White Bundle', color: '#FFFFFF', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_ORANGE]: { name: 'Orange Bundle', color: '#FFA500', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_MAGENTA]: { name: 'Magenta Bundle', color: '#FF00FF', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_LIGHT_BLUE]: { name: 'Light Blue Bundle', color: '#ADD8E6', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_YELLOW]: { name: 'Yellow Bundle', color: '#FFFF00', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_LIME]: { name: 'Lime Bundle', color: '#00FF00', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_PINK]: { name: 'Pink Bundle', color: '#FFC0CB', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_GRAY]: { name: 'Gray Bundle', color: '#808080', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_LIGHT_GRAY]: { name: 'Light Gray Bundle', color: '#D3D3D3', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_CYAN]: { name: 'Cyan Bundle', color: '#00FFFF', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_PURPLE]: { name: 'Purple Bundle', color: '#800080', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_BLUE]: { name: 'Blue Bundle', color: '#0000FF', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_BROWN]: { name: 'Brown Bundle', color: '#8B4513', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_GREEN]: { name: 'Green Bundle', color: '#008000', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_RED]: { name: 'Red Bundle', color: '#FF0000', solid: false, isItem: true, icon: '🎒' },
+    [BLOCK.ITEM_BUNDLE_BLACK]: { name: 'Black Bundle', color: '#1A1A1A', solid: false, isItem: true, icon: '🎒' }
 };
 
 if (typeof window !== 'undefined') {
