@@ -236,6 +236,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.STONE, count: 3 }, { type: BLOCK.REDSTONE_TORCH, count: 3 }, { type: BLOCK.ITEM_QUARTZ, count: 1 } ]
             },
             {
+                name: "Redstone Clock",
+                result: { type: BLOCK.REDSTONE_CLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.STONE, count: 4 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 4 } ]
+            },
+            {
                 name: "Magma Block",
                 result: { type: BLOCK.MAGMA_BLOCK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 4 } ]

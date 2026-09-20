@@ -382,7 +382,8 @@ const BLOCK = {
     FROGLIGHT: 463,
     ITEM_ARMOR_STAND: 464,
     ITEM_BRUSH: 465,
-    SUSPICIOUS_SAND: 466
+    SUSPICIOUS_SAND: 466,
+    REDSTONE_CLOCK: 467
 };
 
 const ARMOR = {
@@ -843,7 +844,8 @@ const BLOCKS = {
     [BLOCK.FROGLIGHT]: { name: 'Froglight', color: '#7FFFD4', top: '#90EE90', solid: true, icon: '🐸', hardness: 0.3, light: 15 },
     [BLOCK.ITEM_ARMOR_STAND]: { name: 'Armor Stand', color: '#8B4513', solid: false, isItem: true, icon: '👔' },
     [BLOCK.ITEM_BRUSH]: { name: 'Brush', color: '#D2B48C', solid: false, isItem: true, icon: '🧹', durability: 64 },
-    [BLOCK.SUSPICIOUS_SAND]: { name: 'Suspicious Sand', color: '#E0C080', top: '#E8C888', solid: true, icon: '🏺', hardness: 0.5, tool: 'shovel', drop: { type: BLOCK.SAND, count: 1 } }
+    [BLOCK.SUSPICIOUS_SAND]: { name: 'Suspicious Sand', color: '#E0C080', top: '#E8C888', solid: true, icon: '🏺', hardness: 0.5, tool: 'shovel', drop: { type: BLOCK.SAND, count: 1 } },
+    [BLOCK.REDSTONE_CLOCK]: { name: 'Redstone Clock', color: '#B22222', top: '#FF0000', solid: true, icon: '⏰', hardness: 0.5, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {
