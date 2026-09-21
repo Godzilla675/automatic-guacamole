@@ -232,6 +232,30 @@ class TextureManager {
         this.textures[B.ITEM_BRUSH] = this.genFeather();
         this.textures[B.SUSPICIOUS_SAND] = this.genSand();
 
+        // Batch 7 Features
+        this.textures[B.MANGROVE_LOG] = this.genWood('#542916', '#3D1D0E');
+        this.textures[B.MANGROVE_PLANK] = this.genPlank('#773525');
+        this.textures[B.MANGROVE_LEAVES] = this.genLeaves('#325222', '#223816');
+        this.textures[B.MANGROVE_PROPAGULE] = this.genSapling('#4E7A27');
+        this.textures[B.MANGROVE_ROOTS] = this.genWood('#4A3222', '#362316');
+        this.textures[B.MUDDY_MANGROVE_ROOTS] = this.genMudBlock();
+
+        this.textures[B.CHERRY_LOG] = this.genWood('#362322', '#251514');
+        this.textures[B.CHERRY_PLANK] = this.genPlank('#E5B2B2');
+        this.textures[B.CHERRY_LEAVES] = this.genLeaves('#FFB7C5', '#FF99A8');
+        this.textures[B.CHERRY_SAPLING] = this.genSapling('#FFB7C5');
+
+        this.textures[B.MYCELIUM] = this.genDirt();
+        this.textures[B.HUGE_BROWN_MUSHROOM] = this.genPlank('#967152');
+        this.textures[B.HUGE_RED_MUSHROOM] = this.genPlank('#C82B2B');
+
+        this.textures[B.ITEM_TRIDENT] = this.genTridentItem();
+
+        this.textures[B.SEAGRASS] = this.genLeaves('#00A86B', '#007A4B');
+        this.textures[B.KELP] = this.genLeaves('#2E8B57', '#1E5B37');
+        this.textures[B.DRIED_KELP_BLOCK] = this.genPlank('#233827');
+        this.textures[B.ITEM_DRIED_KELP] = this.genFeather();
+
 
         // Glass
         this.textures[B.GLASS] = this.genGlass();
@@ -3293,6 +3317,18 @@ class TextureManager {
         ctx.fillRect(4, 2, 8, 6);
         ctx.fillStyle = '#87CEEB';
         ctx.fillRect(6, 4, 4, 2);
+        return c;
+    }
+
+    genTridentItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#20B2AA';
+        ctx.fillRect(7, 5, 2, 10);
+        ctx.fillRect(4, 2, 2, 5);
+        ctx.fillRect(10, 2, 2, 5);
+        ctx.fillRect(7, 1, 2, 5);
+        ctx.fillRect(4, 6, 8, 2);
         return c;
     }
 

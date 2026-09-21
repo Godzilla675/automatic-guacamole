@@ -406,7 +406,31 @@ const BLOCK = {
     ITEM_BUNDLE_BROWN: 484,
     ITEM_BUNDLE_GREEN: 485,
     ITEM_BUNDLE_RED: 486,
-    ITEM_BUNDLE_BLACK: 487
+    ITEM_BUNDLE_BLACK: 487,
+
+    // Batch 7 Features
+    MANGROVE_LOG: 488,
+    MANGROVE_PLANK: 489,
+    MANGROVE_LEAVES: 490,
+    MANGROVE_PROPAGULE: 491,
+    MANGROVE_ROOTS: 492,
+    MUDDY_MANGROVE_ROOTS: 493,
+
+    CHERRY_LOG: 494,
+    CHERRY_PLANK: 495,
+    CHERRY_LEAVES: 496,
+    CHERRY_SAPLING: 497,
+
+    MYCELIUM: 498,
+    HUGE_BROWN_MUSHROOM: 499,
+    HUGE_RED_MUSHROOM: 500,
+
+    ITEM_TRIDENT: 501,
+
+    SEAGRASS: 502,
+    KELP: 503,
+    DRIED_KELP_BLOCK: 504,
+    ITEM_DRIED_KELP: 505
 };
 
 const ARMOR = {
@@ -457,6 +481,7 @@ const TOOLS = {
     [BLOCK.SWORD_IRON]: { type: 'sword', speed: 1.5, damage: 6, durability: 250 },
     [BLOCK.SWORD_DIAMOND]: { type: 'sword', speed: 1.5, damage: 7, durability: 1561 },
     [BLOCK.ITEM_MACE]: { type: 'mace', speed: 1.0, damage: 7, durability: 500 },
+    [BLOCK.ITEM_TRIDENT]: { type: 'trident', speed: 1.5, damage: 9, durability: 250 },
 
     [BLOCK.BOW]: { type: 'bow', speed: 1, damage: 4, durability: 384 },
     [BLOCK.ITEM_CROSSBOW]: { type: 'crossbow', speed: 1.2, damage: 6, durability: 465 },
@@ -891,7 +916,31 @@ const BLOCKS = {
     [BLOCK.ITEM_BUNDLE_BROWN]: { name: 'Brown Bundle', color: '#8B4513', solid: false, isItem: true, icon: '🎒' },
     [BLOCK.ITEM_BUNDLE_GREEN]: { name: 'Green Bundle', color: '#008000', solid: false, isItem: true, icon: '🎒' },
     [BLOCK.ITEM_BUNDLE_RED]: { name: 'Red Bundle', color: '#FF0000', solid: false, isItem: true, icon: '🎒' },
-    [BLOCK.ITEM_BUNDLE_BLACK]: { name: 'Black Bundle', color: '#1A1A1A', solid: false, isItem: true, icon: '🎒' }
+    [BLOCK.ITEM_BUNDLE_BLACK]: { name: 'Black Bundle', color: '#1A1A1A', solid: false, isItem: true, icon: '🎒' },
+
+    // Batch 7 Feature Definitions
+    [BLOCK.MANGROVE_LOG]: { name: 'Mangrove Log', color: '#542916', top: '#3D1D0E', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.MANGROVE_PLANK]: { name: 'Mangrove Plank', color: '#773525', top: '#773525', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
+    [BLOCK.MANGROVE_LEAVES]: { name: 'Mangrove Leaves', color: '#325222', top: '#3D6228', solid: true, transparent: true, icon: '🌿', hardness: 0.2, drop: { type: BLOCK.MANGROVE_PROPAGULE, count: 1, chance: 0.05 } },
+    [BLOCK.MANGROVE_PROPAGULE]: { name: 'Mangrove Propagule', color: '#4E7A27', solid: false, transparent: true, icon: '🌱', hardness: 0.0, isSapling: true, drop: { type: BLOCK.MANGROVE_PROPAGULE, count: 1 } },
+    [BLOCK.MANGROVE_ROOTS]: { name: 'Mangrove Roots', color: '#4A3222', top: '#5C402E', solid: true, transparent: true, icon: '🌿', hardness: 0.7, tool: 'axe' },
+    [BLOCK.MUDDY_MANGROVE_ROOTS]: { name: 'Muddy Mangrove Roots', color: '#3A271B', top: '#423023', solid: true, icon: '🟫', hardness: 1.0, tool: 'shovel' },
+
+    [BLOCK.CHERRY_LOG]: { name: 'Cherry Log', color: '#362322', top: '#E0B0B0', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.CHERRY_PLANK]: { name: 'Cherry Plank', color: '#E5B2B2', top: '#E5B2B2', solid: true, icon: '🪵', hardness: 1.5, tool: 'axe' },
+    [BLOCK.CHERRY_LEAVES]: { name: 'Cherry Leaves', color: '#FFB7C5', top: '#FFC0CB', solid: true, transparent: true, icon: '🌸', hardness: 0.2, drop: { type: BLOCK.CHERRY_SAPLING, count: 1, chance: 0.05 } },
+    [BLOCK.CHERRY_SAPLING]: { name: 'Cherry Sapling', color: '#FFB7C5', solid: false, transparent: true, icon: '🌸', hardness: 0.0, isSapling: true, drop: { type: BLOCK.CHERRY_SAPLING, count: 1 } },
+
+    [BLOCK.MYCELIUM]: { name: 'Mycelium', color: '#6F626E', top: '#807080', solid: true, icon: '🍄', hardness: 0.6, tool: 'shovel', drop: { type: BLOCK.DIRT, count: 1 } },
+    [BLOCK.HUGE_BROWN_MUSHROOM]: { name: 'Brown Mushroom Block', color: '#967152', top: '#805E41', solid: true, icon: '🍄', hardness: 0.2, tool: 'axe' },
+    [BLOCK.HUGE_RED_MUSHROOM]: { name: 'Red Mushroom Block', color: '#C82B2B', top: '#E63939', solid: true, icon: '🍄', hardness: 0.2, tool: 'axe' },
+
+    [BLOCK.ITEM_TRIDENT]: { name: 'Trident', color: '#20B2AA', solid: false, isItem: true, icon: '🔱', durability: 250 },
+
+    [BLOCK.SEAGRASS]: { name: 'Seagrass', color: '#00A86B', solid: false, transparent: true, icon: '🌿', hardness: 0.0 },
+    [BLOCK.KELP]: { name: 'Kelp', color: '#2E8B57', solid: false, transparent: true, icon: '🌿', hardness: 0.0, drop: { type: BLOCK.KELP, count: 1 } },
+    [BLOCK.DRIED_KELP_BLOCK]: { name: 'Dried Kelp Block', color: '#233827', top: '#2E4A34', solid: true, icon: '🟩', hardness: 0.5, tool: 'hoe' },
+    [BLOCK.ITEM_DRIED_KELP]: { name: 'Dried Kelp', color: '#2E5A38', solid: false, isItem: true, icon: '🍃', food: 1 }
 };
 
 if (typeof window !== 'undefined') {
