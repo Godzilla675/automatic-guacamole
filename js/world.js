@@ -458,6 +458,33 @@ class World {
             this.setBlockEntity(x, y, z, hopperEntity);
         }
 
+        // Pull items from container above (Chest, Furnace, Dropper, Dispenser, Hopper, etc.)
+        const topEntity = this.getBlockEntity(x, y + 1, z);
+        if (topEntity && topEntity.items) {
+            let pulled = false;
+            for (let i = 0; i < topEntity.items.length; i++) {
+                const item = topEntity.items[i];
+                if (item && item.count > 0) {
+                    for (let s = 0; s < hopperEntity.items.length; s++) {
+                        if (!hopperEntity.items[s]) {
+                            hopperEntity.items[s] = { type: item.type, count: 1 };
+                            item.count--;
+                            if (item.count <= 0) topEntity.items[i] = null;
+                            pulled = true;
+                            break;
+                        } else if (hopperEntity.items[s].type === item.type && hopperEntity.items[s].count < 64) {
+                            hopperEntity.items[s].count++;
+                            item.count--;
+                            if (item.count <= 0) topEntity.items[i] = null;
+                            pulled = true;
+                            break;
+                        }
+                    }
+                    if (pulled) break;
+                }
+            }
+        }
+
         // Pull item drops from top
         if (this.game && this.game.drops) {
             for (let i = this.game.drops.length - 1; i >= 0; i--) {
@@ -641,10 +668,29 @@ class World {
             } else if (type === window.BLOCK.REDSTONE_REPEATER) {
                 const currentPower = this.getMetadata(x, y, z);
                 const powered = this.isBlockPowered(x, y, z);
-                const newPower = powered ? 15 : 0;
-                if (newPower !== currentPower) {
-                    this.setMetadata(x, y, z, newPower);
-                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                const targetPower = powered ? 15 : 0;
+                let entity = this.getBlockEntity(x, y, z);
+                if (!entity || entity.type !== 'repeater') {
+                    entity = { type: 'repeater', delay: 1, timer: 0 };
+                    this.setBlockEntity(x, y, z, entity);
+                }
+                if (targetPower !== currentPower) {
+                    if (entity.delay > 1) {
+                        entity.timer++;
+                        if (entity.timer >= entity.delay) {
+                            entity.timer = 0;
+                            this.setMetadata(x, y, z, targetPower);
+                            this.scheduleNeighborRedstoneUpdates(x, y, z);
+                        } else {
+                            this.activeRedstone.add(`${x},${y},${z}`);
+                        }
+                    } else {
+                        entity.timer = 0;
+                        this.setMetadata(x, y, z, targetPower);
+                        this.scheduleNeighborRedstoneUpdates(x, y, z);
+                    }
+                } else {
+                    entity.timer = 0;
                 }
             } else if (type === window.BLOCK.REDSTONE_COMPARATOR) {
                 const currentPower = this.getMetadata(x, y, z);
