@@ -510,6 +510,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Crafter Autonomous Redstone Logic**: Crafter block automatically triggers grid item assembly on receiving redstone clock pulses. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Resin Brick Stairs & Walls**: Expand the Resin wood and brick building family with stair and wall variants. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Vault Reward Loot Tables**: Expand Vault and Ominous Vault loot generation with rare enchanted books and armor trims. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Pale Oak Boat & Chest Boat**: Craftable boat variants made from Pale Oak planks for Pale Garden navigation. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Resin Block Crafting**: Craft 9 Resin Clumps into solid Resin Storage Blocks for decorative storage. (Status: Proposed feature, pending implementation)
 - [x] **Bug: Bundle Color Dyeing Recipes Missing**: Crafting recipes for all 16 bundle colors implemented in js/crafting.js (Status: Verified and working)
 - [x] **Bug: Hopper Container Pulling Logic Missing**: Hoppers pull items from container blocks above them in js/world.js (Status: Verified and working)
 - [x] **Bug: Redstone Repeater Delay Logic Missing**: Redstone repeaters handle configurable multi-tick delay in js/world.js (Status: Verified and working)
