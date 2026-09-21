@@ -776,6 +776,27 @@ class Game {
                 return;
             }
 
+            // Trident Throwing Logic
+            if (slot && slot.type === BLOCK.ITEM_TRIDENT) {
+                const dir = {
+                    x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+                    y: -Math.sin(this.player.pitch),
+                    z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+                };
+                this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir, 'trident');
+                if (window.soundManager) window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z});
+
+                if (this.player.gamemode !== 1) {
+                    if (slot.durability === undefined) slot.durability = 250;
+                    slot.durability -= 5;
+                    if (slot.durability <= 0) {
+                        this.player.inventory[this.player.selectedSlot] = null;
+                    }
+                }
+                if (this.ui && this.ui.updateHotbarUI) this.ui.updateHotbarUI();
+                return;
+            }
+
             // Bow Logic
             if (slot && slot.type === BLOCK.BOW) {
                 // Check for Arrows
@@ -1495,6 +1516,7 @@ class Game {
         else if (type === 'snowball') { speed = 18; life = 2.0; damage = 0; }
         else if (type === 'wind_charge') { speed = 22; life = 3.0; damage = 1; }
         else if (type === 'ender_pearl') { speed = 15; life = 2.0; damage = 0; }
+        else if (type === 'trident') { speed = 25; life = 3.0; damage = 9; }
         this.projectiles.push({
             x, y, z,
             vx: type === 'firework' ? dir.x * 5 : dir.x * speed,
@@ -2318,7 +2340,11 @@ class Game {
             }
 
             if (p.life <= 0) {
-                if (p.type === 'firework') {
+                if (p.type === 'trident') {
+                    if (this.drops && window.Drop) {
+                        this.drops.push(new window.Drop(this, p.x, p.y, p.z, BLOCK.ITEM_TRIDENT, 1));
+                    }
+                } else if (p.type === 'firework') {
                     if (this.particles && this.particles.spawnFirework) {
                         this.particles.spawnFirework(p.x, p.y, p.z);
                     } else if (this.particles) {

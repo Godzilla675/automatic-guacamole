@@ -1630,6 +1630,18 @@ class World {
                     }
                 }
 
+                // Underwater Flora (Seagrass & Kelp)
+                if (height < 15 && Math.random() < 0.1) {
+                    if (Math.random() < 0.5) {
+                        chunk.setBlock(x, height + 1, z, window.BLOCK.SEAGRASS);
+                    } else {
+                        const kelpHeight = 2 + Math.floor(Math.random() * 3);
+                        for (let kh = 1; kh <= kelpHeight && (height + kh) <= 15; kh++) {
+                            chunk.setBlock(x, height + kh, z, window.BLOCK.KELP);
+                        }
+                    }
+                }
+
                 // Structures
                 if (height > 18) {
                     if (biome.treeChance && Math.random() < biome.treeChance) {
@@ -1640,6 +1652,9 @@ class World {
                         else if (biome.name === 'Birch Forest') type = 'birch';
                         else if (biome.name === 'Dark Oak Forest') type = 'dark_oak';
                         else if (biome.name === 'Pale Oak Forest') type = 'pale_oak';
+                        else if (biome.name === 'Mangrove Swamp') type = 'mangrove';
+                        else if (biome.name === 'Cherry Grove') type = 'cherry';
+                        else if (biome.name === 'Mushroom Fields') type = Math.random() < 0.5 ? 'huge_brown_mushroom' : 'huge_red_mushroom';
 
                         if (biome.name === 'Jungle') { this.structureManager.generateJungleTree(chunk, x, height + 1, z); } else { this.structureManager.generateTree(chunk, x, height + 1, z, type); }
                     }

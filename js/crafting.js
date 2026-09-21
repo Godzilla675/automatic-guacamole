@@ -9,7 +9,8 @@ class CraftingSystem {
             { input: BLOCK.SAND, output: { type: BLOCK.GLASS, count: 1 } },
             { input: BLOCK.COBBLESTONE, output: { type: BLOCK.STONE, count: 1 } },
             { input: BLOCK.WOOD, output: { type: BLOCK.ITEM_COAL, count: 1 } },
-            { input: BLOCK.ITEM_RAW_FISH, output: { type: BLOCK.ITEM_COOKED_FISH, count: 1 } }
+            { input: BLOCK.ITEM_RAW_FISH, output: { type: BLOCK.ITEM_COOKED_FISH, count: 1 } },
+            { input: BLOCK.KELP, output: { type: BLOCK.ITEM_DRIED_KELP, count: 1 } }
         ];
 
         this.recipes = [
@@ -369,6 +370,31 @@ class CraftingSystem {
                 name: "Pale Oak Planks (4)",
                 result: { type: BLOCK.PALE_OAK_PLANK, count: 4 },
                 ingredients: [ { type: BLOCK.PALE_OAK_LOG, count: 1 } ]
+            },
+            {
+                name: "Mangrove Planks (4)",
+                result: { type: BLOCK.MANGROVE_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.MANGROVE_LOG, count: 1 } ]
+            },
+            {
+                name: "Muddy Mangrove Roots",
+                result: { type: BLOCK.MUDDY_MANGROVE_ROOTS, count: 1 },
+                ingredients: [ { type: BLOCK.MANGROVE_ROOTS, count: 1 }, { type: BLOCK.MUD_BLOCK, count: 1 } ]
+            },
+            {
+                name: "Cherry Planks (4)",
+                result: { type: BLOCK.CHERRY_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.CHERRY_LOG, count: 1 } ]
+            },
+            {
+                name: "Trident",
+                result: { type: BLOCK.ITEM_TRIDENT, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_DIAMOND, count: 3 }, { type: BLOCK.ITEM_PRISMARINE_SHARD || BLOCK.ITEM_STICK, count: 2 } ]
+            },
+            {
+                name: "Dried Kelp Block",
+                result: { type: BLOCK.DRIED_KELP_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_DRIED_KELP, count: 9 } ]
             },
             {
                 name: "Daylight Sensor",

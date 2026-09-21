@@ -40,6 +40,19 @@ class StructureManager {
             leaves = BLOCK.PALE_OAK_LEAVES;
             height = 5 + Math.floor(Math.random() * 3);
         }
+        if (type === 'mangrove') {
+            this.generateMangroveTree(chunk, x, y, z, sync);
+            return;
+        }
+        if (type === 'cherry') {
+            trunk = BLOCK.CHERRY_LOG;
+            leaves = BLOCK.CHERRY_LEAVES;
+            height = 5 + Math.floor(Math.random() * 2);
+        }
+        if (type === 'huge_brown_mushroom' || type === 'huge_red_mushroom') {
+            this.generateGiantMushroom(chunk, x, y, z, type, sync);
+            return;
+        }
         if (type === 'jungle') {
             this.generateJungleTree(chunk, x, y, z, sync);
             return;
@@ -149,6 +162,70 @@ class StructureManager {
         this.world.setBlock(wx + 2, y + 1, wz + 2, window.BLOCK.OMINOUS_VAULT);
         this.world.setBlock(wx + 2, y + 1, wz - 2, window.BLOCK.COPPER_BULB);
         this.world.setBlock(wx - 2, y + 1, wz + 2, window.BLOCK.COPPER_GRATE);
+    }
+
+    generateMangroveTree(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        const height = 5 + Math.floor(Math.random() * 3);
+
+        // Roots at base
+        for (let rx = -1; rx <= 1; rx++) {
+            for (let rz = -1; rz <= 1; rz++) {
+                if (Math.abs(rx) + Math.abs(rz) <= 1) {
+                    this.world.setBlock(wx + rx, y, wz + rz, BLOCK.MANGROVE_ROOTS);
+                    if (Math.random() < 0.3) {
+                        this.world.setBlock(wx + rx, y - 1, wz + rz, BLOCK.MUDDY_MANGROVE_ROOTS);
+                    }
+                }
+            }
+        }
+
+        // Trunk
+        for (let i = 1; i <= height; i++) {
+            this.world.setBlock(wx, y + i, wz, BLOCK.MANGROVE_LOG);
+        }
+
+        // Leaves & hanging propagules
+        for (let lx = -2; lx <= 2; lx++) {
+            for (let lz = -2; lz <= 2; lz++) {
+                for (let ly = height - 1; ly <= height + 2; ly++) {
+                    if (Math.abs(lx) + Math.abs(lz) <= 3) {
+                        this.world.setBlock(wx + lx, y + ly, wz + lz, BLOCK.MANGROVE_LEAVES);
+                        if (ly === height - 1 && Math.random() < 0.25) {
+                            this.world.setBlock(wx + lx, y + ly - 1, wz + lz, BLOCK.MANGROVE_PROPAGULE);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    generateGiantMushroom(chunk, x, y, z, type, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        const height = 5 + Math.floor(Math.random() * 2);
+        const capBlock = (type === 'huge_red_mushroom') ? BLOCK.HUGE_RED_MUSHROOM : BLOCK.HUGE_BROWN_MUSHROOM;
+
+        // Stem
+        for (let i = 0; i < height; i++) {
+            this.world.setBlock(wx, y + i, wz, BLOCK.WOOD);
+        }
+
+        // Cap
+        const radius = (type === 'huge_red_mushroom') ? 2 : 3;
+        for (let dx = -radius; dx <= radius; dx++) {
+            for (let dz = -radius; dz <= radius; dz++) {
+                if (Math.abs(dx) + Math.abs(dz) <= radius + 1) {
+                    this.world.setBlock(wx + dx, y + height, wz + dz, capBlock);
+                    if (type === 'huge_red_mushroom' && Math.abs(dx) === radius && Math.abs(dz) === radius) {
+                        this.world.setBlock(wx + dx, y + height - 1, wz + dz, capBlock);
+                    }
+                }
+            }
+        }
     }
 
     generateJungleTree(chunk, x, y, z, sync = false) {
