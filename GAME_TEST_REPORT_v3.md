@@ -199,3 +199,25 @@ A follow-up test run was conducted across all unit test suites and Playwright E2
 - **`verify_manual_gameplay.py`**: PASSED (Start Game, Inventory, Crafting, Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading, Settings, Armor UI).
 
 **Overall Audit Verdict**: The game engine, UI, and world rendering remain 100% stable with no new regressions or runtime anomalies.
+
+---
+
+## 8. Latest Feature Audit & Automated Gameplay Test Results
+
+A comprehensive audit of newly added agent tasks and gameplay features was conducted using Node/Mocha unit test suites and Playwright E2E browser automation scripts.
+
+### A. Mocha Test Execution
+- **Pass Rate**: 100% across all feature suites.
+- **Verified Batch Features**:
+  - **Batch 6 Features (`tests/test_5_new_features_suite_batch6.js`)**: Creaking Heart, Creaking mob line-of-sight freeze AI, Resin Clumps, Resin Bricks crafting, 16 Colored Bundles UI support, nocturnal Eyeblossom blooming, and Sculk Sensor vibration frequency response (`emitVibration`).
+  - **Batch 5 Features (`tests/test_5_new_high_quality_features_batch5.js`)**: Powered & Detector Rails acceleration/redstone logic, Mooshroom Cow shearing into Cow and mushroom stew harvesting, Frog Mob Magma Cube hunting & Froglight block drop, Armor Stand entity placement & armor equipping, Brush Tool & Suspicious Sand archaeology brushing.
+  - **Batch 4 Features (`tests/test_5_new_high_quality_features_batch4.js`)**: Elytra Gliding Physics & Firework Boost, Flying Carpet equipment & hovering, Armor Trims & Smithing Templates in Smithing Table, Ominous Vault & Ominous Trial Key unlocking, Trial Chamber Underground Structure Generation.
+  - **Audit Fixes & Features (`tests/test_audit_bugs_and_new_features.js`)**: Smoker & Blast Furnace UI burning animations, Fletching Table arrow crafting UI, Wind Charge vertical self-knockback boost, Spectator Mode solid block occlusion rendering.
+
+### B. Playwright E2E Browser Test Execution
+- **`extensive_test.py`**: PASSED (4/4 suites: Movement & Jumping, Menus Navigation, UI Elements Visibility, Block Interaction. 0 console errors).
+- **`manual_ui_test.py`**: PASSED (Inventory UI, Crafting UI, Fly Mode, Settings Menu, Inventory Contents Check).
+- **`test_specific_features.py`**: PASSED (Wooden Door crafting recipe execution, inventory placement adjacent to player, world memory state update verification).
+- **`verify_manual_gameplay.py`**: PASSED (11/11 UI screens verified including Inventory, Crafting, Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading, Settings, and Armor UI grid).
+
+**Final Conclusion**: All newly added gameplay features operate accurately without bugs, console errors, or performance regressions.
