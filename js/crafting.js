@@ -286,9 +286,59 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.EYEBLOSSOM, count: 1 }, { type: BLOCK.PLANK, count: 1 } ]
             },
             {
-                name: "Red Bundle",
-                result: { type: BLOCK.ITEM_BUNDLE_RED, count: 1 },
-                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_RED, count: 1 } ]
+                name: "White Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_WHITE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_WHITE, count: 1 } ]
+            },
+            {
+                name: "Orange Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_ORANGE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_ORANGE, count: 1 } ]
+            },
+            {
+                name: "Magenta Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_MAGENTA, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_MAGENTA, count: 1 } ]
+            },
+            {
+                name: "Light Blue Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_LIGHT_BLUE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_LIGHT_BLUE, count: 1 } ]
+            },
+            {
+                name: "Yellow Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_YELLOW, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_YELLOW, count: 1 } ]
+            },
+            {
+                name: "Lime Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_LIME, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_LIME, count: 1 } ]
+            },
+            {
+                name: "Pink Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_PINK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_PINK, count: 1 } ]
+            },
+            {
+                name: "Gray Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_GRAY, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_GRAY, count: 1 } ]
+            },
+            {
+                name: "Light Gray Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_LIGHT_GRAY, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_LIGHT_GRAY, count: 1 } ]
+            },
+            {
+                name: "Cyan Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_CYAN, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_CYAN, count: 1 } ]
+            },
+            {
+                name: "Purple Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_PURPLE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_PURPLE, count: 1 } ]
             },
             {
                 name: "Blue Bundle",
@@ -296,14 +346,24 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_BLUE, count: 1 } ]
             },
             {
+                name: "Brown Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_BROWN, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_BROWN, count: 1 } ]
+            },
+            {
                 name: "Green Bundle",
                 result: { type: BLOCK.ITEM_BUNDLE_GREEN, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_GREEN, count: 1 } ]
             },
             {
-                name: "Yellow Bundle",
-                result: { type: BLOCK.ITEM_BUNDLE_YELLOW, count: 1 },
-                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_YELLOW, count: 1 } ]
+                name: "Red Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_RED, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_RED, count: 1 } ]
+            },
+            {
+                name: "Black Bundle",
+                result: { type: BLOCK.ITEM_BUNDLE_BLACK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_BLACK, count: 1 } ]
             },
             {
                 name: "Pale Oak Planks (4)",
