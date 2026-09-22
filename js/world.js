@@ -1519,6 +1519,11 @@ class World {
                      if (noise < 0.2) {
                          chunk.setBlock(x, y, z, BLOCK.NETHERRACK);
 
+                             // Nether Fossils on soul sand / netherrack
+                             if (y === 33 && Math.random() < 0.02) {
+                                 this.structureManager.generateNetherFossil(chunk, x, y, z);
+                             }
+
                          // Ores
                          if (Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.QUARTZ_ORE);
                          else if (Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.GLOWSTONE); // Clump logic simplified to random

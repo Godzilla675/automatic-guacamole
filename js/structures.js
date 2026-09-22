@@ -133,6 +133,24 @@ class StructureManager {
         if (structureName === 'trial_chamber') {
             this.generateTrialChamber(chunk, x, y, z);
         }
+        if (structureName === 'nether_fossil') {
+            this.generateNetherFossil(chunk, x, y, z);
+        }
+    }
+
+    generateNetherFossil(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        const fossilBlock = BLOCK.CHISELED_STONE_BRICKS || BLOCK.BONE || BLOCK.STONE;
+
+        // Curved spine and rib fossil structure
+        for (let i = -3; i <= 3; i++) {
+            const h = Math.abs(i) % 2 === 0 ? 1 : 2;
+            this.world.setBlock(wx + i, y, wz, fossilBlock);
+            this.world.setBlock(wx + i, y + h, wz + 1, fossilBlock);
+            this.world.setBlock(wx + i, y + h, wz - 1, fossilBlock);
+        }
     }
 
     generateTrialChamber(chunk, x, y, z, sync = false) {
