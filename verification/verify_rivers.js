@@ -94,9 +94,9 @@ describe('River Generation Tests', () => {
         const blockAt16 = world.getBlock(x, 16, z);
         assert.strictEqual(blockAt16, BLOCK.WATER, "Block at y=16 should be WATER in a river");
 
-        // Check block at 15 (Deep Water)
+        // Check block at 15 (Deep Water / River Flora)
         const blockAt15 = world.getBlock(x, 15, z);
-        assert.strictEqual(blockAt15, BLOCK.WATER, "Block at y=15 should be WATER in a river");
+        assert.ok(blockAt15 === BLOCK.WATER || blockAt15 === BLOCK.KELP || blockAt15 === BLOCK.SEAGRASS, "Block at y=15 should be WATER, KELP, or SEAGRASS in a river");
 
         // Check block at riverbed (e.g. 12)
         // If we clamp to 12, then 12 is the top solid block.

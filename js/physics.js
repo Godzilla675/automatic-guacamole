@@ -436,28 +436,47 @@ class Physics {
     }
 
     rayIntersectAABB(origin, dir, box) {
+        const EPS = 1e-7;
         const min = { x: box.x - box.width/2, y: box.y, z: box.z - box.width/2 };
         const max = { x: box.x + box.width/2, y: box.y + box.height, z: box.z + box.width/2 };
 
-        let tmin = (min.x - origin.x) / dir.x;
-        let tmax = (max.x - origin.x) / dir.x;
+        let tmin, tmax;
+        if (Math.abs(dir.x) < EPS) {
+            if (origin.x < min.x - EPS || origin.x > max.x + EPS) return null;
+            tmin = -Infinity;
+            tmax = Infinity;
+        } else {
+            tmin = (min.x - origin.x) / dir.x;
+            tmax = (max.x - origin.x) / dir.x;
+            if (tmin > tmax) [tmin, tmax] = [tmax, tmin];
+        }
 
-        if (tmin > tmax) [tmin, tmax] = [tmax, tmin];
-
-        let tymin = (min.y - origin.y) / dir.y;
-        let tymax = (max.y - origin.y) / dir.y;
-
-        if (tymin > tymax) [tymin, tymax] = [tymax, tymin];
+        let tymin, tymax;
+        if (Math.abs(dir.y) < EPS) {
+            if (origin.y < min.y - EPS || origin.y > max.y + EPS) return null;
+            tymin = -Infinity;
+            tymax = Infinity;
+        } else {
+            tymin = (min.y - origin.y) / dir.y;
+            tymax = (max.y - origin.y) / dir.y;
+            if (tymin > tymax) [tymin, tymax] = [tymax, tymin];
+        }
 
         if ((tmin > tymax) || (tymin > tmax)) return null;
 
         if (tymin > tmin) tmin = tymin;
         if (tymax < tmax) tmax = tymax;
 
-        let tzmin = (min.z - origin.z) / dir.z;
-        let tzmax = (max.z - origin.z) / dir.z;
-
-        if (tzmin > tzmax) [tzmin, tzmax] = [tzmax, tzmin];
+        let tzmin, tzmax;
+        if (Math.abs(dir.z) < EPS) {
+            if (origin.z < min.z - EPS || origin.z > max.z + EPS) return null;
+            tzmin = -Infinity;
+            tzmax = Infinity;
+        } else {
+            tzmin = (min.z - origin.z) / dir.z;
+            tzmax = (max.z - origin.z) / dir.z;
+            if (tzmin > tzmax) [tzmin, tzmax] = [tzmax, tzmin];
+        }
 
         if ((tmin > tzmax) || (tzmin > tmax)) return null;
 
