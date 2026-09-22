@@ -338,7 +338,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals. (Status: Verified and working)
 - [ ] **New Task: Add Candles**: Decorative light source that can be dyed. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Chorus Plants**: Plant found in the End. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Bounding Box Intersection Inaccuracies**: Some collision tests fail intermittently due to floating point imprecision. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Bounding Box Intersection Inaccuracies**: Added EPSILON precision checks and divide-by-zero guards in `js/physics.js` for bounding box collision and AABB raycast calculations. (Status: Verified and working)
 - [ ] **Bug: Missing SessionStorage Mock**: SessionStorage needs to be mocked for tests checking temporary game states. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Elytra Boosting**: Allow using fireworks to boost Elytra speed. (Status: Verified and working)
 - [x] **Bug: Missing SessionStorage Mock**: SessionStorage needs to be mocked for tests checking temporary game states. (Status: Verified and working)
