@@ -821,6 +821,16 @@ class Player {
             }
             return true;
         }
+        if (itemType === BLOCK.EYEBLOSSOM) {
+            this.hunger = Math.min(this.maxHunger, this.hunger + 1);
+            this.addEffect('Poison', '☠️', 12);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            if (this.game && this.game.ui && this.game.ui.showNotification) {
+                this.game.ui.showNotification('Ate Eyeblossom! Poisoned!');
+            }
+            return true;
+        }
         if (itemType === BLOCK.ITEM_SUSPICIOUS_STEW) {
             this.hunger = Math.min(this.maxHunger, this.hunger + 6);
             const effects = [

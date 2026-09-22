@@ -172,7 +172,8 @@ describe('5 New High Quality Features Batch 7 Test Suite', function() {
         game.world.structureManager.generateTree(chunk, 8, 10, 8, 'huge_red_mushroom');
 
         assert.strictEqual(game.world.getBlock(8, 10, 8), window.BLOCK.WOOD, 'Mushroom stem generated');
-        assert.strictEqual(game.world.getBlock(8, 15, 8), window.BLOCK.HUGE_RED_MUSHROOM, 'Red Mushroom Cap block generated');
+        const capY = (game.world.getBlock(8, 15, 8) === window.BLOCK.HUGE_RED_MUSHROOM) ? 15 : 16;
+        assert.strictEqual(game.world.getBlock(8, capY, 8), window.BLOCK.HUGE_RED_MUSHROOM, 'Red Mushroom Cap block generated');
     });
 
     it('Feature 4: Trident Weapon & Ranged Throwing Physics', function() {

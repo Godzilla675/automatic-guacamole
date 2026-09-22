@@ -933,6 +933,32 @@ class Game {
             z: this.player.z
         };
 
+        // 0. Check Wind Charge Deflection on melee attack
+        if (this.projectiles && this.projectiles.length > 0) {
+            for (let p of this.projectiles) {
+                if (p && p.type === 'wind_charge' && p.life > 0) {
+                    const pdx = p.x - eyePos.x;
+                    const pdy = p.y - eyePos.y;
+                    const pdz = p.z - eyePos.z;
+                    const pdist = Math.sqrt(pdx * pdx + pdy * pdy + pdz * pdz);
+                    if (pdist < 4.0) {
+                        const dot = (pdx * dir.x + pdy * dir.y + pdz * dir.z) / (pdist || 1);
+                        if (dot > 0.4 || pdist < 2.0) { // Facing projectile or close enough
+                            p.vx = dir.x * 25;
+                            p.vy = dir.y * 25;
+                            p.vz = dir.z * 25;
+                            p.deflected = true;
+                            p.life = 3.0;
+                            if (this.particles) this.particles.spawn(p.x, p.y, p.z, '#00FFFF', 15);
+                            if (window.soundManager) window.soundManager.play('jump', { x: p.x, y: p.y, z: p.z });
+                            if (this.ui && this.ui.showNotification) this.ui.showNotification("Deflected Wind Charge!");
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
         // 1. Check Mobs and Vehicles
         const hitMob = this.physics.raycastEntities(eyePos, dir, this.mobs);
         const hitVehicle = this.physics.raycastEntities(eyePos, dir, this.vehicles);
@@ -1671,19 +1697,22 @@ class Game {
         if (this.particles) this.particles.spawn(x, y, z, '#E0FFFF', 25);
         if (window.soundManager) window.soundManager.play('jump', {x, y, z});
 
+        const radius = 5.0;
+
         // Impulse to player
         const pdx = this.player.x - x;
-        const pdy = this.player.y - y;
+        const pdy = (this.player.y + (this.player.height || 1.8) * 0.5) - y;
         const pdz = this.player.z - z;
         const pdist = Math.hypot(pdx, pdy, pdz);
-        if (pdist < 6) {
-            const factor = (6 - pdist) / 6;
-            this.player.vy = 12 * factor + 5;
-            const hDist = Math.hypot(pdx, pdz);
-            if (hDist > 0.3) {
-                this.player.vx += (pdx / (pdist || 1)) * 8 * factor;
-                this.player.vz += (pdz / (pdist || 1)) * 8 * factor;
-            }
+        if (pdist < radius) {
+            const factor = Math.max(0.1, (radius - pdist) / radius);
+            const normX = pdx / (pdist || 1);
+            const normY = pdy / (pdist || 1);
+            const normZ = pdz / (pdist || 1);
+
+            this.player.vy = Math.max(6, normY * 12 * factor + 5);
+            this.player.vx += normX * 10 * factor;
+            this.player.vz += normZ * 10 * factor;
         }
 
         // Impulse to mobs
@@ -1691,15 +1720,19 @@ class Game {
             for (const mob of this.mobs) {
                 if (!mob || mob.isDead) continue;
                 const mdx = mob.x - x;
-                const mdy = mob.y - y;
+                const mdy = (mob.y + (mob.height || 1.6) * 0.5) - y;
                 const mdz = mob.z - z;
                 const mdist = Math.hypot(mdx, mdy, mdz);
-                if (mdist < 6) {
-                    const factor = (6 - mdist) / 6;
-                    mob.vy = 10 * factor + 4;
-                    mob.vx = (mob.vx || 0) + (mdx / (mdist || 1)) * 8 * factor;
-                    mob.vz = (mob.vz || 0) + (mdz / (mdist || 1)) * 8 * factor;
-                    if (typeof mob.takeDamage === 'function') mob.takeDamage(1, {x: mdx, z: mdz});
+                if (mdist < radius) {
+                    const factor = Math.max(0.1, (radius - mdist) / radius);
+                    const normX = mdx / (mdist || 1);
+                    const normY = mdy / (mdist || 1);
+                    const normZ = mdz / (mdist || 1);
+
+                    mob.vy = Math.max(5, normY * 10 * factor + 4);
+                    mob.vx = (mob.vx || 0) + normX * 10 * factor;
+                    mob.vz = (mob.vz || 0) + normZ * 10 * factor;
+                    if (typeof mob.takeDamage === 'function') mob.takeDamage(1, {x: normX, z: normZ});
                 }
             }
         }

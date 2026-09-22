@@ -197,6 +197,22 @@ class Mob extends Entity {
             return true;
         }
 
+        // Bogged Shearing (Mushroom Harvesting)
+        if (this.type === MOB_TYPE.BOGGED && itemType === BLOCK.ITEM_SHEARS && !this.isSheared) {
+            this.isSheared = true;
+            this.color = '#808080'; // Sheared grey skeleton
+            if (this.game.drops) {
+                const DropClass = window.Drop || global.Drop;
+                const shroom = Math.random() < 0.5 ? BLOCK.HUGE_BROWN_MUSHROOM : BLOCK.HUGE_RED_MUSHROOM;
+                const count = 1 + Math.floor(Math.random() * 2);
+                if (DropClass) {
+                    this.game.drops.push(new DropClass(this.game, this.x, this.y + this.height, this.z, shroom, count));
+                }
+            }
+            if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+            return true;
+        }
+
         return this.feed(itemType);
     }
 

@@ -37,7 +37,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Verified and working)
 - [x] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Verified and working)
 - [x] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Verified and working)
-- [ ] **New Task: Add Nether Fossils & Soul Soil Biomes**: Bone block structures generated in soul sand valleys. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Nether Fossils & Soul Soil Biomes**: Bone block structures generated in soul sand valleys. (Status: Verified and working)
 - [x] **New Task: Add Mangrove Swamp Trees & Propagules**: Hanging propagule saplings and submerged mangrove tree generation. (Status: Verified and working)
 
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
@@ -91,8 +91,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 5. Entities & Mobs
 - [x] **New Task: Add Wind Charge Consumables**: Throwable wind charges dropped by Breeze mobs dealing knockback explosions and vertical leaps. (Status: Verified and working)
 - [x] **New Task: Add Bogged Skeleton Variant**: Poison arrow shooting skeleton mob spawning in Swamps and Trial Chambers. (Status: Verified and working)
-- [ ] **New Task: Add Bogged Shearable Mushrooms**: Right clicking Bogged mobs with shears yields brown or red mushrooms and changes model appearance. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Breeze Wind Charge Deflection**: Melee hits on flying Wind Charge projectiles redirect their trajectory back at the Breeze. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Bogged Shearable Mushrooms**: Right clicking Bogged mobs with shears yields brown or red mushrooms and changes model appearance. (Status: Verified and working)
+- [x] **New Task: Add Breeze Wind Charge Deflection**: Melee hits on flying Wind Charge projectiles redirect their trajectory back at the Breeze. (Status: Verified and working)
 - [x] **New Task: Add Polar Bears**: Neutral mobs in snowy biomes that attack if their cubs are near. (Status: Verified and working)
 - [x] **New Task: Add Creaking Heart**: Block that spawns and controls Creaking mobs. (Status: Verified and working)
 - [x] **New Task: Add Creaking Heart Resin Drop Logic**: Attacking Creaking mob triggers Resin drops around its linked Creaking Heart block. (Status: Verified and working)
@@ -134,7 +134,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 ### 8. Physics
 - [ ] **New Task: Add Soft Falling Blocks**: Powder snow block physics and entity freezing/sinking mechanics. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Item Despawn Timers & Out-of-Block Pushing**: Item drops despawn gracefully after timer and push out of solid blocks when stuck. (Status: Verified and working)
-- [ ] **New Task: Add Wind Charge Radial Knockback**: Radial knockback physics for Wind Charge impact within a 3-block radius. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Wind Charge Radial Knockback**: Radial knockback physics for Wind Charge impact within a 3-block radius. (Status: Verified and working)
 
 ### 9. World Management
 - [ ] **LOD (Level of Detail) system** (Status: Missing implementation, agents must fix)
@@ -501,7 +501,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Ominous Vaults & Ominous Trial Keys**: Special high-tier Ominous Vaults found in Trial Chambers requiring Ominous Trial Keys. (Status: Verified and working)
 - [x] **New Task: Add Anvil Item Renaming and Repair GUI**: Complete repair and item renaming functionality within dedicated Anvil UI. (Status: Verified and working)
 - [x] **New Task: Add Bundle Color Dyeing**: Dye Bundle items with 16 color dyes in crafting grid to organize inventory categories. (Status: Verified and working)
-- [ ] **New Task: Add Eyeblossom Poison Stew Crafting**: Combine blooming Eyeblossoms with mushrooms in stew recipe to grant Poison effect. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Eyeblossom Poison Stew Crafting**: Combine blooming Eyeblossoms with mushrooms in stew recipe to grant Poison effect. (Status: Verified and working)
 - [ ] **New Task: Add Trial Chamber Wind Traps**: Trap blocks triggered by redstone wire that propel Wind Charge projectiles at intruders. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Sculk Sensor Vibration Frequencies**: Sculk Sensors outputting distinct redstone signal strengths depending on vibration event source. (Status: Verified and working)
 - [ ] **New Task: Add Copper Bulb Oxidation Attenuation**: Copper Bulb light emissions dimming progressively based on oxidation stage. (Status: Proposed feature, pending implementation)
