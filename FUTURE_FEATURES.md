@@ -198,8 +198,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Pale Oak Wood Set**: Full wood family (planks, stairs, slabs, fences, doors) harvested from Pale Oak trees. (Status: Verified and working)
 - [x] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Verified and working)
 - [x] **New Task: Add Coral Reefs & Coral Blocks**: Coral reef blocks (Brain, Tube, Horn, Fire, Bubble) and ocean structure generation. (Status: Verified and working)
-- [ ] **New Task: Add Seagrass**: Underwater vegetation. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Kelp**: Tall underwater plant that can be smelted into dried kelp. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Seagrass**: Underwater vegetation. (Status: Verified and working)
+- [x] **New Task: Add Kelp**: Tall underwater plant that can be smelted into dried kelp. (Status: Verified and working)
 
 - [x] **New Task: Add Redstone Rails**: Powered rails and detector rails. (Status: Verified and working)
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles. (Status: Missing implementation, agents must fix)
@@ -413,7 +413,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 - [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
 
-- [ ] **New Task: Add Cherry Wood**: Add cherry wood logs, planks, and leaves to match Cherry Grove biome. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Cherry Wood**: Add cherry wood logs, planks, and leaves to match Cherry Grove biome. (Status: Verified and working)
 - [x] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Verified and working)
 - [ ] **New Task: Add Evokers**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Wither**: A new boss mob to spawn and fight. (Status: Missing implementation, agents must fix)
@@ -515,3 +515,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Bundle Color Dyeing Recipes Missing**: Crafting recipes for all 16 bundle colors implemented in js/crafting.js (Status: Verified and working)
 - [x] **Bug: Hopper Container Pulling Logic Missing**: Hoppers pull items from container blocks above them in js/world.js (Status: Verified and working)
 - [x] **Bug: Redstone Repeater Delay Logic Missing**: Redstone repeaters handle configurable multi-tick delay in js/world.js (Status: Verified and working)
+- [ ] **Bug: verify_nether.js mock StructureManager missing generateNetherFossil method**: Mock class in `verification/verify_nether.js` lacks `generateNetherFossil` method leading to `TypeError` during chunk generation tests. (Status: Bug in test script, agents must fix)
+- [ ] **New Task: Add Creaking Heart & Creaking Mob Audio**: Custom creaking wood step and ambient screech sound effects for Creaking mobs and Creaking Heart. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Mace Heavy Core Drop Table**: Ominous Vault loot tables dropping Heavy Cores for crafting Maces. (Status: Proposed feature, pending implementation)
