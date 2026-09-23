@@ -430,7 +430,9 @@ const BLOCK = {
     SEAGRASS: 502,
     KELP: 503,
     DRIED_KELP_BLOCK: 504,
-    ITEM_DRIED_KELP: 505
+    ITEM_DRIED_KELP: 505,
+
+    PACKED_ICE: 506
 };
 
 const ARMOR = {
@@ -940,7 +942,9 @@ const BLOCKS = {
     [BLOCK.SEAGRASS]: { name: 'Seagrass', color: '#00A86B', solid: false, transparent: true, icon: '🌿', hardness: 0.0 },
     [BLOCK.KELP]: { name: 'Kelp', color: '#2E8B57', solid: false, transparent: true, icon: '🌿', hardness: 0.0, drop: { type: BLOCK.KELP, count: 1 } },
     [BLOCK.DRIED_KELP_BLOCK]: { name: 'Dried Kelp Block', color: '#233827', top: '#2E4A34', solid: true, icon: '🟩', hardness: 0.5, tool: 'hoe' },
-    [BLOCK.ITEM_DRIED_KELP]: { name: 'Dried Kelp', color: '#2E5A38', solid: false, isItem: true, icon: '🍃', food: 1 }
+    [BLOCK.ITEM_DRIED_KELP]: { name: 'Dried Kelp', color: '#2E5A38', solid: false, isItem: true, icon: '🍃', food: 1 },
+
+    [BLOCK.PACKED_ICE]: { name: 'Packed Ice', color: '#80B0E0', top: '#A0C0F0', solid: true, transparent: false, icon: '🧊', hardness: 0.5, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {

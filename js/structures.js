@@ -136,6 +136,97 @@ class StructureManager {
         if (structureName === 'nether_fossil') {
             this.generateNetherFossil(chunk, x, y, z);
         }
+        if (structureName === 'ice_spike') {
+            this.generateIceSpike(chunk, x, y, z);
+        }
+        if (structureName === 'igloo') {
+            this.generateIgloo(chunk, x, y, z);
+        }
+        if (structureName === 'nether_fortress') {
+            this.generateNetherFortress(chunk, x, y, z);
+        }
+    }
+
+    placeStructureBlock(chunk, lx, ly, lz, blockType) {
+        if (chunk && lx >= 0 && lx < 16 && lz >= 0 && lz < 16 && ly >= 0 && ly < 128) {
+            chunk.setBlock(lx, ly, lz, blockType);
+        } else if (chunk) {
+            const wx = chunk.cx * 16 + lx;
+            const wz = chunk.cz * 16 + lz;
+            this.world.setBlock(wx, ly, wz, blockType);
+        }
+    }
+
+    generateIceSpike(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const packedIce = BLOCK.PACKED_ICE || BLOCK.ICE;
+        const height = 8 + Math.floor(Math.random() * 12);
+
+        for (let h = 0; h < height; h++) {
+            const radius = Math.max(0, Math.floor((height - h) / 3));
+            for (let dx = -radius; dx <= radius; dx++) {
+                for (let dz = -radius; dz <= radius; dz++) {
+                    if (Math.abs(dx) + Math.abs(dz) <= radius + 1) {
+                        this.placeStructureBlock(chunk, x + dx, y + h, z + dz, packedIce);
+                    }
+                }
+            }
+        }
+    }
+
+    generateIgloo(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const snow = BLOCK.SNOW;
+
+        // Ice dome shell (radius 3)
+        for (let dx = -3; dx <= 3; dx++) {
+            for (let dz = -3; dz <= 3; dz++) {
+                for (let dy = 0; dy <= 3; dy++) {
+                    const dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
+                    if (dist <= 3.2) {
+                        if (dist >= 2.0) {
+                            this.placeStructureBlock(chunk, x + dx, y + dy, z + dz, snow);
+                        } else {
+                            this.placeStructureBlock(chunk, x + dx, y + dy, z + dz, BLOCK.AIR);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Interior furnishings
+        this.placeStructureBlock(chunk, x, y, z, BLOCK.BED);
+        this.placeStructureBlock(chunk, x + 1, y, z, BLOCK.CRAFTER || BLOCK.PLANK);
+        this.placeStructureBlock(chunk, x - 1, y, z, BLOCK.FURNACE);
+        this.placeStructureBlock(chunk, x, y + 1, z, BLOCK.REDSTONE_TORCH || BLOCK.TORCH);
+    }
+
+    generateNetherFortress(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const brick = BLOCK.NETHER_BRICK || BLOCK.BRICK;
+
+        // Fortress corridor & pillars
+        for (let dx = -4; dx <= 4; dx++) {
+            for (let dz = -10; dz <= 10; dz++) {
+                // Floor
+                this.placeStructureBlock(chunk, x + dx, y, z + dz, brick);
+                // Roof
+                this.placeStructureBlock(chunk, x + dx, y + 4, z + dz, brick);
+            }
+        }
+
+        // Walls and arches
+        for (let dz = -10; dz <= 10; dz += 4) {
+            for (let dy = 1; dy <= 3; dy++) {
+                this.placeStructureBlock(chunk, x - 4, y + dy, z + dz, brick);
+                this.placeStructureBlock(chunk, x + 4, y + dy, z + dz, brick);
+            }
+        }
+
+        // Spawner / Nether Wart room
+        this.placeStructureBlock(chunk, x, y + 1, z, BLOCK.SOUL_SAND);
+        this.placeStructureBlock(chunk, x, y + 2, z, BLOCK.ITEM_NETHER_WART);
+        this.placeStructureBlock(chunk, x + 2, y + 1, z + 2, BLOCK.TRIAL_SPAWNER || BLOCK.NETHERRACK);
     }
 
     generateNetherFossil(chunk, x, y, z, sync = false) {

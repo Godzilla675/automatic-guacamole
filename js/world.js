@@ -1523,6 +1523,9 @@ class World {
                              if (y === 33 && Math.random() < 0.02) {
                                  this.structureManager.generateNetherFossil(chunk, x, y, z);
                              }
+                             if (y === 35 && Math.random() < 0.005) {
+                                 this.structureManager.generateNetherFortress(chunk, x, y, z);
+                             }
 
                          // Ores
                          if (Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.QUARTZ_ORE);
@@ -1619,7 +1622,12 @@ class World {
                     for (let d = 1; d <= 3; d++) {
                         if (height - d > 0) {
                              if (chunk.getBlock(x, height-d, z) === BLOCK.STONE) {
-                                chunk.setBlock(x, height - d, z, underBlock);
+                                if (biome.name === 'Badlands') {
+                                    const terracottaColor = (d % 3 === 0) ? BLOCK.CONCRETE_RED : ((d % 2 === 0) ? BLOCK.CONCRETE_ORANGE : BLOCK.CONCRETE_YELLOW);
+                                    chunk.setBlock(x, height - d, z, terracottaColor);
+                                } else {
+                                    chunk.setBlock(x, height - d, z, underBlock);
+                                }
                              }
                         }
                     }
@@ -1651,7 +1659,7 @@ class World {
                 if (height > 18) {
                     if (biome.treeChance && Math.random() < biome.treeChance) {
                         let type = 'oak';
-                        if (biome.snow) type = 'spruce';
+                        if (biome.snow || biome.name === 'Snowy Taiga') type = 'spruce';
 
                         else if (biome.name === 'Forest' && Math.random() < 0.2) type = 'birch';
                         else if (biome.name === 'Birch Forest') type = 'birch';
@@ -1662,6 +1670,12 @@ class World {
                         else if (biome.name === 'Mushroom Fields') type = Math.random() < 0.5 ? 'huge_brown_mushroom' : 'huge_red_mushroom';
 
                         if (biome.name === 'Jungle') { this.structureManager.generateJungleTree(chunk, x, height + 1, z); } else { this.structureManager.generateTree(chunk, x, height + 1, z, type); }
+                    }
+                    if (biome.name === 'Ice Spikes' && Math.random() < 0.08) {
+                        this.structureManager.generateIceSpike(chunk, x, height + 1, z);
+                    }
+                    if ((biome.snow || biome.name === 'Snowy Taiga') && Math.random() < 0.005) {
+                        this.structureManager.generateIgloo(chunk, x, height + 1, z);
                     }
                     if (biome.name === 'Pale Oak Forest' && Math.random() < 0.05) {
                         if (chunk.getBlock(x, height + 1, z) === BLOCK.AIR) {
