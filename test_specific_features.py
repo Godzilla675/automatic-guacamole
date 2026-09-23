@@ -11,6 +11,7 @@ def run_tests():
         page.goto("http://localhost:3000")
         page.wait_for_timeout(2000)
 
+        page.on("dialog", lambda dialog: dialog.accept("Player"))
         # Click start game
         page.click("#start-game", force=True)
         time.sleep(2)
@@ -48,7 +49,7 @@ def run_tests():
         """)
 
         # Place the door!
-        page.evaluate("""
+        placed = page.evaluate("""() => {
             // Find door in inventory
             const doorIndex = window.game.player.inventory.findIndex(item => item && item.type === window.BLOCK.DOOR_WOOD_BOTTOM);
             if (doorIndex === -1) throw new Error("Wood Door not in inventory!");
@@ -76,30 +77,13 @@ def run_tests():
             window.game.player.pitch = -Math.asin(dy/dist);
 
             window.game.placeBlock();
-        """)
 
-        # Take a screenshot after placing the door (Wait, we can't place it easily via evaluate without calling input methods. Let's just use mouse click!)
-        page.mouse.move(640, 360) # center of screen
-
-        # Look down
-        page.mouse.down()
-        page.mouse.move(640, 400)
-        page.mouse.up()
-
-        # Try right click
-        page.mouse.click(640, 360, button="right")
-        time.sleep(0.5)
-        page.screenshot(path="test-results/door_placed.png")
-
-        # Let's also run JS evaluation to see if door was placed in the world.
-        placed = page.evaluate("""() => {
-            const px = Math.floor(window.game.player.x);
-            const py = Math.floor(window.game.player.y);
-            const pz = Math.floor(window.game.player.z);
             const y1 = window.game.world.getBlock(px, py, pz - 2);
             const y2 = window.game.world.getBlock(px, py + 1, pz - 2);
             return y1 === window.BLOCK.DOOR_WOOD_BOTTOM && y2 === window.BLOCK.DOOR_WOOD_TOP;
         }""")
+
+        page.screenshot(path="test-results/door_placed.png")
         print(f"Door placed correctly in world memory: {placed}")
 
         print("Tests completed. Screenshots saved to test-results/")

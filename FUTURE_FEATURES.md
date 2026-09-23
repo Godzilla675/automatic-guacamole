@@ -515,6 +515,6 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Bundle Color Dyeing Recipes Missing**: Crafting recipes for all 16 bundle colors implemented in js/crafting.js (Status: Verified and working)
 - [x] **Bug: Hopper Container Pulling Logic Missing**: Hoppers pull items from container blocks above them in js/world.js (Status: Verified and working)
 - [x] **Bug: Redstone Repeater Delay Logic Missing**: Redstone repeaters handle configurable multi-tick delay in js/world.js (Status: Verified and working)
-- [ ] **Bug: verify_nether.js mock StructureManager missing generateNetherFossil method**: Mock class in `verification/verify_nether.js` lacks `generateNetherFossil` method leading to `TypeError` during chunk generation tests. (Status: Bug in test script, agents must fix)
+- [x] **Bug: verify_nether.js mock StructureManager missing generateNetherFossil method**: Mock class in `verification/verify_nether.js` has `generateNetherFossil` method and passes all tests. (Status: Verified and working)
 - [ ] **New Task: Add Creaking Heart & Creaking Mob Audio**: Custom creaking wood step and ambient screech sound effects for Creaking mobs and Creaking Heart. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Mace Heavy Core Drop Table**: Ominous Vault loot tables dropping Heavy Cores for crafting Maces. (Status: Proposed feature, pending implementation)
