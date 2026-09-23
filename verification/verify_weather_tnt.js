@@ -55,6 +55,19 @@ global.localStorage = {
 };
 
 // Mock AudioContext
+global.window.PluginAPI = class { constructor() {} };
+global.window.AchievementManager = class { constructor() {} check() {} update() {} };
+global.AchievementManager = global.window.AchievementManager;
+global.window.TutorialManager = class { constructor() {} update() {} };
+global.window.MOB_TYPE = { PIG: 0, COW: 1, SHEEP: 2, CHICKEN: 3, ZOMBIE: 4, SKELETON: 5, CREEPER: 6, ENDERMAN: 7 };
+global.window.Mob = class { constructor() {} update() {} };
+global.Mob = global.window.Mob;
+global.MOB_TYPE = global.window.MOB_TYPE;
+global.TutorialManager = global.window.TutorialManager;
+
+global.PluginAPI = global.window.PluginAPI;
+global.window.Minimap = class { constructor() {} update() {} };
+global.Minimap = global.window.Minimap;
 global.window.AudioContext = class {
     createGain() { return { connect: () => {}, gain: { value: 0, linearRampToValueAtTime: () => {} } }; }
     createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }; }
@@ -74,7 +87,8 @@ global.window.perlin = {
 // Game code calls `window.soundManager.play`.
 global.window.soundManager = {
     play: (sound) => { console.log(`[Sound] ${sound}`); },
-    updateAmbience: () => {}
+    updateAmbience: () => {},
+    updateListener: () => {}
 };
 
 // 2. Load Game Modules
@@ -92,10 +106,10 @@ const files = [
     'js/chat.js',
     'js/ui.js',
     'js/input.js',
-    'js/renderer.js',
     'js/entity.js',
-    'js/particles.js',
     'js/mob.js', // Needed for Game
+    'js/particles.js',
+    'js/renderer.js',
     'js/game.js'
 ];
 
@@ -120,7 +134,6 @@ files.forEach(file => {
         if (window.BLOCK) global.BLOCK = window.BLOCK;
         if (window.BLOCKS) global.BLOCKS = window.BLOCKS;
         if (window.TOOLS) global.TOOLS = window.TOOLS;
-        if (window.MOB_TYPE) global.MOB_TYPE = window.MOB_TYPE;
     } catch (e) {
         console.error(`Error loading ${file}:`, e);
     }

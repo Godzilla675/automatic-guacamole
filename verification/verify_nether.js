@@ -23,6 +23,7 @@ global.window.StructureManager = class {
     generateCactus() {}
     generateVillage() {}
     generateStructure() {}
+    generateNetherFossil() {}
 };
 
 // Mock Blocks
