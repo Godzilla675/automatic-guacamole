@@ -218,6 +218,7 @@ async function runTests() {
         game.world.setBlock(x,y,z, BLOCK.AIR);
         game.world.setBlock(x,y+1,z, BLOCK.AIR);
         game.player.inventory[0] = { type: BLOCK.DOOR_WOOD_BOTTOM, count: 1 };
+        game.player.selectedSlot = 0;
 
         // Place door
         const originalRaycast = game.physics.raycast;
