@@ -8,10 +8,10 @@ def run_tests():
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(viewport={'width': 1280, 'height': 720})
         page = context.new_page()
+        page.on("dialog", lambda dialog: dialog.accept("Player"))
         page.goto("http://localhost:3000")
         page.wait_for_timeout(2000)
 
-        page.on("dialog", lambda dialog: dialog.accept("Player"))
         # Click start game
         page.click("#start-game", force=True)
         time.sleep(2)
