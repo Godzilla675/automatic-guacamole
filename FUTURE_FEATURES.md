@@ -41,14 +41,14 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Mangrove Swamp Trees & Propagules**: Hanging propagule saplings and submerged mangrove tree generation. (Status: Verified and working)
 
 - [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Ice Spikes Biome**: Rare biome featuring large spikes of packed ice. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Ice Spikes Biome**: Rare biome featuring large spikes of packed ice. (Status: Verified and working)
 - [x] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees. (Status: Verified and working)
-- [ ] **Snowy Taiga** (Status: Missing implementation, agents must fix)
+- [x] **Snowy Taiga**: Biome featuring spruce trees and snow cover. (Status: Verified and working)
 - [x] **New Task: Add Mushroom Fields Biome**: Rare biome where Mooshrooms spawn and giant mushrooms grow. (Status: Verified and working)
-- [ ] **New Task: Add Igloos**: Snow structures found in snowy biomes. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Igloos**: Snow structures found in snowy biomes. (Status: Verified and working)
 - [x] **New Task: Add Pillagers**: Hostile illager mob with crossbows. (Status: Verified and working)
-- [ ] **Nether Fortresses** (Generation logic in Nether) (Status: Missing implementation, agents must fix)
-- [ ] **Badlands Biome** (Status: Missing implementation, agents must fix)
+- [x] **Nether Fortresses**: Generation logic in Nether with Nether Bricks and Soul Sand. (Status: Verified and working)
+- [x] **Badlands Biome**: Biome featuring terraced colored terracotta/concrete layers. (Status: Verified and working)
 - [ ] **Desert Temple** (Status: Missing implementation, agents must fix)
 
 ### 2. Block System

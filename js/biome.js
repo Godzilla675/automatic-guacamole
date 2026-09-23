@@ -16,7 +16,10 @@ class BiomeManager {
             PALE_OAK_FOREST: { name: 'Pale Oak Forest', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 2, treeChance: 0.12 },
             MANGROVE_SWAMP: { name: 'Mangrove Swamp', topBlock: BLOCK.MUD_BLOCK, underBlock: BLOCK.DIRT, heightOffset: -1, treeChance: 0.1 },
             CHERRY_GROVE: { name: 'Cherry Grove', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 6, treeChance: 0.08 },
-            MUSHROOM_FIELDS: { name: 'Mushroom Fields', topBlock: BLOCK.MYCELIUM, underBlock: BLOCK.DIRT, heightOffset: 1, treeChance: 0.04 }
+            MUSHROOM_FIELDS: { name: 'Mushroom Fields', topBlock: BLOCK.MYCELIUM, underBlock: BLOCK.DIRT, heightOffset: 1, treeChance: 0.04 },
+            ICE_SPIKES: { name: 'Ice Spikes', topBlock: BLOCK.SNOW, underBlock: BLOCK.PACKED_ICE, heightOffset: 8, treeChance: 0.01, snow: true },
+            SNOWY_TAIGA: { name: 'Snowy Taiga', topBlock: BLOCK.SNOW, underBlock: BLOCK.DIRT, heightOffset: 4, treeChance: 0.08, snow: true },
+            BADLANDS: { name: 'Badlands', topBlock: BLOCK.SAND, underBlock: BLOCK.CONCRETE_ORANGE, heightOffset: 5, treeChance: 0, cactusChance: 0.01 }
         };
     }
 
@@ -26,14 +29,17 @@ class BiomeManager {
         const humidity = window.perlin.noise(x * scale + 1000, z * scale + 1000, this.seed);
 
         if (temp > 0.5) {
-            if (humidity < -0.3) return this.biomes.DESERT;
-            if (humidity < 0.0) return this.biomes.SAVANNA;
+            if (humidity < -0.4) return this.biomes.BADLANDS;
+            if (humidity < -0.1) return this.biomes.DESERT;
+            if (humidity < 0.1) return this.biomes.SAVANNA;
             if (humidity > 0.7) return this.biomes.MANGROVE_SWAMP;
             if (humidity > 0.5) return this.biomes.JUNGLE;
             if (humidity > 0.3) return this.biomes.BIRCH_FOREST;
             return this.biomes.FOREST;
         } else if (temp < -0.3) {
+            if (humidity < -0.3) return this.biomes.ICE_SPIKES;
             if (humidity > 0.4) return this.biomes.CHERRY_GROVE;
+            if (humidity > 0.1) return this.biomes.SNOWY_TAIGA;
             return this.biomes.SNOW;
         } else {
             if (humidity > 0.8) return this.biomes.MUSHROOM_FIELDS;

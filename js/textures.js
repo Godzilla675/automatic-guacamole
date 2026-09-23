@@ -82,6 +82,7 @@ class TextureManager {
         this.textures[B.BEDROCK] = this.genBedrock();
         this.textures[B.SNOW] = this.genSnow();
         this.textures[B.ICE] = this.genIce();
+        this.textures[B.PACKED_ICE] = this.genIce();
 
         // Ores
         this.textures[B.ORE_COAL] = this.genOre('#808080', '#2F2F2F');
