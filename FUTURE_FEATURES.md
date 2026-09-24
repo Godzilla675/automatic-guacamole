@@ -230,10 +230,10 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Amethyst Geodes**: Rare underground structures with amethyst crystals. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Calcite and Tuff**: Decorative stones found in geodes and deep underground. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Deepslate**: Darker, tougher stone variant generated at lower Y levels. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Deepslate**: Darker, tougher stone variant generated at lower Y levels. (Status: Verified and working)
 
 - [ ] **New Task: Add Drowned**: Zombie variant that spawns underwater. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Tridents**: Weapons that can be thrown and return to the player. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Tridents**: Weapons that can be thrown and return to the player. (Status: Verified and working)
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Vehicle Item Drops on Destruction**: Boats and minecarts drop their item counterparts when destroyed by damage. (Status: Verified and working)
 
@@ -411,7 +411,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Axolotl Buckets**: Catching Axolotls in water buckets. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Crafter Redstone Pulse Recipe Execution**: Crafter block automatically outputting items when triggered by redstone pulse. (Status: Verified and working)
 
-- [ ] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Verified and working)
 
 - [x] **New Task: Add Cherry Wood**: Add cherry wood logs, planks, and leaves to match Cherry Grove biome. (Status: Verified and working)
 - [x] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Verified and working)
