@@ -94,19 +94,20 @@ global.window.soundManager = {
 // 2. Load Game Modules
 // Load in order
 const files = [
+    'js/math.js',
     'js/blocks.js',
     'js/biome.js',
     'js/structures.js',
     'js/chunk.js',
     'js/world.js',
     'js/physics.js',
+    'js/entity.js',
     'js/player.js',
     'js/crafting.js',
     'js/network.js',
     'js/chat.js',
     'js/ui.js',
     'js/input.js',
-    'js/entity.js',
     'js/mob.js', // Needed for Game
     'js/particles.js',
     'js/renderer.js',
@@ -118,6 +119,7 @@ files.forEach(file => {
         const content = fs.readFileSync(file, 'utf8');
         eval(content);
         // Expose classes globally if they are attached to window
+        if (window.Entity) global.Entity = window.Entity;
         if (window.World) global.World = window.World;
         if (window.Physics) global.Physics = window.Physics;
         if (window.Player) global.Player = window.Player;
