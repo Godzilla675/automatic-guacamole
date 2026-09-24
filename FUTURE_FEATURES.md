@@ -40,7 +40,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Nether Fossils & Soul Soil Biomes**: Bone block structures generated in soul sand valleys. (Status: Verified and working)
 - [x] **New Task: Add Mangrove Swamp Trees & Propagules**: Hanging propagule saplings and submerged mangrove tree generation. (Status: Verified and working)
 
-- [ ] Better cave systems (Ravines, large caves) (Status: Missing implementation, agents must fix)
+- [x] Better cave systems (Ravines, large caves) (Status: Verified and working)
 - [x] **New Task: Add Ice Spikes Biome**: Rare biome featuring large spikes of packed ice. (Status: Verified and working)
 - [x] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees. (Status: Verified and working)
 - [x] **Snowy Taiga**: Biome featuring spruce trees and snow cover. (Status: Verified and working)

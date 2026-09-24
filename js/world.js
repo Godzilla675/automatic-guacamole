@@ -1595,7 +1595,14 @@ class World {
                 for (let y = 1; y < height; y++) {
                     // Cave generation (3D noise)
                     const caveNoise = window.perlin.noise(worldX * 0.05, y * 0.05, worldZ * 0.05);
-                    if (caveNoise > 0.4) {
+                    const largeCaveNoise = window.perlin.noise(worldX * 0.02, y * 0.02, worldZ * 0.02);
+
+                    // Ravine generation (narrow width, long, deep)
+                    const ravineNoise1 = window.perlin.noise(worldX * 0.01, y * 0.02, worldZ * 0.01);
+                    const ravineNoise2 = window.perlin.noise(worldX * 0.01 + 1000, y * 0.02, worldZ * 0.01 + 1000);
+                    const isRavine = Math.abs(ravineNoise1 - ravineNoise2) < 0.02;
+
+                    if (caveNoise > 0.4 || largeCaveNoise > 0.6 || isRavine) {
                         chunk.setBlock(x, y, z, BLOCK.AIR);
                     } else {
                         // Ores
