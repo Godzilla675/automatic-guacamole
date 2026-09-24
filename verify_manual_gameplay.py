@@ -10,12 +10,12 @@ def verify_gameplay():
         page = context.new_page()
 
         try:
+            page.on("dialog", lambda dialog: dialog.accept("Player"))
             page.goto("http://localhost:3000")
             page.wait_for_selector("#start-game", timeout=5000)
             print("Game loaded. Clicking Start Game...")
 
-            # Need force because of the loading overlay animation that might be active
-            page.click("#start-game", force=True)
+            page.evaluate("document.getElementById('start-game').click();")
 
             # Wait for canvas to be visible
             page.wait_for_selector("#game-canvas", timeout=5000)

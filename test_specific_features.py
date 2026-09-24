@@ -10,10 +10,11 @@ def run_tests():
         page = context.new_page()
         page.on("dialog", lambda dialog: dialog.accept("Player"))
         page.goto("http://localhost:3000")
-        page.wait_for_timeout(2000)
+        page.wait_for_selector("#start-game", state="visible")
+        page.wait_for_timeout(1000)
 
         # Click start game
-        page.click("#start-game", force=True)
+        page.click("#start-game")
         time.sleep(2)
 
         # 1. Take screenshot of crosshair to check alignment
