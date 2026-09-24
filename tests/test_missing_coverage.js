@@ -445,7 +445,7 @@ if (!document.getElementById('game-canvas')) {
         world.biomeManager.getBiome = () => desert; // Force Desert with high chance
 
         const _oldRandom = Math.random;
-        Math.random = () => 0; // force random to be less than chance
+        Math.random = () => 0.01; // force random to trigger tree/cactus chance without triggering desert temple (0.008)
 
         // Clear chunks to force regeneration
         world.chunks.clear();

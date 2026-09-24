@@ -432,7 +432,12 @@ const BLOCK = {
     DRIED_KELP_BLOCK: 504,
     ITEM_DRIED_KELP: 505,
 
-    PACKED_ICE: 506
+    PACKED_ICE: 506,
+
+    DEEPSLATE: 507,
+    DEEPSLATE_IRON_ORE: 508,
+    DEEPSLATE_GOLD_ORE: 509,
+    DEEPSLATE_DIAMOND_ORE: 510
 };
 
 const ARMOR = {
@@ -944,7 +949,12 @@ const BLOCKS = {
     [BLOCK.DRIED_KELP_BLOCK]: { name: 'Dried Kelp Block', color: '#233827', top: '#2E4A34', solid: true, icon: '🟩', hardness: 0.5, tool: 'hoe' },
     [BLOCK.ITEM_DRIED_KELP]: { name: 'Dried Kelp', color: '#2E5A38', solid: false, isItem: true, icon: '🍃', food: 1 },
 
-    [BLOCK.PACKED_ICE]: { name: 'Packed Ice', color: '#80B0E0', top: '#A0C0F0', solid: true, transparent: false, icon: '🧊', hardness: 0.5, tool: 'pickaxe' }
+    [BLOCK.PACKED_ICE]: { name: 'Packed Ice', color: '#80B0E0', top: '#A0C0F0', solid: true, transparent: false, icon: '🧊', hardness: 0.5, tool: 'pickaxe' },
+
+    [BLOCK.DEEPSLATE]: { name: 'Deepslate', color: '#323438', top: '#3B3D42', solid: true, icon: '🪨', hardness: 3.0, tool: 'pickaxe', drop: { type: 507, count: 1 } },
+    [BLOCK.DEEPSLATE_IRON_ORE]: { name: 'Deepslate Iron Ore', color: '#323438', top: '#D2B48C', solid: true, icon: '⚪', hardness: 4.5, tool: 'pickaxe' },
+    [BLOCK.DEEPSLATE_GOLD_ORE]: { name: 'Deepslate Gold Ore', color: '#323438', top: '#FFD700', solid: true, icon: '🟡', hardness: 4.5, tool: 'pickaxe' },
+    [BLOCK.DEEPSLATE_DIAMOND_ORE]: { name: 'Deepslate Diamond Ore', color: '#323438', top: '#00FFFF', solid: true, icon: '💎', hardness: 4.5, tool: 'pickaxe', drop: { type: BLOCK.ITEM_DIAMOND, count: 1 } }
 };
 
 if (typeof window !== 'undefined') {

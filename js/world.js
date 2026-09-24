@@ -366,12 +366,22 @@ class World {
         const index = validIndices[Math.floor(Math.random() * validIndices.length)];
         const item = entity.items[index];
 
-        const dropX = x + 0.5;
-        const dropY = y + 0.5;
-        const dropZ = z + 0.5;
+        const meta = this.getMetadata(x, y, z);
+        const dir = this.getDirectionVector(meta);
 
-        if (this.game && this.game.drops && window.Drop) {
-            this.game.drops.push(new window.Drop(this.game, dropX, dropY + 0.5, dropZ, item.type, 1));
+        if (item.type === window.BLOCK.ITEM_WIND_CHARGE && this.game && this.game.spawnProjectile) {
+            const launchX = x + 0.5 + dir.x * 0.8;
+            const launchY = y + 0.5 + dir.y * 0.8;
+            const launchZ = z + 0.5 + dir.z * 0.8;
+            this.game.spawnProjectile(launchX, launchY, launchZ, dir, 'wind_charge');
+        } else {
+            const dropX = x + 0.5;
+            const dropY = y + 0.5;
+            const dropZ = z + 0.5;
+
+            if (this.game && this.game.drops && window.Drop) {
+                this.game.drops.push(new window.Drop(this.game, dropX, dropY + 0.5, dropZ, item.type, 1));
+            }
         }
 
         item.count--;
@@ -379,7 +389,7 @@ class World {
             entity.items[index] = null;
         }
 
-        if (window.soundManager) window.soundManager.play('place', { x: dropX, y: dropY, z: dropZ });
+        if (window.soundManager) window.soundManager.play('place', { x: x + 0.5, y: y + 0.5, z: z + 0.5 });
     }
 
     updateFireSpread() {
@@ -1605,11 +1615,20 @@ class World {
                     if (caveNoise > 0.4 || largeCaveNoise > 0.6 || isRavine) {
                         chunk.setBlock(x, y, z, BLOCK.AIR);
                     } else {
+                        // Deepslate layer under Y=16
+                        const isDeepslateLayer = y < 16;
                         // Ores
-                        if (Math.random() < 0.01) chunk.setBlock(x, y, z, BLOCK.ORE_COAL);
-                        else if (y < 20 && Math.random() < 0.005) chunk.setBlock(x, y, z, BLOCK.ORE_IRON);
-                        else if (y < 10 && Math.random() < 0.002) chunk.setBlock(x, y, z, BLOCK.ORE_DIAMOND);
-                        else chunk.setBlock(x, y, z, BLOCK.STONE);
+                        if (Math.random() < 0.01) {
+                            chunk.setBlock(x, y, z, BLOCK.ORE_COAL);
+                        } else if (y < 20 && Math.random() < 0.005) {
+                            chunk.setBlock(x, y, z, isDeepslateLayer ? (window.BLOCK.DEEPSLATE_IRON_ORE || BLOCK.ORE_IRON) : BLOCK.ORE_IRON);
+                        } else if (y < 10 && Math.random() < 0.002) {
+                            chunk.setBlock(x, y, z, isDeepslateLayer ? (window.BLOCK.DEEPSLATE_DIAMOND_ORE || BLOCK.ORE_DIAMOND) : BLOCK.ORE_DIAMOND);
+                        } else if (y < 16 && Math.random() < 0.003) {
+                            chunk.setBlock(x, y, z, window.BLOCK.DEEPSLATE_GOLD_ORE || BLOCK.ORE_GOLD);
+                        } else {
+                            chunk.setBlock(x, y, z, isDeepslateLayer ? (window.BLOCK.DEEPSLATE || BLOCK.STONE) : BLOCK.STONE);
+                        }
                     }
                 }
 
@@ -1691,6 +1710,9 @@ class World {
                     }
                     if (biome.cactusChance && Math.random() < biome.cactusChance) {
                         this.structureManager.generateCactus(chunk, x, height + 1, z);
+                    }
+                    if (biome.name === 'Desert' && Math.random() < 0.008) {
+                        this.structureManager.generateStructure(chunk, x, height + 1, z, 'desert_temple');
                     }
 
                     // Village Check

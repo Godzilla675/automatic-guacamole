@@ -29,7 +29,9 @@ const MOB_TYPE = {
     ARMADILLO: 'armadillo',
     MOOSHROOM: 'mooshroom',
     FROG: 'frog',
-    CREAKING: 'creaking'
+    CREAKING: 'creaking',
+    WANDERING_TRADER: 'wandering_trader',
+    LLAMA: 'llama'
 };
 
 class Mob extends Entity {
@@ -74,13 +76,38 @@ class Mob extends Entity {
     interact(itemType) {
         if (this.breedingCooldown > 0 || this.isBaby) return false;
 
-        // Villager Trading
-        if (this.type === MOB_TYPE.VILLAGER) {
-             if (this.game.ui && this.game.ui.openTrading) {
+        // Villager / Wandering Trader Trading
+        if (this.type === MOB_TYPE.VILLAGER || this.type === MOB_TYPE.WANDERING_TRADER) {
+             if (itemType === window.BLOCK.ITEM_EMERALD && this.game && this.game.player) {
+                 const rareItems = [
+                     window.BLOCK.CORAL_BRAIN,
+                     window.BLOCK.ITEM_GLOW_BERRIES,
+                     window.BLOCK.PALE_OAK_SAPLING,
+                     window.BLOCK.SEA_LANTERN,
+                     window.BLOCK.EYEBLOSSOM
+                 ];
+                 const gift = rareItems[Math.floor(Math.random() * rareItems.length)];
+                 this.game.player.giveItem(gift, 1);
+                 if (this.game.ui && this.game.ui.showNotification) {
+                     this.game.ui.showNotification(`Traded Emerald for ${window.BLOCKS[gift]?.name || 'Rare Item'}!`);
+                 }
+                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                 return true;
+             } else if (this.game.ui && this.game.ui.openTrading) {
                  this.game.ui.openTrading(this);
                  return true;
              }
              return false;
+        }
+
+        // Llama interaction
+        if (this.type === MOB_TYPE.LLAMA) {
+             if (itemType === window.BLOCK.WOOL_WHITE || itemType === window.BLOCK.WOOL_RED) {
+                 this.isTamed = true;
+                 this.color = '#E0D0B0';
+                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                 return true;
+             }
         }
 
         // Taming Wolf or Equipping Wolf Armor
@@ -452,6 +479,22 @@ class Mob extends Entity {
                 this.xpValue = 10;
                 this.linkedHeartPos = null;
                 break;
+            case MOB_TYPE.WANDERING_TRADER:
+                this.color = '#1E90FF'; // Royal Blue
+                this.height = 1.8;
+                this.width = 0.6;
+                this.speed = 1.2;
+                this.maxHealth = 20;
+                this.xpValue = 0;
+                break;
+            case MOB_TYPE.LLAMA:
+                this.color = '#F4A460'; // Sandy Brown
+                this.height = 1.9;
+                this.width = 0.9;
+                this.speed = 1.5;
+                this.maxHealth = 22;
+                this.xpValue = 2;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -717,6 +760,16 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.WANDERING_TRADER) {
+            this.updateWanderingTraderAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.LLAMA) {
+            this.updateLlamaAI(dt);
+            return;
+        }
+
         // Nether Mobs
         if (this.type === MOB_TYPE.GHAST) {
             this.updateGhastAI(dt);
@@ -928,6 +981,68 @@ class Mob extends Entity {
 
         const dot = lookX * normX + lookY * normY + lookZ * normZ;
         return dot > 0.4 && this.hasLineOfSight(player);
+    }
+
+    updateWanderingTraderAI(dt) {
+        const player = this.game.player;
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.hypot(dx, dz);
+
+        if (dist < 12) {
+            this.yaw = Math.atan2(dx, dz);
+            if (dist > 4) {
+                this.vx = Math.sin(this.yaw) * this.speed * 0.8;
+                this.vz = Math.cos(this.yaw) * this.speed * 0.8;
+            } else {
+                this.vx = 0;
+                this.vz = 0;
+            }
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updateLlamaAI(dt) {
+        // Caravan behavior: follow Wandering Trader or lead Llama
+        const trader = this.game && this.game.mobs ? this.game.mobs.find(m =>
+            m !== this && (m.type === MOB_TYPE.WANDERING_TRADER || m.type === MOB_TYPE.LLAMA) && !m.isDead
+        ) : null;
+
+        if (trader) {
+            const dx = trader.x - this.x;
+            const dz = trader.z - this.z;
+            const dist = Math.hypot(dx, dz);
+
+            if (dist > 3 && dist < 18) {
+                this.yaw = Math.atan2(dx, dz);
+                this.vx = Math.sin(this.yaw) * this.speed;
+                this.vz = Math.cos(this.yaw) * this.speed;
+                return;
+            }
+        }
+
+        // Spit at attacker if recently damaged
+        if (Date.now() - this.lastDamageTime < 5000) {
+            const player = this.game.player;
+            const dx = player.x - this.x;
+            const dz = player.z - this.z;
+            const dist = Math.hypot(dx, dz);
+            if (dist < 10) {
+                this.yaw = Math.atan2(dx, dz);
+                this.attackCooldown -= dt;
+                if (this.attackCooldown <= 0) {
+                    if (this.game.spawnProjectile) {
+                        const normDist = Math.hypot(dx, dz) || 1;
+                        this.game.spawnProjectile(this.x, this.y + 1.2, this.z, { x: dx/normDist, y: 0.1, z: dz/normDist }, 'snowball');
+                    }
+                    this.attackCooldown = 2.0;
+                }
+                return;
+            }
+        }
+
+        this.updatePassiveAI(dt);
     }
 
     updateCreakingAI(dt) {
