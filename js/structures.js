@@ -145,6 +145,94 @@ class StructureManager {
         if (structureName === 'nether_fortress') {
             this.generateNetherFortress(chunk, x, y, z);
         }
+        if (structureName === 'desert_temple') {
+            this.generateDesertTemple(chunk, x, y, z);
+        }
+    }
+
+    generateDesertTemple(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        const sandstone = BLOCK.SANDSTONE;
+        const orangeTerracotta = BLOCK.CONCRETE_ORANGE || BLOCK.BRICK;
+        const blueTerracotta = BLOCK.CONCRETE_BLUE || BLOCK.LAPIS_LAZULI || BLOCK.STONE;
+
+        // Base Pyramid (9x9) & Main Hall
+        for (let dx = -4; dx <= 4; dx++) {
+            for (let dz = -4; dz <= 4; dz++) {
+                for (let dy = 0; dy <= 5; dy++) {
+                    const isOuter = (Math.abs(dx) === 4 || Math.abs(dz) === 4 || dy === 0 || dy === 5);
+                    if (isOuter) {
+                        this.world.setBlock(wx + dx, y + dy, wz + dz, sandstone);
+                    } else {
+                        this.world.setBlock(wx + dx, y + dy, wz + dz, BLOCK.AIR);
+                    }
+                }
+            }
+        }
+
+        // Decorative floor pattern (blue terracotta in center)
+        this.world.setBlock(wx, y, wz, blueTerracotta);
+        this.world.setBlock(wx + 1, y, wz, orangeTerracotta);
+        this.world.setBlock(wx - 1, y, wz, orangeTerracotta);
+        this.world.setBlock(wx, y, wz + 1, orangeTerracotta);
+        this.world.setBlock(wx, y, wz - 1, orangeTerracotta);
+
+        // Twin Front Towers (left & right)
+        for (let dy = 0; dy <= 8; dy++) {
+            this.world.setBlock(wx - 4, y + dy, wz - 4, orangeTerracotta);
+            this.world.setBlock(wx + 4, y + dy, wz - 4, orangeTerracotta);
+            this.world.setBlock(wx - 4, y + dy, wz + 4, orangeTerracotta);
+            this.world.setBlock(wx + 4, y + dy, wz + 4, orangeTerracotta);
+        }
+
+        // Underground Hidden Subterranean Loot Trap Chamber (y-6 to y-1)
+        const trapY = y - 6;
+        for (let dx = -2; dx <= 2; dx++) {
+            for (let dz = -2; dz <= 2; dz++) {
+                for (let dy = -6; dy <= -1; dy++) {
+                    const blockY = y + dy;
+                    if (dy === -6 || dy === -1 || Math.abs(dx) === 2 || Math.abs(dz) === 2) {
+                        this.world.setBlock(wx + dx, blockY, wz + dz, sandstone);
+                    } else {
+                        this.world.setBlock(wx + dx, blockY, wz + dz, BLOCK.AIR);
+                    }
+                }
+            }
+        }
+
+        // TNT Trap under center floor of hidden chamber
+        this.world.setBlock(wx, trapY - 1, wz, BLOCK.TNT);
+        this.world.setBlock(wx + 1, trapY - 1, wz, BLOCK.TNT);
+        this.world.setBlock(wx - 1, trapY - 1, wz, BLOCK.TNT);
+        this.world.setBlock(wx, trapY - 1, wz + 1, BLOCK.TNT);
+        this.world.setBlock(wx, trapY - 1, wz - 1, BLOCK.TNT);
+
+        // Trap Trigger on floor
+        this.world.setBlock(wx, trapY, wz, BLOCK.TARGET_BLOCK || BLOCK.REDSTONE_WIRE);
+
+        // 4 Loot Chests along chamber walls
+        const chestPositions = [
+            { x: wx + 1, y: trapY, z: wz },
+            { x: wx - 1, y: trapY, z: wz },
+            { x: wx, y: trapY, z: wz + 1 },
+            { x: wx, y: trapY, z: wz - 1 }
+        ];
+
+        for (const pos of chestPositions) {
+            this.world.setBlock(pos.x, pos.y, pos.z, BLOCK.CHST || BLOCK.CHEST);
+            const chestEntity = {
+                type: 'chest',
+                items: [
+                    { type: BLOCK.ITEM_DIAMOND, count: 1 + Math.floor(Math.random() * 3) },
+                    { type: BLOCK.ITEM_GOLD_INGOT, count: 2 + Math.floor(Math.random() * 4) },
+                    { type: BLOCK.ITEM_IRON_INGOT, count: 3 + Math.floor(Math.random() * 5) },
+                    { type: BLOCK.ITEM_EMERALD || BLOCK.ITEM_DIAMOND, count: 2 }
+                ]
+            };
+            this.world.setBlockEntity(pos.x, pos.y, pos.z, chestEntity);
+        }
     }
 
     placeStructureBlock(chunk, lx, ly, lz, blockType) {
@@ -271,6 +359,23 @@ class StructureManager {
         this.world.setBlock(wx + 2, y + 1, wz + 2, window.BLOCK.OMINOUS_VAULT);
         this.world.setBlock(wx + 2, y + 1, wz - 2, window.BLOCK.COPPER_BULB);
         this.world.setBlock(wx - 2, y + 1, wz + 2, window.BLOCK.COPPER_GRATE);
+
+        // Place Wind Trap (Dispenser pre-loaded with Wind Charges)
+        const trapDispenserX = wx + 3;
+        const trapDispenserY = y + 2;
+        const trapDispenserZ = wz;
+        this.world.setBlock(trapDispenserX, trapDispenserY, trapDispenserZ, window.BLOCK.DISPENSER);
+        this.world.setMetadata(trapDispenserX, trapDispenserY, trapDispenserZ, 4);
+
+        const trapEntity = {
+            type: 'dispenser',
+            items: [
+                { type: window.BLOCK.ITEM_WIND_CHARGE, count: 8 },
+                null, null, null, null, null, null, null, null
+            ]
+        };
+        this.world.setBlockEntity(trapDispenserX, trapDispenserY, trapDispenserZ, trapEntity);
+        this.world.setBlock(wx + 2, y + 1, wz, window.BLOCK.TARGET_BLOCK || window.BLOCK.REDSTONE_WIRE);
     }
 
     generateMangroveTree(chunk, x, y, z, sync = false) {

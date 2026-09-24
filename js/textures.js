@@ -83,6 +83,10 @@ class TextureManager {
         this.textures[B.SNOW] = this.genSnow();
         this.textures[B.ICE] = this.genIce();
         this.textures[B.PACKED_ICE] = this.genIce();
+        this.textures[B.DEEPSLATE] = this.genDeepslate();
+        this.textures[B.DEEPSLATE_IRON_ORE] = this.genDeepslateOre('#D2B48C');
+        this.textures[B.DEEPSLATE_GOLD_ORE] = this.genDeepslateOre('#FFD700');
+        this.textures[B.DEEPSLATE_DIAMOND_ORE] = this.genDeepslateOre('#00FFFF');
 
         // Ores
         this.textures[B.ORE_COAL] = this.genOre('#808080', '#2F2F2F');
@@ -361,6 +365,38 @@ class TextureManager {
     }
 
     // -- Individual texture generators --
+
+    genDeepslate() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 50, g: 52, b: 56 }, 15);
+        ctx.fillStyle = '#222428';
+        for (let i = 0; i < 4; i++) {
+            const x = Math.floor(Math.random() * 12);
+            const y = Math.floor(Math.random() * 14) + 1;
+            ctx.fillRect(x, y, 4, 1);
+        }
+        return c;
+    }
+
+    genDeepslateOre(oreColor) {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 50, g: 52, b: 56 }, 15);
+        const ore = this.hexToRgb(oreColor);
+        const cx = 4 + Math.floor(Math.random() * 8);
+        const cy = 4 + Math.floor(Math.random() * 8);
+        for (let i = 0; i < 8; i++) {
+            const ox = cx + Math.floor(Math.random() * 5) - 2;
+            const oy = cy + Math.floor(Math.random() * 5) - 2;
+            if (ox >= 0 && ox < 16 && oy >= 0 && oy < 16) {
+                const v = this.varyColor(ore, 15);
+                ctx.fillStyle = `rgb(${v.r},${v.g},${v.b})`;
+                ctx.fillRect(ox, oy, 1, 1);
+            }
+        }
+        return c;
+    }
 
     genDirt() {
         const c = this.createCanvas();
@@ -2611,6 +2647,35 @@ class TextureManager {
         this.mobTextures.armadillo = this.genMobArmadillo();
         this.mobTextures.mooshroom = this.genMobMooshroom();
         this.mobTextures.frog = this.genMobFrog();
+        this.mobTextures.wandering_trader = this.genMobWanderingTrader();
+        this.mobTextures.llama = this.genMobLlama();
+    }
+
+    genMobWanderingTrader() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 30, g: 144, b: 255 }, 10, 8, 16);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(0, 5, 8, 1);
+        ctx.fillRect(0, 13, 8, 1);
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(1, 0, 6, 5);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(2, 2, 1, 1);
+        ctx.fillRect(5, 2, 1, 1);
+        return c;
+    }
+
+    genMobLlama() {
+        const c = this.createCanvas(10, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 244, g: 164, b: 96 }, 10, 10, 16);
+        ctx.fillStyle = '#C71585';
+        ctx.fillRect(2, 6, 6, 5);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(2, 2, 1, 1);
+        ctx.fillRect(6, 2, 1, 1);
+        return c;
     }
 
     genMobMooshroom() {

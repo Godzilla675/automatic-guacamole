@@ -5,6 +5,8 @@ class CraftingSystem {
         this.smeltingRecipes = [
             { input: BLOCK.ORE_IRON, output: { type: BLOCK.ITEM_IRON_INGOT, count: 1 } },
             { input: BLOCK.ORE_GOLD, output: { type: BLOCK.ITEM_GOLD_INGOT, count: 1 } },
+            { input: BLOCK.DEEPSLATE_IRON_ORE, output: { type: BLOCK.ITEM_IRON_INGOT, count: 1 } },
+            { input: BLOCK.DEEPSLATE_GOLD_ORE, output: { type: BLOCK.ITEM_GOLD_INGOT, count: 1 } },
             { input: BLOCK.ORE_COPPER, output: { type: BLOCK.ITEM_COPPER_INGOT, count: 1 } },
             { input: BLOCK.SAND, output: { type: BLOCK.GLASS, count: 1 } },
             { input: BLOCK.COBBLESTONE, output: { type: BLOCK.STONE, count: 1 } },
