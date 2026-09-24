@@ -24,6 +24,7 @@ global.window.StructureManager = class {
     generateVillage() {}
     generateStructure() {}
     generateNetherFossil() {}
+    generateNetherFortress() {}
 };
 
 // Mock Blocks
