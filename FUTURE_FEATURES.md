@@ -100,7 +100,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Complex AI (Pathfinding, fleeing, attacking) (Status: Missing implementation, agents must fix)
 - [x] **Wandering Traders**: Ambient passive trader spawning with emerald trade options. (Status: Verified and working)
 - [ ] **Wither Boss** (Status: Missing implementation, agents must fix)
-- [ ] **Slime Mob** (Status: Missing implementation, agents must fix)
+- [ ] **Slime Mob**: Green bouncing mob that splits into smaller slimes upon taking fatal damage. (Status: Missing implementation, agents must fix)
 - [x] **Magma Cube Mob** (Status: Verified and working)
 - [x] **Snow Golem Mob**: Snow Golem utility mob throwing snowballs at hostiles. (Status: Verified and working)
 - [ ] **Ender Dragon Boss** (Status: Missing implementation, agents must fix)
@@ -241,6 +241,16 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Goats**: New mob that rams players and entities. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
+
+### 17. Newly Proposed Features & Enhancements
+- [ ] **New Task: Add Powder Snow & Freezing Mechanics**: Soft falling powder snow blocks that entities sink through and incur freezing damage over time. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Piglins & Gold Bartering**: Hostile Nether mobs that become neutral when player wears gold armor and barter items for Gold Ingots. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Slime Mobs & Splitting Mechanics**: Bouncing green mob entity that splits into smaller slimes upon death and drops Slimeballs. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Stripped Log & Bark Wood Variants**: Axis-oriented axe stripping mechanics on logs to produce stripped log variants and 6-sided wood bark blocks. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Oak & Pale Oak Boats & Chest Boats**: Rideable watercraft entity variants with container inventory support for transport. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Tuff Building Block Family**: Tuff Bricks, Polished Tuff, Chiseled Tuff, and Tuff Slabs for decorating Trial Chambers and subterranean structures. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Target Block Precision Redstone Signals**: Target block emitting redstone signal strength proportional to projectile distance from center face impact. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Resin Storage Block & Resin Brick Stairs**: Craft 9 Resin Clumps into solid Resin Blocks and expand Resin Bricks into Stairs and Walls. (Status: Proposed feature, pending implementation)
 
 ## Known Bugs & Issues (To Be Fixed)
 - [x] **Bug: Canvas Pattern Creation in Headless Contexts**: `createPattern` throwing errors in headless test environments lacking full HTMLCanvasElement rendering backends. (Status: Verified and working - canvas pattern fallback in TextureManager and test hooks)
