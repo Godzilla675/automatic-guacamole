@@ -511,7 +511,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Anvil Item Renaming and Repair GUI**: Complete repair and item renaming functionality within dedicated Anvil UI. (Status: Verified and working)
 - [x] **New Task: Add Bundle Color Dyeing**: Dye Bundle items with 16 color dyes in crafting grid to organize inventory categories. (Status: Verified and working)
 - [x] **New Task: Add Eyeblossom Poison Stew Crafting**: Combine blooming Eyeblossoms with mushrooms in stew recipe to grant Poison effect. (Status: Verified and working)
-- [ ] **New Task: Add Trial Chamber Wind Traps**: Trap blocks triggered by redstone wire that propel Wind Charge projectiles at intruders. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Trial Chamber Wind Traps**: Trap blocks triggered by redstone wire that propel Wind Charge projectiles at intruders. (Status: Verified and working in `js/structures.js` and `tests/test_5_new_high_quality_features_batch9.js`)
 - [x] **New Task: Add Sculk Sensor Vibration Frequencies**: Sculk Sensors outputting distinct redstone signal strengths depending on vibration event source. (Status: Verified and working)
 - [ ] **New Task: Add Copper Bulb Oxidation Attenuation**: Copper Bulb light emissions dimming progressively based on oxidation stage. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Ominous Banner Drops**: Illager Captains dropping Ominous Banners upon defeat to trigger Bad Omen effect. (Status: Proposed feature, pending implementation)
