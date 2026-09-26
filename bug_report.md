@@ -144,3 +144,10 @@ Executed an array of Playwright automated testing scripts against the live `http
 - Resolved timeout flakiness in `tests/test_new_agent_features.js` by updating the test suite timeout to 30000ms.
 - Executed Playwright E2E browser test scripts (`verify_manual_gameplay.py`, `extensive_test.py`, `test_specific_features.py`) against local HTTP server on port 3000.
 - All 107+ test suites and E2E browser tests passed with 100% success rate and 0 console errors.
+
+## Latest Fletching Table & Smoker/Blast Furnace UI Audit Run
+- Verified Fletching Table GUI screen container (`#fletching-screen`) opens on right-click interaction with `BLOCK.FLETCHING_TABLE`.
+- Verified Flint, Stick, and Feather item placement in input slots and crafting 4 Arrows into inventory upon output slot interaction.
+- Verified Smoker and Blast Furnace UI header titles ('Smoker', 'Blast Furnace') and dynamic cooking smoke/spark animation classes (`smoke-mode`, `blast-mode`) on `#furnace-burn-effect`.
+- Created dedicated test suite `tests/test_fletching_smoker_ui.js` passing 100% of test cases.
+- Updated `FUTURE_FEATURES.md` task tracking status entries.
