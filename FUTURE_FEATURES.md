@@ -100,7 +100,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] Complex AI (Pathfinding, fleeing, attacking) (Status: Missing implementation, agents must fix)
 - [x] **Wandering Traders**: Ambient passive trader spawning with emerald trade options. (Status: Verified and working)
 - [ ] **Wither Boss** (Status: Missing implementation, agents must fix)
-- [ ] **Slime Mob**: Green bouncing mob that splits into smaller slimes upon taking fatal damage. (Status: Missing implementation, agents must fix)
+- [x] **Slime Mob**: Green bouncing mob that splits into smaller slimes upon taking fatal damage. (Status: Verified and working)
 - [x] **Magma Cube Mob** (Status: Verified and working)
 - [x] **Snow Golem Mob**: Snow Golem utility mob throwing snowballs at hostiles. (Status: Verified and working)
 - [ ] **Ender Dragon Boss** (Status: Missing implementation, agents must fix)
@@ -116,7 +116,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Wolf Armor & Armadillo Scute Crafting**: Craft armor for tamed wolves using Armadillo Scutes and equip onto tamed wolves. (Status: Verified and working)
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Verified and working)
-- [ ] **New Task: Add Piglins and Bartering**: Neutral mobs in the Nether that trade items for gold. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Piglins and Bartering**: Neutral mobs in the Nether that trade items for gold. (Status: Verified and working)
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava. (Status: Missing implementation, agents must fix)
 - [ ] **Map item** (Status: Missing implementation, agents must fix)
 - [ ] **Shulker Boxes** (Status: Missing implementation, agents must fix)
@@ -132,7 +132,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Dynamic Lighting** (Light emitting items in hand) (Status: Missing implementation, agents must fix)
 
 ### 8. Physics
-- [ ] **New Task: Add Soft Falling Blocks**: Powder snow block physics and entity freezing/sinking mechanics. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Soft Falling Blocks**: Powder snow block physics and entity freezing/sinking mechanics. (Status: Verified and working)
 - [x] **New Task: Add Item Despawn Timers & Out-of-Block Pushing**: Item drops despawn gracefully after timer and push out of solid blocks when stuck. (Status: Verified and working)
 - [x] **New Task: Add Wind Charge Radial Knockback**: Radial knockback physics for Wind Charge impact within a 3-block radius. (Status: Verified and working)
 
@@ -243,13 +243,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
 
 ### 17. Newly Proposed Features & Enhancements
-- [ ] **New Task: Add Powder Snow & Freezing Mechanics**: Soft falling powder snow blocks that entities sink through and incur freezing damage over time. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Piglins & Gold Bartering**: Hostile Nether mobs that become neutral when player wears gold armor and barter items for Gold Ingots. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Slime Mobs & Splitting Mechanics**: Bouncing green mob entity that splits into smaller slimes upon death and drops Slimeballs. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Stripped Log & Bark Wood Variants**: Axis-oriented axe stripping mechanics on logs to produce stripped log variants and 6-sided wood bark blocks. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Powder Snow & Freezing Mechanics**: Soft falling powder snow blocks that entities sink through and incur freezing damage over time. (Status: Verified and working)
+- [x] **New Task: Add Piglins & Gold Bartering**: Hostile Nether mobs that become neutral when player wears gold armor and barter items for Gold Ingots. (Status: Verified and working)
+- [x] **New Task: Add Slime Mobs & Splitting Mechanics**: Bouncing green mob entity that splits into smaller slimes upon death and drops Slimeballs. (Status: Verified and working)
+- [x] **New Task: Add Stripped Log & Bark Wood Variants**: Axis-oriented axe stripping mechanics on logs to produce stripped log variants and 6-sided wood bark blocks. (Status: Verified and working)
 - [ ] **New Task: Add Oak & Pale Oak Boats & Chest Boats**: Rideable watercraft entity variants with container inventory support for transport. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Tuff Building Block Family**: Tuff Bricks, Polished Tuff, Chiseled Tuff, and Tuff Slabs for decorating Trial Chambers and subterranean structures. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Target Block Precision Redstone Signals**: Target block emitting redstone signal strength proportional to projectile distance from center face impact. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Target Block Precision Redstone Signals**: Target block emitting redstone signal strength proportional to projectile distance from center face impact. (Status: Verified and working)
 - [ ] **New Task: Add Resin Storage Block & Resin Brick Stairs**: Craft 9 Resin Clumps into solid Resin Blocks and expand Resin Bricks into Stairs and Walls. (Status: Proposed feature, pending implementation)
 
 ## Known Bugs & Issues (To Be Fixed)

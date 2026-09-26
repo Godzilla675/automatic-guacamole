@@ -22,6 +22,26 @@ class CraftingSystem {
                 result: { type: BLOCK.PLANK, count: 4 },
                 ingredients: [ { type: BLOCK.WOOD, count: 1 } ]
             },
+            {
+                name: "Planks from Stripped Oak (4)",
+                result: { type: BLOCK.PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.STRIPPED_OAK_LOG, count: 1 } ]
+            },
+            {
+                name: "Pale Oak Planks from Stripped (4)",
+                result: { type: BLOCK.PALE_OAK_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.STRIPPED_PALE_OAK_LOG, count: 1 } ]
+            },
+            {
+                name: "Mangrove Planks from Stripped (4)",
+                result: { type: BLOCK.MANGROVE_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.STRIPPED_MANGROVE_LOG, count: 1 } ]
+            },
+            {
+                name: "Cherry Planks from Stripped (4)",
+                result: { type: BLOCK.CHERRY_PLANK, count: 4 },
+                ingredients: [ { type: BLOCK.STRIPPED_CHERRY_LOG, count: 1 } ]
+            },
             // Furnaces
             {
                 name: "Furnace",
@@ -101,7 +121,7 @@ class CraftingSystem {
             {
                 name: "Slime Block",
                 result: { type: BLOCK.SLIME_BLOCK, count: 1 },
-                ingredients: [ { type: BLOCK.ITEM_STRING, count: 9 } ]
+                ingredients: [ { type: BLOCK.ITEM_SLIMEBALL, count: 9 } ]
             },
             {
                 name: "Campfire",

@@ -81,6 +81,8 @@ class TextureManager {
         this.textures[B.PLANK] = this.genPlank('#DEB887');
         this.textures[B.BEDROCK] = this.genBedrock();
         this.textures[B.SNOW] = this.genSnow();
+        this.textures[B.POWDER_SNOW] = this.genSnow();
+        this.textures[B.ITEM_POWDER_SNOW_BUCKET] = this.genBucket('#F0F5FF');
         this.textures[B.ICE] = this.genIce();
         this.textures[B.PACKED_ICE] = this.genIce();
         this.textures[B.DEEPSLATE] = this.genDeepslate();
@@ -173,6 +175,15 @@ class TextureManager {
         this.textures[B.COPPER_DOOR_TOP] = this.genDoor('#B87333');
         this.textures[B.ITEM_COPPER_DOOR] = this.genDoor('#B87333');
         this.textures[B.ITEM_BUNDLE] = this.genBundleItem();
+        this.textures[B.STRIPPED_OAK_LOG] = this.genPlank('#DEB887');
+        this.textures[B.STRIPPED_SPRUCE_LOG] = this.genPlank('#8B5A2B');
+        this.textures[B.STRIPPED_BIRCH_LOG] = this.genPlank('#c4b07d');
+        this.textures[B.STRIPPED_JUNGLE_LOG] = this.genPlank('#a07350');
+        this.textures[B.STRIPPED_ACACIA_LOG] = this.genPlank('#BA5536');
+        this.textures[B.STRIPPED_DARK_OAK_LOG] = this.genPlank('#422B18');
+        this.textures[B.STRIPPED_PALE_OAK_LOG] = this.genPlank('#E0E0E0');
+        this.textures[B.STRIPPED_MANGROVE_LOG] = this.genPlank('#773525');
+        this.textures[B.STRIPPED_CHERRY_LOG] = this.genPlank('#E5B2B2');
         this.textures[B.PALE_OAK_LOG] = this.genWood('#808080', '#606060');
         this.textures[B.PALE_OAK_PLANK] = this.genPlank('#E0E0E0');
         this.textures[B.PALE_OAK_LEAVES] = this.genLeaves('#CCCCCC', '#909090');
@@ -1615,6 +1626,7 @@ class TextureManager {
         this.textures[B.ITEM_COPPER_INGOT] = this.genIngot('#B87333');
         this.textures[B.ITEM_BAMBOO] = this.genBamboo();
         this.textures[B.ITEM_SUSPICIOUS_STEW] = this.genSuspiciousStew();
+        this.textures[B.ITEM_SLIMEBALL] = this.genDust('#7CFC00');
 
         this.textures[B.ITEM_WOOL] = this.genWool('#FFFFFF');
 
@@ -2649,6 +2661,33 @@ class TextureManager {
         this.mobTextures.frog = this.genMobFrog();
         this.mobTextures.wandering_trader = this.genMobWanderingTrader();
         this.mobTextures.llama = this.genMobLlama();
+        this.mobTextures.slime = this.genMobSlime();
+        this.mobTextures.piglin = this.genMobPiglin();
+    }
+
+    genMobPiglin() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 229, g: 160, b: 141 }, 10, 8, 16);
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(1, 5, 6, 6);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(2, 2, 1, 1);
+        ctx.fillRect(5, 2, 1, 1);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(0, 7, 8, 1);
+        return c;
+    }
+
+    genMobSlime() {
+        const c = this.createCanvas(8, 8);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 80, g: 220, b: 80 }, 15, 8, 8);
+        ctx.fillStyle = '#006400';
+        ctx.fillRect(2, 2, 2, 2);
+        ctx.fillRect(5, 2, 2, 2);
+        ctx.fillRect(3, 5, 2, 1);
+        return c;
     }
 
     genMobWanderingTrader() {

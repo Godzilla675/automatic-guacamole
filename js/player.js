@@ -565,6 +565,44 @@ class Player {
              this.fallDistance = 0;
         }
 
+        // Powder Snow Sinking & Freezing
+        const hasLeatherBoots = (this.armor && this.armor[3] && this.armor[3].type === window.BLOCK.ITEM_BOOTS_LEATHER) ||
+                               (this.inventory[this.selectedSlot] && this.inventory[this.selectedSlot].type === window.BLOCK.ITEM_BOOTS_LEATHER);
+        const feetX = Math.floor(this.x);
+        const feetY = Math.floor(this.y);
+        const feetZ = Math.floor(this.z);
+        const inPowderSnow = this.game.world && (
+            this.game.world.getBlock(feetX, feetY, feetZ) === window.BLOCK.POWDER_SNOW ||
+            this.game.world.getBlock(feetX, Math.floor(this.y + 0.5), feetZ) === window.BLOCK.POWDER_SNOW
+        );
+
+        if (inPowderSnow) {
+            if (!hasLeatherBoots && !this.flying && this.gamemode !== 1 && this.gamemode !== 3) {
+                moveSpeed *= 0.4;
+                if (this.vy < -1.5) this.vy = -1.5;
+            }
+
+            if (this.gamemode !== 1 && this.gamemode !== 3 && !this.spectator) {
+                this.freezeTicks = (this.freezeTicks || 0) + dt * 20;
+                if (this.freezeTicks >= 140) this.freezeTicks = 140;
+
+                if (this.freezeTicks >= 60) {
+                    this.addEffect('Frozen', '❄️', 2);
+                }
+
+                if (this.freezeTicks >= 100) {
+                    this.freezeTimer = (this.freezeTimer || 0) + dt;
+                    if (this.freezeTimer >= 2.0) {
+                        this.freezeTimer = 0;
+                        this.takeDamage(1);
+                    }
+                }
+            }
+        } else {
+            this.freezeTicks = Math.max(0, (this.freezeTicks || 0) - dt * 40);
+            this.freezeTimer = 0;
+        }
+
         // Sprinting
         if (controls.sprint && !controls.sneak && this.onGround && controls.forward && this.hunger > 6) {
              this.sprinting = true;

@@ -31,7 +31,9 @@ const MOB_TYPE = {
     FROG: 'frog',
     CREAKING: 'creaking',
     WANDERING_TRADER: 'wandering_trader',
-    LLAMA: 'llama'
+    LLAMA: 'llama',
+    SLIME: 'slime',
+    PIGLIN: 'piglin'
 };
 
 class Mob extends Entity {
@@ -98,6 +100,31 @@ class Mob extends Entity {
                  return true;
              }
              return false;
+        }
+
+        // Piglin Gold Bartering
+        if (this.type === MOB_TYPE.PIGLIN) {
+            if (itemType === window.BLOCK.ITEM_GOLD_INGOT) {
+                const lootTable = [
+                    window.BLOCK.ITEM_ENDER_PEARL,
+                    window.BLOCK.OBSIDIAN,
+                    window.BLOCK.ITEM_QUARTZ,
+                    window.BLOCK.CRYING_OBSIDIAN,
+                    window.BLOCK.ITEM_FIREWORK,
+                    window.BLOCK.ITEM_LEATHER,
+                    window.BLOCK.SOUL_SAND
+                ];
+                const reward = lootTable[Math.floor(Math.random() * lootTable.length)];
+                if (this.game && this.game.drops && window.Drop) {
+                    this.game.drops.push(new window.Drop(this.game, this.x, this.y + 0.5, this.z, reward, 1 + Math.floor(Math.random() * 2)));
+                }
+                if (this.game.ui && this.game.ui.showNotification) {
+                    const name = window.BLOCKS[reward] ? window.BLOCKS[reward].name : 'Barter Item';
+                    this.game.ui.showNotification(`Piglin bartered Gold Ingot for ${name}!`);
+                }
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
+            }
         }
 
         // Llama interaction
@@ -389,6 +416,39 @@ class Mob extends Entity {
                 this.maxHealth = 16;
                 this.xpValue = 4;
                 break;
+            case MOB_TYPE.SLIME:
+                this.slimeSize = this.slimeSize || 3;
+                if (this.slimeSize === 3) {
+                    this.width = 1.2;
+                    this.height = 1.2;
+                    this.speed = 2.0;
+                    this.maxHealth = 16;
+                    this.color = '#55FF55';
+                    this.xpValue = 4;
+                } else if (this.slimeSize === 2) {
+                    this.width = 0.8;
+                    this.height = 0.8;
+                    this.speed = 2.2;
+                    this.maxHealth = 8;
+                    this.color = '#55FF55';
+                    this.xpValue = 2;
+                } else {
+                    this.width = 0.4;
+                    this.height = 0.4;
+                    this.speed = 2.5;
+                    this.maxHealth = 2;
+                    this.color = '#77FF77';
+                    this.xpValue = 1;
+                }
+                break;
+            case MOB_TYPE.PIGLIN:
+                this.color = '#E5A08D';
+                this.height = 1.9;
+                this.width = 0.6;
+                this.speed = 2.2;
+                this.maxHealth = 16;
+                this.xpValue = 5;
+                break;
             case MOB_TYPE.SNOW_GOLEM:
                 this.color = '#FFFFFF';
                 this.height = 1.9;
@@ -588,6 +648,23 @@ class Mob extends Entity {
             case MOB_TYPE.MAGMA_CUBE:
                 dropType = BLOCK.MAGMA_BLOCK;
                 break;
+            case MOB_TYPE.SLIME:
+                if (this.slimeSize > 1) {
+                    const numSplits = 2 + Math.floor(Math.random() * 3);
+                    for (let i = 0; i < numSplits; i++) {
+                        const subSlime = new Mob(this.game, this.x + (Math.random() - 0.5) * 0.5, this.y, this.z + (Math.random() - 0.5) * 0.5, MOB_TYPE.SLIME);
+                        subSlime.slimeSize = this.slimeSize - 1;
+                        subSlime.initType();
+                        subSlime.vy = 4 + Math.random() * 2;
+                        subSlime.vx = (Math.random() - 0.5) * 4;
+                        subSlime.vz = (Math.random() - 0.5) * 4;
+                        this.game.mobs.push(subSlime);
+                    }
+                } else {
+                    dropType = BLOCK.ITEM_SLIMEBALL;
+                    count = 1 + Math.floor(Math.random() * 2);
+                }
+                break;
             case MOB_TYPE.SNOW_GOLEM:
                 dropType = BLOCK.ITEM_SNOWBALL;
                 count = 2 + Math.floor(Math.random() * 3);
@@ -720,6 +797,16 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.SLIME) {
+            this.updateSlimeAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.PIGLIN) {
+            this.updatePiglinAI(dt);
+            return;
+        }
+
         if (this.type === MOB_TYPE.BEE) {
             this.updateBeeAI(dt);
             return;
@@ -793,6 +880,65 @@ class Mob extends Entity {
             this.type === MOB_TYPE.WITCH ||
             this.type === MOB_TYPE.WITHER_SKELETON) {
             this.updateHostileAI(dt);
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updatePiglinAI(dt) {
+        const player = this.game.player;
+        if (!player) {
+            this.updatePassiveAI(dt);
+            return;
+        }
+
+        // Check if player wears any piece of gold armor
+        let wearsGoldArmor = false;
+        if (player.armor) {
+            wearsGoldArmor = player.armor.some(item =>
+                item && (item.type === window.BLOCK.ITEM_HELMET_GOLD ||
+                         item.type === window.BLOCK.ITEM_CHESTPLATE_GOLD ||
+                         item.type === window.BLOCK.ITEM_LEGGINGS_GOLD ||
+                         item.type === window.BLOCK.ITEM_BOOTS_GOLD)
+            );
+        }
+
+        const recentlyHit = Date.now() - this.lastDamageTime < 10000;
+
+        if (!wearsGoldArmor || recentlyHit) {
+            this.updateHostileAI(dt);
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updateSlimeAI(dt) {
+        const player = this.game.player;
+        if (!player) {
+            this.updatePassiveAI(dt);
+            return;
+        }
+        const dx = player.x - this.x;
+        const dz = player.z - this.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        if (dist < 18) {
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+
+            if (this.onGround && Math.random() < 0.08) {
+                this.vy = 6 + (this.slimeSize === 3 ? 2 : 0);
+            }
+
+            if (dist < (this.width + 0.5) && this.attackCooldown <= 0) {
+                const dmg = this.slimeSize === 3 ? 4 : (this.slimeSize === 2 ? 2 : 0);
+                if (dmg > 0) {
+                    player.takeDamage(dmg);
+                }
+                this.attackCooldown = 1.2;
+            }
+            this.attackCooldown -= dt;
         } else {
             this.updatePassiveAI(dt);
         }

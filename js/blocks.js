@@ -437,7 +437,21 @@ const BLOCK = {
     DEEPSLATE: 507,
     DEEPSLATE_IRON_ORE: 508,
     DEEPSLATE_GOLD_ORE: 509,
-    DEEPSLATE_DIAMOND_ORE: 510
+    DEEPSLATE_DIAMOND_ORE: 510,
+
+    ITEM_SLIMEBALL: 511,
+    POWDER_SNOW: 512,
+    ITEM_POWDER_SNOW_BUCKET: 513,
+
+    STRIPPED_OAK_LOG: 514,
+    STRIPPED_SPRUCE_LOG: 515,
+    STRIPPED_BIRCH_LOG: 516,
+    STRIPPED_JUNGLE_LOG: 517,
+    STRIPPED_ACACIA_LOG: 518,
+    STRIPPED_DARK_OAK_LOG: 519,
+    STRIPPED_PALE_OAK_LOG: 520,
+    STRIPPED_MANGROVE_LOG: 521,
+    STRIPPED_CHERRY_LOG: 522
 };
 
 const ARMOR = {
@@ -954,7 +968,21 @@ const BLOCKS = {
     [BLOCK.DEEPSLATE]: { name: 'Deepslate', color: '#323438', top: '#3B3D42', solid: true, icon: '🪨', hardness: 3.0, tool: 'pickaxe', drop: { type: 507, count: 1 } },
     [BLOCK.DEEPSLATE_IRON_ORE]: { name: 'Deepslate Iron Ore', color: '#323438', top: '#D2B48C', solid: true, icon: '⚪', hardness: 4.5, tool: 'pickaxe' },
     [BLOCK.DEEPSLATE_GOLD_ORE]: { name: 'Deepslate Gold Ore', color: '#323438', top: '#FFD700', solid: true, icon: '🟡', hardness: 4.5, tool: 'pickaxe' },
-    [BLOCK.DEEPSLATE_DIAMOND_ORE]: { name: 'Deepslate Diamond Ore', color: '#323438', top: '#00FFFF', solid: true, icon: '💎', hardness: 4.5, tool: 'pickaxe', drop: { type: BLOCK.ITEM_DIAMOND, count: 1 } }
+    [BLOCK.DEEPSLATE_DIAMOND_ORE]: { name: 'Deepslate Diamond Ore', color: '#323438', top: '#00FFFF', solid: true, icon: '💎', hardness: 4.5, tool: 'pickaxe', drop: { type: BLOCK.ITEM_DIAMOND, count: 1 } },
+
+    [BLOCK.ITEM_SLIMEBALL]: { name: 'Slimeball', color: '#7CFC00', solid: false, isItem: true, icon: '🟢' },
+    [BLOCK.POWDER_SNOW]: { name: 'Powder Snow', color: '#F0F5FF', top: '#FFFFFF', solid: true, transparent: true, icon: '❄️', hardness: 0.2, powderSnow: true, drop: { type: BLOCK.SNOW, count: 1 } },
+    [BLOCK.ITEM_POWDER_SNOW_BUCKET]: { name: 'Powder Snow Bucket', color: '#F0F5FF', solid: false, isItem: true, icon: '🪣' },
+
+    [BLOCK.STRIPPED_OAK_LOG]: { name: 'Stripped Oak Log', color: '#B8860B', top: '#C2B280', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_SPRUCE_LOG]: { name: 'Stripped Spruce Log', color: '#6B4226', top: '#8B5A2B', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_BIRCH_LOG]: { name: 'Stripped Birch Log', color: '#D2B48C', top: '#E6C280', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_JUNGLE_LOG]: { name: 'Stripped Jungle Log', color: '#A07350', top: '#BA8860', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_ACACIA_LOG]: { name: 'Stripped Acacia Log', color: '#BA5536', top: '#D2691E', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_DARK_OAK_LOG]: { name: 'Stripped Dark Oak Log', color: '#422B18', top: '#5C3A21', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_PALE_OAK_LOG]: { name: 'Stripped Pale Oak Log', color: '#C0C0C0', top: '#DCDCDC', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_MANGROVE_LOG]: { name: 'Stripped Mangrove Log', color: '#773525', top: '#8B3A2B', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+    [BLOCK.STRIPPED_CHERRY_LOG]: { name: 'Stripped Cherry Log', color: '#E5B2B2', top: '#FFC0CB', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' }
 };
 
 if (typeof window !== 'undefined') {

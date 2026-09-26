@@ -311,7 +311,7 @@ class World {
             const type = this.getBlock(n.x, n.y, n.z);
             const def = window.BLOCKS[type];
             if (def) {
-                if ((type === window.BLOCK.REDSTONE_CLOCK || def.isWire) && this.getMetadata(n.x, n.y, n.z) > 0) return true;
+                if ((type === window.BLOCK.REDSTONE_CLOCK || type === window.BLOCK.TARGET_BLOCK || def.isWire) && this.getMetadata(n.x, n.y, n.z) > 0) return true;
                 if (type === window.BLOCK.DETECTOR_RAIL && this.getMetadata(n.x, n.y, n.z) > 0) return true;
                 if (def.isTorch && type === window.BLOCK.REDSTONE_TORCH) {
                     // Torch powers neighbors EXCEPT the one it is attached to.
@@ -567,6 +567,40 @@ class World {
         if (window.soundManager) window.soundManager.play('place', { x: dropX, y: dropY, z: dropZ });
     }
 
+    hitTargetBlock(bx, by, bz, hitX, hitY, hitZ) {
+        const centerX = bx + 0.5;
+        const centerY = by + 0.5;
+        const centerZ = bz + 0.5;
+        const dx = hitX - centerX;
+        const dy = hitY - centerY;
+        const dz = hitZ - centerZ;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        const accuracy = Math.max(0, Math.min(1.0, 1.0 - (dist / 0.5)));
+        const power = Math.max(1, Math.min(15, Math.ceil(accuracy * 15)));
+
+        this.setMetadata(bx, by, bz, power);
+        let entity = this.getBlockEntity(bx, by, bz);
+        if (!entity || entity.type !== 'target') {
+            entity = { type: 'target', timer: 1.0, power: power };
+            this.setBlockEntity(bx, by, bz, entity);
+        } else {
+            entity.power = power;
+            entity.timer = 1.0;
+        }
+
+        this.activeRedstone.add(`${bx},${by},${bz}`);
+        this.scheduleNeighborRedstoneUpdates(bx, by, bz);
+
+        if (this.game && this.game.particles) {
+            this.game.particles.spawn(centerX, centerY, centerZ, '#FF0000', 15);
+        }
+        if (window.soundManager) window.soundManager.play('place', { x: centerX, y: centerY, z: centerZ });
+        if (this.game && this.game.ui && this.game.ui.showNotification) {
+            this.game.ui.showNotification(`Target Block hit! Signal Strength: ${power}`);
+        }
+    }
+
     shriekAt(x, y, z) {
         if (this.game && this.game.player) {
             const dist = Math.hypot(this.game.player.x - x, this.game.player.z - z, (this.game.player.y || 0) - y);
@@ -813,6 +847,19 @@ class World {
                     this.scheduleNeighborRedstoneUpdates(x, y, z);
                 }
                 this.activeRedstone.add(key);
+            } else if (type === window.BLOCK.TARGET_BLOCK) {
+                const entity = this.getBlockEntity(x, y, z);
+                if (entity && entity.timer > 0) {
+                    entity.timer -= 0.1;
+                    if (entity.timer <= 0) {
+                        entity.timer = 0;
+                        entity.power = 0;
+                        this.setMetadata(x, y, z, 0);
+                        this.scheduleNeighborRedstoneUpdates(x, y, z);
+                    } else {
+                        this.activeRedstone.add(key);
+                    }
+                }
             } else if (type === window.BLOCK.DAYLIGHT_SENSOR) {
                 const gameTime = this.game ? this.game.gameTime : 0;
                 const dayLength = this.game ? this.game.dayLength : 120000;

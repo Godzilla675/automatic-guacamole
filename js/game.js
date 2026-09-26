@@ -876,6 +876,75 @@ class Game {
                 return;
             }
 
+            // Powder Snow Bucket / Empty Bucket Interaction
+            if (slot && (slot.type === BLOCK.ITEM_BUCKET || slot.type === BLOCK.ITEM_POWDER_SNOW_BUCKET)) {
+                const hit = this.physics.raycast(this.player, dir, 5, true);
+                if (hit) {
+                    const bType = this.world.getBlock(hit.x, hit.y, hit.z);
+                    if (slot.type === BLOCK.ITEM_BUCKET && bType === BLOCK.POWDER_SNOW) {
+                        this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.AIR);
+                        this.player.inventory[this.player.selectedSlot] = { type: BLOCK.ITEM_POWDER_SNOW_BUCKET, count: 1 };
+                        this.updateHotbarUI();
+                        if (window.soundManager) window.soundManager.play('place', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
+                        return;
+                    } else if (slot.type === BLOCK.ITEM_POWDER_SNOW_BUCKET && hit.face) {
+                        const nx = hit.x + hit.face.x;
+                        const ny = hit.y + hit.face.y;
+                        const nz = hit.z + hit.face.z;
+                        if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR) {
+                            this.world.setBlock(nx, ny, nz, BLOCK.POWDER_SNOW);
+                            this.player.inventory[this.player.selectedSlot] = { type: BLOCK.ITEM_BUCKET, count: 1 };
+                            this.updateHotbarUI();
+                            if (window.soundManager) window.soundManager.play('place', { x: nx + 0.5, y: ny + 0.5, z: nz + 0.5 });
+                            return;
+                        }
+                    }
+                }
+            }
+
+            const eyePos = {
+                x: this.player.x,
+                y: this.player.y + this.player.height * 0.9,
+                z: this.player.z
+            };
+
+            // Axe Log Stripping Logic
+            if (slot && window.TOOLS && window.TOOLS[slot.type] && window.TOOLS[slot.type].type === 'axe') {
+                const hit = this.physics.raycast(eyePos, dir, 5);
+                if (hit) {
+                    const targetType = this.world.getBlock(hit.x, hit.y, hit.z);
+                    const stripMap = {
+                        [BLOCK.WOOD]: BLOCK.STRIPPED_OAK_LOG,
+                        [BLOCK.SPRUCE_WOOD]: BLOCK.STRIPPED_SPRUCE_LOG,
+                        [BLOCK.BIRCH_WOOD]: BLOCK.STRIPPED_BIRCH_LOG,
+                        [BLOCK.JUNGLE_WOOD]: BLOCK.STRIPPED_JUNGLE_LOG,
+                        [BLOCK.ACACIA_LOG]: BLOCK.STRIPPED_ACACIA_LOG,
+                        [BLOCK.DARK_OAK_LOG]: BLOCK.STRIPPED_DARK_OAK_LOG,
+                        [BLOCK.PALE_OAK_LOG]: BLOCK.STRIPPED_PALE_OAK_LOG,
+                        [BLOCK.MANGROVE_LOG]: BLOCK.STRIPPED_MANGROVE_LOG,
+                        [BLOCK.CHERRY_LOG]: BLOCK.STRIPPED_CHERRY_LOG
+                    };
+
+                    if (stripMap[targetType]) {
+                        const strippedType = stripMap[targetType];
+                        this.world.setBlock(hit.x, hit.y, hit.z, strippedType);
+                        if (this.particles) this.particles.spawn(hit.x + 0.5, hit.y + 0.5, hit.z + 0.5, '#DEB887', 12);
+                        if (window.soundManager) window.soundManager.play('break', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
+
+                        if (this.player.gamemode !== 1) {
+                            if (slot.durability === undefined) slot.durability = window.TOOLS[slot.type].durability || 60;
+                            slot.durability--;
+                            if (slot.durability <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                            this.updateHotbarUI();
+                        }
+                        if (this.ui && this.ui.showNotification) {
+                            this.ui.showNotification(`Stripped Log into ${window.BLOCKS[strippedType] ? window.BLOCKS[strippedType].name : 'Stripped Log'}!`);
+                        }
+                        return;
+                    }
+                }
+            }
+
             // Check if holding a boat, if so include liquids in raycast
             const includeLiquids = slot && slot.type === BLOCK.ITEM_BOAT;
             const hit = this.physics.raycast(this.player, dir, 5, includeLiquids);
@@ -1242,7 +1311,6 @@ class Game {
                      if (targetType === BLOCK.GRASS || targetType === BLOCK.DIRT) {
                          this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.FARMLAND);
                          window.soundManager.play('break', {x:hit.x+0.5, y:hit.y+0.5, z:hit.z+0.5}); // digging sound
-                         // Durability logic would go here
                          return;
                      }
                  }
@@ -1351,8 +1419,8 @@ class Game {
 
                      // Check vertical space (needs 2 blocks)
                      if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR && this.world.getBlock(nx, ny+1, nz) === BLOCK.AIR) {
-                         this.world.setBlock(nx, ny, nz, bottomType);
                          this.world.setBlock(nx, ny+1, nz, topType);
+                         this.world.setBlock(nx, ny, nz, bottomType);
 
                          // Calculate orientation
                          let r = this.player.yaw % (2*Math.PI);
@@ -2301,6 +2369,9 @@ class Game {
             const pbDef = window.BLOCKS[pb];
             if (pb !== BLOCK.AIR && pbDef && pbDef.solid) {
                 p.life = 0;
+                if (pb === window.BLOCK.TARGET_BLOCK && this.world.hitTargetBlock) {
+                    this.world.hitTargetBlock(Math.floor(p.x), Math.floor(p.y), Math.floor(p.z), p.x, p.y, p.z);
+                }
                 if (p.type === 'fireball') {
                     this.explode(p.x, p.y, p.z, 3);
                 } else if (p.type === 'wind_charge') {
