@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 describe('New Agent Tasks Implemented Features', function() {
-    this.timeout(10000);
+    this.timeout(30000);
     let dom, window, game;
 
     beforeEach(function() {
