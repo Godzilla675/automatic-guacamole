@@ -151,3 +151,9 @@ Executed an array of Playwright automated testing scripts against the live `http
 - Verified Smoker and Blast Furnace UI header titles ('Smoker', 'Blast Furnace') and dynamic cooking smoke/spark animation classes (`smoke-mode`, `blast-mode`) on `#furnace-burn-effect`.
 - Created dedicated test suite `tests/test_fletching_smoker_ui.js` passing 100% of test cases.
 - Updated `FUTURE_FEATURES.md` task tracking status entries.
+
+## Latest Autonomous Audit & Test Run (2026-09-27 Audit Run)
+- Executed `npm install` to verify all dependencies and devDependencies (`jsdom`) are installed.
+- Audited E2E scripts: Execution timing on `test_specific_features.py` for door placement verification inside the playwright memory scope has been fixed and now reads successfully.
+- Cleaned up loose/exploratory `verify_projectile.js` verification scripts that were erroneously executing `addEventListener` against null nodes during JS evaluation in mocha loops.
+- Ran all Playwright E2E browser tests (`extensive_test.py`, `verify_manual_gameplay.py`, `test_specific_features.py`) against live http://localhost:3000 server with 100% pass rate and 0 console errors.
