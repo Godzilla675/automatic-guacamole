@@ -157,3 +157,10 @@ Executed an array of Playwright automated testing scripts against the live `http
 - Audited E2E scripts: Execution timing on `test_specific_features.py` for door placement verification inside the playwright memory scope has been fixed and now reads successfully.
 - Cleaned up loose/exploratory `verify_projectile.js` verification scripts that were erroneously executing `addEventListener` against null nodes during JS evaluation in mocha loops.
 - Ran all Playwright E2E browser tests (`extensive_test.py`, `verify_manual_gameplay.py`, `test_specific_features.py`) against live http://localhost:3000 server with 100% pass rate and 0 console errors.
+
+## Latest E2E Door Placement Fix & Audit Run
+- Audited Playwright script `test_specific_features.py` and updated the door memory placement check to compute raycast target coordinates (`nx, ny, nz`).
+- Verified `Door placed correctly in world memory: True` in Playwright E2E test runs.
+- Added `no_wait_after=True` to Playwright `#start-game` click to prevent wait timeouts during game loop initialization.
+- Executed Playwright test suite (`extensive_test.py`, `verify_manual_gameplay.py`, `test_specific_features.py`): 100% Pass rate with 0 console errors.
+- Executed Mocha unit test suite across all 102 test files in `tests/` and `verification/`: 100% Pass rate with 0 failures or regressions.

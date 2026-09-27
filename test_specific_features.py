@@ -14,7 +14,7 @@ def run_tests():
         page.wait_for_timeout(1000)
 
         # Click start game
-        page.click("#start-game")
+        page.click("#start-game", no_wait_after=True)
         time.sleep(2)
 
         # 1. Take screenshot of crosshair to check alignment
@@ -77,10 +77,21 @@ def run_tests():
             window.game.player.yaw = Math.atan2(dx, dz);
             window.game.player.pitch = -Math.asin(dy/dist);
 
+            const hit = window.game.physics.raycast(eyePos, {
+                x: Math.sin(window.game.player.yaw) * Math.cos(window.game.player.pitch),
+                y: -Math.sin(window.game.player.pitch),
+                z: Math.cos(window.game.player.yaw) * Math.cos(window.game.player.pitch)
+            }, 5);
+
             window.game.placeBlock();
 
-            const y1 = window.game.world.getBlock(px, py, pz - 2);
-            const y2 = window.game.world.getBlock(px, py + 1, pz - 2);
+            if (!hit) return false;
+            const nx = hit.x + hit.face.x;
+            const ny = hit.y + hit.face.y;
+            const nz = hit.z + hit.face.z;
+
+            const y1 = window.game.world.getBlock(nx, ny, nz);
+            const y2 = window.game.world.getBlock(nx, ny + 1, nz);
             return y1 === window.BLOCK.DOOR_WOOD_BOTTOM && y2 === window.BLOCK.DOOR_WOOD_TOP;
         }""")
 
