@@ -255,6 +255,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Suspicious Sand Loot Tables for Archaeology**: Unearth unique items like Pottery Sherds and Sniffer Eggs when brushing Suspicious Sand with Brush tool. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Creaking Mob Heart Death Particle Effects**: Emit vibrant wood ember particle trails connecting Creaking mobs to their active Creaking Heart block when taking damage. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Copper Bulb Oxidation Light Attenuation Mechanics**: Dimmable light emission levels corresponding to 4 oxidation stages (Copper, Exposed, Weathered, Oxidized). (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Bundle Item Insertion & Extraction UI Controls**: Interactive right-click or drag-and-drop mechanics in Bundle UI to insert and draw items out of Bundles in sequence. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Creaking Heart Nighttime Activation & Pale Oak Sapling Growth**: Creaking Heart blocks activating only at night with glowing pale orange particles, and Pale Oak Saplings growing into full trees upon bone-meal interaction. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Sculk Catalyst Mob Death Charge Propagation**: Sculk Catalyst spreading Sculk Veins and Sculk blocks to adjacent solid terrain when entities perish within an 8-block radius. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Vault & Ominous Vault Cooldown & Player Locking Mechanics**: Vaults remaining open per player and tracking player UUIDs to grant rewards once per player and prevent key farming. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Breeze Wind Charge Radial Entity Damage**: Wind Charges exploding on collision to deal 2D/3D radial knockback and minor blast damage to surrounding entities. (Status: Proposed feature, pending implementation)
 
 ## Known Bugs & Issues (To Be Fixed)
 - [x] **Bug: Canvas Pattern Creation in Headless Contexts**: `createPattern` throwing errors in headless test environments lacking full HTMLCanvasElement rendering backends. (Status: Verified and working - canvas pattern fallback in TextureManager and test hooks)
@@ -537,3 +542,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Wandering Trader & Llamas**: Ambient passive trader spawning with emerald trade options and lead-attached Llamas. (Status: Verified and working)
 - [x] **New Task: Add Wind Charge Dispenser Launching**: Dispensers emitting Wind Charge projectiles on redstone power with radial knockback physics. (Status: Verified and working)
 - [ ] **New Task: Add Warden Sonic Boom & Vibration Tracking**: Hostile boss mob in Deep Dark biomes responding to vibration signals with ranged sonic boom attacks. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with splash potion effects and dropping Ominous Keys. (Status: Proposed feature, pending implementation)
+- [ ] **Bug: Spectator Flight Collision in Water**: Flying into water sources in spectator mode occasionally triggers swimming physics instead of smooth flight. (Status: Proposed bug fix, pending implementation)
