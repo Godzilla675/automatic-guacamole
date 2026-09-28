@@ -86,6 +86,8 @@ def run_tests():
             window.game.placeBlock();
 
             if (!hit) return false;
+            window.game.update(0.016); // force frame update for bounding/state
+
             const nx = hit.x + hit.face.x;
             const ny = hit.y + hit.face.y;
             const nz = hit.z + hit.face.z;
