@@ -2470,9 +2470,14 @@ class Game {
 
         // Weather Cycle
         if (Math.random() < 0.0001) { // Rare change
-            const types = ['clear', 'rain', 'snow'];
+            const types = ['clear', 'rain', 'snow', 'thunder'];
             const next = types[Math.floor(Math.random() * types.length)];
             if (next !== this.world.weather) this.world.setWeather(next);
+        }
+
+        // Thunderstorm Lightning Strikes
+        if (this.world.weather === 'thunder' && Math.random() < 0.002) {
+            this.triggerLightningStrike();
         }
 
         // Chunk Loading
@@ -2586,6 +2591,66 @@ class Game {
 
                  window.soundManager.updateAmbience(waterIntensity, windIntensity);
              }
+        }
+    }
+
+    triggerLightningStrike(targetX, targetZ, targetY) {
+        if (!this.player || !this.world) return;
+
+        let strikeX = targetX !== undefined ? targetX : Math.floor(this.player.x + (Math.random() - 0.5) * 60);
+        let strikeZ = targetZ !== undefined ? targetZ : Math.floor(this.player.z + (Math.random() - 0.5) * 60);
+
+        // Check for nearby Lightning Rods within 32 blocks to divert strike
+        let divertedRod = null;
+        let rodDistSq = Infinity;
+
+        for (let dx = -32; dx <= 32; dx++) {
+            for (let dz = -32; dz <= 32; dz++) {
+                const rx = Math.floor(strikeX + dx);
+                const rz = Math.floor(strikeZ + dz);
+                const ry = targetY !== undefined ? targetY : (this.world.getSurfaceHeight ? this.world.getSurfaceHeight(rx, rz) : 20);
+                for (let y = Math.max(1, ry - 5); y <= Math.min(127, ry + 10); y++) {
+                    if (this.world.getBlock(rx, y, rz) === window.BLOCK.LIGHTNING_ROD) {
+                        const distSq = (rx - strikeX) ** 2 + (rz - strikeZ) ** 2;
+                        if (distSq < rodDistSq) {
+                            rodDistSq = distSq;
+                            divertedRod = { x: rx, y, z: rz };
+                        }
+                    }
+                }
+            }
+        }
+
+        let strikeY;
+        if (divertedRod) {
+            strikeX = divertedRod.x;
+            strikeY = divertedRod.y;
+            strikeZ = divertedRod.z;
+        } else {
+            strikeY = targetY !== undefined ? targetY : (this.world.getSurfaceHeight ? this.world.getSurfaceHeight(strikeX, strikeZ) : 20);
+        }
+
+        this.world.strikeLightning(strikeX, strikeY, strikeZ);
+
+        // Ignite fire if top is air and block is not a lightning rod
+        if (!divertedRod && this.world.getBlock(strikeX, strikeY + 1, strikeZ) === window.BLOCK.AIR) {
+            this.world.setBlock(strikeX, strikeY + 1, strikeZ, window.BLOCK.FIRE);
+            if (!this.world.activeFires) this.world.activeFires = new Set();
+            this.world.activeFires.add(`${strikeX},${strikeY + 1},${strikeZ}`);
+        }
+
+        // Damage entities within 4 blocks radius
+        const damageRadius = 4;
+        if (this.mobs) {
+            for (const mob of this.mobs) {
+                if (!mob.isDead && Math.hypot(mob.x - strikeX, mob.z - strikeZ, mob.y - strikeY) <= damageRadius) {
+                    if (mob.takeDamage) mob.takeDamage(10);
+                }
+            }
+        }
+
+        if (this.player && Math.hypot(this.player.x - strikeX, this.player.z - strikeZ, this.player.y - strikeY) <= damageRadius) {
+            if (this.player.takeDamage) this.player.takeDamage(10, 'lightning');
         }
     }
 

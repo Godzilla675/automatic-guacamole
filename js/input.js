@@ -181,7 +181,11 @@ class InputManager {
             }
         });
 
-        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('contextmenu', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
     }
 
     setupMobileControls() {

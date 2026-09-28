@@ -898,26 +898,30 @@ class Renderer {
 
         // Draw Weather
         if (this.game.world.weather !== 'clear') {
-            const isRain = this.game.world.weather === 'rain';
+            const isThunder = this.game.world.weather === 'thunder';
+            const isRain = this.game.world.weather === 'rain' || isThunder;
             ctx.strokeStyle = isRain ? 'rgba(100, 100, 255, 0.6)' : 'rgba(255, 255, 255, 0.8)';
-            ctx.lineWidth = isRain ? 1 : 2;
+            ctx.lineWidth = isRain ? (isThunder ? 2 : 1) : 2;
             ctx.beginPath();
 
-            // Simple screen-space particles (random every frame = static noise effect, better to animate)
-            // For simplicity, just random lines.
-            const count = 100;
+            // Screen-space particles for weather
+            const count = isThunder ? 180 : 100;
             for (let i = 0; i < count; i++) {
                 const x = Math.random() * w;
                 const y = Math.random() * h;
-                const len = isRain ? 20 : 5;
+                const len = isRain ? (isThunder ? 25 : 20) : 5;
 
                 ctx.moveTo(x, y);
                 ctx.lineTo(x - (isRain ? 2 : 1), y + len);
             }
             ctx.stroke();
 
-            // Darken sky
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            // Darken sky / Lightning Flash
+            if (isThunder && Math.random() < 0.05) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; // Lightning flash
+            } else {
+                ctx.fillStyle = isThunder ? 'rgba(0, 0, 0, 0.45)' : 'rgba(0, 0, 0, 0.2)';
+            }
             ctx.fillRect(0, 0, w, h);
         }
 
