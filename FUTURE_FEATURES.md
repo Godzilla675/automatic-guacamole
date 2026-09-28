@@ -218,7 +218,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Glowstone Crafting & Dust Drop**: Glowstone blocks craftable from 4 glowstone dust and drop dust when broken. (Status: Verified and working)
 - [x] **New Task: Add Vault Block**: Standard vault structure rewards block found in Trial Chambers. (Status: Verified and working in js/blocks.js and js/world.js)
 - [x] **New Task: Add Breeze Rod**: Item dropped by the Breeze mob, used to craft Wind Charges and the Mace. (Status: Verified and working)
-- [ ] **Implement Thunderstorms and Lightning**: Thunderstorm weather cycles and Lightning Rod strike attraction. (Status: Missing implementation, agents must fix)
+- [x] **Implement Thunderstorms and Lightning**: Thunderstorm weather cycles and Lightning Rod strike attraction. (Status: Verified and working)
 - [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning. (Status: Missing implementation, agents must fix)
 - [ ] Statistics (Status: Missing implementation, agents must fix)
@@ -466,7 +466,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
 
 ## Newly Discovered Bugs & Tasks (From Audit)
-- [ ] **Bug: Thunderstorms and Lightning missing**: Thunderstorm weather cycles and Lightning Rod strike attraction are marked completed but are missing from the codebase. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Thunderstorms and Lightning missing**: Thunderstorm weather cycles and Lightning Rod strike attraction implemented in js/world.js and js/game.js. (Status: Verified and working)
 - [x] **Bug: Offhand Quick Swap & HUD Container missing**: Offhand inventory slot and quick swap are missing. (Status: Verified and working)
 - [x] **Bug: Chat History Log Toggle missing**: Toggle to hide chat messages is missing. (Status: Verified and working)
 - [x] **Bug: Wooden Door Break Synchronization missing**: Breaking one half of a door does not break the other. (Status: Verified and working)

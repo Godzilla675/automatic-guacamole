@@ -17,13 +17,34 @@ class World {
 
         this.dimension = 'overworld'; // 'overworld', 'nether'
 
-        this.weather = 'clear'; // 'clear', 'rain', 'snow'
+        this.weather = 'clear'; // 'clear', 'rain', 'snow', 'thunder'
         this.weatherTimer = 0;
     }
 
     setWeather(type) {
         this.weather = type;
         if (window.game && window.game.chat) window.game.chat.addMessage(`Weather changed to ${type}`);
+    }
+
+    strikeLightning(x, y, z) {
+        const bx = Math.floor(x);
+        const by = Math.floor(y);
+        const bz = Math.floor(z);
+
+        const targetBlock = this.getBlock(bx, by, bz);
+        if (targetBlock === window.BLOCK.LIGHTNING_ROD) {
+            this.setMetadata(bx, by, bz, 15);
+            this.activeRedstone.add(`${bx},${by},${bz}`);
+            this.scheduleNeighborRedstoneUpdates(bx, by, bz);
+        }
+
+        if (this.game && this.game.particles) {
+            this.game.particles.spawn(x + 0.5, y + 0.5, z + 0.5, '#FFFFFF', 30);
+            this.game.particles.spawn(x + 0.5, y + 0.5, z + 0.5, '#FFFF00', 20);
+        }
+        if (window.soundManager) {
+            window.soundManager.play('explosion', { x, y, z });
+        }
     }
 
     getChunkKey(cx, cz) {

@@ -176,3 +176,12 @@ Executed an array of Playwright automated testing scripts against the live `http
 - Audited all newly added features from `FUTURE_FEATURES.md` and verified clean passage across unit tests in `tests/` and `verification/`.
 - Executed Playwright E2E browser tests (`verify_manual_gameplay.py`) against the local preview HTTP server (`http://localhost:3000`). Verified game loading, canvas loop initialization, HUD overlays, and UI screens (Inventory, Crafting, Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading, Settings, and Armor grid).
 - Result: 100% Pass rate across all unit test suites and Playwright E2E browser tests with 0 console errors or visual regressions.
+
+## Latest Thunderstorm and Lightning Rod Fix & Audit Run
+- Implemented 'thunder' weather type state in `js/world.js`, `js/game.js`, and `js/renderer.js`.
+- Implemented random lightning strike logic during thunderstorms with attraction toward nearby `BLOCK.LIGHTNING_ROD` blocks within 32 blocks.
+- Added redstone power signal generation (strength 15) when a Lightning Rod is struck.
+- Added radial explosion damage to entities and player within 4 blocks of lightning impact.
+- Added heavy rain rendering, darkened sky overlay, and visual sky lightning flashes in `js/renderer.js`.
+- Verified contextmenu handling in `js/input.js` to ensure right-click block interaction is processed without context menu popups.
+- Created `tests/test_thunderstorm_lightning.js` and verified 100% test pass rate.
