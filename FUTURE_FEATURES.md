@@ -22,7 +22,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Wind Charges**: Used as a throwable projectile with knockback explosion physics. (Status: Verified and working)
 - [x] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Verified and working)
 
-- [x] **New Task: Add Trial Chambers Underground Structure Generation**: Procedural room generation logic in `js/structures.js` featuring Trial Spawners, Trial Vaults, and Chiseled Tuff blocks. (Status: Verified and working)
+- [ ] **New Task: Add Trial Chambers Underground Structure Generation**: Procedural room generation logic in `js/structures.js` featuring Trial Spawners, Trial Vaults, and Chiseled Tuff blocks. (Status: Failing Verification, tests timeout)
 - [x] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Verified and working)
 - [x] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Verified and working)
 - [x] **New Task: Add Copper Bulbs**: Dimmable light sources that toggle state on redstone signals. (Status: Verified and working)
@@ -537,3 +537,4 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Wandering Trader & Llamas**: Ambient passive trader spawning with emerald trade options and lead-attached Llamas. (Status: Verified and working)
 - [x] **New Task: Add Wind Charge Dispenser Launching**: Dispensers emitting Wind Charge projectiles on redstone power with radial knockback physics. (Status: Verified and working)
 - [ ] **New Task: Add Warden Sonic Boom & Vibration Tracking**: Hostile boss mob in Deep Dark biomes responding to vibration signals with ranged sonic boom attacks. (Status: Proposed feature, pending implementation)
+- [ ] **Bug: Trial Chamber Underground Structure Generation failing**: The test 'Feature 5: Trial Chamber Underground Structure Generation' in tests/test_5_new_high_quality_features_batch4.js is failing with a timeout error.
