@@ -336,7 +336,7 @@ async function runTests() {
             name: 'Snow',
             topBlock: BLOCK.SNOW,
             underBlock: BLOCK.DIRT,
-            heightOffset: 5,
+            heightOffset: 10,
             treeChance: 1.0, // Force tree
             snow: true
         });

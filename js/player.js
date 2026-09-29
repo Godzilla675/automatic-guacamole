@@ -544,9 +544,10 @@ class Player {
         }
 
         // Fluid Physics & Drowning
-        const inWater = this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
-        const headInWater = this.game.physics.getFluidIntersection({x: this.x, y: this.y + this.height * 0.8, z: this.z, width: 0.1, height: 0.1});
-        if (headInWater && this.gamemode !== 1 && this.gamemode !== 3 && !this.spectator) {
+        const isSpectatorMode = (this.gamemode === 3 || this.spectator);
+        const inWater = isSpectatorMode ? false : this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
+        const headInWater = isSpectatorMode ? false : this.game.physics.getFluidIntersection({x: this.x, y: this.y + this.height * 0.8, z: this.z, width: 0.1, height: 0.1});
+        if (headInWater && this.gamemode !== 1 && !isSpectatorMode) {
             this.drowningTimer += dt;
             if (this.drowningTimer >= 1.0) {
                 this.drowningTimer = 0;

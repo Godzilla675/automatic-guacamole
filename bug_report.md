@@ -190,3 +190,9 @@ Executed an array of Playwright automated testing scripts against the live `http
 - Verified test completion via local Python server (`python3 -m http.server 3000`).
 - Completed manual verification of test suite passing rate, executing `python3 verify_manual_gameplay.py`, `python3 manual_ui_test.py`, and `python3 test_specific_features.py` inside local testing environment successfully with true memory verification.
 - Verified test memory outputs, verifying 100% completion in E2E tests, verifying that tests correctly reflect game logic execution status.
+
+## Spectator Water Flight & Context Menu Bug Fixes Audit Run
+- Fixed Spectator Flight Collision in Water (`js/player.js`): Spectator mode (`this.spectator || this.gamemode === 3`) bypasses fluid intersection and water drag, ensuring smooth flight when passing through water sources.
+- Fixed Playwright Context Menu Timeout (`js/input.js`): Added capture-phase (`{ capture: true }`) listeners on `document` and `window` for `contextmenu` events to immediately prevent default browser context menus and prevent Playwright timeout delays.
+- Created `tests/test_spectator_water_and_contextmenu_bugs.js` unit test suite and verified 100% test pass rate.
+- Executed Playwright E2E browser tests (`verify_manual_gameplay.py`, `test_specific_features.py`) with 0 console errors and 100% pass rate.
