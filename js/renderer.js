@@ -950,6 +950,11 @@ class Renderer {
             ctx.strokeRect(w/2 - size, h/2 - size, size*2, size*2);
         }
 
+        // Draw Hitbox Debug Overlay
+        if (this.game.showHitboxes) {
+            this.drawHitboxOverlay(w, h);
+        }
+
         // Crosshair
         // Draw exact center pixel aligned to canvas scaling to prevent subpixel drift
         const cx = Math.floor(w / 2);
@@ -959,6 +964,129 @@ class Renderer {
         ctx.fillRect(cx - 10, cy - 1, 20, 2);
         // Vertical line
         ctx.fillRect(cx - 1, cy - 10, 2, 20);
+    }
+
+    projectPoint(wx, wy, wz, cam) {
+        const dx = wx - cam.px;
+        const dy = wy - cam.py;
+        const dz = wz - cam.pz;
+
+        const rx = dx * cam.cosY - dz * cam.sinY;
+        const rz = dx * cam.sinY + dz * cam.cosY;
+        const ry = dy * cam.cosP - rz * cam.sinP;
+        const rz2 = dy * cam.sinP + rz * cam.cosP;
+
+        if (rz2 <= 0.1) return null;
+
+        const sx = (rx / rz2) * cam.scale + cam.w / 2;
+        const sy = cam.h / 2 - (ry / rz2) * cam.scale;
+        return { x: sx, y: sy };
+    }
+
+    drawWireframeAABB(minX, minY, minZ, maxX, maxY, maxZ, color, cam) {
+        const ctx = this.ctx;
+        const verts = [
+            this.projectPoint(minX, minY, minZ, cam), // 0
+            this.projectPoint(maxX, minY, minZ, cam), // 1
+            this.projectPoint(maxX, maxY, minZ, cam), // 2
+            this.projectPoint(minX, maxY, minZ, cam), // 3
+            this.projectPoint(minX, minY, maxZ, cam), // 4
+            this.projectPoint(maxX, minY, maxZ, cam), // 5
+            this.projectPoint(maxX, maxY, maxZ, cam), // 6
+            this.projectPoint(minX, maxY, maxZ, cam)  // 7
+        ];
+
+        const edges = [
+            [0,1],[1,2],[2,3],[3,0],
+            [4,5],[5,6],[6,7],[7,4],
+            [0,4],[1,5],[2,6],[3,7]
+        ];
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+
+        for (const [i1, i2] of edges) {
+            const p1 = verts[i1];
+            const p2 = verts[i2];
+            if (p1 && p2) {
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    drawHitboxOverlay(w, h) {
+        const px = this.game.player.x;
+        const py = this.game.player.y + this.game.player.height - 0.2;
+        const pz = this.game.player.z;
+        const yaw = this.game.player.yaw;
+        const pitch = this.game.player.pitch;
+
+        const cam = {
+            px, py, pz,
+            cosY: Math.cos(-yaw),
+            sinY: Math.sin(-yaw),
+            cosP: Math.cos(-pitch),
+            sinP: Math.sin(-pitch),
+            scale: (h / 2) / Math.tan(this.game.fov * Math.PI / 360),
+            w, h
+        };
+
+        // 1. Draw Player's Own Bounding Box
+        const pw = this.game.player.width || 0.6;
+        const ph = this.game.player.height || 1.8;
+        this.drawWireframeAABB(
+            this.game.player.x - pw/2, this.game.player.y, this.game.player.z - pw/2,
+            this.game.player.x + pw/2, this.game.player.y + ph, this.game.player.z + pw/2,
+            '#00FF00', cam
+        );
+
+        // 2. Draw Mob Bounding Boxes
+        if (this.game.mobs) {
+            this.game.mobs.forEach(mob => {
+                if (mob && !mob.isDead) {
+                    const mw = mob.width || 0.6;
+                    const mh = mob.height || 1.6;
+                    this.drawWireframeAABB(
+                        mob.x - mw/2, mob.y, mob.z - mw/2,
+                        mob.x + mw/2, mob.y + mh, mob.z + mw/2,
+                        '#00FF00', cam
+                    );
+                }
+            });
+        }
+
+        // 3. Draw Dropped Item Bounding Boxes
+        if (this.game.drops) {
+            this.game.drops.forEach(drop => {
+                if (drop) {
+                    this.drawWireframeAABB(
+                        drop.x - 0.25, drop.y - 0.25, drop.z - 0.25,
+                        drop.x + 0.25, drop.y + 0.25, drop.z + 0.25,
+                        '#FFFF00', cam
+                    );
+                }
+            });
+        }
+
+        // 4. Draw Raycast Target Block Hitbox
+        if (this.game.physics) {
+            const lookDir = {
+                x: Math.sin(this.game.player.yaw) * Math.cos(this.game.player.pitch),
+                y: -Math.sin(this.game.player.pitch),
+                z: Math.cos(this.game.player.yaw) * Math.cos(this.game.player.pitch)
+            };
+            const hit = this.game.physics.raycast(this.game.player, lookDir, 5);
+            if (hit) {
+                this.drawWireframeAABB(
+                    hit.x, hit.y, hit.z,
+                    hit.x + 1, hit.y + 1, hit.z + 1,
+                    '#00FFFF', cam
+                );
+            }
+        }
     }
 
     adjustColor(color, brightness) {

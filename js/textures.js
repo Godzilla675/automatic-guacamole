@@ -157,6 +157,9 @@ class TextureManager {
         this.textures[B.ITEM_BREEZE_ROD] = this.genBreezeRod();
         this.textures[B.ITEM_WIND_CHARGE] = this.genWindCharge();
         this.textures[B.COPPER_BULB] = this.genCopperBulb();
+        this.textures[B.EXPOSED_COPPER_BULB] = this.genExposedCopperBulb();
+        this.textures[B.WEATHERED_COPPER_BULB] = this.genWeatheredCopperBulb();
+        this.textures[B.OXIDIZED_COPPER_BULB] = this.genOxidizedCopperBulb();
         this.textures[B.ITEM_RECOVERY_COMPASS] = this.genRecoveryCompass();
         this.textures[B.HEAVY_CORE] = this.genHeavyCore();
         this.textures[B.ITEM_MACE] = this.genMaceItem();
@@ -199,6 +202,9 @@ class TextureManager {
         this.textures[B.ITEM_RESIN_CLUMP] = this.genResinClump();
         this.textures[B.RESIN_BRICKS] = this.genResinBricks();
         this.textures[B.RESIN_BRICK_SLAB] = this.genResinBricks();
+        this.textures[B.RESIN_BLOCK] = this.genResinBlock();
+        this.textures[B.STAIRS_RESIN_BRICK] = this.genResinBricks();
+        this.textures[B.RESIN_BRICK_WALL] = this.genResinBricks();
 
         const bundleColors = {
             WHITE: '#FFFFFF', ORANGE: '#FFA500', MAGENTA: '#FF00FF',
@@ -237,6 +243,10 @@ class TextureManager {
         this.textures[B.OMINOUS_VAULT] = this.genOminousVault();
         this.textures[B.ITEM_OMINOUS_TRIAL_KEY] = this.genOminousTrialKeyItem();
         this.textures[B.CHISELED_TUFF] = this.genChiseledTuff();
+        this.textures[B.POLISHED_TUFF] = this.genPolishedTuff();
+        this.textures[B.TUFF_BRICKS] = this.genTuffBricks();
+        this.textures[B.SLAB_TUFF] = this.genPolishedTuff();
+        this.textures[B.STAIRS_TUFF] = this.genPolishedTuff();
         this.textures[B.DISPENSER] = this.genDropper();
         this.textures[B.FIRE] = this.genTorch('#FF4500');
 
@@ -646,6 +656,36 @@ class TextureManager {
         const ctx = c.getContext('2d');
         this.fillNoise(ctx, this.hexToRgb('#8B4513'), 15);
         ctx.fillStyle = '#00BFFF';
+        ctx.fillRect(4, 4, 8, 8);
+        return c;
+    }
+
+    genExposedCopperBulb() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#A08060';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#FFC800';
+        ctx.fillRect(4, 4, 8, 8);
+        return c;
+    }
+
+    genWeatheredCopperBulb() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#509080';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#FFAA00';
+        ctx.fillRect(4, 4, 8, 8);
+        return c;
+    }
+
+    genOxidizedCopperBulb() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#40A090';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#FF8800';
         ctx.fillRect(4, 4, 8, 8);
         return c;
     }
@@ -1381,6 +1421,42 @@ class TextureManager {
         ctx.fillRect(4, 4, 8, 8);
         ctx.fillStyle = '#FFD700';
         ctx.fillRect(6, 6, 4, 4);
+        return c;
+    }
+
+    genPolishedTuff() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 82, g: 91, b: 96 }, 12);
+        ctx.fillStyle = '#3A4247';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 15, 16, 1);
+        ctx.fillRect(0, 0, 1, 16);
+        ctx.fillRect(15, 0, 1, 16);
+        return c;
+    }
+
+    genTuffBricks() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 69, g: 80, b: 85 }, 12);
+        ctx.fillStyle = '#333A3E';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 8, 16, 1);
+        ctx.fillRect(8, 0, 1, 8);
+        ctx.fillRect(4, 8, 1, 8);
+        return c;
+    }
+
+    genResinBlock() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 255, g: 102, b: 0 }, 15);
+        ctx.fillStyle = '#FF9933';
+        ctx.fillRect(3, 3, 10, 10);
+        ctx.fillStyle = '#E65C00';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 15, 16, 1);
         return c;
     }
 

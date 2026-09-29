@@ -451,7 +451,20 @@ const BLOCK = {
     STRIPPED_DARK_OAK_LOG: 519,
     STRIPPED_PALE_OAK_LOG: 520,
     STRIPPED_MANGROVE_LOG: 521,
-    STRIPPED_CHERRY_LOG: 522
+    STRIPPED_CHERRY_LOG: 522,
+
+    RESIN_BLOCK: 523,
+    STAIRS_RESIN_BRICK: 524,
+    RESIN_BRICK_WALL: 525,
+
+    POLISHED_TUFF: 526,
+    TUFF_BRICKS: 527,
+    SLAB_TUFF: 528,
+    STAIRS_TUFF: 529,
+
+    EXPOSED_COPPER_BULB: 530,
+    WEATHERED_COPPER_BULB: 531,
+    OXIDIZED_COPPER_BULB: 532
 };
 
 const ARMOR = {
@@ -838,7 +851,10 @@ const BLOCKS = {
     [BLOCK.SCULK_SHRIEKER]: { name: 'Sculk Shrieker', color: '#003333', top: '#008080', solid: true, icon: '📢', hardness: 3.0, tool: 'hoe' },
     [BLOCK.ITEM_BREEZE_ROD]: { name: 'Breeze Rod', color: '#87CEEB', solid: false, isItem: true, icon: '🥢' },
     [BLOCK.ITEM_WIND_CHARGE]: { name: 'Wind Charge', color: '#E0FFFF', solid: false, isItem: true, icon: '💨' },
-    [BLOCK.COPPER_BULB]: { name: 'Copper Bulb', color: '#B87333', top: '#FFD700', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 0 },
+    [BLOCK.COPPER_BULB]: { name: 'Copper Bulb', color: '#B87333', top: '#FFD700', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 15 },
+    [BLOCK.EXPOSED_COPPER_BULB]: { name: 'Exposed Copper Bulb', color: '#A08060', top: '#FFC800', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 12 },
+    [BLOCK.WEATHERED_COPPER_BULB]: { name: 'Weathered Copper Bulb', color: '#509080', top: '#FFAA00', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 8 },
+    [BLOCK.OXIDIZED_COPPER_BULB]: { name: 'Oxidized Copper Bulb', color: '#40A090', top: '#FF8800', solid: true, icon: '💡', hardness: 3.0, tool: 'pickaxe', light: 4 },
     [BLOCK.ITEM_RECOVERY_COMPASS]: { name: 'Recovery Compass', color: '#00FFFF', solid: false, isItem: true, icon: '🧭' },
     [BLOCK.ITEM_SUSPICIOUS_STEW]: { name: 'Suspicious Stew', color: '#8B4513', solid: false, isItem: true, icon: '🍲', food: 6 },
     [BLOCK.HEAVY_CORE]: { name: 'Heavy Core', color: '#4A4A5A', top: '#6A6A7A', solid: true, icon: '🗿', hardness: 5.0, tool: 'pickaxe' },
@@ -982,7 +998,16 @@ const BLOCKS = {
     [BLOCK.STRIPPED_DARK_OAK_LOG]: { name: 'Stripped Dark Oak Log', color: '#422B18', top: '#5C3A21', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
     [BLOCK.STRIPPED_PALE_OAK_LOG]: { name: 'Stripped Pale Oak Log', color: '#C0C0C0', top: '#DCDCDC', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
     [BLOCK.STRIPPED_MANGROVE_LOG]: { name: 'Stripped Mangrove Log', color: '#773525', top: '#8B3A2B', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
-    [BLOCK.STRIPPED_CHERRY_LOG]: { name: 'Stripped Cherry Log', color: '#E5B2B2', top: '#FFC0CB', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' }
+    [BLOCK.STRIPPED_CHERRY_LOG]: { name: 'Stripped Cherry Log', color: '#E5B2B2', top: '#FFC0CB', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe' },
+
+    [BLOCK.RESIN_BLOCK]: { name: 'Resin Block', color: '#FF6600', top: '#FF8800', solid: true, icon: '🟧', hardness: 2.0, tool: 'pickaxe' },
+    [BLOCK.STAIRS_RESIN_BRICK]: { name: 'Resin Brick Stairs', color: '#D35400', top: '#E67E22', solid: true, icon: '🪜', hardness: 2.0, tool: 'pickaxe', isStair: true, transparent: true },
+    [BLOCK.RESIN_BRICK_WALL]: { name: 'Resin Brick Wall', color: '#D35400', top: '#E67E22', solid: true, icon: '🧱', hardness: 2.0, tool: 'pickaxe', isFence: true, transparent: true },
+
+    [BLOCK.POLISHED_TUFF]: { name: 'Polished Tuff', color: '#525B60', top: '#636F78', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.TUFF_BRICKS]: { name: 'Tuff Bricks', color: '#455055', top: '#566268', solid: true, icon: '🧱', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.SLAB_TUFF]: { name: 'Tuff Slab', color: '#525B60', top: '#636F78', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe', isSlab: true },
+    [BLOCK.STAIRS_TUFF]: { name: 'Tuff Stairs', color: '#525B60', top: '#636F78', solid: true, icon: '🪜', hardness: 1.5, tool: 'pickaxe', isStair: true, transparent: true }
 };
 
 if (typeof window !== 'undefined') {

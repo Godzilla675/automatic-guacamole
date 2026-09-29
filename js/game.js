@@ -618,20 +618,25 @@ class Game {
     }
 
     startAction(isLeftClick) {
+        const dir = {
+            x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+            y: -Math.sin(this.player.pitch),
+            z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+        };
+
+        const eyePos = {
+            x: this.player.x,
+            y: this.player.y + this.player.height * 0.9,
+            z: this.player.z
+        };
+
         if (!isLeftClick) {
             // Right Click Logic
-
             const slot = this.player.inventory[this.player.selectedSlot];
-
-            const dir = {
-                x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
-                y: -Math.sin(this.player.pitch),
-                z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
-            };
 
             // Brush Tool Archaeology Logic
             if (slot && slot.type === BLOCK.ITEM_BRUSH) {
-                const hit = this.physics.raycast(this.player, dir, 5);
+                const hit = this.physics.raycast(eyePos, dir, 5);
                 if (hit) {
                     const targetType = this.world.getBlock(hit.x, hit.y, hit.z);
                     if (targetType === BLOCK.SUSPICIOUS_SAND) {
@@ -647,20 +652,17 @@ class Game {
                         if (window.soundManager) window.soundManager.play('break', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
 
                         if (entity.brushProgress >= 4) {
-                            const lootTable = [
-                                BLOCK.ITEM_EMERALD,
-                                BLOCK.ITEM_DIAMOND,
-                                BLOCK.ITEM_TRIAL_KEY,
-                                BLOCK.ITEM_QUARTZ,
-                                BLOCK.ITEM_GOLD_INGOT
-                            ];
-                            const reward = lootTable[Math.floor(Math.random() * lootTable.length)];
+                            const reward = this.getArchaeologyLoot();
                             if (this.drops && window.Drop) {
                                 this.drops.push(new window.Drop(this, hit.x + 0.5, hit.y + 0.5, hit.z + 0.5, reward, 1));
                             }
                             this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.SAND);
+                            if (this.particles) {
+                                this.particles.spawn(hit.x + 0.5, hit.y + 0.8, hit.z + 0.5, '#FFD700', 20);
+                            }
                             if (this.ui && this.ui.showNotification) {
-                                this.ui.showNotification(`Brushed Suspicious Sand! Unburied ${window.BLOCKS[reward] ? window.BLOCKS[reward].name : 'Item'}!`);
+                                const rewardDef = window.BLOCKS[reward];
+                                this.ui.showNotification(`Brushed Suspicious Sand! Unburied ${rewardDef ? rewardDef.name : 'Item'}!`);
                             }
                         }
 
@@ -677,7 +679,7 @@ class Game {
 
             // Flint and Steel Logic
             if (slot && slot.type === BLOCK.ITEM_FLINT_AND_STEEL) {
-                const hit = this.physics.raycast(this.player, dir, 5);
+                const hit = this.physics.raycast(eyePos, dir, 5);
                 if (hit) {
                     const blockType = this.world.getBlock(hit.x, hit.y, hit.z);
                     if (blockType === BLOCK.TNT) {
@@ -878,7 +880,7 @@ class Game {
 
             // Powder Snow Bucket / Empty Bucket Interaction
             if (slot && (slot.type === BLOCK.ITEM_BUCKET || slot.type === BLOCK.ITEM_POWDER_SNOW_BUCKET)) {
-                const hit = this.physics.raycast(this.player, dir, 5, true);
+                const hit = this.physics.raycast(eyePos, dir, 5, true);
                 if (hit) {
                     const bType = this.world.getBlock(hit.x, hit.y, hit.z);
                     if (slot.type === BLOCK.ITEM_BUCKET && bType === BLOCK.POWDER_SNOW) {
@@ -902,11 +904,6 @@ class Game {
                 }
             }
 
-            const eyePos = {
-                x: this.player.x,
-                y: this.player.y + this.player.height * 0.9,
-                z: this.player.z
-            };
 
             // Axe Log Stripping Logic
             if (slot && window.TOOLS && window.TOOLS[slot.type] && window.TOOLS[slot.type].type === 'axe') {
@@ -924,6 +921,30 @@ class Game {
                         [BLOCK.MANGROVE_LOG]: BLOCK.STRIPPED_MANGROVE_LOG,
                         [BLOCK.CHERRY_LOG]: BLOCK.STRIPPED_CHERRY_LOG
                     };
+
+                    const deoxidizeMap = {
+                        [window.BLOCK.OXIDIZED_COPPER_BULB]: window.BLOCK.WEATHERED_COPPER_BULB,
+                        [window.BLOCK.WEATHERED_COPPER_BULB]: window.BLOCK.EXPOSED_COPPER_BULB,
+                        [window.BLOCK.EXPOSED_COPPER_BULB]: window.BLOCK.COPPER_BULB
+                    };
+
+                    if (deoxidizeMap[targetType]) {
+                        const previousType = deoxidizeMap[targetType];
+                        this.world.setBlock(hit.x, hit.y, hit.z, previousType);
+                        if (this.particles) this.particles.spawn(hit.x + 0.5, hit.y + 0.5, hit.z + 0.5, '#40A090', 12);
+                        if (window.soundManager) window.soundManager.play('break', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
+
+                        if (this.player.gamemode !== 1) {
+                            if (slot.durability === undefined) slot.durability = window.TOOLS[slot.type].durability || 60;
+                            slot.durability--;
+                            if (slot.durability <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                            this.updateHotbarUI();
+                        }
+                        if (this.ui && this.ui.showNotification) {
+                            this.ui.showNotification(`Scraped Copper Bulb into ${window.BLOCKS[previousType] ? window.BLOCKS[previousType].name : 'Copper Bulb'}!`);
+                        }
+                        return;
+                    }
 
                     if (stripMap[targetType]) {
                         const strippedType = stripMap[targetType];
@@ -947,7 +968,7 @@ class Game {
 
             // Check if holding a boat, if so include liquids in raycast
             const includeLiquids = slot && slot.type === BLOCK.ITEM_BOAT;
-            const hit = this.physics.raycast(this.player, dir, 5, includeLiquids);
+            const hit = this.physics.raycast(eyePos, dir, 5, includeLiquids);
 
             // 1. Interact with block (if hit)
             if (hit) {
@@ -989,18 +1010,6 @@ class Game {
             this.placeBlock();
             return;
         }
-
-        const dir = {
-            x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
-            y: -Math.sin(this.player.pitch),
-            z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
-        };
-
-        const eyePos = {
-            x: this.player.x,
-            y: this.player.y + this.player.height * 0.9,
-            z: this.player.z
-        };
 
         // 0. Check Wind Charge Deflection on melee attack
         if (this.projectiles && this.projectiles.length > 0) {
@@ -1972,6 +1981,25 @@ class Game {
         if (entity.output.type !== result.type) return false;
         if (entity.output.count + result.count > 64) return false;
         return true;
+    }
+
+    getArchaeologyLoot() {
+        const lootTable = [
+            { type: BLOCK.ITEM_ARMADILLO_SCUTE, weight: 20 },
+            { type: BLOCK.ITEM_EMERALD, weight: 20 },
+            { type: BLOCK.ITEM_GOLD_INGOT, weight: 15 },
+            { type: BLOCK.ITEM_DIAMOND, weight: 10 },
+            { type: BLOCK.ITEM_TRIAL_KEY, weight: 10 },
+            { type: BLOCK.ITEM_BONE, weight: 15 },
+            { type: BLOCK.ITEM_SUSPICIOUS_STEW, weight: 10 }
+        ];
+        let totalWeight = lootTable.reduce((sum, item) => sum + item.weight, 0);
+        let rand = Math.random() * totalWeight;
+        for (let item of lootTable) {
+            if (rand < item.weight) return item.type;
+            rand -= item.weight;
+        }
+        return BLOCK.ITEM_EMERALD;
     }
 
     getSmeltingResult(inputType) {
