@@ -76,6 +76,17 @@ class InputManager {
                 return;
             }
 
+            // Hitbox Debug Toggle (B key or F3+B)
+            if (e.code === 'KeyB') {
+                e.preventDefault();
+                this.game.showHitboxes = !this.game.showHitboxes;
+                if (this.game.ui && this.game.ui.showNotification) {
+                    this.game.ui.showNotification(`Hitboxes: ${this.game.showHitboxes ? 'SHOW' : 'HIDE'}`);
+                }
+                console.log(`Hitbox Debug Overlay: ${this.game.showHitboxes ? 'ON' : 'OFF'}`);
+                return;
+            }
+
             // Line of sight visual debug toggle (F4 key or KeyK)
             if (e.code === 'F4' || e.code === 'KeyK') {
                 e.preventDefault();

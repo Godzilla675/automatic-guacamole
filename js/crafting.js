@@ -304,6 +304,46 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.RESIN_BRICKS, count: 3 } ]
             },
             {
+                name: "Resin Block",
+                result: { type: BLOCK.RESIN_BLOCK, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_RESIN_CLUMP, count: 9 } ]
+            },
+            {
+                name: "Resin Clumps (9)",
+                result: { type: BLOCK.ITEM_RESIN_CLUMP, count: 9 },
+                ingredients: [ { type: BLOCK.RESIN_BLOCK, count: 1 } ]
+            },
+            {
+                name: "Resin Brick Stairs (4)",
+                result: { type: BLOCK.STAIRS_RESIN_BRICK, count: 4 },
+                ingredients: [ { type: BLOCK.RESIN_BRICKS, count: 6 } ]
+            },
+            {
+                name: "Resin Brick Wall (6)",
+                result: { type: BLOCK.RESIN_BRICK_WALL, count: 6 },
+                ingredients: [ { type: BLOCK.RESIN_BRICKS, count: 6 } ]
+            },
+            {
+                name: "Polished Tuff (4)",
+                result: { type: BLOCK.POLISHED_TUFF, count: 4 },
+                ingredients: [ { type: BLOCK.CHISELED_TUFF, count: 4 } ]
+            },
+            {
+                name: "Tuff Bricks (4)",
+                result: { type: BLOCK.TUFF_BRICKS, count: 4 },
+                ingredients: [ { type: BLOCK.POLISHED_TUFF, count: 4 } ]
+            },
+            {
+                name: "Tuff Slab (6)",
+                result: { type: BLOCK.SLAB_TUFF, count: 6 },
+                ingredients: [ { type: BLOCK.POLISHED_TUFF, count: 3 } ]
+            },
+            {
+                name: "Tuff Stairs (4)",
+                result: { type: BLOCK.STAIRS_TUFF, count: 4 },
+                ingredients: [ { type: BLOCK.POLISHED_TUFF, count: 6 } ]
+            },
+            {
                 name: "Eyeblossom Stew",
                 result: { type: BLOCK.ITEM_SUSPICIOUS_STEW, count: 1 },
                 ingredients: [ { type: BLOCK.EYEBLOSSOM, count: 1 }, { type: BLOCK.PLANK, count: 1 } ]

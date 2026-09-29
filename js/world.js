@@ -843,7 +843,7 @@ class World {
                 } else if (!powered && wasPowered) {
                     this.setMetadata(x, y, z, meta & ~1);
                 }
-            } else if (type === window.BLOCK.COPPER_BULB) {
+            } else if (type === window.BLOCK.COPPER_BULB || type === window.BLOCK.EXPOSED_COPPER_BULB || type === window.BLOCK.WEATHERED_COPPER_BULB || type === window.BLOCK.OXIDIZED_COPPER_BULB) {
                 const powered = this.isBlockPowered(x, y, z);
                 const meta = this.getMetadata(x, y, z);
                 const wasPowered = (meta & 1) !== 0;
