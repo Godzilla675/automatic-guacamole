@@ -518,33 +518,56 @@ class Game {
             return true;
         }
 
-        // Trial Vault Interaction
-        if (blockType === BLOCK.TRIAL_VAULT) {
+        // Trial Vault & Ominous Vault Interaction
+        if (blockType === BLOCK.TRIAL_VAULT || blockType === BLOCK.OMINOUS_VAULT) {
+            let entity = this.world.getBlockEntity(x, y, z);
+            if (!entity) {
+                entity = { type: blockType === BLOCK.OMINOUS_VAULT ? 'ominous_vault' : 'trial_vault', openedPlayers: [] };
+                this.world.setBlockEntity(x, y, z, entity);
+            }
+            if (!entity.openedPlayers) entity.openedPlayers = [];
+
+            const playerId = this.player.name || "Player";
+            if (entity.openedPlayers.includes(playerId)) {
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#808080', 10);
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification("Vault is already unlocked and locked for this player!");
+                }
+                return true;
+            }
+
+            const reqKey = blockType === BLOCK.OMINOUS_VAULT ? BLOCK.ITEM_OMINOUS_TRIAL_KEY : BLOCK.ITEM_TRIAL_KEY;
             const held = this.player.getHeldItem();
-            if (held && held.type === BLOCK.ITEM_TRIAL_KEY) {
+            if (held && held.type === reqKey) {
                 held.count--;
                 if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
                 this.updateHotbarUI();
 
-                // High tier loot table
-                const rewards = [
-                    { type: BLOCK.ITEM_DIAMOND, count: 3 },
+                entity.openedPlayers.push(playerId);
+
+                // Rewards table
+                const rewards = blockType === BLOCK.OMINOUS_VAULT ? [
                     { type: BLOCK.HEAVY_CORE, count: 1 },
                     { type: BLOCK.ITEM_MACE, count: 1 },
-                    { type: BLOCK.ITEM_GOLD_INGOT, count: 5 }
+                    { type: BLOCK.ITEM_DIAMOND, count: 5 }
+                ] : [
+                    { type: BLOCK.ITEM_DIAMOND, count: 3 },
+                    { type: BLOCK.ITEM_GOLD_INGOT, count: 5 },
+                    { type: BLOCK.ITEM_EMERALD, count: 4 }
                 ];
                 const loot = rewards[Math.floor(Math.random() * rewards.length)];
                 this.player.addItem(loot);
 
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#00FFFF', 30);
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, blockType === BLOCK.OMINOUS_VAULT ? '#9400D3' : '#00FFFF', 30);
                 if (this.ui && this.ui.showNotification) {
                     const def = window.BLOCKS[loot.type];
-                    this.ui.showNotification(`Trial Vault Unlocked! Rewarded ${def ? def.name : 'Loot'} x${loot.count}!`);
+                    this.ui.showNotification(`${blockType === BLOCK.OMINOUS_VAULT ? 'Ominous ' : ''}Vault Unlocked! Rewarded ${def ? def.name : 'Loot'} x${loot.count}!`);
                 }
                 if (window.soundManager) window.soundManager.play('place', pos);
             } else {
                 if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification("Trial Vault: Requires a Trial Key to unlock!");
+                    const keyDef = window.BLOCKS[reqKey];
+                    this.ui.showNotification(`Vault requires a ${keyDef ? keyDef.name : 'Key'} to unlock!`);
                 }
             }
             return true;
@@ -1393,6 +1416,40 @@ class Game {
                      }
                  }
 
+                 // Bone / Bone Meal Sapling Acceleration
+                 if (slot.type === BLOCK.ITEM_BONE) {
+                     const targetType = this.world.getBlock(hit.x, hit.y, hit.z);
+                     if (targetType === BLOCK.PALE_OAK_SAPLING || (BLOCKS[targetType] && BLOCKS[targetType].isSapling)) {
+                         const chunk = this.world.getChunkAt(hit.x, hit.z);
+                         if (chunk) {
+                             const lx = hit.x - chunk.cx * 16;
+                             const lz = hit.z - chunk.cz * 16;
+                             let treeType = 'oak';
+                             if (targetType === BLOCK.PALE_OAK_SAPLING) treeType = 'pale_oak';
+                             else if (targetType === BLOCK.BIRCH_SAPLING) treeType = 'birch';
+                             else if (targetType === BLOCK.SPRUCE_SAPLING) treeType = 'spruce';
+                             else if (targetType === BLOCK.JUNGLE_SAPLING) treeType = 'jungle';
+
+                             this.world.setBlockEntity(hit.x, hit.y, hit.z, null);
+                             this.world.setBlock(hit.x, hit.y, hit.z, BLOCK.AIR);
+                             this.world.structureManager.generateTree(chunk, lx, hit.y, lz, treeType, true);
+
+                             if (this.particles) this.particles.spawn(hit.x + 0.5, hit.y + 1.0, hit.z + 0.5, '#7CFC00', 25);
+                             if (window.soundManager) window.soundManager.play('place', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
+
+                             if (this.player.gamemode !== 1) {
+                                 slot.count--;
+                                 if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             }
+                             this.updateHotbarUI();
+                             if (this.ui && this.ui.showNotification) {
+                                 this.ui.showNotification("Applied Bone Meal! Sapling grew into a tree!");
+                             }
+                             return;
+                         }
+                     }
+                 }
+
                  // Sapling Logic
                  if (BLOCKS[slot.type].isSapling) {
                      // Check block below
@@ -1406,6 +1463,7 @@ class Game {
                              if (slot.type === BLOCK.BIRCH_SAPLING) treeType = 'birch';
                              else if (slot.type === BLOCK.SPRUCE_SAPLING) treeType = 'spruce';
                              else if (slot.type === BLOCK.JUNGLE_SAPLING) treeType = 'jungle';
+                             else if (slot.type === BLOCK.PALE_OAK_SAPLING) treeType = 'pale_oak';
 
                              this.world.setBlockEntity(nx, ny, nz, { type: 'sapling', stage: 0, treeType: treeType });
 
@@ -1746,6 +1804,16 @@ class Game {
         }
 
         if (catalystFound) {
+            if (this.particles) {
+                for (let i = 0; i <= 5; i++) {
+                    const t = i / 5;
+                    const px = bx + (catX - bx) * t + 0.5;
+                    const py = by + (catY - by) * t + 0.5;
+                    const pz = bz + (catZ - bz) * t + 0.5;
+                    this.particles.spawn(px, py, pz, '#00FFFF', 4);
+                }
+            }
+
             let converted = 0;
             for (let dx = -3; dx <= 3; dx++) {
                 for (let dy = -2; dy <= 2; dy++) {
@@ -1768,7 +1836,7 @@ class Game {
                 this.particles.spawn(catX + 0.5, catY + 1.0, catZ + 0.5, '#008080', 25);
             }
             if (this.ui && this.ui.showNotification) {
-                this.ui.showNotification("Sculk Catalyst activated! Sculk spreading...");
+                this.ui.showNotification("Sculk Catalyst absorbed charge! Sculk spreading...");
             }
         }
     }
@@ -2267,6 +2335,9 @@ class Game {
                 if (entity && entity.type === 'creaking_heart') {
                     const [hx, hy, hz] = key.split(',').map(Number);
                     if (isNight) {
+                        if (this.particles && Math.random() < 0.6) {
+                            this.particles.spawn(hx + 0.5, hy + 0.5, hz + 0.5, '#FF8800', 4);
+                        }
                         let linkedCreaking = this.mobs.find(m => m.type === MOB_TYPE.CREAKING && m.linkedHeartPos && m.linkedHeartPos.x === hx && m.linkedHeartPos.y === hy && m.linkedHeartPos.z === hz && !m.isDead);
                         if (!linkedCreaking) {
                             const creaking = new Mob(this, hx + 1, hy, hz, MOB_TYPE.CREAKING);

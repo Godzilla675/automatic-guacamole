@@ -1195,6 +1195,18 @@ class Mob extends Entity {
         const player = this.game.player;
         if (!player) return;
 
+        // Particle trail to linked heart
+        if (this.linkedHeartPos && this.game && this.game.particles && Math.random() < 0.4) {
+            const hx = this.linkedHeartPos.x + 0.5;
+            const hy = this.linkedHeartPos.y + 0.5;
+            const hz = this.linkedHeartPos.z + 0.5;
+            const t = Math.random();
+            const px = this.x + (hx - this.x) * t;
+            const py = (this.y + this.height * 0.5) + (hy - (this.y + this.height * 0.5)) * t;
+            const pz = this.z + (hz - this.z) * t;
+            this.game.particles.spawn(px, py, pz, '#FF6600', 1);
+        }
+
         if (this.isLookedAtByPlayer()) {
             // Frozen when looked at
             this.vx = 0;
