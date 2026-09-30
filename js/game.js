@@ -931,6 +931,9 @@ class Game {
                     if (deoxidizeMap[targetType]) {
                         const previousType = deoxidizeMap[targetType];
                         this.world.setBlock(hit.x, hit.y, hit.z, previousType);
+                        if (this.world && this.world.recalcLocalLight) {
+                            this.world.recalcLocalLight(hit.x, hit.y, hit.z);
+                        }
                         if (this.particles) this.particles.spawn(hit.x + 0.5, hit.y + 0.5, hit.z + 0.5, '#40A090', 12);
                         if (window.soundManager) window.soundManager.play('break', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
 
