@@ -924,12 +924,8 @@ class UIManager {
 
         for (let i = 0; i < 9; i++) {
             const slot = document.createElement('div');
-            slot.className = 'inventory-item';
+            slot.className = 'inventory-item crafter-slot' + (disabledSlots[i] ? ' disabled-slot' : '');
             slot.dataset.index = i;
-            if (disabledSlots[i]) {
-                slot.style.backgroundColor = 'rgba(255, 0, 0, 0.4)';
-                slot.style.borderColor = '#ff3333';
-            }
 
             const icon = document.createElement('span');
             icon.className = 'block-icon';
