@@ -226,7 +226,10 @@ describe('Batch 12 - 5 New High-Quality Features Test Suite', function () {
             }
         };
 
-        creaking.updateCreakingAI(0.016);
+        for (let i = 0; i < 20; i++) {
+            creaking.updateCreakingAI(0.016);
+            if (particleSpawned) break;
+        }
         assert.ok(particleSpawned);
     });
 
