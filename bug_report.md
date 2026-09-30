@@ -196,3 +196,12 @@ Executed an array of Playwright automated testing scripts against the live `http
 - Fixed Playwright Context Menu Timeout (`js/input.js`): Added capture-phase (`{ capture: true }`) listeners on `document` and `window` for `contextmenu` events to immediately prevent default browser context menus and prevent Playwright timeout delays.
 - Created `tests/test_spectator_water_and_contextmenu_bugs.js` unit test suite and verified 100% test pass rate.
 - Executed Playwright E2E browser tests (`verify_manual_gameplay.py`, `test_specific_features.py`) with 0 console errors and 100% pass rate.
+
+## Feature Batches 10-12 Audit Run
+- Audited and verified Batch 10, 11, and 12 high-quality feature implementations across `tests/test_5_new_features_batch10.js`, `tests/test_5_new_high_quality_features_batch11.js`, and `tests/test_5_new_high_quality_features_batch12.js`.
+- Verified Sculk Catalyst charge absorption and sculk spreading upon mob death within 8 blocks.
+- Verified Vault & Ominous Vault player UUID locking and cooldown mechanics.
+- Verified Crafter UI disabled slot visual red grid overlay (`.disabled-slot`).
+- Verified Creaking Heart ember particle link and nighttime activation mechanics.
+- Verified Pale Oak Sapling bone-meal tree growth mechanics.
+- Updated status tracking in `FUTURE_FEATURES.md`.
