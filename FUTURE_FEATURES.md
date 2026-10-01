@@ -50,6 +50,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Nether Fortresses**: Generation logic in Nether with Nether Bricks and Soul Sand. (Status: Verified and working)
 - [x] **Badlands Biome**: Biome featuring terraced colored terracotta/concrete layers. (Status: Verified and working)
 - [x] **Desert Temple**: Sandstone pyramids in Desert biomes with terracotta patterns, twin towers, and subterranean pressure-plate TNT loot traps. (Status: Verified and working)
+- [ ] **New Task: Add Pale Hanging Moss Canopy Generation**: Generate hanging pale moss vines hanging from Pale Oak tree leaves in Pale Garden biomes. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Amethyst Geode Generation**: Underground hollow basalt/calcite spheres lined with amethyst blocks and budding amethyst crystals. (Status: Proposed feature, pending implementation)
 
 ### 2. Block System
 - [ ] **New Task: Add Vertical Slabs**: Allow slab placement vertically on block faces. (Status: Missing implementation, agents must fix)
@@ -68,6 +70,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Verified and working)
 - [x] **New Task: Add Concrete Block Colors**: 16 colored concrete blocks definition, textures, and crafting. (Status: Verified and working)
 - [x] **New Task: Add Bookshelves & Books**: Bookshelf blocks and book items definition, crafting, and textures. (Status: Verified and working)
+- [ ] **New Task: Add Scaffolding Block**: Craftable bamboo scaffoldings allowing fast vertical climbing and descending through solid scaffold stacks. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Chiseled Resin Bricks & Resin Brick Slabs**: Further expand the resin brick building family with chiseled decorative variants. (Status: Proposed feature, pending implementation)
 
 ### 3. Rendering Engine
 - [x] **Bug: Cloud clipping**: Clouds sort altitude and depth correctly. (Status: Verified and working)
@@ -78,6 +82,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
 - [ ] **Head bobbing animation** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Verified and working)
+- [ ] **New Task: Add Block Breaking Cracking Overlay**: Render 10-stage breaking texture overlays on blocks currently targeted by player mining. (Status: Proposed feature, pending implementation)
 
 ### 4. Player Mechanics
 - [x] Drowning (Status: Verified and working)
@@ -87,6 +92,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Spectator Flying through Blocks**: Spectator mode allows clip-free flying through solid terrain. (Status: Verified and working)
 - [x] **New Task: Add Spyglass Zoom FOV**: Right clicking with Spyglass zooms in FOV camera view. (Status: Verified and working)
 - [x] **New Task: Add Honey Block Fall Damage Reduction**: Landing on Honey Blocks cancels fall damage. (Status: Verified and working)
+- [ ] **New Task: Add Dual Wield Offhand Action Triggering**: Right-clicking while holding usable items in offhand (e.g. Shield blocking or Food eating) executes offhand action when main hand is empty. (Status: Proposed feature, pending implementation)
 
 ### 5. Entities & Mobs
 - [x] **New Task: Add Wind Charge Consumables**: Throwable wind charges dropped by Breeze mobs dealing knockback explosions and vertical leaps. (Status: Verified and working)
@@ -110,6 +116,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Frog Species & Magma Cube Eating**: Green, warm, and cold frog variants eating small magma cubes to drop Froglight blocks. (Status: Verified and working)
 - [x] **New Task: Add Armadillo Scute Brushing**: Interacting with Armadillos in Savanna biomes yields Scutes for crafting. (Status: Verified and working)
 - [x] **New Task: Add Armadillos**: Neutral mobs found in savannas and badlands that drop scutes. (Status: Verified and working)
+- [ ] **New Task: Add Warden Sonic Boom Attack**: Powerful ranged sonic burst attack launched by Warden mobs through walls when vibrations are triggered. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Ominous Pillager Captains & Ominous Banner Drops**: Pillager Captain mobs spawning with banners on their heads that drop Ominous Banners to grant Bad Omen. (Status: Proposed feature, pending implementation)
 
 ### 6. Items & Crafting
 - [x] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items. (Status: Verified and working)
@@ -126,6 +134,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Nether Wart Item**: Nether wart item definition, texture, and farming component. (Status: Verified and working)
 - [ ] **Beacons** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Crossbows**: Implement ranged weapon with high durability, crafting recipe, and Pillager mob drops. (Status: Verified and working)
+- [ ] **New Task: Add Lead Crafting & Mob Leashing**: Craft leads with string and slimeballs to tether passive mobs to fences. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Pale Oak Boat & Chest Boat Crafting**: Craftable Pale Oak watercraft with container inventory support. (Status: Proposed feature, pending implementation)
 
 ### 7. Lighting System
 - [ ] Colored lighting (Status: Missing implementation, agents must fix)
@@ -154,11 +164,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Verified and working)
 - [x] **New Task: Add Bundle Item Tooltip Preview**: Hovering over Bundle in inventory displays 2D grid preview of stored items. (Status: Verified and working)
 - [x] **New Task: Add Crafter Slot Toggling UI**: Interactive 3x3 GUI grid to enable/disable specific crafting slots on Crafter blocks for shaped automated crafting. (Status: Verified and working)
+- [ ] **New Task: Add Bundle Interactive Draw & Insertion UI**: Right-clicking Bundle in inventory UI to draw items out or insert items in FIFO sequence. (Status: Proposed feature, pending implementation)
 
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
 - [ ] **Proper block placement sound based on block type** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Verified and working)
+- [ ] **New Task: Add Creaking Mob Audio FX**: Creaking timber wood steps and eerie forest screech sound effects when Creaking mobs move. (Status: Proposed feature, pending implementation)
 
 ### 12. Redstone & Mechanics
 - [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals. (Status: Verified and working)
@@ -260,6 +272,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Sculk Catalyst Mob Death Charge Propagation**: Sculk Catalyst spreading Sculk Veins and Sculk blocks to adjacent solid terrain when entities perish within an 8-block radius. (Status: Verified and working)
 - [x] **New Task: Add Vault & Ominous Vault Cooldown & Player Locking Mechanics**: Vaults remaining open per player and tracking player UUIDs to grant rewards once per player and prevent key farming. (Status: Verified and working)
 - [ ] **New Task: Add Breeze Wind Charge Radial Entity Damage**: Wind Charges exploding on collision to deal 2D/3D radial knockback and minor blast damage to surrounding entities. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Axolotl Combat & Bucket Capture Mechanics**: Friendly underwater aquatic mob entity attacking hostile submerged mobs and captureable using Water Buckets. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Lead Crafting & Fence Tethering Physics**: Craftable lead items to tether passive animals and tie them securely to fence posts. (Status: Proposed feature, pending implementation)
 
 ## Known Bugs & Issues (To Be Fixed)
 - [x] **Bug: Canvas Pattern Creation in Headless Contexts**: `createPattern` throwing errors in headless test environments lacking full HTMLCanvasElement rendering backends. (Status: Verified and working - canvas pattern fallback in TextureManager and test hooks)
