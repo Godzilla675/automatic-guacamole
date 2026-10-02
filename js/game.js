@@ -433,6 +433,25 @@ class Game {
             return true;
         }
 
+        // Fence Tethering for Leashed Mobs
+        if (window.BLOCKS[blockType] && window.BLOCKS[blockType].isFence) {
+            let tetheredAny = false;
+            if (this.mobs) {
+                for (const mob of this.mobs) {
+                    if (mob && mob.leashedToPlayer) {
+                        mob.leashedToPlayer = false;
+                        mob.leashedToFence = { x, y, z };
+                        tetheredAny = true;
+                    }
+                }
+            }
+            if (tetheredAny) {
+                if (window.soundManager) window.soundManager.play('place', pos);
+                if (this.ui && this.ui.showNotification) this.ui.showNotification("Tethered mob to fence!");
+                return true;
+            }
+        }
+
         // Doors
         if (window.BLOCKS[blockType] && window.BLOCKS[blockType].isDoor) {
              const meta = this.world.getMetadata(x, y, z);

@@ -543,6 +543,11 @@ class Player {
             this.vy = -2.0; // Slide down slowly on honey block
         }
 
+        // Scaffolding Check
+        const playerBox = { x: this.x, y: this.y, z: this.z, width: this.width, height: this.height };
+        const collidingBlocksScaffold = this.game.physics ? this.game.physics.getCollidingBlocks(playerBox) : [];
+        const inScaffolding = collidingBlocksScaffold.some(b => b.type === window.BLOCK.SCAFFOLDING);
+
         // Fluid Physics & Drowning
         const isSpectatorMode = (this.gamemode === 3 || this.spectator);
         const inWater = isSpectatorMode ? false : this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
@@ -690,30 +695,41 @@ class Player {
 
             this.fallDistance = 0; // Elytra mitigates fall damage
         } else {
-            if (controls.jump && (this.onGround || this.flying || inWater)) {
-                if (this.flying) {
-                     this.vy = moveSpeed;
-                } else if (inWater) {
-                     this.vy = 2.0; // Swim up
+            if (inScaffolding && !this.flying) {
+                this.fallDistance = 0;
+                if (controls.jump) {
+                    this.vy = 4.5; // Climb up scaffolding
+                } else if (controls.sneak) {
+                    this.vy = -4.5; // Climb down scaffolding
                 } else {
-                     // Only jump if we didn't just toggle flying
-                     this.vy = this.jumpForce;
-                     this.onGround = false;
-                     window.soundManager.play('jump');
-                }
-            } else if (controls.sneak && this.flying) {
-                this.vy = -moveSpeed;
-            }
-
-            if (!this.flying) {
-                if (inWater) {
-                    this.vy -= this.gravity * dt * 0.2; // Reduced gravity
-                    this.vy *= 0.8; // Water drag
-                } else {
-                    this.vy -= this.gravity * dt;
+                    this.vy = 0; // Hold position on scaffolding
                 }
             } else {
-                if (!controls.jump && !controls.sneak) this.vy = 0;
+                if (controls.jump && (this.onGround || this.flying || inWater)) {
+                    if (this.flying) {
+                         this.vy = moveSpeed;
+                    } else if (inWater) {
+                         this.vy = 2.0; // Swim up
+                    } else {
+                         // Only jump if we didn't just toggle flying
+                         this.vy = this.jumpForce;
+                         this.onGround = false;
+                         window.soundManager.play('jump');
+                    }
+                } else if (controls.sneak && this.flying) {
+                    this.vy = -moveSpeed;
+                }
+
+                if (!this.flying) {
+                    if (inWater) {
+                        this.vy -= this.gravity * dt * 0.2; // Reduced gravity
+                        this.vy *= 0.8; // Water drag
+                    } else {
+                        this.vy -= this.gravity * dt;
+                    }
+                } else {
+                    if (!controls.jump && !controls.sneak) this.vy = 0;
+                }
             }
         }
 

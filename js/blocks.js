@@ -466,7 +466,12 @@ const BLOCK = {
 
     EXPOSED_COPPER_BULB: 530,
     WEATHERED_COPPER_BULB: 531,
-    OXIDIZED_COPPER_BULB: 532
+    OXIDIZED_COPPER_BULB: 532,
+
+    // Batch 13 Features
+    SCAFFOLDING: 533,
+    CHISELED_RESIN_BRICKS: 534,
+    ITEM_LEAD: 535
 };
 
 const ARMOR = {
@@ -1009,7 +1014,12 @@ const BLOCKS = {
     [BLOCK.POLISHED_TUFF]: { name: 'Polished Tuff', color: '#525B60', top: '#636F78', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe' },
     [BLOCK.TUFF_BRICKS]: { name: 'Tuff Bricks', color: '#455055', top: '#566268', solid: true, icon: '🧱', hardness: 1.5, tool: 'pickaxe' },
     [BLOCK.SLAB_TUFF]: { name: 'Tuff Slab', color: '#525B60', top: '#636F78', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe', isSlab: true },
-    [BLOCK.STAIRS_TUFF]: { name: 'Tuff Stairs', color: '#525B60', top: '#636F78', solid: true, icon: '🪜', hardness: 1.5, tool: 'pickaxe', isStair: true, transparent: true }
+    [BLOCK.STAIRS_TUFF]: { name: 'Tuff Stairs', color: '#525B60', top: '#636F78', solid: true, icon: '🪜', hardness: 1.5, tool: 'pickaxe', isStair: true, transparent: true },
+
+    // Batch 13 Feature Definitions
+    [BLOCK.SCAFFOLDING]: { name: 'Scaffolding', color: '#D2B48C', top: '#C2B280', solid: false, transparent: true, icon: '🪜', hardness: 0.2, isScaffolding: true, drop: { type: BLOCK.SCAFFOLDING, count: 1 } },
+    [BLOCK.CHISELED_RESIN_BRICKS]: { name: 'Chiseled Resin Bricks', color: '#D35400', top: '#E67E22', solid: true, icon: '🏛️', hardness: 2.0, tool: 'pickaxe' },
+    [BLOCK.ITEM_LEAD]: { name: 'Lead', color: '#8B4513', solid: false, isItem: true, icon: '🪢' }
 };
 
 if (typeof window !== 'undefined') {

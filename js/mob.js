@@ -64,6 +64,10 @@ class Mob extends Entity {
         this.isBaby = false;
         this.growthTimer = 0;
 
+        // Leashing / Tethering
+        this.leashedToPlayer = false;
+        this.leashedToFence = null;
+
         // Taming
         this.isTamed = false;
         this.owner = null; // Could store player ID
@@ -171,6 +175,23 @@ class Mob extends Entity {
                     this.game.player.giveItem(BLOCK.ITEM_SUSPICIOUS_STEW, 1);
                     if (this.game.updateHotbarUI) this.game.updateHotbarUI();
                 }
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
+            }
+        }
+
+        // Lead Leashing / Unleashing
+        if (itemType === window.BLOCK.ITEM_LEAD) {
+            if (this.leashedToPlayer || this.leashedToFence) {
+                this.leashedToPlayer = false;
+                this.leashedToFence = null;
+                if (this.game && this.game.drops && window.Drop) {
+                    this.game.drops.push(new window.Drop(this.game, this.x, this.y + 0.5, this.z, window.BLOCK.ITEM_LEAD, 1));
+                }
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
+            } else {
+                this.leashedToPlayer = true;
                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
                 return true;
             }
@@ -726,6 +747,43 @@ class Mob extends Entity {
         if (this.isDead) return;
 
         this.updateAI(dt);
+
+        // Lead Pulling & Breakage Physics
+        if (this.leashedToPlayer && this.game && this.game.player) {
+            const player = this.game.player;
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const dz = player.z - this.z;
+            const dist = Math.sqrt(dx * dx + dz * dz);
+            if (dist > 10.0) {
+                // Break lead
+                this.leashedToPlayer = false;
+                if (this.game.drops && window.Drop) {
+                    this.game.drops.push(new window.Drop(this.game, this.x, this.y + 0.5, this.z, window.BLOCK.ITEM_LEAD, 1));
+                }
+            } else if (dist > 5.0) {
+                // Pull mob toward player
+                this.vx += (dx / dist) * 8 * dt;
+                this.vz += (dz / dist) * 8 * dt;
+                if (dy > 1.5 && this.onGround) this.vy = 5;
+            }
+        } else if (this.leashedToFence) {
+            const fence = this.leashedToFence;
+            const dx = fence.x - this.x;
+            const dy = fence.y - this.y;
+            const dz = fence.z - this.z;
+            const dist = Math.sqrt(dx * dx + dz * dz);
+            if (dist > 10.0) {
+                this.leashedToFence = null;
+                if (this.game.drops && window.Drop) {
+                    this.game.drops.push(new window.Drop(this.game, this.x, this.y + 0.5, this.z, window.BLOCK.ITEM_LEAD, 1));
+                }
+            } else if (dist > 4.5) {
+                this.vx += (dx / dist) * 8 * dt;
+                this.vz += (dz / dist) * 8 * dt;
+                if (dy > 1.5 && this.onGround) this.vy = 5;
+            }
+        }
 
         // Gravity
         this.vy -= 25 * dt;

@@ -70,17 +70,17 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Verified and working)
 - [x] **New Task: Add Concrete Block Colors**: 16 colored concrete blocks definition, textures, and crafting. (Status: Verified and working)
 - [x] **New Task: Add Bookshelves & Books**: Bookshelf blocks and book items definition, crafting, and textures. (Status: Verified and working)
-- [ ] **New Task: Add Scaffolding Block**: Craftable bamboo scaffoldings allowing fast vertical climbing and descending through solid scaffold stacks. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Chiseled Resin Bricks & Resin Brick Slabs**: Further expand the resin brick building family with chiseled decorative variants. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Scaffolding Block**: Craftable bamboo scaffoldings allowing fast vertical climbing and descending through solid scaffold stacks. (Status: Verified and working)
+- [x] **New Task: Add Chiseled Resin Bricks & Resin Brick Slabs**: Further expand the resin brick building family with chiseled decorative variants. (Status: Verified and working)
 
 ### 3. Rendering Engine
 - [x] **Bug: Cloud clipping**: Clouds sort altitude and depth correctly. (Status: Verified and working)
 - [ ] Smooth lighting (Status: Missing implementation, agents must fix)
 - [ ] Custom shaders (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Custom Sun/Moon Textures**: Use unique textures for the celestial bodies instead of simple shapes. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Custom Sun/Moon Textures**: Use unique textures for the celestial bodies instead of simple shapes. (Status: Verified and working)
 - [ ] **Better shadows and lighting** (Dynamic shadows) (Status: Missing implementation, agents must fix)
 - [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
-- [ ] **Head bobbing animation** (Status: Missing implementation, agents must fix)
+- [x] **Head bobbing animation** (Status: Verified and working)
 - [x] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Verified and working)
 - [ ] **New Task: Add Block Breaking Cracking Overlay**: Render 10-stage breaking texture overlays on blocks currently targeted by player mining. (Status: Proposed feature, pending implementation)
 
@@ -134,7 +134,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Nether Wart Item**: Nether wart item definition, texture, and farming component. (Status: Verified and working)
 - [ ] **Beacons** (Status: Missing implementation, agents must fix)
 - [x] **New Task: Add Crossbows**: Implement ranged weapon with high durability, crafting recipe, and Pillager mob drops. (Status: Verified and working)
-- [ ] **New Task: Add Lead Crafting & Mob Leashing**: Craft leads with string and slimeballs to tether passive mobs to fences. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Lead Crafting & Mob Leashing**: Craft leads with string and slimeballs to tether passive mobs to fences. (Status: Verified and working)
 - [ ] **New Task: Add Pale Oak Boat & Chest Boat Crafting**: Craftable Pale Oak watercraft with container inventory support. (Status: Proposed feature, pending implementation)
 
 ### 7. Lighting System
@@ -164,7 +164,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Verified and working)
 - [x] **New Task: Add Bundle Item Tooltip Preview**: Hovering over Bundle in inventory displays 2D grid preview of stored items. (Status: Verified and working)
 - [x] **New Task: Add Crafter Slot Toggling UI**: Interactive 3x3 GUI grid to enable/disable specific crafting slots on Crafter blocks for shaped automated crafting. (Status: Verified and working)
-- [ ] **New Task: Add Bundle Interactive Draw & Insertion UI**: Right-clicking Bundle in inventory UI to draw items out or insert items in FIFO sequence. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Bundle Interactive Draw & Insertion UI**: Right-clicking Bundle in inventory UI to draw items out or insert items in FIFO sequence. (Status: Verified and working)
 
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
@@ -267,7 +267,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Suspicious Sand Loot Tables for Archaeology**: Unearth unique items like Pottery Sherds and Sniffer Eggs when brushing Suspicious Sand with Brush tool. (Status: Verified and working)
 - [x] **New Task: Add Creaking Mob Heart Death Particle Effects**: Emit vibrant wood ember particle trails connecting Creaking mobs to their active Creaking Heart block when taking damage. (Status: Verified and working)
 - [x] **New Task: Add Copper Bulb Oxidation Light Attenuation Mechanics**: Dimmable light emission levels corresponding to 4 oxidation stages (Copper, Exposed, Weathered, Oxidized). (Status: Verified and working)
-- [ ] **New Task: Add Bundle Item Insertion & Extraction UI Controls**: Interactive right-click or drag-and-drop mechanics in Bundle UI to insert and draw items out of Bundles in sequence. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Bundle Item Insertion & Extraction UI Controls**: Interactive right-click or drag-and-drop mechanics in Bundle UI to insert and draw items out of Bundles in sequence. (Status: Verified and working)
 - [x] **New Task: Add Creaking Heart Nighttime Activation & Pale Oak Sapling Growth**: Creaking Heart blocks activating only at night with glowing pale orange particles, and Pale Oak Saplings growing into full trees upon bone-meal interaction. (Status: Verified and working)
 - [x] **New Task: Add Sculk Catalyst Mob Death Charge Propagation**: Sculk Catalyst spreading Sculk Veins and Sculk blocks to adjacent solid terrain when entities perish within an 8-block radius. (Status: Verified and working)
 - [x] **New Task: Add Vault & Ominous Vault Cooldown & Player Locking Mechanics**: Vaults remaining open per player and tracking player UUIDs to grant rewards once per player and prevent key farming. (Status: Verified and working)
@@ -577,5 +577,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Chest Boats & Pale Oak Watercraft**: Rideable boat vehicles with integrated container chests for long-distance water inventory transportation. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Ender Chest UI & Shared Dimensional Container Storage**: Ender Chest block and interactive UI maintaining persistent player inventory shared across all Ender Chest instances. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Axolotl Aquatic Mob Entity & Water Bucket Capture Mechanics**: Friendly underwater axolotls attacking hostile drowned/fish entities and captureable using Water Buckets. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Lead Item & Mob Fencing Tie Mechanics**: Craftable leads used to leash passive animal mobs and tie them securely to fence posts. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Scaffolding Block & Fast Vertical Climbing Physics**: Scaffolding blocks with clip-through center ladders for fast vertical building and climbing. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Lead Item & Mob Fencing Tie Mechanics**: Craftable leads used to leash passive animal mobs and tie them securely to fence posts. (Status: Verified and working)
+- [x] **New Task: Add Scaffolding Block & Fast Vertical Climbing Physics**: Scaffolding blocks with clip-through center ladders for fast vertical building and climbing. (Status: Verified and working)
