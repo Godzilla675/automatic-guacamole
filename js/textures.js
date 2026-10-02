@@ -250,6 +250,11 @@ class TextureManager {
         this.textures[B.DISPENSER] = this.genDropper();
         this.textures[B.FIRE] = this.genTorch('#FF4500');
 
+        // Batch 13 Features
+        this.textures[B.SCAFFOLDING] = this.genBamboo();
+        this.textures[B.CHISELED_RESIN_BRICKS] = this.genChiseledResinBricks();
+        this.textures[B.ITEM_LEAD] = this.genString();
+
         // Feature Batch 5
         this.textures[B.POWERED_RAIL] = this.genTorch('#FFD700');
         this.textures[B.DETECTOR_RAIL] = this.genTorch('#B22222');
@@ -1445,6 +1450,20 @@ class TextureManager {
         ctx.fillRect(0, 8, 16, 1);
         ctx.fillRect(8, 0, 1, 8);
         ctx.fillRect(4, 8, 1, 8);
+        return c;
+    }
+
+    genChiseledResinBricks() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 211, g: 84, b: 0 }, 15);
+        ctx.fillStyle = '#A04000';
+        ctx.fillRect(2, 2, 12, 1);
+        ctx.fillRect(2, 13, 12, 1);
+        ctx.fillRect(2, 2, 1, 12);
+        ctx.fillRect(13, 2, 1, 12);
+        ctx.fillStyle = '#FF9933';
+        ctx.fillRect(6, 6, 4, 4);
         return c;
     }
 

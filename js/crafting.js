@@ -514,6 +514,21 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.SCULK_SENSOR, count: 2 }, { type: BLOCK.ITEM_BONE, count: 4 } ]
             },
             {
+                name: "Scaffolding (6)",
+                result: { type: BLOCK.SCAFFOLDING, count: 6 },
+                ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 6 }, { type: BLOCK.ITEM_STRING, count: 1 } ]
+            },
+            {
+                name: "Chiseled Resin Bricks",
+                result: { type: BLOCK.CHISELED_RESIN_BRICKS, count: 1 },
+                ingredients: [ { type: BLOCK.RESIN_BRICK_SLAB, count: 2 } ]
+            },
+            {
+                name: "Lead (2)",
+                result: { type: BLOCK.ITEM_LEAD, count: 2 },
+                ingredients: [ { type: BLOCK.ITEM_STRING, count: 4 }, { type: BLOCK.ITEM_SLIMEBALL, count: 1 } ]
+            },
+            {
                 name: "Stick from Bamboo",
                 result: { type: BLOCK.ITEM_STICK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 2 } ]

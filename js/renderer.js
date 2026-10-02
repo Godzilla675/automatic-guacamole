@@ -150,21 +150,36 @@ class Renderer {
              const sx = (rx / rz2) * scale + w / 2;
              const sy = h / 2 - (ry / rz2) * scale;
 
-             this.ctx.beginPath();
              if (type === 'sun') {
-                 this.ctx.fillStyle = '#FFFF00';
+                 this.ctx.beginPath();
+                 this.ctx.fillStyle = '#FFFFA0';
                  this.ctx.arc(sx, sy, size, 0, Math.PI * 2);
                  this.ctx.fill();
 
-                 this.ctx.globalAlpha = 0.2;
+                 // Solar spots & pixel detailing
+                 this.ctx.fillStyle = '#FF8800';
+                 this.ctx.fillRect(sx - size * 0.3, sy - size * 0.2, size * 0.25, size * 0.25);
+                 this.ctx.fillRect(sx + size * 0.1, sy + size * 0.2, size * 0.2, size * 0.2);
+
+                 this.ctx.globalAlpha = 0.25;
                  this.ctx.fillStyle = '#FFA500';
                  this.ctx.beginPath();
-                 this.ctx.arc(sx, sy, size * 1.5, 0, Math.PI * 2);
+                 this.ctx.arc(sx, sy, size * 1.6, 0, Math.PI * 2);
                  this.ctx.fill();
                  this.ctx.globalAlpha = 1.0;
              } else {
-                 this.ctx.fillStyle = '#F0F0F0';
+                 // Detailed cratered Moon texture
+                 this.ctx.fillStyle = '#E8E8E8';
                  this.ctx.fillRect(sx - size, sy - size, size * 2, size * 2);
+
+                 this.ctx.fillStyle = '#B0B0B0';
+                 this.ctx.fillRect(sx - size * 0.6, sy - size * 0.5, size * 0.5, size * 0.5);
+                 this.ctx.fillRect(sx + size * 0.1, sy - size * 0.2, size * 0.6, size * 0.6);
+                 this.ctx.fillRect(sx - size * 0.3, sy + size * 0.2, size * 0.4, size * 0.4);
+
+                 this.ctx.fillStyle = '#909090';
+                 this.ctx.fillRect(sx - size * 0.5, sy - size * 0.4, size * 0.2, size * 0.2);
+                 this.ctx.fillRect(sx + size * 0.2, sy - size * 0.1, size * 0.3, size * 0.3);
              }
         }
     }
@@ -203,12 +218,18 @@ class Renderer {
             ctx.fillRect(0, 0, w, h);
         }
 
+        // Head Bobbing Animation
+        let headBob = 0;
+        if (this.game.player.onGround && !this.game.player.flying && this.game.player.walkDistance) {
+            headBob = Math.sin(this.game.player.walkDistance * 4.0) * 0.08;
+        }
+
         // Render Blocks
         // Chunk-based rendering + Frustum/Distance Culling
 
         const blocksToDraw = [];
         const px = this.game.player.x;
-        const py = this.game.player.y + this.game.player.height - 0.2; // Camera Y
+        const py = this.game.player.y + this.game.player.height - 0.2 + headBob; // Camera Y with head bobbing
         const pz = this.game.player.z;
         const yaw = this.game.player.yaw;
         const pitch = this.game.player.pitch;
