@@ -1,6 +1,27 @@
+const BIOME = {
+    OCEAN: 'OCEAN',
+    BEACH: 'BEACH',
+    PLAINS: 'PLAINS',
+    FOREST: 'FOREST',
+    DESERT: 'DESERT',
+    SNOW: 'SNOW',
+    BIRCH_FOREST: 'BIRCH_FOREST',
+    JUNGLE: 'JUNGLE',
+    SAVANNA: 'SAVANNA',
+    DARK_OAK_FOREST: 'DARK_OAK_FOREST',
+    PALE_OAK_FOREST: 'PALE_OAK_FOREST',
+    PALE_GARDEN: 'PALE_GARDEN',
+    MANGROVE_SWAMP: 'MANGROVE_SWAMP',
+    CHERRY_GROVE: 'CHERRY_GROVE',
+    MUSHROOM_FIELDS: 'MUSHROOM_FIELDS',
+    ICE_SPIKES: 'ICE_SPIKES',
+    SNOWY_TAIGA: 'SNOWY_TAIGA',
+    BADLANDS: 'BADLANDS'
+};
+
 class BiomeManager {
     constructor(seed) {
-        const BLOCK = window.BLOCK || global.BLOCK;
+        const BLOCK = (typeof window !== 'undefined' ? window.BLOCK : null) || (typeof global !== 'undefined' ? global.BLOCK : null) || {};
         this.seed = seed || Math.random();
         this.biomes = {
             OCEAN: { name: 'Ocean', topBlock: BLOCK.SAND, underBlock: BLOCK.SAND, heightOffset: -10, treeChance: 0 },
@@ -14,6 +35,7 @@ class BiomeManager {
             SAVANNA: { name: 'Savanna', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 1, treeChance: 0.02 },
             DARK_OAK_FOREST: { name: 'Dark Oak Forest', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 3, treeChance: 0.2 },
             PALE_OAK_FOREST: { name: 'Pale Oak Forest', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 2, treeChance: 0.12 },
+            PALE_GARDEN: { name: 'Pale Garden', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 2, treeChance: 0.12 },
             MANGROVE_SWAMP: { name: 'Mangrove Swamp', topBlock: BLOCK.MUD_BLOCK, underBlock: BLOCK.DIRT, heightOffset: -1, treeChance: 0.1 },
             CHERRY_GROVE: { name: 'Cherry Grove', topBlock: BLOCK.GRASS, underBlock: BLOCK.DIRT, heightOffset: 6, treeChance: 0.08 },
             MUSHROOM_FIELDS: { name: 'Mushroom Fields', topBlock: BLOCK.MYCELIUM, underBlock: BLOCK.DIRT, heightOffset: 1, treeChance: 0.04 },
@@ -24,9 +46,11 @@ class BiomeManager {
     }
 
     getBiome(x, z) {
+        const perlin = (typeof window !== 'undefined' && window.perlin) ? window.perlin : (typeof global !== 'undefined' && global.perlin ? global.perlin : null);
+        if (!perlin) return this.biomes.PLAINS;
         const scale = 0.005;
-        const temp = window.perlin.noise(x * scale, z * scale, this.seed);
-        const humidity = window.perlin.noise(x * scale + 1000, z * scale + 1000, this.seed);
+        const temp = perlin.noise(x * scale, z * scale, this.seed);
+        const humidity = perlin.noise(x * scale + 1000, z * scale + 1000, this.seed);
 
         if (temp > 0.5) {
             if (humidity < -0.4) return this.biomes.BADLANDS;
@@ -43,7 +67,7 @@ class BiomeManager {
             return this.biomes.SNOW;
         } else {
             if (humidity > 0.8) return this.biomes.MUSHROOM_FIELDS;
-            if (humidity > 0.6) return this.biomes.PALE_OAK_FOREST;
+            if (humidity > 0.6) return this.biomes.PALE_GARDEN;
             if (humidity > 0.4) return this.biomes.DARK_OAK_FOREST;
             if (humidity > 0.1) return this.biomes.FOREST;
             return this.biomes.PLAINS;
@@ -51,4 +75,11 @@ class BiomeManager {
     }
 }
 
-window.BiomeManager = BiomeManager;
+if (typeof window !== 'undefined') {
+    window.BIOME = BIOME;
+    window.BiomeManager = BiomeManager;
+}
+if (typeof global !== 'undefined') {
+    global.BIOME = BIOME;
+    global.BiomeManager = BiomeManager;
+}
