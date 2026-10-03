@@ -255,6 +255,20 @@ class TextureManager {
         this.textures[B.CHISELED_RESIN_BRICKS] = this.genChiseledResinBricks();
         this.textures[B.ITEM_LEAD] = this.genString();
 
+        // Batch 14 Features
+        this.textures[B.PALE_HANGING_MOSS] = this.genLeaves('#B0C4DE', '#8A9EA7');
+        this.textures[B.PALE_MOSS_CARPET] = this.genMossBlock();
+        this.textures[B.SLAB_WOOD_VERTICAL] = this.genPlank('#5C4033');
+        this.textures[B.SLAB_STONE_VERTICAL] = this.genStone();
+        this.textures[B.SLAB_COBBLESTONE_VERTICAL] = this.genCobblestone();
+        this.textures[B.SLAB_TUFF_VERTICAL] = this.genPolishedTuff();
+        this.textures[B.SLAB_RESIN_BRICK_VERTICAL] = this.genResinBricks();
+        this.textures[B.CALCITE] = this.genCalcite();
+        this.textures[B.SMOOTH_BASALT] = this.genSmoothBasalt();
+        this.textures[B.AMETHYST_CLUSTER] = this.genAmethystCluster();
+        this.textures[B.ITEM_CHEST_BOAT] = this.genBoatItem();
+        this.textures[B.ITEM_PALE_OAK_CHEST_BOAT] = this.genBoatItem();
+
         // Feature Batch 5
         this.textures[B.POWERED_RAIL] = this.genTorch('#FFD700');
         this.textures[B.DETECTOR_RAIL] = this.genTorch('#B22222');
@@ -1450,6 +1464,39 @@ class TextureManager {
         ctx.fillRect(0, 8, 16, 1);
         ctx.fillRect(8, 0, 1, 8);
         ctx.fillRect(4, 8, 1, 8);
+        return c;
+    }
+
+    genCalcite() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 230, g: 230, b: 250 }, 12);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(3, 3, 4, 4);
+        ctx.fillRect(9, 8, 4, 4);
+        return c;
+    }
+
+    genSmoothBasalt() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 72, g: 61, b: 139 }, 10);
+        ctx.fillStyle = '#2A2050';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 15, 16, 1);
+        return c;
+    }
+
+    genAmethystCluster() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#9932CC';
+        ctx.fillRect(6, 4, 4, 10);
+        ctx.fillRect(4, 8, 8, 4);
+        ctx.fillStyle = '#DA70D6';
+        ctx.fillRect(7, 2, 2, 4);
+        ctx.fillRect(5, 7, 2, 2);
+        ctx.fillRect(9, 7, 2, 2);
         return c;
     }
 

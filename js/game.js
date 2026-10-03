@@ -1012,7 +1012,7 @@ class Game {
             }
 
             // Check if holding a boat, if so include liquids in raycast
-            const includeLiquids = slot && slot.type === BLOCK.ITEM_BOAT;
+            const includeLiquids = slot && (slot.type === BLOCK.ITEM_BOAT || slot.type === BLOCK.ITEM_CHEST_BOAT || slot.type === BLOCK.ITEM_PALE_OAK_CHEST_BOAT);
             const hit = this.physics.raycast(eyePos, dir, 5, includeLiquids);
 
             // 1. Interact with block (if hit)
@@ -1575,11 +1575,17 @@ class Game {
                  }
 
                  // Boat Placement Logic
-                 if (slot.type === BLOCK.ITEM_BOAT) {
-                     // Need to place on water
+                 if (slot.type === BLOCK.ITEM_BOAT || slot.type === BLOCK.ITEM_CHEST_BOAT || slot.type === BLOCK.ITEM_PALE_OAK_CHEST_BOAT) {
                      const targetBlock = this.world.getBlock(hit.x, hit.y, hit.z);
-                     if (targetBlock === BLOCK.WATER) {
-                         const boat = new window.Boat(this, hit.x + 0.5, hit.y + 1, hit.z + 0.5);
+                     if (targetBlock === BLOCK.WATER || targetBlock === BLOCK.AIR) {
+                         let boat = null;
+                         if (slot.type === BLOCK.ITEM_CHEST_BOAT) {
+                             boat = new window.ChestBoat(this, hit.x + 0.5, hit.y + 1, hit.z + 0.5, 'oak');
+                         } else if (slot.type === BLOCK.ITEM_PALE_OAK_CHEST_BOAT) {
+                             boat = new window.ChestBoat(this, hit.x + 0.5, hit.y + 1, hit.z + 0.5, 'pale_oak');
+                         } else {
+                             boat = new window.Boat(this, hit.x + 0.5, hit.y + 1, hit.z + 0.5);
+                         }
                          this.vehicles.push(boat);
 
                          window.soundManager.play('place', pos, BLOCK.WATER);
@@ -1617,14 +1623,29 @@ class Game {
                  if (slot.type === BLOCK.WATER) {
                      this.world.setMetadata(nx, ny, nz, 8);
                  } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isSlab) {
-                     // Top Slab Logic: placement in upper half of block if clicking lower face or top half of targeted block
-                     let meta = 0;
-                     if (hit.face && hit.face.y === -1) {
-                         meta = 8; // Top slab
-                     } else if (hit.point && (hit.point.y - Math.floor(hit.point.y)) > 0.5) {
-                         meta = 8; // Top slab
+                     const vertSlabMap = {
+                         [BLOCK.SLAB_WOOD]: BLOCK.SLAB_WOOD_VERTICAL,
+                         [BLOCK.SLAB_STONE]: BLOCK.SLAB_STONE_VERTICAL,
+                         [BLOCK.SLAB_COBBLESTONE]: BLOCK.SLAB_COBBLESTONE_VERTICAL,
+                         [BLOCK.SLAB_TUFF]: BLOCK.SLAB_TUFF_VERTICAL,
+                         [BLOCK.RESIN_BRICK_SLAB]: BLOCK.SLAB_RESIN_BRICK_VERTICAL
+                     };
+
+                     if (hit.face && (hit.face.x !== 0 || hit.face.z !== 0) && vertSlabMap[slot.type]) {
+                         const vertType = vertSlabMap[slot.type];
+                         this.world.setBlock(nx, ny, nz, vertType);
+                         let meta = (hit.face.x !== 0) ? 0 : 1;
+                         this.world.setMetadata(nx, ny, nz, meta);
+                     } else {
+                         // Top Slab Logic: placement in upper half of block if clicking lower face or top half of targeted block
+                         let meta = 0;
+                         if (hit.face && hit.face.y === -1) {
+                             meta = 8; // Top slab
+                         } else if (hit.point && (hit.point.y - Math.floor(hit.point.y)) > 0.5) {
+                             meta = 8; // Top slab
+                         }
+                         this.world.setMetadata(nx, ny, nz, meta);
                      }
-                     this.world.setMetadata(nx, ny, nz, meta);
                  } else if (BLOCKS[slot.type] && BLOCKS[slot.type].isStair) {
                      // Stairs Logic
                      let r = this.player.yaw % (2*Math.PI);

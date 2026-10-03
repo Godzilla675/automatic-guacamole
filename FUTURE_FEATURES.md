@@ -50,11 +50,11 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Nether Fortresses**: Generation logic in Nether with Nether Bricks and Soul Sand. (Status: Verified and working)
 - [x] **Badlands Biome**: Biome featuring terraced colored terracotta/concrete layers. (Status: Verified and working)
 - [x] **Desert Temple**: Sandstone pyramids in Desert biomes with terracotta patterns, twin towers, and subterranean pressure-plate TNT loot traps. (Status: Verified and working)
-- [ ] **New Task: Add Pale Hanging Moss Canopy Generation**: Generate hanging pale moss vines hanging from Pale Oak tree leaves in Pale Garden biomes. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Amethyst Geode Generation**: Underground hollow basalt/calcite spheres lined with amethyst blocks and budding amethyst crystals. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Pale Hanging Moss Canopy Generation**: Generate hanging pale moss vines hanging from Pale Oak tree leaves in Pale Garden biomes. (Status: Verified and working)
+- [x] **New Task: Add Amethyst Geode Generation**: Underground hollow basalt/calcite spheres lined with amethyst blocks and budding amethyst crystals. (Status: Verified and working)
 
 ### 2. Block System
-- [ ] **New Task: Add Vertical Slabs**: Allow slab placement vertically on block faces. (Status: Missing implementation, agents must fix)
+- [x] **New Task: Add Vertical Slabs**: Allow slab placement vertically on block faces. (Status: Verified and working)
 - [x] **New Task: Add Chiseled Stone Bricks**: Decorative stone brick variant with carved designs. (Status: Verified and working)
 - [x] **New Task: Add Slime Blocks**: Cancellation of fall damage and bouncing mechanics when landing. (Status: Verified and working)
 - [x] **New Task: Add Glazed Terracotta Blocks**: 16 colored glazed terracotta decorative blocks. (Status: Verified and working)
@@ -82,7 +82,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
 - [x] **Head bobbing animation** (Status: Verified and working)
 - [x] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Verified and working)
-- [ ] **New Task: Add Block Breaking Cracking Overlay**: Render 10-stage breaking texture overlays on blocks currently targeted by player mining. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Block Breaking Cracking Overlay**: Render 10-stage breaking texture overlays on blocks currently targeted by player mining. (Status: Verified and working)
 
 ### 4. Player Mechanics
 - [x] Drowning (Status: Verified and working)
@@ -574,7 +574,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Crafter Disabled Slot Red Grid Overlay**: Red tint rendering over disabled slots in Crafter UI screen for visual feedback during auto-crafting configuration. (Status: Verified and working)
 - [x] **New Task: Add Sculk Catalyst Charge Absorption Mechanics**: Sculk Catalyst absorbing experience charges from dying mobs to spread Sculk Veins and Sculk Blocks to neighboring stone. (Status: Verified and working)
 - [ ] **New Task: Add Hopper Redstone Filtering & Container Extraction**: Redstone powered Hoppers locking item transfer and filtering item transport based on container slot status. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Chest Boats & Pale Oak Watercraft**: Rideable boat vehicles with integrated container chests for long-distance water inventory transportation. (Status: Proposed feature, pending implementation)
+- [x] **New Task: Add Chest Boats & Pale Oak Watercraft**: Rideable boat vehicles with integrated container chests for long-distance water inventory transportation. (Status: Verified and working)
 - [ ] **New Task: Add Ender Chest UI & Shared Dimensional Container Storage**: Ender Chest block and interactive UI maintaining persistent player inventory shared across all Ender Chest instances. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Axolotl Aquatic Mob Entity & Water Bucket Capture Mechanics**: Friendly underwater axolotls attacking hostile drowned/fish entities and captureable using Water Buckets. (Status: Proposed feature, pending implementation)
 - [x] **New Task: Add Lead Item & Mob Fencing Tie Mechanics**: Craftable leads used to leash passive animal mobs and tie them securely to fence posts. (Status: Verified and working)

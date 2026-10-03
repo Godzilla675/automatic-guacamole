@@ -990,16 +990,20 @@ class UIManager {
         this.updateCursorUI();
     }
 
+    openChestBoat(chestBoat) {
+        this.openChest(chestBoat);
+    }
+
     openChest(entity) {
         this.activeChest = entity;
         if (!entity.items) entity.items = new Array(27).fill(null);
 
         const ui = document.getElementById('chest-screen');
-        ui.classList.remove('hidden');
+        if (ui) ui.classList.remove('hidden');
 
         // Open inventory too
         const inv = document.getElementById('inventory-screen');
-        inv.classList.remove('hidden');
+        if (inv) inv.classList.remove('hidden');
 
         document.exitPointerLock();
         this.refreshChestUI();

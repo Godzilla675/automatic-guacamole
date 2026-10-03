@@ -961,7 +961,7 @@ class Renderer {
 
         if (this.game.ui) this.game.ui.updateHealthUI();
 
-        // Breaking Indicator
+        // Breaking Indicator & 3D Cracking Overlay
         if (this.game.breaking) {
             const pct = Math.min(1, this.game.breaking.progress / this.game.breaking.limit);
             const size = 20;
@@ -969,6 +969,47 @@ class Renderer {
             ctx.fillRect(w/2 - size, h/2 - size, size*2, size*2 * pct);
             ctx.strokeStyle = 'white';
             ctx.strokeRect(w/2 - size, h/2 - size, size*2, size*2);
+
+            // Render 10-stage cracking overlay animation on target block
+            const bx = this.game.breaking.x;
+            const by = this.game.breaking.y;
+            const bz = this.game.breaking.z;
+            const cam = {
+                px, py, pz,
+                cosY: Math.cos(-yaw), sinY: Math.sin(-yaw),
+                cosP: Math.cos(-pitch), sinP: Math.sin(-pitch),
+                scale: (h / 2) / Math.tan(this.game.fov * Math.PI / 360),
+                w, h
+            };
+            const stage = Math.min(9, Math.floor(pct * 10));
+            ctx.strokeStyle = `rgba(0, 0, 0, ${0.4 + stage * 0.06})`;
+            ctx.lineWidth = 1.5 + stage * 0.3;
+
+            const crackOffsets = [
+                [0.2, 0.2, 0.0,  0.5, 0.5, 0.0],
+                [0.5, 0.5, 0.0,  0.8, 0.8, 0.0],
+                [0.3, 0.0, 0.3,  0.7, 1.0, 0.7],
+                [0.0, 0.4, 0.4,  1.0, 0.6, 0.6],
+                [0.1, 0.9, 0.1,  0.9, 0.1, 0.9],
+                [0.2, 0.8, 0.2,  0.8, 0.2, 0.8],
+                [0.0, 0.2, 0.5,  1.0, 0.8, 0.5],
+                [0.5, 0.0, 0.2,  0.5, 1.0, 0.8],
+                [0.1, 0.1, 0.1,  0.9, 0.9, 0.9],
+                [0.9, 0.1, 0.1,  0.1, 0.9, 0.9]
+            ];
+
+            for (let i = 0; i <= stage && i < crackOffsets.length; i++) {
+                const [x1, y1, z1, x2, y2, z2] = crackOffsets[i];
+                const p1 = this.projectPoint(bx + x1, by + y1, bz + z1, cam);
+                const p2 = this.projectPoint(bx + x2, by + y2, bz + z2, cam);
+                if (p1 && p2) {
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            }
+            this.drawWireframeAABB(bx, by, bz, bx + 1, by + 1, bz + 1, `rgba(0,0,0,${0.5 + stage * 0.05})`, cam);
         }
 
         // Draw Hitbox Debug Overlay

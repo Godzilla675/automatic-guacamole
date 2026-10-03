@@ -471,7 +471,21 @@ const BLOCK = {
     // Batch 13 Features
     SCAFFOLDING: 533,
     CHISELED_RESIN_BRICKS: 534,
-    ITEM_LEAD: 535
+    ITEM_LEAD: 535,
+
+    // Batch 14 Features
+    PALE_HANGING_MOSS: 536,
+    PALE_MOSS_CARPET: 537,
+    SLAB_WOOD_VERTICAL: 538,
+    SLAB_STONE_VERTICAL: 539,
+    SLAB_COBBLESTONE_VERTICAL: 540,
+    SLAB_TUFF_VERTICAL: 541,
+    SLAB_RESIN_BRICK_VERTICAL: 542,
+    CALCITE: 543,
+    SMOOTH_BASALT: 544,
+    AMETHYST_CLUSTER: 545,
+    ITEM_CHEST_BOAT: 546,
+    ITEM_PALE_OAK_CHEST_BOAT: 547
 };
 
 const ARMOR = {
@@ -1019,7 +1033,24 @@ const BLOCKS = {
     // Batch 13 Feature Definitions
     [BLOCK.SCAFFOLDING]: { name: 'Scaffolding', color: '#D2B48C', top: '#C2B280', solid: false, transparent: true, icon: '🪜', hardness: 0.2, isScaffolding: true, drop: { type: BLOCK.SCAFFOLDING, count: 1 } },
     [BLOCK.CHISELED_RESIN_BRICKS]: { name: 'Chiseled Resin Bricks', color: '#D35400', top: '#E67E22', solid: true, icon: '🏛️', hardness: 2.0, tool: 'pickaxe' },
-    [BLOCK.ITEM_LEAD]: { name: 'Lead', color: '#8B4513', solid: false, isItem: true, icon: '🪢' }
+    [BLOCK.ITEM_LEAD]: { name: 'Lead', color: '#8B4513', solid: false, isItem: true, icon: '🪢' },
+
+    // Batch 14 Feature Definitions
+    [BLOCK.PALE_HANGING_MOSS]: { name: 'Pale Hanging Moss', color: '#B0C4DE', solid: false, transparent: true, icon: '🌿', hardness: 0.1, drop: { type: BLOCK.PALE_HANGING_MOSS, count: 1 } },
+    [BLOCK.PALE_MOSS_CARPET]: { name: 'Pale Moss Carpet', color: '#C0D0E0', solid: false, transparent: true, icon: '🟩', hardness: 0.1, tool: 'hoe', drop: { type: BLOCK.PALE_MOSS_CARPET, count: 1 } },
+
+    [BLOCK.SLAB_WOOD_VERTICAL]: { name: 'Vertical Wood Slab', color: '#5C4033', solid: true, icon: '🪵', hardness: 2.0, tool: 'axe', isSlab: true, isVertical: true },
+    [BLOCK.SLAB_STONE_VERTICAL]: { name: 'Vertical Stone Slab', color: '#808080', solid: true, icon: '🔲', hardness: 1.5, tool: 'pickaxe', isSlab: true, isVertical: true },
+    [BLOCK.SLAB_COBBLESTONE_VERTICAL]: { name: 'Vertical Cobblestone Slab', color: '#696969', solid: true, icon: '🪨', hardness: 2.0, tool: 'pickaxe', isSlab: true, isVertical: true },
+    [BLOCK.SLAB_TUFF_VERTICAL]: { name: 'Vertical Tuff Slab', color: '#525B60', solid: true, icon: '🗿', hardness: 1.5, tool: 'pickaxe', isSlab: true, isVertical: true },
+    [BLOCK.SLAB_RESIN_BRICK_VERTICAL]: { name: 'Vertical Resin Brick Slab', color: '#D35400', solid: true, icon: '🧱', hardness: 2.0, tool: 'pickaxe', isSlab: true, isVertical: true },
+
+    [BLOCK.CALCITE]: { name: 'Calcite', color: '#E6E6FA', top: '#F0F0FF', solid: true, icon: '🪨', hardness: 0.75, tool: 'pickaxe' },
+    [BLOCK.SMOOTH_BASALT]: { name: 'Smooth Basalt', color: '#483D8B', top: '#3D385C', solid: true, icon: '🗿', hardness: 1.25, tool: 'pickaxe' },
+    [BLOCK.AMETHYST_CLUSTER]: { name: 'Amethyst Cluster', color: '#9932CC', top: '#DA70D6', solid: false, transparent: true, icon: '💎', hardness: 1.5, tool: 'pickaxe', light: 5, drop: { type: BLOCK.ITEM_DIAMOND, count: 2 } },
+
+    [BLOCK.ITEM_CHEST_BOAT]: { name: 'Oak Chest Boat', color: '#8B4513', solid: false, isItem: true, icon: '🛶' },
+    [BLOCK.ITEM_PALE_OAK_CHEST_BOAT]: { name: 'Pale Oak Chest Boat', color: '#C0C0C0', solid: false, isItem: true, icon: '🛶' }
 };
 
 if (typeof window !== 'undefined') {

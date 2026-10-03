@@ -1683,6 +1683,11 @@ class World {
                     if (caveNoise > 0.4 || largeCaveNoise > 0.6 || isRavine) {
                         chunk.setBlock(x, y, z, BLOCK.AIR);
                     } else {
+                        // Subterranean Amethyst Geodes
+                        if (y === 18 && x === 8 && z === 8 && Math.random() < 0.08) {
+                            this.structureManager.generateAmethystGeode(chunk, x, y, z);
+                        }
+
                         // Deepslate layer under Y=16
                         const isDeepslateLayer = y < 16;
                         // Ores
