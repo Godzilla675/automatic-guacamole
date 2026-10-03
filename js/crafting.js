@@ -529,6 +529,36 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_STRING, count: 4 }, { type: BLOCK.ITEM_SLIMEBALL, count: 1 } ]
             },
             {
+                name: "Pale Moss Carpet (3)",
+                result: { type: BLOCK.PALE_MOSS_CARPET, count: 3 },
+                ingredients: [ { type: BLOCK.PALE_HANGING_MOSS, count: 2 } ]
+            },
+            {
+                name: "Vertical Wood Slab (6)",
+                result: { type: BLOCK.SLAB_WOOD_VERTICAL, count: 6 },
+                ingredients: [ { type: BLOCK.SLAB_WOOD, count: 3 } ]
+            },
+            {
+                name: "Vertical Stone Slab (6)",
+                result: { type: BLOCK.SLAB_STONE_VERTICAL, count: 6 },
+                ingredients: [ { type: BLOCK.SLAB_STONE, count: 3 } ]
+            },
+            {
+                name: "Vertical Cobblestone Slab (6)",
+                result: { type: BLOCK.SLAB_COBBLESTONE_VERTICAL, count: 6 },
+                ingredients: [ { type: BLOCK.SLAB_COBBLESTONE, count: 3 } ]
+            },
+            {
+                name: "Oak Chest Boat",
+                result: { type: BLOCK.ITEM_CHEST_BOAT, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BOAT, count: 1 }, { type: BLOCK.CHEST, count: 1 } ]
+            },
+            {
+                name: "Pale Oak Chest Boat",
+                result: { type: BLOCK.ITEM_PALE_OAK_CHEST_BOAT, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BOAT, count: 1 }, { type: BLOCK.CHEST, count: 1 } ]
+            },
+            {
                 name: "Stick from Bamboo",
                 result: { type: BLOCK.ITEM_STICK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 2 } ]

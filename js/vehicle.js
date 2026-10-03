@@ -324,15 +324,53 @@ class FlyingCarpet extends Vehicle {
     }
 }
 
+class ChestBoat extends Boat {
+    constructor(game, x, y, z, boatType = 'oak') {
+        super(game, x, y, z);
+        this.type = 'chest_boat';
+        this.boatType = boatType;
+        this.inventory = new Array(27).fill(null);
+    }
+
+    interact(player) {
+        const isSneaking = (this.game && this.game.controls && this.game.controls.sneak) || (player && player.controls && player.controls.sneak);
+        if (isSneaking) {
+            if (this.game && this.game.ui && this.game.ui.openChestBoat) {
+                this.game.ui.openChestBoat(this);
+            }
+        } else {
+            super.interact(player);
+        }
+    }
+
+    takeDamage(amount) {
+        if (this.isDead) return;
+        super.takeDamage(amount);
+        if (this.health <= 0) {
+            if (this.game && this.game.drops && window.Drop) {
+                this.inventory.forEach(item => {
+                    if (item && item.count > 0) {
+                        this.game.drops.push(new window.Drop(this.game, this.x, this.y + 0.5, this.z, item.type, item.count));
+                    }
+                });
+                let dropType = (this.boatType === 'pale_oak') ? window.BLOCK.ITEM_PALE_OAK_CHEST_BOAT : window.BLOCK.ITEM_CHEST_BOAT;
+                this.game.drops.push(new window.Drop(this.game, this.x, this.y, this.z, dropType, 1));
+            }
+        }
+    }
+}
+
 if (typeof window !== 'undefined') {
     window.Vehicle = Vehicle;
     window.Minecart = Minecart;
     window.Boat = Boat;
+    window.ChestBoat = ChestBoat;
     window.FlyingCarpet = FlyingCarpet;
 } else {
     // For Node.js
     global.Vehicle = Vehicle;
     global.Minecart = Minecart;
     global.Boat = Boat;
+    global.ChestBoat = ChestBoat;
     global.FlyingCarpet = FlyingCarpet;
 }

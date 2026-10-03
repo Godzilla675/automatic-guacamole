@@ -78,6 +78,25 @@ class StructureManager {
                 }
             }
         }
+
+        // Pale Hanging Moss vines for Pale Oak trees
+        const paleMoss = BLOCK.PALE_HANGING_MOSS;
+        if (type === 'pale_oak' && paleMoss) {
+            const leafY = y + height - 2;
+            for (let lx = -2; lx <= 2; lx++) {
+                for (let lz = -2; lz <= 2; lz++) {
+                    const isGuaranteed = (lx === 1 && lz === 0) || (lx === -1 && lz === 1);
+                    if (Math.abs(lx) + Math.abs(lz) <= 3 && (isGuaranteed || Math.random() < 0.45)) {
+                        const len = 1 + Math.floor(Math.random() * 3);
+                        for (let v = 1; v <= len; v++) {
+                            if (this.world.getBlock(wx + lx, leafY - v, wz + lz) === BLOCK.AIR) {
+                                this.world.setBlock(wx + lx, leafY - v, wz + lz, paleMoss);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     generateCoralReef(chunk, x, y, z, sync = false) {
@@ -147,6 +166,45 @@ class StructureManager {
         }
         if (structureName === 'desert_temple') {
             this.generateDesertTemple(chunk, x, y, z);
+        }
+        if (structureName === 'amethyst_geode') {
+            this.generateAmethystGeode(chunk, x, y, z);
+        }
+    }
+
+    generateAmethystGeode(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+
+        const outerBlock = BLOCK.SMOOTH_BASALT || BLOCK.STONE;
+        const middleBlock = BLOCK.CALCITE || BLOCK.STONE;
+        const innerBlock = BLOCK.AMETHYST_BLOCK;
+        const clusterBlock = BLOCK.AMETHYST_CLUSTER;
+
+        for (let dx = -4; dx <= 4; dx++) {
+            for (let dy = -4; dy <= 4; dy++) {
+                for (let dz = -4; dz <= 4; dz++) {
+                    const distSq = dx * dx + dy * dy + dz * dz;
+                    const bx = wx + dx;
+                    const by = y + dy;
+                    const bz = wz + dz;
+
+                    if (distSq <= 16 && distSq > 10) {
+                        this.world.setBlock(bx, by, bz, outerBlock);
+                    } else if (distSq <= 10 && distSq > 6) {
+                        this.world.setBlock(bx, by, bz, middleBlock);
+                    } else if (distSq <= 6 && distSq > 2) {
+                        this.world.setBlock(bx, by, bz, innerBlock);
+                    } else if (distSq <= 2) {
+                        if (Math.random() < 0.4) {
+                            this.world.setBlock(bx, by, bz, clusterBlock);
+                        } else {
+                            this.world.setBlock(bx, by, bz, BLOCK.AIR);
+                        }
+                    }
+                }
+            }
         }
     }
 
