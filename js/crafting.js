@@ -509,6 +509,86 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_ARMADILLO_SCUTE, count: 6 } ]
             },
             {
+                name: "Dye Wolf Armor (White)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_WHITE, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Orange)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_ORANGE, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Magenta)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_MAGENTA, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Light Blue)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_LIGHT_BLUE, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Yellow)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_YELLOW, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Lime)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_LIME, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Pink)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_PINK, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Gray)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_GRAY, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Light Gray)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_LIGHT_GRAY, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Cyan)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_CYAN, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Purple)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_PURPLE, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Blue)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_BLUE, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Brown)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_BROWN, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Green)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_GREEN, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Red)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_RED, count: 1 } ]
+            },
+            {
+                name: "Dye Wolf Armor (Black)",
+                result: { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_WOLF_ARMOR, count: 1 }, { type: BLOCK.WOOL_BLACK, count: 1 } ]
+            },
+            {
                 name: "Sculk Catalyst",
                 result: { type: BLOCK.SCULK_CATALYST, count: 1 },
                 ingredients: [ { type: BLOCK.SCULK_SENSOR, count: 2 }, { type: BLOCK.ITEM_BONE, count: 4 } ]
