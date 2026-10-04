@@ -485,7 +485,15 @@ const BLOCK = {
     SMOOTH_BASALT: 544,
     AMETHYST_CLUSTER: 545,
     ITEM_CHEST_BOAT: 546,
-    ITEM_PALE_OAK_CHEST_BOAT: 547
+    ITEM_PALE_OAK_CHEST_BOAT: 547,
+
+    // Batch 15 Features
+    ENDER_CHEST: 548,
+    ITEM_AXOLOTL_BUCKET: 549,
+    TORCHFLOWER: 550,
+    ITEM_TORCHFLOWER_SEEDS: 551,
+    PITCHER_PLANT: 552,
+    ITEM_PITCHER_POD: 553
 };
 
 const ARMOR = {
@@ -1050,7 +1058,15 @@ const BLOCKS = {
     [BLOCK.AMETHYST_CLUSTER]: { name: 'Amethyst Cluster', color: '#9932CC', top: '#DA70D6', solid: false, transparent: true, icon: '💎', hardness: 1.5, tool: 'pickaxe', light: 5, drop: { type: BLOCK.ITEM_DIAMOND, count: 2 } },
 
     [BLOCK.ITEM_CHEST_BOAT]: { name: 'Oak Chest Boat', color: '#8B4513', solid: false, isItem: true, icon: '🛶' },
-    [BLOCK.ITEM_PALE_OAK_CHEST_BOAT]: { name: 'Pale Oak Chest Boat', color: '#C0C0C0', solid: false, isItem: true, icon: '🛶' }
+    [BLOCK.ITEM_PALE_OAK_CHEST_BOAT]: { name: 'Pale Oak Chest Boat', color: '#C0C0C0', solid: false, isItem: true, icon: '🛶' },
+
+    // Batch 15 Feature Definitions
+    [BLOCK.ENDER_CHEST]: { name: 'Ender Chest', color: '#0F2C2C', top: '#164E4D', solid: true, icon: '🧰', hardness: 22.5, tool: 'pickaxe', light: 7, drop: { type: BLOCK.OBSIDIAN, count: 8 } },
+    [BLOCK.ITEM_AXOLOTL_BUCKET]: { name: 'Axolotl Bucket', color: '#FFB6C1', solid: false, isItem: true, icon: '🪣' },
+    [BLOCK.TORCHFLOWER]: { name: 'Torchflower', color: '#FF4500', solid: false, transparent: true, icon: '🌺', hardness: 0.0, light: 8, drop: { type: BLOCK.TORCHFLOWER, count: 1 } },
+    [BLOCK.ITEM_TORCHFLOWER_SEEDS]: { name: 'Torchflower Seeds', color: '#FFA500', solid: false, isItem: true, icon: '🌰' },
+    [BLOCK.PITCHER_PLANT]: { name: 'Pitcher Plant', color: '#008080', solid: false, transparent: true, icon: '🪴', hardness: 0.0, drop: { type: BLOCK.PITCHER_PLANT, count: 1 } },
+    [BLOCK.ITEM_PITCHER_POD]: { name: 'Pitcher Pod', color: '#2E8B57', solid: false, isItem: true, icon: '🫘' }
 };
 
 if (typeof window !== 'undefined') {

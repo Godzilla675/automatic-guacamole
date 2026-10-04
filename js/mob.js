@@ -33,7 +33,10 @@ const MOB_TYPE = {
     WANDERING_TRADER: 'wandering_trader',
     LLAMA: 'llama',
     SLIME: 'slime',
-    PIGLIN: 'piglin'
+    PIGLIN: 'piglin',
+    AXOLOTL: 'axolotl',
+    WARDEN: 'warden',
+    SNIFFER: 'sniffer'
 };
 
 class Mob extends Entity {
@@ -125,6 +128,22 @@ class Mob extends Entity {
                 if (this.game.ui && this.game.ui.showNotification) {
                     const name = window.BLOCKS[reward] ? window.BLOCKS[reward].name : 'Barter Item';
                     this.game.ui.showNotification(`Piglin bartered Gold Ingot for ${name}!`);
+                }
+                if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
+                return true;
+            }
+        }
+
+        // Axolotl Bucket Capture
+        if (this.type === MOB_TYPE.AXOLOTL) {
+            if (itemType === window.BLOCK.ITEM_BUCKET || itemType === window.BLOCK.ITEM_WATER_BUCKET) {
+                if (this.game && this.game.player) {
+                    this.game.player.giveItem(window.BLOCK.ITEM_AXOLOTL_BUCKET, 1);
+                    if (this.game.updateHotbarUI) this.game.updateHotbarUI();
+                }
+                this.isDead = true;
+                if (this.game && this.game.mobs) {
+                    this.game.mobs = this.game.mobs.filter(m => m !== this);
                 }
                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
                 return true;
@@ -576,6 +595,35 @@ class Mob extends Entity {
                 this.maxHealth = 22;
                 this.xpValue = 2;
                 break;
+            case MOB_TYPE.AXOLOTL:
+                const colors = ['#FFB6C1', '#FFD700', '#808080', '#D8BFD8', '#4169E1'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.height = 0.4;
+                this.width = 0.6;
+                this.speed = 2.0;
+                this.maxHealth = 14;
+                this.xpValue = 1;
+                break;
+            case MOB_TYPE.WARDEN:
+                this.color = '#003333'; // Deep Sculk Blue
+                this.height = 2.9;
+                this.width = 0.9;
+                this.speed = 2.2;
+                this.maxHealth = 200;
+                this.xpValue = 20;
+                this.vibrationTarget = null;
+                this.angerLevel = 0;
+                break;
+            case MOB_TYPE.SNIFFER:
+                this.color = '#8B0000'; // Dark Red / Moss Green
+                this.height = 1.5;
+                this.width = 1.5;
+                this.speed = 1.0;
+                this.maxHealth = 30;
+                this.xpValue = 3;
+                this.sniffTimer = 0;
+                this.digTimer = 0;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -915,6 +963,21 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.AXOLOTL) {
+            this.updateAxolotlAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.WARDEN) {
+            this.updateWardenAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.SNIFFER) {
+            this.updateSnifferAI(dt);
+            return;
+        }
+
         // Nether Mobs
         if (this.type === MOB_TYPE.GHAST) {
             this.updateGhastAI(dt);
@@ -941,6 +1004,111 @@ class Mob extends Entity {
         } else {
             this.updatePassiveAI(dt);
         }
+    }
+
+    onVibration(pos) {
+        if (this.type !== MOB_TYPE.WARDEN) return;
+        this.vibrationTarget = pos;
+        this.angerLevel = Math.min(100, (this.angerLevel || 0) + 25);
+        if (window.soundManager) window.soundManager.play('fuse', {x: this.x, y: this.y, z: this.z});
+    }
+
+    updateAxolotlAI(dt) {
+        // Swim smoothly or hunt aquatic hostiles
+        const target = this.game && this.game.mobs ? this.game.mobs.find(m =>
+            m !== this && (m.type === MOB_TYPE.SLIME || m.type === MOB_TYPE.ZOMBIE) && !m.isDead && Math.hypot(m.x - this.x, m.z - this.z) < 10
+        ) : null;
+
+        if (target) {
+            const dx = target.x - this.x;
+            const dz = target.z - this.z;
+            const dist = Math.hypot(dx, dz);
+            if (dist > 0.5) {
+                this.yaw = Math.atan2(dx, dz);
+                this.vx = Math.sin(this.yaw) * this.speed * 1.5;
+                this.vz = Math.cos(this.yaw) * this.speed * 1.5;
+            } else if (this.attackCooldown <= 0) {
+                target.takeDamage(4);
+                this.attackCooldown = 1.0;
+            }
+            this.attackCooldown -= dt;
+            return;
+        }
+
+        this.updatePassiveAI(dt);
+    }
+
+    updateWardenAI(dt) {
+        const player = this.game.player;
+        if (!player) return;
+
+        let targetX = player.x;
+        let targetY = player.y;
+        let targetZ = player.z;
+
+        if (this.vibrationTarget) {
+            targetX = this.vibrationTarget.x;
+            targetY = this.vibrationTarget.y;
+            targetZ = this.vibrationTarget.z;
+        }
+
+        const dx = targetX - this.x;
+        const dy = targetY - this.y;
+        const dz = targetZ - this.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        if (dist < 20) {
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+
+            // Melee Attack
+            if (dist < 2.0 && this.attackCooldown <= 0) {
+                player.takeDamage(10);
+                this.attackCooldown = 1.2;
+            }
+
+            // Sonic Boom Ranged Attack if blocked or out of melee
+            this.attackCooldown -= dt;
+            if (dist > 3.0 && dist < 15 && this.attackCooldown <= 0 && (!this.hasLineOfSight(player) || Math.random() < 0.2)) {
+                // Launch Sonic Boom
+                player.takeDamage(8);
+                if (this.game && this.game.particles) {
+                    this.game.particles.spawn(player.x, player.y + 1, player.z, '#00ACC1', 15);
+                }
+                if (window.soundManager) window.soundManager.play('fuse', {x: this.x, y: this.y, z: this.z});
+                this.attackCooldown = 4.0;
+            }
+        } else {
+            this.updatePassiveAI(dt);
+        }
+    }
+
+    updateSnifferAI(dt) {
+        this.sniffTimer = (this.sniffTimer || 0) + dt;
+
+        if (this.sniffTimer > 15) {
+            this.sniffTimer = 0;
+            this.digTimer = 3;
+            if (window.soundManager) window.soundManager.play('eat', {x: this.x, y: this.y, z: this.z});
+        }
+
+        if (this.digTimer > 0) {
+            this.digTimer -= dt;
+            this.vx = 0;
+            this.vz = 0;
+
+            if (this.digTimer <= 0) {
+                // Drop ancient seed
+                if (this.game && this.game.drops && window.Drop) {
+                    const seed = Math.random() < 0.5 ? window.BLOCK.ITEM_TORCHFLOWER_SEEDS : window.BLOCK.ITEM_PITCHER_POD;
+                    this.game.drops.push(new window.Drop(this.game, this.x, this.y + 0.5, this.z, seed, 1));
+                }
+            }
+            return;
+        }
+
+        this.updatePassiveAI(dt);
     }
 
     updatePiglinAI(dt) {

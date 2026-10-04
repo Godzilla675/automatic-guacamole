@@ -343,6 +343,14 @@ class Game {
             return true;
         }
 
+        // Ender Chest
+        if (blockType === BLOCK.ENDER_CHEST) {
+            if (this.ui && this.ui.openEnderChest) {
+                this.ui.openEnderChest();
+            }
+            return true;
+        }
+
         // Chest
         if (blockType === BLOCK.CHEST) {
              let entity = this.world.getBlockEntity(x, y, z);
@@ -1410,14 +1418,44 @@ class Game {
                      }
                  }
 
+                 // Axolotl Bucket Placement
+                 if (slot.type === BLOCK.ITEM_AXOLOTL_BUCKET) {
+                     if (this.world.getBlock(nx, ny, nz) === BLOCK.AIR) {
+                         const axolotl = new Mob(this, nx + 0.5, ny, nz + 0.5, MOB_TYPE.AXOLOTL);
+                         this.mobs.push(axolotl);
+                         if (this.player.gamemode !== 1) {
+                             this.player.inventory[this.player.selectedSlot] = { type: BLOCK.ITEM_WATER_BUCKET, count: 1 };
+                         }
+                         if (window.soundManager) window.soundManager.play('place', pos);
+                         this.updateHotbarUI();
+                         return;
+                     }
+                 }
+
                  // Seeds Logic
                  const seedMap = {
                      [BLOCK.ITEM_WHEAT_SEEDS]: BLOCK.WHEAT,
                      [BLOCK.ITEM_CARROT]: BLOCK.CARROTS,
                      [BLOCK.ITEM_POTATO]: BLOCK.POTATOES,
                      [BLOCK.ITEM_MELON_SEEDS]: BLOCK.MELON_STEM,
-                     [BLOCK.ITEM_PUMPKIN_SEEDS]: BLOCK.PUMPKIN_STEM
+                     [BLOCK.ITEM_PUMPKIN_SEEDS]: BLOCK.PUMPKIN_STEM,
+                     [BLOCK.ITEM_TORCHFLOWER_SEEDS]: BLOCK.TORCHFLOWER,
+                     [BLOCK.ITEM_PITCHER_POD]: BLOCK.PITCHER_PLANT
                  };
+                 if (slot.type === BLOCK.ITEM_TORCHFLOWER_SEEDS || slot.type === BLOCK.ITEM_PITCHER_POD) {
+                     if (targetType === BLOCK.FARMLAND || targetType === BLOCK.DIRT || targetType === BLOCK.GRASS) {
+                         const up = { x: hit.x, y: hit.y + 1, z: hit.z };
+                         if (this.world.getBlock(up.x, up.y, up.z) === BLOCK.AIR) {
+                             this.world.setBlock(up.x, up.y, up.z, seedMap[slot.type]);
+                             if (this.player.gamemode !== 1) {
+                                 slot.count--;
+                                 if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                             }
+                             this.updateHotbarUI();
+                             return;
+                         }
+                     }
+                 }
 
                  if (seedMap[slot.type]) {
                      if (targetType === BLOCK.FARMLAND) {
