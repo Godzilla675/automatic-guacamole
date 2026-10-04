@@ -192,6 +192,14 @@ class TextureManager {
         this.textures[B.PALE_OAK_LEAVES] = this.genLeaves('#CCCCCC', '#909090');
         this.textures[B.PALE_OAK_SAPLING] = this.genSapling('#D0D0D0');
         this.textures[B.EYEBLOSSOM] = this.genEyeblossom();
+
+        // Batch 15 Textures
+        this.textures[B.ENDER_CHEST] = this.genEnderChest();
+        this.textures[B.ITEM_AXOLOTL_BUCKET] = this.genBucket('#FFB6C1');
+        this.textures[B.TORCHFLOWER] = this.genTorch('#FF4500');
+        this.textures[B.ITEM_TORCHFLOWER_SEEDS] = this.genSeeds('#FFA500');
+        this.textures[B.PITCHER_PLANT] = this.genFlowerPot();
+        this.textures[B.ITEM_PITCHER_POD] = this.genSeeds('#2E8B57');
         this.textures[B.DAYLIGHT_SENSOR] = this.genDaylightSensor();
         this.textures[B.TRIAL_SPAWNER] = this.genTrialSpawner();
         this.textures[B.ITEM_TRIAL_KEY] = this.genTrialKeyItem();
@@ -2156,6 +2164,20 @@ class TextureManager {
         // Shine
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(6, 4, 2, 2);
+        return c;
+    }
+
+    genEnderChest() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 15, g: 44, b: 44 }, 10);
+        ctx.fillStyle = '#0F2C2C';
+        ctx.fillRect(0, 6, 16, 1);
+        ctx.fillStyle = '#00FFFF';
+        ctx.fillRect(7, 5, 2, 3);
+        ctx.fillStyle = '#081D1D';
+        ctx.fillRect(0, 0, 16, 1);
+        ctx.fillRect(0, 15, 16, 1);
         return c;
     }
 

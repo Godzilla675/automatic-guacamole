@@ -990,6 +990,27 @@ class UIManager {
         this.updateCursorUI();
     }
 
+    openEnderChest() {
+        if (!this.game.player.enderChestInventory) {
+            this.game.player.enderChestInventory = new Array(27).fill(null);
+        }
+        this.activeChest = { items: this.game.player.enderChestInventory, isEnderChest: true };
+
+        const ui = document.getElementById('chest-screen');
+        if (ui) {
+            const title = ui.querySelector('h2') || ui.querySelector('.ui-title');
+            if (title) title.textContent = 'Ender Chest';
+            ui.classList.remove('hidden');
+        }
+
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+
+        document.exitPointerLock();
+        this.refreshChestUI();
+        this.refreshInventoryUI();
+    }
+
     openChestBoat(chestBoat) {
         this.openChest(chestBoat);
     }

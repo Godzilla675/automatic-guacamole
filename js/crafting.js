@@ -294,6 +294,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_LEATHER, count: 6 }, { type: BLOCK.ITEM_STRING, count: 1 } ]
             },
             {
+                name: "Ender Chest",
+                result: { type: BLOCK.ENDER_CHEST, count: 1 },
+                ingredients: [ { type: BLOCK.OBSIDIAN, count: 8 }, { type: BLOCK.ITEM_ENDER_PEARL || BLOCK.ITEM_DIAMOND, count: 1 } ]
+            },
+            {
                 name: "Resin Bricks",
                 result: { type: BLOCK.RESIN_BRICKS, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_RESIN_CLUMP, count: 4 } ]

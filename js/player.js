@@ -107,6 +107,9 @@ class Player {
 
         // Elytra gliding state
         this.gliding = false;
+
+        // Ender Chest persistent inventory (27 slots)
+        this.enderChestInventory = new Array(27).fill(null);
     }
 
     fireworkBoost() {
