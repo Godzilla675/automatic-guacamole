@@ -19,8 +19,8 @@ describe('Newly Discovered Bug Fixes Suite', function() {
                 this.listener = { positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 }, forwardX: { value: 0 }, forwardY: { value: 0 }, forwardZ: { value: -1 }, upX: { value: 0 }, upY: { value: 1 }, upZ: { value: 0 }, setPosition: () => {}, setOrientation: () => {} };
                 this.destination = {};
             }
-            createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
-            createGain() { return { connect: () => {}, gain: { value: 0, setTargetAtTime: () => {}, setValueAtTime: () => {} } }; }
+            createOscillator() { return { connect: () => {}, start: () => {}, stop: () => {}, frequency: { value: 0, setValueAtTime: () => {}, linearRampToValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }; }
+            createGain() { return { connect: () => {}, gain: { value: 0, setTargetAtTime: () => {}, setValueAtTime: () => {}, linearRampToValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }; }
             createBuffer() { return { getChannelData: () => new Float32Array(1024) }; }
             createBufferSource() { return { connect: () => {}, start: () => {}, stop: () => {} }; }
             createBiquadFilter() { return { connect: () => {} }; }
@@ -111,5 +111,43 @@ describe('Newly Discovered Bug Fixes Suite', function() {
         const crafting = new window.CraftingSystem(game);
         const dyeRecipes = crafting.recipes.filter(r => r.name.startsWith('Dye Wolf Armor'));
         assert.strictEqual(dyeRecipes.length >= 6, true);
+    });
+
+    it('should lock Hopper item transport when powered by redstone', function() {
+        game.world.setBlock(10, 10, 10, window.BLOCK.HOPPER);
+        const hopperEntity = { type: 'hopper', items: [{ type: window.BLOCK.DIRT, count: 5 }, null, null, null, null] };
+        game.world.setBlockEntity(10, 10, 10, hopperEntity);
+
+        game.world.setBlock(10, 9, 10, window.BLOCK.CHEST);
+        const chestEntity = { type: 'chest', items: new Array(27).fill(null) };
+        game.world.setBlockEntity(10, 9, 10, chestEntity);
+
+        // Power the hopper with redstone
+        game.world.setBlock(11, 10, 10, window.BLOCK.REDSTONE_CLOCK);
+        game.world.setMetadata(11, 10, 10, 15);
+
+        // Run hopper update
+        game.world.processHopper(10, 10, 10);
+
+        // Hopper should NOT transfer item to chest because it is powered
+        assert.strictEqual(hopperEntity.items[0].count, 5);
+        assert.strictEqual(chestEntity.items[0], null);
+
+        // Unpower hopper
+        game.world.setBlock(11, 10, 10, window.BLOCK.AIR);
+        game.world.processHopper(10, 10, 10);
+
+        // Item should transfer now
+        assert.strictEqual(hopperEntity.items[0].count, 4);
+        assert.strictEqual(chestEntity.items[0].type, window.BLOCK.DIRT);
+    });
+
+    it('should apply radial propulsion to vehicles when Wind Charge triggers', function() {
+        const boat = new window.Boat(game, 12, 10, 12);
+        game.vehicles = [boat];
+
+        game.triggerWindBurst(12, 9.5, 12);
+
+        assert.ok(boat.vy > 0);
     });
 });

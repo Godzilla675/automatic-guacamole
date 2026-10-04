@@ -1924,6 +1924,27 @@ class Game {
                 }
             }
         }
+
+        // Impulse to vehicles
+        if (this.vehicles) {
+            for (const v of this.vehicles) {
+                if (!v) continue;
+                const vdx = v.x - x;
+                const vdy = (v.y + (v.height || 0.6) * 0.5) - y;
+                const vdz = v.z - z;
+                const vdist = Math.hypot(vdx, vdy, vdz);
+                if (vdist < radius) {
+                    const factor = Math.max(0.1, (radius - vdist) / radius);
+                    const normX = vdx / (vdist || 1);
+                    const normY = vdy / (vdist || 1);
+                    const normZ = vdz / (vdist || 1);
+
+                    v.vy = Math.max(5, normY * 10 * factor + 4);
+                    v.vx = (v.vx || 0) + normX * 10 * factor;
+                    v.vz = (v.vz || 0) + normZ * 10 * factor;
+                }
+            }
+        }
     }
 
     explode(x, y, z, radius) {
