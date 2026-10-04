@@ -770,7 +770,19 @@ class World {
                 for (const n of neighbors) {
                     const nType = this.getBlock(n.x, n.y, n.z);
                     const nDef = window.BLOCKS[nType];
-                    if (nDef) {
+                    if (nType === window.BLOCK.CRAFTER) {
+                        const entity = this.getBlockEntity(n.x, n.y, n.z);
+                        if (entity && entity.items) {
+                            let occupiedSlots = 0;
+                            const disabled = entity.disabledSlots || [];
+                            for (let i = 0; i < 9; i++) {
+                                if (disabled.includes(i) || (entity.items[i] && entity.items[i].count > 0)) {
+                                    occupiedSlots++;
+                                }
+                            }
+                            if (occupiedSlots > inputPower) inputPower = occupiedSlots;
+                        }
+                    } else if (nDef) {
                         if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) inputPower = 15;
                         else if (nDef.isWire) {
                             const p = this.getMetadata(n.x, n.y, n.z);
@@ -810,7 +822,6 @@ class World {
             } else if (blockDef.isTorch && blockDef.id !== window.BLOCK.TORCH) { // Redstone Torch
                  // Check block below
                  const supportPos = {x, y: y-1, z};
-                 const supportType = this.getBlock(supportPos.x, supportPos.y, supportPos.z);
 
                  // Check if support block is receiving power
                  const isPowered = this.isBlockPowered(supportPos.x, supportPos.y, supportPos.z);
@@ -891,6 +902,20 @@ class World {
                 if (meta !== signal) {
                     this.setMetadata(x, y, z, signal);
                     this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+            }
+
+            // Always check if there is a Redstone Torch supported by this block that needs updating
+            const abovePos = { x, y: y + 1, z };
+            const aboveType = this.getBlock(abovePos.x, abovePos.y, abovePos.z);
+            if (aboveType === window.BLOCK.REDSTONE_TORCH || aboveType === window.BLOCK.REDSTONE_TORCH_OFF) {
+                const isPowered = this.isBlockPowered(x, y, z);
+                if (isPowered && aboveType === window.BLOCK.REDSTONE_TORCH) {
+                    this.setBlock(abovePos.x, abovePos.y, abovePos.z, window.BLOCK.REDSTONE_TORCH_OFF);
+                    this.scheduleNeighborRedstoneUpdates(abovePos.x, abovePos.y, abovePos.z);
+                } else if (!isPowered && aboveType === window.BLOCK.REDSTONE_TORCH_OFF) {
+                    this.setBlock(abovePos.x, abovePos.y, abovePos.z, window.BLOCK.REDSTONE_TORCH);
+                    this.scheduleNeighborRedstoneUpdates(abovePos.x, abovePos.y, abovePos.z);
                 }
             }
         }
@@ -1231,6 +1256,18 @@ class World {
             const below = { x, y: y - 1, z };
             const belowType = this.getBlock(below.x, below.y, below.z);
 
+            if (belowType === window.BLOCK.COPPER_GRATE) {
+                const below2 = { x, y: y - 2, z };
+                const below2Type = this.getBlock(below2.x, below2.y, below2.z);
+                if (below2Type === BLOCK.AIR || (below2Type === BLOCK.WATER && this.getMetadata(below2.x, below2.y, below2.z) !== 8)) {
+                    if (below2Type !== BLOCK.WATER || this.getMetadata(below2.x, below2.y, below2.z) !== 7) {
+                        this.setBlock(below2.x, below2.y, below2.z, BLOCK.WATER);
+                        this.setMetadata(below2.x, below2.y, below2.z, 7);
+                        this.activeFluids.add(`${below2.x},${below2.y},${below2.z}`);
+                    }
+                }
+            }
+
             if (belowType === BLOCK.AIR || (belowType === BLOCK.WATER && this.getMetadata(below.x, below.y, below.z) !== 8)) {
                 // Flow down (set to max flow level 7, or 8 if we want falling water to be full)
                 // If below is water but source, don't overwrite source.
@@ -1255,12 +1292,20 @@ class World {
 
                 if (newMeta > 0) {
                      const neighbors = [
-                        {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
-                        {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
+                        {x:x+1, y:y, z:z, dx:1, dz:0}, {x:x-1, y:y, z:z, dx:-1, dz:0},
+                        {x:x, y:y, z:z+1, dx:0, dz:1}, {x:x, y:y, z:z-1, dx:0, dz:-1}
                      ];
                      for (const n of neighbors) {
                          const nType = this.getBlock(n.x, n.y, n.z);
-                         if (nType === BLOCK.AIR) {
+                         if (nType === window.BLOCK.COPPER_GRATE) {
+                             const farN = { x: n.x + n.dx, y: y, z: n.z + n.dz };
+                             const farType = this.getBlock(farN.x, farN.y, farN.z);
+                             if (farType === BLOCK.AIR) {
+                                 this.setBlock(farN.x, farN.y, farN.z, BLOCK.WATER);
+                                 this.setMetadata(farN.x, farN.y, farN.z, newMeta);
+                                 this.activeFluids.add(`${farN.x},${farN.y},${farN.z}`);
+                             }
+                         } else if (nType === BLOCK.AIR) {
                              this.setBlock(n.x, n.y, n.z, BLOCK.WATER);
                              this.setMetadata(n.x, n.y, n.z, newMeta);
                          } else if (nType === BLOCK.WATER) {
