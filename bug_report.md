@@ -21,3 +21,4 @@ All test files across unit tests, verification suites, and Playwright end-to-end
 2. **Sequential Test Execution:** Prevented JSDOM `PerformanceImpl.now` stack overflow recursion errors by batching test files sequentially rather than concurrently.
 3. **Playwright Navigation & Dialogs:** Verified that `page.on("dialog", lambda dialog: dialog.accept("Player"))` prevents modal dialogs from blocking `#start-game` clicks during E2E browser tests.
 4. **Missing Playwright dependency:** Installed missing dependencies dynamically using `pip install playwright pytest-playwright && playwright install`.
+5. **Hopper Redstone Locking & Wind Charge Vehicle Propulsion:** Implemented redstone signal locking on Hoppers in `js/world.js` and radial vehicle propulsion in `js/game.js`, verified via unit tests in `tests/test_newly_discovered_bugs.js`.

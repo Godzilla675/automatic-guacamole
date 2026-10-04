@@ -483,6 +483,8 @@ class World {
     }
 
     processHopper(x, y, z) {
+        if (this.isBlockPowered(x, y, z)) return;
+
         let hopperEntity = this.getBlockEntity(x, y, z);
         if (!hopperEntity) {
             hopperEntity = { type: 'hopper', items: new Array(5).fill(null) };
