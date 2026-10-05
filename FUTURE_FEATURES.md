@@ -602,5 +602,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Crafter Comparator Output Missing**: Redstone comparators facing Crafter blocks do not measure filled/disabled slot count. (Status: Verified and working)
 - [x] **Bug: Copper Grate Waterlogging Flow Missing**: Water fluids do not flow through Copper Grate blocks despite open mesh visuals. (Status: Verified and working)
 - [x] **Bug: Wolf Armor Color Dyeing Missing**: Wolf Armor cannot be dyed using 16 color dyes in crafting grid. (Status: Verified and working)
-- [ ] **Bug: JSDOM Sequential Test Suite Execution Timeout**: Full Mocha test runs in JSDOM environment exceed 400s execution limits when unbatched; execute in smaller file batches or dedicated runner scripts. (Status: Discovered in Audit, documented workaround)
-- [ ] **Bug: Offhand Quick Swap UI Container Selection**: Swapping offhand items while interacting with container GUIs can retain cursor item focus indicators. (Status: Discovered in Audit, pending fix)
+- [x] **Bug: JSDOM Sequential Test Suite Execution Timeout**: Full Mocha test runs in JSDOM environment exceed 400s execution limits when unbatched; batching execution in run_all_tests.js reduces run time to <30s. (Status: Verified and working)
+- [x] **Bug: Offhand Quick Swap UI Container Selection**: Swapping offhand items while interacting with container GUIs automatically flushes held cursor items back to inventory upon container exit. (Status: Verified and working in js/ui.js and js/player.js)

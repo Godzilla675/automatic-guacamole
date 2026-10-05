@@ -8,16 +8,20 @@ const files = [
     ...fs.readdirSync("verification").filter(f => f.endsWith(".js")).map(f => `verification/${f}`)
 ];
 
-for (const file of files) {
-    console.log(`Running ${file}...`);
+// Group files in batches of 3 to avoid JSDOM memory accumulation limits while reducing spawn overhead
+const BATCH_SIZE = 3;
+for (let i = 0; i < files.length; i += BATCH_SIZE) {
+    const batch = files.slice(i, i + BATCH_SIZE);
     try {
-        execSync(`npx mocha ${file}`, { stdio: "pipe" });
+        execSync(`npx mocha ${batch.join(" ")}`, { stdio: "pipe" });
     } catch (e) {
-        console.error(`${file} failed!`);
+        console.error(`Batch failed starting with ${batch[0]}`);
         errorFound = true;
     }
 }
 
 if (errorFound) {
     process.exit(1);
+} else {
+    console.log(`All ${files.length} test files passed!`);
 }
