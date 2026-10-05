@@ -893,6 +893,17 @@ class World {
                 if (newMeta !== meta) {
                     this.setMetadata(x, y, z, newMeta);
                 }
+            } else if (type === window.BLOCK.CHISELED_COPPER || type === window.BLOCK.EXPOSED_CHISELED_COPPER || type === window.BLOCK.WEATHERED_CHISELED_COPPER) {
+                if (Math.random() < 0.0005) {
+                    const nextOxidation = {
+                        [window.BLOCK.CHISELED_COPPER]: window.BLOCK.EXPOSED_CHISELED_COPPER,
+                        [window.BLOCK.EXPOSED_CHISELED_COPPER]: window.BLOCK.WEATHERED_CHISELED_COPPER,
+                        [window.BLOCK.WEATHERED_CHISELED_COPPER]: window.BLOCK.OXIDIZED_CHISELED_COPPER
+                    };
+                    if (nextOxidation[type]) {
+                        this.setBlock(x, y, z, nextOxidation[type]);
+                    }
+                }
             } else if (type === window.BLOCK.REDSTONE_CLOCK) {
                 const currentPower = this.getMetadata(x, y, z);
                 const pulse = Math.floor((this.game ? this.game.gameTime : Date.now()) / 500) % 2 === 0 ? 15 : 0;

@@ -86,6 +86,19 @@ class UIManager {
             });
         }
 
+        const autoJumpCheckbox = document.getElementById('auto-jump-checkbox');
+        if (autoJumpCheckbox) {
+            const savedAutoJump = getStorage('voxel_auto_jump') === 'true';
+            autoJumpCheckbox.checked = savedAutoJump;
+            if (this.game && this.game.player) this.game.player.autoJumpEnabled = savedAutoJump;
+            autoJumpCheckbox.addEventListener('change', (e) => {
+                if (this.game && this.game.player) {
+                    this.game.player.autoJumpEnabled = e.target.checked;
+                }
+                setStorage('voxel_auto_jump', e.target.checked);
+            });
+        }
+
         // Sensitivity
         const sensitivitySlider = document.getElementById('sensitivity-slider');
         if (sensitivitySlider) {

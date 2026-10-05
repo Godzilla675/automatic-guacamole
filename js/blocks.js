@@ -493,7 +493,13 @@ const BLOCK = {
     TORCHFLOWER: 550,
     ITEM_TORCHFLOWER_SEEDS: 551,
     PITCHER_PLANT: 552,
-    ITEM_PITCHER_POD: 553
+    ITEM_PITCHER_POD: 553,
+
+    // Batch 16 Features
+    CHISELED_COPPER: 554,
+    EXPOSED_CHISELED_COPPER: 555,
+    WEATHERED_CHISELED_COPPER: 556,
+    OXIDIZED_CHISELED_COPPER: 557
 };
 
 const ARMOR = {
@@ -1066,7 +1072,13 @@ const BLOCKS = {
     [BLOCK.TORCHFLOWER]: { name: 'Torchflower', color: '#FF4500', solid: false, transparent: true, icon: '🌺', hardness: 0.0, light: 8, drop: { type: BLOCK.TORCHFLOWER, count: 1 } },
     [BLOCK.ITEM_TORCHFLOWER_SEEDS]: { name: 'Torchflower Seeds', color: '#FFA500', solid: false, isItem: true, icon: '🌰' },
     [BLOCK.PITCHER_PLANT]: { name: 'Pitcher Plant', color: '#008080', solid: false, transparent: true, icon: '🪴', hardness: 0.0, drop: { type: BLOCK.PITCHER_PLANT, count: 1 } },
-    [BLOCK.ITEM_PITCHER_POD]: { name: 'Pitcher Pod', color: '#2E8B57', solid: false, isItem: true, icon: '🫘' }
+    [BLOCK.ITEM_PITCHER_POD]: { name: 'Pitcher Pod', color: '#2E8B57', solid: false, isItem: true, icon: '🫘' },
+
+    // Batch 16 Feature Definitions
+    [BLOCK.CHISELED_COPPER]: { name: 'Chiseled Copper', color: '#B87333', top: '#D2B48C', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.EXPOSED_CHISELED_COPPER]: { name: 'Exposed Chiseled Copper', color: '#A08060', top: '#B09070', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.WEATHERED_CHISELED_COPPER]: { name: 'Weathered Chiseled Copper', color: '#509080', top: '#60A090', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.OXIDIZED_CHISELED_COPPER]: { name: 'Oxidized Chiseled Copper', color: '#40A090', top: '#50B0A0', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' }
 };
 
 if (typeof window !== 'undefined') {

@@ -632,6 +632,30 @@ body {
     transition: opacity 0.1s;
 }
 
+/* Darkness Vignette Overlay */
+#darkness-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 15%, rgba(0, 5, 10, 0.98) 75%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 85;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#darkness-overlay.pulse {
+    animation: darknessPulse 2.5s infinite alternate ease-in-out;
+}
+
+@keyframes darknessPulse {
+    0% { opacity: 0.55; }
+    50% { opacity: 0.95; }
+    100% { opacity: 0.60; }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .menu-content h1 {

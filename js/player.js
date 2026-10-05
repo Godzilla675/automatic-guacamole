@@ -935,6 +935,22 @@ class Player {
         const world = this.game.world;
         const physics = this.game.physics;
 
+        // Auto-Jump Step Check before collision stopping
+        if (this.autoJumpEnabled && this.onGround && !this.flying && (dx !== 0 || dz !== 0)) {
+            const hasXColl = dx !== 0 && physics.checkCollision({x: this.x + dx, y: this.y, z: this.z, width: this.width, height: this.height});
+            const hasZColl = dz !== 0 && physics.checkCollision({x: this.x, y: this.y, z: this.z + dz, width: this.width, height: this.height});
+
+            if (hasXColl || hasZColl) {
+                // Check if 1 block step higher is clear
+                const clearStep = !physics.checkCollision({x: this.x + dx, y: this.y + 1.1, z: this.z + dz, width: this.width, height: this.height});
+                if (clearStep) {
+                    this.vy = this.jumpForce;
+                    this.onGround = false;
+                    if (window.soundManager) window.soundManager.play('jump');
+                }
+            }
+        }
+
         // X Axis
         if (physics.checkCollision({x: this.x + dx, y: this.y, z: this.z, width: this.width, height: this.height})) {
             this.vx = 0;

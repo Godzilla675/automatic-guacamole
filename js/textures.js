@@ -160,6 +160,10 @@ class TextureManager {
         this.textures[B.EXPOSED_COPPER_BULB] = this.genExposedCopperBulb();
         this.textures[B.WEATHERED_COPPER_BULB] = this.genWeatheredCopperBulb();
         this.textures[B.OXIDIZED_COPPER_BULB] = this.genOxidizedCopperBulb();
+        this.textures[B.CHISELED_COPPER] = this.genChiseledCopper('#B87333', '#A05A2C');
+        this.textures[B.EXPOSED_CHISELED_COPPER] = this.genChiseledCopper('#A08060', '#886848');
+        this.textures[B.WEATHERED_CHISELED_COPPER] = this.genChiseledCopper('#509080', '#3E786B');
+        this.textures[B.OXIDIZED_CHISELED_COPPER] = this.genChiseledCopper('#40A090', '#2E8878');
         this.textures[B.ITEM_RECOVERY_COMPASS] = this.genRecoveryCompass();
         this.textures[B.HEAVY_CORE] = this.genHeavyCore();
         this.textures[B.ITEM_MACE] = this.genMaceItem();
@@ -684,6 +688,21 @@ class TextureManager {
         this.fillNoise(ctx, this.hexToRgb('#8B4513'), 15);
         ctx.fillStyle = '#00BFFF';
         ctx.fillRect(4, 4, 8, 8);
+        return c;
+    }
+
+    genChiseledCopper(colorHex = '#B87333', innerHex = '#A05A2C') {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        const rgb = this.hexToRgb(colorHex);
+        this.fillNoise(ctx, rgb, 12);
+        const innerRgb = this.hexToRgb(innerHex);
+        ctx.fillStyle = `rgb(${innerRgb.r},${innerRgb.g},${innerRgb.b})`;
+        ctx.fillRect(2, 2, 12, 1);
+        ctx.fillRect(2, 13, 12, 1);
+        ctx.fillRect(2, 2, 1, 12);
+        ctx.fillRect(13, 2, 1, 12);
+        ctx.fillRect(5, 5, 6, 6);
         return c;
     }
 
