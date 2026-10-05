@@ -193,6 +193,19 @@ class Renderer {
         this.drawSky(w, h);
         this.drawClouds(w, h);
 
+        // Darkness Overlay Animation
+        const darknessOverlayEl = document.getElementById('darkness-overlay');
+        const hasDarkness = this.game.player.activeEffects && this.game.player.activeEffects.some(e => e.name === 'Darkness' || e.name === 'Darkness Effect');
+        if (darknessOverlayEl) {
+            if (hasDarkness) {
+                darknessOverlayEl.classList.add('pulse');
+                darknessOverlayEl.style.opacity = '0.85';
+            } else {
+                darknessOverlayEl.classList.remove('pulse');
+                darknessOverlayEl.style.opacity = '0';
+            }
+        }
+
         // Water Overlay & Deep Underwater Fog
         const headBlock = this.game.world.getBlock(Math.floor(this.game.player.x), Math.floor(this.game.player.y + this.game.player.height - 0.2), Math.floor(this.game.player.z));
         if (headBlock === BLOCK.WATER) {

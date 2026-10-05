@@ -232,6 +232,27 @@ class Game {
         const blockType = this.world.getBlock(x, y, z);
         const pos = { x: x + 0.5, y: y + 0.5, z: z + 0.5 };
 
+        // Cauldron Bundle Dye Bleaching
+        if (blockType === BLOCK.CAULDRON) {
+            let meta = this.world.getMetadata(x, y, z);
+            if (meta === 0) meta = 3; // Default water level if uninitialized
+            if (meta > 0) {
+                const held = this.player.getHeldItem();
+                if (held && (held.type >= BLOCK.ITEM_BUNDLE_WHITE && held.type <= BLOCK.ITEM_BUNDLE_BLACK)) {
+                    held.type = BLOCK.ITEM_BUNDLE;
+                    meta--;
+                    this.world.setMetadata(x, y, z, meta);
+                    if (this.particles) this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#00FFFF', 12);
+                    if (window.soundManager) window.soundManager.play('place', pos);
+                    this.updateHotbarUI();
+                    if (this.ui && this.ui.showNotification) {
+                        this.ui.showNotification("Washed dyed Bundle in Cauldron! Bleached back to default Bundle.");
+                    }
+                    return true;
+                }
+            }
+        }
+
         // Furnace / Smoker / Blast Furnace
         if (blockType === BLOCK.FURNACE || blockType === BLOCK.SMOKER || blockType === BLOCK.BLAST_FURNACE) {
             let entity = this.world.getBlockEntity(x, y, z);
@@ -682,7 +703,15 @@ class Game {
 
         if (!isLeftClick) {
             // Right Click Logic
-            const slot = this.player.inventory[this.player.selectedSlot];
+            let slot = this.player.inventory[this.player.selectedSlot];
+            let isOffhandActive = false;
+
+            if (!slot || slot.count <= 0) {
+                if (this.player.offhand && this.player.offhand.count > 0) {
+                    slot = this.player.offhand;
+                    isOffhandActive = true;
+                }
+            }
 
             // Brush Tool Archaeology Logic
             if (slot && slot.type === BLOCK.ITEM_BRUSH) {
@@ -975,7 +1004,10 @@ class Game {
                     const deoxidizeMap = {
                         [window.BLOCK.OXIDIZED_COPPER_BULB]: window.BLOCK.WEATHERED_COPPER_BULB,
                         [window.BLOCK.WEATHERED_COPPER_BULB]: window.BLOCK.EXPOSED_COPPER_BULB,
-                        [window.BLOCK.EXPOSED_COPPER_BULB]: window.BLOCK.COPPER_BULB
+                        [window.BLOCK.EXPOSED_COPPER_BULB]: window.BLOCK.COPPER_BULB,
+                        [window.BLOCK.OXIDIZED_CHISELED_COPPER]: window.BLOCK.WEATHERED_CHISELED_COPPER,
+                        [window.BLOCK.WEATHERED_CHISELED_COPPER]: window.BLOCK.EXPOSED_CHISELED_COPPER,
+                        [window.BLOCK.EXPOSED_CHISELED_COPPER]: window.BLOCK.CHISELED_COPPER
                     };
 
                     if (deoxidizeMap[targetType]) {

@@ -284,6 +284,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.COPPER_BLOCK, count: 4 } ]
             },
             {
+                name: "Chiseled Copper (4)",
+                result: { type: BLOCK.CHISELED_COPPER, count: 4 },
+                ingredients: [ { type: BLOCK.COPPER_BLOCK, count: 2 } ]
+            },
+            {
                 name: "Copper Door (3)",
                 result: { type: BLOCK.ITEM_COPPER_DOOR, count: 3 },
                 ingredients: [ { type: BLOCK.ITEM_COPPER_INGOT, count: 6 } ]
