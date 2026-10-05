@@ -146,6 +146,8 @@ class Player {
         if (this.game && this.game.ui) {
             this.game.ui.updateHotbarUI();
             if (this.game.ui.refreshArmorUI) this.game.ui.refreshArmorUI();
+            if (this.game.ui.refreshInventoryUI) this.game.ui.refreshInventoryUI();
+            if (this.game.ui.updateCursorUI) this.game.ui.updateCursorUI();
         }
     }
 

@@ -360,7 +360,16 @@ class UIManager {
         this.refreshInventoryUI();
     }
 
+    clearCursorItem() {
+        if (this.cursorItem && this.game && this.game.player) {
+            this.game.player.addItem(this.cursorItem);
+            this.cursorItem = null;
+            this.updateCursorUI();
+        }
+    }
+
     closeSmithingTable() {
+        this.clearCursorItem();
         if (this.activeSmithingTable) {
             if (this.activeSmithingTable.template) this.game.player.addItem(this.activeSmithingTable.template);
             if (this.activeSmithingTable.base) this.game.player.addItem(this.activeSmithingTable.base);
@@ -704,6 +713,7 @@ class UIManager {
     }
 
     closeFurnace() {
+        this.clearCursorItem();
         this.activeFurnace = null;
         document.getElementById('furnace-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
@@ -724,6 +734,7 @@ class UIManager {
     }
 
     closeChiseledBookshelf() {
+        this.clearCursorItem();
         this.activeChiseledBookshelf = null;
         const ui = document.getElementById('chiseled-bookshelf-screen');
         if (ui) ui.classList.add('hidden');
@@ -815,6 +826,7 @@ class UIManager {
     }
 
     closeDropper() {
+        this.clearCursorItem();
         this.activeDropper = null;
         const ui = document.getElementById('dropper-screen');
         if (ui) ui.classList.add('hidden');
@@ -906,6 +918,7 @@ class UIManager {
     }
 
     closeCrafter() {
+        this.clearCursorItem();
         this.activeCrafter = null;
         const ui = document.getElementById('crafter-screen');
         if (ui) ui.classList.add('hidden');
@@ -1032,6 +1045,7 @@ class UIManager {
     }
 
     closeChest() {
+        this.clearCursorItem();
         this.activeChest = null;
         document.getElementById('chest-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
@@ -1092,6 +1106,7 @@ class UIManager {
     }
 
     closeTrading() {
+        this.clearCursorItem();
         this.activeVillager = null;
         document.getElementById('trading-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
@@ -1113,6 +1128,7 @@ class UIManager {
     }
 
     closeBrewing() {
+        this.clearCursorItem();
         this.activeBrewingStand = null;
         document.getElementById('brewing-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
@@ -1129,6 +1145,7 @@ class UIManager {
     }
 
     closeEnchanting() {
+        this.clearCursorItem();
         if (this.activeEnchanting && this.activeEnchanting.item) {
              const item = this.activeEnchanting.item;
              let added = false;
@@ -1162,6 +1179,7 @@ class UIManager {
     }
 
     closeJukebox() {
+        this.clearCursorItem();
         this.activeJukebox = null;
         this.activeJukeboxPos = null;
         document.getElementById('jukebox-screen').classList.add('hidden');
@@ -1239,6 +1257,7 @@ class UIManager {
     }
 
     closeAnvil() {
+        this.clearCursorItem();
         // Drop items
         if (this.activeAnvil) {
             [this.activeAnvil.input1, this.activeAnvil.input2].forEach(item => {
@@ -2466,6 +2485,7 @@ class UIManager {
     }
 
     closeStonecutter() {
+        this.clearCursorItem();
         if (this.activeStonecutter && this.activeStonecutter.input) {
             const item = this.activeStonecutter.input;
             let added = false;
