@@ -1295,7 +1295,7 @@ class World {
                 if (below2Type === BLOCK.AIR || (below2Type === BLOCK.WATER && this.getMetadata(below2.x, below2.y, below2.z) !== 8)) {
                     if (below2Type !== BLOCK.WATER || this.getMetadata(below2.x, below2.y, below2.z) !== 7) {
                         this.setBlock(below2.x, below2.y, below2.z, BLOCK.WATER);
-                        this.setMetadata(below2.x, below2.y, below2.z, 7);
+                        this.setMetadata(below2.x, below2.y, below2.z, 8);
                         this.activeFluids.add(`${below2.x},${below2.y},${below2.z}`);
                     }
                 }
@@ -1335,7 +1335,7 @@ class World {
                              const farType = this.getBlock(farN.x, farN.y, farN.z);
                              if (farType === BLOCK.AIR) {
                                  this.setBlock(farN.x, farN.y, farN.z, BLOCK.WATER);
-                                 this.setMetadata(farN.x, farN.y, farN.z, newMeta);
+                                 this.setMetadata(farN.x, farN.y, farN.z, 8);
                                  this.activeFluids.add(`${farN.x},${farN.y},${farN.z}`);
                              }
                          } else if (nType === BLOCK.AIR) {
