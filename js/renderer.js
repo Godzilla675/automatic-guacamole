@@ -198,11 +198,11 @@ class Renderer {
         const hasDarkness = this.game.player.activeEffects && this.game.player.activeEffects.some(e => e.name === 'Darkness' || e.name === 'Darkness Effect');
         if (darknessOverlayEl) {
             if (hasDarkness) {
-                darknessOverlayEl.classList.add('pulse');
-                darknessOverlayEl.style.opacity = '0.85';
+                if (darknessOverlayEl.classList && darknessOverlayEl.classList.add) darknessOverlayEl.classList.add('pulse');
+                if (darknessOverlayEl.style) darknessOverlayEl.style.opacity = '0.85';
             } else {
-                darknessOverlayEl.classList.remove('pulse');
-                darknessOverlayEl.style.opacity = '0';
+                if (darknessOverlayEl.classList && darknessOverlayEl.classList.remove) darknessOverlayEl.classList.remove('pulse');
+                if (darknessOverlayEl.style) darknessOverlayEl.style.opacity = '0';
             }
         }
 
