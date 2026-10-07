@@ -176,7 +176,7 @@ class World {
             }
         }
 
-        const mobsList = (this.game && this.game.mobs) || (typeof window !== 'undefined' && window.game ? window.game.mobs : []);
+        const mobsList = (this.game && this.game.mobs) || (typeof window !== 'undefined' && window.game && window.game.mobs ? window.game.mobs : []);
         for (const mob of mobsList) {
             if (mob && !mob.isDead && mob.type === window.MOB_TYPE.WARDEN) {
                 const dist = Math.hypot(mob.x - x, mob.z - z, mob.y - y);
@@ -491,7 +491,7 @@ class World {
             }
         }
 
-        const mobsList = (this.game && this.game.mobs) || window.game?.mobs || [];
+        const mobsList = (this.game && this.game.mobs) || (typeof window !== 'undefined' && window.game && window.game.mobs ? window.game.mobs : []);
         for (const mob of mobsList) {
             if (mob && !mob.isDead && mob.type === window.MOB_TYPE.WARDEN) {
                 const dist = Math.hypot(mob.x - x, mob.z - z, mob.y - y);

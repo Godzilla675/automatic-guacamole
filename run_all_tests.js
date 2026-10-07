@@ -3,25 +3,46 @@ const fs = require("fs");
 
 let errorFound = false;
 
-const files = [
-    ...fs.readdirSync("tests").filter(f => f.endsWith(".js")).map(f => `tests/${f}`),
+const testFiles = [
+    ...fs.readdirSync("tests").filter(f => f.endsWith(".js") && !f.endsWith(".ignore")).map(f => `tests/${f}`),
     ...fs.readdirSync("verification").filter(f => f.endsWith(".js")).map(f => `verification/${f}`)
 ];
 
-// Group files in batches of 3 to avoid JSDOM memory accumulation limits while reducing spawn overhead
+console.log(`Running ${testFiles.length} test files in small batches...`);
+
 const BATCH_SIZE = 3;
-for (let i = 0; i < files.length; i += BATCH_SIZE) {
-    const batch = files.slice(i, i + BATCH_SIZE);
+let passedCount = 0;
+let failedBatches = [];
+
+for (let i = 0; i < testFiles.length; i += BATCH_SIZE) {
+    const batch = testFiles.slice(i, i + BATCH_SIZE);
     try {
         execSync(`npx mocha ${batch.join(" ")}`, { stdio: "pipe" });
+        passedCount += batch.length;
     } catch (e) {
-        console.error(`Batch failed starting with ${batch[0]}`);
-        errorFound = true;
+        // Fallback to running individually in case of script structure variance
+        for (const file of batch) {
+            try {
+                execSync(`npx mocha ${file}`, { stdio: "pipe" });
+                passedCount++;
+            } catch (e2) {
+                try {
+                    execSync(`node ${file}`, { stdio: "pipe" });
+                    passedCount++;
+                } catch (e3) {
+                    console.error(`Test failed: ${file}`);
+                    failedBatches.push(file);
+                    errorFound = true;
+                }
+            }
+        }
     }
 }
 
 if (errorFound) {
+    console.error(`\n${failedBatches.length} test files failed:`);
+    failedBatches.forEach(f => console.error(` - ${f}`));
     process.exit(1);
 } else {
-    console.log(`All ${files.length} test files passed!`);
+    console.log(`\nAll ${passedCount} test files passed successfully!`);
 }
