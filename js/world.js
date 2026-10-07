@@ -1333,7 +1333,7 @@ class World {
                          if (nType === window.BLOCK.COPPER_GRATE) {
                              const farN = { x: n.x + n.dx, y: y, z: n.z + n.dz };
                              const farType = this.getBlock(farN.x, farN.y, farN.z);
-                             if (farType === BLOCK.AIR) {
+                             if (farType === BLOCK.AIR || (window.BLOCKS[farType] && !window.BLOCKS[farType].solid && farType !== BLOCK.WATER)) {
                                  this.setBlock(farN.x, farN.y, farN.z, BLOCK.WATER);
                                  this.setMetadata(farN.x, farN.y, farN.z, 8);
                                  this.activeFluids.add(`${farN.x},${farN.y},${farN.z}`);

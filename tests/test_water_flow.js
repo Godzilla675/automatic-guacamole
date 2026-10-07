@@ -227,4 +227,50 @@ describe('Water Flow Tests', function() {
         const metaBelow = world.getMetadata(5, 9, 5);
         assert.strictEqual(metaBelow, 7, "Water below should be falling (meta 7)");
     });
+
+    it('water should pass through copper grate vertically and horizontally, propagating full fluid blocks', () => {
+        const world = game.world;
+        world.generateChunk(0, 0);
+
+        // Clear block past grate to ensure it starts as AIR (DEEPSLATE generates due to Y level in generateChunk)
+        world.setBlock(7, 10, 5, dom.window.BLOCK.AIR);
+        world.setBlock(5, 8, 8, dom.window.BLOCK.AIR);
+
+        // Ground for horizontal test
+        for (let x = 3; x <= 7; x++) {
+            world.setBlock(x, 9, 5, dom.window.BLOCK.STONE);
+        }
+
+        // Horizontal Test setup
+        world.setBlock(5, 10, 5, dom.window.BLOCK.WATER);
+        world.setMetadata(5, 10, 5, 8); // Water source
+
+        // Copper grate beside it
+        world.setBlock(6, 10, 5, dom.window.BLOCK.COPPER_GRATE);
+
+        // Vertical test setup
+        world.setBlock(5, 10, 8, dom.window.BLOCK.WATER);
+        world.setMetadata(5, 10, 8, 8); // Water source
+        world.setBlock(5, 9, 8, dom.window.BLOCK.COPPER_GRATE);
+        world.setBlock(5, 8, 8, dom.window.BLOCK.AIR);
+
+        world.activeFluids.add('5,10,5');
+        world.activeFluids.add('5,10,8');
+        world.updateFluids();
+        world.updateFluids();
+        world.updateFluids();
+
+        const blockPastGrateH = world.getBlock(7, 10, 5);
+        const metaPastGrateH = world.getMetadata(7, 10, 5);
+
+        assert.strictEqual(blockPastGrateH, dom.window.BLOCK.WATER, 'Water should pass through horizontally');
+        assert.strictEqual(metaPastGrateH, 8, 'Water passing through grate horizontally should be a full block (meta 8)');
+
+        const blockBelowGrateV = world.getBlock(5, 8, 8);
+        const metaBelowGrateV = world.getMetadata(5, 8, 8);
+
+        assert.strictEqual(blockBelowGrateV, dom.window.BLOCK.WATER, 'Water should appear below copper grate');
+        assert.strictEqual(metaBelowGrateV, 8, 'Water passing through grate vertically should form source (meta 8)');
+    });
+
 });
