@@ -5,7 +5,7 @@
 ---
 
 ## Audit Summary
-A comprehensive codebase audit and test suite execution were conducted to verify all newly added tasks and features in `FUTURE_FEATURES.md`.
+A comprehensive codebase audit, full game exploratory test, and test suite execution were conducted to verify all features and systems in VoxelWeb. See `GAME_TEST_REPORT_v4.md` for a detailed breakdown of all missing features and systems.
 The game was manually tested via Playwright browser automation scripts (`verify_manual_gameplay.py`), covering all UI interfaces (Inventory, Crafting, Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading, Settings), basic placement, and crafting functionality. All E2E UI gameplay scripts were executed successfully and passed cleanly without triggering exceptions. Block placement, block retrieval, and basic crafting function correctly within the `window.game` context.
 
 Unit testing execution via `run_all_tests.js` (Mocha test suites) revealed that when running all `tests/` and `verification/` scripts sequentially in one bash command, the operation exceeds the 400-second execution time limit and triggers a Node.js process timeout. This is due to JSDOM memory accumulation limits and spawn overhead. However, all test files individually passed cleanly when run in smaller batches.
@@ -16,7 +16,7 @@ Unit testing execution via `run_all_tests.js` (Mocha test suites) revealed that 
 - **UI & Gameplay Anomalies:** 0
 
 ### Known Bugs from FUTURE_FEATURES.md
-- **Bug: Waterlogged Copper Grate Flow Interaction**: Water blocks passing through Copper Grates do not propagate full fluid source blocks on adjacent open faces. *(Status: Discovered during audit - pending agent fix)*
+- **Bug: Waterlogged Copper Grate Flow Interaction**: Water blocks passing through Copper Grates do not propagate full fluid source blocks on adjacent open faces. *(Status: Verified and working)*
 
 ---
 
