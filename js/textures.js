@@ -177,10 +177,26 @@ class TextureManager {
         this.textures[B.BEEHIVE] = this.genBeehive();
         this.textures[B.HOPPER] = this.genHopper();
         this.textures[B.OBSERVER] = this.genObserver();
-        this.textures[B.COPPER_GRATE] = this.genCopperGrate();
+        this.textures[B.COPPER_GRATE] = this.genCopperGrate('#B87333');
+        this.textures[B.EXPOSED_COPPER_GRATE] = this.genCopperGrate('#A08060');
+        this.textures[B.WEATHERED_COPPER_GRATE] = this.genCopperGrate('#509080');
+        this.textures[B.OXIDIZED_COPPER_GRATE] = this.genCopperGrate('#40A090');
+
         this.textures[B.COPPER_DOOR_BOTTOM] = this.genDoor('#B87333');
         this.textures[B.COPPER_DOOR_TOP] = this.genDoor('#B87333');
         this.textures[B.ITEM_COPPER_DOOR] = this.genDoor('#B87333');
+
+        this.textures[B.EXPOSED_COPPER_DOOR_BOTTOM] = this.genDoor('#A08060');
+        this.textures[B.EXPOSED_COPPER_DOOR_TOP] = this.genDoor('#A08060');
+        this.textures[B.ITEM_EXPOSED_COPPER_DOOR] = this.genDoor('#A08060');
+
+        this.textures[B.WEATHERED_COPPER_DOOR_BOTTOM] = this.genDoor('#509080');
+        this.textures[B.WEATHERED_COPPER_DOOR_TOP] = this.genDoor('#509080');
+        this.textures[B.ITEM_WEATHERED_COPPER_DOOR] = this.genDoor('#509080');
+
+        this.textures[B.OXIDIZED_COPPER_DOOR_BOTTOM] = this.genDoor('#40A090');
+        this.textures[B.OXIDIZED_COPPER_DOOR_TOP] = this.genDoor('#40A090');
+        this.textures[B.ITEM_OXIDIZED_COPPER_DOOR] = this.genDoor('#40A090');
         this.textures[B.ITEM_BUNDLE] = this.genBundleItem();
         this.textures[B.STRIPPED_OAK_LOG] = this.genPlank('#DEB887');
         this.textures[B.STRIPPED_SPRUCE_LOG] = this.genPlank('#8B5A2B');
@@ -1415,12 +1431,12 @@ class TextureManager {
         return c;
     }
 
-    genCopperGrate() {
+    genCopperGrate(colorHex = '#B87333') {
         const c = this.createCanvas();
         const ctx = c.getContext('2d');
         ctx.fillStyle = 'rgba(0,0,0,0)';
         ctx.clearRect(0, 0, 16, 16);
-        ctx.fillStyle = '#B87333';
+        ctx.fillStyle = colorHex;
         ctx.fillRect(0, 0, 16, 2);
         ctx.fillRect(0, 14, 16, 2);
         ctx.fillRect(0, 0, 2, 16);

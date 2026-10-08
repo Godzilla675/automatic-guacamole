@@ -1005,9 +1005,22 @@ class Game {
                         [window.BLOCK.OXIDIZED_COPPER_BULB]: window.BLOCK.WEATHERED_COPPER_BULB,
                         [window.BLOCK.WEATHERED_COPPER_BULB]: window.BLOCK.EXPOSED_COPPER_BULB,
                         [window.BLOCK.EXPOSED_COPPER_BULB]: window.BLOCK.COPPER_BULB,
+
                         [window.BLOCK.OXIDIZED_CHISELED_COPPER]: window.BLOCK.WEATHERED_CHISELED_COPPER,
                         [window.BLOCK.WEATHERED_CHISELED_COPPER]: window.BLOCK.EXPOSED_CHISELED_COPPER,
-                        [window.BLOCK.EXPOSED_CHISELED_COPPER]: window.BLOCK.CHISELED_COPPER
+                        [window.BLOCK.EXPOSED_CHISELED_COPPER]: window.BLOCK.CHISELED_COPPER,
+
+                        [window.BLOCK.OXIDIZED_COPPER_GRATE]: window.BLOCK.WEATHERED_COPPER_GRATE,
+                        [window.BLOCK.WEATHERED_COPPER_GRATE]: window.BLOCK.EXPOSED_COPPER_GRATE,
+                        [window.BLOCK.EXPOSED_COPPER_GRATE]: window.BLOCK.COPPER_GRATE,
+
+                        [window.BLOCK.OXIDIZED_COPPER_DOOR_BOTTOM]: window.BLOCK.WEATHERED_COPPER_DOOR_BOTTOM,
+                        [window.BLOCK.WEATHERED_COPPER_DOOR_BOTTOM]: window.BLOCK.EXPOSED_COPPER_DOOR_BOTTOM,
+                        [window.BLOCK.EXPOSED_COPPER_DOOR_BOTTOM]: window.BLOCK.COPPER_DOOR_BOTTOM,
+
+                        [window.BLOCK.OXIDIZED_COPPER_DOOR_TOP]: window.BLOCK.WEATHERED_COPPER_DOOR_TOP,
+                        [window.BLOCK.WEATHERED_COPPER_DOOR_TOP]: window.BLOCK.EXPOSED_COPPER_DOOR_TOP,
+                        [window.BLOCK.EXPOSED_COPPER_DOOR_TOP]: window.BLOCK.COPPER_DOOR_TOP
                     };
 
                     if (deoxidizeMap[targetType]) {

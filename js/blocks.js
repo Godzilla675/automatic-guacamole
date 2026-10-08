@@ -499,7 +499,24 @@ const BLOCK = {
     CHISELED_COPPER: 554,
     EXPOSED_CHISELED_COPPER: 555,
     WEATHERED_CHISELED_COPPER: 556,
-    OXIDIZED_CHISELED_COPPER: 557
+    OXIDIZED_CHISELED_COPPER: 557,
+
+    // Copper Grates & Doors Oxidation Stages
+    EXPOSED_COPPER_GRATE: 558,
+    WEATHERED_COPPER_GRATE: 559,
+    OXIDIZED_COPPER_GRATE: 560,
+
+    EXPOSED_COPPER_DOOR_BOTTOM: 561,
+    EXPOSED_COPPER_DOOR_TOP: 562,
+    ITEM_EXPOSED_COPPER_DOOR: 563,
+
+    WEATHERED_COPPER_DOOR_BOTTOM: 564,
+    WEATHERED_COPPER_DOOR_TOP: 565,
+    ITEM_WEATHERED_COPPER_DOOR: 566,
+
+    OXIDIZED_COPPER_DOOR_BOTTOM: 567,
+    OXIDIZED_COPPER_DOOR_TOP: 568,
+    ITEM_OXIDIZED_COPPER_DOOR: 569
 };
 
 const ARMOR = {
@@ -1078,7 +1095,23 @@ const BLOCKS = {
     [BLOCK.CHISELED_COPPER]: { name: 'Chiseled Copper', color: '#B87333', top: '#D2B48C', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' },
     [BLOCK.EXPOSED_CHISELED_COPPER]: { name: 'Exposed Chiseled Copper', color: '#A08060', top: '#B09070', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' },
     [BLOCK.WEATHERED_CHISELED_COPPER]: { name: 'Weathered Chiseled Copper', color: '#509080', top: '#60A090', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' },
-    [BLOCK.OXIDIZED_CHISELED_COPPER]: { name: 'Oxidized Chiseled Copper', color: '#40A090', top: '#50B0A0', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' }
+    [BLOCK.OXIDIZED_CHISELED_COPPER]: { name: 'Oxidized Chiseled Copper', color: '#40A090', top: '#50B0A0', solid: true, icon: '🗿', hardness: 3.0, tool: 'pickaxe' },
+
+    [BLOCK.EXPOSED_COPPER_GRATE]: { name: 'Exposed Copper Grate', color: '#A08060', top: '#B09070', solid: true, transparent: true, icon: '▦', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.WEATHERED_COPPER_GRATE]: { name: 'Weathered Copper Grate', color: '#509080', top: '#60A090', solid: true, transparent: true, icon: '▦', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.OXIDIZED_COPPER_GRATE]: { name: 'Oxidized Copper Grate', color: '#40A090', top: '#50B0A0', solid: true, transparent: true, icon: '▦', hardness: 3.0, tool: 'pickaxe' },
+
+    [BLOCK.EXPOSED_COPPER_DOOR_BOTTOM]: { name: 'Exposed Copper Door', color: '#A08060', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_EXPOSED_COPPER_DOOR, count: 1 } },
+    [BLOCK.EXPOSED_COPPER_DOOR_TOP]: { name: 'Exposed Copper Door', color: '#A08060', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_EXPOSED_COPPER_DOOR, count: 1 } },
+    [BLOCK.ITEM_EXPOSED_COPPER_DOOR]: { name: 'Exposed Copper Door', color: '#A08060', solid: false, isItem: true, icon: '🚪' },
+
+    [BLOCK.WEATHERED_COPPER_DOOR_BOTTOM]: { name: 'Weathered Copper Door', color: '#509080', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_WEATHERED_COPPER_DOOR, count: 1 } },
+    [BLOCK.WEATHERED_COPPER_DOOR_TOP]: { name: 'Weathered Copper Door', color: '#509080', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_WEATHERED_COPPER_DOOR, count: 1 } },
+    [BLOCK.ITEM_WEATHERED_COPPER_DOOR]: { name: 'Weathered Copper Door', color: '#509080', solid: false, isItem: true, icon: '🚪' },
+
+    [BLOCK.OXIDIZED_COPPER_DOOR_BOTTOM]: { name: 'Oxidized Copper Door', color: '#40A090', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_OXIDIZED_COPPER_DOOR, count: 1 } },
+    [BLOCK.OXIDIZED_COPPER_DOOR_TOP]: { name: 'Oxidized Copper Door', color: '#40A090', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_OXIDIZED_COPPER_DOOR, count: 1 } },
+    [BLOCK.ITEM_OXIDIZED_COPPER_DOOR]: { name: 'Oxidized Copper Door', color: '#40A090', solid: false, isItem: true, icon: '🚪' }
 };
 
 if (typeof window !== 'undefined') {
