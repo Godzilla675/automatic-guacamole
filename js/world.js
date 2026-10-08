@@ -145,12 +145,26 @@ class World {
         // Ominous Vault or Trial Vault Activation
         if ((type === window.BLOCK.TRIAL_VAULT || type === window.BLOCK.OMINOUS_VAULT) && this.game && this.game.player) {
             const player = this.game.player;
-            const held = player.getHeldItem();
+            let held = player.getHeldItem();
+            let isOffhand = false;
             const requiredKey = type === window.BLOCK.OMINOUS_VAULT ? window.BLOCK.ITEM_OMINOUS_TRIAL_KEY : window.BLOCK.ITEM_TRIAL_KEY;
+
+            if ((!held || held.type !== requiredKey) && player.offhand && player.offhand.type === requiredKey) {
+                held = player.offhand;
+                isOffhand = true;
+            }
 
             if (held && held.type === requiredKey) {
                 held.count--;
-                if (held.count <= 0) player.inventory[player.selectedSlot] = null;
+                if (held.count <= 0) {
+                    if (isOffhand) {
+                        player.offhand = null;
+                    } else {
+                        player.inventory[player.selectedSlot] = null;
+                    }
+                }
+                if (this.game.updateHotbarUI) this.game.updateHotbarUI();
+                if (this.game.ui && this.game.ui.refreshArmorUI) this.game.ui.refreshArmorUI();
 
                 // Dispense high-tier rewards
                 const lootTable = type === window.BLOCK.OMINOUS_VAULT ? [
