@@ -562,7 +562,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Spectator Mode Block Occlusion**: Flying through dense solid blocks in spectator mode should render dark inner face culling or vision overlay. (Status: Verified and working)
 
 - [x] **Bug: Audio Context Missing AnalyserNode in test mocks**: Headless Web Audio API mocks need AnalyserNode support for sound visualization tests. (Status: Verified and working - AudioContext mocks verified across test suites)
-- [ ] **New Task: Add Ominous Vaults & Ominous Trial Keys**: Special high-tier Ominous Vaults found in Trial Chambers requiring Ominous Trial Keys. (Status: Failing Verification)
+- [x] **New Task: Add Ominous Vaults & Ominous Trial Keys**: Special high-tier Ominous Vaults found in Trial Chambers requiring Ominous Trial Keys. (Status: Verified and working)
 - [x] **New Task: Add Anvil Item Renaming and Repair GUI**: Complete repair and item renaming functionality within dedicated Anvil UI. (Status: Verified and working)
 - [x] **New Task: Add Bundle Color Dyeing**: Dye Bundle items with 16 color dyes in crafting grid to organize inventory categories. (Status: Verified and working)
 - [x] **New Task: Add Eyeblossom Poison Stew Crafting**: Combine blooming Eyeblossoms with mushrooms in stew recipe to grant Poison effect. (Status: Verified and working)
@@ -571,7 +571,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **New Task: Add Copper Bulb Oxidation Attenuation**: Copper Bulb light emissions dimming progressively based on oxidation stage. (Status: Verified and working)
 - [ ] **New Task: Add Ominous Banner Drops**: Illager Captains dropping Ominous Banners upon defeat to trigger Bad Omen effect. (Status: Partially implemented - Pillager mob exists, but Captain banner spawns and banner drops pending agent completion)
 - [x] **New Task: Add Tuff Block Family**: Polished Tuff, Tuff Bricks, and Chiseled Tuff blocks for building in Trial Chambers. (Status: Verified and working)
-- [ ] **New Task: Add Crafter Autonomous Redstone Logic**: Crafter block automatically triggers grid item assembly on receiving redstone clock pulses. (Status: Failing Verification)
+- [x] **New Task: Add Crafter Autonomous Redstone Logic**: Crafter block automatically triggers grid item assembly on receiving redstone clock pulses. (Status: Verified and working)
 - [x] **New Task: Add Resin Brick Stairs & Walls**: Expand the Resin wood and brick building family with stair and wall variants. (Status: Verified and working)
 - [ ] **New Task: Add Vault Reward Loot Tables**: Expand Vault and Ominous Vault loot generation with rare enchanted books and armor trims. (Status: Partially implemented - basic rewards generated, expanded enchanted books pending agent completion)
 - [x] **New Task: Add Pale Oak Boat & Chest Boat**: Craftable boat variants made from Pale Oak planks for Pale Garden navigation. (Status: Verified and working)
@@ -631,5 +631,5 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### Newly Discovered Bugs & Tasks (From Audit)
 
-- [ ] **Bug: Crafter UI `TypeError` Exception**: Calling `window.game.ui.openCrafter(entity)` throws a `TypeError: Cannot read properties of undefined (reading 'items')` when the provided block entity does not have an `items` array or is empty. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Ominous Vault Key Consumption Missing**: Interacting with an Ominous Vault using an Ominous Trial Key correctly activates the vault logic but fails to consume the key from the player's inventory. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Crafter UI `TypeError` Exception**: Calling `window.game.ui.openCrafter(entity)` throws a `TypeError: Cannot read properties of undefined (reading 'items')` when the provided block entity does not have an `items` array or is empty. (Status: Verified and working in js/ui.js)
+- [x] **Bug: Ominous Vault Key Consumption Missing**: Interacting with an Ominous Vault using an Ominous Trial Key correctly activates the vault logic but fails to consume the key from the player's inventory. (Status: Verified and working in js/game.js and js/world.js)

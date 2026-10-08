@@ -585,11 +585,24 @@ class Game {
             }
 
             const reqKey = blockType === BLOCK.OMINOUS_VAULT ? BLOCK.ITEM_OMINOUS_TRIAL_KEY : BLOCK.ITEM_TRIAL_KEY;
-            const held = this.player.getHeldItem();
+            let held = this.player.getHeldItem();
+            let isOffhand = false;
+            if ((!held || held.type !== reqKey) && this.player.offhand && this.player.offhand.type === reqKey) {
+                held = this.player.offhand;
+                isOffhand = true;
+            }
+
             if (held && held.type === reqKey) {
                 held.count--;
-                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                if (held.count <= 0) {
+                    if (isOffhand) {
+                        this.player.offhand = null;
+                    } else {
+                        this.player.inventory[this.player.selectedSlot] = null;
+                    }
+                }
                 this.updateHotbarUI();
+                if (this.ui && this.ui.refreshArmorUI) this.ui.refreshArmorUI();
 
                 entity.openedPlayers.push(playerId);
 

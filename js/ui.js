@@ -916,6 +916,7 @@ class UIManager {
     }
 
     openCrafter(entity) {
+        if (!entity) entity = {};
         this.activeCrafter = entity;
         if (!entity.items) entity.items = new Array(9).fill(null);
         if (!entity.disabledSlots) entity.disabledSlots = new Array(9).fill(false);
