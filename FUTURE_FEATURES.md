@@ -641,11 +641,13 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 
 ### Additional Bugs and Tasks Found During Testing
-- [ ] **Bug: Lightning Strike Missing Method**: `triggerLightningStrike` exists in `js/game.js`, but isn't integrated correctly so that it is properly invoked.
-- [ ] **Bug: Ominous Banner Item Missing**: `ITEM_OMINOUS_BANNER` is missing from `js/blocks.js` despite being marked partially implemented.
-- [ ] **Bug: Bogged Shearable Mushrooms Drop Table Logic Missing**: The Bogged mob shear logic is implemented but doesn't have custom mushroom drop tables properly defined/used.
-- [ ] **Bug: Bundle Hotbar Scroll Wheel Slot Selection Missing**: `scrollBundleSlot` function logic does not exist in UI/Input.
-- [ ] **Bug: Bundle Mass Item Drop Logic Missing**: `dropBundleContents` logic is missing when a bundle is destroyed.
-- [ ] **Bug: Pale Oak Hanging Signs Crafting & Placement Missing**: `HANGING_SIGN_PALE_OAK` block/item is missing.
-- [ ] **Bug: Resin Brick Wall Dynamic Post Connections Missing**: `RESIN_BRICK_WALL.connectsTo` or similar dynamic visual logic is missing.
-- [ ] **Bug: Crafter Redstone Pulse Delay Filter Missing**: No delay or cooldown filter found in `processCrafter` for redstone pulses.
+- [ ] **Bug: Lightning Strike Missing Method Integration**: `triggerLightningStrike` exists in `js/game.js`, but isn't integrated into `js/world.js` weather tick processing so lightning strikes are invoked during thunderstorms. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Ominous Banner Item Missing**: `ITEM_OMINOUS_BANNER` definition and texture mapping are missing from `js/blocks.js` and `js/textures.js` despite being marked partially implemented. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Bogged Shearable Mushrooms Drop Table Logic Missing**: The Bogged mob shear action in `js/mob.js` works but does not drop harvested mushroom items onto the ground. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Bundle Hotbar Scroll Wheel Slot Selection Missing**: `scrollBundleSlot` function logic does not exist in `js/ui.js` or `js/input.js` to cycle selected bundle slots via mouse wheel. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Bundle Mass Item Drop Logic Missing**: `dropBundleContents` logic is missing when a bundle item entity is destroyed or dropped into water/lava. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Pale Oak Hanging Signs Crafting & Placement Missing**: `BLOCK.HANGING_SIGN_PALE_OAK` block and item definition are missing in `js/blocks.js`. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Resin Brick Wall Dynamic Post Connections Missing**: `RESIN_BRICK_WALL` dynamic post geometry connection checks are missing in renderer. (Status: Missing implementation, agents must fix)
+- [ ] **Bug: Crafter Redstone Pulse Delay Filter Missing**: Cooldown filter is missing in `processCrafter` (`js/world.js`) to throttle high-frequency redstone clock pulses. (Status: Missing implementation, agents must fix)
+- [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward nearest Stronghold / Nether Fortress coordinates. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
