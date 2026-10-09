@@ -638,3 +638,14 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with splash potion effects and dropping Ominous Keys. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Wind Burst Mace Enchantment**: Mace weapon enchantment triggering an upward launch boost for the attacker upon successful smash attacks. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Creaking Mob Audio FX**: Eerie timber step sounds and forest screech FX when Creaking mobs move or attack near Creaking Hearts. (Status: Proposed feature, pending implementation)
+
+
+### Additional Bugs and Tasks Found During Testing
+- [ ] **Bug: Lightning Strike Missing Method**: `triggerLightningStrike` exists in `js/game.js`, but isn't integrated correctly so that it is properly invoked.
+- [ ] **Bug: Ominous Banner Item Missing**: `ITEM_OMINOUS_BANNER` is missing from `js/blocks.js` despite being marked partially implemented.
+- [ ] **Bug: Bogged Shearable Mushrooms Drop Table Logic Missing**: The Bogged mob shear logic is implemented but doesn't have custom mushroom drop tables properly defined/used.
+- [ ] **Bug: Bundle Hotbar Scroll Wheel Slot Selection Missing**: `scrollBundleSlot` function logic does not exist in UI/Input.
+- [ ] **Bug: Bundle Mass Item Drop Logic Missing**: `dropBundleContents` logic is missing when a bundle is destroyed.
+- [ ] **Bug: Pale Oak Hanging Signs Crafting & Placement Missing**: `HANGING_SIGN_PALE_OAK` block/item is missing.
+- [ ] **Bug: Resin Brick Wall Dynamic Post Connections Missing**: `RESIN_BRICK_WALL.connectsTo` or similar dynamic visual logic is missing.
+- [ ] **Bug: Crafter Redstone Pulse Delay Filter Missing**: No delay or cooldown filter found in `processCrafter` for redstone pulses.
