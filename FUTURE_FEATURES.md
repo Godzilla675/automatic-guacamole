@@ -295,6 +295,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Creaking Heart Silk Touch Harvesting**: Dropping active Creaking Heart blocks intact when mined with Silk Touch enchanted tools rather than dropping Resin Clumps. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Pale Oak Hanging Signs Crafting**: Crafting recipes and wall/ceiling placement rendering for Pale Oak Hanging Signs using chains and pale oak planks. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Trial Chamber Secret Vault Passages**: Hidden redstone trapdoors in Trial Chamber corridors leading to bonus Vault reward rooms. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Copper Chiseling Mechanics**: Right-clicking Copper blocks with Shears or Chisel tools to carve Chiseled Copper blocks. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Trial Chamber Map Loot Tables**: Cartographer Villagers trading maps leading directly to Trial Chamber structures. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Pale Oak Boat with Chest Inventory UI**: Pale Oak Boat with Chest container GUI allowing full 27-slot item storage on water. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Crafter Redstone Pulse Cooldown Indicator**: Visual status indicator in Crafter UI showing redstone pulse trigger cooldown state. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Wind Charge Blast Particle Trail**: Emitting spiral wind blast particles trailing behind throwable Wind Charge projectiles. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Heavy Core Mace Falling Shockwave Radius**: Falling from high altitudes creates a 3D ground shockwave particle ring when smashing terrain with Mace. (Status: Proposed feature, pending implementation)
 
 ## Known Bugs & Issues (To Be Fixed)
 - [x] **Bug: Canvas Pattern Creation in Headless Contexts**: `createPattern` throwing errors in headless test environments lacking full HTMLCanvasElement rendering backends. (Status: Verified and working - canvas pattern fallback in TextureManager and test hooks)
@@ -641,7 +647,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 
 ### Additional Bugs and Tasks Found During Testing
-- [ ] **Bug: Lightning Strike Missing Method Integration**: `triggerLightningStrike` exists in `js/game.js`, but isn't integrated into `js/world.js` weather tick processing so lightning strikes are invoked during thunderstorms. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Lightning Strike Missing Method Integration**: `triggerLightningStrike` integrated into `js/game.js` frame update loop during thunderstorm weather state. (Status: Verified and working)
 - [x] **Bug: Ominous Banner Item Missing**: `ITEM_OMINOUS_BANNER` definition and texture mapping implemented in `js/blocks.js` and `js/textures.js`. (Status: Verified and working)
 - [x] **Bug: Bogged Shearable Mushrooms Drop Table Logic Missing**: The Bogged mob shear action in `js/mob.js` drops harvested mushroom items on the ground. (Status: Verified and working)
 - [ ] **Bug: Bundle Hotbar Scroll Wheel Slot Selection Missing**: `scrollBundleSlot` function logic does not exist in `js/ui.js` or `js/input.js` to cycle selected bundle slots via mouse wheel. (Status: Missing implementation, agents must fix)
