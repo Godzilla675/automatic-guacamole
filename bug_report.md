@@ -252,3 +252,15 @@ An exploratory automated audit was run using a series of Playwright scripts (`ex
 
 ### Summary
 The core engine is highly stable. The primary issues found during exploratory tests relate to minor API method mismatches (`ui.update*`, `boat.mount`) that break external headless scripts but don't break the actual user browser interaction (since real users don't call `boat.mount()` via console). The redstone logic discrepancy where power doesn't naturally flow through wires to update adjacent blocks is a gameplay logic bug that should be recorded.
+
+---
+
+## Resolved Issues Log
+**Date:** October 10, 2026
+
+1. **Vehicle Mount/Dismount API:** Added `mount(player)` and `dismount()` methods to `Vehicle` class prototype in `js/vehicle.js`.
+2. **Redstone Wire & Lamp Propagation:** Fixed early return bug on `REDSTONE_LAMP_ACTIVE` in `isBlockPowered` and unified `REDSTONE_LAMP` powering logic across all 3 axes in `js/world.js`.
+3. **UI Update Methods:** Added `updateInventoryUI()`, `updateInventory()`, and `updateHotbar()` alias methods to `UIManager` and `Game` classes in `js/ui.js` and `js/game.js`.
+4. **Ominous Banner Item & Textures:** Registered `ITEM_OMINOUS_BANNER` (ID 570) in `js/blocks.js` and `js/textures.js`.
+5. **Bogged Mushroom Drops:** Verified Bogged mob shearing in `js/mob.js` drops mushroom items on the ground.
+6. **Crafter Redstone Cooldown:** Added 200ms trigger throttling in `js/world.js` to prevent redstone clock congestion.

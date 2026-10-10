@@ -1775,6 +1775,19 @@ class UIManager {
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
     }
 
+    updateInventoryUI() {
+        this.updateHotbarUI();
+        if (this.refreshInventoryUI) this.refreshInventoryUI();
+    }
+
+    updateInventory() {
+        this.updateInventoryUI();
+    }
+
+    updateHotbar() {
+        this.updateHotbarUI();
+    }
+
     updateHotbarUI() {
         const hotbar = document.getElementById('hotbar');
 
@@ -1964,6 +1977,7 @@ class UIManager {
         this.refreshArmorUI();
 
         const grid = document.getElementById('inventory-grid');
+        if (!grid) return;
         grid.innerHTML = '';
 
         // Display all 36 slots

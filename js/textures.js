@@ -1838,6 +1838,9 @@ class TextureManager {
         this.textures[B.ITEM_CHESTPLATE_DIAMOND] = this.genChestplate('#00FFFF');
         this.textures[B.ITEM_LEGGINGS_DIAMOND] = this.genLeggings('#00FFFF');
         this.textures[B.ITEM_BOOTS_DIAMOND] = this.genBoots('#00FFFF');
+        if (B.ITEM_OMINOUS_BANNER) {
+            this.textures[B.ITEM_OMINOUS_BANNER] = this.genWood('#3A3A3A', '#1A1A1A');
+        }
     }
 
     // -- Tool textures --

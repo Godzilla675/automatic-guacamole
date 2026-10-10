@@ -363,7 +363,6 @@ class World {
                     if (n.y === y + 1) continue;
                     return true;
                 }
-                if (type === window.BLOCK.REDSTONE_LAMP_ACTIVE) return false;
             }
         }
         return false;
@@ -833,21 +832,7 @@ class World {
                     this.scheduleNeighborRedstoneUpdates(x, y, z);
                 }
             } else if (type === window.BLOCK.REDSTONE_LAMP || type === window.BLOCK.REDSTONE_LAMP_ACTIVE) {
-                 let powered = false;
-                 const neighbors = [
-                    {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
-                    {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1},
-                    {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z}
-                ];
-
-                for (const n of neighbors) {
-                     const nType = this.getBlock(n.x, n.y, n.z);
-                     const nDef = window.BLOCKS[nType];
-                     if (nDef) {
-                         if (nDef.isTorch) powered = true;
-                         else if (nDef.isWire && this.getMetadata(n.x, n.y, n.z) > 0) powered = true;
-                     }
-                }
+                const powered = this.isBlockPowered(x, y, z);
 
                 if (powered && type === window.BLOCK.REDSTONE_LAMP) {
                     this.setBlock(x, y, z, window.BLOCK.REDSTONE_LAMP_ACTIVE);
@@ -974,6 +959,12 @@ class World {
             entity = { type: 'crafter', items: new Array(9).fill(null) };
             this.setBlockEntity(x, y, z, entity);
         }
+
+        const now = Date.now();
+        if (entity.lastTrigger && now - entity.lastTrigger < 200) {
+            return;
+        }
+        entity.lastTrigger = now;
 
         if (!this.game || !this.game.crafting) return;
 

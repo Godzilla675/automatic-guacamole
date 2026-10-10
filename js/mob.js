@@ -295,8 +295,8 @@ class Mob extends Entity {
         if (this.type === MOB_TYPE.BOGGED && itemType === BLOCK.ITEM_SHEARS && !this.isSheared) {
             this.isSheared = true;
             this.color = '#808080'; // Sheared grey skeleton
-            if (this.game.drops) {
-                const DropClass = window.Drop || global.Drop;
+            if (this.game && this.game.drops) {
+                const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
                 const shroom = Math.random() < 0.5 ? BLOCK.HUGE_BROWN_MUSHROOM : BLOCK.HUGE_RED_MUSHROOM;
                 const count = 1 + Math.floor(Math.random() * 2);
                 if (DropClass) {
