@@ -237,3 +237,18 @@ A series of exploratory browser automation tests were performed using Playwright
 
 ### 3. Conclusion & Anomalies
 No new regressions or critical bugs were found during this test run. The core game loop, canvas rendering, and UI event listeners are stable. All previously verified features from the codebase remain functional in isolation and when orchestrated via UI scripts.
+## Explored Gameplay Tests Audit Log
+
+**Date:** October 10, 2026
+
+An exploratory automated audit was run using a series of Playwright scripts (`extensive_test.py`, `extensive_test_interactions.py`, `extensive_test_crafting.py`, `extensive_test_furnace.py`, `extensive_test_redstone.py`).
+
+### Findings
+1. **Game API & Initialization:** `window.game`, `window.game.player`, `window.game.world`, and `window.game.ui` correctly initialize. Canvas rendering works seamlessly, avoiding WebGL or initialization crashes.
+2. **UI Updates Exception:** `window.game.ui.updateInventoryUI()` and `window.game.ui.updateHotbar()` were found to be invalid/undefined when trying to manually update inventory state via JS API in headless contexts. Needs standardisation (likely just `window.game.ui.updateInventory()`, but even that threw an exception on older API calls).
+3. **Vehicle API Exception:** In headless interaction scripts, spawning a vehicle block (e.g. `boat = new window.Vehicle(window.game, x, y, z, 1)`) and trying to call `boat.mount(window.game.player)` threw `TypeError: boat.mount is not a function`. The vehicle prototype structure seems to either be missing `mount` or expects a different API structure.
+4. **Redstone Pulse Execution:** Advanced ticks on a basic redstone wire setup with `BLOCK.REDSTONE_TORCH` -> `BLOCK.REDSTONE_WIRE` -> `BLOCK.REDSTONE_LAMP` failed to propagate power to turn the lamp into `BLOCK.REDSTONE_LAMP_ON`. Needs investigation into the block update queue in `world.js`.
+5. **No Fatal Game Loop Crashes:** The rendering and tick loop (`window.game.update`) survived manual block placements, mob spawns (zombie), and various UI screen toggles (Inventory, Crafting, Jukebox, Anvil, Enchanting, Brewing, Trading, Furnace, Settings).
+
+### Summary
+The core engine is highly stable. The primary issues found during exploratory tests relate to minor API method mismatches (`ui.update*`, `boat.mount`) that break external headless scripts but don't break the actual user browser interaction (since real users don't call `boat.mount()` via console). The redstone logic discrepancy where power doesn't naturally flow through wires to update adjacent blocks is a gameplay logic bug that should be recorded.

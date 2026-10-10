@@ -651,3 +651,8 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **Bug: Crafter Redstone Pulse Delay Filter Missing**: Cooldown filter is missing in `processCrafter` (`js/world.js`) to throttle high-frequency redstone clock pulses. (Status: Missing implementation, agents must fix)
 - [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward nearest Stronghold / Nether Fortress coordinates. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
+
+## Newly Discovered Bugs & Tasks (From October 10 Audit)
+- [ ] **Bug: Vehicle Mount API Missing**: The `mount` method is missing or inaccessible on the `Vehicle` class prototype in `js/vehicle.js`.
+- [ ] **Bug: Redstone Wire Propagation Failure**: Redstone dust wires fail to propagate power from Redstone Torches to adjacent Redstone Lamps in `js/world.js` block update ticks.
+- [ ] **Bug: UI Update Methods Undefined**: Calling specific `updateInventoryUI` or `updateHotbar` methods on `window.game.ui` throws TypeErrors. Ensure consistent API for refreshing UI states externally.
