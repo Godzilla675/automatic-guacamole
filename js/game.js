@@ -190,7 +190,19 @@ class Game {
 
     // Delegation methods for compatibility
     updateHotbarUI() {
-        this.ui.updateHotbarUI();
+        if (this.ui && this.ui.updateHotbarUI) this.ui.updateHotbarUI();
+    }
+
+    updateInventoryUI() {
+        if (this.ui && this.ui.updateInventoryUI) this.ui.updateInventoryUI();
+    }
+
+    updateInventory() {
+        if (this.ui && this.ui.updateInventory) this.ui.updateInventory();
+    }
+
+    updateHotbar() {
+        if (this.ui && this.ui.updateHotbar) this.ui.updateHotbar();
     }
 
     updateHealthUI() {

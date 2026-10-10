@@ -7,18 +7,29 @@ class Vehicle extends Entity {
 
     interact(player) {
         if (this.rider) {
-            this.rider = null; // Dismount
+            this.dismount();
+        } else {
+            this.mount(player);
+        }
+    }
+
+    mount(player) {
+        if (!player) return;
+        this.rider = player;
+        player.riding = this;
+        player.x = this.x;
+        player.y = this.y + (this.height || 0.5);
+        player.z = this.z;
+    }
+
+    dismount() {
+        if (this.rider) {
+            const player = this.rider;
+            this.rider = null;
             player.riding = null;
-            player.y += 1; // Hop off
+            player.y += 1;
             player.vy = 5;
             player.onGround = false;
-        } else {
-            this.rider = player;
-            player.riding = this;
-            // Center player on vehicle
-            player.x = this.x;
-            player.y = this.y + this.height;
-            player.z = this.z;
         }
     }
 
@@ -31,13 +42,7 @@ class Vehicle extends Entity {
             this.isDead = true;
 
             // Eject rider
-            if (this.rider) {
-                this.rider.riding = null;
-                this.rider.y += 1;
-                this.rider.vy = 5;
-                this.rider.onGround = false;
-                this.rider = null;
-            }
+            this.dismount();
 
             // Drop item
             if (this.game && this.game.drops && window.Drop) {

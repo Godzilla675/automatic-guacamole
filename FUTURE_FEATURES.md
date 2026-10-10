@@ -642,17 +642,17 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### Additional Bugs and Tasks Found During Testing
 - [ ] **Bug: Lightning Strike Missing Method Integration**: `triggerLightningStrike` exists in `js/game.js`, but isn't integrated into `js/world.js` weather tick processing so lightning strikes are invoked during thunderstorms. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Ominous Banner Item Missing**: `ITEM_OMINOUS_BANNER` definition and texture mapping are missing from `js/blocks.js` and `js/textures.js` despite being marked partially implemented. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Bogged Shearable Mushrooms Drop Table Logic Missing**: The Bogged mob shear action in `js/mob.js` works but does not drop harvested mushroom items onto the ground. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Ominous Banner Item Missing**: `ITEM_OMINOUS_BANNER` definition and texture mapping implemented in `js/blocks.js` and `js/textures.js`. (Status: Verified and working)
+- [x] **Bug: Bogged Shearable Mushrooms Drop Table Logic Missing**: The Bogged mob shear action in `js/mob.js` drops harvested mushroom items on the ground. (Status: Verified and working)
 - [ ] **Bug: Bundle Hotbar Scroll Wheel Slot Selection Missing**: `scrollBundleSlot` function logic does not exist in `js/ui.js` or `js/input.js` to cycle selected bundle slots via mouse wheel. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Bundle Mass Item Drop Logic Missing**: `dropBundleContents` logic is missing when a bundle item entity is destroyed or dropped into water/lava. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Pale Oak Hanging Signs Crafting & Placement Missing**: `BLOCK.HANGING_SIGN_PALE_OAK` block and item definition are missing in `js/blocks.js`. (Status: Missing implementation, agents must fix)
 - [ ] **Bug: Resin Brick Wall Dynamic Post Connections Missing**: `RESIN_BRICK_WALL` dynamic post geometry connection checks are missing in renderer. (Status: Missing implementation, agents must fix)
-- [ ] **Bug: Crafter Redstone Pulse Delay Filter Missing**: Cooldown filter is missing in `processCrafter` (`js/world.js`) to throttle high-frequency redstone clock pulses. (Status: Missing implementation, agents must fix)
+- [x] **Bug: Crafter Redstone Pulse Delay Filter Missing**: Cooldown filter implemented in `triggerCrafter` (`js/world.js`) to throttle high-frequency redstone clock pulses. (Status: Verified and working)
 - [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward nearest Stronghold / Nether Fortress coordinates. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
 
 ## Newly Discovered Bugs & Tasks (From October 10 Audit)
-- [ ] **Bug: Vehicle Mount API Missing**: The `mount` method is missing or inaccessible on the `Vehicle` class prototype in `js/vehicle.js`.
-- [ ] **Bug: Redstone Wire Propagation Failure**: Redstone dust wires fail to propagate power from Redstone Torches to adjacent Redstone Lamps in `js/world.js` block update ticks.
-- [ ] **Bug: UI Update Methods Undefined**: Calling specific `updateInventoryUI` or `updateHotbar` methods on `window.game.ui` throws TypeErrors. Ensure consistent API for refreshing UI states externally.
+- [x] **Bug: Vehicle Mount API Missing**: Added `mount(player)` and `dismount()` methods to `Vehicle` class prototype in `js/vehicle.js`. (Status: Verified and working)
+- [x] **Bug: Redstone Wire Propagation Failure**: Fixed early return on `REDSTONE_LAMP_ACTIVE` in `isBlockPowered` and unified `REDSTONE_LAMP` powering logic in `js/world.js`. (Status: Verified and working)
+- [x] **Bug: UI Update Methods Undefined**: Added `updateInventoryUI()`, `updateInventory()`, and `updateHotbar()` alias methods to `UIManager` and `Game` classes. (Status: Verified and working)
