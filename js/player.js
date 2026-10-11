@@ -164,6 +164,37 @@ class Player {
         }
     }
 
+    dropBundleContents(bundleItem) {
+        if (this.game && this.game.dropBundleContents) {
+            this.game.dropBundleContents(this.x, this.y + 0.5, this.z, bundleItem);
+        }
+    }
+
+    dropItem(slotIndex = this.selectedSlot) {
+        const item = this.inventory[slotIndex];
+        if (!item) return;
+
+        const isBundle = item.type === BLOCK.ITEM_BUNDLE || (item.type >= BLOCK.ITEM_BUNDLE_WHITE && item.type <= BLOCK.ITEM_BUNDLE_BLACK);
+        if (isBundle && item.bundleItems && item.bundleItems.length > 0) {
+            this.dropBundleContents(item);
+        }
+
+        const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+        if (DropClass && this.game && this.game.drops) {
+            const dirX = Math.sin(this.yaw);
+            const dirZ = Math.cos(this.yaw);
+            const drop = new DropClass(this.game, this.x + dirX * 0.8, this.y + 0.5, this.z + dirZ * 0.8, item.type, item.count);
+            drop.vx = dirX * 3.0;
+            drop.vz = dirZ * 3.0;
+            drop.vy = 2.0;
+            this.game.drops.push(drop);
+        }
+        this.inventory[slotIndex] = null;
+        if (this.game && this.game.ui && this.game.ui.updateHotbarUI) {
+            this.game.ui.updateHotbarUI();
+        }
+    }
+
     getDefensePoints() {
         let defense = 0;
         if (window.ARMOR) {
@@ -873,11 +904,12 @@ class Player {
             if (this.game.updateHealthUI) this.game.updateHealthUI();
             return true;
         }
-        if (itemType === BLOCK.ITEM_OMINOUS_BOTTLE) {
+        if (itemType === BLOCK.ITEM_OMINOUS_BOTTLE || itemType === BLOCK.ITEM_OMINOUS_BANNER) {
             this.addEffect('Bad Omen', '☠️', 300);
             if (window.soundManager) window.soundManager.play('eat');
             if (this.game && this.game.ui && this.game.ui.showNotification) {
-                this.game.ui.showNotification('Drank Ominous Bottle! Applied Bad Omen effect.');
+                const name = itemType === BLOCK.ITEM_OMINOUS_BANNER ? 'Ominous Banner' : 'Ominous Bottle';
+                this.game.ui.showNotification(`Used ${name}! Applied Bad Omen effect.`);
             }
             return true;
         }

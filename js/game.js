@@ -1648,18 +1648,18 @@ class Game {
                  }
 
                  // Sign Placement Logic
-                 if (slot.type === BLOCK.ITEM_SIGN) {
+                 if (slot.type === BLOCK.ITEM_SIGN || slot.type === BLOCK.ITEM_HANGING_SIGN_PALE_OAK) {
+                     const signBlock = slot.type === BLOCK.ITEM_HANGING_SIGN_PALE_OAK ? BLOCK.HANGING_SIGN_PALE_OAK : BLOCK.SIGN_POST;
                      if (hit.face.y === 1) { // Top
-                         this.world.setBlock(nx, ny, nz, BLOCK.SIGN_POST);
-                         // Rotation 0-15 based on player yaw
-                         // Yaw 0 is South (+Z).
-                         // We want 16 steps.
+                         this.world.setBlock(nx, ny, nz, signBlock);
                          let rot = Math.floor((this.player.yaw / (Math.PI * 2)) * 16 + 8.5) & 15;
                          this.world.setMetadata(nx, ny, nz, rot);
                      } else if (hit.face.y === -1) {
-                         return; // Ceiling
+                         this.world.setBlock(nx, ny, nz, signBlock);
+                         let rot = Math.floor((this.player.yaw / (Math.PI * 2)) * 16 + 8.5) & 15;
+                         this.world.setMetadata(nx, ny, nz, rot);
                      } else { // Wall
-                         this.world.setBlock(nx, ny, nz, BLOCK.WALL_SIGN);
+                         this.world.setBlock(nx, ny, nz, slot.type === BLOCK.ITEM_HANGING_SIGN_PALE_OAK ? BLOCK.HANGING_SIGN_PALE_OAK : BLOCK.WALL_SIGN);
                          let meta = 2; // Default North
                          if (hit.face.z === -1) meta = 2; // North
                          else if (hit.face.z === 1) meta = 3; // South
@@ -2221,6 +2221,20 @@ class Game {
         if (entity.output.type !== result.type) return false;
         if (entity.output.count + result.count > 64) return false;
         return true;
+    }
+
+    dropBundleContents(x, y, z, bundleItem) {
+        if (!bundleItem || !bundleItem.bundleItems || bundleItem.bundleItems.length === 0) return;
+        const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+        if (!DropClass) return;
+
+        for (const item of bundleItem.bundleItems) {
+            if (item && item.count > 0) {
+                this.drops.push(new DropClass(this, x, y, z, item.type, item.count));
+            }
+        }
+        bundleItem.bundleItems = [];
+        bundleItem.bundleCount = 0;
     }
 
     getArchaeologyLoot() {

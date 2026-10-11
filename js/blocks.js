@@ -518,7 +518,9 @@ const BLOCK = {
     OXIDIZED_COPPER_DOOR_TOP: 568,
     ITEM_OXIDIZED_COPPER_DOOR: 569,
 
-    ITEM_OMINOUS_BANNER: 570
+    ITEM_OMINOUS_BANNER: 570,
+    HANGING_SIGN_PALE_OAK: 571,
+    ITEM_HANGING_SIGN_PALE_OAK: 572
 };
 
 const ARMOR = {
@@ -1114,7 +1116,9 @@ const BLOCKS = {
     [BLOCK.OXIDIZED_COPPER_DOOR_BOTTOM]: { name: 'Oxidized Copper Door', color: '#40A090', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_OXIDIZED_COPPER_DOOR, count: 1 } },
     [BLOCK.OXIDIZED_COPPER_DOOR_TOP]: { name: 'Oxidized Copper Door', color: '#40A090', solid: true, icon: '🚪', hardness: 3.0, tool: 'pickaxe', isDoor: true, drop: { type: BLOCK.ITEM_OXIDIZED_COPPER_DOOR, count: 1 } },
     [BLOCK.ITEM_OXIDIZED_COPPER_DOOR]: { name: 'Oxidized Copper Door', color: '#40A090', solid: false, isItem: true, icon: '🚪' },
-    [BLOCK.ITEM_OMINOUS_BANNER]: { name: 'Ominous Banner', color: '#3A3A3A', solid: false, isItem: true, icon: '🚩' }
+    [BLOCK.ITEM_OMINOUS_BANNER]: { name: 'Ominous Banner', color: '#3A3A3A', solid: false, isItem: true, icon: '🚩' },
+    [BLOCK.ITEM_HANGING_SIGN_PALE_OAK]: { name: 'Pale Oak Hanging Sign', color: '#E8E8E8', solid: false, isItem: true, icon: '🪧' },
+    [BLOCK.HANGING_SIGN_PALE_OAK]: { name: 'Pale Oak Hanging Sign', color: '#E8E8E8', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: 572, count: 1 } }
 };
 
 if (typeof window !== 'undefined') {

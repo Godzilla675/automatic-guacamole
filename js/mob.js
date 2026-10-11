@@ -553,6 +553,12 @@ class Mob extends Entity {
                 this.speed = 2.0;
                 this.maxHealth = 24;
                 this.xpValue = 5;
+                if (this.isCaptain === undefined) {
+                    this.isCaptain = Math.random() < 0.2;
+                }
+                if (this.isCaptain) {
+                    this.color = '#3A3A3A'; // Darker ominous captain look
+                }
                 break;
             case MOB_TYPE.ARMADILLO:
                 this.color = '#A07050';
@@ -774,6 +780,12 @@ class Mob extends Entity {
                 count = 2 + Math.floor(Math.random() * 3);
                 if (Math.random() < 0.15 && this.game.drops) {
                     this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_CROSSBOW, 1));
+                }
+                if (this.isCaptain && this.game.drops) {
+                    const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+                    if (DropClass) {
+                        this.game.drops.push(new DropClass(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_OMINOUS_BANNER, 1));
+                    }
                 }
                 break;
             case MOB_TYPE.ARMADILLO:
