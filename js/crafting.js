@@ -439,6 +439,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_BLACK, count: 1 } ]
             },
             {
+                name: "Pale Oak Hanging Sign (6)",
+                result: { type: BLOCK.ITEM_HANGING_SIGN_PALE_OAK, count: 6 },
+                ingredients: [ { type: BLOCK.PALE_OAK_PLANK, count: 6 }, { type: BLOCK.ITEM_STRING, count: 2 } ]
+            },
+            {
                 name: "Pale Oak Planks (4)",
                 result: { type: BLOCK.PALE_OAK_PLANK, count: 4 },
                 ingredients: [ { type: BLOCK.PALE_OAK_LOG, count: 1 } ]

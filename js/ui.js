@@ -2133,10 +2133,13 @@ class UIManager {
                 }
 
                 // Add tooltip for custom names or bundle contents
-                if (item.type === window.BLOCK.ITEM_BUNDLE && item.bundleItems) {
-                    const contentsStr = item.bundleItems.map(it => {
+                const isBundle = item.type === window.BLOCK.ITEM_BUNDLE || (item.type >= window.BLOCK.ITEM_BUNDLE_WHITE && item.type <= window.BLOCK.ITEM_BUNDLE_BLACK);
+                if (isBundle && item.bundleItems) {
+                    const selIdx = item.selectedBundleIndex || 0;
+                    const contentsStr = item.bundleItems.map((it, idx) => {
                         const def = window.BLOCKS[it.type];
-                        return `${def ? def.name : 'Item'} x${it.count}`;
+                        const name = def ? def.name : 'Item';
+                        return idx === selIdx ? `> ${name} x${it.count} <` : `${name} x${it.count}`;
                     }).join(', ');
                     slotElement.title = `Bundle (${item.bundleCount || 0}/64): ${contentsStr || 'Empty'}`;
                 } else if (item.name) {

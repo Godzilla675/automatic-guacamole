@@ -1841,6 +1841,10 @@ class TextureManager {
         if (B.ITEM_OMINOUS_BANNER) {
             this.textures[B.ITEM_OMINOUS_BANNER] = this.genWood('#3A3A3A', '#1A1A1A');
         }
+        if (B.HANGING_SIGN_PALE_OAK) {
+            this.textures[B.HANGING_SIGN_PALE_OAK] = this.genPlank('#E0E0E0');
+            this.textures[B.ITEM_HANGING_SIGN_PALE_OAK] = this.genSignItem();
+        }
     }
 
     // -- Tool textures --

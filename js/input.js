@@ -192,6 +192,27 @@ class InputManager {
             }
         });
 
+        // Wheel listener for hotbar bundle slot cycling
+        window.addEventListener('wheel', (e) => {
+            if (this.game && this.game.player) {
+                const held = this.game.player.getHeldItem();
+                if (held && (held.type === window.BLOCK.ITEM_BUNDLE || (held.type >= 472 && held.type <= 487))) {
+                    if (held.bundleItems && held.bundleItems.length > 1) {
+                        e.preventDefault();
+                        if (held.selectedBundleIndex === undefined) held.selectedBundleIndex = 0;
+                        if (e.deltaY > 0) {
+                            held.selectedBundleIndex = (held.selectedBundleIndex + 1) % held.bundleItems.length;
+                        } else if (e.deltaY < 0) {
+                            held.selectedBundleIndex = (held.selectedBundleIndex - 1 + held.bundleItems.length) % held.bundleItems.length;
+                        }
+                        if (this.game.ui && this.game.ui.updateHotbarUI) {
+                            this.game.ui.updateHotbarUI();
+                        }
+                    }
+                }
+            }
+        }, { passive: false });
+
         const preventContextMenu = (e) => {
             e.preventDefault();
             e.stopPropagation();

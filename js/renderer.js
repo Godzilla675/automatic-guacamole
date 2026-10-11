@@ -438,14 +438,31 @@ class Renderer {
                              ctx.globalAlpha = 0.2; // Transparent
                          }
                      }
-                     // Fences
+                     // Fences & Walls
                      if (b.isFencePost) {
                          drawHeight = size;
                          const width = size * 0.25;
                          ctx.fillRect(Math.floor(sx - width/2), Math.floor(drawSy - drawHeight/2), Math.ceil(width), Math.ceil(drawHeight));
 
-                         // Simple bars (visual hack: just draw a wider thin bar in middle)
-                         ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - size*0.1), Math.ceil(size), Math.ceil(size*0.2));
+                         // Dynamic neighbor connections check for fences and walls
+                         const wx = b.cx !== undefined ? b.cx * 16 + b.bx : Math.floor(px + b.rx);
+                         const wy = b.by !== undefined ? b.by : Math.floor(py + b.ry);
+                         const wz = b.cz !== undefined ? b.cz * 16 + b.bz : Math.floor(pz + b.rz);
+
+                         const checkWallConnect = (dx, dz) => {
+                             const nb = this.game.world ? this.game.world.getBlock(wx + dx, wy, wz + dz) : 0;
+                             const nd = window.BLOCKS[nb];
+                             return nd && (nd.solid || nd.isFence || nd.isPane || nd.isGate);
+                         };
+
+                         const e = checkWallConnect(1, 0);   // East +X
+                         const wConn = checkWallConnect(-1, 0); // West -X
+                         const s = checkWallConnect(0, 1);   // South +Z
+                         const n = checkWallConnect(0, -1);  // North -Z
+
+                         if (e || wConn || s || n) {
+                             ctx.fillRect(Math.floor(sx - size/2), Math.floor(drawSy - size*0.15), Math.ceil(size), Math.ceil(size*0.3));
+                         }
 
                          return;
                      }
