@@ -168,7 +168,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 
 ### 11. Audio
 - [ ] Music system (Status: Missing implementation, agents must fix)
-- [ ] **Proper block placement sound based on block type** (Status: Missing implementation, agents must fix)
+- [x] **Proper block placement sound based on block type** (Status: Verified and working in js/audio.js)
 - [x] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Verified and working)
 - [ ] **New Task: Add Creaking Mob Audio FX**: Creaking timber wood steps and eerie forest screech sound effects when Creaking mobs move. (Status: Partially implemented - creaking entity mechanics work, custom audio FX pending agent implementation)
 
@@ -664,3 +664,12 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [x] **Bug: Vehicle Mount API Missing**: Added `mount(player)` and `dismount()` methods to `Vehicle` class prototype in `js/vehicle.js`. (Status: Verified and working)
 - [x] **Bug: Redstone Wire Propagation Failure**: Fixed early return on `REDSTONE_LAMP_ACTIVE` in `isBlockPowered` and unified `REDSTONE_LAMP` powering logic in `js/world.js`. (Status: Verified and working)
 - [x] **Bug: UI Update Methods Undefined**: Added `updateInventoryUI()`, `updateInventory()`, and `updateHotbar()` alias methods to `UIManager` and `Game` classes. (Status: Verified and working)
+
+## Newly Discovered Bugs & Tasks (From October Audit)
+- [ ] **Bug: Weather Rain & Storm Ambient Audio FX Missing**: Rain and thunderstorm weather states update sky visuals and lightning strikes, but lack environmental rain audio loop sound effects in `js/audio.js`.
+- [ ] **Bug: Creaking Mob Footstep & Eerie Screech Sound FX Missing**: Creaking mob movement and attack events lack custom wood timber stepping and creepy forest screech sound effects in `js/audio.js`.
+- [ ] **Bug: Trial Spawner Miniature Rotating Model Preview Missing**: Active Trial Spawner block faces lack miniature rotating 3D mob preview models rendered in their inner block core.
+- [ ] **New Task: Add Lodestone Compass Position Target Alignment**: Compass item tracking current Lodestone block coordinates when right-clicked on a Lodestone block.
+- [ ] **New Task: Add Wind Charge Spiral Blast Trail Particles**: Wind Charge projectiles emitting spiral wind blast particle trails behind throwable projectile trajectories.
+- [ ] **New Task: Add Heavy Core Mace Fall Smash Shockwave FX**: Landing a Mace smash attack after falling emits a 3D expanding ground shockwave ring particle effect.
+- [ ] **New Task: Add Crafter Pulse Trigger Cooldown Status Overlay**: Visual progress ring or status icon on Crafter UI screen indicating redstone pulse auto-crafting cooldown state.
