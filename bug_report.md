@@ -289,5 +289,28 @@ A series of exploratory browser automation tests were performed using Playwright
 - **Test Suite Execution**: 124 automated test files in the `tests/` and `verification/` directories were executed using batching to circumvent JSDOM memory accumulation limits, using both Mocha and Node directly for execution compatibility.
 - **Test Suite Results**: All 124 tests are successfully passing cleanly without exceptions.
 
-### 3. Conclusion & Anomalies
-No new regressions or critical bugs were found during this test run. The core game loop, canvas rendering, and UI event listeners are stable. All previously verified features from the codebase remain functional in isolation and when orchestrated via UI scripts.
+### 3. Verification Audit of Newly Added Agent Features
+- **Chiseled Copper Blocks & Axe De-Oxidation**: All 4 oxidation stages verified along with step-by-step axe scraping de-oxidation.
+- **Bundle Dye Bleaching**: Washing dyed bundles in water cauldrons returns them to default undyed bundle form.
+- **Dual Wield Offhand Action**: Right-clicking executes offhand action when main hand is empty.
+- **Auto-Jump & Step Physics**: Auto-jump over 1-block obstacles tested and verified.
+- **Sculk Shrieker Darkness Effect HUD**: Darkness status icon display on HUD verified.
+- **Ender Chest Shared Storage**: Shared inventory across Ender Chest block instances verified.
+- **Axolotl Mob & Water Bucket Capture**: Aquatic axolotl entity combat and water bucket capture verified.
+- **Warden Sonic Boom**: Ranged sonic attacks through terrain verified.
+- **Sniffer Mob Seed Digging**: Sniffer digging up Torchflower seeds and Pitcher pods verified.
+- **Block Mining Cracking Overlay**: 10-stage mining crack texture overlay verified.
+- **Vertical Slabs**: Placement on block side faces verified.
+- **Amethyst Geodes**: Underground geode structure generation verified.
+- **Chest Boats**: Rideable boat entity with 27-slot container storage verified.
+- **Scaffolding Climbing**: Fast vertical ladder climbing physics verified.
+- **Lead Mob Leashing**: Leashing passive animals and tying them to fence posts verified.
+- **Thunderstorms & Lightning Rods**: Thunderstorm weather cycle and lightning strike redirection verified.
+- **Pillager Captains & Ominous Banners**: Captain spawning and banner drops verified.
+- **Bundle Hotbar Scroll Slot Selection**: Mouse wheel cycling active bundle slot verified.
+- **Bundle Mass Item Drop**: Scattering all stored items when dropping bundles verified.
+- **Pale Oak Hanging Signs**: Crafting and wall/ceiling placement verified.
+- **Resin Brick Wall Geometry**: Dynamic 4-way post geometry connection rendering verified.
+
+### 4. Conclusion & Anomalies
+No new regressions or critical bugs were found during this test run. The core game loop, canvas rendering, and UI event listeners are stable. All newly added agent features are verified working and operating without exceptions.
