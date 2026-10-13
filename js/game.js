@@ -646,7 +646,13 @@ class Game {
                 const loot = rewards[Math.floor(Math.random() * rewards.length)];
                 this.player.addItem(loot);
 
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, blockType === BLOCK.OMINOUS_VAULT ? '#9400D3' : '#00FFFF', 30);
+                if (this.particles) {
+                    if (this.particles.spawnVaultOrbit) {
+                        this.particles.spawnVaultOrbit(x + 0.5, y + 1.0, z + 0.5, blockType === BLOCK.OMINOUS_VAULT ? '#9400D3' : '#00FFFF');
+                    } else {
+                        this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, blockType === BLOCK.OMINOUS_VAULT ? '#9400D3' : '#00FFFF', 30);
+                    }
+                }
                 if (this.ui && this.ui.showNotification) {
                     const def = window.BLOCKS[loot.type];
                     this.ui.showNotification(`${blockType === BLOCK.OMINOUS_VAULT ? 'Ominous ' : ''}Vault Unlocked! Rewarded ${def ? def.name : 'Loot'} x${loot.count}!`);
@@ -750,6 +756,39 @@ class Game {
                 if (this.player.offhand && this.player.offhand.count > 0) {
                     slot = this.player.offhand;
                     isOffhandActive = true;
+                }
+            }
+
+            // Copper Chiseling Logic with Shears
+            if (slot && slot.type === BLOCK.ITEM_SHEARS) {
+                const hit = this.physics.raycast(eyePos, dir, 5);
+                if (hit) {
+                    const targetType = this.world.getBlock(hit.x, hit.y, hit.z);
+                    const chiselMap = {
+                        [window.BLOCK.COPPER_BLOCK]: window.BLOCK.CHISELED_COPPER,
+                        [window.BLOCK.EXPOSED_COPPER_BULB ? window.BLOCK.EXPOSED_COPPER_BULB : 530]: window.BLOCK.EXPOSED_CHISELED_COPPER,
+                        [window.BLOCK.WEATHERED_COPPER_BULB ? window.BLOCK.WEATHERED_COPPER_BULB : 531]: window.BLOCK.WEATHERED_CHISELED_COPPER,
+                        [window.BLOCK.OXIDIZED_COPPER_BULB ? window.BLOCK.OXIDIZED_COPPER_BULB : 532]: window.BLOCK.OXIDIZED_CHISELED_COPPER
+                    };
+
+                    if (chiselMap[targetType]) {
+                        const chiseledType = chiselMap[targetType];
+                        this.world.setBlock(hit.x, hit.y, hit.z, chiseledType);
+                        if (this.particles) this.particles.spawn(hit.x + 0.5, hit.y + 0.5, hit.z + 0.5, '#B87333', 12);
+                        if (window.soundManager) window.soundManager.play('break', { x: hit.x + 0.5, y: hit.y + 0.5, z: hit.z + 0.5 });
+
+                        if (this.player.gamemode !== 1) {
+                            if (slot.durability === undefined) slot.durability = 238;
+                            slot.durability--;
+                            if (slot.durability <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                            this.updateHotbarUI();
+                        }
+                        if (this.ui && this.ui.showNotification) {
+                            const def = window.BLOCKS[chiseledType];
+                            this.ui.showNotification(`Carved Copper into ${def ? def.name : 'Chiseled Copper'}!`);
+                        }
+                        return;
+                    }
                 }
             }
 
@@ -1166,7 +1205,7 @@ class Game {
                             p.deflected = true;
                             p.life = 3.0;
                             if (this.particles) this.particles.spawn(p.x, p.y, p.z, '#00FFFF', 15);
-                            if (window.soundManager) window.soundManager.play('jump', { x: p.x, y: p.y, z: p.z });
+                            if (window.soundManager) window.soundManager.play('wind_deflect', { x: p.x, y: p.y, z: p.z });
                             if (this.ui && this.ui.showNotification) this.ui.showNotification("Deflected Wind Charge!");
                             return;
                         }
@@ -1241,6 +1280,15 @@ class Game {
             // Knockback direction
             const kb = { x: dir.x, z: dir.z };
             closestMob.takeDamage(damage, kb);
+
+            // Wind Burst Mace Weapon Enchantment
+            if (slot && slot.type === BLOCK.ITEM_MACE) {
+                this.player.vy = 10; // Launch player upward into the air
+                this.triggerWindBurst(closestMob.x, closestMob.y, closestMob.z);
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification("Wind Burst! Launched into the air!");
+                }
+            }
             return;
         }
 
@@ -1356,7 +1404,15 @@ class Game {
         else if (blockType === BLOCK.QUARTZ_ORE) this.spawnXP(x, y, z, 3);
 
         // Drop Logic
-        if (blockType === BLOCK.MELON_BLOCK) {
+        if (blockType === BLOCK.CREAKING_HEART) {
+            const slot = this.player.inventory[this.player.selectedSlot];
+            const isSilkTouch = slot && (slot.silkTouch || (window.TOOLS && window.TOOLS[slot.type] && window.TOOLS[slot.type].type === 'axe'));
+            if (isSilkTouch) {
+                this.drops.push(new Drop(this, x + 0.5, y + 0.5, z + 0.5, BLOCK.CREAKING_HEART, 1));
+            } else {
+                this.drops.push(new Drop(this, x + 0.5, y + 0.5, z + 0.5, BLOCK.ITEM_RESIN_CLUMP, 2));
+            }
+        } else if (blockType === BLOCK.MELON_BLOCK) {
             this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_MELON_SLICE, 3 + Math.floor(Math.random()*5)));
         } else if (blockType !== BLOCK.AIR && blockType !== BLOCK.WATER) {
             const blockDef = BLOCKS[blockType];
