@@ -1461,8 +1461,17 @@ class Mob extends Entity {
             this.vx = Math.sin(this.yaw) * this.speed;
             this.vz = Math.cos(this.yaw) * this.speed;
 
+            // Trigger creaking step audio
+            if (this.stepTimer === undefined) this.stepTimer = 0;
+            this.stepTimer += dt;
+            if (this.stepTimer > 0.4) {
+                this.stepTimer = 0;
+                if (window.soundManager) window.soundManager.play('creaking_step', { x: this.x, y: this.y, z: this.z });
+            }
+
             if (dist < 1.5 && this.attackCooldown <= 0) {
                 player.takeDamage(5);
+                if (window.soundManager) window.soundManager.play('creaking_screech', { x: this.x, y: this.y, z: this.z });
                 this.attackCooldown = 1.2;
             }
             this.attackCooldown -= dt;

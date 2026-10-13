@@ -800,6 +800,43 @@ class Renderer {
             });
         }
 
+        // Render Trial Spawner Miniature Rotating Core Previews
+        if (this.game.world && this.game.world.blockEntities) {
+            const rotAngle = Date.now() * 0.003;
+            for (const [key, entity] of this.game.world.blockEntities) {
+                if (entity && entity.type === 'trial_spawner') {
+                    const [bx, by, bz] = key.split(',').map(Number);
+                    const dx = bx + 0.5 - px;
+                    const dy = by + 0.5 - py;
+                    const dz = bz + 0.5 - pz;
+
+                    const rx = dx * cosY - dz * sinY;
+                    const rz = dx * sinY + dz * cosY;
+                    const ry = dy * cosP - rz * sinP;
+                    const rz2 = dy * sinP + rz * cosP;
+
+                    if (rz2 > 0.1) {
+                        const coreSize = (scale / rz2) * 0.35;
+                        const sx = (rx / rz2) * scale + w / 2;
+                        const sy = h / 2 - (ry / rz2) * scale;
+
+                        ctx.save();
+                        ctx.translate(sx, sy);
+                        ctx.rotate(rotAngle);
+                        ctx.fillStyle = '#FF9900';
+                        ctx.globalAlpha = 0.85;
+                        ctx.fillRect(-coreSize / 2, -coreSize / 2, coreSize, coreSize);
+
+                        ctx.rotate(Math.PI / 4);
+                        ctx.fillStyle = '#FFD700';
+                        ctx.globalAlpha = 0.6;
+                        ctx.fillRect(-coreSize * 0.35, -coreSize * 0.35, coreSize * 0.7, coreSize * 0.7);
+                        ctx.restore();
+                    }
+                }
+            }
+        }
+
         // Draw TNT
         this.game.tntPrimed.forEach(tnt => {
              const dx = tnt.x - px;

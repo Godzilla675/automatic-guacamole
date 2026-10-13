@@ -8,7 +8,9 @@ class SoundManager {
 
         this.ambience = {
             wind: null,
-            water: null
+            water: null,
+            rain: null,
+            thunder: null
         };
     }
 
@@ -61,6 +63,35 @@ class SoundManager {
          waterSrc.start();
 
          this.ambience.water = { src: waterSrc, gain: waterGain, filter: waterFilter };
+
+         // Rain
+         const rainSrc = this.ctx.createBufferSource();
+         rainSrc.buffer = noiseBuffer;
+         rainSrc.loop = true;
+         const rainFilter = this.ctx.createBiquadFilter();
+         rainFilter.type = 'bandpass';
+         rainFilter.frequency.value = 1200;
+         rainFilter.Q.value = 1.0;
+         const rainGain = this.ctx.createGain();
+         rainGain.gain.value = 0;
+         rainSrc.connect(rainFilter);
+         rainFilter.connect(rainGain);
+         rainGain.connect(this.ctx.destination);
+         rainSrc.start();
+
+         this.ambience.rain = { src: rainSrc, gain: rainGain, filter: rainFilter };
+    }
+
+    updateWeatherAmbience(weatherState) {
+         if (!this.ambience.rain) this.startAmbience();
+         if (!this.ambience.rain) return;
+
+         const now = this.ctx.currentTime;
+         let rainVol = 0;
+         if (weatherState === 'rain') rainVol = 0.4;
+         else if (weatherState === 'thunder') rainVol = 0.75;
+
+         this.ambience.rain.gain.gain.setTargetAtTime(rainVol * this.volume, now, 0.5);
     }
 
     updateAmbience(waterIntensity, windIntensity) {
@@ -241,7 +272,7 @@ class SoundManager {
             case 'note':
                  // Determine instrument from blockType? Or just default piano.
                  // Pitch is passed via blockType here (0-24)
-                 const pitch = typeof position.pitch !== 'undefined' ? position.pitch : 0;
+                 const pitch = (position && typeof position.pitch !== 'undefined') ? position.pitch : 0;
                  const f = Math.pow(2, (pitch - 12) / 12) * 440; // F#4 is 0? Actually A4 is 440
                  osc.type = 'sine'; // Could vary based on block below note block
                  osc.frequency.setValueAtTime(f, now);
@@ -249,6 +280,30 @@ class SoundManager {
                  gain.gain.exponentialRampToValueAtTime(0.01, now + 1.0);
                  osc.start(now);
                  osc.stop(now + 1.0);
+                 break;
+
+            case 'creaking_step':
+                 // Eerie creaking timber step pitch bend
+                 osc.type = 'sawtooth';
+                 osc.frequency.setValueAtTime(90 + Math.random() * 30, now);
+                 osc.frequency.exponentialRampToValueAtTime(140 + Math.random() * 40, now + 0.2);
+                 osc.frequency.exponentialRampToValueAtTime(60, now + 0.35);
+                 gain.gain.setValueAtTime(this.volume * 0.45, now);
+                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                 osc.start(now);
+                 osc.stop(now + 0.35);
+                 break;
+
+            case 'creaking_screech':
+                 // Creepy forest timber screech sound
+                 osc.type = 'sawtooth';
+                 osc.frequency.setValueAtTime(320, now);
+                 osc.frequency.linearRampToValueAtTime(780, now + 0.15);
+                 osc.frequency.exponentialRampToValueAtTime(210, now + 0.5);
+                 gain.gain.setValueAtTime(this.volume * 0.6, now);
+                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                 osc.start(now);
+                 osc.stop(now + 0.5);
                  break;
         }
     }

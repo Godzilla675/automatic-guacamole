@@ -98,8 +98,8 @@ class ArmorStand extends Entity {
 if (typeof window !== 'undefined') {
     window.Entity = Entity;
     window.ArmorStand = ArmorStand;
-} else {
-    // For Node.js tests
+}
+if (typeof global !== 'undefined') {
     global.Entity = Entity;
     global.ArmorStand = ArmorStand;
 }
