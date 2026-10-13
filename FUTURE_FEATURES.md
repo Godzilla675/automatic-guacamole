@@ -673,3 +673,7 @@ This file tracks the status of major gameplay features, architectural tasks, and
 - [ ] **New Task: Add Wind Charge Spiral Blast Trail Particles**: Wind Charge projectiles emitting spiral wind blast particle trails behind throwable projectile trajectories.
 - [ ] **New Task: Add Heavy Core Mace Fall Smash Shockwave FX**: Landing a Mace smash attack after falling emits a 3D expanding ground shockwave ring particle effect.
 - [ ] **New Task: Add Crafter Pulse Trigger Cooldown Status Overlay**: Visual progress ring or status icon on Crafter UI screen indicating redstone pulse auto-crafting cooldown state.
+
+
+### Additional Bugs and Tasks Found During Testing
+- [ ] **Bug: Chat System & Commands Execution Timeout**: The "Chat System & Commands" test suite in `test_comprehensive_coverage.js` fails with a 20000ms timeout due to JSDOM network script resolution or command processing stalls, requiring either an extended timeout or mocking of the network calls to prevent full suite execution failure.
