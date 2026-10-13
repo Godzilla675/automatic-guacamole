@@ -520,7 +520,8 @@ const BLOCK = {
 
     ITEM_OMINOUS_BANNER: 570,
     HANGING_SIGN_PALE_OAK: 571,
-    ITEM_HANGING_SIGN_PALE_OAK: 572
+    ITEM_HANGING_SIGN_PALE_OAK: 572,
+    ITEM_COMPASS: 573
 };
 
 const ARMOR = {
@@ -1118,7 +1119,8 @@ const BLOCKS = {
     [BLOCK.ITEM_OXIDIZED_COPPER_DOOR]: { name: 'Oxidized Copper Door', color: '#40A090', solid: false, isItem: true, icon: '🚪' },
     [BLOCK.ITEM_OMINOUS_BANNER]: { name: 'Ominous Banner', color: '#3A3A3A', solid: false, isItem: true, icon: '🚩' },
     [BLOCK.ITEM_HANGING_SIGN_PALE_OAK]: { name: 'Pale Oak Hanging Sign', color: '#E8E8E8', solid: false, isItem: true, icon: '🪧' },
-    [BLOCK.HANGING_SIGN_PALE_OAK]: { name: 'Pale Oak Hanging Sign', color: '#E8E8E8', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: 572, count: 1 } }
+    [BLOCK.HANGING_SIGN_PALE_OAK]: { name: 'Pale Oak Hanging Sign', color: '#E8E8E8', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: 572, count: 1 } },
+    [BLOCK.ITEM_COMPASS]: { name: 'Compass', color: '#B0C4DE', solid: false, isItem: true, icon: '🧭' }
 };
 
 if (typeof window !== 'undefined') {

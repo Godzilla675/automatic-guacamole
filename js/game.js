@@ -244,6 +244,21 @@ class Game {
         const blockType = this.world.getBlock(x, y, z);
         const pos = { x: x + 0.5, y: y + 0.5, z: z + 0.5 };
 
+        // Lodestone Compass Binding
+        if (blockType === BLOCK.LODESTONE) {
+            const held = this.player.getHeldItem();
+            if (held && (held.type === BLOCK.ITEM_COMPASS || held.type === BLOCK.ITEM_RECOVERY_COMPASS)) {
+                held.lodestonePos = { x, y, z };
+                this.player.lodestoneTarget = { x, y, z };
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#00FFFF', 15);
+                if (window.soundManager) window.soundManager.play('place', pos);
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification(`Compass bound to Lodestone at (${x}, ${y}, ${z})!`);
+                }
+                return true;
+            }
+        }
+
         // Cauldron Bundle Dye Bleaching
         if (blockType === BLOCK.CAULDRON) {
             let meta = this.world.getMetadata(x, y, z);
@@ -2649,6 +2664,16 @@ class Game {
             p.z += p.vz * dts;
             p.life -= dts;
 
+            // Wind Charge Spiral Blast Particle Trail
+            if (p.type === 'wind_charge' && this.particles) {
+                const angle = (Date.now() * 0.01) % (Math.PI * 2);
+                const r = 0.4;
+                const spX = p.x + Math.cos(angle) * r;
+                const spY = p.y + Math.sin(angle) * r;
+                const spZ = p.z + Math.sin(angle * 2) * r;
+                this.particles.spawn(spX, spY, spZ, '#E0FFFF', 2);
+            }
+
             // Collision with world
             const pb = this.world.getBlock(Math.floor(p.x), Math.floor(p.y), Math.floor(p.z));
             const pbDef = window.BLOCKS[pb];
@@ -2875,6 +2900,9 @@ class Game {
                  }
 
                  window.soundManager.updateAmbience(waterIntensity, windIntensity);
+                 if (this.world && window.soundManager.updateWeatherAmbience) {
+                     window.soundManager.updateWeatherAmbience(this.world.weather);
+                 }
              }
         }
     }

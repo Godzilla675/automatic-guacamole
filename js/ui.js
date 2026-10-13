@@ -789,6 +789,7 @@ class UIManager {
 
             grid.appendChild(slot);
         }
+
     }
 
     handleChiseledBookshelfClick(index) {
@@ -974,6 +975,33 @@ class UIManager {
             });
 
             grid.appendChild(slot);
+        }
+
+        // Render Crafter Pulse Cooldown Indicator
+        const doc = typeof document !== 'undefined' ? document : (typeof window !== 'undefined' ? window.document : null);
+        let cooldownOverlay = doc ? doc.getElementById('crafter-cooldown-overlay') : null;
+        if (!cooldownOverlay && doc) {
+            cooldownOverlay = doc.createElement('div');
+            cooldownOverlay.id = 'crafter-cooldown-overlay';
+            cooldownOverlay.className = 'crafter-cooldown-overlay';
+            const screen = doc.getElementById('crafter-screen');
+            const content = screen ? screen.querySelector('.inventory-content') : null;
+            if (content) content.appendChild(cooldownOverlay);
+            else if (doc.body) doc.body.appendChild(cooldownOverlay);
+        }
+
+        const now = Date.now();
+        const lastTrigger = this.activeCrafter.lastTriggerTime || 0;
+        const inCooldown = (now - lastTrigger) < 200;
+
+        if (cooldownOverlay) {
+            if (inCooldown) {
+                cooldownOverlay.textContent = '⚡ Redstone Pulse Cooldown Active (200ms)';
+                cooldownOverlay.style.display = 'block';
+            } else {
+                cooldownOverlay.textContent = '⚡ Ready for Redstone Pulse';
+                cooldownOverlay.style.display = 'block';
+            }
         }
     }
 
