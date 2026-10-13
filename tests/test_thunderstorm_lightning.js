@@ -121,7 +121,9 @@ describe('Thunderstorm and Lightning Rod Suite', () => {
     let game;
 
     beforeEach(() => {
-        game = new window.Game();
+        if (!global.Game) global.Game = dom.window.Game || window.Game;
+        const GameClass = global.Game || window.Game;
+        game = new GameClass();
         game.world = new window.World();
         game.world.game = game;
         game.world.generateChunk(0, 0);
