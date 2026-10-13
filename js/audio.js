@@ -305,6 +305,18 @@ class SoundManager {
                  osc.start(now);
                  osc.stop(now + 0.5);
                  break;
+
+            case 'wind_deflect':
+                 // High pitch wind charge deflection metallic pop
+                 osc.type = 'sine';
+                 osc.frequency.setValueAtTime(450, now);
+                 osc.frequency.exponentialRampToValueAtTime(900, now + 0.1);
+                 osc.frequency.exponentialRampToValueAtTime(300, now + 0.25);
+                 gain.gain.setValueAtTime(this.volume * 0.7, now);
+                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                 osc.start(now);
+                 osc.stop(now + 0.25);
+                 break;
         }
     }
 }

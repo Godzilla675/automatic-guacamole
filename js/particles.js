@@ -5,6 +5,29 @@ class ParticleSystem {
     }
 
 
+    spawnVaultOrbit(x, y, z, color = '#00FFFF') {
+        const particleCount = 24;
+        const radius = 0.8;
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (i / particleCount) * Math.PI * 2;
+            const px = x + Math.cos(angle) * radius;
+            const py = y + (i / particleCount) * 0.6;
+            const pz = z + Math.sin(angle) * radius;
+            this.particles.push({
+                x: px,
+                y: py,
+                z: pz,
+                vx: -Math.sin(angle) * 1.5,
+                vy: 0.8,
+                vz: Math.cos(angle) * 1.5,
+                life: 1.5,
+                color: color,
+                size: 0.12,
+                orbit: true
+            });
+        }
+    }
+
     spawnFirework(x, y, z) {
         const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF', '#FFA500'];
         const particleCount = 40;
