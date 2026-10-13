@@ -314,3 +314,21 @@ A series of exploratory browser automation tests were performed using Playwright
 
 ### 4. Conclusion & Anomalies
 No new regressions or critical bugs were found during this test run. The core game loop, canvas rendering, and UI event listeners are stable. All newly added agent features are verified working and operating without exceptions.
+
+## Automated Exploratory Gameplay & UI Test Report
+**Date:** October 13, 2026
+
+A series of exploratory browser automation tests were performed using Playwright to verify UI components and game mechanics via a `comprehensive_test.py` script.
+
+### 1. UI Navigation & Window Testing
+- **Inventory**: Successfully opened and closed (`e` key binding).
+- **Crafting**: Screen toggles correctly without exceptions (`c` key binding).
+- **Settings**: Pause screen and settings menu navigation functions as expected (`Escape` key, Settings navigation, and Resume Game buttons).
+- **Fly Mode**: Verified correctly toggling state via keyboard input (`f` key binding).
+
+### 2. General Gameplay Testing
+- **Game Load**: The game loaded correctly at `http://localhost:3000`.
+- **Start Button**: `start-game` interactions successfully proceed into the actual game rendering state.
+
+### 3. Conclusion & Anomalies
+No new regressions or critical bugs were found during this test run. The core game loop, UI screen interaction (inventory, crafting, fly mode, settings menus) all functioned effectively when orchestrated via UI scripts.
