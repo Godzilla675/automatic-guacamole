@@ -225,6 +225,9 @@ class TextureManager {
         this.textures[B.TRIAL_SPAWNER] = this.genTrialSpawner();
         this.textures[B.ITEM_TRIAL_KEY] = this.genTrialKeyItem();
         this.textures[B.TRIAL_VAULT] = this.genTrialVault();
+        this.textures[B.ITEM_EYE_OF_ENDER] = this.genEyeOfEnder();
+        this.textures[B.END_STONE] = this.genEndStone();
+        this.textures[B.WITHER_ROSE] = this.genWitherRose();
 
         // Batch 6 Features
         this.textures[B.CREAKING_HEART] = this.genCreakingHeart();
@@ -1638,6 +1641,43 @@ class TextureManager {
         ctx.fillRect(5, 5, 6, 6);
         ctx.fillStyle = '#1A1A1A';
         ctx.fillRect(7, 7, 2, 3);
+        return c;
+    }
+
+    genEyeOfEnder() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#0F380F';
+        ctx.fillRect(0, 0, 16, 16);
+        ctx.fillStyle = '#1D8042';
+        ctx.beginPath();
+        ctx.arc(8, 8, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#5CFF90';
+        ctx.beginPath();
+        ctx.arc(8, 8, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(7, 4, 2, 8);
+        return c;
+    }
+
+    genEndStone() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 238, g: 232, b: 170 }, 15);
+        return c;
+    }
+
+    genWitherRose() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#1A1A1A';
+        ctx.fillRect(7, 8, 2, 7);
+        ctx.fillStyle = '#2D2D2D';
+        ctx.fillRect(4, 4, 8, 6);
+        ctx.fillStyle = '#121212';
+        ctx.fillRect(6, 2, 4, 4);
         return c;
     }
 

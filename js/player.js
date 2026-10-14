@@ -112,6 +112,76 @@ class Player {
         this.enderChestInventory = new Array(27).fill(null);
     }
 
+    throwEnderPearl() {
+        const now = Date.now();
+        if (now - (this.lastEnderPearlTime || 0) < 1000) return false;
+        this.lastEnderPearlTime = now;
+
+        const held = this.getHeldItem();
+        if (!held || held.type !== window.BLOCK.ITEM_ENDER_PEARL) return false;
+
+        held.count--;
+        if (held.count <= 0) {
+            this.inventory[this.selectedSlot] = null;
+        }
+
+        const pitchCos = Math.cos(this.pitch);
+        const lookX = -Math.sin(this.yaw) * pitchCos;
+        const lookY = Math.sin(this.pitch);
+        const lookZ = Math.cos(this.yaw) * pitchCos;
+
+        const targetX = this.x + lookX * 15;
+        const targetZ = this.z + lookZ * 15;
+        const targetY = this.game && this.game.world ? this.game.world.getHighestBlockY(Math.floor(targetX), Math.floor(targetZ)) + 1 : this.y;
+
+        this.x = targetX;
+        this.y = targetY;
+        this.z = targetZ;
+        this.takeDamage(5);
+
+        // 5% chance to spawn Endermite
+        if (Math.random() < 0.05 && this.game && this.game.mobs && window.Mob) {
+            const endermite = new window.Mob(this.game, this.x, this.y, this.z, window.MOB_TYPE.ENDERMITE);
+            this.game.mobs.push(endermite);
+            if (this.game.ui && this.game.ui.showNotification) {
+                this.game.ui.showNotification("An Endermite spawned from the Ender Pearl!");
+            }
+        }
+
+        if (window.soundManager) window.soundManager.play('place', { x: this.x, y: this.y, z: this.z });
+        if (this.game && this.game.ui && this.game.ui.updateHotbarUI) this.game.ui.updateHotbarUI();
+        return true;
+    }
+
+    throwEyeOfEnder() {
+        const held = this.getHeldItem();
+        if (!held || held.type !== window.BLOCK.ITEM_EYE_OF_ENDER) return false;
+
+        held.count--;
+        if (held.count <= 0) {
+            this.inventory[this.selectedSlot] = null;
+        }
+
+        const targetX = this.x + 100;
+        const targetZ = this.z + 100;
+        const dx = targetX - this.x;
+        const dz = targetZ - this.z;
+        const dist = Math.hypot(dx, dz) || 1;
+        const dir = { x: dx / dist, y: 0.3, z: dz / dist };
+
+        if (this.game && this.game.spawnProjectile) {
+            this.game.spawnProjectile(this.x, this.y + 1.2, this.z, dir, 'eye_of_ender');
+        }
+
+        if (this.game && this.game.ui && this.game.ui.showNotification) {
+            this.game.ui.showNotification("Eye of Ender floated toward structure at (" + Math.floor(targetX) + ", " + Math.floor(targetZ) + ")!");
+        }
+
+        if (window.soundManager) window.soundManager.play('place', { x: this.x, y: this.y, z: this.z });
+        if (this.game && this.game.ui && this.game.ui.updateHotbarUI) this.game.ui.updateHotbarUI();
+        return true;
+    }
+
     fireworkBoost() {
         if (!this.gliding) return false;
         const boost = 16.0;

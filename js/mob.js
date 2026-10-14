@@ -36,7 +36,8 @@ const MOB_TYPE = {
     PIGLIN: 'piglin',
     AXOLOTL: 'axolotl',
     WARDEN: 'warden',
-    SNIFFER: 'sniffer'
+    SNIFFER: 'sniffer',
+    ENDERMITE: 'endermite'
 };
 
 class Mob extends Entity {
@@ -630,6 +631,14 @@ class Mob extends Entity {
                 this.sniffTimer = 0;
                 this.digTimer = 0;
                 break;
+            case MOB_TYPE.ENDERMITE:
+                this.color = '#8A2BE2'; // Dark Violet
+                this.height = 0.3;
+                this.width = 0.4;
+                this.speed = 2.5;
+                this.maxHealth = 8;
+                this.xpValue = 3;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -746,8 +755,8 @@ class Mob extends Entity {
                 break;
             case MOB_TYPE.WITHER_SKELETON:
                 dropType = Math.random() < 0.6 ? BLOCK.ITEM_BONE : BLOCK.ITEM_COAL;
-                if (Math.random() < 0.2 && this.game.drops) {
-                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.SWORD_STONE, 1));
+                if (Math.random() < 0.3 && this.game.drops) {
+                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.WITHER_ROSE, 1));
                 }
                 break;
             case MOB_TYPE.BOGGED:
@@ -987,6 +996,11 @@ class Mob extends Entity {
 
         if (this.type === MOB_TYPE.SNIFFER) {
             this.updateSnifferAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.ENDERMITE) {
+            this.updateHostileAI(dt);
             return;
         }
 

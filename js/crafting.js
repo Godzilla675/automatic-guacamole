@@ -184,6 +184,16 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.MOSS_BLOCK, count: 2 } ]
             },
             {
+                name: "Eye of Ender",
+                result: { type: BLOCK.ITEM_EYE_OF_ENDER, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_ENDER_PEARL, count: 1 }, { type: BLOCK.ITEM_BLAZE_ROD, count: 1 } ]
+            },
+            {
+                name: "Black Dye from Wither Rose",
+                result: { type: BLOCK.WOOL_BLACK, count: 1 },
+                ingredients: [ { type: BLOCK.WITHER_ROSE, count: 1 }, { type: BLOCK.WOOL_WHITE, count: 1 } ]
+            },
+            {
                 name: "Soul Campfire",
                 result: { type: BLOCK.SOUL_CAMPFIRE, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_STICK, count: 3 }, { type: BLOCK.SOUL_SAND, count: 1 }, { type: BLOCK.WOOD, count: 3 } ]
