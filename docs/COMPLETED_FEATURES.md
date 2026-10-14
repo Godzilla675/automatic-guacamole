@@ -147,6 +147,10 @@ Total: 470 items.
 ## Audio
 - [x] **Proper block placement sound based on block type** (Status: Verified and working in js/audio.js)
 - [x] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged.
+- [x] **New Task: Add Weather Sounds**: Weather rain and thunderstorm loop ambient audio in `js/audio.js` and `js/game.js`.
+- [x] **New Task: Add Creaking Mob Audio FX**: Creaking timber wood steps and eerie forest screech sound effects in `js/audio.js` and `js/mob.js`.
+- [x] **New Task: Add Trial Spawner Spinning Mob Preview**: Mini 3D rotating preview mob model inside active Trial Spawner cores in `js/renderer.js`.
+- [x] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with potion effects and Ominous Key rewards in `js/interactions.js`.
 
 ## Redstone & Mechanics
 - [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals.

@@ -18,6 +18,9 @@ Real defects in shipped behaviour. These outrank everything else.
 - [ ] **Animal Drops fixing**
 - [ ] **Bug: Chat System & Commands Execution Timeout**: The "Chat System & Commands" test suite in `test_comprehensive_coverage.js` fails with a 20000ms timeout due to JSDOM network script resolution or command processing stalls, requiring either an extended timeout or mocking of the network calls to prevent full suite execution failure. *(Re-check: with `npm test` every file runs in its own process with a 30s timeout; `test_comprehensive_coverage.js` currently passes in ~6s. Close this if it stays green.)*
 - [ ] **Bug: Playwright Frontend Verification Canvas Wait Timeout**: Some Playwright end-to-end testing scripts fail due to timeouts waiting for the #game-canvas element when testing in a headless environment.
+- [ ] **Bug: Eye of Ender Hardcoded Trajectory Target**: `Player.prototype.useItem` in `js/player.js` hardcodes target coordinates to `this.x + 100, this.z + 100` instead of dynamically locating generated structures like Strongholds or Nether Fortresses.
+- [ ] **Bug: Sculk Shrieker Vibration Listener Missing**: `World.prototype.emitVibration` in `js/world.js` checks Sculk Sensors but does not notify nearby Sculk Shrieker blocks, preventing Sculk Shriekers from triggering in response to nearby vibration events.
+- [ ] **Bug: End Dimension Missing in Dimension Switching**: `Game.prototype.switchDimension` in `js/game.js` only handles `'overworld'` and `'nether'` dimensions, causing dimension switches to `'end'` to fail or lack proper terrain generation.
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
@@ -45,20 +48,15 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] Colored lighting
 - [ ] **Dynamic Lighting** (Light emitting items in hand)
 - [ ] Music system
-- [ ] **New Task: Add Creaking Mob Audio FX**: Creaking timber wood steps and eerie forest screech sound effects when Creaking mobs move. (Status: Partially implemented - creaking entity mechanics work, custom audio FX pending agent implementation)
 - [ ] **Screenshot system**
-- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
-- [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager.
+- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Partially implemented - Sculk Shrieker block exists and triggers Darkness effect on proximity in world.js, but noise vibration accumulation accumulation meter UI is pending agent implementation)
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Snowball Trail Particles**: Throwable snowball projectile trail particle FX.
-- [ ] **New Task: Add Creaking Mob Timber Step & Screech Audio FX**: Sound effect integration for Creaking mob steps, attacks, and Creaking Heart nighttime activation. (Status: Partially implemented - entity mechanics work, custom audio FX pending agent implementation)
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Trial Spawner Spinning Entity Preview**: Rendering spinning entity particles inside active Trial Spawner block faces when players approach. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Trial Spawner Spinning Mob Preview**: Rendering a miniature rotating 3D entity model inside the translucent core of active Trial Spawner blocks. (Status: Proposed feature, pending implementation)
 
 ## 🧱 World Generation & Structures
 
+- [ ] **New Task: Add End Citadel Structure**: Generate End Citadel towers in the End dimension with End Stone bricks, Purpur blocks, and Shulker spawners.
 - [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day.
 - [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning.
 - [ ] **End Dimension** (End island generation, Ender Dragon)
@@ -81,11 +79,11 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Volcano Structures**: Natural volcanic landforms that spout lava and spawn magma cubes.
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading.
 - [ ] **New Task: Add Ominous Trial Vault Key Drop Chance**: Defeating Ominous Spawner wave bosses grants an Ominous Trial Key to unlock high-tier Vault loot. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with splash potion effects and dropping Ominous Keys. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward nearest Stronghold / Nether Fortress coordinates. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward structure coordinates. (Status: Partially implemented - Eye of Ender item and projectile float physics work in player.js with notification, but target coordinates are hardcoded to +100 offset rather than finding nearest structure)
 
 ## 👾 Mobs & Entities
 
+- [ ] **New Task: Add Enderman Mob Block Pick & Teleportation**: Hostile tall mob that picks up blocks and teleports away when looked at by the player or damaged by water.
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
 - [ ] **Wither Boss**
 - [ ] **Ender Dragon Boss**
@@ -120,6 +118,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🧰 Items, Equipment & Crafting
 
+- [ ] **New Task: Add Wind Charge Enchantment Synergy**: Wind Charge projectiles triggering extra knockback or fire damage when launched using enchanted bows or crossbows.
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments.
 - [ ] **Map item**
 - [ ] **Shulker Boxes**
@@ -145,6 +144,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
+- [ ] **New Task: Add Target Block Comparator Signal Output**: Redstone comparators facing Target Blocks emitting analog signal power proportional to recent projectile impact precision.
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
 - [ ] **Command Block**
 - [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
