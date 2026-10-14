@@ -124,6 +124,7 @@ global.Achievements = window.Achievements;
 loadScript('audio.js');
 global.SoundManager = window.SoundManager;
 
+loadScript('interactions.js');
 loadScript('game.js');
 if (!global.Game) { global.Game = dom.window.Game || window.Game; }
 if (!global.BiomeManager) { global.BiomeManager = dom.window.BiomeManager || window.BiomeManager; }

@@ -111,6 +111,7 @@ describe('Batch 13 5 New High Quality Features Test Suite', function() {
             'js/minimap.js',
             'js/achievements.js',
             'js/tutorial.js',
+            'js/interactions.js',
             'js/game.js'
         ];
 

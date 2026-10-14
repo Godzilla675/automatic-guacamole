@@ -84,6 +84,7 @@ describe('5 Major New Features Test Suite', function() {
             'js/textures.js',
             'js/renderer.js',
             'js/particles.js',
+            'js/interactions.js',
             'js/game.js'
         ];
 

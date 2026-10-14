@@ -1,5 +1,12 @@
-# Backup files
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Backup / scratch files
 *.backup
+*.orig
+*.rej
+*.patch
 game-threejs.js
 
 # OS files
@@ -14,13 +21,19 @@ Thumbs.db
 
 # Logs
 *.log
+npm-debug.log*
 
-# Dependencies (if added later)
-node_modules/
-package-lock.json
-
-# Build artifacts (if added later)
+# Build artifacts
 dist/
 build/
 __pycache__/
 *.pyc
+
+# Test / verification artifacts (screenshots, traces, reports produced by scripts - not source)
+verification/*.png
+verification/*.jpg
+verification/*.webm
+scripts/e2e/*.png
+test-results/
+playwright-report/
+*.cpuprofile

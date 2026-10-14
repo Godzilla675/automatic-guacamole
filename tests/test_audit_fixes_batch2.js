@@ -91,6 +91,7 @@ describe('Audit Fixes Batch 2 Test Suite', function() {
         loadScript('js/minimap.js');
         loadScript('js/achievements.js');
         loadScript('js/tutorial.js');
+        loadScript('js/interactions.js');
         loadScript('js/game.js');
         global.Game = window.Game;
 

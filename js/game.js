@@ -244,251 +244,13 @@ class Game {
         const blockType = this.world.getBlock(x, y, z);
         const pos = { x: x + 0.5, y: y + 0.5, z: z + 0.5 };
 
-        // Lodestone Compass Binding
-        if (blockType === BLOCK.LODESTONE) {
-            const held = this.player.getHeldItem();
-            if (held && (held.type === BLOCK.ITEM_COMPASS || held.type === BLOCK.ITEM_RECOVERY_COMPASS)) {
-                held.lodestonePos = { x, y, z };
-                this.player.lodestoneTarget = { x, y, z };
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#00FFFF', 15);
-                if (window.soundManager) window.soundManager.play('place', pos);
-                if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification(`Compass bound to Lodestone at (${x}, ${y}, ${z})!`);
-                }
-                return true;
-            }
-        }
-
-        // Cauldron Bundle Dye Bleaching
-        if (blockType === BLOCK.CAULDRON) {
-            let meta = this.world.getMetadata(x, y, z);
-            if (meta === 0) meta = 3; // Default water level if uninitialized
-            if (meta > 0) {
-                const held = this.player.getHeldItem();
-                if (held && (held.type >= BLOCK.ITEM_BUNDLE_WHITE && held.type <= BLOCK.ITEM_BUNDLE_BLACK)) {
-                    held.type = BLOCK.ITEM_BUNDLE;
-                    meta--;
-                    this.world.setMetadata(x, y, z, meta);
-                    if (this.particles) this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#00FFFF', 12);
-                    if (window.soundManager) window.soundManager.play('place', pos);
-                    this.updateHotbarUI();
-                    if (this.ui && this.ui.showNotification) {
-                        this.ui.showNotification("Washed dyed Bundle in Cauldron! Bleached back to default Bundle.");
-                    }
-                    return true;
-                }
-            }
-        }
-
-        // Furnace / Smoker / Blast Furnace
-        if (blockType === BLOCK.FURNACE || blockType === BLOCK.SMOKER || blockType === BLOCK.BLAST_FURNACE) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = {
-                    type: blockType === BLOCK.SMOKER ? 'smoker' : (blockType === BLOCK.BLAST_FURNACE ? 'blast_furnace' : 'furnace'),
-                    fuel: 0, maxFuel: 0,
-                    progress: 0, maxProgress: (blockType === BLOCK.SMOKER || blockType === BLOCK.BLAST_FURNACE) ? 50 : 100,
-                    input: null, fuelItem: null, output: null,
-                    burnTime: 0
-                };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            this.ui.openFurnace(entity);
+        // 1. Per-block handlers (chests, furnaces, vaults, beds, ...) live in js/interactions.js.
+        //    Register new ones there instead of adding branches to this method.
+        if (window.BlockInteractions && window.BlockInteractions.dispatch(this, x, y, z, blockType, pos)) {
             return true;
         }
 
-        // Composter
-        if (blockType === BLOCK.COMPOSTER) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: 'composter', level: 0 };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            const held = this.player.getHeldItem();
-            if (held && (held.type === BLOCK.ITEM_APPLE || held.type === BLOCK.ITEM_CARROT || held.type === BLOCK.ITEM_POTATO || held.type === BLOCK.ITEM_SWEET_BERRIES || held.type === BLOCK.LEAVES || held.type === BLOCK.OAK_SAPLING)) {
-                held.count--;
-                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                entity.level++;
-                if (this.particles) {
-                    this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#5C8E32', 8);
-                }
-                if (entity.level >= 7) {
-                    entity.level = 0;
-                    this.player.addItem({ type: BLOCK.ITEM_BONE, count: 1 });
-                    if (this.particles) {
-                        this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#7CFC00', 20);
-                    }
-                    if (this.ui && this.ui.showNotification) this.ui.showNotification("Composted! Received Bone / Bone Meal!");
-                } else {
-                    if (this.ui && this.ui.showNotification) this.ui.showNotification(`Composter level: ${entity.level}/7`);
-                }
-            } else if (entity.level > 0) {
-                if (this.ui && this.ui.showNotification) this.ui.showNotification(`Composter level: ${entity.level}/7`);
-            }
-            return true;
-        }
-
-        // Smithing Table
-        if (blockType === BLOCK.SMITHING_TABLE) {
-            if (this.ui && this.ui.openSmithingTable) {
-                this.ui.openSmithingTable();
-            }
-            return true;
-        }
-
-        // Fletching Table
-        if (blockType === BLOCK.FLETCHING_TABLE) {
-            if (this.ui && this.ui.openFletchingTable) {
-                this.ui.openFletchingTable();
-            }
-            return true;
-        }
-
-        // Stonecutter
-        if (blockType === BLOCK.STONECUTTER) {
-            this.ui.openStonecutter();
-            return true;
-        }
-
-        // Crafter
-        if (blockType === BLOCK.CRAFTER) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: 'crafter', items: new Array(9).fill(null), disabledSlots: new Array(9).fill(false) };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            if (this.ui && this.ui.openCrafter) {
-                this.ui.openCrafter(entity);
-            }
-            return true;
-        }
-
-        // Chiseled Bookshelf
-        if (blockType === BLOCK.CHISELED_BOOKSHELF) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = {
-                    type: 'chiseled_bookshelf',
-                    items: new Array(6).fill(null)
-                };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            this.ui.openChiseledBookshelf(entity);
-            return true;
-        }
-
-        // Dropper
-        if (blockType === BLOCK.DROPPER) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = {
-                    type: 'dropper',
-                    items: new Array(9).fill(null)
-                };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            this.ui.openDropper(entity);
-            return true;
-        }
-
-        // Ender Chest
-        if (blockType === BLOCK.ENDER_CHEST) {
-            if (this.ui && this.ui.openEnderChest) {
-                this.ui.openEnderChest();
-            }
-            return true;
-        }
-
-        // Chest
-        if (blockType === BLOCK.CHEST) {
-             let entity = this.world.getBlockEntity(x, y, z);
-             if (!entity) {
-                 entity = {
-                     type: 'chest',
-                     items: new Array(27).fill(null)
-                 };
-                 this.world.setBlockEntity(x, y, z, entity);
-             }
-             this.ui.openChest(entity);
-             return true;
-        }
-
-        // Brewing Stand
-        if (blockType === BLOCK.BREWING_STAND) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = {
-                    type: 'brewing_stand',
-                    ingredient: null,
-                    bottles: [null, null, null],
-                    brewTime: 0
-                };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            this.ui.openBrewing(entity);
-            return true;
-        }
-
-        // Enchanting Table
-        if (blockType === BLOCK.ENCHANTING_TABLE) {
-            this.ui.openEnchanting();
-            return true;
-        }
-
-        // Anvil
-        if (blockType === BLOCK.ANVIL) {
-            this.ui.openAnvil();
-            return true;
-        }
-
-        // Jukebox
-        if (blockType === BLOCK.JUKEBOX) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: 'jukebox', disc: null };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            if (this.ui.openJukebox) {
-                this.ui.openJukebox(entity, { x, y, z });
-            }
-            return true;
-        }
-
-        // Note Block
-        if (blockType === BLOCK.NOTE_BLOCK) {
-            let meta = this.world.getMetadata(x, y, z);
-            meta = (meta + 1) % 25;
-            this.world.setMetadata(x, y, z, meta);
-
-            // Spawn note particle
-            if (this.particles) {
-                this.particles.spawn(pos.x, pos.y + 0.5, pos.z, `hsl(${(meta / 24) * 360}, 100%, 50%)`, 1);
-            }
-
-            if (window.soundManager) {
-                window.soundManager.play('note', { x: pos.x, y: pos.y, z: pos.z, pitch: meta });
-            }
-            return true;
-        }
-
-        // Bed
-        if (blockType === BLOCK.BED) {
-            const time = this.gameTime % this.dayLength;
-            if (time > this.dayLength * 0.5) { // Night
-                // Skip to next morning (e.g. 0.1 of next day)
-                const timeToMorning = this.dayLength - time + (this.dayLength * 0.1);
-                this.gameTime += timeToMorning;
-
-                this.player.spawnPoint = { x: this.player.x, y: this.player.y, z: this.player.z };
-                this.player.health = Math.min(this.player.maxHealth, this.player.health + 10);
-                if (this.chat) this.chat.addMessage("Slept through the night. Spawn point set!");
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Slept through the night!");
-            } else {
-                if (this.chat) this.chat.addMessage("You can only sleep at night.");
-            }
-            return true;
-        }
-
+        // 2. Flag-based interactions: these match on block-definition flags rather than ids.
         // Fence Tethering for Leashed Mobs
         if (window.BLOCKS[blockType] && window.BLOCKS[blockType].isFence) {
             let tetheredAny = false;
@@ -531,225 +293,6 @@ class Game {
             const newMeta = meta ^ 4; // Toggle Bit 2 (Open)
             this.world.setMetadata(x, y, z, newMeta);
             window.soundManager.play('break', pos);
-            return true;
-        }
-
-        // Beehive Interaction
-        if (blockType === BLOCK.BEEHIVE) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: 'beehive', honeyLevel: 5 };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            const held = this.player.getHeldItem();
-            if (held && held.type === BLOCK.ITEM_SHEARS) {
-                this.player.addItem({ type: BLOCK.HONEYCOMB_BLOCK, count: 1 });
-                if (this.particles) this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#FFD700', 12);
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Harvested Honeycomb from Beehive!");
-                return true;
-            } else if (held && held.type === BLOCK.ITEM_GLASS_BOTTLE) {
-                held.count--;
-                if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                this.player.addItem({ type: BLOCK.ITEM_POTION, count: 1 });
-                this.updateHotbarUI();
-                if (this.particles) this.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#FFA500', 12);
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Collected Honey Bottle from Beehive!");
-                return true;
-            } else {
-                if (this.ui && this.ui.showNotification) this.ui.showNotification("Beehive: Use Shears for Honeycomb or Glass Bottle for Honey!");
-                return true;
-            }
-        }
-
-        // Trial Spawner Interaction
-        if (blockType === BLOCK.TRIAL_SPAWNER) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: 'trial_spawner', wave: 0, maxWaves: 3, mobCount: 0, isOminous: false };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-
-            const hasBadOmen = this.player && this.player.activeEffects && this.player.activeEffects.some(e => e.name === 'Bad Omen');
-            if (hasBadOmen && !entity.isOminous) {
-                entity.isOminous = true;
-                entity.wave = 0;
-                entity.maxWaves = 4;
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#9400D3', 30);
-                if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification("Bad Omen upgraded Trial Spawner to Ominous Trial Spawner!");
-                }
-            }
-
-            if (entity.wave < entity.maxWaves && entity.mobCount <= 0) {
-                entity.wave++;
-                entity.mobCount = entity.isOminous ? 3 : 2;
-                const mobTypeToSpawn = entity.isOminous ? (MOB_TYPE.WITHER_SKELETON || MOB_TYPE.BREEZE) : (MOB_TYPE.BREEZE || MOB_TYPE.ZOMBIE);
-                for (let i = 0; i < entity.mobCount; i++) {
-                    const mob = new Mob(this, x + 1 + i, y + 1, z, mobTypeToSpawn);
-                    if (entity.isOminous) {
-                        mob.maxHealth += 10;
-                        mob.health += 10;
-                        mob.speed *= 1.2;
-                    }
-                    this.mobs.push(mob);
-                }
-                const particleColor = entity.isOminous ? '#9400D3' : '#FFA500';
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, particleColor, 15);
-                if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification(`${entity.isOminous ? 'Ominous ' : ''}Trial Spawner Wave ${entity.wave}/${entity.maxWaves} Started!`);
-                }
-            } else if (entity.wave >= entity.maxWaves) {
-                const rewardKey = entity.isOminous ? BLOCK.ITEM_OMINOUS_TRIAL_KEY : BLOCK.ITEM_TRIAL_KEY;
-                this.player.addItem({ type: rewardKey, count: 1 });
-                if (this.ui && this.ui.showNotification) {
-                    const keyName = window.BLOCKS[rewardKey] ? window.BLOCKS[rewardKey].name : 'Trial Key';
-                    this.ui.showNotification(`Trial Spawner Defeated! Earned ${keyName}!`);
-                }
-                const particleColor = entity.isOminous ? '#9400D3' : '#FFD700';
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, particleColor, 25);
-            } else {
-                if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification("Trial Spawner: Defeat active trial mobs!");
-                }
-            }
-            return true;
-        }
-
-        // Trial Vault & Ominous Vault Interaction
-        if (blockType === BLOCK.TRIAL_VAULT || blockType === BLOCK.OMINOUS_VAULT) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: blockType === BLOCK.OMINOUS_VAULT ? 'ominous_vault' : 'trial_vault', openedPlayers: [] };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            if (!entity.openedPlayers) entity.openedPlayers = [];
-
-            const playerId = this.player.name || "Player";
-            if (entity.openedPlayers.includes(playerId)) {
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#808080', 10);
-                if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification("Vault is already unlocked and locked for this player!");
-                }
-                return true;
-            }
-
-            const reqKey = blockType === BLOCK.OMINOUS_VAULT ? BLOCK.ITEM_OMINOUS_TRIAL_KEY : BLOCK.ITEM_TRIAL_KEY;
-            let held = this.player.getHeldItem();
-            let isOffhand = false;
-            if ((!held || held.type !== reqKey) && this.player.offhand && this.player.offhand.type === reqKey) {
-                held = this.player.offhand;
-                isOffhand = true;
-            }
-
-            if (held && held.type === reqKey) {
-                held.count--;
-                if (held.count <= 0) {
-                    if (isOffhand) {
-                        this.player.offhand = null;
-                    } else {
-                        this.player.inventory[this.player.selectedSlot] = null;
-                    }
-                }
-                this.updateHotbarUI();
-                if (this.ui && this.ui.refreshArmorUI) this.ui.refreshArmorUI();
-
-                entity.openedPlayers.push(playerId);
-
-                // Rewards table
-                const rewards = blockType === BLOCK.OMINOUS_VAULT ? [
-                    { type: BLOCK.HEAVY_CORE, count: 1 },
-                    { type: BLOCK.ITEM_MACE, count: 1 },
-                    { type: BLOCK.ITEM_DIAMOND, count: 5 }
-                ] : [
-                    { type: BLOCK.ITEM_DIAMOND, count: 3 },
-                    { type: BLOCK.ITEM_GOLD_INGOT, count: 5 },
-                    { type: BLOCK.ITEM_EMERALD, count: 4 }
-                ];
-                const loot = rewards[Math.floor(Math.random() * rewards.length)];
-                this.player.addItem(loot);
-
-                if (this.particles) {
-                    if (this.particles.spawnVaultOrbit) {
-                        this.particles.spawnVaultOrbit(x + 0.5, y + 1.0, z + 0.5, blockType === BLOCK.OMINOUS_VAULT ? '#9400D3' : '#00FFFF');
-                    } else {
-                        this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, blockType === BLOCK.OMINOUS_VAULT ? '#9400D3' : '#00FFFF', 30);
-                    }
-                }
-                if (this.ui && this.ui.showNotification) {
-                    const def = window.BLOCKS[loot.type];
-                    this.ui.showNotification(`${blockType === BLOCK.OMINOUS_VAULT ? 'Ominous ' : ''}Vault Unlocked! Rewarded ${def ? def.name : 'Loot'} x${loot.count}!`);
-                }
-                if (window.soundManager) window.soundManager.play('place', pos);
-            } else {
-                if (this.ui && this.ui.showNotification) {
-                    const keyDef = window.BLOCKS[reqKey];
-                    this.ui.showNotification(`Vault requires a ${keyDef ? keyDef.name : 'Key'} to unlock!`);
-                }
-            }
-            return true;
-        }
-
-        // Respawn Anchor Interaction
-        if (blockType === BLOCK.RESPAWN_ANCHOR) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: 'respawn_anchor', charges: 0 };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            const held = this.player.getHeldItem();
-            if (held && (held.type === BLOCK.GLOWSTONE || held.type === BLOCK.ITEM_GLOWSTONE_DUST)) {
-                if (entity.charges < 4) {
-                    entity.charges++;
-                    held.count--;
-                    if (held.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
-                    this.updateHotbarUI();
-                    if (this.particles) {
-                        this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#FFD700', 12);
-                    }
-                    if (this.ui && this.ui.showNotification) {
-                        this.ui.showNotification(`Respawn Anchor Charged (${entity.charges}/4)`);
-                    }
-                    if (window.soundManager) window.soundManager.play('place', pos);
-                }
-            } else {
-                if (entity.charges > 0) {
-                    this.player.respawnAnchorPos = { x: x + 0.5, y: y + 1.0, z: z + 0.5, blockX: x, blockY: y, blockZ: z };
-                    if (this.ui && this.ui.showNotification) {
-                        this.ui.showNotification(`Respawn point set at Respawn Anchor! Charges: ${entity.charges}/4`);
-                    }
-                    if (window.soundManager) window.soundManager.play('place', pos);
-                } else {
-                    if (this.ui && this.ui.showNotification) {
-                        this.ui.showNotification("Respawn Anchor is empty! Charge with Glowstone or Glowstone Dust.");
-                    }
-                }
-            }
-            return true;
-        }
-
-        // Creaking Heart Interaction
-        if (blockType === BLOCK.CREAKING_HEART) {
-            let entity = this.world.getBlockEntity(x, y, z);
-            if (!entity) {
-                entity = { type: 'creaking_heart' };
-                this.world.setBlockEntity(x, y, z, entity);
-            }
-            if (this.drops && window.Drop) {
-                this.drops.push(new window.Drop(this, x + 0.5, y + 1.0, z + 0.5, BLOCK.ITEM_RESIN_CLUMP, 2));
-            }
-            if (this.particles) this.particles.spawn(x + 0.5, y + 0.5, z + 0.5, '#FF6600', 15);
-            if (window.soundManager) window.soundManager.play('break', pos);
-            if (this.ui && this.ui.showNotification) {
-                this.ui.showNotification("Creaking Heart struck! Dropped Resin Clumps!");
-            }
-            return true;
-        }
-
-        // TNT
-        if (blockType === BLOCK.TNT) {
-            this.world.setBlock(x, y, z, BLOCK.AIR);
-            this.tntPrimed.push({ x: x+0.5, y: y+0.5, z: z+0.5, fuse: 4.0, vy: 5 }); // 4 seconds fuse, slight jump
-            window.soundManager.play('fuse', pos); // Need to ensure sound exists or fallback
             return true;
         }
 
@@ -2431,7 +1974,8 @@ class Game {
     switchDimension(dimension) {
         if (this.world.dimension === dimension) return;
 
-        this.world.chunks.clear();
+        // Park edited chunks (keyed by dimension) so the player's builds are still there on return.
+        this.world.unloadAllChunks();
         this.world.dimension = dimension;
 
         if (dimension === 'nether') {
@@ -3065,10 +2609,30 @@ class Game {
         }
         this.frameCount++;
 
-        this.update(dt);
-        this.render();
+        // One bad frame must not freeze the game forever: without this, any exception thrown
+        // from update()/render() would skip requestAnimationFrame and the world would stop dead.
+        try {
+            this.update(dt);
+            this.render();
+        } catch (err) {
+            this.reportFrameError(err);
+        }
 
         requestAnimationFrame(() => this.gameLoop());
+    }
+
+    // Log each distinct frame error once (not 60x per second) so bugs stay visible in the console.
+    reportFrameError(err) {
+        if (!this.reportedFrameErrors) this.reportedFrameErrors = new Set();
+        const key = err && err.stack ? err.stack.split('\n').slice(0, 2).join(' | ') : String(err);
+        if (this.reportedFrameErrors.has(key)) return;
+        this.reportedFrameErrors.add(key);
+        console.error('[VoxelWorld] Error during frame (game loop continues):', err);
+        try {
+            if (this.ui && this.ui.showNotification && this.reportedFrameErrors.size <= 3) {
+                this.ui.showNotification('A game error occurred (see console). The game will keep running.');
+            }
+        } catch (e) { /* the UI itself may be what is broken */ }
     }
 }
 

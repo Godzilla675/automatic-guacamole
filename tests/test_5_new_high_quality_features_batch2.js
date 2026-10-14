@@ -87,6 +87,7 @@ describe('5 New Features Batch 2 Test Suite', function() {
             'js/input.js',
             'js/chat.js',
             'js/renderer.js',
+            'js/interactions.js',
             'js/game.js'
         ];
 

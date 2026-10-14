@@ -129,6 +129,7 @@ describe('Audit Fixes & Features Test Suite', function() {
         loadScript('textures.js');
         loadScript('renderer.js');
         loadScript('particles.js');
+        loadScript('interactions.js');
         loadScript('game.js');
 
         // Assign global aliases for JSDOM

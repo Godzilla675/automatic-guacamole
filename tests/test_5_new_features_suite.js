@@ -44,6 +44,7 @@ describe('5 New Major Features Verification Suite', function () {
             'js/textures.js',
             'js/particles.js',
             'js/renderer.js',
+            'js/interactions.js',
             'js/game.js'
         ];
 

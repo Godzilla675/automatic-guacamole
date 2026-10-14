@@ -1,682 +1,181 @@
-# VoxelWeb Future Features & Tasks
-This file tracks the status of major gameplay features, architectural tasks, and known bugs.
+# Future Features & Tasks
 
-## Core Features
-- [x] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table. (Status: Verified and working)
-- [x] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation. (Status: Verified and working)
-- [x] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering. (Status: Verified and working)
-- [x] **New Task: Add Crafter Block**: Automate crafting with redstone. (Status: Verified and working)
-- [x] **New Task: Add Magma Cubes**: Bouncing hostile mobs in the Nether. (Status: Verified and working)
-- [x] **New Task: Add Magma Block**: Block dealing damage when stepped on. (Status: Verified and working)
-- [x] **New Task: Add Copper Ore, Ingot & Block**: Copper ore, ingot item, and copper block definition and crafting. (Status: Verified and working)
-- [x] **New Task: Add Bamboo & Bamboo Item**: Bamboo block and item definitions for crafting. (Status: Verified and working)
-- [x] **New Task: Add Fletching Table UI**: Implement functionality for the Fletching Table. (Status: Verified and working)
-- [x] **New Task: Add Wither Skeletons**: Hostile mobs in Nether Fortresses that inflict Wither effect. (Status: Verified and working)
-- [x] **New Task: Add Vault Hunters Mechanism**: Trial Vault keys with loot drop tables and key usage mechanics. (Status: Verified and working)
-- [x] **New Task: Add Sculk Shrieker & Darkness Effect**: Sculk Shrieker block triggering proximity darkness status effect. (Status: Verified and working)
-- [x] **New Task: Add Breeze Rod Projectile Crafting**: Breeze Rod usage for crafting Wind Charge consumables and Mace components. (Status: Verified and working)
-- [x] **New Task: Add Chiseled Bookshelf Storage UI**: Interactive UI for inserting and removing up to 6 custom books in Chiseled Bookshelves. (Status: Verified and working)
+The backlog for Voxel World. **Only open work lives here** - everything already shipped is archived in
+[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (465 items and counting).
 
-- [x] **New Task: Add Ominous Bottle**: Item that gives Bad Omen effect, triggering Ominous Trials. (Status: Verified and working)
-- [x] **New Task: Add Ominous Vaults**: Found in Trial Chambers, requires an Ominous Trial Key to unlock high-tier rewards. (Status: Verified and working)
-- [x] **New Task: Add Wind Charges**: Used as a throwable projectile with knockback explosion physics. (Status: Verified and working)
-- [x] **New Task: Add Bogged**: A skeleton variant that shoots poison arrows and drops poison arrows on death. (Status: Verified and working)
+How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
-- [x] **New Task: Add Trial Chambers Underground Structure Generation**: Procedural room generation logic in `js/structures.js` featuring Trial Spawners, Trial Vaults, and Chiseled Tuff blocks. (Status: Verified and working)
-- [x] **New Task: Add Trial Spawner**: Spawner block found in Trial Chambers that rewards players. (Status: Verified and working)
-- [x] **New Task: Add Breeze Mob Entity AI**: Hostile mob in Trial Chambers that shoots Wind Charges at players. (Status: Verified and working)
-- [x] **New Task: Add Copper Bulbs**: Dimmable light sources that toggle state on redstone signals. (Status: Verified and working)
-- [x] **New Task: Add Copper Grates**: Oxidation-capable decorative grate blocks. (Status: Verified and working)
-- [x] **New Task: Add Bundles & Tooltip Inventory Preview**: Sack items holding up to 64 mixed items with tooltip grid display. (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Wood Family & Eyeblossoms**: Full wood family (planks, logs, doors, slabs) and nocturnal blooming flowers for Pale Garden biomes. (Status: Verified and working)
-- [x] **New Task: Add Mace & Heavy Core Crafting**: Heavy melee weapon crafted from Breeze Rod and Heavy Core. (Status: Verified and working)
-- [x] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Verified and working)
-- [x] **New Task: Add Mace Smash Attack Damage Multiplier**: Falling from heights increases Mace weapon damage proportionally to fall distance. (Status: Verified and working)
+- Pick from the top sections first: **Bugs** and **Engineering** come before new content.
+- One task per PR. Check it off (`[x]`) and move the line to `docs/COMPLETED_FEATURES.md` in the same PR.
+- Found a bug while working? Add it under **Bugs** with a reproduction (what you did, what happened, which file).
+- Keep entries to one line: `- [ ] **Title**: what it should do. (Notes: where to start / constraints)`.
+- Don't add duplicates - search this file first (several items below were listed 2-4 times before cleanup).
 
-## 1. World Generation
-- [x] **New Task: Add Savanna Biome**: Features acacia trees and dry grass. (Status: Verified and working)
-- [x] **New Task: Add Droppers**: Blocks that drop items when powered by redstone. (Status: Verified and working)
-- [x] **New Task: Add Silverfish**: Small hostile mobs that hide in infested stone blocks. (Status: Verified and working)
-- [x] **New Task: Add Nether Fossils & Soul Soil Biomes**: Bone block structures generated in soul sand valleys. (Status: Verified and working)
-- [x] **New Task: Add Mangrove Swamp Trees & Propagules**: Hanging propagule saplings and submerged mangrove tree generation. (Status: Verified and working)
+## 🐛 Bugs & Defects
+Real defects in shipped behaviour. These outrank everything else.
 
-- [x] Better cave systems (Ravines, large caves) (Status: Verified and working)
-- [x] **New Task: Add Ice Spikes Biome**: Rare biome featuring large spikes of packed ice. (Status: Verified and working)
-- [x] **New Task: Add Dark Oak Forest**: Biome with thick dark oak trees. (Status: Verified and working)
-- [x] **Snowy Taiga**: Biome featuring spruce trees and snow cover. (Status: Verified and working)
-- [x] **New Task: Add Mushroom Fields Biome**: Rare biome where Mooshrooms spawn and giant mushrooms grow. (Status: Verified and working)
-- [x] **New Task: Add Igloos**: Snow structures found in snowy biomes. (Status: Verified and working)
-- [x] **New Task: Add Pillagers**: Hostile illager mob with crossbows. (Status: Verified and working)
-- [x] **Nether Fortresses**: Generation logic in Nether with Nether Bricks and Soul Sand. (Status: Verified and working)
-- [x] **Badlands Biome**: Biome featuring terraced colored terracotta/concrete layers. (Status: Verified and working)
-- [x] **Desert Temple**: Sandstone pyramids in Desert biomes with terracotta patterns, twin towers, and subterranean pressure-plate TNT loot traps. (Status: Verified and working)
-- [x] **New Task: Add Pale Hanging Moss Canopy Generation**: Generate hanging pale moss vines hanging from Pale Oak tree leaves in Pale Garden biomes. (Status: Verified and working)
-- [x] **New Task: Add Amethyst Geode Generation**: Underground hollow basalt/calcite spheres lined with amethyst blocks and budding amethyst crystals. (Status: Verified and working)
-
-### 2. Block System
-- [x] **New Task: Add Vertical Slabs**: Allow slab placement vertically on block faces. (Status: Verified and working)
-- [x] **New Task: Add Chiseled Stone Bricks**: Decorative stone brick variant with carved designs. (Status: Verified and working)
-- [x] **New Task: Add Slime Blocks**: Cancellation of fall damage and bouncing mechanics when landing. (Status: Verified and working)
-- [x] **New Task: Add Glazed Terracotta Blocks**: 16 colored glazed terracotta decorative blocks. (Status: Verified and working)
-- [x] **New Task: Add Campfires**: Light emitting blocks with smoke particle rendering. (Status: Verified and working)
-- [x] **New Task: Add Glow Berries**: Edible glow berry item and block. (Status: Verified and working)
-- [x] **New Task: Add Mud Blocks**: Mud block definition and crafting component. (Status: Verified and working)
-- [x] **New Task: Add Sweet Berries**: Sweet berry bushes and food items. (Status: Verified and working)
-- [x] **New Task: Add Moss Block & Moss Carpet**: Decorative lush green moss blocks and carpets. (Status: Verified and working)
-- [x] **New Task: Add Honeycomb Block**: Honeycomb block definition and crafting. (Status: Verified and working)
-- [x] **New Task: Add Amethyst Block**: Amethyst crystal blocks and recipes. (Status: Verified and working)
-- [x] **New Task: Add Crying Obsidian**: Decorative obsidian variant emitting purple particles. (Status: Verified and working)
-- [x] **New Task: Add Stonecutter, Composter, Smoker, Blast Furnace, Sea Lantern**: Functional and decorative utility blocks. (Status: Verified and working)
-- [x] **Redstone-like logic blocks** (Comparators, Repeaters) (Status: Verified and working)
-- [x] **New Task: Add Concrete Block Colors**: 16 colored concrete blocks definition, textures, and crafting. (Status: Verified and working)
-- [x] **New Task: Add Bookshelves & Books**: Bookshelf blocks and book items definition, crafting, and textures. (Status: Verified and working)
-- [x] **New Task: Add Scaffolding Block**: Craftable bamboo scaffoldings allowing fast vertical climbing and descending through solid scaffold stacks. (Status: Verified and working)
-- [x] **New Task: Add Chiseled Resin Bricks & Resin Brick Slabs**: Further expand the resin brick building family with chiseled decorative variants. (Status: Verified and working)
-
-### 3. Rendering Engine
-- [x] **Bug: Cloud clipping**: Clouds sort altitude and depth correctly. (Status: Verified and working)
-- [ ] Smooth lighting (Status: Missing implementation, agents must fix)
-- [ ] Custom shaders (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Custom Sun/Moon Textures**: Use unique textures for the celestial bodies instead of simple shapes. (Status: Verified and working)
-- [ ] **Better shadows and lighting** (Dynamic shadows) (Status: Missing implementation, agents must fix)
-- [ ] **Clouds and better skybox** (Status: Missing implementation, agents must fix)
-- [x] **Head bobbing animation** (Status: Verified and working)
-- [x] **New Task: Add Armor Stands**: Entities that can hold and display armor. (Status: Verified and working)
-- [x] **New Task: Add Block Breaking Cracking Overlay**: Render 10-stage breaking texture overlays on blocks currently targeted by player mining. (Status: Verified and working)
-
-### 4. Player Mechanics
-- [x] Drowning (Status: Verified and working)
-- [x] **New Task: Add Creaking**: Hostile mob that only moves when not looked at and is vulnerable through its Creaking Heart. (Status: Verified and working)
-- [x] **Elytra** (Gliding mechanics) (Status: Verified and working)
-- [x] **Tridents** (Throwing, returning, Riptide) (Status: Verified and working)
-- [x] **New Task: Add Spectator Flying through Blocks**: Spectator mode allows clip-free flying through solid terrain. (Status: Verified and working)
-- [x] **New Task: Add Spyglass Zoom FOV**: Right clicking with Spyglass zooms in FOV camera view. (Status: Verified and working)
-- [x] **New Task: Add Honey Block Fall Damage Reduction**: Landing on Honey Blocks cancels fall damage. (Status: Verified and working)
-- [x] **New Task: Add Dual Wield Offhand Action Triggering**: Right-clicking while holding usable items in offhand (e.g. Shield blocking or Food eating) executes offhand action when main hand is empty. (Status: Verified and working)
-
-### 5. Entities & Mobs
-- [x] **New Task: Add Wind Charge Consumables**: Throwable wind charges dropped by Breeze mobs dealing knockback explosions and vertical leaps. (Status: Verified and working)
-- [x] **New Task: Add Bogged Skeleton Variant**: Poison arrow shooting skeleton mob spawning in Swamps and Trial Chambers. (Status: Verified and working)
-- [x] **New Task: Add Bogged Shearable Mushrooms**: Right clicking Bogged mobs with shears yields brown or red mushrooms and changes model appearance. (Status: Verified and working)
-- [x] **New Task: Add Breeze Wind Charge Deflection**: Melee hits on flying Wind Charge projectiles redirect their trajectory back at the Breeze. (Status: Verified and working)
-- [x] **New Task: Add Polar Bears**: Neutral mobs in snowy biomes that attack if their cubs are near. (Status: Verified and working)
-- [x] **New Task: Add Creaking Heart**: Block that spawns and controls Creaking mobs. (Status: Verified and working)
-- [x] **New Task: Add Creaking Heart Resin Drop Logic**: Attacking Creaking mob triggers Resin drops around its linked Creaking Heart block. (Status: Verified and working)
-- [x] **New Task: Add Resin**: Item dropped by Creaking Heart. (Status: Verified and working)
-- [ ] Complex AI (Pathfinding, fleeing, attacking) (Status: Missing implementation, agents must fix)
-- [x] **Wandering Traders**: Ambient passive trader spawning with emerald trade options. (Status: Verified and working)
-- [ ] **Wither Boss** (Status: Missing implementation, agents must fix)
-- [x] **Slime Mob**: Green bouncing mob that splits into smaller slimes upon taking fatal damage. (Status: Verified and working)
-- [x] **Magma Cube Mob** (Status: Verified and working)
-- [x] **Snow Golem Mob**: Snow Golem utility mob throwing snowballs at hostiles. (Status: Verified and working)
-- [ ] **Ender Dragon Boss** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Witches**: Hostile mobs that throw harmful splash potions at players. (Status: Verified and working)
-- [x] **New Task: Add Rideable Pigs**: Saddle mounting, player riding, and steering mechanics. (Status: Verified and working)
-- [x] **New Task: Add Allay Entity Mechanics**: Friendly flying mob that collects dropped items matching item in hand. (Status: Verified and working)
-- [x] **New Task: Add Frog Species & Magma Cube Eating**: Green, warm, and cold frog variants eating small magma cubes to drop Froglight blocks. (Status: Verified and working)
-- [x] **New Task: Add Armadillo Scute Brushing**: Interacting with Armadillos in Savanna biomes yields Scutes for crafting. (Status: Verified and working)
-- [x] **New Task: Add Armadillos**: Neutral mobs found in savannas and badlands that drop scutes. (Status: Verified and working)
-- [x] **New Task: Add Warden Sonic Boom Attack**: Powerful ranged sonic burst attack launched by Warden mobs through walls when vibrations are triggered. (Status: Verified and working)
-- [x] **New Task: Add Ominous Pillager Captains & Ominous Banner Drops**: Pillager Captain mobs spawning with banners on their heads that drop Ominous Banners to grant Bad Omen. (Status: Verified and working)
-
-### 6. Items & Crafting
-- [x] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items. (Status: Verified and working)
-- [x] **New Task: Add Wolf Armor & Armadillo Scute Crafting**: Craft armor for tamed wolves using Armadillo Scutes and equip onto tamed wolves. (Status: Verified and working)
-- [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Smithing Table UI**: Implement the UI and logic for upgrading gear to Netherite. (Status: Verified and working)
-- [x] **New Task: Add Piglins and Bartering**: Neutral mobs in the Nether that trade items for gold. (Status: Verified and working)
-- [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava. (Status: Missing implementation, agents must fix)
-- [ ] **Map item** (Status: Missing implementation, agents must fix)
-- [ ] **Shulker Boxes** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Soul Campfire**: Campfire variant crafted with soul sand that emits blue light and fire. (Status: Verified and working)
-- [x] **New Task: Add Firework Rockets**: Fireworks launching and explosion particle FX. (Status: Verified and working)
-- [x] **New Task: Add Snowball Items & Throwing Mechanics**: Snowballs throwable as projectiles causing knockback and damage to entities. (Status: Verified and working)
-- [x] **New Task: Add Nether Wart Item**: Nether wart item definition, texture, and farming component. (Status: Verified and working)
-- [ ] **Beacons** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Crossbows**: Implement ranged weapon with high durability, crafting recipe, and Pillager mob drops. (Status: Verified and working)
-- [x] **New Task: Add Lead Crafting & Mob Leashing**: Craft leads with string and slimeballs to tether passive mobs to fences. (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Boat & Chest Boat Crafting**: Craftable Pale Oak watercraft with container inventory support. (Status: Verified and working)
-
-### 7. Lighting System
-- [ ] Colored lighting (Status: Missing implementation, agents must fix)
-- [ ] **Dynamic Lighting** (Light emitting items in hand) (Status: Missing implementation, agents must fix)
-
-### 8. Physics
-- [x] **New Task: Add Soft Falling Blocks**: Powder snow block physics and entity freezing/sinking mechanics. (Status: Verified and working)
-- [x] **New Task: Add Item Despawn Timers & Out-of-Block Pushing**: Item drops despawn gracefully after timer and push out of solid blocks when stuck. (Status: Verified and working)
-- [x] **New Task: Add Wind Charge Radial Knockback**: Radial knockback physics for Wind Charge impact within a 3-block radius. (Status: Verified and working)
-
-### 9. World Management
-- [ ] **LOD (Level of Detail) system** (Status: Missing implementation, agents must fix)
-- [ ] **Worker threads for world generation** (Status: Missing implementation, agents must fix)
-- [ ] **Better memory management** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add AutoSaveTimer Initialization**: Game constructor autoSaveTimer initialized to 0 for periodic auto-saves. (Status: Verified and working)
-- [ ] **Chunk Serialization Optimization** (Status: Missing implementation, agents must fix)
-- [ ] **Refactoring World/Chunk Separation** (Status: Missing implementation, agents must fix)
-
-### 10. User Interface
-- [ ] **Share world links** (Status: Missing implementation, agents must fix)
-- [ ] **Leaderboards** (Status: Missing implementation, agents must fix)
-- [ ] **World showcase gallery** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box. (Status: Verified and working)
-- [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut. (Status: Verified and working)
-- [x] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates. (Status: Verified and working)
-- [x] **New Task: Add Recipe Book Search Filtering**: Instant search bar in crafting menu to filter recipes by name. (Status: Verified and working)
-- [x] **New Task: Add Bundle Item Tooltip Preview**: Hovering over Bundle in inventory displays 2D grid preview of stored items. (Status: Verified and working)
-- [x] **New Task: Add Crafter Slot Toggling UI**: Interactive 3x3 GUI grid to enable/disable specific crafting slots on Crafter blocks for shaped automated crafting. (Status: Verified and working)
-- [x] **New Task: Add Bundle Interactive Draw & Insertion UI**: Right-clicking Bundle in inventory UI to draw items out or insert items in FIFO sequence. (Status: Verified and working)
-
-### 11. Audio
-- [ ] Music system (Status: Missing implementation, agents must fix)
-- [x] **Proper block placement sound based on block type** (Status: Verified and working in js/audio.js)
-- [x] **New Task: Add Underwater Fog & Ambient Audio**: Blue depth fog rendering and underwater bubble sound effects while submerged. (Status: Verified and working)
-- [ ] **New Task: Add Creaking Mob Audio FX**: Creaking timber wood steps and eerie forest screech sound effects when Creaking mobs move. (Status: Partially implemented - creaking entity mechanics work, custom audio FX pending agent implementation)
-
-### 12. Redstone & Mechanics
-- [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals. (Status: Verified and working)
-- [x] **New Task: Add Moss Carpet**: Decorative plant covering crafted from Moss Blocks. (Status: Verified and working)
-- [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Honeycomb Block Crafting**: Crafting recipe for turning honeycombs into honeycomb blocks. (Status: Verified and working)
-- [x] **Redstone Repeaters & Comparators** (Status: Verified and working)
-- [x] **New Task: Add Hoppers**: Blocks that transfer items between containers. (Status: Verified and working)
-- [x] **New Task: Add Observer Blocks**: Redstone component that detects block updates. (Status: Verified and working)
-- [ ] **Command Block** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Fishing Catch Logic & Loot Tables**: Rod and bobber exist, with fish catch timers and loot table roll execution fully implemented. (Status: Verified and working)
-- [x] **New Task: Add Crafter Auto-Crafting Redstone Signal**: Crafter block triggering full 3x3 recipe evaluation and output ejecting on redstone rising edge. (Status: Verified and working)
-- [x] **New Task: Add Hopper Item Transport Logic**: Hoppers pulling items from chest containers above and pushing into facing containers. (Status: Verified and working)
-- [x] **New Task: Add Observer Block State Update Pulse**: Observer block emitting 1-tick redstone pulse when facing block state changes. (Status: Verified and working)
-
-### 13. Networking (Multiplayer)
-- [ ] Entity synchronization (Status: Missing implementation, agents must fix)
-- [ ] Inventory synchronization (Status: Missing implementation, agents must fix)
-- [ ] **Friends system** (Status: Missing implementation, agents must fix)
-
-### 14. Modding & API
-- [ ] Custom block registration (Status: Missing implementation, agents must fix)
-- [ ] Custom item registration (Status: Missing implementation, agents must fix)
-- [ ] Event hooks (Status: Missing implementation, agents must fix)
-- [ ] Custom commands (Status: Missing implementation, agents must fix)
-- [ ] **Resource pack support** (Status: Missing implementation, agents must fix)
-- [ ] **Support for custom models** (Status: Missing implementation, agents must fix)
-
-### 15. Miscellaneous
-- [x] **New Task: Add Pale Oak Wood Family**: Pale Oak logs, planks, leaves, and saplings fully implemented. (Status: Verified and working)
-- [x] **New Task: Add Pale Hanging Moss & Pale Garden Biome Generation**: Hanging foliage blocks on Pale Oak trees and world generator support for Pale Garden biomes. (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Bark Block & Stripped Pale Log**: Full tree family wood variants for Pale Oak biomes. (Status: Verified and working)
-- [x] **New Task: Add Resin Bricks & Resin Clumps**: Orange decorative building blocks crafted from Resin Clumps. (Status: Verified and working)
-- [x] **New Task: Add Creaking Heart & Creaking Mob**: Nighttime hostile mob that is invulnerable to direct attacks and controlled by a Creaking Heart block. (Status: Verified and working)
-- [x] **New Task: Add Eyeblossoms**: Flowers found in Pale Garden biomes that bloom at night. (Status: Verified and working)
-- [x] **New Task: Add Eyeblossoms Nocturnal Blooming**: Eyeblossoms open and emit orange particles during night time, closing during day. (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Wood Set**: Full wood family (planks, stairs, slabs, fences, doors) harvested from Pale Oak trees. (Status: Verified and working)
-- [x] **New Task: Add Trial Keys**: Keys dropped by Trial Spawners to unlock Vaults. (Status: Verified and working)
-- [x] **New Task: Add Coral Reefs & Coral Blocks**: Coral reef blocks (Brain, Tube, Horn, Fire, Bubble) and ocean structure generation. (Status: Verified and working)
-- [x] **New Task: Add Seagrass**: Underwater vegetation. (Status: Verified and working)
-- [x] **New Task: Add Kelp**: Tall underwater plant that can be smelted into dried kelp. (Status: Verified and working)
-
-- [x] **New Task: Add Redstone Rails**: Powered rails and detector rails. (Status: Verified and working)
-- [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Dolphins**: Neutral aquatic mobs that guide players to treasure. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Entity Despawn Timers**: Clear uncollected mob drops and temporary entities. (Status: Verified and working)
-- [x] **New Task: Add Fireworks Trail Particles**: Particle effects attached to flying fireworks before explosion. (Status: Verified and working)
-- [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Leads**: Items to tie passive mobs to fences. (Status: Verified and working)
-- [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Firework Crafting Recipes**: Combine gunpowder and paper to craft fireworks. (Status: Verified and working)
-- [x] **New Task: Add Dual Wielding**: Allow players to hold items in main hand and offhand. (Status: Verified and working)
-- [x] **New Task: Add Spyglass Crafting Recipe**: Combine copper ingots and amethyst shard to craft spyglass. (Status: Verified and working)
-- [x] **New Task: Add Magma Blocks**: Blocks that deal damage when stepped on. (Status: Verified and working)
-- [x] **New Task: Add Redstone Dust Logic**: Redstone wire signal propagation and multi-directional visual connections are fully implemented. (Status: Verified and working)
-- [x] **New Task: Add Amethyst Geodes Structure Generation**: Generate underground amethyst geodes with budding amethyst blocks. (Status: Verified and working)
-- [x] **New Task: Add Glowstone Crafting & Dust Drop**: Glowstone blocks craftable from 4 glowstone dust and drop dust when broken. (Status: Verified and working)
-- [x] **New Task: Add Vault Block**: Standard vault structure rewards block found in Trial Chambers. (Status: Verified and working in js/blocks.js and js/world.js)
-- [x] **New Task: Add Breeze Rod**: Item dropped by the Breeze mob, used to craft Wind Charges and the Mace. (Status: Verified and working)
-- [x] **Implement Thunderstorms and Lightning**: Thunderstorm weather cycles and Lightning Rod strike attraction. (Status: Verified and working)
-- [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning. (Status: Missing implementation, agents must fix)
-- [ ] Statistics (Status: Missing implementation, agents must fix)
-- [ ] **End Dimension** (End island generation, Ender Dragon) (Status: Missing implementation, agents must fix)
-- [ ] **Deprecated Items cleanup** (Status: Missing implementation, agents must fix)
-- [ ] **Animal Drops fixing** (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Spectator Night Vision**: Grant automatic night vision effect to players in spectator mode. (Status: Verified and working)
-- [ ] **New Task: Add Ravagers**: Large hostile beasts ridden by Illagers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Amethyst Geodes**: Rare underground structures with amethyst crystals. (Status: Verified and working)
-- [x] **New Task: Add Calcite and Tuff**: Decorative stones found in geodes and deep underground. (Status: Verified and working)
-- [x] **New Task: Add Deepslate**: Darker, tougher stone variant generated at lower Y levels. (Status: Verified and working)
-
-- [ ] **New Task: Add Drowned**: Zombie variant that spawns underwater. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Tridents**: Weapons that can be thrown and return to the player. (Status: Verified and working)
-- [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Vehicle Item Drops on Destruction**: Boats and minecarts drop their item counterparts when destroyed by damage. (Status: Verified and working)
-
-### 16. Test Suite and CI
-- [ ] **Screenshot system** (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Goats**: New mob that rams players and entities. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether. (Status: Missing implementation, agents must fix)
-
-### 17. Newly Proposed Features & Enhancements
-- [x] **New Task: Add Powder Snow & Freezing Mechanics**: Soft falling powder snow blocks that entities sink through and incur freezing damage over time. (Status: Verified and working)
-- [x] **New Task: Add Piglins & Gold Bartering**: Hostile Nether mobs that become neutral when player wears gold armor and barter items for Gold Ingots. (Status: Verified and working)
-- [x] **New Task: Add Slime Mobs & Splitting Mechanics**: Bouncing green mob entity that splits into smaller slimes upon death and drops Slimeballs. (Status: Verified and working)
-- [x] **New Task: Add Stripped Log & Bark Wood Variants**: Axis-oriented axe stripping mechanics on logs to produce stripped log variants and 6-sided wood bark blocks. (Status: Verified and working)
-- [x] **New Task: Add Oak & Pale Oak Boats & Chest Boats**: Rideable watercraft entity variants with container inventory support for transport. (Status: Verified and working)
-- [x] **New Task: Add Tuff Building Block Family**: Tuff Bricks, Polished Tuff, Chiseled Tuff, Tuff Slabs, and Tuff Stairs for decorating Trial Chambers and subterranean structures. (Status: Verified and working)
-- [x] **New Task: Add Target Block Precision Redstone Signals**: Target block emitting redstone signal strength proportional to projectile distance from center face impact. (Status: Verified and working)
-- [x] **New Task: Add Resin Storage Block & Resin Brick Stairs**: Craft 9 Resin Clumps into solid Resin Blocks and expand Resin Bricks into Stairs and Walls. (Status: Verified and working)
-- [x] **New Task: Add Crafter Block UI Item Disabling Visual Grid**: Highlight disabled crafting slots with red tint overlay in the 3x3 GUI. (Status: Verified and working)
-- [x] **New Task: Add Suspicious Sand Loot Tables for Archaeology**: Unearth unique items like Pottery Sherds and Sniffer Eggs when brushing Suspicious Sand with Brush tool. (Status: Verified and working)
-- [x] **New Task: Add Creaking Mob Heart Death Particle Effects**: Emit vibrant wood ember particle trails connecting Creaking mobs to their active Creaking Heart block when taking damage. (Status: Verified and working)
-- [x] **New Task: Add Copper Bulb Oxidation Light Attenuation Mechanics**: Dimmable light emission levels corresponding to 4 oxidation stages (Copper, Exposed, Weathered, Oxidized). (Status: Verified and working)
-- [x] **New Task: Add Bundle Item Insertion & Extraction UI Controls**: Interactive right-click or drag-and-drop mechanics in Bundle UI to insert and draw items out of Bundles in sequence. (Status: Verified and working)
-- [x] **New Task: Add Creaking Heart Nighttime Activation & Pale Oak Sapling Growth**: Creaking Heart blocks activating only at night with glowing pale orange particles, and Pale Oak Saplings growing into full trees upon bone-meal interaction. (Status: Verified and working)
-- [x] **New Task: Add Sculk Catalyst Mob Death Charge Propagation**: Sculk Catalyst spreading Sculk Veins and Sculk blocks to adjacent solid terrain when entities perish within an 8-block radius. (Status: Verified and working)
-- [x] **New Task: Add Vault & Ominous Vault Cooldown & Player Locking Mechanics**: Vaults remaining open per player and tracking player UUIDs to grant rewards once per player and prevent key farming. (Status: Verified and working)
-- [x] **New Task: Add Breeze Wind Charge Radial Entity Damage**: Wind Charges exploding on collision to deal 2D/3D radial knockback and minor blast damage to surrounding entities. (Status: Verified and working)
-- [x] **New Task: Add Axolotl Combat & Bucket Capture Mechanics**: Friendly underwater aquatic mob entity attacking hostile submerged mobs and captureable using Water Buckets. (Status: Verified and working)
-- [x] **New Task: Add Lead Crafting & Fence Tethering Physics**: Craftable lead items to tether passive animals and tie them securely to fence posts. (Status: Verified and working)
-- [x] **New Task: Add Bundle Dye Bleaching**: Washing dyed Bundles in Water Cauldrons to return them to default undyed Bundle form. (Status: Verified and working in js/game.js and tests/test_5_new_high_quality_features_batch16.js)
-- [x] **New Task: Add Crafter Redstone Signal Comparator Output**: Comparators reading Crafter blocks emitting signal strength corresponding to occupied slots (0-9). (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Hanging Signs**: Craftable hanging wooden signs using Pale Oak wood planks and chains. (Status: Verified and working)
-- [x] **New Task: Add Copper Grate Waterlogged Flow Physics**: Copper Grates allowing water blocks to pass through while blocking entity movement. (Status: Verified and working)
-- [x] **New Task: Add Ominous Banner Drops**: Illager Captains dropping Ominous Banners upon defeat to trigger Bad Omen effect. (Status: Verified and working in js/mob.js)
-- [x] **New Task: Add Sculk Shrieker Darkness Potion Effect HUD Icon**: Displaying Darkness status effect icon on HUD when Sculk Shrieker is activated. (Status: Verified and working)
-- [x] **New Task: Add Resin Brick Wall Dynamic Post Connections**: Resin Brick Walls connecting visually to adjacent solid blocks and other wall segments. (Status: Verified and working in js/renderer.js)
-- [x] **New Task: Add Armadillo Scute Wolf Armor Color Dyeing**: Dyeing equipped Wolf Armor on tamed wolves using 16 dye colors in crafting grid. (Status: Verified and working)
-- [x] **New Task: Add Heavy Core Mace Falling Fall Distance Particles**: Emitting impact shockwave particle FX when striking mobs with Mace after falling from height. (Status: Verified and working)
-- [x] **New Task: Add Auto-Jump Settings Toggle**: Toggleable setting in options menu allowing players to automatically jump over 1-block obstacles when stepping forward. (Status: Verified and working)
-- [x] **New Task: Add Chiseled Copper Blocks & Oxidation**: Chiseled copper block definitions with 4 oxidation stages (Copper, Exposed, Weathered, Oxidized) and axe scraping de-oxidation. (Status: Verified and working)
-- [x] **New Task: Add Bundle Hotbar Scroll Wheel Slot Selection**: Scrolling mouse wheel over Bundle in hotbar selection to cycle active stored slot. (Status: Verified and working in js/input.js)
-- [x] **New Task: Add Vault Unlocking Item Orbit Particle FX**: Displaying rotating 3D item render orbit particle effects above Vault blocks upon Trial Key unlock. (Status: Verified and working in js/particles.js and js/game.js)
-- [x] **New Task: Add Breeze Wind Charge Deflection Audio Feedback**: Sound effect feedback when players melee-reflect incoming Breeze Wind Charge projectiles in mid-air. (Status: Verified and working in js/audio.js and js/game.js)
-- [x] **New Task: Add Wind Burst Weapon Enchantment**: Heavy blow enchantment for the Mace that launches players upward into the air on successful smash attacks. (Status: Verified and working in js/game.js)
-- [x] **New Task: Add Crafter Redstone Pulse Delay Filter**: Comparator filtering mechanism for Crafter blocks to prevent redstone clock signal congestion during automated crafting loops. (Status: Verified and working in js/world.js)
-- [x] **New Task: Add Copper Door Oxidation De-Oxidation Axis**: Axe scraping de-oxidation mechanics for Copper Doors and Copper Grates across all 4 oxidation stages. (Status: Verified and working in js/game.js and tests/test_copper_deoxidation_axis.js)
-- [x] **New Task: Add Bundle Container Multi-Item Drop**: Drop stored items sequentially or en masse when a Bundle item is destroyed or thrown on the ground. (Status: Verified and working)
-- [x] **New Task: Add Creaking Heart Silk Touch Harvesting**: Dropping active Creaking Heart blocks intact when mined with Silk Touch enchanted tools rather than dropping Resin Clumps. (Status: Verified and working in js/game.js)
-- [x] **New Task: Add Pale Oak Hanging Signs Crafting**: Crafting recipes and wall/ceiling placement rendering for Pale Oak Hanging Signs using chains and pale oak planks. (Status: Verified and working)
-- [ ] **New Task: Add Trial Chamber Secret Vault Passages**: Hidden redstone trapdoors in Trial Chamber corridors leading to bonus Vault reward rooms. (Status: Proposed feature, pending implementation)
-- [x] **New Task: Add Copper Chiseling Mechanics**: Right-clicking Copper blocks with Shears or Chisel tools to carve Chiseled Copper blocks. (Status: Verified and working in js/game.js)
-- [ ] **New Task: Add Trial Chamber Map Loot Tables**: Cartographer Villagers trading maps leading directly to Trial Chamber structures. (Status: Proposed feature, pending implementation)
-- [x] **New Task: Add Pale Oak Boat with Chest Inventory UI**: Pale Oak Boat with Chest container GUI allowing full 27-slot item storage on water. (Status: Verified and working)
-- [x] **New Task: Add Crafter Redstone Pulse Cooldown Indicator**: Visual status indicator in Crafter UI showing redstone pulse trigger cooldown state. (Status: Verified and working)
-- [x] **New Task: Add Wind Charge Blast Particle Trail**: Emitting spiral wind blast particles trailing behind throwable Wind Charge projectiles. (Status: Verified and working)
-- [x] **New Task: Add Heavy Core Mace Falling Shockwave Radius**: Falling from high altitudes creates a 3D ground shockwave particle ring when smashing terrain with Mace. (Status: Verified and working)
-- [ ] **New Task: Add Pale Garden Eyeblossom Suspicious Stew Nausea Effect**: Crafting Eyeblossom stew granting short-duration Nausea status effect alongside Poison. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Creaking Heart Resin Yield Multiplier**: Mined Creaking Hearts near active Pale Garden canopy trees yield boosted Resin Clumps and Resin Bricks. (Status: Proposed feature, pending implementation)
-
-## Known Bugs & Issues (To Be Fixed)
-- [x] **Bug: Canvas Pattern Creation in Headless Contexts**: `createPattern` throwing errors in headless test environments lacking full HTMLCanvasElement rendering backends. (Status: Verified and working - canvas pattern fallback in TextureManager and test hooks)
-- [x] **Bug: Flaky Chunk Loading Test under high concurrency**: Chunk loading boundary test under concurrent test runner load occasionally failing due to chunk generation timing. (Status: Verified and working - sequential execution via test scripts)
-- [x] **Bug: JSDOM Mocha test global.Game reference loss**: `global.Game` becoming undefined during JSDOM Mocha `beforeEach` hooks in headless test suites requiring fallback assignment (`if (!global.Game) global.Game = dom.window.Game || window.Game`). (Status: Verified and working - handled in test hooks)
-- [x] **Bug: Missing JSDOM Node Module**: Running Mocha test scripts before `npm install` fails with `Cannot find module 'jsdom'`. (Status: Verified and working - running `npm install` resolves module dependency)
-- [x] **Bug: JSDOM Concurrent Test Execution Recursion**: Executing all Mocha test files in a single node command causes a JSDOM `PerformanceImpl.now` stack overflow recursion; running test files individually or in smaller batches resolves this environment limit. (Status: Verified and working - documented and handled in test scripts)
-- [x] **Bug: PluginAPI JSDOM test failure**: `window.PluginAPI` is not a constructor in JSDOM environments, causing test failures in `verification/verify_all_new_features.js`. (Status: Verified and working - `window.PluginAPI` properly exported and mapped across test contexts)
-- [x] **Bug: verify_bug_fixes.js execution error**: `verify_bug_fixes.js` fails with `describe is not defined` because it is run with `node` instead of `mocha` in `test_runner.py`. (Status: Verified and working - `test_runner.py` detects Mocha tests and runs via `npx mocha`)
-- [x] **Bug: Fishing Rod missing in test**: `test_specific_features2.js` incorrectly references `window.BLOCK.ITEM_FISHING_ROD` instead of `window.BLOCK.FISHING_ROD`. (Status: Verified and working - corrected reference in test script)
-- [x] **Bug: Cloud rendering depth**: Clouds sort altitude and depth correctly. (Status: Verified and working)
-- [x] **New Task: Add Glazed Terracotta Crafting**: Smelting dyed terracotta into glazed terracotta. (Status: Verified and working)
-- [x] **Bug: Line-of-sight visual debug**: Aggro line-of-sight raycasts visual debug toggle and ray overlay added. (Status: Verified and working)
-
-- [x] **New Task: Add Respawn Anchor Logic**: Add charging and spawning mechanics for Crying Obsidian Respawn Anchors. (Status: Verified and working)
-- [x] **New Task: Add Suspicious Stew**: Grants random potion effects. (Status: Verified and working)
-- [x] **New Task: Add Honey Block Piston Pushing Logic**: Sticky honey blocks dragging adjacent blocks during piston movement. (Status: Verified and working)
-
-- [x] **Bug: JSDOM Game constructor**: In JSDOM Mocha tests, if global.Game becomes undefined within a beforeEach hook, it must be re-assigned using `if (!global.Game) { global.Game = dom.window.Game || window.Game; }` to prevent 'is not a constructor' errors. (Status: Verified and working)
-- [x] **Bug: JSDOM loadScript mapping**: In JSDOM test scripts, classes loaded via loadScript must be mapped to global and window via the JSDOM window object. (Status: Verified and working)
-- [x] **Bug: Inventory Emoji Rendering on Legacy Browsers**: Fallback rendering for block icons with '📦' fallback emoji across UI elements. (Status: Verified and working)
-- [x] **Bug: JSDOM LocalStorage**: Testing via JSDOM or bare environments without storage APIs runs cleanly with try-catch and existence guards on localStorage and sessionStorage. (Status: Verified and working)
-
-- [x] **Bug: Slab and Door collision test flakiness**: Slab and door collision tests randomly fail during automated testing due to Perlin noise terrain generation overlapping the test coordinates. (Status: Verified and working)
-- [x] **Bug: Flaky Chunk Loading Test**: The chunk loading boundary test occasionally fails under heavy load. (Status: Verified and working)
-- [x] **Bug: Mocked Window Resizing Fails**: JSDOM resize event tests do not accurately trigger game engine recalculations. (Status: Verified and working)
-- [x] **Bug: Spawning in Solid Blocks**: Players occasionally spawn suffocating inside solid blocks like stone. (Status: Verified and working - checks 2-block height air space on spawn/respawn)
-- [x] **New Task: Add Grindstones**: Block used to repair items and remove enchantments. (Status: Verified and working)
-- [ ] **New Task: Add Ocean Monument Structures**: Ocean monuments generating in deep ocean biomes containing Sea Lanterns and Elder Guardians. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Carrots on a Stick**: Item used to control saddled pigs. (Status: Verified and working)
-- [x] **New Task: Add Flower Pots**: Decorative blocks to hold saplings and flowers. (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Forest Biome Generation**: World generation support for Pale Oak Forest biomes in `js/biome.js` with Pale Oak tree foliage and Eyeblossom flower placement. (Status: Verified and working)
-- [x] **Bug: Canvas Pattern Creation Fails in Headless**: createPattern throws an error in certain headless test environments. (Status: Verified and working - canvas pattern fallback in TextureManager)
-- [x] **Implement Droppers and Dispensers**: Dispenser and Dropper block definitions, crafting, redstone ejection, and container interaction. (Status: Verified and working)
-- [x] **Implement Hoppers**: Add transfer logic to move items between inventories/containers. (Status: Verified and working)
-- [x] **Implement Item Frames**: Add wall placement logic and rendering for items inside frames. (Status: Verified and working)
-- [x] **Implement Fire Spread**: Fire block definition, TNT ignition, and rate-limited flammable block fire spread logic. (Status: Verified and working)
-- [x] **Implement Sleeping Through the Night**: Bed sleeping interaction, sleep timer, and daytime skipping mechanics. (Status: Verified and working)
-- [x] **New Task: Implement Flint and Steel**: Flint and Steel item crafting, block ignition, and TNT lighting mechanics. (Status: Verified and working)
-- [x] **New Task: Add Bamboo**: Fast growing plant that can be crafted into scaffolding. (Status: Verified and working)
-- [x] **New Task: Add Glass Pane and Fence Crafting Recipes**: Crafting recipes for glass panes and wooden fences. (Status: Verified and working)
-- [ ] **New Task: Add Ominous Trials**: Harder version of Trial Chambers. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Implement Redstone Clocks**: Provide a mechanism to create looping redstone signals. (Status: Verified and working)
-- [x] **New Task: Add Enchanting Table UI & Logic**: Enchanting GUI screen, lapis lazuli input, bookshelf power detection, and item enchanting logic. (Status: Verified and working)
-- [x] **New Task: Add Lava Flow**: Lava should flow slowly and set nearby blocks on fire. (Status: Verified and working)
-- [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Status: Missing noise transitions in biome.js, agents must fix)
-- [ ] **New Task: Add Potion Brewing Recipes**: Add recipes for brewing potions in the Brewing Stand. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Implement Llamas**: Add Llamas mob with caravan mechanic. (Status: Verified and working)
-- [x] **New Task: Add Grindstone**: Add grindstone block to remove enchantments and repair items. (Status: Verified and working)
-- [x] **New Task: Add Item Frame**: An entity to hold and display items. (Status: Verified and working)
-- [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Implement Polar Bears**: Add Polar Bears in snowy biomes with neutral aggro and baby protection behavior. (Status: Verified and working)
-- [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Shield Durability & Blocking FX**: Shield stance blocking, incoming damage reduction, particle feedback, and durability loss. (Status: Verified and working)
-- [ ] **New Task: Implement Dolphins**: Add dolphins in ocean biomes that grant Dolphin's Grace. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Implement Redstone Comparators**: Add comparator logic to read block states. (Status: Verified and working)
-- [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Implement Parrots**: Add Parrots that can imitate sounds and ride on player shoulders. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Mob rendering depth sorting**: Mobs sort by 3D distance prior to rendering. (Status: Verified and working)
-- [x] **New Task: Add Beehives**: Natural blocks where bees live and produce honey. (Status: Verified and working)
-- [x] **New Task: Add Bees**: Neutral flying mob that pollinates crops and produces honey. (Status: Verified and working)
-- [x] **New Task: Implement Tool Durability**: Tool durability consumption on mining blocks and entity attacks. (Status: Verified and working)
-- [x] **New Task: Add Heavy Core**: Block used to craft the Mace. (Status: Verified and working)
-- [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld. (Status: Missing implementation, agents must fix)
-- [x] **Bug: ImageData Mock Incomplete**: JSDOM canvas mock putImageData implementation added for lighting tests. (Status: Verified and working)
-- [x] **New Task: Add Warden**: A blind, powerful mob that spawns in the Deep Dark biome and hunts by sound. (Status: Verified and working)
-- [x] **New Task: Add Axolotls**: Passive aquatic mobs that fight hostile aquatic mobs and provide regeneration. (Status: Verified and working)
-- [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add End Stone**: Block that makes up End islands. (Status: Verified and working)
-- [x] **New Task: Add Sniffers**: Ancient mobs that dig up rare seeds. (Status: Verified and working)
-- [x] **New Task: Add Archaeology System**: Use a brush on suspicious sand/gravel to find items. (Status: Verified and working)
-- [x] **Bug: UI Scaling broken on ultra-wide screens**: The hotbar doesn't center properly on very wide displays. (Status: Verified and working - max-width and centering adjustments applied)
-- [x] **New Task: Add Custom Hitbox Debug Overlay**: Visual outline toggle ('B' key) for player, mobs, drops, and target block hitboxes and bounding boxes. (Status: Verified and working)
-- [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Camels**: Desert mounts that can seat two players. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Chiseled Bookshelf**: A bookshelf variant that stores actual books. (Status: Verified and working)
-- [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Cherry Grove Biome**: A biome featuring pink cherry blossom trees. (Status: Verified and working)
-- [x] **New Task: Add Pale Garden Biome**: Spawning pale oak trees, hanging moss, and nocturnal eyeblossoms. (Status: Verified and working)
-- [x] **New Task: Add Creaking Heart Block & Creaking Mob Spawning Mechanics**: Nighttime mob tied to Creaking Heart block in Pale Garden biomes. (Status: Verified and working)
-- [x] **Bug: Item drops clipping**: Item drops sometimes clip through solid blocks when spawned. (Status: Verified and working - pushes drops out of solid blocks on spawn & update)
-- [x] **New Task: Add target lock-on mechanics for hostile mobs**: Hostile mobs check line-of-sight (`hasLineOfSight`) before aggroing. (Status: Verified and working)
-- [x] **New Task: Add block breaking animations**: Show cracking stages when a player is mining a block. (Status: Verified and working)
-- [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Ender Chests**: Chests that share inventory across all instances for a player. (Status: Verified and working)
-- [x] **New Task: Add Smithing Templates**: Items used to trim armor or upgrade to Netherite. (Status: Verified and working)
-- [x] **Bug: Potion effect status icon UI**: UI overlay icons for active potion status effects are missing. (Status: Verified and working - added active effect tracking and HUD cards)
-- [x] **New Task: Add Redstone Torch**: Add redstone torches to provide power to adjacent redstone blocks. (Status: Verified and working in js/blocks.js, js/world.js, and js/crafting.js)
-- [x] **New Task: Add Daylight Sensor**: Add a block that emits a redstone signal based on the time of day. (Status: Verified and working)
-- [x] **New Task: Add Copper Blocks**: Blocks that oxidize over time. (Status: Verified and working)
-- [x] **New Task: Add Lightning Rods**: Attracts lightning strikes and provides redstone signals. (Status: Verified and working)
-- [ ] **New Task: Add Candles**: Decorative light source that can be dyed. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Chorus Plants**: Plant found in the End. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Bounding Box Intersection Inaccuracies**: Added EPSILON precision checks and divide-by-zero guards in `js/physics.js` for bounding box collision and AABB raycast calculations. (Status: Verified and working)
-- [x] **Bug: Missing SessionStorage Mock**: SessionStorage needs to be mocked for tests checking temporary game states. (Status: Verified and working)
-- [x] **New Task: Add Elytra Boosting**: Allow using fireworks to boost Elytra speed. (Status: Verified and working)
-- [x] **Bug: Missing AnalyserNode Mock**: AudioContext mock doesn't include AnalyserNode, breaking sound visualization tests. (Status: Verified and working)
-- [x] **Bug: Playwright Context Menu Timeout**: Tests interacting with the right-click context menu capture and prevent default on document and window in capture phase. (Status: Verified and working in js/input.js)
-- [ ] **New Task: Add Phantoms**: Flying hostile mobs that spawn when players haven't slept for multiple in-game days. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Wither Rose**: A flower that inflicts Wither effect when stepped on, dropped by mobs killed by the Wither. (Status: Verified and working)
-- [x] **New Task: Add Mace**: A weapon that deals more damage the further you fall. (Status: Verified and working)
-- [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit redstone signals. (Status: Verified and working)
-- [x] **New Task: Add Tinted Glass**: Glass blocks that block light but allow players to see through. (Status: Verified and working)
-
-- [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals. (Status: Missing implementation, agents must fix)
-
-- [x] **New Task: Add Offhand Quick Swap Keybind**: Add 'F' key shortcut to quickly swap main hand and offhand items. (Status: Verified and working)
-- [x] **New Task: Add Ender Chests UI**: Add UI for Ender Chests inventory to share across dimensions. (Status: Verified and working)
-- [ ] **New Task: Add Tool Icons**: Add icons for different tool types. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Snowball Trail Particles**: Throwable snowball projectile trail particle FX. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Illusioners**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated. (Status: Missing implementation, agents must fix)
-
-- [x] **New Task: Add Bundle Storage Item**: Item capable of holding up to 64 items of mixed types in a single inventory slot. (Status: Verified and working)
-- [x] **New Task: Add Sculk Catalyst**: Block that generates more sculk when mobs die near it. (Status: Verified and working)
-- [x] **New Task: Add Recovery Compass**: Item that points to the player's last death location. (Status: Verified and working)
-- [x] **New Task: Add Endermites**: Small hostile mobs that occasionally spawn when an Ender Pearl is thrown. (Status: Verified and working)
-- [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Froglights**: Light source blocks dropped when a frog eats a magma cube. (Status: Verified and working)
-- [x] **New Task: Add Allays**: Flying friendly mobs that collect items for you. (Status: Verified and working)
-
-- [ ] **New Task: Add Tadpoles**: Baby version of frogs that grow up into different frogs based on biome. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Mud Bricks**: Decorative block crafted from mud. (Status: Verified and working)
-- [x] **New Task: Add Packed Mud**: Block crafted from mud and wheat. (Status: Verified and working)
-
-- [x] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Verified and working)
-
-- [ ] **New Task: Add Volcanoes**: Natural structures that spout lava. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Gliders**: Early game flying alternative. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Vexes**: Flying hostile mobs summoned by Evokers. (Status: Missing implementation, agents must fix)
-
-- [ ] **New Task: Add End Cities**: Generate End Cities and End Ships in the outer islands of the End dimension. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Elytra Flight Physics**: Implement proper gliding mechanics and momentum for Elytra. (Status: Verified and working)
-- [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Command Blocks**: Blocks that can execute server commands when powered by redstone. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Witches**: Hostile mobs that throw potions. (Status: Verified and working)
-- [x] **New Task: Add Carrot on a Stick Steering Logic**: Right clicking with Carrot on a Stick speeds up rideable pigs in player direction. (Status: Verified and working)
-- [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Copper Bulbs**: Light blocks that dim as they oxidize. (Status: Verified and working)
-- [x] **Bug: Some test scripts throw ReferenceError Entity is not defined**: This is due to script loading order. (Status: Verified and working)
-
-- [ ] **New Task: Add Backpacks**: Equipable items that expand player inventory space. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Grappling Hooks**: Tool to quickly traverse vertical terrain and pull entities. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Tents**: Placeable sleeping spots that don't set spawn points but allow skipping night. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Suspicious Stew**: A food item that grants a random potion effect. (Status: Verified and working)
-
-- [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Windmills**: Multiblock structures that generate power from wind. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Water Wheels**: Multiblock structures that generate power from water flow. (Status: Missing implementation, agents must fix)
-
-- [x] **Bug: ReferenceError: ParticleSystem is not defined**: ParticleSystem global export and game constructor safe resolution implemented and verified. (Status: Verified and working)
-- [ ] **New Task: Add Pet System**: Allow players to tame and breed various animals. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Quests**: A quest system for players to earn rewards. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Mounts**: Various rideable mounts besides horses. (Status: Missing implementation, agents must fix)
-
-- [x] **New Task: Add Resin Bricks**: Decorative building blocks crafted from Resin Clumps. (Status: Verified and working)
-- [x] **New Task: Add Snow Golems**: Utility mobs that throw snowballs at hostile enemies. (Status: Verified and working)
-- [x] **New Task: Add Redstone Lamp Toggle Logic**: Redstone signals toggling Redstone Lamps on/off dynamically. (Status: Verified and working)
-- [x] **New Task: Add Axolotl Buckets**: Catching Axolotls in water buckets. (Status: Verified and working)
-- [x] **New Task: Add Crafter Redstone Pulse Recipe Execution**: Crafter block automatically outputting items when triggered by redstone pulse. (Status: Verified and working)
-
-- [x] **New Task: Add Llamas**: Neutral mobs that can form caravans. (Status: Verified and working)
-
-- [x] **New Task: Add Cherry Wood**: Add cherry wood logs, planks, and leaves to match Cherry Grove biome. (Status: Verified and working)
-- [x] **New Task: Add Archaeology**: Add brush tool, suspicious sand, and pottery sherds. (Status: Verified and working)
-- [ ] **New Task: Add Evokers**: Spell-casting illagers. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Wither**: A new boss mob to spawn and fight. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Ender Dragon**: A boss mob to fight in the End dimension. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Maces**: A heavy melee weapon for close combat. (Status: Verified and working)
-- [x] **New Task: Add Breeze**: A hostile mob found in trial chambers that shoots Wind Charges at players. (Status: Verified and working)
-- [ ] **New Task: Add Tool Icons**: Different tool types (axes, picks, etc) need graphical icons. (Status: Missing implementation, agents must fix)
-- [x] **Bug: Redstone Wire logic**: Redstone wire logic and connections are missing. (Status: Verified and working)
-- [ ] **New Task: Add Foxes**: Passive mobs found in taigas. (Status: Missing implementation, agents must fix)
-
-- [x] **New Task: Add Seagrass**: Underwater vegetation. (Status: Verified and working)
-- [x] **New Task: Add Kelp**: Tall underwater plant that can be smelted into dried kelp. (Status: Verified and working)
-- [x] **New Task: Add Bamboo**: Fast-growing plant used for scaffolding and sticks. (Status: Verified and working)
-- [x] **New Task: Add Scaffolding**: Block used to climb vertically easily. (Status: Verified and working)
-- [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs. (Status: Missing implementation, agents must fix)
-
-- [x] **New Task: Add Mangrove Swamp**: A new biome with mud and mangrove trees. (Status: Verified and working)
-- [x] **New Task: Add Frogs**: Amphibian mobs that can eat small slimes and magma cubes. (Status: Verified and working)
-
-- [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Redstone Wire Visual Connections**: Dynamic visual models for redstone wire connecting to adjacent power sources and dust lines. (Status: Verified and working)
-- [x] **Bug: JSDOM Canvas Mock missing putImageData**: Canvas context putImageData and createPattern fallbacks added. (Status: Verified and working)
-
-- [x] **New Task: Add Copper Doors**: Add oxidation-capable doors crafted from copper blocks. (Status: Verified and working)
-- [x] **New Task: Add Torchflowers**: Ancient plants grown from Torchflower Seeds found by Sniffers. (Status: Verified and working)
-- [x] **New Task: Add Pitcher Plants**: Tall ancient plants grown from Pitcher Pods found by Sniffers. (Status: Verified and working)
-- [x] **New Task: Add Glow Item Frames**: Item frame variant crafted with Glow Ink Sac that illuminates displayed items. (Status: Verified and working)
-- [ ] **New Task: Add Volcano Structures**: Natural volcanic landforms that spout lava and spawn magma cubes. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Glider Equipment**: Early-game aerial glider alternative before obtaining Elytra. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental flow. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Animal Taming and Pet System**: Mechanics for taming, breeding, and commanding domestic pets. (Status: Missing implementation, agents must fix)
-- [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue and task progression tracking for rewards. (Status: Missing implementation, agents must fix)
-- [x] **New Task: Add Seagrass & Dried Kelp Mechanics**: Underwater seagrass vegetation blocks and kelp cooking/drying mechanics. (Status: Verified and working)
-- [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading. (Status: Missing implementation, agents must fix)
-
-## Newly Discovered Bugs & Tasks (From Audit)
-- [x] **Bug: Missing Block: Copper Ore (`BLOCK.COPPER_ORE`)**: Block definition and functionality are missing. (Status: Verified and working)
-- [x] **Bug: Missing Block: Mud Block (`BLOCK.MUD`)**: Block definition and functionality are missing. (Status: Verified and working)
-- [x] **Bug: Missing Biome: Savanna (`BIOME.SAVANNA`)**: Biome definition and generation logic are missing. (Status: Verified and working)
-- [x] **Bug: Missing Biome: Mangrove Swamp (`BIOME.MANGROVE_SWAMP`)**: Biome definition and generation logic are missing. (Status: Verified and working)
-- [x] **Bug: Missing Biome: Ice Spikes (`BIOME.ICE_SPIKES`)**: Biome definition and generation logic are missing. (Status: Verified and working)
-- [x] **Bug: Missing Biome: Dark Oak Forest (`BIOME.DARK_OAK_FOREST`)**: Biome definition and generation logic are missing. (Status: Verified and working)
-- [x] **Bug: Missing Biome: Mushroom Fields (`BIOME.MUSHROOM_FIELDS`)**: Biome definition and generation logic are missing. (Status: Verified and working)
-- [x] **Bug: Missing Biome: Cherry Grove (`BIOME.CHERRY_GROVE`)**: Biome definition and generation logic are missing. (Status: Verified and working)
-- [x] **Bug: Missing Biome: Pale Garden (`BIOME.PALE_GARDEN`)**: Biome definition and generation logic are missing. (Status: Verified and working)
-
-- [x] **Bug: Thunderstorms and Lightning missing**: Thunderstorm weather cycles and Lightning Rod strike attraction implemented in js/world.js and js/game.js. (Status: Verified and working)
-- [x] **Bug: Offhand Quick Swap & HUD Container missing**: Offhand inventory slot and quick swap are missing. (Status: Verified and working)
-- [x] **Bug: Chat History Log Toggle missing**: Toggle to hide chat messages is missing. (Status: Verified and working)
-- [x] **Bug: Wooden Door Break Synchronization missing**: Breaking one half of a door does not break the other. (Status: Verified and working)
-- [x] **Bug: Weather Cycles missing**: Weather state and transitions (rain, snow) are implemented and working. (Status: Verified and working)
-- [x] **Bug: Piston & Sticky Piston Mechanics missing**: Piston activation and pushing logic is implemented and working. (Status: Verified and working)
-- [x] **Bug: Creeper Explosion Mechanics missing**: Creeper explosion logic is implemented and working. (Status: Verified and working)
-- [x] **Bug: Base64 InvalidCharacterError**: saveWorld Base64 encoding converts Uint16Array to Uint8Array prior to serialization. (Status: Verified and working)
-- [x] **Bug: Fishing Rod Catch Timer missing**: Fishing rod bobber wait timer and reel-in loot table logic are implemented. (Status: Verified and working)
-- [x] **Bug: Smoker & Blast Furnace UI Animations missing**: Smoker & Blast Furnace do not have UI animations. (Status: Verified and working)
-- [x] **Bug: Stonecutter UI missing**: Stonecutter dedicated crafting UI screen opens and functions. (Status: Verified and working)
-- [x] **Bug: Fletching Table UI missing**: Fletching Table interactive UI does not open. (Status: Verified and working)
-- [x] **Bug: Node.js script loading order**: Some verification scripts fail with ReferenceError: Entity is not defined. (Status: Verified and working)
-- [x] **New Task: Add Stonecutter Crafting UI**: Add dedicated UI grid for Stonecutter block interactions. (Status: Verified and working)
-- [x] **New Task: Add Composter Bone Meal Particles**: Display particle effects when composter produces bone meal. (Status: Verified and working)
-- [x] **New Task: Add Smoker & Blast Furnace UI Animations**: Add flame and smoke animations in cooking/smelting UI. (Status: Verified and working)
-- [x] **New Task: Add Crafter Redstone Pulse Execution**: Crafter block automatically outputs crafted item when powered by a redstone pulse. (Status: Verified and working)
-- [x] **Bug: Fletching Table, Smoker, Blast Furnace UI Missing**: Utility blocks exist in game registry but lack interactive GUI containers. (Status: Verified and working)
-- [x] **Bug: Redstone Repeaters and Comparators missing**: Redstone logic in js/world.js lacks support for repeaters and comparators. (Status: Verified and working)
-
-- [x] **New Task: Add Lodestone Block**: Block crafted from chiseled stone bricks and netherite ingot that redirects compass pointers to its coordinates. (Status: Verified and working)
-- [x] **New Task: Add Target Block**: Redstone component block crafted with hay bale and redstone dust that emits redstone signals based on projectile impact accuracy. (Status: Verified and working)
-- [x] **New Task: Add Sculk Shrieker**: Deep dark block that emits shrieks and applies Darkness effect when activated. (Status: Verified and working)
-- [x] **New Task: Add Mangrove Roots**: Unique wood-like structural block generating in Mangrove Swamps. (Status: Verified and working)
-- [x] **New Task: Add Muddy Mangrove Roots**: Variant of mangrove roots submerged in mud blocks. (Status: Verified and working)
-- [x] **New Task: Add Creeper Explosion Mechanics**: Creeper fuse timing and terrain explosion damage. (Status: Verified and working)
-- [x] **New Task: Add Piston & Sticky Piston Mechanics**: Pistons pushing and pulling blocks. (Status: Verified and working)
-- [x] **New Task: Add Weather Cycles**: Clear, rain, and snow weather transitions with thunderstorm logic. (Status: Verified and working)
-- [x] **New Task: Add Wooden Door Break Synchronization**: Synchronized breaking of top and bottom door halves. (Status: Verified and working)
-- [x] **Bug: Wooden Door placement is failing in test**: placing wooden doors using right click doesn't register properly. (Status: Verified and working)
-- [x] **New Task: Add Soul Sand Slowdown Physics**: Movement speed reduction when walking on Soul Sand blocks. (Status: Verified and working)
-- [x] **Bug: Glow Item Frames Missing**: Glow Item Frames item/entity definition is missing from the codebase. (Status: Verified and working)
-- [x] **Bug: Witches Mob Missing**: Witches mob implementation is missing from the codebase. (Status: Verified and working)
-- [x] **Bug: Redstone Repeater and Comparator Logic Missing**: Full signal propagation and delay logic for repeaters and comparators is missing. (Status: Verified and working in js/world.js)
-- [x] **Bug: Stonecutter dedicated UI grid missing**: Stonecutter dedicated UI container implemented. (Status: Verified and working)
-- [x] **Bug: Smoker & Blast Furnace smelting speed multiplier missing**: Smoker and Blast Furnace blocks share standard furnace speed without 2x acceleration for food and ores. (Status: Verified and working)
-- [x] **Bug: Fishing rod catch timer logic incomplete**: Fishing bobber entity spawns but lacks timer-based catch mechanics and loot table roll execution. (Status: Verified and working)
-- [x] **Bug: Redstone dust visual line connections**: Redstone wire power propagation functions internally but lacks dynamic multi-direction connecting wire rendering on block surfaces. (Status: Verified and working)
-- [x] **Bug: JSDOM saveWorld Base64 InvalidCharacterError**: `saveWorld` in `js/world.js` throws `InvalidCharacterError` when evaluated inside JSDOM test environments where `typeof Buffer === 'undefined'` because `String.fromCharCode.apply` passes char codes > 255 to `btoa()`. (Status: Verified and working)
-- [x] **New Task: Add Redstone Lamp Dynamic Toggling**: Implement redstone signals dynamically switching Redstone Lamps between lit and unlit states in `js/world.js` and renderer. (Status: Verified and working)
-- [x] **New Task: Add Hopper Container Transport Logic**: Implement Hoppers pulling items from container blocks above and pushing items into containers they face. (Status: Verified and working)
-- [x] **New Task: Add Bundle Storage Container UI**: Add Bundle storage item holding up to 64 items of mixed types with pop-up UI container. (Status: Verified and working)
-- [x] **Bug: Wind Charge Self-Knockback Angle**: Vertical leap boost angle when throwing Wind Charge directly downward requires fine-tuning. (Status: Verified and working)
-- [x] **Bug: Spectator Mode Block Occlusion**: Flying through dense solid blocks in spectator mode should render dark inner face culling or vision overlay. (Status: Verified and working)
-
-- [x] **Bug: Audio Context Missing AnalyserNode in test mocks**: Headless Web Audio API mocks need AnalyserNode support for sound visualization tests. (Status: Verified and working - AudioContext mocks verified across test suites)
-- [x] **New Task: Add Ominous Vaults & Ominous Trial Keys**: Special high-tier Ominous Vaults found in Trial Chambers requiring Ominous Trial Keys. (Status: Verified and working)
-- [x] **New Task: Add Anvil Item Renaming and Repair GUI**: Complete repair and item renaming functionality within dedicated Anvil UI. (Status: Verified and working)
-- [x] **New Task: Add Bundle Color Dyeing**: Dye Bundle items with 16 color dyes in crafting grid to organize inventory categories. (Status: Verified and working)
-- [x] **New Task: Add Eyeblossom Poison Stew Crafting**: Combine blooming Eyeblossoms with mushrooms in stew recipe to grant Poison effect. (Status: Verified and working)
-- [x] **New Task: Add Trial Chamber Wind Traps**: Trap blocks triggered by redstone wire that propel Wind Charge projectiles at intruders. (Status: Verified and working in `js/structures.js` and `tests/test_5_new_high_quality_features_batch9.js`)
-- [x] **New Task: Add Sculk Sensor Vibration Frequencies**: Sculk Sensors outputting distinct redstone signal strengths depending on vibration event source. (Status: Verified and working)
-- [x] **New Task: Add Copper Bulb Oxidation Attenuation**: Copper Bulb light emissions dimming progressively based on oxidation stage. (Status: Verified and working)
-- [x] **New Task: Add Ominous Banner Drops**: Illager Captains dropping Ominous Banners upon defeat to trigger Bad Omen effect. (Status: Verified and working in js/mob.js)
-- [x] **New Task: Add Tuff Block Family**: Polished Tuff, Tuff Bricks, and Chiseled Tuff blocks for building in Trial Chambers. (Status: Verified and working)
-- [x] **New Task: Add Crafter Autonomous Redstone Logic**: Crafter block automatically triggers grid item assembly on receiving redstone clock pulses. (Status: Verified and working)
-- [x] **New Task: Add Resin Brick Stairs & Walls**: Expand the Resin wood and brick building family with stair and wall variants. (Status: Verified and working)
-- [x] **New Task: Add Vault Reward Loot Tables**: Expand Vault and Ominous Vault loot generation with rare enchanted books and armor trims. (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Boat & Chest Boat**: Craftable boat variants made from Pale Oak planks for Pale Garden navigation. (Status: Verified and working)
-- [x] **New Task: Add Resin Block Crafting**: Craft 9 Resin Clumps into solid Resin Storage Blocks for decorative storage. (Status: Verified and working)
-- [x] **Bug: Bundle Color Dyeing Recipes Missing**: Crafting recipes for all 16 bundle colors implemented in js/crafting.js (Status: Verified and working)
-- [x] **Bug: Hopper Container Pulling Logic Missing**: Hoppers pull items from container blocks above them in js/world.js (Status: Verified and working)
-- [x] **Bug: Redstone Repeater Delay Logic Missing**: Redstone repeaters handle configurable multi-tick delay in js/world.js (Status: Verified and working)
-- [x] **Bug: verify_nether.js mock StructureManager missing generateNetherFossil method**: Mock class in `verification/verify_nether.js` has `generateNetherFossil` method and passes all tests. (Status: Verified and working)
-- [x] **New Task: Add Creaking Heart & Creaking Mob Audio**: Custom creaking wood step and ambient screech sound effects for Creaking mobs and Creaking Heart. (Status: Verified and working)
-- [x] **New Task: Add Mace Heavy Core Drop Table**: Ominous Vault loot tables dropping Heavy Cores for crafting Maces. (Status: Verified and working)
-- [x] **New Task: Add Desert Temple Structures**: Sandstone pyramids in Desert biomes with terracotta patterns and underground pressure-plate TNT loot traps. (Status: Verified and working)
-- [x] **New Task: Add Deepslate & Deepslate Ore Variants**: Tougher stone variant generated at low Y levels along with Deepslate iron, gold, and diamond ores. (Status: Verified and working)
-- [x] **New Task: Add Wandering Trader & Llamas**: Ambient passive trader spawning with emerald trade options and lead-attached Llamas. (Status: Verified and working)
-- [x] **New Task: Add Wind Charge Dispenser Launching**: Dispensers emitting Wind Charge projectiles on redstone power with radial knockback physics. (Status: Verified and working)
-- [x] **New Task: Add Warden Sonic Boom & Vibration Tracking**: Hostile boss mob in Deep Dark biomes responding to vibration signals with ranged sonic boom attacks. (Status: Verified and working)
-- [x] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with splash potion effects and dropping Ominous Keys. (Status: Verified and working)
-- [x] **Bug: Spectator Flight Collision in Water**: Flying into water sources in spectator mode bypasses water fluid intersection and water drag, maintaining smooth spectator flight. (Status: Verified and working in js/player.js)
-- [x] **New Task: Add Ominous Banner Item & Pillager Captain Spawns**: Illager Captains spawning with Ominous Banners on head and dropping Ominous Banner items on defeat. (Status: Verified and working in js/mob.js)
-- [x] **New Task: Add Creaking Heart Visual Connection Particle Link**: Continuous vibrant orange particle trail connecting Creaking mob entities to their host Creaking Heart block in Pale Garden biomes. (Status: Verified and working)
-- [x] **New Task: Add Pale Hanging Moss & Foliage Vines**: Hanging pale moss vines spawning from Pale Oak leaves in Pale Garden biomes. (Status: Verified and working)
-- [x] **New Task: Add Crafter Disabled Slot Red Grid Overlay**: Red tint rendering over disabled slots in Crafter UI screen for visual feedback during auto-crafting configuration. (Status: Verified and working)
-- [x] **New Task: Add Sculk Catalyst Charge Absorption Mechanics**: Sculk Catalyst absorbing experience charges from dying mobs to spread Sculk Veins and Sculk Blocks to neighboring stone. (Status: Verified and working)
-- [x] **New Task: Add Hopper Redstone Filtering & Container Extraction**: Redstone powered Hoppers locking item transfer and filtering item transport based on container slot status. (Status: Verified and working)
-- [x] **New Task: Add Chest Boats & Pale Oak Watercraft**: Rideable boat vehicles with integrated container chests for long-distance water inventory transportation. (Status: Verified and working)
-- [x] **New Task: Add Ender Chest UI & Shared Dimensional Container Storage**: Ender Chest block and interactive UI maintaining persistent player inventory shared across all Ender Chest instances. (Status: Verified and working)
-- [x] **New Task: Add Axolotl Aquatic Mob Entity & Water Bucket Capture Mechanics**: Friendly underwater axolotls attacking hostile drowned/fish entities and captureable using Water Buckets. (Status: Verified and working)
-- [x] **New Task: Add Lead Item & Mob Fencing Tie Mechanics**: Craftable leads used to leash passive animal mobs and tie them securely to fence posts. (Status: Verified and working)
-- [x] **New Task: Add Scaffolding Block & Fast Vertical Climbing Physics**: Scaffolding blocks with clip-through center ladders for fast vertical building and climbing. (Status: Verified and working)
-- [x] **New Task: Add Pale Oak Pale Moss Carpets**: Craftable pale moss carpet overlays from pale moss blocks for Pale Garden biome decoration. (Status: Verified and working)
-- [x] **New Task: Add Redstone Torch Inversion Logic**: Redstone torches turning off when receiving power from an adjacent block to allow redstone logic gates (NOT, AND, OR). (Status: Verified and working)
-- [x] **New Task: Add Lightning Strike Fire & Pig Transformation Mechanics**: Lightning strikes during thunderstorms setting fire to hit blocks and transforming pigs into Zombie Pigmen. (Status: Verified and working)
-- [x] **New Task: Add Sniffer Seed Digging Mechanics**: Ancient Sniffer mob sniffing out rare seeds (Torchflower and Pitcher Plant) from dirt/grass terrain. (Status: Verified and working)
-- [x] **New Task: Add Wind Charge Entity Propulsion**: Throwing Wind Charges at other entities (mobs or vehicles) launching them into the air with vertical momentum. (Status: Verified and working)
-- [x] **Bug: Redstone Torch Inversion Incomplete**: Redstone Torches do not invert signal state when receiving power from adjacent powered blocks in `js/world.js`. (Status: Verified and working)
-- [x] **Bug: Crafter Comparator Output Missing**: Redstone comparators facing Crafter blocks do not measure filled/disabled slot count. (Status: Verified and working)
-- [x] **Bug: Copper Grate Waterlogging Flow Missing**: Water fluids do not flow through Copper Grate blocks despite open mesh visuals. (Status: Verified and working)
-- [x] **Bug: Wolf Armor Color Dyeing Missing**: Wolf Armor cannot be dyed using 16 color dyes in crafting grid. (Status: Verified and working)
-- [x] **Bug: JSDOM Sequential Test Suite Execution Timeout**: Full Mocha test runs in JSDOM environment exceed 400s execution limits when unbatched; batching execution in run_all_tests.js reduces run time to <30s. (Status: Verified and working)
-- [x] **Bug: Offhand Quick Swap UI Container Selection**: Swapping offhand items while interacting with container GUIs automatically flushes held cursor items back to inventory upon container exit. (Status: Verified and working in js/ui.js and js/player.js)
-- [x] **Bug: Standalone Verification Scripts Mocha Execution Compatibility**: Standalone node verification scripts in `verification/` causing Mocha execution errors when included in test globbing. (Status: Verified and working - updated `run_all_tests.js` to target unit test suite)
-- [x] **Bug: JSDOM Batch Runner Performance Memory Overhead**: Running multiple JSDOM test suites in a single process leading to PerformanceImpl stack recursion depth overflow. (Status: Verified and working - handled in `run_all_tests.js` with isolated process execution)
-- [x] **Bug: Waterlogged Copper Grate Flow Interaction**: Water blocks passing through Copper Grates do not propagate full fluid source blocks on adjacent open faces. (Status: Verified and working)
-- [ ] **New Task: Add Trial Spawner Spinning Entity Preview**: Rendering spinning entity particles inside active Trial Spawner block faces when players approach. (Status: Proposed feature, pending implementation)
-- [x] **New Task: Add Bogged Shearable Mushrooms Drop Table**: Ensure Bogged mobs yield red or brown mushrooms upon shearing and update skin overlay. (Status: Verified and working in js/mob.js)
-- [ ] **New Task: Add Ominous Trial Vault Key Drop Chance**: Defeating Ominous Spawner wave bosses grants an Ominous Trial Key to unlock high-tier Vault loot. (Status: Proposed feature, pending implementation)
-- [x] **New Task: Add Resin Brick Wall Dynamic Post Connections**: Resin Brick Wall models dynamically connecting visually to adjacent wall segments and solid blocks. (Status: Verified and working in js/renderer.js)
-- [x] **New Task: Add Pale Oak Hanging Signs Crafting & Placement**: Craftable hanging signs using Pale Oak wood planks and chains, mountable on block ceilings and side walls. (Status: Verified and working)
-- [ ] **New Task: Add Creaking Mob Timber Step & Screech Audio FX**: Sound effect integration for Creaking mob steps, attacks, and Creaking Heart nighttime activation. (Status: Partially implemented - entity mechanics work, custom audio FX pending agent implementation)
-- [x] **New Task: Add Bundle Hotbar Scroll Wheel Slot Selection**: Scrolling the mouse wheel while hovering over a Bundle item in hotbar UI cycles the selected stored slot. (Status: Verified and working in js/input.js)
-- [x] **New Task: Add Crafter Redstone Pulse Delay Filter**: Comparator delay mechanism on Crafter block entities to prevent high-frequency clock signal congestion. (Status: Verified and working in js/world.js)
-- [x] **New Task: Add Wind Burst Mace Enchantment**: Mace weapon enchantment triggering an upward launch boost for the attacker upon successful smash attacks. (Status: Verified and working in js/game.js)
-- [x] **New Task: Add Copper Door & Grate De-Oxidation Axis**: Axe right-click interaction on Copper Doors and Copper Grates to strip oxidation layers step-by-step. (Status: Verified and working in js/game.js and tests/test_copper_deoxidation_axis.js)
-- [ ] **New Task: Add Trial Spawner Spinning Mob Preview**: Rendering a miniature rotating 3D entity model inside the translucent core of active Trial Spawner blocks. (Status: Proposed feature, pending implementation)
-- [x] **New Task: Add Bundle Mass Item Drop Logic**: Dropping stored items en masse in FIFO sequence when a Bundle item is destroyed or thrown onto ground blocks. (Status: Verified and working)
-- [x] **Bug: Missing JSDOM Node Module Dependencies**: Running test suites in fresh environments before `npm install` throws module resolution errors. (Status: Verified and resolved via `npm install`)
-
-
-### Newly Discovered Bugs & Tasks (From Audit)
-
-- [x] **Bug: Crafter UI `TypeError` Exception**: Calling `window.game.ui.openCrafter(entity)` throws a `TypeError: Cannot read properties of undefined (reading 'items')` when the provided block entity does not have an `items` array or is empty. (Status: Verified and working in js/ui.js)
-- [x] **Bug: Ominous Vault Key Consumption Missing**: Interacting with an Ominous Vault using an Ominous Trial Key correctly activates the vault logic but fails to consume the key from the player's inventory. (Status: Verified and working in js/game.js and js/world.js)
-- [x] **New Task: Add Pale Oak Hanging Signs Crafting & Placement**: Craftable hanging signs using Pale Oak wood planks and chains, mountable on block ceilings and side walls. (Status: Verified and working)
-- [x] **New Task: Add Bundle Hotbar Scroll Wheel Slot Selection**: Scrolling the mouse wheel while hovering over a Bundle item in hotbar UI cycles the active stored slot. (Status: Verified and working in js/input.js)
-- [ ] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with splash potion effects and dropping Ominous Keys. (Status: Proposed feature, pending implementation)
-- [x] **New Task: Add Creaking Mob Audio FX**: Eerie timber step sounds and forest screech FX when Creaking mobs move or attack near Creaking Hearts. (Status: Verified and working)
-
-
-### Additional Bugs and Tasks Found During Testing
-- [x] **Bug: Lightning Strike Missing Method Integration**: `triggerLightningStrike` integrated into `js/game.js` frame update loop during thunderstorm weather state. (Status: Verified and working)
-- [x] **Bug: Ominous Banner Item Missing**: `ITEM_OMINOUS_BANNER` definition and texture mapping implemented in `js/blocks.js` and `js/textures.js`. (Status: Verified and working)
-- [x] **Bug: Bogged Shearable Mushrooms Drop Table Logic Missing**: The Bogged mob shear action in `js/mob.js` drops harvested mushroom items on the ground. (Status: Verified and working)
-- [x] **Bug: Bundle Hotbar Scroll Wheel Slot Selection Missing**: Wheel scroll event listener added in `js/input.js` to cycle selected bundle slots via mouse wheel. (Status: Verified and working)
-- [x] **Bug: Bundle Mass Item Drop Logic Missing**: `dropBundleContents` logic implemented in `js/game.js` and `js/player.js` when bundle items are dropped or destroyed. (Status: Verified and working)
-- [x] **Bug: Pale Oak Hanging Signs Crafting & Placement Missing**: `BLOCK.HANGING_SIGN_PALE_OAK` block and item definition added in `js/blocks.js`, `js/textures.js`, `js/crafting.js`, and `js/game.js`. (Status: Verified and working)
-- [x] **Bug: Resin Brick Wall Dynamic Post Connections Missing**: `RESIN_BRICK_WALL` dynamic post geometry connection checks implemented in `js/renderer.js`. (Status: Verified and working)
-- [x] **Bug: Crafter Redstone Pulse Delay Filter Missing**: Cooldown filter implemented in `triggerCrafter` (`js/world.js`) to throttle high-frequency redstone clock pulses. (Status: Verified and working)
-- [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward nearest Stronghold / Nether Fortress coordinates. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
-
-## Newly Discovered Bugs & Tasks (From October 10 Audit)
-- [x] **Bug: Vehicle Mount API Missing**: Added `mount(player)` and `dismount()` methods to `Vehicle` class prototype in `js/vehicle.js`. (Status: Verified and working)
-- [x] **Bug: Redstone Wire Propagation Failure**: Fixed early return on `REDSTONE_LAMP_ACTIVE` in `isBlockPowered` and unified `REDSTONE_LAMP` powering logic in `js/world.js`. (Status: Verified and working)
-- [x] **Bug: UI Update Methods Undefined**: Added `updateInventoryUI()`, `updateInventory()`, and `updateHotbar()` alias methods to `UIManager` and `Game` classes. (Status: Verified and working)
-
-## Newly Discovered Bugs & Tasks (From October Audit)
-- [x] **Bug: Weather Rain & Storm Ambient Audio FX Missing**: Rain and thunderstorm weather states update sky visuals and lightning strikes, and rain/thunder ambient loop sound effects are implemented in `js/audio.js` and `js/game.js`. (Status: Verified and working)
-- [x] **Bug: Creaking Mob Footstep & Eerie Screech Sound FX Missing**: Creaking mob movement and attack events trigger custom wood timber stepping and creepy forest screech sound effects in `js/audio.js` and `js/mob.js`. (Status: Verified and working)
-- [x] **Bug: Trial Spawner Miniature Rotating Model Preview Missing**: Active Trial Spawner block entities render miniature rotating 3D mob preview models with glowing aura transforms in `js/renderer.js`. (Status: Verified and working)
-- [x] **New Task: Add Lodestone Compass Position Target Alignment**: Compass item tracks current Lodestone block coordinates when right-clicked on a Lodestone block in `js/game.js` and `js/blocks.js`. (Status: Verified and working)
-- [x] **New Task: Add Wind Charge Spiral Blast Trail Particles**: Wind Charge projectiles emit spiral wind blast particle trails behind throwable projectile trajectories in `js/game.js`. (Status: Verified and working)
-- [x] **New Task: Add Heavy Core Mace Fall Smash Shockwave FX**: Landing a Mace smash attack after falling emits a 3D expanding ground shockwave ring particle effect in `js/player.js`. (Status: Verified and working)
-- [x] **New Task: Add Crafter Pulse Trigger Cooldown Status Overlay**: Visual progress status overlay on Crafter UI screen indicates redstone pulse auto-crafting cooldown state in `js/ui.js` and `styles.css`. (Status: Verified and working)
-
-
-### Additional Bugs and Tasks Found During Testing
-- [ ] **Bug: Chat System & Commands Execution Timeout**: The "Chat System & Commands" test suite in `test_comprehensive_coverage.js` fails with a 20000ms timeout due to JSDOM network script resolution or command processing stalls, requiring either an extended timeout or mocking of the network calls to prevent full suite execution failure.
-
+- [ ] **Deprecated Items cleanup**
+- [ ] **Animal Drops fixing**
+- [ ] **Bug: Chat System & Commands Execution Timeout**: The "Chat System & Commands" test suite in `test_comprehensive_coverage.js` fails with a 20000ms timeout due to JSDOM network script resolution or command processing stalls, requiring either an extended timeout or mocking of the network calls to prevent full suite execution failure. *(Re-check: with `npm test` every file runs in its own process with a 30s timeout; `test_comprehensive_coverage.js` currently passes in ~6s. Close this if it stays green.)*
 - [ ] **Bug: Playwright Frontend Verification Canvas Wait Timeout**: Some Playwright end-to-end testing scripts fail due to timeouts waiting for the #game-canvas element when testing in a headless environment.
+
+## 🛠️ Engineering & Architecture
+Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
+
+- [ ] **Move item-use logic out of `Game.startAction()`**: the right-click branch is ~600 lines of `if (slot.type === BLOCK.X)`. Introduce an item-use registry (same shape as `BlockInteractions` in `js/interactions.js`) and migrate the handlers one group at a time, with tests.
+- [ ] **Move placement rules out of `Game.placeBlock()`**: ~400 lines of per-block placement special cases. Candidate for a `BlockPlacement` registry keyed by block id (orientation, multi-block placement, "can place on" rules).
+- [ ] **Per-frame block-entity ticking registry**: `Game.update()` has a growing `if (entity.type === ...)` chain for furnaces/brewing/crops/etc. Register tick handlers by entity type instead.
+- [ ] **Convert legacy tests to `tests/helpers/game_env.js`**: ~70 test files each hand-roll a JSDOM and leak globals; they only work because `npm test` isolates files per process. Migrate opportunistically whenever you touch a file, and name test files after the feature (not "batch17").
+- [ ] **Hot-loop `window.*` lookups**: renderer/world code reads `window.BLOCKS[...]` inside per-block loops. Cache `BLOCKS`/`BLOCK` in local consts at the top of hot functions (free in browsers, 2x faster under JSDOM).
+- [ ] **Block light is computed but never rendered**: `World.setBlock()` runs `recalcLocalLight()` (a 31x31x31 scan) for every gameplay block change, yet `renderer.js` ignores `b.light` (the brightness line is commented out). Either use the light values for shading or make the recalculation incremental; worldgen already skips it (see `_generating` in `js/world.js`).
+- [ ] **Parked chunks are memory-only**: edited chunks that scroll out of range are kept in `World.unloadedChunks` (capped at 512, LRU) and included in saves, but a very long session can still evict old edits. Spill evicted chunks to IndexedDB instead of dropping them.
+- [ ] **Game.update() scans 31x31x11 blocks every 20 frames at night for Eyeblossoms** (`js/game.js`, "EYEBLOSSOM" particle loop). Track eyeblossom positions when placed/generated instead of polling.
+- [ ] **LOD (Level of Detail) system**
+- [ ] **Worker threads for world generation**
+- [ ] **Better memory management**
+- [ ] **Chunk Serialization Optimization**
+- [ ] **Refactoring World/Chunk Separation**
+
+## 🎨 Rendering, Lighting & Audio
+
+- [ ] Smooth lighting
+- [ ] Custom shaders
+- [ ] **Better shadows and lighting** (Dynamic shadows)
+- [ ] **Clouds and better skybox**
+- [ ] Colored lighting
+- [ ] **Dynamic Lighting** (Light emitting items in hand)
+- [ ] Music system
+- [ ] **New Task: Add Creaking Mob Audio FX**: Creaking timber wood steps and eerie forest screech sound effects when Creaking mobs move. (Status: Partially implemented - creaking entity mechanics work, custom audio FX pending agent implementation)
+- [ ] **Screenshot system**
+- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Weather Sounds**: Add rain and storm sound effects to the audio manager.
+- [ ] **New Task: Weather Sounds**: Add rain and storm sound effects to the audio manager.
+- [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
+- [ ] **New Task: Add Snowball Trail Particles**: Throwable snowball projectile trail particle FX.
+- [ ] **New Task: Add Creaking Mob Timber Step & Screech Audio FX**: Sound effect integration for Creaking mob steps, attacks, and Creaking Heart nighttime activation. (Status: Partially implemented - entity mechanics work, custom audio FX pending agent implementation)
+- [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Trial Spawner Spinning Entity Preview**: Rendering spinning entity particles inside active Trial Spawner block faces when players approach. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Trial Spawner Spinning Mob Preview**: Rendering a miniature rotating 3D entity model inside the translucent core of active Trial Spawner blocks. (Status: Proposed feature, pending implementation)
+
+## 🧱 World Generation & Structures
+
+- [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day.
+- [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning.
+- [ ] **End Dimension** (End island generation, Ender Dragon)
+- [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes.
+- [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether.
+- [ ] **New Task: Add Trial Chamber Secret Vault Passages**: Hidden redstone trapdoors in Trial Chamber corridors leading to bonus Vault reward rooms. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Trial Chamber Map Loot Tables**: Cartographer Villagers trading maps leading directly to Trial Chamber structures. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Ocean Monument Structures**: Ocean monuments generating in deep ocean biomes containing Sea Lanterns and Elder Guardians.
+- [ ] **New Task: Add Ominous Trials**: Harder version of Trial Chambers.
+- [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Status: Missing noise transitions in biome.js, agents must fix)
+- [ ] **New Task: Add End City**: Generate end city structures in the End Dimension with valuable loot.
+- [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld.
+- [ ] **New Task: Add Chorus Plants**: Plant found in the End.
+- [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries.
+- [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets.
+- [ ] **New Task: Add Volcanoes**: Natural structures that spout lava.
+- [ ] **New Task: Add End Cities**: Generate End Cities and End Ships in the outer islands of the End dimension.
+- [ ] **New Task: Add Nether Portals**: Structures made of obsidian that transport players to the Nether dimension.
+- [ ] **New Task: Add Trading Posts**: Specialized structures generated in villages to trade items with villagers.
+- [ ] **New Task: Add Volcano Structures**: Natural volcanic landforms that spout lava and spawn magma cubes.
+- [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading.
+- [ ] **New Task: Add Ominous Trial Vault Key Drop Chance**: Defeating Ominous Spawner wave bosses grants an Ominous Trial Key to unlock high-tier Vault loot. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with splash potion effects and dropping Ominous Keys. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward nearest Stronghold / Nether Fortress coordinates. (Status: Proposed feature, pending implementation)
+
+## 👾 Mobs & Entities
+
+- [ ] Complex AI (Pathfinding, fleeing, attacking)
+- [ ] **Wither Boss**
+- [ ] **Ender Dragon Boss**
+- [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
+- [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles.
+- [ ] **New Task: Add Dolphins**: Neutral aquatic mobs that guide players to treasure.
+- [ ] **New Task: Add Ravagers**: Large hostile beasts ridden by Illagers.
+- [ ] **New Task: Add Drowned**: Zombie variant that spawns underwater.
+- [ ] **New Task: Add Goats**: New mob that rams players and entities.
+- [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types.
+- [ ] **New Task: Implement Dolphins**: Add dolphins in ocean biomes that grant Dolphin's Grace.
+- [ ] **New Task: Implement Parrots**: Add Parrots that can imitate sounds and ride on player shoulders.
+- [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
+- [ ] **New Task: Add Villager Professions**: Different skins and trades based on claimed workstations.
+- [ ] **New Task: Add Camels**: Desert mounts that can seat two players.
+- [ ] **New Task: Add Turtles**: Aquatic mobs that lay eggs on beaches.
+- [ ] **New Task: Add Phantoms**: Flying hostile mobs that spawn when players haven't slept for multiple in-game days.
+- [ ] **New Task: Add Ender Dragon Boss Fight**: Implement ender dragon behaviors, phases, and end crystals.
+- [ ] **New Task: Add Illusioners**: Spell-casting illagers.
+- [ ] **New Task: Add Tadpoles**: Baby version of frogs that grow up into different frogs based on biome.
+- [ ] **New Task: Add Vexes**: Flying hostile mobs summoned by Evokers.
+- [ ] **New Task: Add Pet System**: Allow players to tame and breed various animals.
+- [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights.
+- [ ] **New Task: Add Mounts**: Various rideable mounts besides horses.
+- [ ] **New Task: Add Evokers**: Spell-casting illagers.
+- [ ] **New Task: Add Wither**: A new boss mob to spawn and fight.
+- [ ] **New Task: Add Ender Dragon**: A boss mob to fight in the End dimension.
+- [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
+- [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
+- [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
+- [ ] **New Task: Add Animal Taming and Pet System**: Mechanics for taming, breeding, and commanding domestic pets.
+
+## 🧰 Items, Equipment & Crafting
+
+- [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments.
+- [ ] **Map item**
+- [ ] **Shulker Boxes**
+- [ ] **Beacons**
+- [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns.
+- [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players.
+- [ ] **New Task: Add Pale Garden Eyeblossom Suspicious Stew Nausea Effect**: Crafting Eyeblossom stew granting short-duration Nausea status effect alongside Poison. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Creaking Heart Resin Yield Multiplier**: Mined Creaking Hearts near active Pale Garden canopy trees yield boosted Resin Clumps and Resin Bricks. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Potion Brewing Recipes**: Add recipes for brewing potions in the Brewing Stand.
+- [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
+- [ ] **New Task: Add Paraglider**: A basic form of aerial navigation before Elytra.
+- [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks.
+- [ ] **New Task: Add Candles**: Decorative light source that can be dyed.
+- [ ] **New Task: Add Tool Icons**: Add icons for different tool types.
+- [ ] **New Task: Add Gliders**: Early game flying alternative.
+- [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension.
+- [ ] **New Task: Add Backpacks**: Equipable items that expand player inventory space.
+- [ ] **New Task: Add Grappling Hooks**: Tool to quickly traverse vertical terrain and pull entities.
+- [ ] **New Task: Add Tents**: Placeable sleeping spots that don't set spawn points but allow skipping night.
+- [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
+- [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
+- [ ] **New Task: Add Glider Equipment**: Early-game aerial glider alternative before obtaining Elytra.
+
+## 🔌 Redstone, Mechanics & Functional Blocks
+
+- [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
+- [ ] **Command Block**
+- [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated.
+- [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures.
+- [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
+- [ ] **New Task: Add Command Blocks**: Blocks that can execute server commands when powered by redstone.
+- [ ] **New Task: Add Windmills**: Multiblock structures that generate power from wind.
+- [ ] **New Task: Add Water Wheels**: Multiblock structures that generate power from water flow.
+- [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental flow.
+
+## 🖥️ UI, Multiplayer & Meta
+
+- [ ] **Share world links**
+- [ ] **Leaderboards**
+- [ ] **World showcase gallery**
+- [ ] Entity synchronization
+- [ ] Inventory synchronization
+- [ ] **Friends system**
+- [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative.
+- [ ] **New Task: Add Quests**: A quest system for players to earn rewards.
+- [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
+- [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue and task progression tracking for rewards.
+- [ ] Statistics
+
+## 🧩 Modding & Plugin API
+The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
+
+- [ ] Custom block registration
+- [ ] Custom item registration
+- [ ] Event hooks
+- [ ] Custom commands
+- [ ] **Resource pack support**
+- [ ] **Support for custom models**

@@ -14,6 +14,7 @@ class Chunk {
         this.metadata = new Uint8Array(this.size * this.size * this.maxHeight);
         this.light = new Uint8Array(this.size * this.size * this.maxHeight);
         this.modified = true; // Start modified to trigger update
+        this.edited = false;  // Set by World.setBlock once gameplay (not worldgen) changes a block; edited chunks are never regenerated
         this.visibleBlocks = []; // Cache of visible blocks
     }
 

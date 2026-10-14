@@ -45,6 +45,8 @@ describe('Batch 19 High Quality Features Test Suite', () => {
         global.Player = window.Player;
 
         require('../js/world.js');
+        require('../js/interactions.js');
+        window.BlockInteractions = global.BlockInteractions = window.BlockInteractions || global.BlockInteractions;
         require('../js/game.js');
         global.Game = window.Game;
     });
