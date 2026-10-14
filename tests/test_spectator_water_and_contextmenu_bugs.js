@@ -116,6 +116,7 @@ describe('Spectator Water Flight and Context Menu Bug Fixes', function() {
         loadScript('textures.js');
         loadScript('renderer.js');
         loadScript('particles.js');
+        loadScript('interactions.js');
         loadScript('game.js');
 
         global.BLOCK = window.BLOCK;

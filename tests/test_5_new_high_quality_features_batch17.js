@@ -116,6 +116,7 @@ describe('5 New High Quality Features Batch 17 Test Suite', function() {
         loadScript('js/textures.js');
         loadScript('js/renderer.js');
         loadScript('js/particles.js');
+        loadScript('js/interactions.js');
         loadScript('js/game.js');
 
         global.BLOCK = window.BLOCK;

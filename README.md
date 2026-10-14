@@ -61,9 +61,11 @@ cd automatic-guacamole
 
 2. Open `index.html` in a modern web browser, or launch a simple local HTTP server:
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8000   # or: npm start
 # Visit http://localhost:8000
 ```
+
+3. (Optional) multiplayer: `cd server && npm install && node server.js` starts the WebSocket server on port 8080.
 
 ### Requirements
 - Modern browser with Canvas 2D support (Chrome, Firefox, Safari, Edge)
@@ -73,40 +75,50 @@ python3 -m http.server 8000
 
 ```
 automatic-guacamole/
-├── index.html           # Main HTML shell & scripts loader
+├── index.html           # Main HTML shell; loads every js/ file in order (no build step)
 ├── styles.css           # Responsive styling & UI themes
-├── js/                  # Modular JavaScript game engine
-│   ├── achievements.js  # Achievement tracking & popup toasts
-│   ├── audio.js         # Sound effects engine (Web Audio API)
-│   ├── biome.js         # Biome definitions & climate mapping
-│   ├── blocks.js        # Block definitions, properties & drops
-│   ├── chat.js          # Chat system, logs & slash commands
-│   ├── chunk.js         # Chunk generation & block storage
-│   ├── crafting.js      # Crafting recipes & smelting logic
-│   ├── drop.js          # Dropped item entity & pickup mechanics
-│   ├── entity.js        # Base entity class
-│   ├── game.js          # Core loop, world interaction & event manager
-│   ├── input.js         # Keyboard, mouse, & touch input handler
+├── js/                  # Game engine - plain browser globals, one class per file
 │   ├── main.js          # Entry point & game initialization
-│   ├── math.js          # Vector math & projection utilities
-│   ├── minimap.js       # Live minimap UI renderer
-│   ├── mob.js           # Mob AI, hostile/passive mobs & spawning
-│   ├── network.js       # Multiplayer networking stub / socket handler
-│   ├── particles.js     # Particle system for breaking/effects
-│   ├── physics.js       # AABB physics, collision & raycasting
-│   ├── player.js        # Player state, inventory, equipment & stats
-│   ├── plugin.js        # Extension / plugin API manager
-│   ├── renderer.js      # Canvas 2D projection, 3D block rendering & light
+│   ├── game.js          # Core loop, world interaction, item use & event manager
+│   ├── interactions.js  # Right-click block behaviour registry (BlockInteractions)
+│   ├── world.js         # World management, terrain generation, redstone/fluid ticking
+│   ├── chunk.js         # Chunk block/metadata/light storage
 │   ├── structures.js    # Tree & structure generator
-│   ├── textures.js      # Procedural texture canvas generator
-│   ├── tutorial.js      # Onboarding guide & interactive tips
-│   ├── ui.js            # UI management (Inventories, Chests, Anvil, Brewing, Jukebox)
-│   ├── vehicle.js       # Boats, Minecarts & mountable entity handling
-│   ├── village.js       # Village generation logic
-│   └── world.js         # World management & terrain generation
-├── tests/               # Mocha / JavaScript unit test suite
-├── README.md            # Project documentation
-└── FUTURE_FEATURES.md   # Roadmap for upcoming features & backlog
+│   ├── village.js       # Village generation
+│   ├── biome.js         # Biome definitions & climate mapping
+│   ├── math.js          # Noise, vectors & projection utilities
+│   ├── blocks.js        # Block/item definitions, properties & drops
+│   ├── crafting.js      # Crafting recipes & smelting logic
+│   ├── player.js        # Player state, inventory, equipment & stats
+│   ├── physics.js       # AABB physics, collision & raycasting
+│   ├── entity.js        # Base entity class
+│   ├── mob.js           # Mob AI, hostile/passive mobs & spawning
+│   ├── drop.js          # Dropped item entity & pickup mechanics
+│   ├── vehicle.js       # Boats, minecarts & mountable entities
+│   ├── renderer.js      # Canvas 2D projection & block/entity drawing
+│   ├── textures.js      # Procedural texture generator
+│   ├── particles.js     # Particle system
+│   ├── audio.js         # Sound effects engine (Web Audio API)
+│   ├── ui.js            # UI management (inventories, chests, anvil, brewing, ...)
+│   ├── minimap.js       # Live minimap renderer
+│   ├── input.js         # Keyboard, mouse & touch input
+│   ├── chat.js          # Chat system, logs & slash commands
+│   ├── achievements.js  # Achievement tracking & toasts
+│   ├── tutorial.js      # Onboarding guide & tips
+│   ├── network.js       # Multiplayer client (WebSocket)
+│   └── plugin.js        # Plugin API manager
+├── server/              # Optional WebSocket multiplayer server (`npm run server`)
+├── tests/               # Mocha unit tests (run with `npm test`)
+│   └── helpers/game_env.js  # Shared JSDOM harness used by newer tests
+├── scripts/
+│   ├── run-tests.js     # Per-file test runner used by `npm test` and CI
+│   └── e2e/             # Playwright / manual browser smoke scripts (not run in CI)
+├── verification/        # Historical ad-hoc verification scripts (not run in CI)
+├── docs/
+│   ├── COMPLETED_FEATURES.md  # Archive of everything already implemented
+│   └── reports/               # Historical test & audit reports
+├── FUTURE_FEATURES.md   # Open backlog: bugs, engineering tasks, feature ideas
+└── AGENTS.md            # Working agreement for AI agents / contributors
 ```
 
 ## 🛠️ Customization & Plugin API
@@ -125,6 +137,16 @@ window.gamePluginManager.registerPlugin({
 });
 ```
 
+### Adding Right-Click Behaviour to a Block
+Block "use" handlers are registered in `js/interactions.js` (or from a plugin) instead of being added to `Game.interact()`:
+
+```javascript
+BlockInteractions.register(BLOCK.JUKEBOX, (game, x, y, z, blockType, pos) => {
+    game.ui.openJukebox(x, y, z);
+    return true; // click consumed -> no block gets placed
+});
+```
+
 ### Adding New Blocks in `js/blocks.js`
 1. Define the block constant and properties in `js/blocks.js`:
 ```javascript
@@ -135,15 +157,39 @@ MY_CUSTOM_BLOCK: 120
 
 ## 🧪 Testing
 
-Run unit tests via Mocha:
 ```bash
-npx mocha tests/*.js
+npm install          # mocha + jsdom (+ the optional native `canvas` package if it can build)
+npm test             # every tests/*.js file in its own process, summary at the end
+npm test -- --verbose                      # stream mocha output for all files
+npm test -- tests/test_hoppers.js          # one or more files / directories
+npm run test:file -- tests/test_world.js   # plain mocha for a single file (fastest when iterating)
 ```
 
-Run end-to-end automated tests with Playwright & Python:
-```bash
-python3 test_runner.py
-```
+`npm test` runs `scripts/run-tests.js`, which executes each test file in a separate Mocha process.
+This matters: most test files boot the game inside their own JSDOM and set globals such as
+`window`/`document`/`BLOCK`, so running them all in one process makes them trample each other.
+
+- Texture tests need the native [`canvas`](https://www.npmjs.com/package/canvas) package. It is an
+  *optional* dependency: if it fails to build on your machine, `npm install` still succeeds and only the
+  texture-related test files fail locally. CI installs it with prebuilt binaries.
+- New tests should use the shared harness in `tests/helpers/game_env.js` (see
+  `tests/test_block_interactions.js` for an example) instead of hand-rolling a JSDOM.
+- Browser smoke scripts (Playwright) live in `scripts/e2e/` and are run manually:
+  `npx playwright install chromium && node scripts/e2e/playwright_console_errors.js`.
+
+### Continuous integration
+
+`.github/workflows/tests.yml` runs `node --check` on every script plus the full `npm test` on each PR.
+Automated agent PRs are gated on the same suite before auto-merge (`auto-merge-jules.yml`).
+
+## 🤝 Contributing
+
+- Pick work from `FUTURE_FEATURES.md` (bugs and engineering tasks first). Finished items move to
+  `docs/COMPLETED_FEATURES.md` in the same PR.
+- Add right-click block behaviour through `BlockInteractions.register(...)` in `js/interactions.js`
+  rather than extending `Game.interact()`.
+- Every behaviour change ships with a test; `npm test` must stay green. See `AGENTS.md` for the full
+  working agreement (it applies to humans too).
 
 ## 📄 License
 

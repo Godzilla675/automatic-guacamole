@@ -2,7 +2,13 @@
 
 class SoundManager {
     constructor() {
-        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        // Web Audio may be unavailable (very old browsers, some test environments). Degrade to
+        // a silent sound manager instead of throwing and leaving window.soundManager undefined.
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        this.ctx = null;
+        if (AudioCtx) {
+            try { this.ctx = new AudioCtx(); } catch (e) { console.warn('Audio disabled:', e && e.message); }
+        }
         this.enabled = true;
         this.volume = 0.5;
 
@@ -26,7 +32,7 @@ class SoundManager {
     }
 
     startAmbience() {
-         if (!this.enabled || this.ambience.wind) return;
+         if (!this.enabled || !this.ctx || this.ambience.wind) return;
          if (this.ctx.state === 'suspended') this.ctx.resume();
 
          const noiseBuffer = this.createNoiseBuffer();
@@ -142,7 +148,7 @@ class SoundManager {
     }
 
     play(type, position = null, blockType = null) {
-        if (!this.enabled) return;
+        if (!this.enabled || !this.ctx) return;
         if (this.ctx.state === 'suspended') {
             this.ctx.resume();
         }

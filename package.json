@@ -1,12 +1,30 @@
 {
-  "dependencies": {
-    "canvas": "^3.2.3",
-    "playwright": "^1.62.1",
-    "pytest": "^1.0.0",
-    "ws": "^8.21.0"
+  "name": "voxel-world",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser-based Minecraft-style voxel game written in plain JavaScript on Canvas 2D (no build step).",
+  "homepage": "https://github.com/Godzilla675/automatic-guacamole#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Godzilla675/automatic-guacamole.git"
+  },
+  "license": "SEE LICENSE IN README.md",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "server": "node server/server.js",
+    "test": "node scripts/run-tests.js",
+    "test:file": "mocha --timeout 30000",
+    "test:verbose": "node scripts/run-tests.js --verbose"
   },
   "devDependencies": {
     "jsdom": "^27.4.0",
-    "mocha": "^11.8.0"
+    "mocha": "^11.8.0",
+    "playwright": "^1.62.1"
+  },
+  "optionalDependencies": {
+    "canvas": "^3.2.3"
   }
 }

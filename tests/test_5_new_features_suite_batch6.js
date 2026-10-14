@@ -82,6 +82,7 @@ describe('Batch 6 Features Suite', function() {
         loadScript('chat.js');
         loadScript('network.js');
         loadScript('renderer.js');
+        loadScript('interactions.js');
         loadScript('game.js');
 
         global.BLOCK = window.BLOCK;

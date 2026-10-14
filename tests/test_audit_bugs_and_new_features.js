@@ -116,6 +116,7 @@ describe('Audit Bug Fixes and New Features Suite', function() {
         loadScript('textures.js');
         loadScript('renderer.js');
         loadScript('particles.js');
+        loadScript('interactions.js');
         loadScript('game.js');
 
         global.BLOCK = window.BLOCK;

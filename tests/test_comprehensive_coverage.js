@@ -124,7 +124,7 @@ const load = (f) => {
  'physics.js', 'audio.js', 'network.js', 'entity.js', 'drop.js', 'crafting.js',
  'player.js', 'vehicle.js', 'mob.js', 'chat.js', 'particles.js', 'plugin.js',
  'minimap.js', 'achievements.js', 'tutorial.js', 'ui.js', 'input.js',
- 'renderer.js', 'game.js'].forEach(load);
+ 'renderer.js', 'interactions.js', 'game.js'].forEach(load);
 
 // ============================================================
 // Test Suites

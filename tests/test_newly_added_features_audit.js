@@ -135,6 +135,8 @@ describe('Newly Added Features Audit & Verification Test Suite', function() {
         require('../js/network.js');
         window.NetworkManager = global.NetworkManager = window.NetworkManager || global.NetworkManager;
 
+        require('../js/interactions.js');
+        window.BlockInteractions = global.BlockInteractions = window.BlockInteractions || global.BlockInteractions;
         require('../js/game.js');
         window.Game = global.Game = window.Game || global.Game;
 

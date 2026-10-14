@@ -109,6 +109,7 @@ function loadScript(path) {
 }
 
 // Load game.js
+loadScript('js/interactions.js');
 loadScript('js/game.js');
 const Game = dom.window.Game;
 

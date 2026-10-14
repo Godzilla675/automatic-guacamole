@@ -1,5 +1,9 @@
 name: Auto-Merge Jules PRs
 
+# Automatically merges PRs opened by the repo owner's agent account - but only after the branch is
+# up to date with main AND the full test suite passes on the merged result.  A merge conflict or a
+# red test suite leaves the PR open for a human instead of forcing it through.
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review, closed]
@@ -7,35 +11,71 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     if: >
+      github.event.action != 'closed' &&
       github.event.pull_request.user.login == 'godzilla675' &&
       !github.event.pull_request.merged
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - name: Checkout code
+      - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Resolve conflicts
+      - name: Bring the branch up to date with the base branch
+        id: sync
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin ${{ github.base_ref }}
-          git merge origin/${{ github.base_ref }} --no-edit || (git merge --abort && git merge origin/${{ github.base_ref }} -X theirs --no-edit)
-          git push origin HEAD:${{ github.head_ref }}
+          git fetch origin "${{ github.base_ref }}"
+          if git merge "origin/${{ github.base_ref }}" --no-edit; then
+            echo "Branch is up to date with ${{ github.base_ref }}."
+          else
+            git merge --abort || true
+            gh pr comment "$PR_URL" --body ":warning: Auto-merge skipped: this branch conflicts with \`${{ github.base_ref }}\`. Please resolve the conflicts manually (the old workflow used to silently discard \`${{ github.base_ref }}\`'s side with \`-X theirs\`; it no longer does)."
+            echo "::error::Merge conflict with ${{ github.base_ref }} - leaving the PR for a human."
+            exit 1
+          fi
+          # Only push if the merge actually created a new commit.
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/${{ github.head_ref }})" ]; then
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
 
-      - name: Approve and Merge
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run the full test suite on the merged result
+        run: npm test -- --jobs 2
+
+      - name: Approve and merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
           gh pr ready "$PR_URL" || true
-          gh pr review "$PR_URL" --approve --body "Auto-approved."
+          gh pr review "$PR_URL" --approve --body "Auto-approved: branch is up to date with ${{ github.base_ref }} and the full test suite passed."
           gh pr merge "$PR_URL" --auto --squash
+
+      - name: Report failure on the PR
+        if: failure() && steps.sync.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr comment "$PR_URL" --body ":x: Auto-merge skipped: the test suite failed on the merged result. See the workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
   label-merged:
     runs-on: ubuntu-latest

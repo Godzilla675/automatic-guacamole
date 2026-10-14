@@ -3,6 +3,11 @@ class World {
         this.chunks = new Map();
         this.pendingBlocks = new Map();
         this.blockEntities = new Map(); // Store complex data like Furnace state { "x,y,z": { ... } }
+        // Chunks the player has modified are parked here (not regenerated from noise) when they scroll
+        // out of range, so builds survive walking away / dimension trips. Keyed "dimension:cx,cz".
+        this.unloadedChunks = new Map();
+        this.maxUnloadedChunks = 512; // ~130 KB per chunk -> hard cap on memory held by parked chunks
+        this._generating = 0;         // >0 while terrain/structures are being generated (those edits are not "player edits")
         this.chunkSize = 16;
         this.renderDistance = 6;
         this.worldHeight = 128;
@@ -92,6 +97,7 @@ class World {
 
         const oldType = chunk.getBlock(lx, y, lz);
         chunk.setBlock(lx, y, lz, type);
+        if (oldType !== type && this._generating === 0) chunk.edited = true;
 
         if (oldType === BLOCK.INFESTED_STONE && type === BLOCK.AIR) {
             if (this.game && this.game.mobs && window.Mob && window.MOB_TYPE) {
@@ -107,6 +113,11 @@ class World {
 
         // Remove old block entity if it exists
         this.removeBlockEntity(x, y, z);
+
+        // Hoppers are driven by their block entity (see updateHoppers), so create it right away.
+        if (type === BLOCK.HOPPER) {
+            this.setBlockEntity(x, y, z, { type: 'hopper', items: new Array(5).fill(null) });
+        }
 
         // Update neighbors if on edge to ensure culling is updated
         if (lx === 0) { const c = this.getChunk(cx - 1, cz); if (c) c.modified = true; }
@@ -129,8 +140,14 @@ class World {
         const blockDef = window.BLOCKS[type];
         const oldBlockDef = window.BLOCKS[oldType];
 
+        // Skipped while chunks are being generated: structures place hundreds of blocks through setBlock and
+        // recalcLocalLight scans a 31x31x31 cube per solid block, which made worldgen ~10x slower than it needs
+        // to be (and the stored block light is not consumed by the renderer yet).
+        if (this._generating > 0) {
+            // no-op
+        }
         // If placed a light source
-        if (blockDef && blockDef.light) {
+        else if (blockDef && blockDef.light) {
             this.updateLighting(x, y, z);
         }
         // If removed a light source or placed an opaque block blocking light
@@ -488,31 +505,21 @@ class World {
     }
 
     updateHoppers() {
-        for (let x = -30; x <= 30; x += 16) {
-            for (let z = -30; z <= 30; z += 16) {
-                const chunk = this.getChunkAt(x, z);
-                if (!chunk) continue;
-                for (let lx = 0; lx < 16; lx++) {
-                    for (let lz = 0; lz < 16; lz++) {
-                        for (let y = 1; y < 120; y++) {
-                            if (chunk.getBlock(lx, y, lz) === window.BLOCK.HOPPER) {
-                                this.processHopper(chunk.cx * 16 + lx, y, chunk.cz * 16 + lz);
-                            }
-                        }
-                    }
-                }
+        // Hoppers are tracked as block entities (created in setBlock / processHopper), so we only
+        // visit actual hoppers instead of scanning ~half a million blocks around the world origin
+        // every frame. This also makes hoppers work anywhere in the world, not just near spawn.
+        const stale = [];
+        for (const [key, entity] of this.blockEntities) {
+            if (!entity || entity.type !== 'hopper') continue;
+            const [x, y, z] = key.split(',').map(Number);
+            if (!this.getChunkAt(x, z)) continue; // chunk not loaded: keep the entity (and its items) for later
+            if (this.getBlock(x, y, z) !== window.BLOCK.HOPPER) {
+                stale.push(key); // block disappeared without going through setBlock (e.g. chunk regenerated)
+                continue;
             }
+            this.processHopper(x, y, z);
         }
-
-        const mobsList = (this.game && this.game.mobs) || (typeof window !== 'undefined' && window.game && window.game.mobs ? window.game.mobs : []);
-        for (const mob of mobsList) {
-            if (mob && !mob.isDead && mob.type === window.MOB_TYPE.WARDEN) {
-                const dist = Math.hypot(mob.x - x, mob.z - z, mob.y - y);
-                if (dist <= 16) {
-                    mob.onVibration({ x, y, z });
-                }
-            }
-        }
+        for (const key of stale) this.blockEntities.delete(key);
     }
 
     processHopper(x, y, z) {
@@ -1640,16 +1647,71 @@ class World {
              const cz = parseInt(czStr);
 
              if (Math.abs(cx - centerCX) > unloadDist || Math.abs(cz - centerCZ) > unloadDist) {
+                 this.parkChunk(key, this.chunks.get(key));
                  this.chunks.delete(key);
              }
         }
     }
 
+    /** Key for the parked-chunk map; includes the dimension so Nether chunks never resurface in the Overworld. */
+    getUnloadedChunkKey(key) {
+        return `${this.dimension}:${key}`;
+    }
+
+    /** Keep a chunk's data around if the player changed it; untouched terrain can simply be regenerated. */
+    parkChunk(key, chunk) {
+        if (!chunk || !chunk.edited) return false;
+        chunk.visibleBlocks = []; // render cache is rebuilt on restore; don't hold it in memory meanwhile
+        chunk.modified = true;
+        const ukey = this.getUnloadedChunkKey(key);
+        this.unloadedChunks.delete(ukey); // refresh insertion order (Map keeps it) so eviction is LRU-ish
+        this.unloadedChunks.set(ukey, chunk);
+        while (this.unloadedChunks.size > this.maxUnloadedChunks) {
+            this.unloadedChunks.delete(this.unloadedChunks.keys().next().value);
+        }
+        return true;
+    }
+
+    /** Bring a parked chunk back instead of regenerating it. Returns true if one existed. */
+    restoreParkedChunk(cx, cz) {
+        const key = this.getChunkKey(cx, cz);
+        const ukey = this.getUnloadedChunkKey(key);
+        const chunk = this.unloadedChunks.get(ukey);
+        if (!chunk) return false;
+        this.unloadedChunks.delete(ukey);
+        chunk.modified = true;
+        this.chunks.set(key, chunk);
+        this.applyPendingBlocks(key, chunk);
+        return true;
+    }
+
+    /** Apply blocks that were set while the chunk did not exist (structures spilling over borders, etc.). */
+    applyPendingBlocks(key, chunk) {
+        if (!this.pendingBlocks.has(key)) return;
+        for (const b of this.pendingBlocks.get(key)) {
+            chunk.setBlock(b.x, b.y, b.z, b.type);
+        }
+        this.pendingBlocks.delete(key);
+    }
+
+    /** Drop every loaded chunk (dimension switch), parking the ones the player edited. */
+    unloadAllChunks() {
+        for (const [key, chunk] of this.chunks) this.parkChunk(key, chunk);
+        this.chunks.clear();
+    }
+
     generateChunk(cx, cz) {
-        if (this.dimension === 'nether') {
-            this.generateNetherChunk(cx, cz);
-        } else {
-            this.generateOverworldChunk(cx, cz);
+        if (this.chunks.has(this.getChunkKey(cx, cz))) return;
+        if (this.restoreParkedChunk(cx, cz)) return;
+        this._generating++;
+        try {
+            if (this.dimension === 'nether') {
+                this.generateNetherChunk(cx, cz);
+            } else {
+                this.generateOverworldChunk(cx, cz);
+            }
+        } finally {
+            this._generating--;
         }
     }
 
@@ -1924,7 +1986,7 @@ class World {
             return btoa(binary);
         };
 
-        this.chunks.forEach((chunk) => {
+        const packChunk = (chunk) => {
              const packed = chunk.pack();
              const blocksBytes = new Uint8Array(packed.blocks.buffer, packed.blocks.byteOffset, packed.blocks.byteLength);
              const metadataBytes = new Uint8Array(packed.metadata.buffer, packed.metadata.byteOffset, packed.metadata.byteLength);
@@ -1935,7 +1997,13 @@ class World {
                  blocks: toBase64(blocksBytes),
                  metadata: toBase64(metadataBytes)
              });
-        });
+        };
+        this.chunks.forEach(packChunk);
+        // Edited chunks that scrolled out of range are part of the world too.
+        const dimPrefix = `${this.dimension}:`;
+        for (const [ukey, chunk] of this.unloadedChunks) {
+            if (ukey.startsWith(dimPrefix)) packChunk(chunk);
+        }
 
         const blockEntitiesData = {};
         for (const [key, value] of this.blockEntities) {
@@ -1986,6 +2054,7 @@ class World {
                 const data = JSON.parse(dataStr);
                 this.seed = data.seed;
                 this.chunks.clear();
+                this.unloadedChunks.clear();
 
                 if (data.chunks) {
                     data.chunks.forEach(cData => {
@@ -2013,6 +2082,7 @@ class World {
                         });
 
                         chunk.modified = true; // Force visual update
+                        chunk.edited = true;   // Came from a save: keep it when it scrolls out of range
                         this.chunks.set(this.getChunkKey(cData.cx, cData.cz), chunk);
                     });
                 }

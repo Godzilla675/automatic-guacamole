@@ -94,6 +94,7 @@ describe('Batch 18 Feature Verification Suite', function() {
         window.TutorialManager = class { constructor() {} update() {} };
         window.Drop = class { constructor(game, x, y, z, type, count) { this.game = game; this.x = x; this.y = y; this.z = z; this.type = type; this.count = count; this.lifeTime = 300; } update() {} };
 
+        loadScript('interactions.js');
         loadScript('game.js');
         globalGame = new window.Game();
         window.game = globalGame;

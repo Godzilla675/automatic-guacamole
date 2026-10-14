@@ -127,6 +127,7 @@ describe('New Audit Fixes & Quality Features Test Suite', function() {
         loadModule('../js/tutorial.js');
         loadModule('../js/ui.js');
         loadModule('../js/renderer.js');
+        loadModule('../js/interactions.js');
         loadModule('../js/game.js');
 
         globalGame = new window.Game();

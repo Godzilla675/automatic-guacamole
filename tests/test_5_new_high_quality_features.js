@@ -100,6 +100,7 @@ describe('5 New High Quality Features Test Suite', function () {
         loadScript('js/textures.js');
         loadScript('js/renderer.js');
         loadScript('js/ui.js');
+        loadScript('js/interactions.js');
         loadScript('js/game.js');
 
         // Bind global constructor mappings

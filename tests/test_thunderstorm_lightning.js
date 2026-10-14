@@ -82,6 +82,7 @@ const files = [
     'js/mob.js',
     'js/particles.js',
     'js/renderer.js',
+    'js/interactions.js',
     'js/game.js'
 ];
 
