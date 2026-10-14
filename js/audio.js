@@ -70,10 +70,10 @@ class SoundManager {
          rainSrc.loop = true;
          const rainFilter = this.ctx.createBiquadFilter();
          rainFilter.type = 'bandpass';
-         rainFilter.frequency.value = 1200;
-         rainFilter.Q.value = 1.0;
+         if (rainFilter.frequency) rainFilter.frequency.value = 1200;
+         if (rainFilter.Q) rainFilter.Q.value = 1.0;
          const rainGain = this.ctx.createGain();
-         rainGain.gain.value = 0;
+         if (rainGain.gain) rainGain.gain.value = 0;
          rainSrc.connect(rainFilter);
          rainFilter.connect(rainGain);
          rainGain.connect(this.ctx.destination);

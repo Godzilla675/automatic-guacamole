@@ -164,6 +164,7 @@ class TextureManager {
         this.textures[B.EXPOSED_CHISELED_COPPER] = this.genChiseledCopper('#A08060', '#886848');
         this.textures[B.WEATHERED_CHISELED_COPPER] = this.genChiseledCopper('#509080', '#3E786B');
         this.textures[B.OXIDIZED_CHISELED_COPPER] = this.genChiseledCopper('#40A090', '#2E8878');
+        this.textures[B.ITEM_COMPASS] = this.genRecoveryCompass();
         this.textures[B.ITEM_RECOVERY_COMPASS] = this.genRecoveryCompass();
         this.textures[B.HEAVY_CORE] = this.genHeavyCore();
         this.textures[B.ITEM_MACE] = this.genMaceItem();
