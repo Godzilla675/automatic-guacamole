@@ -565,26 +565,48 @@ class Game {
         if (blockType === BLOCK.TRIAL_SPAWNER) {
             let entity = this.world.getBlockEntity(x, y, z);
             if (!entity) {
-                entity = { type: 'trial_spawner', wave: 0, maxWaves: 3, mobCount: 0 };
+                entity = { type: 'trial_spawner', wave: 0, maxWaves: 3, mobCount: 0, isOminous: false };
                 this.world.setBlockEntity(x, y, z, entity);
             }
+
+            const hasBadOmen = this.player && this.player.activeEffects && this.player.activeEffects.some(e => e.name === 'Bad Omen');
+            if (hasBadOmen && !entity.isOminous) {
+                entity.isOminous = true;
+                entity.wave = 0;
+                entity.maxWaves = 4;
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#9400D3', 30);
+                if (this.ui && this.ui.showNotification) {
+                    this.ui.showNotification("Bad Omen upgraded Trial Spawner to Ominous Trial Spawner!");
+                }
+            }
+
             if (entity.wave < entity.maxWaves && entity.mobCount <= 0) {
                 entity.wave++;
-                entity.mobCount = 2;
-                for (let i = 0; i < 2; i++) {
-                    const mob = new Mob(this, x + 1 + i, y + 1, z, MOB_TYPE.BREEZE || MOB_TYPE.ZOMBIE);
+                entity.mobCount = entity.isOminous ? 3 : 2;
+                const mobTypeToSpawn = entity.isOminous ? (MOB_TYPE.WITHER_SKELETON || MOB_TYPE.BREEZE) : (MOB_TYPE.BREEZE || MOB_TYPE.ZOMBIE);
+                for (let i = 0; i < entity.mobCount; i++) {
+                    const mob = new Mob(this, x + 1 + i, y + 1, z, mobTypeToSpawn);
+                    if (entity.isOminous) {
+                        mob.maxHealth += 10;
+                        mob.health += 10;
+                        mob.speed *= 1.2;
+                    }
                     this.mobs.push(mob);
                 }
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#FFA500', 15);
+                const particleColor = entity.isOminous ? '#9400D3' : '#FFA500';
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, particleColor, 15);
                 if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification(`Trial Spawner Wave ${entity.wave}/${entity.maxWaves} Started!`);
+                    this.ui.showNotification(`${entity.isOminous ? 'Ominous ' : ''}Trial Spawner Wave ${entity.wave}/${entity.maxWaves} Started!`);
                 }
             } else if (entity.wave >= entity.maxWaves) {
-                this.player.addItem({ type: BLOCK.ITEM_TRIAL_KEY, count: 1 });
+                const rewardKey = entity.isOminous ? BLOCK.ITEM_OMINOUS_TRIAL_KEY : BLOCK.ITEM_TRIAL_KEY;
+                this.player.addItem({ type: rewardKey, count: 1 });
                 if (this.ui && this.ui.showNotification) {
-                    this.ui.showNotification("Trial Spawner Defeated! Earned Trial Key!");
+                    const keyName = window.BLOCKS[rewardKey] ? window.BLOCKS[rewardKey].name : 'Trial Key';
+                    this.ui.showNotification(`Trial Spawner Defeated! Earned ${keyName}!`);
                 }
-                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, '#FFD700', 25);
+                const particleColor = entity.isOminous ? '#9400D3' : '#FFD700';
+                if (this.particles) this.particles.spawn(x + 0.5, y + 1.0, z + 0.5, particleColor, 25);
             } else {
                 if (this.ui && this.ui.showNotification) {
                     this.ui.showNotification("Trial Spawner: Defeat active trial mobs!");

@@ -521,7 +521,10 @@ const BLOCK = {
     ITEM_OMINOUS_BANNER: 570,
     HANGING_SIGN_PALE_OAK: 571,
     ITEM_HANGING_SIGN_PALE_OAK: 572,
-    ITEM_COMPASS: 573
+    ITEM_COMPASS: 573,
+    ITEM_EYE_OF_ENDER: 574,
+    END_STONE: 575,
+    WITHER_ROSE: 576
 };
 
 const ARMOR = {
@@ -1120,7 +1123,10 @@ const BLOCKS = {
     [BLOCK.ITEM_OMINOUS_BANNER]: { name: 'Ominous Banner', color: '#3A3A3A', solid: false, isItem: true, icon: '🚩' },
     [BLOCK.ITEM_HANGING_SIGN_PALE_OAK]: { name: 'Pale Oak Hanging Sign', color: '#E8E8E8', solid: false, isItem: true, icon: '🪧' },
     [BLOCK.HANGING_SIGN_PALE_OAK]: { name: 'Pale Oak Hanging Sign', color: '#E8E8E8', solid: false, transparent: true, icon: '🪧', hardness: 1.0, tool: 'axe', isSign: true, drop: { type: 572, count: 1 } },
-    [BLOCK.ITEM_COMPASS]: { name: 'Compass', color: '#B0C4DE', solid: false, isItem: true, icon: '🧭' }
+    [BLOCK.ITEM_COMPASS]: { name: 'Compass', color: '#B0C4DE', solid: false, isItem: true, icon: '🧭' },
+    [BLOCK.ITEM_EYE_OF_ENDER]: { name: 'Eye of Ender', color: '#00FA9A', solid: false, isItem: true, icon: '👁️' },
+    [BLOCK.END_STONE]: { name: 'End Stone', color: '#EEE8AA', top: '#F0E68C', solid: true, icon: '🪨', hardness: 3.0, tool: 'pickaxe' },
+    [BLOCK.WITHER_ROSE]: { name: 'Wither Rose', color: '#2F2F2F', solid: false, transparent: true, icon: '🌹', hardness: 0.0, drop: { type: 576, count: 1 } }
 };
 
 if (typeof window !== 'undefined') {
