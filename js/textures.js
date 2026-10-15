@@ -356,6 +356,12 @@ class TextureManager {
         this.textures[B.PORTAL] = this.genPortal();
 
         // Functional
+        this.textures[B.BREWING_STAND] = this.genTorch('#808080');
+        this.textures[B.CAULDRON] = this.genAnvil();
+        this.textures[B.ENCHANTING_TABLE] = this.genPlank('#800000');
+        this.textures[B.RAIL] = this.genTorch('#808080');
+        this.textures[B.NOTE_BLOCK] = this.genJukebox();
+        this.textures[B.SIGN_POST] = this.genPlank('#DEB887');
         this.textures[B.REDSTONE_LAMP] = this.genRedstoneLamp(false);
         this.textures[B.REDSTONE_LAMP_ACTIVE] = this.genRedstoneLamp(true);
         this.textures[B.PISTON] = this.genPiston(false);
@@ -1790,6 +1796,7 @@ class TextureManager {
         this.textures[B.FISHING_ROD] = this.genFishingRod();
         this.textures[B.SHIELD] = this.genShield();
         this.textures[B.ITEM_ARROW] = this.genArrow();
+        this.textures[B.ITEM_SNOWBALL] = this.genDust('#FFFFFF');
 
         // Materials
         this.textures[B.ITEM_STICK] = this.genStick();
@@ -1816,6 +1823,7 @@ class TextureManager {
         // Food
         this.textures[B.ITEM_APPLE] = this.genApple();
         this.textures[B.ITEM_PORKCHOP] = this.genMeat('#FFB6C1');
+        this.textures[B.ITEM_BEEF] = this.genMeat('#8B0000');
         this.textures[B.ITEM_MUTTON] = this.genMeat('#B22222');
         this.textures[B.ITEM_CHICKEN] = this.genMeat('#FFDAB9');
         this.textures[B.ITEM_ROTTEN_FLESH] = this.genMeat('#6B8E23');
