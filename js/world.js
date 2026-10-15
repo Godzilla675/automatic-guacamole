@@ -699,13 +699,16 @@ class World {
                     const sx = bx + dx;
                     const sy = by + dy;
                     const sz = bz + dz;
-                    if (this.getBlock(sx, sy, sz) === window.BLOCK.SCULK_SENSOR) {
+                    const b = this.getBlock(sx, sy, sz);
+                    if (b === window.BLOCK.SCULK_SENSOR) {
                         this.setMetadata(sx, sy, sz, signalStrength);
                         this.activeRedstone.add(`${sx},${sy},${sz}`);
                         this.scheduleNeighborRedstoneUpdates(sx, sy, sz);
                         if (this.game && this.game.particles) {
                             this.game.particles.spawn(sx + 0.5, sy + 1.0, sz + 0.5, '#00ACC1', 8);
                         }
+                    } else if (b === window.BLOCK.SCULK_SHRIEKER) {
+                        this.shriekAt(sx, sy, sz);
                     }
                 }
             }
@@ -1707,11 +1710,56 @@ class World {
         try {
             if (this.dimension === 'nether') {
                 this.generateNetherChunk(cx, cz);
+            } else if (this.dimension === 'end') {
+                this.generateEndChunk(cx, cz);
             } else {
                 this.generateOverworldChunk(cx, cz);
             }
         } finally {
             this._generating--;
+        }
+    }
+
+    generateEndChunk(cx, cz) {
+        if (this.chunks.has(this.getChunkKey(cx, cz))) return;
+
+        const chunk = new Chunk(cx, cz);
+        const baseX = cx * this.chunkSize;
+        const baseZ = cz * this.chunkSize;
+
+        for (let x = 0; x < this.chunkSize; x++) {
+            for (let z = 0; z < this.chunkSize; z++) {
+                const worldX = baseX + x;
+                const worldZ = baseZ + z;
+                const distFromCenter = Math.hypot(worldX, worldZ);
+
+                // Central island within radius ~60, or outer islands further away
+                const isCentralIsland = distFromCenter <= 60;
+                const isOuterIsland = distFromCenter > 150 && (window.perlin ? window.perlin.noise(worldX * 0.03, worldZ * 0.03, this.seed + 200) > 0.3 : false);
+
+                if (isCentralIsland || isOuterIsland) {
+                    const noise = window.perlin ? window.perlin.noise(worldX * 0.05, worldZ * 0.05, this.seed) : 0;
+                    const islandHeight = Math.floor(60 + noise * 8);
+                    const islandThickness = 12;
+
+                    for (let y = islandHeight - islandThickness; y <= islandHeight; y++) {
+                        if (y > 0 && y < 128) {
+                            chunk.setBlock(x, y, z, window.BLOCK.END_STONE || BLOCK.STONE);
+                        }
+                    }
+                }
+            }
+        }
+
+        const key = this.getChunkKey(cx, cz);
+        this.chunks.set(key, chunk);
+
+        if (this.pendingBlocks.has(key)) {
+            const pending = this.pendingBlocks.get(key);
+            for (const b of pending) {
+                chunk.setBlock(b.x, b.y, b.z, b.type);
+            }
+            this.pendingBlocks.delete(key);
         }
     }
 
