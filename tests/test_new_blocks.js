@@ -47,17 +47,35 @@ describe('New Blocks Verification', () => {
         assert.strictEqual(whiteWool.hardness, 0.8);
     });
 
-    it('should have deprecated ITEM_WOOL correctly', () => {
+    it('should have deprecated ITEM_WOOL correctly aliased to WOOL_WHITE', () => {
         const BLOCK = window.BLOCK || dom.window.BLOCK;
         const BLOCKS = window.BLOCKS || dom.window.BLOCKS;
 
-        // ITEM_WOOL is 205
-        assert.strictEqual(BLOCK.ITEM_WOOL, 205);
-        // It should still exist in BLOCKS for now (as I didn't remove it from BLOCKS)
-        // Check if I removed it? In my write_file I didn't remove it from BLOCKS but I removed the definition line?
-        // Let's check my previous write_file.
-        // I kept [BLOCK.ITEM_WOOL] in BLOCKS in the previous step?
-        // Wait, I think I removed it from BLOCKS in the write_file content.
-        // Let's check.
+        // ITEM_WOOL is clean alias for WOOL_WHITE (50)
+        assert.strictEqual(BLOCK.ITEM_WOOL, BLOCK.WOOL_WHITE);
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_WOOL].name, 'White Wool');
+    });
+
+    it('should have unique block IDs for functional blocks and mob drops without collisions', () => {
+        const BLOCK = window.BLOCK || dom.window.BLOCK;
+        const BLOCKS = window.BLOCKS || dom.window.BLOCKS;
+
+        assert.strictEqual(BLOCKS[BLOCK.BREWING_STAND].name, 'Brewing Stand');
+        assert.strictEqual(BLOCKS[BLOCK.CAULDRON].name, 'Cauldron');
+        assert.strictEqual(BLOCKS[BLOCK.ENCHANTING_TABLE].name, 'Enchanting Table');
+        assert.strictEqual(BLOCKS[BLOCK.RAIL].name, 'Rail');
+        assert.strictEqual(BLOCKS[BLOCK.POWERED_RAIL].name, 'Powered Rail');
+        assert.strictEqual(BLOCKS[BLOCK.DETECTOR_RAIL].name, 'Detector Rail');
+        assert.strictEqual(BLOCKS[BLOCK.BOOKSHELF].name, 'Bookshelf');
+        assert.strictEqual(BLOCKS[BLOCK.NOTE_BLOCK].name, 'Note Block');
+
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_ROTTEN_FLESH].name, 'Rotten Flesh');
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_BONE].name, 'Bone');
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_STRING].name, 'String');
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_PORKCHOP].name, 'Porkchop');
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_LEATHER].name, 'Leather');
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_MUTTON].name, 'Raw Mutton');
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_BEEF].name, 'Raw Beef');
+        assert.strictEqual(BLOCKS[BLOCK.ITEM_STICK].name, 'Stick');
     });
 });

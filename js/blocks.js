@@ -28,7 +28,7 @@ const BLOCK = {
     FARMLAND: 22,
     BED: 23,
     WHEAT: 24,
-    CARROTS: 241, // Using high ID to avoid conflict? No, let's keep it close if possible, or just append
+    CARROTS: 279,
     POTATOES: 242,
     MELON_BLOCK: 243,
     PUMPKIN: 244,
@@ -178,17 +178,17 @@ const BLOCK = {
     SHIELD: 141,
 
     // Mob Drops
-    ITEM_ROTTEN_FLESH: 200,
-    ITEM_BONE: 201,
-    ITEM_STRING: 202,
-    ITEM_PORKCHOP: 203,
-    ITEM_LEATHER: 204,
-    ITEM_WOOL: 205, // Deprecated, use WOOL_WHITE
-    ITEM_MUTTON: 206,
-    ITEM_BEEF: 207,
+    ITEM_ROTTEN_FLESH: 270,
+    ITEM_BONE: 271,
+    ITEM_STRING: 272,
+    ITEM_PORKCHOP: 273,
+    ITEM_LEATHER: 274,
+    ITEM_WOOL: 50, // Deprecated, alias to WOOL_WHITE
+    ITEM_MUTTON: 276,
+    ITEM_BEEF: 277,
 
     // Crafting Items
-    ITEM_STICK: 210,
+    ITEM_STICK: 278,
     ITEM_COAL: 211,
     ITEM_IRON_INGOT: 212,
     ITEM_GOLD_INGOT: 213,
@@ -236,8 +236,8 @@ const BLOCK = {
     ITEM_BUCKET: 323,
 
     // Signs (Blocks)
-    SIGN_POST: 206,
-    WALL_SIGN: 207,
+    SIGN_POST: 280,
+    WALL_SIGN: 281,
     ITEM_WATER_BUCKET: 324,
     ITEM_LAVA_BUCKET: 325,
     ITEM_MILK_BUCKET: 326,
@@ -766,7 +766,6 @@ const BLOCKS = {
     [BLOCK.ITEM_PORKCHOP]: { name: 'Porkchop', color: '#FFB6C1', solid: false, isItem: true, icon: '🥩', food: 8 },
     [BLOCK.ITEM_BEEF]: { name: 'Raw Beef', color: '#8B0000', solid: false, isItem: true, icon: '🥩', food: 3 },
     [BLOCK.ITEM_LEATHER]: { name: 'Leather', color: '#8B4513', solid: false, isItem: true, icon: '🟫' },
-    [BLOCK.ITEM_WOOL]: { name: 'White Wool', color: '#FFFFFF', solid: false, isItem: true, icon: '⬜' },
     [BLOCK.ITEM_MUTTON]: { name: 'Raw Mutton', color: '#B22222', solid: false, isItem: true, icon: '🍖', food: 6 },
 
     [BLOCK.ITEM_FEATHER]: { name: 'Feather', color: '#FFFFFF', solid: false, isItem: true, icon: '🪶' },

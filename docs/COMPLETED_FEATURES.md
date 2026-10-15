@@ -4,9 +4,11 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 470 items.
+Total: 472 items.
 
 ## Core Features
+- [x] **Deprecated Items cleanup**: Deprecated item IDs (ITEM_WOOL) aliased cleanly to WOOL_WHITE and duplicate block ID collisions resolved across functional blocks and mob drops.
+- [x] **Animal Drops fixing**: Assign unique IDs to mob drop items (Rotten Flesh, Bone, String, Porkchop, Leather, Mutton, Raw Beef, Stick) and crop/sign blocks (Carrots, Sign Post, Wall Sign) to eliminate collisions with functional blocks.
 - [x] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table.
 - [x] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation.
 - [x] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering.
