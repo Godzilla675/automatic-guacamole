@@ -245,6 +245,9 @@ Total: 470 items.
 - [x] **New Task: Add Heavy Core Mace Falling Shockwave Radius**: Falling from high altitudes creates a 3D ground shockwave particle ring when smashing terrain with Mace.
 
 ## Known Bugs & Issues (To Be Fixed)
+- [x] **Bug: Eye of Ender Hardcoded Trajectory Target**: `Player.prototype.throwEyeOfEnder` in `js/player.js` dynamically locates generated structures or structureManager target coordinates.
+- [x] **Bug: Sculk Shrieker Vibration Listener Missing**: `World.prototype.emitVibration` in `js/world.js` notifies nearby Sculk Shrieker blocks and triggers `shriekAt`.
+- [x] **Bug: End Dimension Missing in Dimension Switching**: `Game.prototype.switchDimension` in `js/game.js` and `World.prototype.generateChunk` in `js/world.js` support the `'end'` dimension with End Stone terrain island generation.
 - [x] **Bug: Canvas Pattern Creation in Headless Contexts**: `createPattern` throwing errors in headless test environments lacking full HTMLCanvasElement rendering backends. (Status: Verified and working - canvas pattern fallback in TextureManager and test hooks)
 - [x] **Bug: Flaky Chunk Loading Test under high concurrency**: Chunk loading boundary test under concurrent test runner load occasionally failing due to chunk generation timing. (Status: Verified and working - sequential execution via test scripts)
 - [x] **Bug: JSDOM Mocha test global.Game reference loss**: `global.Game` becoming undefined during JSDOM Mocha `beforeEach` hooks in headless test suites requiring fallback assignment (`if (!global.Game) global.Game = dom.window.Game || window.Game`). (Status: Verified and working - handled in test hooks)

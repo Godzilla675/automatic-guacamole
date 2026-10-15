@@ -1982,9 +1982,15 @@ class Game {
             this.player.x /= 8;
             this.player.z /= 8;
             this.player.y = 60; // Approximate safe height
+        } else if (dimension === 'end') {
+            this.player.x = 0;
+            this.player.z = 0;
+            this.player.y = 65;
         } else {
-            this.player.x *= 8;
-            this.player.z *= 8;
+            if (dimension === 'overworld' && this.world.dimension === 'nether') {
+                this.player.x *= 8;
+                this.player.z *= 8;
+            }
             this.player.y = 80; // Approximate safe height
         }
 

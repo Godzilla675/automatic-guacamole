@@ -18,9 +18,6 @@ Real defects in shipped behaviour. These outrank everything else.
 - [ ] **Animal Drops fixing**
 - [ ] **Bug: Chat System & Commands Execution Timeout**: The "Chat System & Commands" test suite in `test_comprehensive_coverage.js` fails with a 20000ms timeout due to JSDOM network script resolution or command processing stalls, requiring either an extended timeout or mocking of the network calls to prevent full suite execution failure. *(Re-check: with `npm test` every file runs in its own process with a 30s timeout; `test_comprehensive_coverage.js` currently passes in ~6s. Close this if it stays green.)*
 - [ ] **Bug: Playwright Frontend Verification Canvas Wait Timeout**: Some Playwright end-to-end testing scripts fail due to timeouts waiting for the #game-canvas element when testing in a headless environment.
-- [ ] **Bug: Eye of Ender Hardcoded Trajectory Target**: `Player.prototype.useItem` in `js/player.js` hardcodes target coordinates to `this.x + 100, this.z + 100` instead of dynamically locating generated structures like Strongholds or Nether Fortresses.
-- [ ] **Bug: Sculk Shrieker Vibration Listener Missing**: `World.prototype.emitVibration` in `js/world.js` checks Sculk Sensors but does not notify nearby Sculk Shrieker blocks, preventing Sculk Shriekers from triggering in response to nearby vibration events.
-- [ ] **Bug: End Dimension Missing in Dimension Switching**: `Game.prototype.switchDimension` in `js/game.js` only handles `'overworld'` and `'nether'` dimensions, causing dimension switches to `'end'` to fail or lack proper terrain generation.
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.

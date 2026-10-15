@@ -162,8 +162,31 @@ class Player {
             this.inventory[this.selectedSlot] = null;
         }
 
-        const targetX = this.x + 100;
-        const targetZ = this.z + 100;
+        // Dynamically find nearest structure (e.g. Stronghold, Fortress, Village, Desert Temple) or structure manager target
+        let targetX = this.x + 100;
+        let targetZ = this.z + 100;
+
+        if (this.game && this.game.world) {
+            let closestDist = Infinity;
+            // Check world structure locations if recorded
+            if (this.game.world.structures && Array.isArray(this.game.world.structures)) {
+                for (const struct of this.game.world.structures) {
+                    const d = Math.hypot(struct.x - this.x, struct.z - this.z);
+                    if (d < closestDist) {
+                        closestDist = d;
+                        targetX = struct.x;
+                        targetZ = struct.z;
+                    }
+                }
+            } else if (this.game.world.structureManager && this.game.world.structureManager.findNearestStructure) {
+                const found = this.game.world.structureManager.findNearestStructure(this.x, this.z);
+                if (found) {
+                    targetX = found.x;
+                    targetZ = found.z;
+                }
+            }
+        }
+
         const dx = targetX - this.x;
         const dz = targetZ - this.z;
         const dist = Math.hypot(dx, dz) || 1;
