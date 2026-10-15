@@ -1,7 +1,7 @@
 # Future Features & Tasks
 
 The backlog for Voxel World. **Only open work lives here** - everything already shipped is archived in
-[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (465 items and counting).
+[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (470 items and counting).
 
 How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
@@ -14,8 +14,6 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Deprecated Items cleanup**
-- [ ] **Animal Drops fixing**
 - [ ] **Bug: Chat System & Commands Execution Timeout**: The "Chat System & Commands" test suite in `test_comprehensive_coverage.js` fails with a 20000ms timeout due to JSDOM network script resolution or command processing stalls, requiring either an extended timeout or mocking of the network calls to prevent full suite execution failure. *(Re-check: with `npm test` every file runs in its own process with a 30s timeout; `test_comprehensive_coverage.js` currently passes in ~6s. Close this if it stays green.)*
 - [ ] **Bug: Playwright Frontend Verification Canvas Wait Timeout**: Some Playwright end-to-end testing scripts fail due to timeouts waiting for the #game-canvas element when testing in a headless environment.
 
@@ -46,7 +44,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Dynamic Lighting** (Light emitting items in hand)
 - [ ] Music system
 - [ ] **Screenshot system**
-- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Partially implemented - Sculk Shrieker block exists and triggers Darkness effect on proximity in world.js, but noise vibration accumulation accumulation meter UI is pending agent implementation)
+- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Partially implemented - Sculk Shrieker block exists and triggers Darkness effect on proximity in world.js, but noise vibration accumulation meter UI is pending agent implementation)
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Snowball Trail Particles**: Throwable snowball projectile trail particle FX.
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
@@ -76,11 +74,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Volcano Structures**: Natural volcanic landforms that spout lava and spawn magma cubes.
 - [ ] **New Task: Add Nether Portals and Trading Posts**: Dimensional transportation and village trading.
 - [ ] **New Task: Add Ominous Trial Vault Key Drop Chance**: Defeating Ominous Spawner wave bosses grants an Ominous Trial Key to unlock high-tier Vault loot. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Eye of Ender Structure Locating**: Right-clicking Eye of Ender floats toward structure coordinates. (Status: Partially implemented - Eye of Ender item and projectile float physics work in player.js with notification, but target coordinates are hardcoded to +100 offset rather than finding nearest structure)
 
 ## 👾 Mobs & Entities
 
-- [ ] **New Task: Add Enderman Mob Block Pick & Teleportation**: Hostile tall mob that picks up blocks and teleports away when looked at by the player or damaged by water.
+- [ ] **New Task: Add Enderman Mob Block Pick & Teleportation**: Hostile tall mob that picks up blocks and teleports away when looked at by the player or damaged by water. (Status: Partially implemented - Enderman entity exists in mob.js, but block picking up and water teleportation mechanics are pending implementation)
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
 - [ ] **Wither Boss**
 - [ ] **Ender Dragon Boss**
@@ -141,7 +138,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
-- [ ] **New Task: Add Target Block Comparator Signal Output**: Redstone comparators facing Target Blocks emitting analog signal power proportional to recent projectile impact precision.
+- [ ] **New Task: Add Target Block Comparator Signal Output**: Redstone comparators facing Target Blocks emitting analog signal power proportional to recent projectile impact precision. (Status: Proposed feature, pending implementation in world.js)
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
 - [ ] **Command Block**
 - [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
