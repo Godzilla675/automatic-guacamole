@@ -827,6 +827,9 @@ class World {
                             }
                             if (occupiedSlots > inputPower) inputPower = occupiedSlots;
                         }
+                    } else if (nType === window.BLOCK.TARGET_BLOCK) {
+                        const targetPower = this.getMetadata(n.x, n.y, n.z);
+                        if (targetPower > inputPower) inputPower = targetPower;
                     } else if (nDef) {
                         if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) inputPower = 15;
                         else if (nDef.isWire) {
