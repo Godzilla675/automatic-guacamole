@@ -153,6 +153,7 @@ Total: 470 items.
 - [x] **New Task: Add Ominous Trial Spawner Wave Escalation**: Ominous Trial Spawners summoning armored mobs with potion effects and Ominous Key rewards in `js/interactions.js`.
 
 ## Redstone & Mechanics
+- [x] **New Task: Add Target Block Comparator Signal Output**: Redstone comparators facing Target Blocks emitting analog signal power proportional to recent projectile impact precision.
 - [x] **New Task: Add Sculk Sensors**: Redstone blocks that detect vibrations and emit signals.
 - [x] **New Task: Add Moss Carpet**: Decorative plant covering crafted from Moss Blocks.
 - [x] **New Task: Add Honeycomb Block Crafting**: Crafting recipe for turning honeycombs into honeycomb blocks.
