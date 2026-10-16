@@ -14,3 +14,20 @@ During a comprehensive exploratory test of the codebase and test suites, I disco
    The repo appears to be in a very stable state, passing all unit tests.
 
 Everything is well-tested and behaving as documented. If a new bug is found, I will append it here.
+
+## Test Run & E2E Verification
+Executed full automated test suites and a comprehensive Playwright E2E simulation.
+
+1. **Automated Unit Tests:**
+   Ran `npm test`. All 75 test files passed successfully (518 tests passing, 0 failing). The game logic, blocks, textures, world generation, and physics remain stable.
+
+2. **Playwright E2E Testing:**
+   Executed an automated E2E script simulating player interactions:
+   - Initializing the game.
+   - Player movement (jumping, walking).
+   - UI interaction (opening/closing inventory, switching hotbar slots).
+   - Block placement and breaking.
+   - Verified that no console errors or exceptions were thrown.
+   - Verified that `window.game`, `window.game.player`, and `window.game.world` were successfully instantiated and accessible.
+
+Overall, no regressions or new runtime bugs were identified during this evaluation. The application is in a stable, verified state.
