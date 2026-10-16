@@ -2,7 +2,11 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 (async () => {
-    const browser = await chromium.launch();
+    if (!fs.existsSync('verification')) {
+        fs.mkdirSync('verification', { recursive: true });
+    }
+
+    const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
     await page.setViewportSize({ width: 1280, height: 720 });
 
@@ -14,9 +18,10 @@ const fs = require('fs');
     await page.screenshot({ path: 'verification/playwright_menu.png' });
 
     console.log("Clicking Start Game...");
-    await page.click('#start-game');
+    await page.evaluate(() => document.getElementById('start-game').click());
 
     console.log("Waiting for game to load...");
+    await page.waitForSelector('#game-canvas', { state: 'attached', timeout: 10000 });
     await page.waitForTimeout(3000); // Give it time to generate world and render
     await page.screenshot({ path: 'verification/playwright_game_start.png' });
 

@@ -14,8 +14,7 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Bug: Chat System & Commands Execution Timeout**: The "Chat System & Commands" test suite in `test_comprehensive_coverage.js` fails with a 20000ms timeout due to JSDOM network script resolution or command processing stalls, requiring either an extended timeout or mocking of the network calls to prevent full suite execution failure. *(Re-check: with `npm test` every file runs in its own process with a 30s timeout; `test_comprehensive_coverage.js` currently passes in ~6s. Close this if it stays green.)*
-- [ ] **Bug: Playwright Frontend Verification Canvas Wait Timeout**: Some Playwright end-to-end testing scripts fail due to timeouts waiting for the #game-canvas element when testing in a headless environment.
+*(No open bugs currently recorded.)*
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
