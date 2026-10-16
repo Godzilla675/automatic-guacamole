@@ -490,21 +490,21 @@ describe('Drop System', () => {
 });
 
 describe('Chat System & Commands', function() {
-    this.timeout(20000);
+    this.timeout(10000);
     let game;
 
     before(function(done) {
-        this.timeout(20000);
+        this.timeout(10000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
+        game.renderDistance = 16;
+        if (game.network) game.network.connect = () => {};
         game.gameLoop = () => {};
 
         try {
             game.init();
-            setTimeout(() => {
-                game.gameLoop = () => {};
-                done();
-            }, 500);
+            game.gameLoop = () => {};
+            done();
         } catch (e) {
             done(e);
         }
@@ -761,20 +761,20 @@ describe('Chunk System', () => {
 });
 
 describe('Player Advanced Systems', function() {
-    this.timeout(20000);
+    this.timeout(10000);
     let game;
 
     before(function(done) {
-        this.timeout(20000);
+        this.timeout(10000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
+        game.renderDistance = 16;
+        if (game.network) game.network.connect = () => {};
         game.gameLoop = () => {};
         try {
             game.init();
-            setTimeout(() => {
-                game.gameLoop = () => {};
-                done();
-            }, 500);
+            game.gameLoop = () => {};
+            done();
         } catch (e) {
             done(e);
         }
@@ -949,20 +949,20 @@ describe('Minimap', () => {
 });
 
 describe('Mob System', function() {
-    this.timeout(20000);
+    this.timeout(10000);
     let game;
 
     before(function(done) {
-        this.timeout(20000);
+        this.timeout(10000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
+        game.renderDistance = 16;
+        if (game.network) game.network.connect = () => {};
         game.gameLoop = () => {};
         try {
             game.init();
-            setTimeout(() => {
-                game.gameLoop = () => {};
-                done();
-            }, 500);
+            game.gameLoop = () => {};
+            done();
         } catch (e) {
             done(e);
         }
@@ -1018,20 +1018,20 @@ describe('Mob System', function() {
 });
 
 describe('World Saving', function() {
-    this.timeout(20000);
+    this.timeout(10000);
     let game;
 
     before(function(done) {
-        this.timeout(20000);
+        this.timeout(10000);
         game = new dom.window.Game();
         game.world.renderDistance = 1;
+        game.renderDistance = 16;
+        if (game.network) game.network.connect = () => {};
         game.gameLoop = () => {};
         try {
             game.init();
-            setTimeout(() => {
-                game.gameLoop = () => {};
-                done();
-            }, 500);
+            game.gameLoop = () => {};
+            done();
         } catch (e) {
             done(e);
         }

@@ -2,6 +2,10 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 (async () => {
+    if (!fs.existsSync('verification')) {
+        fs.mkdirSync('verification', { recursive: true });
+    }
+
     const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
 
@@ -20,9 +24,10 @@ const fs = require('fs');
     await page.goto('http://localhost:3000');
 
     await page.waitForSelector('#start-game', { state: 'visible', timeout: 5000 });
-    await page.click('#start-game');
+    await page.evaluate(() => document.getElementById('start-game').click());
 
-    // Wait for the game to initialize
+    // Wait for the game canvas to be present
+    await page.waitForSelector('#game-canvas', { state: 'attached', timeout: 10000 });
     await page.waitForTimeout(3000);
 
     // Inventory
@@ -48,7 +53,7 @@ const fs = require('fs');
     await page.keyboard.press('Space');
     await page.waitForTimeout(500);
 
-    // Pause menu (by pressing Esc instead of clicking the button)
+    // Pause menu
     await page.keyboard.press('Escape');
     await page.waitForTimeout(500);
     await page.screenshot({ path: 'verification/playwright_pause.png' });
