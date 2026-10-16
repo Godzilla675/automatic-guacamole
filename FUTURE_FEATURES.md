@@ -44,7 +44,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Dynamic Lighting** (Light emitting items in hand)
 - [ ] Music system
 - [ ] **Screenshot system**
-- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Partially implemented - Sculk Shrieker block exists and triggers Darkness effect on proximity in world.js, but noise vibration accumulation meter UI is pending agent implementation)
+- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Pending - Sculk Shrieker block exists and triggers Darkness effect on proximity in world.js, but noise vibration accumulation meter UI is pending agent implementation)
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Snowball Trail Particles**: Throwable snowball projectile trail particle FX.
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)

@@ -31,3 +31,18 @@ Executed full automated test suites and a comprehensive Playwright E2E simulatio
    - Verified that `window.game`, `window.game.player`, and `window.game.world` were successfully instantiated and accessible.
 
 Overall, no regressions or new runtime bugs were identified during this evaluation. The application is in a stable, verified state.
+
+## Audit of Newly Added Agent Tasks
+Exploratory unit testing was performed on newly added feature tasks listed in `FUTURE_FEATURES.md`:
+
+1. **Sculk Shrieker Sound Vibration Level Meter:**
+   - Status: Pending implementation. While `SCULK_SHRIEKER` block exists and applies Darkness effect upon proximity, the HUD noise vibration accumulation meter UI is not yet implemented.
+
+2. **Enderman Mob Block Pick & Teleportation:**
+   - Status: Pending implementation. `MOB_TYPE.ENDERMAN` entity exists, but block picking mechanics and water damage/teleportation methods are pending.
+
+3. **Target Block Comparator Signal Output:**
+   - Status: Fully implemented & fixed in `js/world.js`. `World.prototype.updateRedstone` now reads signal power metadata from adjacent Target Blocks into redstone comparators.
+
+4. **Eyeblossom Suspicious Stew Nausea Effect & Creaking Heart Resin Multiplier:**
+   - Status: Proposed features, pending full implementation.
