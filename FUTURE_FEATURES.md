@@ -14,7 +14,9 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-*(No open bugs currently listed)*
+- [ ] **Redstone Comparator Container Fullness Scaling**: `World.prototype.updateRedstone` calculates signal power for Crafter and Target Blocks, but fails to calculate percentage fullness signal strength (1-15) for adjacent Chests, Furnaces, and Hoppers in `js/world.js`.
+- [ ] **Enderman Mob Block Picking & Carrying Mechanics**: `MOB_TYPE.ENDERMAN` entity exists in `js/mob.js` and teleports away from water/player, but lacks block picking and carrying mechanics (`pickUpBlock` / `placeBlock`) in `js/mob.js` / `js/world.js`.
+- [ ] **Sculk Shrieker Vibration Accumulation HUD Meter**: `BLOCK.SCULK_SHRIEKER` triggers Darkness effect on proximity in `js/world.js`, but lacks the HUD noise vibration accumulation meter UI in `js/ui.js`.
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
@@ -31,6 +33,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Better memory management**
 - [ ] **Chunk Serialization Optimization**
 - [ ] **Refactoring World/Chunk Separation**
+- [ ] **New Task: Add Spatial Partitioning for Entity Collisions**: Optimize entity-to-entity collision detection in `Physics.prototype` using spatial partitioning rather than N^2 distance checks.
+- [ ] **New Task: Add WebAudio Sound Pool Caching**: Optimize `SoundManager` instances using reusable sound source buffer pools to reduce AudioContext memory overhead.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -48,6 +52,9 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Block Break Particle Color Matching**: Break particles dynamically sampling exact texture/block color hex values rather than default grayscale.
 - [ ] **New Task: Add Mob Hitting Flash Shader Effect**: Briefly render mobs with a red tint overlay when taking damage.
+- [ ] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Render a subtle water distortion wave effect and darkened vignette overlay when player head is submerged.
+- [ ] **New Task: Add Nether Portal Distortion Particle Transition**: Screen distortion particle overlay when stepping inside a Nether Portal block frame.
+- [ ] **New Task: Add Wind Charge Explosion Shockwave Rings**: Expanding 3D ring particles generated upon Wind Charge impact explosions.
 
 ## 🧱 World Generation & Structures
 
@@ -72,6 +79,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ominous Trial Vault Key Drop Chance**: Defeating Ominous Spawner wave bosses grants an Ominous Trial Key to unlock high-tier Vault loot. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Amethyst Geode Crystal Growth**: Amethyst Clusters gradually growing through 4 growth stages over time in geode structures.
 - [ ] **New Task: Add Desert Well Structures**: Small sandstone wells generating in desert biomes containing water sources and suspicious sand.
+- [ ] **New Task: Add Ancient City Deep Dark Structures**: Procedurally generated deep subterranean structures featuring Sculk Catalysts, Sculk Shriekers, and reinforced deepslate frames.
+- [ ] **New Task: Add Swamp Hut Structures**: Generate Witch huts in swamp biomes containing cauldrons, crafting tables, and black cats.
+- [ ] **New Task: Add Woodland Mansions**: Rare large roofed forest structures generated with Dark Oak wood and containing Illager mobs.
+- [ ] **New Task: Add Lush Caves Biome**: Subterranean cave biomes filled with Moss Blocks, Spore Blossoms, Cave Vines, and Azalea bushes.
 
 ## 👾 Mobs & Entities
 
@@ -103,6 +114,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
 - [ ] **New Task: Add Allay Mob**: Friendly flying mob that collects dropped items matching the item held in its hand and deposits them near Note Blocks.
 - [ ] **New Task: Add Strider Mob Lava Walking Physics**: Rideable Nether mob that walks speed-boosted across lava surfaces and slows down/turns blue on land.
+- [ ] **New Task: Add Blaze Mob Entity**: Flying Nether fortress mob shooting triple fireballs at players and dropping Blaze Rods.
+- [ ] **New Task: Add Ghast Mob Entity**: Floating Nether mob shooting explosive fireballs that can be deflected back with melee attacks.
+- [ ] **New Task: Add Phantom Flying AI**: Flying hostile mob appearing at night when player has not slept for 3+ days, dropping Phantom Membranes.
+- [ ] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats spawning in villages that flee from fast player movements, can be tamed with raw fish, and repel Creepers.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -128,6 +143,9 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Spyglass Zoom Mechanic**: Equippable/useable Spyglass item that narrows camera field of view for distant scouting.
 - [ ] **New Task: Add Recovery Compass**: Compass variant pointing to the player's last death position.
+- [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
+- [ ] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI allowing players to brew awkward potions, health potions, and swiftness potions with Blaze Powder fuel.
+- [ ] **New Task: Add Golden Apple & Enchanted Golden Apple Food Effects**: Edible golden apples granting Absorption, Regeneration, Resistance, and Fire Resistance status effects.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -139,7 +157,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
 - [ ] **New Task: Add Crafter Block Automatic Crafting Cycle**: Redstone-pulsed Crafter assembling items from its 3x3 internal grid and dispensing the crafted result into adjacent containers.
-- [ ] **New Task: Add Redstone Comparator Container Signal Scaling**: Comparators outputting signal strength (1-15) based on percentage fullness of adjacent containers (Chests, Furnaces, Hoppers, Crafters).
+- [ ] **New Task: Add Redstone Comparator Container Signal Scaling**: Comparators outputting signal strength (1-15) based on percentage fullness of adjacent containers (Chests, Furnaces, Hoppers, Crafters). (Status: Partially implemented - Crafter block entity fullness and Target Block signal power are checked in world.js, but container fullness for Chests, Furnaces, and Hoppers is pending agent implementation)
+- [ ] **New Task: Add Sticky Piston Block Pulling Mechanics**: Sticky Pistons extending to push and retracting to pull adjacent blocks in `js/world.js`.
+- [ ] **New Task: Add Dispenser Item Shooting & Projectile Launching**: Dispensers firing arrows, fireworks, snowballs, and water buckets on redstone power.
+- [ ] **New Task: Add Target Block Signal Duration Decay**: Target Block redstone output power decaying smoothly over 8 redstone ticks after projectile impact.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -155,6 +176,9 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] Statistics
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
 - [ ] **New Task: Add Subtitles Display for Audio Events**: On-screen subtitle indicators showing direction and sound type for nearby mob footsteps, block breaks, and redstone triggers.
+- [ ] **New Task: Add Boss Health Bar Overlay**: Dynamic top-screen health bar display with mob name and health percentage for Boss mobs (Warden, Wither, Ender Dragon).
+- [ ] **New Task: Add Death Screen Statistics Summary**: Death screen displaying stats like blocks mined, mobs slain, distance traveled, and days survived.
+- [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -165,3 +189,5 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] Custom commands
 - [ ] **Resource pack support**
 - [ ] **Support for custom models**
+- [ ] **New Task: Add Plugin API Custom Mob Registration**: `PluginAPI.registerMob(type, config)` endpoint allowing custom mob entity behaviors and textures.
+- [ ] **New Task: Add Custom Sound Effect Event Hooks**: `PluginAPI.on('sound', callback)` allowing plugins to intercept and modify in-game audio events.
