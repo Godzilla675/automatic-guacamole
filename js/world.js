@@ -18,6 +18,7 @@ class World {
 
         this.activeFluids = new Set();
         this.activeRedstone = new Set();
+        this.eyeblossoms = new Set();
         this.fluidTickTimer = 0;
 
         this.dimension = 'overworld'; // 'overworld', 'nether'
@@ -98,6 +99,14 @@ class World {
         const oldType = chunk.getBlock(lx, y, lz);
         chunk.setBlock(lx, y, lz, type);
         if (oldType !== type && this._generating === 0) chunk.edited = true;
+
+        if (!this.eyeblossoms) this.eyeblossoms = new Set();
+        const ekey = `${x},${y},${z}`;
+        if (type === BLOCK.EYEBLOSSOM) {
+            this.eyeblossoms.add(ekey);
+        } else if (oldType === BLOCK.EYEBLOSSOM) {
+            this.eyeblossoms.delete(ekey);
+        }
 
         if (oldType === BLOCK.INFESTED_STONE && type === BLOCK.AIR) {
             if (this.game && this.game.mobs && window.Mob && window.MOB_TYPE) {
@@ -1978,6 +1987,10 @@ class World {
                     if (biome.name === 'Pale Oak Forest' && Math.random() < 0.05) {
                         if (chunk.getBlock(x, height + 1, z) === BLOCK.AIR) {
                             chunk.setBlock(x, height + 1, z, BLOCK.EYEBLOSSOM);
+                            if (!this.eyeblossoms) this.eyeblossoms = new Set();
+                            const wx = cx * this.chunkSize + x;
+                            const wz = cz * this.chunkSize + z;
+                            this.eyeblossoms.add(`${wx},${height + 1},${wz}`);
                         }
                     }
                     if (biome.cactusChance && Math.random() < biome.cactusChance) {

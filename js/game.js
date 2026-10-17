@@ -2084,16 +2084,22 @@ class Game {
         // Eyeblossom Nocturnal Blooming Logic
         const dayCycle = (this.gameTime % this.dayLength) / this.dayLength;
         const isNight = dayCycle >= 0.5;
-
-        if (this.frameCount % 20 === 0 && isNight && this.particles) {
-            for (let x = Math.floor(this.player.x - 15); x <= Math.floor(this.player.x + 15); x++) {
-                for (let z = Math.floor(this.player.z - 15); z <= Math.floor(this.player.z + 15); z++) {
-                    for (let y = Math.floor(this.player.y - 5); y <= Math.floor(this.player.y + 5); y++) {
-                        if (this.world.getBlock(x, y, z) === BLOCK.EYEBLOSSOM) {
-                            if (Math.random() < 0.3) {
-                                this.particles.spawn(x + 0.5, y + 0.5, z + 0.5, '#FF8C00', 2);
-                            }
+        if (this.frameCount % 20 === 0 && isNight && this.particles && this.world && this.world.eyeblossoms) {
+            const px = Math.floor(this.player.x);
+            const py = Math.floor(this.player.y);
+            const pz = Math.floor(this.player.z);
+            for (const key of this.world.eyeblossoms) {
+                const parts = key.split(',');
+                const x = parseInt(parts[0], 10);
+                const y = parseInt(parts[1], 10);
+                const z = parseInt(parts[2], 10);
+                if (Math.abs(x - px) <= 15 && Math.abs(z - pz) <= 15 && Math.abs(y - py) <= 5) {
+                    if (this.world.getBlock(x, y, z) === BLOCK.EYEBLOSSOM) {
+                        if (Math.random() < 0.3) {
+                            this.particles.spawn(x + 0.5, y + 0.5, z + 0.5, '#FF8C00', 2);
                         }
+                    } else {
+                        this.world.eyeblossoms.delete(key);
                     }
                 }
             }

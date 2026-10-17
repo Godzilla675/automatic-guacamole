@@ -26,7 +26,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Hot-loop `window.*` lookups**: renderer/world code reads `window.BLOCKS[...]` inside per-block loops. Cache `BLOCKS`/`BLOCK` in local consts at the top of hot functions (free in browsers, 2x faster under JSDOM).
 - [ ] **Block light is computed but never rendered**: `World.setBlock()` runs `recalcLocalLight()` (a 31x31x31 scan) for every gameplay block change, yet `renderer.js` ignores `b.light` (the brightness line is commented out). Either use the light values for shading or make the recalculation incremental; worldgen already skips it (see `_generating` in `js/world.js`).
 - [ ] **Parked chunks are memory-only**: edited chunks that scroll out of range are kept in `World.unloadedChunks` (capped at 512, LRU) and included in saves, but a very long session can still evict old edits. Spill evicted chunks to IndexedDB instead of dropping them.
-- [ ] **Game.update() scans 31x31x11 blocks every 20 frames at night for Eyeblossoms** (`js/game.js`, "EYEBLOSSOM" particle loop). Track eyeblossom positions when placed/generated instead of polling.
 - [ ] **LOD (Level of Detail) system**
 - [ ] **Worker threads for world generation**
 - [ ] **Better memory management**
