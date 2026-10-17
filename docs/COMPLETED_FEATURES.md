@@ -4,9 +4,10 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 470 items.
+Total: 471 items.
 
 ## Core Features
+- [x] **Game.update() Eyeblossom Scanning Optimization**: Track eyeblossom positions when placed/generated in `world.eyeblossoms` instead of polling 31x31x11 blocks every 20 frames at night.
 - [x] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table.
 - [x] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation.
 - [x] **New Task: Add Flying Carpets**: An alternative to Elytra that allows hovering.
