@@ -46,3 +46,40 @@ Exploratory unit testing was performed on newly added feature tasks listed in `F
 
 4. **Eyeblossom Suspicious Stew Nausea Effect & Creaking Heart Resin Multiplier:**
    - Status: Proposed features, pending full implementation.
+
+## Detailed Bug Report - Comprehensive Testing Pass
+
+Following a comprehensive test pass of both the `tests/` and `verification/` suites, several specific functional regressions and feature failures were discovered. Below is a highly detailed breakdown of the bugs found.
+
+### 1. End Dimension Generation Failure (test_audit_bug_fixes_batch3.js)
+- **Description**: The `switchDimension('end')` logic fails to correctly generate the End Stone terrain for the central End island.
+- **Expected Behavior**: When the dimension is switched to the "end", the chunk generation should produce End Stone (Block ID 575).
+- **Actual Behavior**: The chunk generation fails to place End Stone, leaving empty space (Block ID 0).
+- **Test Output**: `AssertionError [ERR_ASSERTION]: Central End island should generate End Stone (0 !== 575)`
+
+### 2. TNT Ignition Interaction Failure (verify_tnt.js)
+- **Description**: Interacting with a TNT block fails to ignite it properly through the interaction event loop.
+- **Expected Behavior**: Using a Flint and Steel or interacting with a TNT block should handle the interaction and return `true`, initiating the TNT explosion sequence.
+- **Actual Behavior**: The interaction handler returns `false`, meaning the interaction is not properly captured or handled by the TNT logic.
+- **Test Output**: `AssertionError [ERR_ASSERTION]: Interaction should handle TNT (false !== true)`
+
+### 3. Creative Bed Time Advancement Bug (verify_creative_bed.js)
+- **Description**: Sleeping in a bed while in Creative Mode fails to advance the world time to morning.
+- **Expected Behavior**: Interacting with a bed should trigger the sleep sequence and advance the world time to sunrise.
+- **Actual Behavior**: The time remains unchanged after the interaction completes.
+- **Test Output**: `AssertionError [ERR_ASSERTION]: Time should advance to morning`
+
+### 4. Enchanting UI Activation Failure (verify_enchanting.js)
+- **Description**: The Enchanting Table UI does not become active when the block is interacted with.
+- **Expected Behavior**: Right-clicking an Enchanting Table should set the `enchantingUIActive` state to `true` and open the interface.
+- **Actual Behavior**: The UI state remains `undefined` or `false`.
+- **Test Output**: `AssertionError [ERR_ASSERTION]: Enchanting UI should be active (undefined !== true)`
+
+### 5. Jukebox Interaction Handling (verify_jukebox.js)
+- **Description**: Interacting with a Jukebox block to insert or remove a music disc is not being handled correctly by the block interaction system.
+- **Expected Behavior**: Interacting with the Jukebox should process the event (insert/play/stop music) and return `true`.
+- **Actual Behavior**: The interaction returns `false`, indicating the event was unhandled.
+- **Test Output**: `AssertionError [ERR_ASSERTION]: Interaction should be handled (false !== true)`
+
+### Summary
+The core gameplay loop and general physics/movement systems remain stable (verified via Playwright and standard mocha tests), but specific block interactions (TNT, Bed, Enchanting Table, Jukebox) and End dimension terrain generation are currently failing their respective verification scripts.
