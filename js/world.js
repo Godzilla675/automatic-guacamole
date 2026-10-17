@@ -1499,13 +1499,13 @@ class World {
     }
 
     updateLighting(x, y, z) {
-        // Simple BFS light propagation from a source
+        const BLOCKS = window.BLOCKS || {};
+        const BLOCK = window.BLOCK || {};
         const queue = [];
         const visited = new Set();
 
-        // Initial check: if we just placed a torch
         const type = this.getBlock(x, y, z);
-        const blockDef = window.BLOCKS[type];
+        const blockDef = BLOCKS[type];
 
         if (blockDef && blockDef.light) {
             queue.push({x, y, z, level: blockDef.light});
@@ -1516,7 +1516,7 @@ class World {
         }
 
         let head = 0;
-        while(head < queue.length) {
+        while (head < queue.length) {
             const node = queue[head++];
             const {x, y, z, level} = node;
 
@@ -1533,7 +1533,7 @@ class World {
                 if (visited.has(key)) continue;
 
                 const nType = this.getBlock(n.x, n.y, n.z);
-                const nDef = window.BLOCKS[nType];
+                const nDef = BLOCKS[nType];
                 if (nType === BLOCK.AIR || nType === BLOCK.WATER || (nDef && nDef.transparent)) {
                     const currentLight = this.getLight(n.x, n.y, n.z);
                     if (currentLight < level - 1) {
@@ -1547,81 +1547,84 @@ class World {
     }
 
     recalcLocalLight(cx, cy, cz) {
-        // Reset light in a small radius and find sources
-        const rad = 15;
-        const sources = [];
+        const BLOCKS = window.BLOCKS || {};
+        const BLOCK = window.BLOCK || {};
 
-        // 1. Reset
+        const oldLight = this.getLight(cx, cy, cz);
+        const removeQueue = [];
+        const propagateQueue = [];
+
+        if (oldLight > 0) {
+            removeQueue.push({ x: cx, y: cy, z: cz, val: oldLight });
+            this.setLight(cx, cy, cz, 0);
+        } else {
+            propagateQueue.push({ x: cx, y: cy, z: cz });
+        }
+
+        // 1. BFS light removal: clear light that originated from the removed/modified block
+        let head = 0;
+        while (head < removeQueue.length) {
+            const node = removeQueue[head++];
+            const { x, y, z, val } = node;
+
+            const neighbors = [
+                { x: x + 1, y, z }, { x: x - 1, y, z },
+                { x, y: y + 1, z }, { x, y: y - 1, z },
+                { x, y, z: z + 1 }, { x, y, z: z - 1 }
+            ];
+
+            for (const n of neighbors) {
+                if (!this.getChunkAt(n.x, n.z)) continue;
+                const nLight = this.getLight(n.x, n.y, n.z);
+                if (nLight > 0 && nLight < val) {
+                    this.setLight(n.x, n.y, n.z, 0);
+                    removeQueue.push({ x: n.x, y: n.y, z: n.z, val: nLight });
+                } else if (nLight >= val) {
+                    propagateQueue.push({ x: n.x, y: n.y, z: n.z, level: nLight });
+                }
+            }
+        }
+
+        // Collect active light source blocks in local neighborhood to re-propagate
+        const rad = 15;
         for (let x = cx - rad; x <= cx + rad; x++) {
             for (let y = cy - rad; y <= cy + rad; y++) {
                 for (let z = cz - rad; z <= cz + rad; z++) {
                     const b = this.getBlock(x, y, z);
-                    const def = window.BLOCKS[b];
+                    const def = BLOCKS[b];
                     if (def && def.light) {
-                        sources.push({x, y, z, level: def.light});
                         this.setLight(x, y, z, def.light);
-                    } else {
-                        // Don't fully reset to 0 if we are far from the change, but for now reset in radius.
-                        // This might cause dark spots if other sources are outside radius.
-                        // Optimization for later.
-                        this.setLight(x, y, z, 0);
-                    }
-
-                    // Check boundary for external light sources to propagate back in
-                    if (x === cx - rad) {
-                         const l = this.getLight(x - 1, y, z);
-                         if (l > 0) sources.push({x: x-1, y, z, level: l});
-                    }
-                    if (x === cx + rad) {
-                         const l = this.getLight(x + 1, y, z);
-                         if (l > 0) sources.push({x: x+1, y, z, level: l});
-                    }
-                    if (y === cy - rad) {
-                         const l = this.getLight(x, y - 1, z);
-                         if (l > 0) sources.push({x, y: y-1, z, level: l});
-                    }
-                    if (y === cy + rad) {
-                         const l = this.getLight(x, y + 1, z);
-                         if (l > 0) sources.push({x, y: y+1, z, level: l});
-                    }
-                    if (z === cz - rad) {
-                         const l = this.getLight(x, y, z - 1);
-                         if (l > 0) sources.push({x, y, z: z-1, level: l});
-                    }
-                    if (z === cz + rad) {
-                         const l = this.getLight(x, y, z + 1);
-                         if (l > 0) sources.push({x, y, z: z+1, level: l});
+                        propagateQueue.push({ x, y, z, level: def.light });
                     }
                 }
             }
         }
 
-        // 2. Propagate all sources
-        const queue = [...sources];
-
-        let head = 0;
-        while(head < queue.length) {
-            const node = queue[head++];
-            const {x, y, z, level} = node;
+        // 2. BFS light propagation
+        let pHead = 0;
+        while (pHead < propagateQueue.length) {
+            const node = propagateQueue[pHead++];
+            const { x, y, z, level } = node;
 
             if (level <= 1) continue;
 
             const neighbors = [
-                {x: x+1, y: y, z: z}, {x: x-1, y: y, z: z},
-                {x: x, y: y+1, z: z}, {x: x, y: y-1, z: z},
-                {x: x, y: y, z: z+1}, {x: x, y: y, z: z-1}
+                { x: x + 1, y, z }, { x: x - 1, y, z },
+                { x, y: y + 1, z }, { x, y: y - 1, z },
+                { x, y, z: z + 1 }, { x, y, z: z - 1 }
             ];
 
             for (const n of neighbors) {
-                 const nType = this.getBlock(n.x, n.y, n.z);
-                 const nDef = window.BLOCKS[nType];
-                 if (nType === BLOCK.AIR || nType === BLOCK.WATER || (nDef && nDef.transparent)) {
-                     const currentLevel = this.getLight(n.x, n.y, n.z);
-                     if (currentLevel < level - 1) {
-                         this.setLight(n.x, n.y, n.z, level - 1);
-                         queue.push({x: n.x, y: n.y, z: n.z, level: level - 1});
-                     }
-                 }
+                if (!this.getChunkAt(n.x, n.z)) continue;
+                const nType = this.getBlock(n.x, n.y, n.z);
+                const nDef = BLOCKS[nType];
+                if (nType === BLOCK.AIR || nType === BLOCK.WATER || (nDef && nDef.transparent)) {
+                    const currentLevel = this.getLight(n.x, n.y, n.z);
+                    if (currentLevel < level - 1) {
+                        this.setLight(n.x, n.y, n.z, level - 1);
+                        propagateQueue.push({ x: n.x, y: n.y, z: n.z, level: level - 1 });
+                    }
+                }
             }
         }
     }

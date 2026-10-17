@@ -104,6 +104,9 @@ global.localStorage = {
     removeItem: () => {}
 };
 
+const interactionsCode = fs.readFileSync('js/interactions.js', 'utf8');
+eval(interactionsCode);
+
 const gameCode = fs.readFileSync('js/game.js', 'utf8');
 // We need to avoid running Game.init or anything that accesses DOM heavily.
 // Just load the class.

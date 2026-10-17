@@ -77,6 +77,8 @@ global.Player = window.Player;
 load('js/crafting.js');
 global.CraftingSystem = window.CraftingSystem;
 
+load('js/interactions.js');
+
 load('js/network.js');
 global.NetworkManager = window.NetworkManager;
 
