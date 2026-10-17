@@ -246,6 +246,7 @@ Total: 470 items.
 - [x] **New Task: Add Heavy Core Mace Falling Shockwave Radius**: Falling from high altitudes creates a 3D ground shockwave particle ring when smashing terrain with Mace.
 
 ## Known Bugs & Issues (To Be Fixed)
+- [x] **Bug: RecalcLocalLight External Boundary Dark Spot Issue**: Fixed in `js/world.js` using incremental BFS flood-fill light removal and propagation, preventing boundary dark spots and ghost lights.
 - [x] **Bug: Chat System & Commands Execution Timeout**: Stubs `network.connect` and `gameLoop` prior to `game.init()` in `tests/test_comprehensive_coverage.js`, eliminating JSDOM network stalls and reducing execution time from 12.5s to <1s.
 - [x] **Bug: Playwright Frontend Verification Canvas Wait Timeout**: Playwright E2E scripts in `scripts/e2e/` use DOM evaluate click for `#start-game` and waitForSelector for `#game-canvas` to prevent canvas wait timeouts in headless mode.
 - [x] **Bug: Eye of Ender Hardcoded Trajectory Target**: `Player.prototype.throwEyeOfEnder` in `js/player.js` dynamically locates generated structures or structureManager target coordinates.

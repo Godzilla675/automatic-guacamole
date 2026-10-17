@@ -98,6 +98,7 @@ global.Drop = window.Drop;
 // Load UI last as it depends on everything
 load('js/ui.js');
 global.UIManager = window.UIManager;
+load('js/interactions.js');
 load('js/game.js');
 
 async function runTests() {
