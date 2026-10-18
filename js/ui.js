@@ -2758,6 +2758,37 @@ class UIManager {
         }, 3000);
     }
 
+    updateSculkVibrationMeter(level = 0, warningLevel = 0) {
+        let meter = document.getElementById('sculk-vibration-meter');
+        if (!meter) {
+            meter = document.createElement('div');
+            meter.id = 'sculk-vibration-meter';
+            meter.style.position = 'fixed';
+            meter.style.top = '10px';
+            meter.style.right = '10px';
+            meter.style.background = 'rgba(0, 30, 35, 0.85)';
+            meter.style.border = '2px solid #00ACC1';
+            meter.style.borderRadius = '6px';
+            meter.style.padding = '6px 12px';
+            meter.style.color = '#00FFFF';
+            meter.style.fontFamily = 'monospace';
+            meter.style.fontSize = '12px';
+            meter.style.zIndex = '1000';
+            meter.style.pointerEvents = 'none';
+            meter.style.display = 'none';
+            document.body.appendChild(meter);
+        }
+
+        if (level > 0 || warningLevel > 0) {
+            meter.style.display = 'block';
+            const pct = Math.min(100, Math.floor((level / 15) * 100));
+            meter.textContent = `📢 Sculk Noise: ${pct}% (Warning: ${warningLevel}/4)`;
+            meter.style.borderColor = pct > 75 ? '#FF3333' : '#00ACC1';
+        } else {
+            meter.style.display = 'none';
+        }
+    }
+
     updatePotionEffectsUI() {
         const container = document.getElementById('potion-effects-container');
         if (!container) return;

@@ -717,7 +717,25 @@ class World {
                             this.game.particles.spawn(sx + 0.5, sy + 1.0, sz + 0.5, '#00ACC1', 8);
                         }
                     } else if (b === window.BLOCK.SCULK_SHRIEKER) {
+                        // Track vibration accumulation for Sculk Shrieker
+                        const skey = `${sx},${sy},${sz}`;
+                        let entity = this.getBlockEntity(sx, sy, sz);
+                        if (!entity || entity.type !== 'sculk_shrieker') {
+                            entity = { type: 'sculk_shrieker', vibrationLevel: 0, warningLevel: 0 };
+                            this.setBlockEntity(sx, sy, sz, entity);
+                        }
+                        entity.vibrationLevel = (entity.vibrationLevel || 0) + signalStrength;
+
                         this.shriekAt(sx, sy, sz);
+
+                        if (entity.vibrationLevel >= 15) {
+                            entity.warningLevel = Math.min(4, (entity.warningLevel || 0) + 1);
+                            entity.vibrationLevel = 0;
+                        }
+
+                        if (this.game && this.game.ui && this.game.ui.updateSculkVibrationMeter) {
+                            this.game.ui.updateSculkVibrationMeter(entity.vibrationLevel, entity.warningLevel);
+                        }
                     }
                 }
             }
@@ -824,8 +842,9 @@ class World {
                 for (const n of neighbors) {
                     const nType = this.getBlock(n.x, n.y, n.z);
                     const nDef = window.BLOCKS[nType];
+                    const entity = this.getBlockEntity(n.x, n.y, n.z);
+
                     if (nType === window.BLOCK.CRAFTER) {
-                        const entity = this.getBlockEntity(n.x, n.y, n.z);
                         if (entity && entity.items) {
                             let occupiedSlots = 0;
                             const disabled = entity.disabledSlots || [];
@@ -835,6 +854,36 @@ class World {
                                 }
                             }
                             if (occupiedSlots > inputPower) inputPower = occupiedSlots;
+                        }
+                    } else if (entity && (entity.items || entity.input || entity.fuelItem || entity.output || entity.bottles || entity.ingredient)) {
+                        // General container fullness scaling (Chests, Furnaces, Hoppers, Droppers, Dispensers, Chiseled Bookshelves, Brewing Stands, etc.)
+                        let itemsList = [];
+                        if (Array.isArray(entity.items)) {
+                            itemsList = entity.items;
+                        } else {
+                            // Furnace / Smoker / Blast Furnace or Brewing Stand
+                            if (entity.input) itemsList.push(entity.input);
+                            if (entity.fuelItem) itemsList.push(entity.fuelItem);
+                            if (entity.output) itemsList.push(entity.output);
+                            if (entity.ingredient) itemsList.push(entity.ingredient);
+                            if (Array.isArray(entity.bottles)) itemsList.push(...entity.bottles);
+                        }
+
+                        let itemCount = 0;
+                        let maxSlots = itemsList.length || 1;
+                        for (const it of itemsList) {
+                            if (it && (it.count > 0 || it.type !== undefined)) {
+                                const count = it.count !== undefined ? it.count : 1;
+                                itemCount += count;
+                            }
+                        }
+
+                        if (itemCount > 0) {
+                            // Standard Minecraft comparator fullness formula scaled 1-15
+                            const totalMaxCapacity = maxSlots * 64;
+                            const fullnessRatio = Math.min(1.0, itemCount / totalMaxCapacity);
+                            const calcPower = Math.floor(1 + fullnessRatio * 14);
+                            if (calcPower > inputPower) inputPower = calcPower;
                         }
                     } else if (nType === window.BLOCK.TARGET_BLOCK) {
                         const targetPower = this.getMetadata(n.x, n.y, n.z);
