@@ -43,7 +43,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Dynamic Lighting** (Light emitting items in hand)
 - [ ] Music system
 - [ ] **Screenshot system**
-- [ ] **New Task: Add Sculk Shrieker Sound Vibration Level Meter**: HUD meter tracking current local noise vibration accumulation before Sculk Shrieker activation. (Status: Partially implemented - Sculk Shrieker block exists and triggers Darkness effect on proximity in world.js, but noise vibration accumulation meter UI in ui.js is pending agent implementation)
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Snowball Trail Particles**: Throwable snowball projectile trail particle FX.
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
@@ -52,6 +51,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Render a subtle water distortion wave effect and darkened vignette overlay when player head is submerged.
 - [ ] **New Task: Add Nether Portal Distortion Particle Transition**: Screen distortion particle overlay when stepping inside a Nether Portal block frame.
 - [ ] **New Task: Add Wind Charge Explosion Shockwave Rings**: Expanding 3D ring particles generated upon Wind Charge impact explosions.
+- [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
 
 ## 🧱 World Generation & Structures
 
@@ -80,10 +80,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Swamp Hut Structures**: Generate Witch huts in swamp biomes containing cauldrons, crafting tables, and black cats.
 - [ ] **New Task: Add Woodland Mansions**: Rare large roofed forest structures generated with Dark Oak wood and containing Illager mobs.
 - [ ] **New Task: Add Lush Caves Biome**: Subterranean cave biomes filled with Moss Blocks, Spore Blossoms, Cave Vines, and Azalea bushes.
+- [ ] **New Task: Add Nether Fortresses Blaze Spawner Rooms**: Procedurally generated nether brick rooms containing Blaze mob spawner blocks.
 
 ## 👾 Mobs & Entities
 
-- [ ] **New Task: Add Enderman Mob Block Pick & Teleportation**: Hostile tall mob that picks up blocks and teleports away when looked at by the player or damaged by water. (Status: Partially implemented - Enderman entity exists in mob.js with basic behavior and water teleportation, but block picking up and carrying mechanics in mob.js/world.js are pending agent implementation)
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
 - [ ] **New Task: Add Wither Boss**: Multi-stage boss mob crafted with Soul Sand and Wither Skeleton Skulls.
 - [ ] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics.
@@ -115,6 +115,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ghast Mob Entity**: Floating Nether mob shooting explosive fireballs that can be deflected back with melee attacks.
 - [ ] **New Task: Add Phantom Flying AI**: Flying hostile mob appearing at night when player has not slept for 3+ days, dropping Phantom Membranes.
 - [ ] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats spawning in villages that flee from fast player movements, can be tamed with raw fish, and repel Creepers.
+- [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -143,6 +144,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
 - [ ] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI allowing players to brew awkward potions, health potions, and swiftness potions with Blaze Powder fuel.
 - [ ] **New Task: Add Golden Apple & Enchanted Golden Apple Food Effects**: Edible golden apples granting Absorption, Regeneration, Resistance, and Fire Resistance status effects.
+- [ ] **New Task: Add Crafter Slot Grid Hotbar Quick-Fill**: Quick-shifting items from inventory hotbar directly into active non-disabled Crafter UI slots.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -154,10 +156,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
 - [ ] **New Task: Add Crafter Block Automatic Crafting Cycle**: Redstone-pulsed Crafter assembling items from its 3x3 internal grid and dispensing the crafted result into adjacent containers.
-- [ ] **New Task: Add Redstone Comparator Container Signal Scaling**: Comparators outputting signal strength (1-15) based on percentage fullness of adjacent containers (Chests, Furnaces, Hoppers, Crafters). (Status: Partially implemented - Crafter block entity fullness and Target Block signal power are checked in world.js, but container fullness for Chests, Furnaces, and Hoppers is pending agent implementation)
 - [ ] **New Task: Add Sticky Piston Block Pulling Mechanics**: Sticky Pistons extending to push and retracting to pull adjacent blocks in `js/world.js`.
 - [ ] **New Task: Add Dispenser Item Shooting & Projectile Launching**: Dispensers firing arrows, fireworks, snowballs, and water buckets on redstone power.
 - [ ] **New Task: Add Target Block Signal Duration Decay**: Target Block redstone output power decaying smoothly over 8 redstone ticks after projectile impact.
+- [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 
 ## 🖥️ UI, Multiplayer & Meta
 
