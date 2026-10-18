@@ -94,3 +94,6 @@ The core gameplay loop and general physics/movement systems remain stable (verif
 
 3. **Full Test Suite Status:**
    - Ran `npm test` across all 76 test files (524 tests). All test suites passed cleanly (`Files: 76/76 passed`).
+- **Redstone Comparator Container Fullness Scaling**: `World.prototype.updateRedstone` calculates signal power for Crafter and Target Blocks, but fails to calculate percentage fullness signal strength (1-15) for adjacent Chests, Furnaces, and Hoppers in `js/world.js`.
+- **Enderman Mob Block Picking & Carrying Mechanics**: `MOB_TYPE.ENDERMAN` entity exists in `js/mob.js` and teleports away from water/player, but lacks block picking and carrying mechanics (`pickUpBlock` / `placeBlock`) in `js/mob.js` / `js/world.js`.
+- **Sculk Shrieker Vibration Accumulation HUD Meter**: `BLOCK.SCULK_SHRIEKER` triggers Darkness effect on proximity in `js/world.js`, but lacks the HUD noise vibration accumulation meter UI in `js/ui.js`.
