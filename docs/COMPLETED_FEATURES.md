@@ -6,6 +6,11 @@ these features, add a regression test rather than editing this list.
 
 Total: 471 items.
 
+## 🐛 Bugs Fixed
+- [x] **Redstone Comparator Container Fullness Scaling**: `World.prototype.updateRedstone` calculates percentage fullness signal strength (1-15) for adjacent Chests, Furnaces, Hoppers, Droppers, Dispensers, and other containers in `js/world.js`.
+- [x] **Enderman Mob Block Picking & Carrying Mechanics**: `MOB_TYPE.ENDERMAN` entity in `js/mob.js` has block picking and carrying mechanics (`pickUpBlock` / `placeBlock`) in `js/mob.js` and `js/world.js`.
+- [x] **Sculk Shrieker Vibration Accumulation HUD Meter**: `BLOCK.SCULK_SHRIEKER` triggers Darkness effect on proximity in `js/world.js`, and displays a Sculk Noise vibration accumulation meter HUD UI in `js/ui.js`.
+
 ## Core Features
 - [x] **Game.update() Eyeblossom Scanning Optimization**: Track eyeblossom positions when placed/generated in `world.eyeblossoms` instead of polling 31x31x11 blocks every 20 frames at night.
 - [x] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table.

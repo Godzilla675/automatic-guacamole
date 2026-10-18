@@ -79,8 +79,70 @@ class Mob extends Entity {
 
         this.isSheared = false;
 
+        this.carriedBlock = null;
+
         this.xpValue = 0;
         this.initType();
+    }
+
+    pickUpBlock(x, y, z) {
+        if (this.type !== MOB_TYPE.ENDERMAN || this.carriedBlock || !this.world) return false;
+        const block = this.world.getBlock(x, y, z);
+        if (block === window.BLOCK.AIR) return false;
+        const def = window.BLOCKS ? window.BLOCKS[block] : null;
+        if (!def) return false;
+
+        // Enderman can pick up natural blocks like Grass, Dirt, Sand, Gravel, Flowers, Netherrack, End Stone, etc.
+        const nonPickable = [
+            window.BLOCK.BEDROCK, window.BLOCK.OBSIDIAN, window.BLOCK.WATER, window.BLOCK.LAVA,
+            window.BLOCK.CHEST, window.BLOCK.FURNACE, window.BLOCK.HOPPER, window.BLOCK.DISPENSER,
+            window.BLOCK.DROPPER, window.BLOCK.CRAFTER, window.BLOCK.SPAWNER, window.BLOCK.TRIAL_VAULT,
+            window.BLOCK.OMINOUS_VAULT, window.BLOCK.ENDER_CHEST
+        ];
+        if (nonPickable.includes(block)) return false;
+
+        this.carriedBlock = block;
+        this.world.setBlock(x, y, z, window.BLOCK.AIR);
+        if (window.soundManager) window.soundManager.play('break', { x, y, z });
+        return true;
+    }
+
+    placeBlock(x, y, z) {
+        if (this.type !== MOB_TYPE.ENDERMAN || !this.carriedBlock || !this.world) return false;
+        const current = this.world.getBlock(x, y, z);
+        const below = this.world.getBlock(x, y - 1, z);
+        const belowDef = window.BLOCKS ? window.BLOCKS[below] : null;
+
+        if (current === window.BLOCK.AIR && belowDef && belowDef.solid) {
+            this.world.setBlock(x, y, z, this.carriedBlock);
+            this.carriedBlock = null;
+            if (window.soundManager) window.soundManager.play('place', { x, y, z });
+            return true;
+        }
+        return false;
+    }
+
+    updateEndermanBlockBehavior(dt) {
+        if (this.type !== MOB_TYPE.ENDERMAN || !this.world) return;
+        this.endermanBlockTimer = (this.endermanBlockTimer || 0) - dt;
+        if (this.endermanBlockTimer > 0) return;
+        this.endermanBlockTimer = 4.0 + Math.random() * 4.0;
+
+        const bx = Math.floor(this.x) + (Math.random() < 0.5 ? 1 : -1);
+        const bz = Math.floor(this.z) + (Math.random() < 0.5 ? 1 : -1);
+        const by = Math.floor(this.y);
+
+        if (!this.carriedBlock) {
+            // Attempt block pickup around feet or eyes
+            for (let dy of [0, -1, 1]) {
+                if (this.pickUpBlock(bx, by + dy, bz)) break;
+            }
+        } else {
+            // Attempt block placement
+            for (let dy of [0, 1, -1]) {
+                if (this.placeBlock(bx, by + dy, bz)) break;
+            }
+        }
     }
 
     interact(itemType) {
@@ -1016,6 +1078,10 @@ class Mob extends Entity {
         if (this.type === MOB_TYPE.PIGMAN) {
             this.updatePigmanAI(dt);
             return;
+        }
+
+        if (this.type === MOB_TYPE.ENDERMAN) {
+            this.updateEndermanBlockBehavior(dt);
         }
 
         if (this.type === MOB_TYPE.ZOMBIE ||
