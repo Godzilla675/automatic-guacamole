@@ -365,7 +365,7 @@ class CraftingSystem {
             },
             {
                 name: "Eyeblossom Stew",
-                result: { type: BLOCK.ITEM_SUSPICIOUS_STEW, count: 1 },
+                result: { type: BLOCK.ITEM_SUSPICIOUS_STEW, count: 1, isEyeblossomStew: true },
                 ingredients: [ { type: BLOCK.EYEBLOSSOM, count: 1 }, { type: BLOCK.PLANK, count: 1 } ]
             },
             {
@@ -1027,7 +1027,7 @@ class CraftingSystem {
         // Try to stack first
         for (let i = 0; i < inventory.length; i++) {
             const slot = inventory[i];
-            if (slot && slot.type === typeToAdd && slot.count < 64) {
+            if (slot && slot.type === typeToAdd && slot.count < 64 && slot.isEyeblossomStew === recipe.result.isEyeblossomStew) {
                 const space = 64 - slot.count;
                 const toAdd = Math.min(space, countToAdd);
                 slot.count += toAdd;
@@ -1040,7 +1040,7 @@ class CraftingSystem {
         if (countToAdd > 0) {
             for (let i = 0; i < inventory.length; i++) {
                 if (inventory[i] === null) {
-                    inventory[i] = { type: typeToAdd, count: countToAdd };
+                    inventory[i] = { ...recipe.result, type: typeToAdd, count: countToAdd };
                     countToAdd = 0;
                     break;
                 }

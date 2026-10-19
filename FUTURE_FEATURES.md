@@ -125,8 +125,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Shulker Boxes**
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players when placed on a pyramid.
 - [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns.
-- [ ] **New Task: Add Pale Garden Eyeblossom Suspicious Stew Nausea Effect**: Crafting Eyeblossom stew granting short-duration Nausea status effect alongside Poison. (Status: Proposed feature, pending implementation)
-- [ ] **New Task: Add Creaking Heart Resin Yield Multiplier**: Mined Creaking Hearts near active Pale Garden canopy trees yield boosted Resin Clumps and Resin Bricks. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Potion Brewing Recipes**: Add recipes for brewing potions in the Brewing Stand.
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Paraglider Equipment**: Early-game aerial glider equipment before obtaining Elytra.
