@@ -14,6 +14,8 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
+- [ ] **Bug: Wind Charge Downward Launch Trajectory Angle**: When launching a Wind Charge directly downward under player feet, the resulting vertical self-knockback angle is inconsistent in `js/game.js`.
+- [ ] **Bug: Spectator Flight Fluid Drag**: Entering water while flying in spectator mode applies fluid drag deceleration forces in `js/player.js`.
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
@@ -81,6 +83,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Woodland Mansions**: Rare large roofed forest structures generated with Dark Oak wood and containing Illager mobs.
 - [ ] **New Task: Add Lush Caves Biome**: Subterranean cave biomes filled with Moss Blocks, Spore Blossoms, Cave Vines, and Azalea bushes.
 - [ ] **New Task: Add Nether Fortresses Blaze Spawner Rooms**: Procedurally generated nether brick rooms containing Blaze mob spawner blocks.
+- [ ] **New Task: Add Desert Pyramid Trap Chamber Suspicious Sand**: Generate suspicious sand blocks in secret Desert Temple chambers containing archaeology rewards.
+- [ ] **New Task: Add Nether Fossil Structure Bone Block Drops**: Nether fossil bone structures generating in soul sand valleys dropping bone meal and bone blocks.
 
 ## 👾 Mobs & Entities
 
@@ -116,6 +120,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Phantom Flying AI**: Flying hostile mob appearing at night when player has not slept for 3+ days, dropping Phantom Membranes.
 - [ ] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats spawning in villages that flee from fast player movements, can be tamed with raw fish, and repel Creepers.
 - [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
+- [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
+- [ ] **New Task: Add Piglin Gold Helmet Neutrality Check**: Piglin mobs maintaining non-hostile status as long as player has gold armor equipped in any slot.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -125,7 +131,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Shulker Boxes**
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players when placed on a pyramid.
 - [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns.
-- [ ] **New Task: Add Potion Brewing Recipes**: Add recipes for brewing potions in the Brewing Stand.
+- [ ] **New Task: Add Potion Brewing Recipes**: Add recipes for brewing potions in the Brewing Stand. (Status: Partially implemented - BREWING_STAND block exists, but potion brewing recipes and fuel state are pending implementation)
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Paraglider Equipment**: Early-game aerial glider equipment before obtaining Elytra.
 - [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks.
@@ -140,9 +146,11 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Spyglass Zoom Mechanic**: Equippable/useable Spyglass item that narrows camera field of view for distant scouting.
 - [ ] **New Task: Add Recovery Compass**: Compass variant pointing to the player's last death position.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI allowing players to brew awkward potions, health potions, and swiftness potions with Blaze Powder fuel.
+- [ ] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI allowing players to brew awkward potions, health potions, and swiftness potions with Blaze Powder fuel. (Status: Partially implemented - BREWING_STAND block exists, but container UI and brewing tick logic are pending implementation)
 - [ ] **New Task: Add Golden Apple & Enchanted Golden Apple Food Effects**: Edible golden apples granting Absorption, Regeneration, Resistance, and Fire Resistance status effects.
 - [ ] **New Task: Add Crafter Slot Grid Hotbar Quick-Fill**: Quick-shifting items from inventory hotbar directly into active non-disabled Crafter UI slots.
+- [ ] **New Task: Add Ominous Bottle Consumable Effects**: Consuming Ominous Bottles applying Bad Omen level I-V status effects.
+- [ ] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -158,6 +166,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Dispenser Item Shooting & Projectile Launching**: Dispensers firing arrows, fireworks, snowballs, and water buckets on redstone power.
 - [ ] **New Task: Add Target Block Signal Duration Decay**: Target Block redstone output power decaying smoothly over 8 redstone ticks after projectile impact.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
+- [ ] **New Task: Add Target Block Signal Decay Timer**: Smooth 8-tick signal power decay on Target Blocks following projectile impacts.
+- [ ] **New Task: Add Crafter Slot Grid Auto-Clear Button**: One-click button in Crafter UI to return all placed ingredients to inventory.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -176,6 +186,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Boss Health Bar Overlay**: Dynamic top-screen health bar display with mob name and health percentage for Boss mobs (Warden, Wither, Ender Dragon).
 - [ ] **New Task: Add Death Screen Statistics Summary**: Death screen displaying stats like blocks mined, mobs slain, distance traveled, and days survived.
 - [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
+- [ ] **New Task: Add Dynamic Crosshair Recoil Indicator**: Crosshair visual expansion during weapon cooldowns and projectile launches.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -188,3 +199,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **Support for custom models**
 - [ ] **New Task: Add Plugin API Custom Mob Registration**: `PluginAPI.registerMob(type, config)` endpoint allowing custom mob entity behaviors and textures.
 - [ ] **New Task: Add Custom Sound Effect Event Hooks**: `PluginAPI.on('sound', callback)` allowing plugins to intercept and modify in-game audio events.
+- [ ] **New Task: Add Plugin API Custom Particle Registration**: `PluginAPI.registerParticle(name, config)` endpoint for custom particle effects.
