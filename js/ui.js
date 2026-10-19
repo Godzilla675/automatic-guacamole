@@ -1381,7 +1381,7 @@ class UIManager {
             let output = JSON.parse(JSON.stringify(anvil.input1)); // Clone
 
             // Rename
-            if (rename && rename !== (output.name || window.BLOCKS[output.type].name)) {
+            if (rename && rename !== (output.name || (window.BLOCKS[output.type] ? window.BLOCKS[output.type].name : ''))) {
                 output.name = rename;
                 cost += 1;
             }

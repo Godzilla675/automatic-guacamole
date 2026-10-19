@@ -1230,7 +1230,7 @@ class Game {
                  }
 
                  // Sapling Logic
-                 if (BLOCKS[slot.type].isSapling) {
+                 if (BLOCKS[slot.type] && BLOCKS[slot.type].isSapling) {
                      // Check block below
                      // nx, ny, nz is the target block coords
                      const below = this.world.getBlock(nx, ny-1, nz);

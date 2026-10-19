@@ -941,7 +941,7 @@ class Mob extends Entity {
 
         // Check if stuck in block
         const blockIn = this.world.getBlock(bx, by, bz);
-        if (blockIn !== BLOCK.AIR && blockIn !== BLOCK.WATER && !BLOCKS[blockIn].liquid) {
+        if (blockIn !== BLOCK.AIR && blockIn !== BLOCK.WATER && (!BLOCKS[blockIn] || !BLOCKS[blockIn].liquid)) {
              // Push up
              this.y = by + 1;
              this.vy = 0;
@@ -2031,7 +2031,7 @@ class Mob extends Entity {
                     const by = Math.floor(this.y);
                     const blockInFront = this.world.getBlock(bx, by, bz);
 
-                    if (blockInFront !== BLOCK.AIR && !BLOCKS[blockInFront].liquid) {
+                    if (blockInFront !== BLOCK.AIR && (!BLOCKS[blockInFront] || !BLOCKS[blockInFront].liquid)) {
                         if (this.type === MOB_TYPE.SPIDER) {
                             this.vy = 5; // Climb/Super jump
                         } else if (this.vy === 0) {
