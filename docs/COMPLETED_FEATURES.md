@@ -7,6 +7,7 @@ these features, add a regression test rather than editing this list.
 Total: 471 items.
 
 ## 🐛 Bugs Fixed
+- [x] **Bug: Cannot place AIR block error**: Right clicking when holding certain item types causes a Cannot read properties of undefined (reading 'isSapling') in `js/game.js` because of missing null checks for `BLOCKS[slot.type]`.
 - [x] **New Task: Add Pale Garden Eyeblossom Suspicious Stew Nausea Effect**: Crafting Eyeblossom stew grants Nausea status effect alongside Poison when consumed in `js/player.js` and `js/crafting.js`.
 - [x] **New Task: Add Creaking Heart Resin Yield Multiplier**: Mined Creaking Hearts near active Pale Garden canopy trees yield boosted Resin Clumps (5 count) in `js/game.js`, and requiring explicit `silkTouch` check.
 - [x] **Redstone Comparator Container Fullness Scaling**: `World.prototype.updateRedstone` calculates percentage fullness signal strength (1-15) for adjacent Chests, Furnaces, Hoppers, Droppers, Dispensers, and other containers in `js/world.js`.
