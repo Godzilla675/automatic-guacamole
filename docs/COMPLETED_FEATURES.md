@@ -7,6 +7,8 @@ these features, add a regression test rather than editing this list.
 Total: 471 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add Pale Garden Eyeblossom Suspicious Stew Nausea Effect**: Crafting Eyeblossom stew grants Nausea status effect alongside Poison when consumed in `js/player.js` and `js/crafting.js`.
+- [x] **New Task: Add Creaking Heart Resin Yield Multiplier**: Mined Creaking Hearts near active Pale Garden canopy trees yield boosted Resin Clumps (5 count) in `js/game.js`, and requiring explicit `silkTouch` check.
 - [x] **Redstone Comparator Container Fullness Scaling**: `World.prototype.updateRedstone` calculates percentage fullness signal strength (1-15) for adjacent Chests, Furnaces, Hoppers, Droppers, Dispensers, and other containers in `js/world.js`.
 - [x] **Enderman Mob Block Picking & Carrying Mechanics**: `MOB_TYPE.ENDERMAN` entity in `js/mob.js` has block picking and carrying mechanics (`pickUpBlock` / `placeBlock`) in `js/mob.js` and `js/world.js`.
 - [x] **Sculk Shrieker Vibration Accumulation HUD Meter**: `BLOCK.SCULK_SHRIEKER` triggers Darkness effect on proximity in `js/world.js`, and displays a Sculk Noise vibration accumulation meter HUD UI in `js/ui.js`.

@@ -971,11 +971,27 @@ class Game {
         // Drop Logic
         if (blockType === BLOCK.CREAKING_HEART) {
             const slot = this.player.inventory[this.player.selectedSlot];
-            const isSilkTouch = slot && (slot.silkTouch || (window.TOOLS && window.TOOLS[slot.type] && window.TOOLS[slot.type].type === 'axe'));
+            const isSilkTouch = slot && slot.silkTouch === true;
+            const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
             if (isSilkTouch) {
-                this.drops.push(new Drop(this, x + 0.5, y + 0.5, z + 0.5, BLOCK.CREAKING_HEART, 1));
+                if (DropClass) this.drops.push(new DropClass(this, x + 0.5, y + 0.5, z + 0.5, BLOCK.CREAKING_HEART, 1));
             } else {
-                this.drops.push(new Drop(this, x + 0.5, y + 0.5, z + 0.5, BLOCK.ITEM_RESIN_CLUMP, 2));
+                let hasPaleOakCanopy = false;
+                for (let dx = -5; dx <= 5; dx++) {
+                    for (let dy = -5; dy <= 5; dy++) {
+                        for (let dz = -5; dz <= 5; dz++) {
+                            const checkType = this.world.getBlock(x + dx, y + dy, z + dz);
+                            if (checkType === BLOCK.PALE_OAK_LOG || checkType === BLOCK.PALE_OAK_LEAVES) {
+                                hasPaleOakCanopy = true;
+                                break;
+                            }
+                        }
+                        if (hasPaleOakCanopy) break;
+                    }
+                    if (hasPaleOakCanopy) break;
+                }
+                const dropCount = hasPaleOakCanopy ? 5 : 2;
+                if (DropClass) this.drops.push(new DropClass(this, x + 0.5, y + 0.5, z + 0.5, BLOCK.ITEM_RESIN_CLUMP, dropCount));
             }
         } else if (blockType === BLOCK.MELON_BLOCK) {
             this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_MELON_SLICE, 3 + Math.floor(Math.random()*5)));
