@@ -695,7 +695,7 @@ class Player {
             this.drowningTimer = 0;
         }
 
-        if (inWater) {
+        if (inWater && !this.flying) {
              moveSpeed *= 0.5;
              this.fallDistance = 0;
         }
