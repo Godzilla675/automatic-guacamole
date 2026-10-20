@@ -1003,6 +1003,49 @@ class UIManager {
                 cooldownOverlay.style.display = 'block';
             }
         }
+
+        // Render Clear Grid Button
+        let clearBtn = doc ? doc.getElementById('clear-crafter-btn') : null;
+        if (!clearBtn && doc) {
+            clearBtn = doc.createElement('button');
+            clearBtn.id = 'clear-crafter-btn';
+            clearBtn.className = 'menu-button';
+            clearBtn.textContent = '🗑️ Clear Grid';
+            clearBtn.style.marginTop = '10px';
+            clearBtn.style.cursor = 'pointer';
+            clearBtn.addEventListener('click', () => this.clearCrafterGrid());
+            const screen = doc.getElementById('crafter-screen');
+            const content = screen ? screen.querySelector('.inventory-content') || screen : null;
+            if (content) content.appendChild(clearBtn);
+        }
+    }
+
+    clearCrafterGrid() {
+        if (!this.activeCrafter || !this.activeCrafter.items) return;
+        const player = this.game ? this.game.player : null;
+        let clearedAny = false;
+
+        for (let i = 0; i < 9; i++) {
+            const item = this.activeCrafter.items[i];
+            if (item) {
+                clearedAny = true;
+                if (player) {
+                    const remaining = player.addItem(item);
+                    if (remaining > 0 && this.game && this.game.drops && window.Drop) {
+                        this.game.drops.push(new window.Drop(this.game, player.x, player.y + 0.5, player.z, item.type, remaining));
+                    }
+                }
+                this.activeCrafter.items[i] = null;
+            }
+        }
+
+        if (clearedAny) {
+            if (window.soundManager) window.soundManager.play('place');
+            if (this.showNotification) this.showNotification("Crafter Grid Cleared! Returned ingredients to inventory.");
+        }
+
+        this.refreshCrafterUI();
+        if (this.refreshInventoryUI) this.refreshInventoryUI();
     }
 
     handleCrafterClick(index) {
@@ -2816,8 +2859,119 @@ class UIManager {
         });
     }
 
+    updateSpyglassOverlay() {
+        if (typeof document === 'undefined') return;
+        let overlay = document.getElementById('spyglass-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'spyglass-overlay';
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100vw';
+            overlay.style.height = '100vh';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.zIndex = '999';
+            overlay.style.background = 'radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.98) 100%)';
+            overlay.style.display = 'none';
+            if (document.body) document.body.appendChild(overlay);
+        }
+
+        const isZoomed = !!(this.game && this.game.player && this.game.player.isUsingSpyglass);
+        overlay.style.display = isZoomed ? 'block' : 'none';
+    }
+
+    updateBossHealthBar() {
+        if (typeof document === 'undefined') return;
+        let container = document.getElementById('boss-health-bar-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'boss-health-bar-container';
+            container.style.position = 'fixed';
+            container.style.top = '15px';
+            container.style.left = '50%';
+            container.style.transform = 'translateX(-50%)';
+            container.style.width = '320px';
+            container.style.background = 'rgba(0, 0, 0, 0.75)';
+            container.style.border = '2px solid #800080';
+            container.style.borderRadius = '6px';
+            container.style.padding = '6px 12px';
+            container.style.display = 'none';
+            container.style.flexDirection = 'column';
+            container.style.alignItems = 'center';
+            container.style.zIndex = '1000';
+            container.style.boxShadow = '0 0 10px rgba(128, 0, 128, 0.5)';
+
+            const title = document.createElement('div');
+            title.id = 'boss-health-title';
+            title.style.color = '#FFCC00';
+            title.style.fontFamily = 'monospace';
+            title.style.fontWeight = 'bold';
+            title.style.fontSize = '14px';
+            title.style.marginBottom = '4px';
+            container.appendChild(title);
+
+            const bg = document.createElement('div');
+            bg.style.width = '100%';
+            bg.style.height = '12px';
+            bg.style.background = '#333';
+            bg.style.border = '1px solid #555';
+            bg.style.borderRadius = '3px';
+            bg.style.overflow = 'hidden';
+
+            const fill = document.createElement('div');
+            fill.id = 'boss-health-fill';
+            fill.style.height = '100%';
+            fill.style.width = '100%';
+            fill.style.background = 'linear-gradient(to right, #9900CC, #CC00FF)';
+            fill.style.transition = 'width 0.2s';
+            bg.appendChild(fill);
+
+            container.appendChild(bg);
+            if (document.body) document.body.appendChild(container);
+        }
+
+        if (!this.game || !this.game.player) {
+            container.style.display = 'none';
+            return;
+        }
+
+        const mobs = this.game.mobs || [];
+        const player = this.game.player;
+        let activeBoss = null;
+        let closestDist = 50;
+
+        for (const mob of mobs) {
+            if (!mob || mob.isDead) continue;
+            const isBossMob = mob.isBoss || mob.type === 'warden' || mob.type === 'wither' || mob.type === 'ender_dragon' || (window.MOB_TYPE && (mob.type === window.MOB_TYPE.WARDEN || mob.type === window.MOB_TYPE.WITHER || mob.type === window.MOB_TYPE.ENDER_DRAGON));
+            if (isBossMob) {
+                const dist = Math.hypot(mob.x - player.x, mob.z - player.z);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    activeBoss = mob;
+                }
+            }
+        }
+
+        if (activeBoss) {
+            container.style.display = 'flex';
+            const titleEl = document.getElementById('boss-health-title');
+            const fillEl = document.getElementById('boss-health-fill');
+            const bossName = activeBoss.name || (activeBoss.type ? activeBoss.type.toUpperCase().replace('_', ' ') : 'BOSS');
+            if (titleEl) titleEl.textContent = `${bossName} (${Math.ceil(activeBoss.health)}/${activeBoss.maxHealth})`;
+            if (fillEl) {
+                const pct = Math.max(0, Math.min(100, (activeBoss.health / activeBoss.maxHealth) * 100));
+                fillEl.style.width = pct + '%';
+            }
+        } else {
+            container.style.display = 'none';
+        }
+    }
+
     updateHealthUI() {
         this.updatePotionEffectsUI();
+        this.updateSpyglassOverlay();
+        this.updateBossHealthBar();
         const bar = document.getElementById('health-bar');
         if (bar) {
             const pct = (this.game.player.health / this.game.player.maxHealth) * 100;

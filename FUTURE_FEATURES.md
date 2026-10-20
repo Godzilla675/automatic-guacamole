@@ -117,7 +117,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats spawning in villages that flee from fast player movements, can be tamed with raw fish, and repel Creepers.
 - [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
 - [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
-- [ ] **New Task: Add Piglin Gold Helmet Neutrality Check**: Piglin mobs maintaining non-hostile status as long as player has gold armor equipped in any slot.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -139,8 +138,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Tents**: Placeable sleeping spots that don't set spawn points but allow skipping night.
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
-- [ ] **New Task: Add Spyglass Zoom Mechanic**: Equippable/useable Spyglass item that narrows camera field of view for distant scouting.
-- [ ] **New Task: Add Recovery Compass**: Compass variant pointing to the player's last death position.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
 - [ ] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI allowing players to brew awkward potions, health potions, and swiftness potions with Blaze Powder fuel. (Status: Partially implemented - BREWING_STAND block exists, but container UI and brewing tick logic are pending implementation)
 - [ ] **New Task: Add Golden Apple & Enchanted Golden Apple Food Effects**: Edible golden apples granting Absorption, Regeneration, Resistance, and Fire Resistance status effects.
@@ -163,7 +160,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Target Block Signal Duration Decay**: Target Block redstone output power decaying smoothly over 8 redstone ticks after projectile impact.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 - [ ] **New Task: Add Target Block Signal Decay Timer**: Smooth 8-tick signal power decay on Target Blocks following projectile impacts.
-- [ ] **New Task: Add Crafter Slot Grid Auto-Clear Button**: One-click button in Crafter UI to return all placed ingredients to inventory.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -179,7 +175,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] Statistics
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
 - [ ] **New Task: Add Subtitles Display for Audio Events**: On-screen subtitle indicators showing direction and sound type for nearby mob footsteps, block breaks, and redstone triggers.
-- [ ] **New Task: Add Boss Health Bar Overlay**: Dynamic top-screen health bar display with mob name and health percentage for Boss mobs (Warden, Wither, Ender Dragon).
 - [ ] **New Task: Add Death Screen Statistics Summary**: Death screen displaying stats like blocks mined, mobs slain, distance traveled, and days survived.
 - [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
 - [ ] **New Task: Add Dynamic Crosshair Recoil Indicator**: Crosshair visual expansion during weapon cooldowns and projectile launches.

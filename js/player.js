@@ -44,7 +44,6 @@ class Player {
         this.lastDamageTime = 0;
         this.spawnPoint = { x: 8, y: 40, z: 8 };
 
-
         // Spectator mode handling
         if (this.gamemode === 3 || this.spectator) {
             this.flying = true;
@@ -530,6 +529,22 @@ class Player {
     }
 
     update(dt) {
+        // Check Spyglass held state
+        if (this.isUsingSpyglass) {
+            const held = this.getHeldItem();
+            const offhand = this.offhand;
+            const blockDef = window.BLOCK || global.BLOCK;
+            const spyglassId = blockDef ? blockDef.ITEM_SPYGLASS : 361;
+            const isHoldingSpyglass = (held && held.type === spyglassId) || (offhand && offhand.type === spyglassId);
+            if (!isHoldingSpyglass) {
+                this.isUsingSpyglass = false;
+                if (this.game) {
+                    this.game.fov = this.game.unzoomedFov || 60;
+                    this.game.unzoomedFov = null;
+                }
+            }
+        }
+
         const controls = this.game.controls;
 
         if (this.gamemode === 3 || this.spectator) {
