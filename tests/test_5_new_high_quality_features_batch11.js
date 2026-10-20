@@ -82,6 +82,7 @@ describe('Batch 11 - 5 New High-Quality Features Test Suite', function() {
             'js/achievements.js',
             'js/tutorial.js',
             'js/interactions.js',
+            'js/item_use.js',
             'js/game.js'
         ];
 
