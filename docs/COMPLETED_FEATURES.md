@@ -540,3 +540,8 @@ Total: 471 items.
 - [x] **Hopper polling**: `World.updateHoppers()` iterates hopper block entities instead of scanning 16 chunks x 32k blocks every frame (~39ms -> ~4ms per frame). Tests: `tests/test_hoppers.js`.
 - [x] **Right-click block interaction registry**: `js/interactions.js` (`BlockInteractions.register(blockId, handler)`) replaces the ~24-branch `if` chain in `Game.interact()`. Tests: `tests/test_block_interactions.js`.
 - [x] **Game loop resilience**: an exception thrown by one system during `update()`/`render()` is reported once (`Game.reportFrameError`) instead of killing the whole game loop. Tests: `tests/test_game_loop_resilience.js`.
+- [x] **New Task: Add Recovery Compass**: Compass variant pointing to the player's last death position with vector calculations and notification feedback in `js/item_use.js` and `js/player.js`.
+- [x] **New Task: Add Spyglass Zoom Mechanic**: Equippable/usable Spyglass item that narrows camera field of view, auto-resets on hotbar switch, and displays circular scope vignette overlay in `js/player.js` and `js/ui.js`.
+- [x] **New Task: Add Boss Health Bar Overlay**: Dynamic top-screen health bar display with mob name and health percentage for Boss mobs (Warden, Wither, Ender Dragon) in `js/ui.js`.
+- [x] **New Task: Add Piglin Gold Helmet Neutrality Check**: Piglin mobs maintaining non-hostile status as long as player has gold armor equipped in any slot in `js/mob.js`.
+- [x] **New Task: Add Crafter Slot Grid Auto-Clear Button**: One-click button in Crafter UI to return all placed ingredients from grid to player inventory in `js/ui.js`.

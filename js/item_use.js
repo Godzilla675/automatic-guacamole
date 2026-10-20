@@ -224,6 +224,33 @@ const ItemUse = (() => {
         return true;
     });
 
+    // Recovery Compass Logic
+    register(BLOCK.ITEM_RECOVERY_COMPASS, function recoveryCompass(game, slot, eyePos, dir) {
+        if (!game.player) return false;
+        const vec = game.player.getRecoveryCompassVector ? game.player.getRecoveryCompassVector() : null;
+        if (vec && game.player.lastDeathPos) {
+            const deathPos = game.player.lastDeathPos;
+            const dist = Math.floor(vec.distance);
+            const msg = `Recovery Compass points to last death at (${Math.floor(deathPos.x)}, ${Math.floor(deathPos.y)}, ${Math.floor(deathPos.z)}), ${dist}m away.`;
+            if (game.ui && game.ui.showNotification) {
+                game.ui.showNotification(msg);
+            }
+            if (game.chat && game.chat.addMessage) {
+                game.chat.addMessage(msg);
+            }
+        } else {
+            const msg = "Recovery Compass spins aimlessly (no previous death location recorded).";
+            if (game.ui && game.ui.showNotification) {
+                game.ui.showNotification(msg);
+            }
+            if (game.chat && game.chat.addMessage) {
+                game.chat.addMessage(msg);
+            }
+        }
+        if (window.soundManager) window.soundManager.play('place');
+        return true;
+    });
+
 })();
 
 window.ItemUse = ItemUse;
