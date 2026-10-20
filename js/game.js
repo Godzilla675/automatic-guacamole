@@ -1658,7 +1658,8 @@ class Game {
             const normY = pdy / (pdist || 1);
             const normZ = pdz / (pdist || 1);
 
-            this.player.vy = Math.max(6, normY * 12 * factor + 5);
+            const upwardForce = (normY < 0 ? Math.abs(normY) : normY) * 12 * factor + 6;
+            this.player.vy = Math.max(8, upwardForce);
             this.player.vx += normX * 10 * factor;
             this.player.vz += normZ * 10 * factor;
         }

@@ -14,9 +14,6 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Bug: Wind Charge Downward Launch Trajectory Angle**: When launching a Wind Charge directly downward under player feet, the resulting vertical self-knockback angle is inconsistent in `js/game.js`.
-- [ ] **Bug: Spectator Flight Fluid Drag**: Entering water while flying in spectator mode applies fluid drag deceleration forces in `js/player.js`.
-
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 
