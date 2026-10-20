@@ -17,7 +17,6 @@ Real defects in shipped behaviour. These outrank everything else.
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 
-- [ ] **Move item-use logic out of `Game.startAction()`**: the right-click branch is ~600 lines of `if (slot.type === BLOCK.X)`. Introduce an item-use registry (same shape as `BlockInteractions` in `js/interactions.js`) and migrate the handlers one group at a time, with tests.
 - [ ] **Move placement rules out of `Game.placeBlock()`**: ~400 lines of per-block placement special cases. Candidate for a `BlockPlacement` registry keyed by block id (orientation, multi-block placement, "can place on" rules).
 - [ ] **Per-frame block-entity ticking registry**: `Game.update()` has a growing `if (entity.type === ...)` chain for furnaces/brewing/crops/etc. Register tick handlers by entity type instead.
 - [ ] **Convert legacy tests to `tests/helpers/game_env.js`**: ~70 test files each hand-roll a JSDOM and leak globals; they only work because `npm test` isolates files per process. Migrate opportunistically whenever you touch a file, and name test files after the feature (not "batch17").

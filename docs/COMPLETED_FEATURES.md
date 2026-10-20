@@ -534,6 +534,7 @@ Total: 471 items.
 - [x] **New Task: Add Crafter Pulse Trigger Cooldown Status Overlay**: Visual progress status overlay on Crafter UI screen indicates redstone pulse auto-crafting cooldown state in `js/ui.js` and `styles.css`.
 
 ## Engineering (October 14 cleanup PR)
+- [x] **Move item-use logic out of `Game.startAction()`**: Introduced `ItemUse` registry in `js/item_use.js` (same shape as `BlockInteractions` in `js/interactions.js`) and migrated right-click item-use handlers into registry. Tests: `tests/test_item_use.js`.
 - [x] **Chunk unload loses player edits**: `World.unloadFarChunks()` and `Game.switchDimension()` now park edited chunks (`World.unloadedChunks`, keyed by dimension, LRU-capped) and restore them instead of regenerating from noise; parked chunks are included in saves. Tests: `tests/test_chunk_persistence.js`.
 - [x] **Worldgen light recalculation**: structures placed via `world.setBlock()` no longer trigger a 31x31x31 light rescan per block while a chunk is generating (`World._generating`); chunk generation is ~10x faster (init 25s -> 1s under JSDOM).
 - [x] **Hopper polling**: `World.updateHoppers()` iterates hopper block entities instead of scanning 16 chunks x 32k blocks every frame (~39ms -> ~4ms per frame). Tests: `tests/test_hoppers.js`.
