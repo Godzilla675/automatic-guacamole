@@ -14,6 +14,9 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
+- [ ] **Crafter Quick-Shift Disabled Slot Bypass**: Quick-shifting items into a Crafter GUI container inserts items into disabled crafting slots. (Reproduction: Disable slot 0, shift-click item in inventory into Crafter in `js/ui.js`)
+- [ ] **Submerged Mob Deep Water Drowning Pathfinding**: Mobs submerged in 3+ blocks of deep water sink to bottom and do not float/swim upward to prevent drowning. (Reproduction: Spawn zombie underwater in `js/mob.js`)
+
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 
@@ -31,6 +34,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Spatial Partitioning for Entity Collisions**: Optimize entity-to-entity collision detection in `Physics.prototype` using spatial partitioning rather than N^2 distance checks.
 - [ ] **New Task: Add WebAudio Sound Pool Caching**: Optimize `SoundManager` instances using reusable sound source buffer pools to reduce AudioContext memory overhead.
 - [ ] **Chunk Mesh Face Culling & Instancing**: Group identical chunk block faces into instanced draw arrays to reduce render draw calls.
+- [ ] **New Task: Add Particle Engine Object Pooling**: Reuse Particle objects in `ParticleSystem` (`js/particles.js`) from an array pool instead of allocating new objects on every explosion/snowball/wind effect to reduce garbage collection pressure.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -47,7 +51,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Block Break Particle Color Matching**: Break particles dynamically sampling exact texture/block color hex values rather than default grayscale.
 - [ ] **New Task: Add Mob Hitting Flash Shader Effect**: Briefly render mobs with a red tint overlay when taking damage.
 - [ ] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Render a subtle water distortion wave effect and darkened vignette overlay when player head is submerged.
-- [ ] **New Task: Add Nether Portal Distortion Particle Transition**: Screen distortion particle overlay when stepping inside a Nether Portal block frame.
+- [ ] **New Task: Add Rain Particle Ripple Effects on Liquid Surfaces**: Spawn expanding ripple ring particles on top face of water/lava blocks during rainfall in `js/particles.js` and `js/renderer.js`.
+- [ ] **New Task: Add Directional Hurt Screen Shake**: Tilt player camera angle away from the direction of incoming entity damage in `js/player.js` and `js/renderer.js`.
 - [ ] **New Task: Add Wind Charge Explosion Shockwave Rings**: Expanding 3D ring particles generated upon Wind Charge impact explosions.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
 
@@ -82,6 +87,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Desert Pyramid Trap Chamber Suspicious Sand**: Generate suspicious sand blocks in secret Desert Temple chambers containing archaeology rewards.
 - [ ] **New Task: Add Nether Fossil Structure Bone Block Drops**: Nether fossil bone structures generating in soul sand valleys dropping bone meal and bone blocks.
 - [ ] **New Task: Add Lush Caves Glow Berry Vines**: Subterranean mossy cave generation with hanging light-emitting Glow Berries.
+- [ ] **New Task: Add Ocean Ruins Structures**: Submerged sandstone and stone brick ruin structures generating in ocean biomes with suspicious gravel and drowned spawns in `js/structures.js`.
+- [ ] **New Task: Add Ruined Portals Structure Generation**: Obsidian and crying obsidian portal frames generating partially buried in Overworld and Nether biomes with loot chests in `js/structures.js`.
 
 ## 👾 Mobs & Entities
 
@@ -119,6 +126,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
 - [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
 - [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish.
+- [ ] **New Task: Add Stray Skeleton Variant**: Cold biome skeleton variant that shoots Slowness arrows and drops leather/arrows in `js/mob.js`.
+- [ ] **New Task: Add Husk Zombie Variant**: Desert biome zombie variant that does not burn in sunlight and inflicts Hunger on attack in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -146,6 +155,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ominous Bottle Consumable Effects**: Consuming Ominous Bottles applying Bad Omen level I-V status effects.
 - [ ] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials.
 - [ ] **New Task: Add Ominous Bottle Consumable Drinking Effects**: Drinking Ominous Bottles displays particle bubble animation and grants Bad Omen level I-V.
+- [ ] **New Task: Add Echo Shard & Recovery Compass Crafting**: Crafting recipe for Recovery Compass combining 8 Echo Shards found in Deep Dark structures around a standard Compass in `js/crafting.js`.
+- [ ] **New Task: Add Goat Horn Instruments**: Dropped by Goats bumping into solid blocks, playable item emitting distinct ambient call sounds in `js/item_use.js` and `js/audio.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -162,6 +173,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Target Block Signal Decay Timer**: Smooth 8-tick (1.0s) redstone signal power decay on Target Blocks following projectile impacts.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 - [ ] **New Task: Add Crafter Redstone Pulse Lock Indicator**: Visual locking overlay indicator on Crafter UI when redstone power holds the craft cycle.
+- [ ] **New Task: Add Redstone Comparator Subtract Mode**: Toggle Comparators into Subtract Mode via right-click to subtract side input signal strength from rear signal in `js/world.js`.
+- [ ] **New Task: Add Heavy Weighted Pressure Plates**: Gold and Iron pressure plates emitting redstone signal strength proportional to entity count standing on them in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -174,7 +187,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative.
 - [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue, quest tracking, and task completion rewards.
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
-- [ ] Statistics
+- [ ] **New Task: Add Custom Inventory Sort Button**: Add 'Sort Inventory' button to inventory screen organizing player inventory items by block category and item ID in `js/ui.js`.
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
 - [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
 - [ ] **New Task: Add Dynamic Crosshair Recoil Indicator**: Crosshair visual expansion during weapon cooldowns and projectile launches.
@@ -192,3 +205,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Custom Sound Effect Event Hooks**: `PluginAPI.on('sound', callback)` allowing plugins to intercept and modify in-game audio events.
 - [ ] **New Task: Add Plugin API Custom Particle Registration**: `PluginAPI.registerParticle(name, config)` endpoint for custom particle effects.
 - [ ] **New Task: Add Plugin API Custom UI Container Registration**: Endpoint for plugins to define custom grid GUIs and item container screens.
+- [ ] **New Task: Add Plugin API World Generator Hook**: `PluginAPI.registerBiomeGenerator(name, config)` allowing custom biome structure and heightmap generation logic in `js/plugin.js`.
