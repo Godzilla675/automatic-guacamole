@@ -12,6 +12,8 @@ class Renderer {
         // Cache HUD elements
         this.fpsEl = document.getElementById('fps');
         this.posEl = document.getElementById('position');
+        this.chunkPosEl = document.getElementById('chunk-pos');
+        this.seedEl = document.getElementById('world-seed');
         this.blockEl = document.getElementById('block-count');
         this.timeEl = document.getElementById('game-time');
     }
@@ -203,6 +205,33 @@ class Renderer {
             } else {
                 if (darknessOverlayEl.classList && darknessOverlayEl.classList.remove) darknessOverlayEl.classList.remove('pulse');
                 if (darknessOverlayEl.style) darknessOverlayEl.style.opacity = '0';
+            }
+        }
+
+        // Nether Portal Overlay & Camera Distortion Shader
+        const pHeadBlock = this.game.world.getBlock(Math.floor(this.game.player.x), Math.floor(this.game.player.y + this.game.player.height - 0.2), Math.floor(this.game.player.z));
+        const inPortal = (this.game.portalTimer && this.game.portalTimer > 0) || pHeadBlock === window.BLOCK.PORTAL;
+        if (inPortal) {
+            const portalTime = Date.now() * 0.003;
+            const pulse = 0.35 + Math.sin(portalTime * 3) * 0.15;
+            const portalGradient = ctx.createRadialGradient(w / 2, h / 2, w * 0.1, w / 2, h / 2, w * 0.7);
+            portalGradient.addColorStop(0, `rgba(147, 112, 219, ${pulse * 0.4})`);
+            portalGradient.addColorStop(0.6, `rgba(75, 0, 130, ${pulse * 0.7})`);
+            portalGradient.addColorStop(1, `rgba(48, 0, 80, ${pulse * 0.95})`);
+
+            ctx.fillStyle = portalGradient;
+            ctx.fillRect(0, 0, w, h);
+
+            // Purple swirling particles on HUD overlay
+            ctx.fillStyle = 'rgba(216, 191, 216, 0.85)';
+            for (let i = 0; i < 20; i++) {
+                const angle = portalTime + (i * Math.PI / 10);
+                const radius = (Math.sin(portalTime * 2 + i) * 0.3 + 0.5) * (Math.min(w, h) * 0.4);
+                const px = w / 2 + Math.cos(angle) * radius;
+                const py = h / 2 + Math.sin(angle) * radius;
+                ctx.beginPath();
+                ctx.arc(px, py, 3 + (i % 3), 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
@@ -1017,6 +1046,10 @@ class Renderer {
         if (this.fpsEl) this.fpsEl.textContent = this.game.fps;
 
         if (this.posEl) this.posEl.textContent = `${Math.floor(px)}, ${Math.floor(py)}, ${Math.floor(pz)}`;
+
+        if (this.chunkPosEl) this.chunkPosEl.textContent = `${Math.floor(px / 16)}, ${Math.floor(pz / 16)}`;
+
+        if (this.seedEl && this.game.world) this.seedEl.textContent = Math.floor(this.game.world.seed || 0);
 
         if (this.blockEl) this.blockEl.textContent = blocksToDraw.length;
 

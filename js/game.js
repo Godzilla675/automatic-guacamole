@@ -735,6 +735,9 @@ class Game {
     }
 
     finalizeBreakBlock(x, y, z) {
+        if (this.player && this.player.stats) {
+            this.player.stats.blocksMined++;
+        }
         const blockType = this.world.getBlock(x, y, z);
         const pos = { x: x + 0.5, y: y + 0.5, z: z + 0.5 };
 
@@ -2151,6 +2154,11 @@ class Game {
                 const spY = p.y + Math.sin(angle) * r;
                 const spZ = p.z + Math.sin(angle * 2) * r;
                 this.particles.spawn(spX, spY, spZ, '#E0FFFF', 2);
+            }
+
+            // Snowball Flight Trail Particles
+            if (p.type === 'snowball' && this.particles) {
+                this.particles.spawn(p.x, p.y, p.z, '#FFFFFF', 2);
             }
 
             // Collision with world

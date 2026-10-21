@@ -148,6 +148,10 @@ class SoundManager {
     }
 
     play(type, position = null, blockType = null) {
+        if (typeof window !== 'undefined' && window.game && window.game.ui && typeof window.game.ui.addSubtitle === 'function') {
+            window.game.ui.addSubtitle(type, position);
+        }
+
         if (!this.enabled || !this.ctx) return;
         if (this.ctx.state === 'suspended') {
             this.ctx.resume();

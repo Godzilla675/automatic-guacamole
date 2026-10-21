@@ -546,3 +546,8 @@ Total: 472 items.
 - [x] **New Task: Add Boss Health Bar Overlay**: Dynamic top-screen health bar display with mob name and health percentage for Boss mobs (Warden, Wither, Ender Dragon) in `js/ui.js`.
 - [x] **New Task: Add Piglin Gold Helmet Neutrality Check**: Piglin mobs maintaining non-hostile status as long as player has gold armor equipped in any slot in `js/mob.js`.
 - [x] **New Task: Add Crafter Slot Grid Auto-Clear Button**: One-click button in Crafter UI to return all placed ingredients from grid to player inventory in `js/ui.js`.
+- [x] **New Task: Add Directional Sound Subtitles Display**: Visual on-screen subtitle cards indicating direction and distance of sound events (mobs, footsteps, block breaks, redstone, weather) in `js/audio.js` and `js/ui.js`.
+- [x] **New Task: Add Death Screen Detailed Statistics Summary**: Comprehensive breakdown on player death screen showing cause of death, time survived, distance traveled, mobs defeated, and blocks mined in `js/player.js`, `js/game.js`, `js/mob.js`, `js/ui.js`, and `index.html`.
+- [x] **New Task: Add In-Game World Seed Inspector**: World seed display card and interactive 'Copy Seed' button with notification feedback in `js/renderer.js`, `js/ui.js`, and `index.html`.
+- [x] **New Task: Add Snowball Flight & Impact Trail Particle FX**: Sparkle particle trail following snowballs during flight and expanding impact burst particles on entity/terrain collision in `js/game.js`.
+- [x] **New Task: Add Nether Portal Screen Camera Distortion Shader Effect**: Dynamic screen post-processing purple wave distortion shader when entering portal frame in `js/renderer.js`.
