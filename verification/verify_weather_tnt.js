@@ -107,6 +107,7 @@ const files = [
     'js/network.js',
     'js/chat.js',
     'js/ui.js',
+    'js/interactions.js',
     'js/input.js',
     'js/mob.js', // Needed for Game
     'js/particles.js',
