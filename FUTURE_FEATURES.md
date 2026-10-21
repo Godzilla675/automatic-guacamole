@@ -1,7 +1,7 @@
 # Future Features & Tasks
 
 The backlog for Voxel World. **Only open work lives here** - everything already shipped is archived in
-[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (471 items and counting).
+[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (472 items and counting).
 
 How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
@@ -13,8 +13,6 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
-
-- [ ] **Target Block Redstone Power Decay Missing**: `World.hitTargetBlock` creates a target block entity with `timer: 1.0`, but `World.updateBlockEntities()` / `Game.update()` does not decrement this timer or reset the block's redstone metadata power to 0 after expiration.
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.

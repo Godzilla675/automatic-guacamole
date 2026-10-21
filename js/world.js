@@ -742,7 +742,32 @@ class World {
         }
     }
 
+    updateTargetBlocks(dt = 0.05) {
+        for (const [key, entity] of this.blockEntities) {
+            if (entity && entity.type === 'target') {
+                const [x, y, z] = key.split(',').map(Number);
+                if (entity.timer > 0) {
+                    entity.timer -= dt;
+                    if (entity.timer <= 0) {
+                        entity.timer = 0;
+                        entity.power = 0;
+                        this.setMetadata(x, y, z, 0);
+                        this.activeRedstone.add(key);
+                        this.scheduleNeighborRedstoneUpdates(x, y, z);
+                    }
+                } else if (this.getMetadata(x, y, z) > 0) {
+                    entity.timer = 0;
+                    entity.power = 0;
+                    this.setMetadata(x, y, z, 0);
+                    this.activeRedstone.add(key);
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+            }
+        }
+    }
+
     updateRedstone() {
+        this.updateTargetBlocks(0.05);
         this.updateDroppers();
         this.updateDispensers();
         this.updateHoppers();
@@ -994,6 +1019,14 @@ class World {
                     } else {
                         this.activeRedstone.add(key);
                     }
+                } else if (entity && entity.power > 0) {
+                    entity.timer = 0;
+                    entity.power = 0;
+                    this.setMetadata(x, y, z, 0);
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                } else if (this.getMetadata(x, y, z) > 0) {
+                    this.setMetadata(x, y, z, 0);
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
                 }
             } else if (type === window.BLOCK.DAYLIGHT_SENSOR) {
                 const gameTime = this.game ? this.game.gameTime : 0;
