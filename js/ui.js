@@ -1822,9 +1822,25 @@ class UIManager {
     showDeathScreen(deathPos) {
         const screen = document.getElementById('death-screen');
         const coords = document.getElementById('death-coords');
+        const statsEl = document.getElementById('death-stats');
         if (screen) screen.classList.remove('hidden');
         if (coords && deathPos) {
             coords.textContent = `Death Coordinates: X: ${Math.floor(deathPos.x)}, Y: ${Math.floor(deathPos.y)}, Z: ${Math.floor(deathPos.z)}`;
+        }
+        if (statsEl) {
+            const player = this.game ? this.game.player : null;
+            const stats = player ? (player.stats || {}) : {};
+            const blocksMined = stats.blocksMined || 0;
+            const mobsSlain = stats.mobsSlain || 0;
+            const distTraveled = Math.floor(stats.distanceTraveled || 0);
+            const daysSurvived = this.game ? Math.floor(this.game.gameTime / (this.game.dayLength || 120000)) : 0;
+
+            statsEl.innerHTML = `
+                <div>⛏️ <strong>Blocks Mined:</strong> ${blocksMined}</div>
+                <div>⚔️ <strong>Mobs Slain:</strong> ${mobsSlain}</div>
+                <div>🏃 <strong>Distance Traveled:</strong> ${distTraveled}m</div>
+                <div>☀️ <strong>Days Survived:</strong> ${daysSurvived}</div>
+            `;
         }
         document.exitPointerLock();
     }
@@ -1837,6 +1853,17 @@ class UIManager {
 
     pauseGame() {
         document.getElementById('pause-screen').classList.remove('hidden');
+        const seedVal = document.getElementById('pause-seed-val');
+        const dimVal = document.getElementById('pause-dim-val');
+        const chunkVal = document.getElementById('pause-chunk-val');
+
+        if (this.game && this.game.world) {
+            if (seedVal) seedVal.textContent = Math.floor(this.game.world.seed || 0);
+            if (dimVal) dimVal.textContent = (this.game.world.dimension || 'overworld').toUpperCase();
+        }
+        if (this.game && this.game.player) {
+            if (chunkVal) chunkVal.textContent = `${Math.floor(this.game.player.x / 16)}, ${Math.floor(this.game.player.z / 16)}`;
+        }
         document.exitPointerLock();
     }
 
@@ -2761,6 +2788,95 @@ class UIManager {
                 }
             }
         }
+    }
+
+    addSubtitle(type, position = null) {
+        if (typeof document === 'undefined') return;
+        let container = document.getElementById('subtitles-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'subtitles-container';
+            container.style.position = 'fixed';
+            container.style.bottom = '120px';
+            container.style.right = '20px';
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column-reverse';
+            container.style.gap = '4px';
+            container.style.pointerEvents = 'none';
+            container.style.zIndex = '999';
+            if (document.body) document.body.appendChild(container);
+        }
+
+        const nameMap = {
+            'step': 'Footsteps',
+            'break': 'Block broken',
+            'place': 'Block placed',
+            'jump': 'Jumped',
+            'eat': 'Eating',
+            'fuse': 'TNT Hissing',
+            'note': 'Note Block',
+            'explosion': 'Explosion',
+            'creaking_step': 'Creaking Footsteps',
+            'creaking_screech': 'Creaking Screech',
+            'wind_deflect': 'Wind Charge Deflected'
+        };
+
+        const label = nameMap[type] || (type ? type.charAt(0).toUpperCase() + type.slice(1).replace('_', ' ') : 'Sound');
+
+        let dirText = `< ${label} >`;
+        if (position && this.game && this.game.player) {
+            const px = this.game.player.x;
+            const pz = this.game.player.z;
+            const yaw = this.game.player.yaw || 0;
+
+            const dx = (position.x !== undefined ? position.x : px) - px;
+            const dz = (position.z !== undefined ? position.z : pz) - pz;
+            const dist = Math.hypot(dx, dz);
+
+            if (dist > 1.5) {
+                const angleToSound = Math.atan2(dx, dz);
+                let relAngle = angleToSound - yaw;
+                while (relAngle > Math.PI) relAngle -= Math.PI * 2;
+                while (relAngle < -Math.PI) relAngle += Math.PI * 2;
+
+                if (relAngle > Math.PI / 6 && relAngle < 5 * Math.PI / 6) {
+                    dirText = `${label} >`;
+                } else if (relAngle < -Math.PI / 6 && relAngle > -5 * Math.PI / 6) {
+                    dirText = `< ${label}`;
+                } else if (Math.abs(relAngle) >= 5 * Math.PI / 6) {
+                    dirText = `v ${label} v`;
+                } else {
+                    dirText = `^ ${label} ^`;
+                }
+            }
+        }
+
+        const div = document.createElement('div');
+        div.className = 'subtitle-entry';
+        div.textContent = dirText;
+        div.style.background = 'rgba(0, 0, 0, 0.7)';
+        div.style.color = '#FFFFFF';
+        div.style.padding = '4px 10px';
+        div.style.borderRadius = '4px';
+        div.style.fontSize = '13px';
+        div.style.fontFamily = 'monospace';
+        div.style.boxShadow = '0 0 4px rgba(0,0,0,0.5)';
+        div.style.transition = 'opacity 0.5s';
+        div.style.opacity = '1';
+
+        container.appendChild(div);
+
+        // Keep at most 5 subtitle entries
+        while (container.children.length > 5) {
+            container.removeChild(container.firstChild);
+        }
+
+        setTimeout(() => {
+            div.style.opacity = '0';
+            setTimeout(() => {
+                if (div.parentNode) div.parentNode.removeChild(div);
+            }, 500);
+        }, 2000);
     }
 
     showNotification(message) {

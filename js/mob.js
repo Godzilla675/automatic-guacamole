@@ -740,6 +740,9 @@ class Mob extends Entity {
 
     die() {
         this.isDead = true;
+        if (this.game && this.game.player && this.game.player.stats) {
+            this.game.player.stats.mobsSlain++;
+        }
         if (this.game.pluginAPI) this.game.pluginAPI.emit('mobDeath', { mob: this });
         if (this.game && this.game.checkSculkCatalyst) {
             this.game.checkSculkCatalyst(this.x, this.y, this.z);

@@ -43,7 +43,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] Music system
 - [ ] **Screenshot system**
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
-- [ ] **New Task: Add Snowball Trail Particles**: Throwable snowball projectile trail particle FX.
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Block Break Particle Color Matching**: Break particles dynamically sampling exact texture/block color hex values rather than default grayscale.
 - [ ] **New Task: Add Mob Hitting Flash Shader Effect**: Briefly render mobs with a red tint overlay when taking damage.
@@ -51,7 +50,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Nether Portal Distortion Particle Transition**: Screen distortion particle overlay when stepping inside a Nether Portal block frame.
 - [ ] **New Task: Add Wind Charge Explosion Shockwave Rings**: Expanding 3D ring particles generated upon Wind Charge impact explosions.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
-- [ ] **New Task: Add Nether Portal Camera Distortion Shader**: Render purple particle swirling overlay on the HUD when standing inside a Nether Portal.
 
 ## 🧱 World Generation & Structures
 
@@ -178,11 +176,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
 - [ ] Statistics
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
-- [ ] **New Task: Add Subtitles Display for Audio Events**: On-screen subtitle indicators showing direction and sound type for nearby mob footsteps, block breaks, and redstone triggers.
-- [ ] **New Task: Add Death Screen Statistics Summary**: Death screen displaying stats like blocks mined, mobs slain, distance traveled, and days survived.
 - [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
 - [ ] **New Task: Add Dynamic Crosshair Recoil Indicator**: Crosshair visual expansion during weapon cooldowns and projectile launches.
-- [ ] **New Task: Add In-Game World Seed Inspector**: Pause menu overlay displaying current world seed and player chunk coordinates.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.

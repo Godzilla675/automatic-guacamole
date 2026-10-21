@@ -43,6 +43,7 @@ class Player {
         this.maxHunger = 20;
         this.lastDamageTime = 0;
         this.spawnPoint = { x: 8, y: 40, z: 8 };
+        this.stats = { blocksMined: 0, mobsSlain: 0, distanceTraveled: 0 };
 
         // Spectator mode handling
         if (this.gamemode === 3 || this.spectator) {
@@ -884,6 +885,9 @@ class Player {
         const oldVy = this.vy; // Capture vy before moveBy potentially resets it
 
         this.moveBy(this.vx * dt, this.vy * dt, this.vz * dt);
+
+        if (!this.stats) this.stats = { blocksMined: 0, mobsSlain: 0, distanceTraveled: 0 };
+        this.stats.distanceTraveled += Math.hypot(this.x - prevX, this.z - prevZ);
 
         // Fall Damage Logic
         if (!this.flying && !inWater) {
