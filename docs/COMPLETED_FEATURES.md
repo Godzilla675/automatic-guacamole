@@ -4,9 +4,10 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 471 items.
+Total: 472 items.
 
 ## 🐛 Bugs Fixed
+- [x] **Target Block Redstone Power Decay Missing**: `World.hitTargetBlock` creates a target block entity with `timer: 1.0`, and `World.updateTargetBlocks()` / `World.updateRedstone()` decrements this timer and resets the block's redstone metadata power to 0 after expiration.
 - [x] **Bug: Wind Charge Downward Launch Trajectory Angle**: When launching a Wind Charge directly downward under player feet, the resulting vertical self-knockback angle is consistent in `js/game.js`.
 - [x] **Bug: Spectator Flight Fluid Drag**: Entering water while flying in spectator mode bypasses fluid drag deceleration forces in `js/player.js`.
 - [x] **Bug: Cannot place AIR block error**: Right clicking when holding certain item types causes a Cannot read properties of undefined (reading 'isSapling') in `js/game.js` because of missing null checks for `BLOCKS[slot.type]`.
@@ -483,7 +484,7 @@ Total: 471 items.
 - [x] **New Task: Add Lightning Strike Fire & Pig Transformation Mechanics**: Lightning strikes during thunderstorms setting fire to hit blocks and transforming pigs into Zombie Pigmen.
 - [x] **New Task: Add Sniffer Seed Digging Mechanics**: Ancient Sniffer mob sniffing out rare seeds (Torchflower and Pitcher Plant) from dirt/grass terrain.
 - [x] **New Task: Add Wind Charge Entity Propulsion**: Throwing Wind Charges at other entities (mobs or vehicles) launching them into the air with vertical momentum.
-- [x] **Bug: Redstone Torch Inversion Incomplete**: Redstone Torches do not invert signal state when receiving power from adjacent powered blocks in `js/world.js`.
+- [x] **Bug: Redstone Torch Inversion Incomplete**: Redstone Torches do not invert signal state when receiving power from an adjacent block to allow redstone logic gates (NOT, AND, OR).
 - [x] **Bug: Crafter Comparator Output Missing**: Redstone comparators facing Crafter blocks do not measure filled/disabled slot count.
 - [x] **Bug: Copper Grate Waterlogging Flow Missing**: Water fluids do not flow through Copper Grate blocks despite open mesh visuals.
 - [x] **Bug: Wolf Armor Color Dyeing Missing**: Wolf Armor cannot be dyed using 16 color dyes in crafting grid.
