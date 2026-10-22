@@ -1014,11 +1014,52 @@ class Player {
     }
 
     eat(itemType) {
-        if (itemType === BLOCK.ITEM_POTION) {
-            this.health = Math.min(this.maxHealth, this.health + 6);
+        if (itemType === BLOCK.ITEM_POTION || itemType === BLOCK.ITEM_POTION_AWKWARD) {
+            this.health = Math.min(this.maxHealth, this.health + 2);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_POTION_HEALING) {
+            this.health = Math.min(this.maxHealth, this.health + 8);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_POTION_SWIFTNESS) {
+            this.addEffect('Speed', '⚡', 45);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_POTION_STRENGTH) {
+            this.addEffect('Strength', '💪', 45);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_POTION_REGENERATION) {
             this.addEffect('Regeneration', '🧪', 45);
             if (window.soundManager) window.soundManager.play('eat');
-            if (this.game.updateHealthUI) this.game.updateHealthUI();
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_GOLDEN_APPLE) {
+            this.hunger = Math.min(this.maxHunger, this.hunger + 4);
+            this.addEffect('Absorption', '🛡️', 120);
+            this.addEffect('Regeneration', '🧪', 10);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_ENCHANTED_GOLDEN_APPLE) {
+            this.hunger = Math.min(this.maxHunger, this.hunger + 4);
+            this.addEffect('Absorption', '🛡️', 240);
+            this.addEffect('Regeneration', '🧪', 30);
+            this.addEffect('Resistance', '🛡️', 300);
+            this.addEffect('Fire Resistance', '🔥', 300);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
             return true;
         }
         if (itemType === BLOCK.ITEM_OMINOUS_BOTTLE || itemType === BLOCK.ITEM_OMINOUS_BANNER) {

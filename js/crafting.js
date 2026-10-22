@@ -44,6 +44,26 @@ class CraftingSystem {
             },
             // Furnaces
             {
+                name: "Blaze Powder (2)",
+                result: { type: BLOCK.ITEM_BLAZE_POWDER, count: 2 },
+                ingredients: [ { type: BLOCK.ITEM_BLAZE_ROD, count: 1 } ]
+            },
+            {
+                name: "Sugar",
+                result: { type: BLOCK.ITEM_SUGAR, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_BAMBOO, count: 1 } ]
+            },
+            {
+                name: "Glistering Melon",
+                result: { type: BLOCK.ITEM_GLISTERING_MELON, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_MELON_SLICE, count: 1 }, { type: BLOCK.ITEM_GOLD_INGOT, count: 1 } ]
+            },
+            {
+                name: "Golden Apple",
+                result: { type: BLOCK.ITEM_GOLDEN_APPLE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_APPLE, count: 1 }, { type: BLOCK.ITEM_GOLD_INGOT, count: 8 } ]
+            },
+            {
                 name: "Furnace",
                 result: { type: BLOCK.FURNACE, count: 1 },
                 ingredients: [ { type: BLOCK.COBBLESTONE, count: 8 } ]

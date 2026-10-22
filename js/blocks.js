@@ -524,7 +524,17 @@ const BLOCK = {
     ITEM_COMPASS: 573,
     ITEM_EYE_OF_ENDER: 574,
     END_STONE: 575,
-    WITHER_ROSE: 576
+    WITHER_ROSE: 576,
+    ITEM_BLAZE_POWDER: 577,
+    ITEM_SUGAR: 578,
+    ITEM_GLISTERING_MELON: 579,
+    ITEM_GOLDEN_APPLE: 580,
+    ITEM_ENCHANTED_GOLDEN_APPLE: 581,
+    ITEM_POTION_AWKWARD: 582,
+    ITEM_POTION_HEALING: 583,
+    ITEM_POTION_SWIFTNESS: 584,
+    ITEM_POTION_STRENGTH: 585,
+    ITEM_POTION_REGENERATION: 586
 };
 
 const ARMOR = {
@@ -1126,7 +1136,17 @@ const BLOCKS = {
     [BLOCK.ITEM_COMPASS]: { name: 'Compass', color: '#B0C4DE', solid: false, isItem: true, icon: '🧭' },
     [BLOCK.ITEM_EYE_OF_ENDER]: { name: 'Eye of Ender', color: '#00FA9A', solid: false, isItem: true, icon: '👁️' },
     [BLOCK.END_STONE]: { name: 'End Stone', color: '#EEE8AA', top: '#F0E68C', solid: true, icon: '🪨', hardness: 3.0, tool: 'pickaxe' },
-    [BLOCK.WITHER_ROSE]: { name: 'Wither Rose', color: '#2F2F2F', solid: false, transparent: true, icon: '🌹', hardness: 0.0, drop: { type: 576, count: 1 } }
+    [BLOCK.WITHER_ROSE]: { name: 'Wither Rose', color: '#2F2F2F', solid: false, transparent: true, icon: '🌹', hardness: 0.0, drop: { type: 576, count: 1 } },
+    [BLOCK.ITEM_BLAZE_POWDER]: { name: 'Blaze Powder', color: '#FF4500', solid: false, isItem: true, icon: '🔥' },
+    [BLOCK.ITEM_SUGAR]: { name: 'Sugar', color: '#FFFFFF', solid: false, isItem: true, icon: '🍬' },
+    [BLOCK.ITEM_GLISTERING_MELON]: { name: 'Glistering Melon Slice', color: '#FFD700', solid: false, isItem: true, icon: '🍉' },
+    [BLOCK.ITEM_GOLDEN_APPLE]: { name: 'Golden Apple', color: '#FFD700', solid: false, isItem: true, icon: '🍎', food: 4 },
+    [BLOCK.ITEM_ENCHANTED_GOLDEN_APPLE]: { name: 'Enchanted Golden Apple', color: '#FFD700', solid: false, isItem: true, icon: '🍏', food: 4 },
+    [BLOCK.ITEM_POTION_AWKWARD]: { name: 'Awkward Potion', color: '#8A2BE2', solid: false, isItem: true, icon: '🧪' },
+    [BLOCK.ITEM_POTION_HEALING]: { name: 'Potion of Healing', color: '#FF69B4', solid: false, isItem: true, icon: '🧪' },
+    [BLOCK.ITEM_POTION_SWIFTNESS]: { name: 'Potion of Swiftness', color: '#00FFFF', solid: false, isItem: true, icon: '🧪' },
+    [BLOCK.ITEM_POTION_STRENGTH]: { name: 'Potion of Strength', color: '#FF0000', solid: false, isItem: true, icon: '🧪' },
+    [BLOCK.ITEM_POTION_REGENERATION]: { name: 'Potion of Regeneration', color: '#FF1493', solid: false, isItem: true, icon: '🧪' }
 };
 
 if (typeof window !== 'undefined') {

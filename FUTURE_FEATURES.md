@@ -146,8 +146,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI allowing players to brew awkward potions, health potions, and swiftness potions with Blaze Powder fuel. (Status: Partially implemented - BREWING_STAND block exists and UI opens, but Blaze Powder fuel state and potion effect variants are pending implementation)
-- [ ] **New Task: Add Golden Apple & Enchanted Golden Apple Food Effects**: Edible golden apples granting Absorption, Regeneration, Resistance, and Fire Resistance status effects.
 - [ ] **New Task: Add Crafter Slot Grid Hotbar Quick-Fill**: Quick-shifting items from inventory hotbar directly into active non-disabled Crafter UI slots.
 - [ ] **New Task: Add Ominous Bottle Consumable Effects**: Consuming Ominous Bottles applying Bad Omen level I-V status effects.
 - [ ] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials.
