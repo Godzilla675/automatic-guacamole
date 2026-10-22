@@ -327,6 +327,17 @@ class SoundManager {
                  osc.start(now);
                  osc.stop(now + 0.25);
                  break;
+
+            case 'goat_horn':
+                 osc.type = 'sawtooth';
+                 osc.frequency.setValueAtTime(220, now);
+                 osc.frequency.linearRampToValueAtTime(330, now + 0.3);
+                 osc.frequency.linearRampToValueAtTime(220, now + 0.8);
+                 gain.gain.setValueAtTime(this.volume * 0.8, now);
+                 gain.gain.exponentialRampToValueAtTime(0.01, now + 1.2);
+                 osc.start(now);
+                 osc.stop(now + 1.2);
+                 break;
         }
     }
 }

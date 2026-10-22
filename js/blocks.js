@@ -534,7 +534,9 @@ const BLOCK = {
     ITEM_POTION_HEALING: 583,
     ITEM_POTION_SWIFTNESS: 584,
     ITEM_POTION_STRENGTH: 585,
-    ITEM_POTION_REGENERATION: 586
+    ITEM_POTION_REGENERATION: 586,
+    ITEM_ECHO_SHARD: 587,
+    ITEM_GOAT_HORN: 588
 };
 
 const ARMOR = {
@@ -1146,7 +1148,9 @@ const BLOCKS = {
     [BLOCK.ITEM_POTION_HEALING]: { name: 'Potion of Healing', color: '#FF69B4', solid: false, isItem: true, icon: '🧪' },
     [BLOCK.ITEM_POTION_SWIFTNESS]: { name: 'Potion of Swiftness', color: '#00FFFF', solid: false, isItem: true, icon: '🧪' },
     [BLOCK.ITEM_POTION_STRENGTH]: { name: 'Potion of Strength', color: '#FF0000', solid: false, isItem: true, icon: '🧪' },
-    [BLOCK.ITEM_POTION_REGENERATION]: { name: 'Potion of Regeneration', color: '#FF1493', solid: false, isItem: true, icon: '🧪' }
+    [BLOCK.ITEM_POTION_REGENERATION]: { name: 'Potion of Regeneration', color: '#FF1493', solid: false, isItem: true, icon: '🧪' },
+    [BLOCK.ITEM_ECHO_SHARD]: { name: 'Echo Shard', color: '#008080', solid: false, isItem: true, icon: '💎' },
+    [BLOCK.ITEM_GOAT_HORN]: { name: 'Goat Horn', color: '#D2B48C', solid: false, isItem: true, icon: '📯' }
 };
 
 if (typeof window !== 'undefined') {

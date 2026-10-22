@@ -922,7 +922,9 @@ class World {
                     }
                 }
 
-                const outputPower = Math.max(0, inputPower - sidePower);
+                let compEntity = this.getBlockEntity(x, y, z);
+                const isSubtractMode = compEntity && compEntity.mode === 'subtract';
+                const outputPower = isSubtractMode ? Math.max(0, inputPower - sidePower) : (inputPower >= sidePower ? inputPower : 0);
                 if (outputPower !== currentPower) {
                     this.setMetadata(x, y, z, outputPower);
                     this.scheduleNeighborRedstoneUpdates(x, y, z);

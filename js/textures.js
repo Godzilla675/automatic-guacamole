@@ -1800,6 +1800,8 @@ class TextureManager {
         this.textures[B.ITEM_EMERALD] = this.genGem('#50C878');
         this.textures[B.ITEM_QUARTZ] = this.genGem('#FFFFFF');
         this.textures[B.ITEM_LAPIS_LAZULI] = this.genGem('#00008B');
+        this.textures[B.ITEM_ECHO_SHARD] = this.genGem('#008080');
+        this.textures[B.ITEM_GOAT_HORN] = this.genGoatHornItem();
         this.textures[B.ITEM_REDSTONE_DUST] = this.genDust('#FF0000');
         this.textures[B.ITEM_GLOWSTONE_DUST] = this.genDust('#FFD700');
         this.textures[B.ITEM_GUNPOWDER] = this.genDust('#696969');
@@ -2635,6 +2637,21 @@ class TextureManager {
         return c;
     }
 
+    genGoatHornItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(4, 10, 4, 3);
+        ctx.fillRect(6, 7, 5, 4);
+        ctx.fillRect(9, 4, 4, 4);
+        ctx.fillRect(11, 2, 3, 3);
+        ctx.fillStyle = '#8B5A2B';
+        ctx.fillRect(5, 11, 2, 1);
+        ctx.fillRect(8, 8, 2, 1);
+        ctx.fillRect(11, 5, 2, 1);
+        return c;
+    }
+
     genSuspiciousStew() {
         const c = this.createCanvas();
         const ctx = c.getContext('2d');
@@ -2920,6 +2937,33 @@ class TextureManager {
         this.mobTextures.llama = this.genMobLlama();
         this.mobTextures.slime = this.genMobSlime();
         this.mobTextures.piglin = this.genMobPiglin();
+        this.mobTextures.stray = this.genMobStray();
+        this.mobTextures.husk = this.genMobHusk();
+    }
+
+    genMobStray() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#B0C4DE';
+        ctx.fillRect(1, 0, 6, 4);
+        ctx.fillStyle = '#222222';
+        ctx.fillRect(2, 1, 2, 2);
+        ctx.fillRect(5, 1, 2, 2);
+        ctx.fillStyle = '#708090';
+        ctx.fillRect(1, 4, 6, 8);
+        return c;
+    }
+
+    genMobHusk() {
+        const c = this.createCanvas(8, 16);
+        const ctx = c.getContext('2d');
+        this.fillNoise(ctx, { r: 210, g: 180, b: 140 }, 15, 8, 16);
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(0, 4, 8, 5);
+        ctx.fillStyle = '#8B0000';
+        ctx.fillRect(2, 1, 1, 1);
+        ctx.fillRect(5, 1, 1, 1);
+        return c;
     }
 
     genMobPiglin() {

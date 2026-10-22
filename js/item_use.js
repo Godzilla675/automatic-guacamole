@@ -251,6 +251,17 @@ const ItemUse = (() => {
         return true;
     });
 
+    // Goat Horn Instrument Logic
+    register(BLOCK.ITEM_GOAT_HORN, function goatHorn(game, slot, eyePos, dir) {
+        if (window.soundManager) {
+            window.soundManager.play('goat_horn', { x: game.player.x, y: game.player.y, z: game.player.z });
+        }
+        if (game.ui && game.ui.showNotification) {
+            game.ui.showNotification('📯 Played Goat Horn instrument!');
+        }
+        return true;
+    });
+
 })();
 
 window.ItemUse = ItemUse;

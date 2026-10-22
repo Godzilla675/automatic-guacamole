@@ -131,7 +131,7 @@ class CraftingSystem {
             {
                 name: "Recovery Compass",
                 result: { type: BLOCK.ITEM_RECOVERY_COMPASS, count: 1 },
-                ingredients: [ { type: BLOCK.ITEM_AMETHYST_SHARD, count: 4 }, { type: BLOCK.ITEM_IRON_INGOT, count: 4 } ]
+                ingredients: [ { type: BLOCK.ITEM_ECHO_SHARD, count: 8 }, { type: BLOCK.ITEM_COMPASS, count: 1 } ]
             },
             {
                 name: "Suspicious Stew",
