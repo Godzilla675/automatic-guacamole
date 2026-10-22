@@ -919,19 +919,33 @@ class Mob extends Entity {
             }
         }
 
-        // Gravity
-        this.vy -= 25 * dt;
+        // Simple Ground & Water Collision
+        // Check block at feet and body
+        const bx = Math.floor(this.x);
+        const by = Math.floor(this.y);
+        const bz = Math.floor(this.z);
+
+        const blockFeet = this.world ? this.world.getBlock(bx, by, bz) : window.BLOCK.AIR;
+        const blockBody = this.world ? this.world.getBlock(bx, Math.floor(this.y + (this.height || 1.6) * 0.5), bz) : window.BLOCK.AIR;
+        const inWater = (blockFeet === window.BLOCK.WATER || blockBody === window.BLOCK.WATER ||
+                        (window.BLOCKS && window.BLOCKS[blockFeet] && window.BLOCKS[blockFeet].liquid) ||
+                        (window.BLOCKS && window.BLOCKS[blockBody] && window.BLOCKS[blockBody].liquid));
+
+        if (inWater) {
+            // Water buoyancy & upward swimming force to prevent drowning
+            this.vx *= 0.8;
+            this.vz *= 0.8;
+            this.vy += 35 * dt;
+            if (this.vy > 3.0) this.vy = 3.0;
+        } else {
+            // Gravity
+            this.vy -= 25 * dt;
+        }
 
         // Apply Velocity (Simplified Physics)
         this.x += this.vx * dt;
         this.z += this.vz * dt;
         this.y += this.vy * dt;
-
-        // Simple Ground Collision
-        // Check block at feet
-        const bx = Math.floor(this.x);
-        const by = Math.floor(this.y);
-        const bz = Math.floor(this.z);
 
         // Enderman water avoidance/damage
         if (this.type === MOB_TYPE.ENDERMAN) {

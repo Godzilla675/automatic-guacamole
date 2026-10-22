@@ -14,9 +14,6 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Crafter Quick-Shift Disabled Slot Bypass**: Quick-shifting items into a Crafter GUI container inserts items into disabled crafting slots. (Reproduction: Disable slot 0, shift-click item in inventory into Crafter in `js/ui.js`)
-- [ ] **Submerged Mob Deep Water Drowning Pathfinding**: Mobs submerged in 3+ blocks of deep water sink to bottom and do not float/swim upward to prevent drowning. (Reproduction: Spawn zombie underwater in `js/mob.js`)
-
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 

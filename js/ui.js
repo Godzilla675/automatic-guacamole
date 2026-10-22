@@ -2109,8 +2109,8 @@ class UIManager {
 
             this.renderSlotItem(slot, item);
 
-            slot.addEventListener('click', () => {
-                this.handleInventoryClick(i);
+            slot.addEventListener('click', (e) => {
+                this.handleInventoryClick(i, e);
             });
 
             grid.appendChild(slot);
@@ -2285,10 +2285,80 @@ class UIManager {
         }
     }
 
-    handleInventoryClick(index) {
+    handleInventoryClick(index, e) {
         const player = this.game.player;
         const clickedItem = player.inventory[index];
         const cursor = this.cursorItem;
+        const isShift = e && (e.shiftKey || e.isShift);
+
+        // Quick-Shift to active container
+        if (isShift && clickedItem) {
+            if (this.activeCrafter && this.activeCrafter.items) {
+                const crafter = this.activeCrafter;
+                if (!crafter.disabledSlots) crafter.disabledSlots = new Array(9).fill(false);
+
+                // First try stacking into existing non-disabled matching slots
+                for (let i = 0; i < 9; i++) {
+                    if (crafter.disabledSlots[i]) continue;
+                    const cItem = crafter.items[i];
+                    if (cItem && cItem.type === clickedItem.type && cItem.count < 64) {
+                        const space = 64 - cItem.count;
+                        const toAdd = Math.min(space, clickedItem.count);
+                        cItem.count += toAdd;
+                        clickedItem.count -= toAdd;
+                        if (clickedItem.count <= 0) {
+                            player.inventory[index] = null;
+                            break;
+                        }
+                    }
+                }
+
+                // Next place into first available empty non-disabled slot
+                if (player.inventory[index] && player.inventory[index].count > 0) {
+                    for (let i = 0; i < 9; i++) {
+                        if (crafter.disabledSlots[i]) continue;
+                        if (!crafter.items[i]) {
+                            crafter.items[i] = { ...player.inventory[index] };
+                            player.inventory[index] = null;
+                            break;
+                        }
+                    }
+                }
+
+                this.refreshCrafterUI();
+                this.refreshInventoryUI();
+                this.updateCursorUI();
+                return;
+            } else if (this.activeChest && this.activeChest.items) {
+                const chest = this.activeChest;
+                for (let i = 0; i < chest.items.length; i++) {
+                    const cItem = chest.items[i];
+                    if (cItem && cItem.type === clickedItem.type && cItem.count < 64) {
+                        const space = 64 - cItem.count;
+                        const toAdd = Math.min(space, clickedItem.count);
+                        cItem.count += toAdd;
+                        clickedItem.count -= toAdd;
+                        if (clickedItem.count <= 0) {
+                            player.inventory[index] = null;
+                            break;
+                        }
+                    }
+                }
+                if (player.inventory[index] && player.inventory[index].count > 0) {
+                    for (let i = 0; i < chest.items.length; i++) {
+                        if (!chest.items[i]) {
+                            chest.items[i] = { ...player.inventory[index] };
+                            player.inventory[index] = null;
+                            break;
+                        }
+                    }
+                }
+                this.refreshChestUI();
+                this.refreshInventoryUI();
+                this.updateCursorUI();
+                return;
+            }
+        }
 
         // Bundle Interaction (supports base and colored bundles)
         const isBundleItem = clickedItem && (clickedItem.type === window.BLOCK.ITEM_BUNDLE || (clickedItem.type >= window.BLOCK.ITEM_BUNDLE_WHITE && clickedItem.type <= window.BLOCK.ITEM_BUNDLE_BLACK));
