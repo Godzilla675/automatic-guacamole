@@ -555,3 +555,9 @@ Total: 472 items.
 - [x] **New Task: Add Nether Portal Screen Camera Distortion Shader Effect**: Dynamic screen post-processing purple wave distortion shader when entering portal frame in `js/renderer.js`.
 - [x] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI and fuel logic allowing players to brew awkward potions, health potions, swiftness potions, strength potions, and regeneration potions with Blaze Powder fuel.
 - [x] **New Task: Add Golden Apple & Enchanted Golden Apple Food Effects**: Edible golden apples granting Absorption, Regeneration, Resistance, and Fire Resistance status effects.
+- [x] **New Task: Add Echo Shard & Recovery Compass Crafting**: Crafting recipe for Recovery Compass combining 8 Echo Shards found in Deep Dark structures around a standard Compass in `js/crafting.js`.
+- [x] **New Task: Add Goat Horn Instruments**: Dropped by Goats bumping into solid blocks, playable item emitting distinct ambient call sounds in `js/item_use.js` and `js/audio.js`.
+- [x] **New Task: Add Stray Skeleton Variant**: Cold biome skeleton variant that shoots Slowness arrows and drops leather/arrows in `js/mob.js`.
+- [x] **New Task: Add Husk Zombie Variant**: Desert biome zombie variant that does not burn in sunlight and inflicts Hunger on attack in `js/mob.js`.
+- [x] **New Task: Add Redstone Comparator Subtract Mode**: Toggle Comparators into Subtract Mode via right-click to subtract side input signal strength from rear signal in `js/world.js`.
+- [x] **New Task: Add Custom Inventory Sort Button**: Add 'Sort Inventory' button to inventory screen organizing player inventory items by block category and item ID in `js/ui.js`.

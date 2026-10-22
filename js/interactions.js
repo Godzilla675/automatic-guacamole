@@ -283,6 +283,26 @@ const BlockInteractions = (() => {
         return true;
     });
 
+    // Redstone Comparator Mode Toggle
+    register(BLOCK.REDSTONE_COMPARATOR, function redstoneComparator(game, x, y, z, blockType, pos) {
+        let entity = game.world.getBlockEntity(x, y, z);
+        if (!entity) {
+            entity = { type: 'comparator', mode: 'compare' };
+            game.world.setBlockEntity(x, y, z, entity);
+        }
+        entity.mode = entity.mode === 'subtract' ? 'compare' : 'subtract';
+        game.world.activeRedstone.add(`${x},${y},${z}`);
+        game.world.scheduleNeighborRedstoneUpdates(x, y, z);
+        if (game.particles) {
+            game.particles.spawn(x + 0.5, y + 0.5, z + 0.5, entity.mode === 'subtract' ? '#FF4500' : '#FFD700', 8);
+        }
+        if (window.soundManager) window.soundManager.play('place', pos);
+        if (game.ui && game.ui.showNotification) {
+            game.ui.showNotification(`Redstone Comparator set to ${entity.mode.toUpperCase()} mode!`);
+        }
+        return true;
+    });
+
     // Note Block
     register(BLOCK.NOTE_BLOCK, function noteBlock(game, x, y, z, blockType, pos) {
         let meta = game.world.getMetadata(x, y, z);

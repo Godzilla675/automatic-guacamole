@@ -37,7 +37,10 @@ const MOB_TYPE = {
     AXOLOTL: 'axolotl',
     WARDEN: 'warden',
     SNIFFER: 'sniffer',
-    ENDERMITE: 'endermite'
+    ENDERMITE: 'endermite',
+    GOAT: 'goat',
+    STRAY: 'stray',
+    HUSK: 'husk'
 };
 
 class Mob extends Entity {
@@ -701,6 +704,30 @@ class Mob extends Entity {
                 this.maxHealth = 8;
                 this.xpValue = 3;
                 break;
+            case MOB_TYPE.GOAT:
+                this.color = '#F0E68C';
+                this.height = 1.1;
+                this.width = 0.8;
+                this.speed = 2.0;
+                this.maxHealth = 10;
+                this.xpValue = 2;
+                break;
+            case MOB_TYPE.STRAY:
+                this.color = '#B0C4DE';
+                this.height = 1.8;
+                this.speed = 2.0;
+                this.maxHealth = 20;
+                this.xpValue = 5;
+                this.sunlightBurn = true;
+                break;
+            case MOB_TYPE.HUSK:
+                this.color = '#D2B48C';
+                this.height = 1.9;
+                this.speed = 2.3;
+                this.maxHealth = 20;
+                this.xpValue = 5;
+                this.sunlightBurn = false;
+                break;
         }
         this.health = this.maxHealth;
     }
@@ -780,7 +807,16 @@ class Mob extends Entity {
                 break;
             case MOB_TYPE.SKELETON:
                 dropType = BLOCK.ITEM_BONE;
-                // Chance for arrow or bow?
+                break;
+            case MOB_TYPE.STRAY:
+                dropType = BLOCK.ITEM_ARROW;
+                if (Math.random() < 0.5 && this.game.drops) {
+                    this.game.drops.push(new Drop(this.game, this.x, this.y + this.height/2, this.z, BLOCK.ITEM_BONE, 1));
+                }
+                break;
+            case MOB_TYPE.HUSK:
+                dropType = BLOCK.ITEM_ROTTEN_FLESH;
+                count = 1 + Math.floor(Math.random() * 2);
                 break;
             case MOB_TYPE.SPIDER:
                 dropType = BLOCK.ITEM_STRING;
@@ -1083,6 +1119,11 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.GOAT) {
+            this.updateGoatAI(dt);
+            return;
+        }
+
         // Nether Mobs
         if (this.type === MOB_TYPE.GHAST) {
             this.updateGhastAI(dt);
@@ -1102,7 +1143,9 @@ class Mob extends Entity {
         }
 
         if (this.type === MOB_TYPE.ZOMBIE ||
+            this.type === MOB_TYPE.HUSK ||
             this.type === MOB_TYPE.SKELETON ||
+            this.type === MOB_TYPE.STRAY ||
             this.type === MOB_TYPE.BOGGED ||
             this.type === MOB_TYPE.SPIDER ||
             this.type === MOB_TYPE.CREEPER ||
@@ -1120,6 +1163,37 @@ class Mob extends Entity {
         this.vibrationTarget = pos;
         this.angerLevel = Math.min(100, (this.angerLevel || 0) + 25);
         if (window.soundManager) window.soundManager.play('fuse', {x: this.x, y: this.y, z: this.z});
+    }
+
+    updateGoatAI(dt) {
+        this.ramTimer = (this.ramTimer || 0) + dt;
+        if (this.ramTimer > 8.0) {
+            this.ramTimer = 0;
+            this.vx = Math.sin(this.yaw) * this.speed * 3.0;
+            this.vz = Math.cos(this.yaw) * this.speed * 3.0;
+        }
+
+        const speedSq = this.vx * this.vx + this.vz * this.vz;
+        if (speedSq > 8.0) {
+            const frontX = Math.floor(this.x + Math.sin(this.yaw) * 0.8);
+            const frontZ = Math.floor(this.z + Math.cos(this.yaw) * 0.8);
+            const frontY = Math.floor(this.y);
+            const block = this.world ? this.world.getBlock(frontX, frontY, frontZ) : 0;
+            const def = window.BLOCKS ? window.BLOCKS[block] : null;
+            if (def && def.solid) {
+                if (this.game && this.game.drops) {
+                    const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+                    if (DropClass) {
+                        this.game.drops.push(new DropClass(this.game, this.x, this.y + 0.5, this.z, window.BLOCK.ITEM_GOAT_HORN, 1));
+                    }
+                }
+                if (window.soundManager) window.soundManager.play('goat_horn', { x: this.x, y: this.y, z: this.z });
+                this.vx = 0;
+                this.vz = 0;
+            }
+        }
+
+        this.updatePassiveAI(dt);
     }
 
     updateAxolotlAI(dt) {
@@ -1969,12 +2043,15 @@ class Mob extends Entity {
 
             if (dist < 1.5 && this.attackCooldown <= 0) {
                 // Melee Attack
-                 if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.SPIDER || this.type === MOB_TYPE.ENDERMAN || this.type === MOB_TYPE.WITHER_SKELETON) {
+                 if (this.type === MOB_TYPE.ZOMBIE || this.type === MOB_TYPE.HUSK || this.type === MOB_TYPE.SPIDER || this.type === MOB_TYPE.ENDERMAN || this.type === MOB_TYPE.WITHER_SKELETON) {
                      const damage = this.type === MOB_TYPE.ENDERMAN ? 6 : (this.type === MOB_TYPE.WITHER_SKELETON ? 5 : 3);
-                     this.game.player.takeDamage(damage); // Damage player
+                     this.game.player.takeDamage(damage);
 
                      if (this.type === MOB_TYPE.WITHER_SKELETON && this.game.player.addEffect) {
                          this.game.player.addEffect('Wither', '💀', 10);
+                     }
+                     if (this.type === MOB_TYPE.HUSK && this.game.player.addEffect) {
+                         this.game.player.addEffect('Hunger', '🍗', 8);
                      }
 
                      // Knockback player
@@ -2002,7 +2079,7 @@ class Mob extends Entity {
                         this.attackCooldown = 3.5;
                         if (window.soundManager) window.soundManager.play('break', {x: this.x, y: this.y, z: this.z});
                     }
-                } else if (this.type === MOB_TYPE.SKELETON || this.type === MOB_TYPE.BOGGED) {
+                } else if (this.type === MOB_TYPE.SKELETON || this.type === MOB_TYPE.STRAY || this.type === MOB_TYPE.BOGGED) {
                  if (dist > 8) {
                      // Move closer
                      this.vx = Math.sin(this.yaw) * this.speed;
@@ -2032,7 +2109,7 @@ class Mob extends Entity {
                  if (this.attackCooldown <= 0) {
                      if (this.game.spawnProjectile) {
                          const dir = { x: dx/dist, y: (player.y + player.height*0.8 - (this.y + this.height*0.8))/dist, z: dz/dist };
-                         const projType = this.type === MOB_TYPE.BOGGED ? 'poison_arrow' : 'arrow';
+                         const projType = this.type === MOB_TYPE.BOGGED ? 'poison_arrow' : (this.type === MOB_TYPE.STRAY ? 'slowness_arrow' : 'arrow');
                          this.game.spawnProjectile(this.x, this.y + this.height*0.8, this.z, dir, projType);
                      }
                      this.attackCooldown = 3.0;

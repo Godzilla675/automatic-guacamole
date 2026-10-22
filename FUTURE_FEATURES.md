@@ -123,9 +123,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
 - [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
 - [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish.
-- [ ] **New Task: Add Stray Skeleton Variant**: Cold biome skeleton variant that shoots Slowness arrows and drops leather/arrows in `js/mob.js`.
-- [ ] **New Task: Add Husk Zombie Variant**: Desert biome zombie variant that does not burn in sunlight and inflicts Hunger on attack in `js/mob.js`.
-
 ## 🧰 Items, Equipment & Crafting
 
 - [ ] **New Task: Add Wind Charge Enchantment Synergy**: Wind Charge projectiles triggering extra knockback or fire damage when launched using enchanted bows or crossbows.
@@ -150,9 +147,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ominous Bottle Consumable Effects**: Consuming Ominous Bottles applying Bad Omen level I-V status effects.
 - [ ] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials.
 - [ ] **New Task: Add Ominous Bottle Consumable Drinking Effects**: Drinking Ominous Bottles displays particle bubble animation and grants Bad Omen level I-V.
-- [ ] **New Task: Add Echo Shard & Recovery Compass Crafting**: Crafting recipe for Recovery Compass combining 8 Echo Shards found in Deep Dark structures around a standard Compass in `js/crafting.js`.
-- [ ] **New Task: Add Goat Horn Instruments**: Dropped by Goats bumping into solid blocks, playable item emitting distinct ambient call sounds in `js/item_use.js` and `js/audio.js`.
-
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
@@ -168,7 +162,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Target Block Signal Decay Timer**: Smooth 8-tick (1.0s) redstone signal power decay on Target Blocks following projectile impacts.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 - [ ] **New Task: Add Crafter Redstone Pulse Lock Indicator**: Visual locking overlay indicator on Crafter UI when redstone power holds the craft cycle.
-- [ ] **New Task: Add Redstone Comparator Subtract Mode**: Toggle Comparators into Subtract Mode via right-click to subtract side input signal strength from rear signal in `js/world.js`.
 - [ ] **New Task: Add Heavy Weighted Pressure Plates**: Gold and Iron pressure plates emitting redstone signal strength proportional to entity count standing on them in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
@@ -182,7 +175,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative.
 - [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue, quest tracking, and task completion rewards.
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
-- [ ] **New Task: Add Custom Inventory Sort Button**: Add 'Sort Inventory' button to inventory screen organizing player inventory items by block category and item ID in `js/ui.js`.
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
 - [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
 - [ ] **New Task: Add Dynamic Crosshair Recoil Indicator**: Crosshair visual expansion during weapon cooldowns and projectile launches.

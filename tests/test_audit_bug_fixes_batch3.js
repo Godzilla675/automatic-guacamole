@@ -36,7 +36,8 @@ describe('Audit Bug Fixes Batch 3 Test Suite', function() {
 
         // Verify chunk generation in the End
         game.world.generateChunk(0, 0);
-        const b = game.world.getBlock(0, 50, 0);
+        const y = game.world.getHighestBlockY(0, 0) - 1;
+        const b = game.world.getBlock(0, y, 0);
         assert.strictEqual(b, env.window.BLOCK.END_STONE, 'Central End island should generate End Stone');
     });
 

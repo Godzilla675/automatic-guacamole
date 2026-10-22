@@ -30,6 +30,13 @@ class UIManager {
             closeChest.addEventListener('click', () => this.closeChest());
         }
 
+        const sortBtn = document.getElementById('sort-inventory-btn');
+        if (sortBtn) {
+            sortBtn.addEventListener('click', () => {
+                this.sortPlayerInventory();
+            });
+        }
+
         // Bind Settings
         const settingsBtn = document.getElementById('settings-btn');
         if (settingsBtn) {
@@ -1896,6 +1903,51 @@ class UIManager {
         document.getElementById('pause-screen').classList.add('hidden');
         document.getElementById('settings-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    sortPlayerInventory() {
+        if (!this.game || !this.game.player) return;
+        const player = this.game.player;
+        const inv = player.inventory;
+
+        const mainSlots = inv.slice(9, 36).filter(item => item !== null && item !== undefined);
+
+        for (let i = 0; i < mainSlots.length; i++) {
+            const current = mainSlots[i];
+            if (!current) continue;
+
+            for (let j = i + 1; j < mainSlots.length; j++) {
+                const other = mainSlots[j];
+                if (other && other.type === current.type && current.count < 64) {
+                    const space = 64 - current.count;
+                    const toAdd = Math.min(space, other.count);
+                    current.count += toAdd;
+                    other.count -= toAdd;
+                    if (other.count <= 0) {
+                        mainSlots[j] = null;
+                    }
+                }
+            }
+        }
+
+        const activeItems = mainSlots.filter(item => item !== null && item && item.count > 0);
+
+        activeItems.sort((a, b) => {
+            const defA = window.BLOCKS ? window.BLOCKS[a.type] : null;
+            const defB = window.BLOCKS ? window.BLOCKS[b.type] : null;
+            const nameA = defA ? (defA.name || '') : '';
+            const nameB = defB ? (defB.name || '') : '';
+            if (nameA !== nameB) return nameA.localeCompare(nameB);
+            return a.type - b.type;
+        });
+
+        for (let i = 9; i < 36; i++) {
+            inv[i] = activeItems[i - 9] || null;
+        }
+
+        if (window.soundManager) window.soundManager.play('place');
+        this.refreshInventoryUI();
+        if (this.showNotification) this.showNotification("Inventory sorted!");
     }
 
     updateInventoryUI() {
