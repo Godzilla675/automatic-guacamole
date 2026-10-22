@@ -278,7 +278,7 @@ class UIManager {
         if (closeBrewing) {
             closeBrewing.addEventListener('click', () => this.closeBrewing());
         }
-        ['brewing-ingredient', 'brewing-bottle-1', 'brewing-bottle-2', 'brewing-bottle-3'].forEach(id => {
+        ['brewing-fuel', 'brewing-ingredient', 'brewing-bottle-1', 'brewing-bottle-2', 'brewing-bottle-3'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', () => this.handleBrewingClick(id));
         });
@@ -1589,7 +1589,8 @@ class UIManager {
         let slotName = '';
         let index = -1;
 
-        if (slotId === 'brewing-ingredient') slotName = 'ingredient';
+        if (slotId === 'brewing-fuel') slotName = 'fuelItem';
+        else if (slotId === 'brewing-ingredient') slotName = 'ingredient';
         else if (slotId === 'brewing-bottle-1') { slotName = 'bottles'; index = 0; }
         else if (slotId === 'brewing-bottle-2') { slotName = 'bottles'; index = 1; }
         else if (slotId === 'brewing-bottle-3') { slotName = 'bottles'; index = 2; }
@@ -1608,10 +1609,17 @@ class UIManager {
                 else entity[slotName][index] = cursor;
                 this.cursorItem = null;
             } else {
-                // Swap
-                if (index === -1) entity[slotName] = cursor;
-                else entity[slotName][index] = cursor;
-                this.cursorItem = slotItem;
+                if (index === -1 && entity[slotName] && entity[slotName].type === cursor.type) {
+                    entity[slotName].count += cursor.count;
+                    this.cursorItem = null;
+                } else if (index !== -1 && entity[slotName][index] && entity[slotName][index].type === cursor.type) {
+                    entity[slotName][index].count += cursor.count;
+                    this.cursorItem = null;
+                } else {
+                    if (index === -1) entity[slotName] = cursor;
+                    else entity[slotName][index] = cursor;
+                    this.cursorItem = slotItem;
+                }
             }
         }
         this.updateBrewingUI();
@@ -1624,6 +1632,7 @@ class UIManager {
 
         const renderSlot = (id, item) => {
             const el = document.getElementById(id);
+            if (!el) return;
             el.innerHTML = '';
             if (item) {
                 const icon = document.createElement('span');
@@ -1632,17 +1641,33 @@ class UIManager {
                 icon.textContent = def ? def.icon : '';
                 icon.style.backgroundColor = def ? def.color : 'transparent';
                 el.appendChild(icon);
+                if (item.count > 1) {
+                    const count = document.createElement('span');
+                    count.style.position = 'absolute';
+                    count.style.bottom = '2px';
+                    count.style.right = '2px';
+                    count.style.fontSize = '12px';
+                    count.style.color = 'white';
+                    count.textContent = item.count;
+                    el.appendChild(count);
+                }
             }
         };
 
+        renderSlot('brewing-fuel', entity.fuelItem);
         renderSlot('brewing-ingredient', entity.ingredient);
         renderSlot('brewing-bottle-1', entity.bottles[0]);
         renderSlot('brewing-bottle-2', entity.bottles[1]);
         renderSlot('brewing-bottle-3', entity.bottles[2]);
 
+        const fuelInd = document.getElementById('brewing-fuel-indicator');
+        if (fuelInd) {
+            fuelInd.textContent = `Fuel: ${entity.fuel || 0}/20`;
+        }
+
         const progress = document.getElementById('brewing-progress');
         if (progress) {
-            const pct = (entity.brewTime / 400) * 100;
+            const pct = ((entity.brewTime || 0) / 400) * 100;
             progress.style.height = pct + '%';
         }
     }

@@ -2,12 +2,13 @@ const fs = require('fs');
 const assert = require('assert');
 
 // Global Mocks
-global.window = {
-    BLOCKS: {},
-    soundManager: { play: () => {} }
-};
 global.BLOCK = { AIR: 0, WATER: 7 };
 global.BLOCKS = {};
+global.window = {
+    BLOCK: global.BLOCK,
+    BLOCKS: global.BLOCKS,
+    soundManager: { play: () => {} }
+};
 
 // Load Entity
 const entityCode = fs.readFileSync('js/entity.js', 'utf8');

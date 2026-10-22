@@ -1815,6 +1815,9 @@ class TextureManager {
 
         // Food
         this.textures[B.ITEM_APPLE] = this.genApple();
+        this.textures[B.ITEM_GOLDEN_APPLE] = this.genApple();
+        this.textures[B.ITEM_ENCHANTED_GOLDEN_APPLE] = this.genApple();
+        this.textures[B.ITEM_GLISTERING_MELON] = this.genMelonSlice();
         this.textures[B.ITEM_PORKCHOP] = this.genMeat('#FFB6C1');
         this.textures[B.ITEM_MUTTON] = this.genMeat('#B22222');
         this.textures[B.ITEM_CHICKEN] = this.genMeat('#FFDAB9');
@@ -1836,6 +1839,13 @@ class TextureManager {
         this.textures[B.ITEM_MILK_BUCKET] = this.genBucket('#FFFFFF');
         this.textures[B.ITEM_GLASS_BOTTLE] = this.genGlassBottle();
         this.textures[B.ITEM_POTION] = this.genPotion();
+        this.textures[B.ITEM_POTION_AWKWARD] = this.genPotion();
+        this.textures[B.ITEM_POTION_HEALING] = this.genPotion();
+        this.textures[B.ITEM_POTION_SWIFTNESS] = this.genPotion();
+        this.textures[B.ITEM_POTION_STRENGTH] = this.genPotion();
+        this.textures[B.ITEM_POTION_REGENERATION] = this.genPotion();
+        this.textures[B.ITEM_BLAZE_POWDER] = this.genDust('#FF4500');
+        this.textures[B.ITEM_SUGAR] = this.genDust('#FFFFFF');
 
         // Misc items
         this.textures[B.ITEM_ENCHANTED_BOOK] = this.genEnchantedBook();

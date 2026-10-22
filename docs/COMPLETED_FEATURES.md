@@ -553,3 +553,5 @@ Total: 472 items.
 - [x] **New Task: Add In-Game World Seed Inspector**: World seed display card and interactive 'Copy Seed' button with notification feedback in `js/renderer.js`, `js/ui.js`, and `index.html`.
 - [x] **New Task: Add Snowball Flight & Impact Trail Particle FX**: Sparkle particle trail following snowballs during flight and expanding impact burst particles on entity/terrain collision in `js/game.js`.
 - [x] **New Task: Add Nether Portal Screen Camera Distortion Shader Effect**: Dynamic screen post-processing purple wave distortion shader when entering portal frame in `js/renderer.js`.
+- [x] **New Task: Add Potion Brewing Stand Interface & Recipes**: Functional Brewing Stand container UI and fuel logic allowing players to brew awkward potions, health potions, swiftness potions, strength potions, and regeneration potions with Blaze Powder fuel.
+- [x] **New Task: Add Golden Apple & Enchanted Golden Apple Food Effects**: Edible golden apples granting Absorption, Regeneration, Resistance, and Fire Resistance status effects.

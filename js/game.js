@@ -1597,19 +1597,50 @@ class Game {
     }
 
     processBrewing(entity, dt) {
+        if (!entity) return;
+        if (entity.fuel === undefined) entity.fuel = 0;
+
+        // Refill fuel from fuelItem (Blaze Powder) if empty
+        if (entity.fuel <= 0 && entity.fuelItem && entity.fuelItem.type === BLOCK.ITEM_BLAZE_POWDER && entity.fuelItem.count > 0) {
+            entity.fuelItem.count--;
+            if (entity.fuelItem.count <= 0) entity.fuelItem = null;
+            entity.fuel += 20;
+        }
+
         const ingredient = entity.ingredient;
-        if (!ingredient || ingredient.type !== BLOCK.ITEM_NETHER_WART) {
+        if (!ingredient || ingredient.count <= 0) {
             entity.brewTime = 0;
-            if (this.ui.activeBrewingStand === entity) this.ui.updateBrewingUI();
+            if (this.ui && this.ui.activeBrewingStand === entity) this.ui.updateBrewingUI();
             return;
         }
 
-        // Check bottles
+        const getOutputPotion = (inType, ingType) => {
+            const isBottle = inType === BLOCK.ITEM_GLASS_BOTTLE;
+            const isAwkward = inType === BLOCK.ITEM_POTION_AWKWARD || inType === BLOCK.ITEM_POTION;
+
+            if (ingType === BLOCK.ITEM_NETHER_WART && isBottle) return BLOCK.ITEM_POTION_AWKWARD;
+            if (ingType === BLOCK.ITEM_GLISTERING_MELON || ingType === BLOCK.ITEM_GOLDEN_APPLE || ingType === BLOCK.ITEM_APPLE) {
+                if (isAwkward || isBottle) return BLOCK.ITEM_POTION_HEALING;
+            }
+            if (ingType === BLOCK.ITEM_SUGAR) {
+                if (isAwkward || isBottle) return BLOCK.ITEM_POTION_SWIFTNESS;
+            }
+            if (ingType === BLOCK.ITEM_BLAZE_POWDER) {
+                if (isAwkward || isBottle) return BLOCK.ITEM_POTION_STRENGTH;
+            }
+            if (ingType === BLOCK.ITEM_GHAST_TEAR) {
+                if (isAwkward || isBottle) return BLOCK.ITEM_POTION_REGENERATION;
+            }
+            return null;
+        };
+
         let canBrew = false;
-        for(let i=0; i<3; i++) {
-            if (entity.bottles[i] && entity.bottles[i].type === BLOCK.ITEM_GLASS_BOTTLE) {
-                canBrew = true;
-                break;
+        if (entity.fuel > 0 && entity.bottles) {
+            for (let i = 0; i < 3; i++) {
+                if (entity.bottles[i] && getOutputPotion(entity.bottles[i].type, ingredient.type)) {
+                    canBrew = true;
+                    break;
+                }
             }
         }
 
@@ -1617,12 +1648,16 @@ class Game {
             entity.brewTime += dt * 20;
             if (entity.brewTime >= 400) {
                 entity.brewTime = 0;
+                entity.fuel--;
                 entity.ingredient.count--;
                 if (entity.ingredient.count <= 0) entity.ingredient = null;
 
-                for(let i=0; i<3; i++) {
-                    if (entity.bottles[i] && entity.bottles[i].type === BLOCK.ITEM_GLASS_BOTTLE) {
-                        entity.bottles[i] = { type: BLOCK.ITEM_POTION, count: 1 };
+                for (let i = 0; i < 3; i++) {
+                    if (entity.bottles[i]) {
+                        const outType = getOutputPotion(entity.bottles[i].type, ingredient.type);
+                        if (outType) {
+                            entity.bottles[i] = { type: outType, count: 1 };
+                        }
                     }
                 }
                 if (window.soundManager) window.soundManager.play('place');
@@ -1631,7 +1666,7 @@ class Game {
             entity.brewTime = 0;
         }
 
-        if (this.ui.activeBrewingStand === entity) {
+        if (this.ui && this.ui.activeBrewingStand === entity) {
             this.ui.updateBrewingUI();
         }
     }
