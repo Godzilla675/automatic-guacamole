@@ -7,6 +7,8 @@ these features, add a regression test rather than editing this list.
 Total: 472 items.
 
 ## 🐛 Bugs Fixed
+- [x] **Crafter Quick-Shift Disabled Slot Bypass**: Quick-shifting items into a Crafter GUI container checks and skips disabled crafting slots in `js/ui.js`.
+- [x] **Submerged Mob Deep Water Swimming**: Mobs submerged in 3+ blocks of deep water apply buoyancy and upward swimming force to float up to the surface in `js/mob.js`.
 - [x] **Target Block Redstone Power Decay Missing**: `World.hitTargetBlock` creates a target block entity with `timer: 1.0`, and `World.updateTargetBlocks()` / `World.updateRedstone()` decrements this timer and resets the block's redstone metadata power to 0 after expiration.
 - [x] **Bug: Wind Charge Downward Launch Trajectory Angle**: When launching a Wind Charge directly downward under player feet, the resulting vertical self-knockback angle is consistent in `js/game.js`.
 - [x] **Bug: Spectator Flight Fluid Drag**: Entering water while flying in spectator mode bypasses fluid drag deceleration forces in `js/player.js`.
