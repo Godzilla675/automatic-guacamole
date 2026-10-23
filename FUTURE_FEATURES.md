@@ -1,7 +1,7 @@
 # Future Features & Tasks
 
 The backlog for Voxel World. **Only open work lives here** - everything already shipped is archived in
-[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (475 items and counting).
+[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (480 items and counting).
 
 How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
@@ -87,18 +87,17 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Lush Caves Biome**: Subterranean cave biomes filled with Moss Blocks, Spore Blossoms, Cave Vines, and Azalea bushes.
 - [ ] **New Task: Add Nether Fortresses Blaze Spawner Rooms**: Procedurally generated nether brick rooms containing Blaze mob spawner blocks.
 - [ ] **New Task: Add Desert Pyramid Trap Chamber Suspicious Sand**: Generate suspicious sand blocks in secret Desert Temple chambers containing archaeology rewards.
-- [ ] **New Task: Add Nether Fossil Structure Bone Block Drops**: Nether fossil bone structures generating in soul sand valleys dropping bone meal and bone blocks.
 - [ ] **New Task: Add Lush Caves Glow Berry Vines**: Subterranean mossy cave generation with hanging light-emitting Glow Berries.
 - [ ] **New Task: Add Ocean Ruins Structures**: Submerged sandstone and stone brick ruin structures generating in ocean biomes with suspicious gravel and drowned spawns in `js/structures.js`.
 - [ ] **New Task: Add Ruined Portals Structure Generation**: Obsidian and crying obsidian portal frames generating partially buried in Overworld and Nether biomes with loot chests in `js/structures.js`.
 - [ ] **New Task: Add Witch Hut Structure in Swamp Biomes**: Procedurally generate 4x4 wooden Witch Huts on stilts in Swamp biomes containing Cauldrons, Crafting Tables, and Witch spawns in `js/structures.js`.
 - [ ] **New Task: Add Desert Well Structures with Water Source**: Generate Sandstone Wells in Desert biomes with water source blocks and suspicious sand in `js/structures.js`.
-- [ ] **New Task: Add Nether Fossil Structure Bone Meal Drops**: Generate subterranean Bone Block fossil structures in Soul Sand Valley biomes in `js/structures.js`.
+- [ ] **New Task: Add End Ship Outer Islands Generation**: Generate flying End Ships adjacent to End Cities containing Elytra items in item frames and Dragon Heads in `js/structures.js`.
+- [ ] **New Task: Add Deep Dark Ancient City Portal Frame**: Generate large central reinforced deepslate portal frame structures in Deep Dark biomes in `js/structures.js`.
 
 ## 👾 Mobs & Entities
 
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
-- [ ] **New Task: Add Wither Boss**: Multi-stage boss mob crafted with Soul Sand and Wither Skeleton Skulls.
 - [ ] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics.
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles.
@@ -122,7 +121,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
-- [ ] **New Task: Add Allay Mob**: Friendly flying mob that collects dropped items matching the item held in its hand and deposits them near Note Blocks.
 - [ ] **New Task: Add Strider Mob Lava Walking Physics**: Rideable Nether mob that walks speed-boosted across lava surfaces and slows down/turns blue on land.
 - [ ] **New Task: Add Blaze Mob Entity**: Flying Nether fortress mob shooting triple fireballs at players and dropping Blaze Rods.
 - [ ] **New Task: Add Ghast Mob Entity**: Floating Nether mob shooting explosive fireballs that can be deflected back with melee attacks.
@@ -159,7 +157,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ominous Bottle Consumable Effects**: Consuming Ominous Bottles applying Bad Omen level I-V status effects.
 - [ ] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials.
 - [ ] **New Task: Add Ominous Bottle Consumable Drinking Effects**: Drinking Ominous Bottles displays particle bubble animation and grants Bad Omen level I-V.
-- [ ] **New Task: Add Firework Rocket Flight Boosting for Elytra**: Right-clicking Firework Rockets while gliding with Elytra applies forward acceleration boost in `js/item_use.js` and `js/player.js`.
 - [ ] **New Task: Add Trident Loyalty & Riptide Enchantment Interactions**: Throwing Loyalty Tridents automatically return to player inventory; Riptide Tridents launch player in water or rain in `js/item_use.js`.
 - [ ] **New Task: Add Shulker Box Color Dyeing & Inventory Storage**: Craftable 27-slot Shulker Boxes that retain stored items when broken and can be dyed 16 colors in `js/blocks.js` and `js/crafting.js`.
 
@@ -172,12 +169,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures.
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
-- [ ] **New Task: Add Dispenser Item Shooting & Projectile Launching**: Dispensers firing arrows, fireworks, snowballs, and water buckets on redstone power.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 - [ ] **New Task: Add Crafter Redstone Pulse Lock Indicator**: Visual locking overlay indicator on Crafter UI when redstone power holds the craft cycle.
 - [ ] **New Task: Add Heavy Weighted Pressure Plates**: Gold and Iron pressure plates emitting redstone signal strength proportional to entity count standing on them in `js/world.js`.
 - [ ] **New Task: Add Heavy Weighted Pressure Plate Entity Power Output**: Gold (Light) and Iron (Heavy) pressure plates calculating analog signal output based on exact entity weight counts in `js/world.js`.
-- [ ] **New Task: Add Dispenser Item Shooting & Projectile Launching Logic**: Dispensers firing arrows, snowballs, firework rockets, and water buckets on receiving redstone power pulses in `js/world.js`.
 - [ ] **New Task: Add Redstone Repeater Lock Mechanism**: Secondary redstone repeaters powering side faces of active repeaters locking their current signal transmission state in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
