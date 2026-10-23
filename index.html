@@ -130,6 +130,29 @@
         <div id="dropper-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;"></div>
         <button id="close-dropper" class="menu-button" style="margin-top: 20px;">Close</button>
     </div>
+
+    <!-- Hopper Screen -->
+    <div id="hopper-screen" class="hidden">
+        <h2>Hopper</h2>
+        <div id="hopper-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 15px;"></div>
+        <button id="close-hopper" class="menu-button" style="margin-top: 20px;">Close</button>
+    </div>
+
+    <!-- Grindstone Screen -->
+    <div id="grindstone-screen" class="hidden">
+        <div class="menu-content" style="max-width: 500px; text-align: center;">
+            <h2>Grindstone</h2>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="furnace-slot" id="grindstone-input-1" title="Top Item"></div>
+                    <div class="furnace-slot" id="grindstone-input-2" title="Bottom Item"></div>
+                </div>
+                <span style="font-size: 24px;">➔</span>
+                <div class="furnace-slot" id="grindstone-output" title="Disenchanted / Repaired Output"></div>
+            </div>
+            <button type="button" id="close-grindstone" class="menu-button">Close</button>
+        </div>
+    </div>
         </div>
 
     <!-- Crafter Screen -->

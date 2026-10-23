@@ -11,6 +11,9 @@ class UIManager {
         this.activeStonecutter = null;
         this.activeChiseledBookshelf = null;
         this.activeDropper = null;
+        this.activeDispenser = null;
+        this.activeHopper = null;
+        this.activeGrindstone = null;
         this.activeSmithingTable = null;
     }
 
@@ -340,6 +343,20 @@ class UIManager {
             closeDropper.addEventListener('click', () => this.closeDropper());
         }
 
+        const closeHopper = document.getElementById('close-hopper');
+        if (closeHopper) {
+            closeHopper.addEventListener('click', () => this.closeHopper());
+        }
+
+        const closeGrindstone = document.getElementById('close-grindstone');
+        if (closeGrindstone) {
+            closeGrindstone.addEventListener('click', () => this.closeGrindstone());
+        }
+        ['grindstone-input-1', 'grindstone-input-2', 'grindstone-output'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => this.handleGrindstoneClick(id));
+        });
+
         const closeCrafter = document.getElementById('close-crafter');
         if (closeCrafter) {
             closeCrafter.addEventListener('click', () => this.closeCrafter());
@@ -375,7 +392,7 @@ class UIManager {
         if (screen) screen.classList.remove('hidden');
         const inv = document.getElementById('inventory-screen');
         if (inv) inv.classList.remove('hidden');
-        document.exitPointerLock();
+        if (typeof document !== 'undefined' && document.exitPointerLock) { try { document.exitPointerLock(); } catch (e) {} }
         this.updateSmithingUI();
         this.refreshInventoryUI();
     }
@@ -748,7 +765,7 @@ class UIManager {
         const inv = document.getElementById('inventory-screen');
         if (inv) inv.classList.remove('hidden');
 
-        document.exitPointerLock();
+        if (typeof document !== 'undefined' && document.exitPointerLock) { try { document.exitPointerLock(); } catch (e) {} }
         this.refreshChiseledBookshelfUI();
         this.refreshInventoryUI();
     }
@@ -832,18 +849,256 @@ class UIManager {
         this.updateCursorUI();
     }
 
+    openDispenser(entity) {
+        if (!entity) entity = { type: 'dispenser', items: new Array(9).fill(null) };
+        this.openDropper(entity);
+        const ui = document.getElementById('dropper-screen');
+        if (ui) {
+            const titleEl = ui.querySelector('h2') || ui.querySelector('.ui-title');
+            if (titleEl) titleEl.textContent = 'Dispenser';
+        }
+    }
+
     openDropper(entity) {
         this.activeDropper = entity;
         if (!entity.items) entity.items = new Array(9).fill(null);
 
         const ui = document.getElementById('dropper-screen');
+        if (ui) {
+            const titleEl = ui.querySelector('h2') || ui.querySelector('.ui-title');
+            if (titleEl) {
+                titleEl.textContent = (entity && entity.type === 'dispenser') ? 'Dispenser' : 'Dropper';
+            }
+            ui.classList.remove('hidden');
+        }
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+
+        if (typeof document !== 'undefined' && document.exitPointerLock) { try { document.exitPointerLock(); } catch (e) {} }
+        this.refreshDropperUI();
+        this.refreshInventoryUI();
+    }
+
+    openHopper(entity) {
+        this.activeHopper = entity;
+        if (!entity.items) entity.items = new Array(5).fill(null);
+
+        const ui = document.getElementById('hopper-screen');
         if (ui) ui.classList.remove('hidden');
         const inv = document.getElementById('inventory-screen');
         if (inv) inv.classList.remove('hidden');
 
-        document.exitPointerLock();
-        this.refreshDropperUI();
+        if (typeof document !== 'undefined' && document.exitPointerLock) { try { document.exitPointerLock(); } catch (e) {} }
+        this.refreshHopperUI();
         this.refreshInventoryUI();
+    }
+
+    closeHopper() {
+        this.clearCursorItem();
+        this.activeHopper = null;
+        const ui = document.getElementById('hopper-screen');
+        if (ui) ui.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    refreshHopperUI() {
+        if (!this.activeHopper) return;
+        const grid = document.getElementById('hopper-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        const items = this.activeHopper.items;
+
+        for (let i = 0; i < 5; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'inventory-item';
+            slot.dataset.index = i;
+
+            const icon = document.createElement('span');
+            icon.className = 'block-icon';
+            slot.appendChild(icon);
+
+            const count = document.createElement('span');
+            count.className = 'slot-count';
+            count.style.position = 'absolute';
+            count.style.bottom = '2px';
+            count.style.right = '2px';
+            count.style.fontSize = '12px';
+            count.style.color = 'white';
+            slot.appendChild(count);
+
+            this.renderSlotItem(slot, items[i]);
+
+            slot.addEventListener('click', () => {
+                this.handleHopperClick(i);
+            });
+
+            grid.appendChild(slot);
+        }
+    }
+
+    handleHopperClick(index) {
+        if (!this.activeHopper) return;
+        const items = this.activeHopper.items;
+        const clickedItem = items[index];
+        const cursor = this.cursorItem;
+
+        if (!cursor) {
+            if (clickedItem) {
+                this.cursorItem = clickedItem;
+                items[index] = null;
+            }
+        } else {
+            if (!clickedItem) {
+                items[index] = cursor;
+                this.cursorItem = null;
+            } else {
+                if (clickedItem.type === cursor.type && clickedItem.count < 64) {
+                    const space = 64 - clickedItem.count;
+                    const toAdd = Math.min(space, cursor.count);
+                    clickedItem.count += toAdd;
+                    cursor.count -= toAdd;
+                    if (cursor.count <= 0) this.cursorItem = null;
+                } else {
+                    items[index] = cursor;
+                    this.cursorItem = clickedItem;
+                }
+            }
+        }
+        this.refreshHopperUI();
+        this.updateCursorUI();
+    }
+
+    openGrindstone() {
+        this.activeGrindstone = {
+            input1: null,
+            input2: null,
+            output: null
+        };
+        const screen = document.getElementById('grindstone-screen');
+        if (screen) screen.classList.remove('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.remove('hidden');
+        if (typeof document !== 'undefined' && document.exitPointerLock) { try { document.exitPointerLock(); } catch (e) {} }
+        this.updateGrindstoneUI();
+        this.refreshInventoryUI();
+    }
+
+    closeGrindstone() {
+        this.clearCursorItem();
+        if (this.activeGrindstone) {
+            [this.activeGrindstone.input1, this.activeGrindstone.input2].forEach(item => {
+                if (item && this.game && this.game.player) {
+                    this.game.player.addItem(item);
+                }
+            });
+            this.activeGrindstone = null;
+        }
+        const screen = document.getElementById('grindstone-screen');
+        if (screen) screen.classList.add('hidden');
+        const inv = document.getElementById('inventory-screen');
+        if (inv) inv.classList.add('hidden');
+        if (!this.game.isMobile) this.game.canvas.requestPointerLock();
+    }
+
+    handleGrindstoneClick(slotId) {
+        if (!this.activeGrindstone) return;
+        const gs = this.activeGrindstone;
+        const cursor = this.cursorItem;
+
+        if (slotId === 'grindstone-output') {
+            if (gs.output) {
+                if (!cursor) {
+                    this.cursorItem = gs.output;
+                    if ((gs.input1 && gs.input1.enchantments) || (gs.input2 && gs.input2.enchantments)) {
+                        if (this.game && this.game.player) {
+                            this.game.player.xp += 0.25;
+                            if (this.game.player.xp >= 1.0) {
+                                this.game.player.xp -= 1.0;
+                                this.game.player.level++;
+                            }
+                        }
+                    }
+                    gs.input1 = null;
+                    gs.input2 = null;
+                    gs.output = null;
+                    if (window.soundManager) window.soundManager.play('place');
+                }
+            }
+        } else {
+            const slotKey = slotId === 'grindstone-input-1' ? 'input1' : 'input2';
+            if (!cursor) {
+                if (gs[slotKey]) {
+                    this.cursorItem = gs[slotKey];
+                    gs[slotKey] = null;
+                }
+            } else {
+                if (!gs[slotKey]) {
+                    gs[slotKey] = cursor;
+                    this.cursorItem = null;
+                } else {
+                    const temp = gs[slotKey];
+                    gs[slotKey] = cursor;
+                    this.cursorItem = temp;
+                }
+            }
+        }
+        this.updateGrindstoneUI();
+        this.updateCursorUI();
+    }
+
+    updateGrindstoneUI() {
+        if (!this.activeGrindstone) return;
+        const gs = this.activeGrindstone;
+
+        const renderSlot = (id, item) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.innerHTML = '';
+            if (item) {
+                const icon = document.createElement('span');
+                icon.className = 'block-icon';
+                const def = window.BLOCKS[item.type];
+                icon.textContent = (def && def.icon) ? def.icon : '📦';
+                icon.style.backgroundColor = def ? def.color : 'transparent';
+                el.appendChild(icon);
+                if (item.count > 1) {
+                    const count = document.createElement('span');
+                    count.style.position = 'absolute';
+                    count.style.bottom = '2px';
+                    count.style.right = '2px';
+                    count.style.fontSize = '12px';
+                    count.style.color = 'white';
+                    count.textContent = item.count;
+                    el.appendChild(count);
+                }
+            }
+        };
+
+        // Combine / Disenchant logic
+        if (gs.input1 || gs.input2) {
+            const baseItem = gs.input1 || gs.input2;
+            let outItem = JSON.parse(JSON.stringify(baseItem));
+            delete outItem.enchantments;
+
+            if (gs.input1 && gs.input2 && gs.input1.type === gs.input2.type) {
+                const toolDef = window.TOOLS && window.TOOLS[baseItem.type];
+                if (toolDef) {
+                    const max = toolDef.durability;
+                    const d1 = gs.input1.durability !== undefined ? gs.input1.durability : max;
+                    const d2 = gs.input2.durability !== undefined ? gs.input2.durability : max;
+                    outItem.durability = Math.min(max, d1 + d2 + Math.floor(max * 0.05));
+                }
+            }
+            gs.output = outItem;
+        } else {
+            gs.output = null;
+        }
+
+        renderSlot('grindstone-input-1', gs.input1);
+        renderSlot('grindstone-input-2', gs.input2);
+        renderSlot('grindstone-output', gs.output);
     }
 
     closeDropper() {

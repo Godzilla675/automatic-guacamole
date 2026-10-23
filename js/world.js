@@ -123,9 +123,13 @@ class World {
         // Remove old block entity if it exists
         this.removeBlockEntity(x, y, z);
 
-        // Hoppers are driven by their block entity (see updateHoppers), so create it right away.
+        // Containers/Hoppers/Dispensers are driven by their block entity, create on setBlock
         if (type === BLOCK.HOPPER) {
             this.setBlockEntity(x, y, z, { type: 'hopper', items: new Array(5).fill(null) });
+        } else if (type === BLOCK.DISPENSER) {
+            this.setBlockEntity(x, y, z, { type: 'dispenser', items: new Array(9).fill(null) });
+        } else if (type === BLOCK.DROPPER) {
+            this.setBlockEntity(x, y, z, { type: 'dropper', items: new Array(9).fill(null) });
         }
 
         // Update neighbors if on edge to ensure culling is updated
@@ -445,12 +449,12 @@ class World {
             const launchZ = z + 0.5 + dir.z * 0.8;
             this.game.spawnProjectile(launchX, launchY, launchZ, dir, 'wind_charge');
         } else {
-            const dropX = x + 0.5;
-            const dropY = y + 0.5;
-            const dropZ = z + 0.5;
+            const dropX = x + 0.5 + dir.x * 0.6;
+            const dropY = y + 0.5 + dir.y * 0.6;
+            const dropZ = z + 0.5 + dir.z * 0.6;
 
             if (this.game && this.game.drops && window.Drop) {
-                this.game.drops.push(new window.Drop(this.game, dropX, dropY + 0.5, dropZ, item.type, 1));
+                this.game.drops.push(new window.Drop(this.game, dropX, dropY, dropZ, item.type, 1));
             }
         }
 
@@ -962,6 +966,28 @@ class World {
                 } else if (!powered && extended) {
                     this.retractPiston(x, y, z, meta);
                 }
+            } else if (type === window.BLOCK.DISPENSER) {
+                let entity = this.getBlockEntity(x, y, z);
+                if (!entity) {
+                    entity = { type: 'dispenser', items: new Array(9).fill(null) };
+                    this.setBlockEntity(x, y, z, entity);
+                }
+                const isPowered = this.isBlockPowered(x, y, z);
+                if (isPowered && !entity.wasPowered) {
+                    this.dispenseItem(x, y, z, entity);
+                }
+                entity.wasPowered = isPowered;
+            } else if (type === window.BLOCK.DROPPER) {
+                let entity = this.getBlockEntity(x, y, z);
+                if (!entity) {
+                    entity = { type: 'dropper', items: new Array(9).fill(null) };
+                    this.setBlockEntity(x, y, z, entity);
+                }
+                const isPowered = this.isBlockPowered(x, y, z);
+                if (isPowered && !entity.wasPowered) {
+                    this.ejectDropperItem(x, y, z, entity);
+                }
+                entity.wasPowered = isPowered;
             } else if (type === window.BLOCK.CRAFTER) {
                 const powered = this.isBlockPowered(x, y, z);
                 const meta = this.getMetadata(x, y, z);
