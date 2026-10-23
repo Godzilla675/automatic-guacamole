@@ -4,7 +4,7 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 472 items.
+Total: 477 items.
 
 ## 🐛 Bugs Fixed
 - [x] **Bug: Dispenser Block Missing Right-Click Container Interaction**: Right-clicking `BLOCK.DISPENSER` in game opens container UI via `BlockInteractions` registry in `js/interactions.js` and `js/ui.js`.
@@ -72,6 +72,7 @@ Total: 472 items.
 - [x] **Desert Temple**: Sandstone pyramids in Desert biomes with terracotta patterns, twin towers, and subterranean pressure-plate TNT loot traps.
 - [x] **New Task: Add Pale Hanging Moss Canopy Generation**: Generate hanging pale moss vines hanging from Pale Oak tree leaves in Pale Garden biomes.
 - [x] **New Task: Add Amethyst Geode Generation**: Underground hollow basalt/calcite spheres lined with amethyst blocks and budding amethyst crystals.
+- [x] **New Task: Add Nether Fossil Structure Generation**: Subterranean Bone Block fossil structures generating in Soul Sand Valley biomes in `js/structures.js`.
 
 ## Block System
 - [x] **New Task: Add Vertical Slabs**: Allow slab placement vertically on block faces.
@@ -131,6 +132,7 @@ Total: 472 items.
 - [x] **New Task: Add Armadillos**: Neutral mobs found in savannas and badlands that drop scutes.
 - [x] **New Task: Add Warden Sonic Boom Attack**: Powerful ranged sonic burst attack launched by Warden mobs through walls when vibrations are triggered.
 - [x] **New Task: Add Ominous Pillager Captains & Ominous Banner Drops**: Pillager Captain mobs spawning with banners on their heads that drop Ominous Banners to grant Bad Omen.
+- [x] **New Task: Add Wither Boss Entity**: Crafted multi-stage boss mob shooting explosive Wither skulls in `js/mob.js`.
 
 ## Items & Crafting
 - [x] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items.
@@ -144,6 +146,7 @@ Total: 472 items.
 - [x] **New Task: Add Crossbows**: Implement ranged weapon with high durability, crafting recipe, and Pillager mob drops.
 - [x] **New Task: Add Lead Crafting & Mob Leashing**: Craft leads with string and slimeballs to tether passive mobs to fences.
 - [x] **New Task: Add Pale Oak Boat & Chest Boat Crafting**: Craftable Pale Oak watercraft with container inventory support.
+- [x] **New Task: Add Firework Rocket Flight Boosting for Elytra**: Right-clicking Firework Rockets while gliding with Elytra applies forward acceleration boost in `js/item_use.js` and `js/player.js`.
 
 ## Physics
 - [x] **New Task: Add Soft Falling Blocks**: Powder snow block physics and entity freezing/sinking mechanics.
@@ -182,6 +185,7 @@ Total: 472 items.
 - [x] **New Task: Add Crafter Auto-Crafting Redstone Signal**: Crafter block triggering full 3x3 recipe evaluation and output ejecting on redstone rising edge.
 - [x] **New Task: Add Hopper Item Transport Logic**: Hoppers pulling items from chest containers above and pushing into facing containers.
 - [x] **New Task: Add Observer Block State Update Pulse**: Observer block emitting 1-tick redstone pulse when facing block state changes.
+- [x] **New Task: Add Dispenser Item Shooting & Projectile Launching**: Dispensers firing arrows, snowballs, firework rockets, and water buckets on receiving redstone power pulses in `js/world.js` and `js/interactions.js`.
 
 ## Miscellaneous
 - [x] **New Task: Add Pale Oak Wood Family**: Pale Oak logs, planks, leaves, and saplings fully implemented.
