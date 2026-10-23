@@ -14,11 +14,6 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Bug: Dispenser Block Missing Right-Click Container Interaction**: Right-clicking `BLOCK.DISPENSER` in game does not open container UI because `BLOCK.DISPENSER` is missing from `BlockInteractions` registry in `js/interactions.js`.
-- [ ] **Bug: Hopper Block Missing Right-Click Container Interaction**: Right-clicking `BLOCK.HOPPER` in game does not open the 5-slot Hopper container UI because `BLOCK.HOPPER` is missing from `BlockInteractions` registry in `js/interactions.js`.
-- [ ] **Bug: Grindstone Block Missing Interactive Container UI Handler**: Right-clicking `BLOCK.GRINDSTONE` in game does not open Grindstone UI screen because `BLOCK.GRINDSTONE` is missing from `BlockInteractions` registry in `js/interactions.js` and `UIManager.prototype.openGrindstone` is missing in `js/ui.js`.
-- [ ] **Bug: Dispenser Block Missing Redstone Trigger Execution**: Redstone signal transitions adjacent to `BLOCK.DISPENSER` do not trigger item dispensing or projectile shooting in `World.prototype.updateRedstone` in `js/world.js`.
-
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 

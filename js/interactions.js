@@ -206,6 +206,48 @@ const BlockInteractions = (() => {
         return true;
     });
 
+    // Dispenser
+    register(BLOCK.DISPENSER, function dispenser(game, x, y, z, blockType, pos) {
+        let entity = game.world.getBlockEntity(x, y, z);
+        if (!entity) {
+            entity = {
+                type: 'dispenser',
+                items: new Array(9).fill(null)
+            };
+            game.world.setBlockEntity(x, y, z, entity);
+        }
+        if (game.ui && game.ui.openDispenser) {
+            game.ui.openDispenser(entity);
+        } else if (game.ui && game.ui.openDropper) {
+            game.ui.openDropper(entity);
+        }
+        return true;
+    });
+
+    // Hopper
+    register(BLOCK.HOPPER, function hopper(game, x, y, z, blockType, pos) {
+        let entity = game.world.getBlockEntity(x, y, z);
+        if (!entity) {
+            entity = {
+                type: 'hopper',
+                items: new Array(5).fill(null)
+            };
+            game.world.setBlockEntity(x, y, z, entity);
+        }
+        if (game.ui && game.ui.openHopper) {
+            game.ui.openHopper(entity);
+        }
+        return true;
+    });
+
+    // Grindstone
+    register(BLOCK.GRINDSTONE, function grindstone(game, x, y, z, blockType, pos) {
+        if (game.ui && game.ui.openGrindstone) {
+            game.ui.openGrindstone();
+        }
+        return true;
+    });
+
     // Dropper
     register(BLOCK.DROPPER, function dropper(game, x, y, z, blockType, pos) {
         let entity = game.world.getBlockEntity(x, y, z);

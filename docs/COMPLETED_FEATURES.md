@@ -7,6 +7,10 @@ these features, add a regression test rather than editing this list.
 Total: 472 items.
 
 ## 🐛 Bugs Fixed
+- [x] **Bug: Dispenser Block Missing Right-Click Container Interaction**: Right-clicking `BLOCK.DISPENSER` in game opens container UI via `BlockInteractions` registry in `js/interactions.js` and `js/ui.js`.
+- [x] **Bug: Hopper Block Missing Right-Click Container Interaction**: Right-clicking `BLOCK.HOPPER` in game opens 5-slot Hopper container UI via `BlockInteractions` registry in `js/interactions.js` and `js/ui.js`.
+- [x] **Bug: Grindstone Block Missing Interactive Container UI Handler**: Right-clicking `BLOCK.GRINDSTONE` in game opens Grindstone UI screen via `BlockInteractions` registry in `js/interactions.js` and `UIManager.prototype.openGrindstone` in `js/ui.js`.
+- [x] **Bug: Dispenser Block Missing Redstone Trigger Execution**: Redstone signal transitions adjacent to `BLOCK.DISPENSER` trigger item dispensing and projectile shooting in `World.prototype.updateRedstone` in `js/world.js`.
 - [x] **Crafter Quick-Shift Disabled Slot Bypass**: Quick-shifting items into a Crafter GUI container checks and skips disabled crafting slots in `js/ui.js`.
 - [x] **Submerged Mob Deep Water Swimming**: Mobs submerged in 3+ blocks of deep water apply buoyancy and upward swimming force to float up to the surface in `js/mob.js`.
 - [x] **Target Block Redstone Power Decay Missing**: `World.hitTargetBlock` creates a target block entity with `timer: 1.0`, and `World.updateTargetBlocks()` / `World.updateRedstone()` decrements this timer and resets the block's redstone metadata power to 0 after expiration.
