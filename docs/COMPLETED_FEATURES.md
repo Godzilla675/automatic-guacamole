@@ -569,3 +569,11 @@ Total: 477 items.
 - [x] **New Task: Add Husk Zombie Variant**: Desert biome zombie variant that does not burn in sunlight and inflicts Hunger on attack in `js/mob.js`.
 - [x] **New Task: Add Redstone Comparator Subtract Mode**: Toggle Comparators into Subtract Mode via right-click to subtract side input signal strength from rear signal in `js/world.js`.
 - [x] **New Task: Add Custom Inventory Sort Button**: Add 'Sort Inventory' button to inventory screen organizing player inventory items by block category and item ID in `js/ui.js`.
+- [x] **End Dimension Generation Failure**: Fixed `switchDimension('end')` terrain generation fallback to `END_STONE` block ID 575 in `js/world.js` and `js/game.js`.
+- [x] **TNT Ignition Interaction Failure**: Safely initialized `tntPrimed` entity array in TNT right-click interaction handler in `js/interactions.js`.
+- [x] **Creative Bed Time Advancement Bug**: Allowed sleeping in a bed while in Creative Mode to advance world time to morning in `js/interactions.js`.
+- [x] **Enchanting UI Activation Failure**: Properly set and toggled `this.enchantingUIActive` state indicator on openEnchanting and closeEnchanting in `js/ui.js`.
+- [x] **Jukebox Interaction Handling**: Handled music disc insertion, ejection with item drop, disc swap, and Jukebox UI fallback in `js/interactions.js`.
+- [x] **Redstone Comparator Container Fullness Scaling**: Scaled redstone signal output based on container items and stack capacity for Chests, Furnaces, Hoppers, Droppers, Dispensers, Crafters in `js/world.js`.
+- [x] **Enderman Mob Block Picking & Carrying Mechanics**: Implemented block pickup and block placement AI mechanics (`pickUpBlock` / `placeBlock`) for `MOB_TYPE.ENDERMAN` in `js/mob.js` and `js/world.js`.
+- [x] **Sculk Shrieker Vibration Accumulation HUD Meter**: Rendered HUD noise vibration accumulation meter overlay in `js/ui.js` via `updateSculkVibrationMeter`.

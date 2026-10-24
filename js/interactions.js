@@ -319,8 +319,33 @@ const BlockInteractions = (() => {
             entity = { type: 'jukebox', disc: null };
             game.world.setBlockEntity(x, y, z, entity);
         }
-        if (game.ui.openJukebox) {
+        const held = game.player ? (typeof game.player.getHeldItem === 'function' ? game.player.getHeldItem() : (game.player.inventory ? game.player.inventory[game.player.selectedSlot] : null)) : null;
+        if (entity.disc) {
+            // Eject disc
+            const discType = entity.disc;
+            entity.disc = null;
+            if (game.drops && window.Drop) {
+                game.drops.push(new window.Drop(game, x + 0.5, y + 1.2, z + 0.5, discType, 1));
+            } else if (game.player && game.player.addItem) {
+                game.player.addItem(discType, 1);
+            }
+            if (window.soundManager) window.soundManager.play('place', pos);
+            if (game.chat) game.chat.addMessage("Ejected music disc from Jukebox.");
+            return true;
+        } else if (held && (held.type === BLOCK.ITEM_MUSIC_DISC || (window.BLOCKS && window.BLOCKS[held.type] && window.BLOCKS[held.type].isMusicDisc))) {
+            // Insert disc
+            entity.disc = held.type;
+            if (game.player && game.player.gamemode !== 1) {
+                held.count--;
+                if (held.count <= 0 && game.player.inventory) game.player.inventory[game.player.selectedSlot] = null;
+            }
+            if (window.soundManager) window.soundManager.play('music_disc', pos);
+            if (game.chat) game.chat.addMessage("Playing music disc in Jukebox!");
+            if (game.ui && game.ui.openJukebox) game.ui.openJukebox(entity, { x, y, z });
+            return true;
+        } else if (game.ui && game.ui.openJukebox) {
             game.ui.openJukebox(entity, { x, y, z });
+            return true;
         }
         return true;
     });
@@ -365,7 +390,8 @@ const BlockInteractions = (() => {
     // Bed
     register(BLOCK.BED, function bed(game, x, y, z, blockType, pos) {
         const time = game.gameTime % game.dayLength;
-        if (time > game.dayLength * 0.5) { // Night
+        const isCreative = game.player && (game.player.gamemode === 1 || game.player.isCreative);
+        if (time > game.dayLength * 0.5 || isCreative) { // Night or Creative Mode
             // Skip to next morning (e.g. 0.1 of next day)
             const timeToMorning = game.dayLength - time + (game.dayLength * 0.1);
             game.gameTime += timeToMorning;
@@ -594,6 +620,7 @@ const BlockInteractions = (() => {
     // TNT
     register(BLOCK.TNT, function tnt(game, x, y, z, blockType, pos) {
         game.world.setBlock(x, y, z, BLOCK.AIR);
+        if (!game.tntPrimed) game.tntPrimed = [];
         game.tntPrimed.push({ x: x+0.5, y: y+0.5, z: z+0.5, fuse: 4.0, vy: 5 }); // 4 seconds fuse, slight jump
         if (window.soundManager) window.soundManager.play('fuse', pos);
         return true;
