@@ -153,12 +153,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Crafter Slot Grid Hotbar Quick-Fill**: Quick-shifting items from inventory hotbar directly into active non-disabled Crafter UI slots.
-- [ ] **New Task: Add Ominous Bottle Consumable Effects**: Consuming Ominous Bottles applying Bad Omen level I-V status effects.
-- [ ] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials.
-- [ ] **New Task: Add Ominous Bottle Consumable Drinking Effects**: Drinking Ominous Bottles displays particle bubble animation and grants Bad Omen level I-V.
-- [ ] **New Task: Add Trident Loyalty & Riptide Enchantment Interactions**: Throwing Loyalty Tridents automatically return to player inventory; Riptide Tridents launch player in water or rain in `js/item_use.js`.
-- [ ] **New Task: Add Shulker Box Color Dyeing & Inventory Storage**: Craftable 27-slot Shulker Boxes that retain stored items when broken and can be dyed 16 colors in `js/blocks.js` and `js/crafting.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -171,9 +165,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 - [ ] **New Task: Add Crafter Redstone Pulse Lock Indicator**: Visual locking overlay indicator on Crafter UI when redstone power holds the craft cycle.
-- [ ] **New Task: Add Heavy Weighted Pressure Plates**: Gold and Iron pressure plates emitting redstone signal strength proportional to entity count standing on them in `js/world.js`.
-- [ ] **New Task: Add Heavy Weighted Pressure Plate Entity Power Output**: Gold (Light) and Iron (Heavy) pressure plates calculating analog signal output based on exact entity weight counts in `js/world.js`.
-- [ ] **New Task: Add Redstone Repeater Lock Mechanism**: Secondary redstone repeaters powering side faces of active repeaters locking their current signal transmission state in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 

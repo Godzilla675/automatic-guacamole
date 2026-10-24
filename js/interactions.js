@@ -270,6 +270,27 @@ const BlockInteractions = (() => {
         return true;
     });
 
+    // Shulker Boxes
+    const shulkerBoxIds = [
+        BLOCK.SHULKER_BOX, BLOCK.SHULKER_BOX_WHITE, BLOCK.SHULKER_BOX_ORANGE, BLOCK.SHULKER_BOX_MAGENTA,
+        BLOCK.SHULKER_BOX_LIGHT_BLUE, BLOCK.SHULKER_BOX_YELLOW, BLOCK.SHULKER_BOX_LIME, BLOCK.SHULKER_BOX_PINK,
+        BLOCK.SHULKER_BOX_GRAY, BLOCK.SHULKER_BOX_LIGHT_GRAY, BLOCK.SHULKER_BOX_CYAN, BLOCK.SHULKER_BOX_PURPLE,
+        BLOCK.SHULKER_BOX_BLUE, BLOCK.SHULKER_BOX_BROWN, BLOCK.SHULKER_BOX_GREEN, BLOCK.SHULKER_BOX_RED, BLOCK.SHULKER_BOX_BLACK
+    ];
+    register(shulkerBoxIds, function shulkerBox(game, x, y, z, blockType, pos) {
+        let entity = game.world.getBlockEntity(x, y, z);
+        if (!entity) {
+            entity = {
+                type: 'shulker_box',
+                items: new Array(27).fill(null)
+            };
+            game.world.setBlockEntity(x, y, z, entity);
+        }
+        if (!entity.items) entity.items = new Array(27).fill(null);
+        game.ui.openChest(entity);
+        return true;
+    });
+
     // Chest
     register(BLOCK.CHEST, function chest(game, x, y, z, blockType, pos) {
          let entity = game.world.getBlockEntity(x, y, z);

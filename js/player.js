@@ -1063,11 +1063,25 @@ class Player {
             return true;
         }
         if (itemType === BLOCK.ITEM_OMINOUS_BOTTLE || itemType === BLOCK.ITEM_OMINOUS_BANNER) {
-            this.addEffect('Bad Omen', '☠️', 300);
+            const held = this.getHeldItem();
+            const level = (held && held.level) ? Math.min(5, Math.max(1, held.level)) : 1;
+            const roman = ['I', 'II', 'III', 'IV', 'V'][level - 1] || 'I';
+            const effectName = level > 1 ? `Bad Omen ${roman}` : 'Bad Omen';
+            this.addEffect(effectName, '☠️', 300);
+
+            if (this.game && this.game.particles) {
+                for (let i = 0; i < 15; i++) {
+                    const px = this.x + (Math.random() - 0.5) * 0.8;
+                    const py = this.y + 0.5 + Math.random() * 1.2;
+                    const pz = this.z + (Math.random() - 0.5) * 0.8;
+                    this.game.particles.spawn(px, py, pz, '#4B0082', 4);
+                }
+            }
+
             if (window.soundManager) window.soundManager.play('eat');
             if (this.game && this.game.ui && this.game.ui.showNotification) {
                 const name = itemType === BLOCK.ITEM_OMINOUS_BANNER ? 'Ominous Banner' : 'Ominous Bottle';
-                this.game.ui.showNotification(`Used ${name}! Applied Bad Omen effect.`);
+                this.game.ui.showNotification(`Used ${name}! Applied ${effectName} effect.`);
             }
             return true;
         }

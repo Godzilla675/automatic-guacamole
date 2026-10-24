@@ -434,6 +434,32 @@ class TextureManager {
             if (woolId !== undefined) this.textures[woolId] = this.genWool(color);
             if (concreteId !== undefined) this.textures[concreteId] = this.genConcrete(color);
         }
+
+        const shulkerColors = [
+            [B.SHULKER_BOX, '#8A2BE2'],
+            [B.SHULKER_BOX_WHITE, '#FFFFFF'],
+            [B.SHULKER_BOX_ORANGE, '#FFA500'],
+            [B.SHULKER_BOX_MAGENTA, '#FF00FF'],
+            [B.SHULKER_BOX_LIGHT_BLUE, '#ADD8E6'],
+            [B.SHULKER_BOX_YELLOW, '#FFFF00'],
+            [B.SHULKER_BOX_LIME, '#00FF00'],
+            [B.SHULKER_BOX_PINK, '#FFC0CB'],
+            [B.SHULKER_BOX_GRAY, '#808080'],
+            [B.SHULKER_BOX_LIGHT_GRAY, '#D3D3D3'],
+            [B.SHULKER_BOX_CYAN, '#00FFFF'],
+            [B.SHULKER_BOX_PURPLE, '#800080'],
+            [B.SHULKER_BOX_BLUE, '#0000FF'],
+            [B.SHULKER_BOX_BROWN, '#8B4513'],
+            [B.SHULKER_BOX_GREEN, '#008000'],
+            [B.SHULKER_BOX_RED, '#FF0000'],
+            [B.SHULKER_BOX_BLACK, '#1A1A1A']
+        ];
+        for (const [sbId, color] of shulkerColors) {
+            if (sbId !== undefined) this.textures[sbId] = this.genConcrete(color);
+        }
+
+        if (B.LIGHT_WEIGHTED_PRESSURE_PLATE !== undefined) this.textures[B.LIGHT_WEIGHTED_PRESSURE_PLATE] = this.genConcrete('#FFD700');
+        if (B.HEAVY_WEIGHTED_PRESSURE_PLATE !== undefined) this.textures[B.HEAVY_WEIGHTED_PRESSURE_PLATE] = this.genConcrete('#C0C0C0');
     }
 
     // -- Individual texture generators --

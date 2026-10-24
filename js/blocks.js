@@ -536,7 +536,30 @@ const BLOCK = {
     ITEM_POTION_STRENGTH: 585,
     ITEM_POTION_REGENERATION: 586,
     ITEM_ECHO_SHARD: 587,
-    ITEM_GOAT_HORN: 588
+    ITEM_GOAT_HORN: 588,
+
+    // Shulker Box Variants
+    SHULKER_BOX: 589,
+    SHULKER_BOX_WHITE: 590,
+    SHULKER_BOX_ORANGE: 591,
+    SHULKER_BOX_MAGENTA: 592,
+    SHULKER_BOX_LIGHT_BLUE: 593,
+    SHULKER_BOX_YELLOW: 594,
+    SHULKER_BOX_LIME: 595,
+    SHULKER_BOX_PINK: 596,
+    SHULKER_BOX_GRAY: 597,
+    SHULKER_BOX_LIGHT_GRAY: 598,
+    SHULKER_BOX_CYAN: 599,
+    SHULKER_BOX_PURPLE: 600,
+    SHULKER_BOX_BLUE: 601,
+    SHULKER_BOX_BROWN: 602,
+    SHULKER_BOX_GREEN: 603,
+    SHULKER_BOX_RED: 604,
+    SHULKER_BOX_BLACK: 605,
+
+    // Weighted Pressure Plates
+    LIGHT_WEIGHTED_PRESSURE_PLATE: 606,
+    HEAVY_WEIGHTED_PRESSURE_PLATE: 607
 };
 
 const ARMOR = {
@@ -1150,7 +1173,30 @@ const BLOCKS = {
     [BLOCK.ITEM_POTION_STRENGTH]: { name: 'Potion of Strength', color: '#FF0000', solid: false, isItem: true, icon: '🧪' },
     [BLOCK.ITEM_POTION_REGENERATION]: { name: 'Potion of Regeneration', color: '#FF1493', solid: false, isItem: true, icon: '🧪' },
     [BLOCK.ITEM_ECHO_SHARD]: { name: 'Echo Shard', color: '#008080', solid: false, isItem: true, icon: '💎' },
-    [BLOCK.ITEM_GOAT_HORN]: { name: 'Goat Horn', color: '#D2B48C', solid: false, isItem: true, icon: '📯' }
+    [BLOCK.ITEM_GOAT_HORN]: { name: 'Goat Horn', color: '#D2B48C', solid: false, isItem: true, icon: '📯' },
+
+    // Shulker Boxes
+    [BLOCK.SHULKER_BOX]: { name: 'Shulker Box', color: '#8A2BE2', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_WHITE]: { name: 'White Shulker Box', color: '#FFFFFF', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_ORANGE]: { name: 'Orange Shulker Box', color: '#FFA500', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_MAGENTA]: { name: 'Magenta Shulker Box', color: '#FF00FF', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_LIGHT_BLUE]: { name: 'Light Blue Shulker Box', color: '#ADD8E6', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_YELLOW]: { name: 'Yellow Shulker Box', color: '#FFFF00', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_LIME]: { name: 'Lime Shulker Box', color: '#00FF00', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_PINK]: { name: 'Pink Shulker Box', color: '#FFC0CB', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_GRAY]: { name: 'Gray Shulker Box', color: '#808080', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_LIGHT_GRAY]: { name: 'Light Gray Shulker Box', color: '#D3D3D3', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_CYAN]: { name: 'Cyan Shulker Box', color: '#00FFFF', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_PURPLE]: { name: 'Purple Shulker Box', color: '#800080', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_BLUE]: { name: 'Blue Shulker Box', color: '#0000FF', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_BROWN]: { name: 'Brown Shulker Box', color: '#8B4513', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_GREEN]: { name: 'Green Shulker Box', color: '#008000', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_RED]: { name: 'Red Shulker Box', color: '#FF0000', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+    [BLOCK.SHULKER_BOX_BLACK]: { name: 'Black Shulker Box', color: '#1A1A1A', solid: true, icon: '🧰', hardness: 2.0, tool: 'pickaxe', isShulkerBox: true },
+
+    // Weighted Pressure Plates
+    [BLOCK.LIGHT_WEIGHTED_PRESSURE_PLATE]: { name: 'Light Weighted Pressure Plate (Gold)', color: '#FFD700', solid: false, transparent: true, icon: '🟨', hardness: 0.5, tool: 'pickaxe', isWeightedPlate: true, maxWeight: 15 },
+    [BLOCK.HEAVY_WEIGHTED_PRESSURE_PLATE]: { name: 'Heavy Weighted Pressure Plate (Iron)', color: '#C0C0C0', solid: false, transparent: true, icon: '⬜', hardness: 0.5, tool: 'pickaxe', isWeightedPlate: true, maxWeight: 150 }
 };
 
 if (typeof window !== 'undefined') {

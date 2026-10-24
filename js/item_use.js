@@ -262,6 +262,21 @@ const ItemUse = (() => {
         return true;
     });
 
+    // Ominous Bottle Consumable Logic
+    register(BLOCK.ITEM_OMINOUS_BOTTLE, function ominousBottle(game, slot) {
+        if (game.player && game.player.eat) {
+            if (game.player.eat(slot.type)) {
+                if (game.player.gamemode !== 1) {
+                    slot.count--;
+                    if (slot.count <= 0) game.player.inventory[game.player.selectedSlot] = null;
+                }
+                if (game.ui && game.ui.updateHotbarUI) game.updateHotbarUI();
+                return true;
+            }
+        }
+        return false;
+    });
+
 })();
 
 window.ItemUse = ItemUse;
