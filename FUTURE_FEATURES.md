@@ -13,6 +13,14 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
+- [ ] **End Dimension Generation Failure**: `switchDimension('end')` logic fails to correctly generate the End Stone terrain for the central End island (Block ID 0 instead of 575 in `test_audit_bug_fixes_batch3.js`).
+- [ ] **TNT Ignition Interaction Failure**: Interacting with a TNT block fails to ignite it properly through the interaction event loop (returns false in `verify_tnt.js`).
+- [ ] **Creative Bed Time Advancement Bug**: Sleeping in a bed while in Creative Mode fails to advance the world time to morning (`verify_creative_bed.js`).
+- [ ] **Enchanting UI Activation Failure**: Right-clicking an Enchanting Table does not become active (`enchantingUIActive` state undefined/false in `verify_enchanting.js`).
+- [ ] **Jukebox Interaction Handling**: Interacting with a Jukebox block to insert or remove a music disc is not being handled correctly (returns false in `verify_jukebox.js`).
+- [ ] **Redstone Comparator Container Fullness Scaling**: Fails to calculate percentage fullness signal strength for adjacent Chests, Furnaces, and Hoppers in `js/world.js`.
+- [ ] **Enderman Mob Block Picking & Carrying Mechanics**: `MOB_TYPE.ENDERMAN` entity lacks block picking and carrying mechanics (`pickUpBlock` / `placeBlock`) in `js/mob.js` / `js/world.js`.
+- [ ] **Sculk Shrieker Vibration Accumulation HUD Meter**: Lacks the HUD noise vibration accumulation meter UI in `js/ui.js`.
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
