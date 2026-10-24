@@ -1851,6 +1851,7 @@ class World {
         const chunk = new Chunk(cx, cz);
         const baseX = cx * this.chunkSize;
         const baseZ = cz * this.chunkSize;
+        const endStoneId = (window.BLOCK && window.BLOCK.END_STONE) ? window.BLOCK.END_STONE : 575;
 
         for (let x = 0; x < this.chunkSize; x++) {
             for (let z = 0; z < this.chunkSize; z++) {
@@ -1869,7 +1870,7 @@ class World {
 
                     for (let y = islandHeight - islandThickness; y <= islandHeight; y++) {
                         if (y > 0 && y < 128) {
-                            chunk.setBlock(x, y, z, window.BLOCK.END_STONE || BLOCK.STONE);
+                            chunk.setBlock(x, y, z, endStoneId);
                         }
                     }
                 }

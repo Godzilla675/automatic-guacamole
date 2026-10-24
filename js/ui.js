@@ -1483,6 +1483,7 @@ class UIManager {
     }
 
     openEnchanting(entity) {
+        this.enchantingUIActive = true;
         this.activeEnchanting = entity || { item: null };
         document.getElementById('enchanting-screen').classList.remove('hidden');
         document.getElementById('inventory-screen').classList.remove('hidden');
@@ -1510,6 +1511,7 @@ class UIManager {
              }
         }
         this.activeEnchanting = null;
+        this.enchantingUIActive = false;
         document.getElementById('enchanting-screen').classList.add('hidden');
         document.getElementById('inventory-screen').classList.add('hidden');
         if (!this.game.isMobile) this.game.canvas.requestPointerLock();
