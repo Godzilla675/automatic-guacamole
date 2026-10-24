@@ -24,6 +24,11 @@ Total: 477 items.
 - [x] **Sculk Shrieker Vibration Accumulation HUD Meter**: `BLOCK.SCULK_SHRIEKER` triggers Darkness effect on proximity in `js/world.js`, and displays a Sculk Noise vibration accumulation meter HUD UI in `js/ui.js`.
 
 ## Core Features
+- [x] **New Task: Add Particle Engine Object Pooling**: Reuse Particle objects in  () from an array pool instead of allocating new objects on every explosion/snowball/wind effect to reduce garbage collection pressure.
+- [x] **New Task: Add Block Placement & Breaking Particles Color Blend**: Dynamically sample average block texture colors when spawning break/place dust particles in .
+- [x] **New Task: Add Wind Charge Explosion Shockwave Rings**: Expanding 3D ring particles generated upon Wind Charge impact explosions.
+- [x] **New Task: Add Dynamic Crosshair Recoil Indicator FX**: Crosshair visual expansion during weapon attack cooldowns and bow draw charging in .
+- [x] **New Task: Add Mob Taking Damage Red Flash Overlay**: Render mobs with a subtle red tint overlay when taking damage during hit invulnerability ticks in .
 - [x] **Game.update() Eyeblossom Scanning Optimization**: Track eyeblossom positions when placed/generated in `world.eyeblossoms` instead of polling 31x31x11 blocks every 20 frames at night.
 - [x] **New Task: Add Armor Trims & Smithing Templates**: Customize armor appearance with smithing templates at Smithing Table.
 - [x] **New Task: Add Coral Reefs & Blocks**: Underwater coral blocks, brain coral, and ocean structure generation.

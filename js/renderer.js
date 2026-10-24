@@ -741,6 +741,14 @@ class Renderer {
              } else {
                  ctx.fillRect(sx - size/4, sy - size, size/2, size);
              }
+
+             // Mob Taking Damage Red Flash Overlay
+             if (mob.lastDamageTime && Date.now() - mob.lastDamageTime < 300) {
+                 ctx.save();
+                 ctx.fillStyle = 'rgba(255, 0, 0, 0.55)';
+                 ctx.fillRect(sx - size/4, sy - size, size/2, size);
+                 ctx.restore();
+             }
         });
 
         // Draw Vehicles
@@ -1121,11 +1129,25 @@ class Renderer {
         // Draw exact center pixel aligned to canvas scaling to prevent subpixel drift
         const cx = Math.floor(w / 2);
         const cy = Math.floor(h / 2);
+
+        // Dynamic Crosshair Recoil Expansion
+        let recoilOffset = 0;
+        if (this.game.player) {
+            const player = this.game.player;
+            if (player.attackCooldown && player.attackCooldown > 0) {
+                recoilOffset = Math.floor(player.attackCooldown * 12);
+            } else if (player.recoilTimer && player.recoilTimer > 0) {
+                recoilOffset = Math.floor(player.recoilTimer * 12);
+            }
+        }
+
         ctx.fillStyle = this.game.hasTarget ? 'rgba(255, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)';
-        // Horizontal line
-        ctx.fillRect(cx - 10, cy - 1, 20, 2);
-        // Vertical line
-        ctx.fillRect(cx - 1, cy - 10, 2, 20);
+        // Horizontal lines with recoil expansion
+        ctx.fillRect(cx - 10 - recoilOffset, cy - 1, 8, 2);
+        ctx.fillRect(cx + 2 + recoilOffset, cy - 1, 8, 2);
+        // Vertical lines with recoil expansion
+        ctx.fillRect(cx - 1, cy - 10 - recoilOffset, 2, 8);
+        ctx.fillRect(cx - 1, cy + 2 + recoilOffset, 2, 8);
     }
 
     projectPoint(wx, wy, wz, cam) {

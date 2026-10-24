@@ -1285,6 +1285,11 @@ class Game {
 
                      this.world.setMetadata(nx, ny, nz, meta);
                  }
+                 if (this.particles) {
+                     const placedDef = BLOCKS[slot.type];
+                     const pColor = placedDef ? placedDef.color : '#888888';
+                     this.particles.spawn(nx + 0.5, ny + 0.5, nz + 0.5, pColor, 8);
+                 }
                  window.soundManager.play('place', pos, slot.type);
                  this.network.sendBlockUpdate(nx, ny, nz, slot.type);
 
@@ -1473,7 +1478,12 @@ class Game {
     }
 
     triggerWindBurst(x, y, z) {
-        if (this.particles) this.particles.spawn(x, y, z, '#E0FFFF', 25);
+        if (this.particles) {
+            this.particles.spawn(x, y, z, '#E0FFFF', 25);
+            if (this.particles.spawnWindChargeShockwave) {
+                this.particles.spawnWindChargeShockwave(x, y, z);
+            }
+        }
         if (window.soundManager) window.soundManager.play('jump', {x, y, z});
 
         const radius = 5.0;
