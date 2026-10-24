@@ -329,6 +329,91 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.ITEM_LEATHER, count: 6 }, { type: BLOCK.ITEM_STRING, count: 1 } ]
             },
             {
+                name: "Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX, count: 1 },
+                ingredients: [ { type: BLOCK.CHEST, count: 1 }, { type: BLOCK.ITEM_DIAMOND, count: 2 } ]
+            },
+            {
+                name: "White Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_WHITE, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_WHITE, count: 1 } ]
+            },
+            {
+                name: "Orange Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_ORANGE, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_ORANGE, count: 1 } ]
+            },
+            {
+                name: "Magenta Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_MAGENTA, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_MAGENTA, count: 1 } ]
+            },
+            {
+                name: "Light Blue Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_LIGHT_BLUE, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_LIGHT_BLUE, count: 1 } ]
+            },
+            {
+                name: "Yellow Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_YELLOW, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_YELLOW, count: 1 } ]
+            },
+            {
+                name: "Lime Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_LIME, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_LIME, count: 1 } ]
+            },
+            {
+                name: "Pink Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_PINK, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_PINK, count: 1 } ]
+            },
+            {
+                name: "Gray Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_GRAY, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_GRAY, count: 1 } ]
+            },
+            {
+                name: "Light Gray Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_LIGHT_GRAY, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_LIGHT_GRAY, count: 1 } ]
+            },
+            {
+                name: "Cyan Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_CYAN, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_CYAN, count: 1 } ]
+            },
+            {
+                name: "Purple Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_PURPLE, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_PURPLE, count: 1 } ]
+            },
+            {
+                name: "Blue Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_BLUE, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_BLUE, count: 1 } ]
+            },
+            {
+                name: "Brown Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_BROWN, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_BROWN, count: 1 } ]
+            },
+            {
+                name: "Green Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_GREEN, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_GREEN, count: 1 } ]
+            },
+            {
+                name: "Red Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_RED, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_RED, count: 1 } ]
+            },
+            {
+                name: "Black Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX_BLACK, count: 1 },
+                ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_BLACK, count: 1 } ]
+            },
+            {
                 name: "Ender Chest",
                 result: { type: BLOCK.ENDER_CHEST, count: 1 },
                 ingredients: [ { type: BLOCK.OBSIDIAN, count: 8 }, { type: BLOCK.ITEM_ENDER_PEARL || BLOCK.ITEM_DIAMOND, count: 1 } ]
@@ -467,6 +552,16 @@ class CraftingSystem {
                 name: "Black Bundle",
                 result: { type: BLOCK.ITEM_BUNDLE_BLACK, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_BUNDLE, count: 1 }, { type: BLOCK.WOOL_BLACK, count: 1 } ]
+            },
+            {
+                name: "Light Weighted Pressure Plate (Gold)",
+                result: { type: BLOCK.LIGHT_WEIGHTED_PRESSURE_PLATE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_GOLD_INGOT, count: 2 } ]
+            },
+            {
+                name: "Heavy Weighted Pressure Plate (Iron)",
+                result: { type: BLOCK.HEAVY_WEIGHTED_PRESSURE_PLATE, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_IRON_INGOT, count: 2 } ]
             },
             {
                 name: "Pale Oak Hanging Sign (6)",

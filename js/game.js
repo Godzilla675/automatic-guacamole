@@ -331,12 +331,35 @@ class Game {
 
             // Trident Throwing Logic
             if (slot && slot.type === BLOCK.ITEM_TRIDENT) {
+                const isRiptide = slot.riptide || (slot.enchantments && slot.enchantments.some(e => e.type === 'Riptide' || e.name === 'Riptide'));
+                const isLoyalty = slot.loyalty || (slot.enchantments && slot.enchantments.some(e => e.type === 'Loyalty' || e.name === 'Loyalty'));
+
+                const inWater = this.physics ? this.physics.getFluidIntersection({ x: this.player.x, y: this.player.y, z: this.player.z, width: this.player.width, height: this.player.height }) : false;
+                const isRaining = this.world && (this.world.weather === 'rain' || this.world.weather === 'thunder');
+
+                if (isRiptide && (inWater || isRaining)) {
+                    const sin = Math.sin(this.player.yaw);
+                    const cos = Math.cos(this.player.yaw);
+                    const pitchCos = Math.cos(this.player.pitch);
+                    const pitchSin = Math.sin(this.player.pitch);
+                    const launchSpeed = 22.0;
+
+                    this.player.vx = -sin * pitchCos * launchSpeed;
+                    this.player.vy = pitchSin * launchSpeed + 10.0;
+                    this.player.vz = cos * pitchCos * launchSpeed;
+
+                    if (this.particles) this.particles.spawn(this.player.x, this.player.y + 0.5, this.player.z, '#00FFFF', 20);
+                    if (window.soundManager) window.soundManager.play('jump', { x: this.player.x, y: this.player.y, z: this.player.z });
+                    if (this.ui && this.ui.showNotification) this.ui.showNotification("Riptide Launch!");
+                    return;
+                }
+
                 const dir = {
                     x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
                     y: -Math.sin(this.player.pitch),
                     z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
                 };
-                this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir, 'trident');
+                this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir, 'trident', { loyalty: isLoyalty });
                 if (window.soundManager) window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z});
 
                 if (this.player.gamemode !== 1) {
@@ -770,6 +793,8 @@ class Game {
              }
         }
 
+        const blockEntityBeforeBreak = this.world.getBlockEntity(x, y, z);
+
         this.world.setBlock(x, y, z, BLOCK.AIR);
         if (this.world && this.world.emitVibration) this.world.emitVibration(x, y, z, 'break');
 
@@ -788,8 +813,9 @@ class Game {
             }
         }
 
+        const allBlockDefs = window.BLOCKS || global.BLOCKS || BLOCKS;
         if (this.particles) {
-             const def = BLOCKS[blockType];
+             const def = allBlockDefs[blockType];
              if (def) this.particles.spawn(x+0.5, y+0.5, z+0.5, def.color, 10);
         }
         window.soundManager.play('break', pos, blockType);
@@ -823,6 +849,14 @@ class Game {
                 }
                 const dropCount = hasPaleOakCanopy ? 5 : 2;
                 if (DropClass) this.drops.push(new DropClass(this, x + 0.5, y + 0.5, z + 0.5, BLOCK.ITEM_RESIN_CLUMP, dropCount));
+            }
+        } else if (allBlockDefs[blockType] && allBlockDefs[blockType].isShulkerBox) {
+            const items = blockEntityBeforeBreak ? (blockEntityBeforeBreak.items || []).filter(it => it !== null) : [];
+            const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+            if (DropClass) {
+                const drop = new DropClass(this, x + 0.5, y + 0.5, z + 0.5, blockType, 1);
+                drop.containerItems = items;
+                this.drops.push(drop);
             }
         } else if (blockType === BLOCK.MELON_BLOCK) {
             this.drops.push(new Drop(this, x+0.5, y+0.5, z+0.5, BLOCK.ITEM_MELON_SLICE, 3 + Math.floor(Math.random()*5)));
@@ -1209,6 +1243,21 @@ class Game {
                     return; // Inside player
                  }
 
+                 const allDefs = window.BLOCKS || global.BLOCKS || BLOCKS;
+                 if (allDefs[slot.type] && allDefs[slot.type].isShulkerBox) {
+                     this.world.setBlock(nx, ny, nz, slot.type);
+                     const items = slot.containerItems ? JSON.parse(JSON.stringify(slot.containerItems)) : new Array(27).fill(null);
+                     this.world.setBlockEntity(nx, ny, nz, { type: 'shulker_box', items: items });
+                     window.soundManager.play('place', pos, slot.type);
+                     this.network.sendBlockUpdate(nx, ny, nz, slot.type);
+                     if (this.player.gamemode !== 1) {
+                         slot.count--;
+                         if (slot.count <= 0) this.player.inventory[this.player.selectedSlot] = null;
+                     }
+                     this.updateHotbarUI();
+                     return;
+                 }
+
                  this.world.setBlock(nx, ny, nz, slot.type);
                  if (this.world && this.world.emitVibration) this.world.emitVibration(nx, ny, nz, 'place');
                  if (slot.type === BLOCK.WATER) {
@@ -1300,7 +1349,7 @@ class Game {
         }
     }
 
-    spawnProjectile(x, y, z, dir, type = 'arrow') {
+    spawnProjectile(x, y, z, dir, type = 'arrow', options = {}) {
         let speed = 15;
         let life = 2.0;
         let damage = 2;
@@ -1324,7 +1373,9 @@ class Game {
                 if (this.health <= 0) this.life = 0;
             },
             type: type,
-            damage: damage
+            damage: damage,
+            loyalty: !!options.loyalty,
+            returning: false
         });
     }
 
@@ -2272,6 +2323,29 @@ class Game {
                             break;
                         }
                     }
+                }
+            }
+
+            if (p.loyalty && (p.life <= 0 || p.hitGround)) {
+                const px = this.player.x;
+                const py = this.player.y + 1.0;
+                const pz = this.player.z;
+                const dx = px - p.x;
+                const dy = py - p.y;
+                const dz = pz - p.z;
+                const dist = Math.hypot(dx, dy, dz);
+
+                if (dist < 1.5) {
+                    this.player.addItem({ type: BLOCK.ITEM_TRIDENT, count: 1, loyalty: true });
+                    if (window.soundManager) window.soundManager.play('place', { x: px, y: py, z: pz });
+                    this.projectiles.splice(i, 1);
+                    continue;
+                } else {
+                    const returnSpeed = 25.0;
+                    p.vx = (dx / (dist || 1)) * returnSpeed;
+                    p.vy = (dy / (dist || 1)) * returnSpeed;
+                    p.vz = (dz / (dist || 1)) * returnSpeed;
+                    p.life = 1.0;
                 }
             }
 

@@ -377,6 +377,8 @@ class World {
     }
 
     isBlockPowered(x, y, z) {
+        const BLOCKS = window.BLOCKS || global.BLOCKS || {};
+        const BLOCK = window.BLOCK || global.BLOCK || {};
         const neighbors = [
             {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
             {x:x, y:y+1, z:z}, {x:x, y:y-1, z:z},
@@ -384,11 +386,12 @@ class World {
         ];
         for (const n of neighbors) {
             const type = this.getBlock(n.x, n.y, n.z);
-            const def = window.BLOCKS[type];
+            const def = BLOCKS[type];
             if (def) {
-                if ((type === window.BLOCK.REDSTONE_CLOCK || type === window.BLOCK.TARGET_BLOCK || def.isWire) && this.getMetadata(n.x, n.y, n.z) > 0) return true;
-                if (type === window.BLOCK.DETECTOR_RAIL && this.getMetadata(n.x, n.y, n.z) > 0) return true;
-                if (def.isTorch && type === window.BLOCK.REDSTONE_TORCH) {
+                if ((type === BLOCK.REDSTONE_CLOCK || type === BLOCK.TARGET_BLOCK || def.isWire) && this.getMetadata(n.x, n.y, n.z) > 0) return true;
+                if (def.isWeightedPlate && this.getMetadata(n.x, n.y, n.z) > 0) return true;
+                if (type === BLOCK.DETECTOR_RAIL && this.getMetadata(n.x, n.y, n.z) > 0) return true;
+                if (def.isTorch && type === BLOCK.REDSTONE_TORCH) {
                     // Torch powers neighbors EXCEPT the one it is attached to.
                     if (n.y === y + 1) continue;
                     return true;
@@ -786,10 +789,12 @@ class World {
         for (const key of processing) {
             const [x, y, z] = key.split(',').map(Number);
             const type = this.getBlock(x, y, z);
-            const blockDef = window.BLOCKS[type];
+            const BLOCKS = window.BLOCKS || global.BLOCKS || {};
+            const BLOCK = window.BLOCK || global.BLOCK || {};
+            const blockDef = BLOCKS[type];
             if (!blockDef) continue;
 
-            if (blockDef.isWire && type !== window.BLOCK.REDSTONE_REPEATER && type !== window.BLOCK.REDSTONE_COMPARATOR) {
+            if (blockDef.isWire && type !== BLOCK.REDSTONE_REPEATER && type !== BLOCK.REDSTONE_COMPARATOR) {
                 const currentPower = this.getMetadata(x, y, z);
                 let newPower = 0;
 
@@ -801,15 +806,15 @@ class World {
 
                 for (const n of neighbors) {
                     const nType = this.getBlock(n.x, n.y, n.z);
-                    const nDef = window.BLOCKS[nType];
+                    const nDef = BLOCKS[nType];
                     if (!nDef) continue;
 
-                    if (nType === window.BLOCK.REDSTONE_CLOCK) {
+                    if (nType === BLOCK.REDSTONE_CLOCK) {
                         const clkPower = this.getMetadata(n.x, n.y, n.z);
                         if (clkPower > newPower) newPower = clkPower;
-                    } else if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) {
+                    } else if (nDef.isTorch && nType !== BLOCK.REDSTONE_TORCH_OFF) {
                         newPower = 15;
-                    } else if (nType === window.BLOCK.REDSTONE_REPEATER || nType === window.BLOCK.REDSTONE_COMPARATOR || nType === window.BLOCK.DETECTOR_RAIL) {
+                    } else if (nType === BLOCK.REDSTONE_REPEATER || nType === BLOCK.REDSTONE_COMPARATOR || nType === BLOCK.DETECTOR_RAIL) {
                         const repPower = this.getMetadata(n.x, n.y, n.z);
                         if (repPower > newPower) newPower = repPower;
                     } else if (nDef.isWire) {
@@ -831,15 +836,43 @@ class World {
                     this.setMetadata(x, y, z, 0);
                     this.scheduleNeighborRedstoneUpdates(x, y, z);
                 }
-            } else if (type === window.BLOCK.REDSTONE_REPEATER) {
+            } else if (type === BLOCK.REDSTONE_REPEATER) {
+                let entity = this.getBlockEntity(x, y, z);
+                if (!entity || entity.type !== 'repeater') {
+                    entity = { type: 'repeater', delay: 1, timer: 0, locked: false };
+                    this.setBlockEntity(x, y, z, entity);
+                }
+
+                const meta = this.getMetadata(x, y, z);
+                const orientation = meta & 3;
+                const isHorizontal = orientation === 0 || orientation === 1;
+
+                const sideNeighbors = isHorizontal ? [
+                    { x, y, z: z + 1 }, { x, y, z: z - 1 }
+                ] : [
+                    { x: x + 1, y, z }, { x: x - 1, y, z }
+                ];
+
+                let isSideLocked = false;
+                for (const sn of sideNeighbors) {
+                    const snType = this.getBlock(sn.x, sn.y, sn.z);
+                    if (snType === BLOCK.REDSTONE_REPEATER || snType === BLOCK.REDSTONE_COMPARATOR) {
+                        if (this.getMetadata(sn.x, sn.y, sn.z) > 0) {
+                            isSideLocked = true;
+                            break;
+                        }
+                    }
+                }
+
+                entity.locked = isSideLocked;
+                if (entity.locked) {
+                    continue;
+                }
+
                 const currentPower = this.getMetadata(x, y, z);
                 const powered = this.isBlockPowered(x, y, z);
                 const targetPower = powered ? 15 : 0;
-                let entity = this.getBlockEntity(x, y, z);
-                if (!entity || entity.type !== 'repeater') {
-                    entity = { type: 'repeater', delay: 1, timer: 0 };
-                    this.setBlockEntity(x, y, z, entity);
-                }
+
                 if (targetPower !== currentPower) {
                     if (entity.delay > 1) {
                         entity.timer++;
@@ -1067,6 +1100,44 @@ class World {
                     this.setMetadata(x, y, z, signal);
                     this.scheduleNeighborRedstoneUpdates(x, y, z);
                 }
+            } else if (blockDef && blockDef.isWeightedPlate) {
+                let entityCount = 0;
+                if (this.game) {
+                    if (this.game.player) {
+                        const p = this.game.player;
+                        if (Math.abs(p.x - (x + 0.5)) < 0.8 && Math.abs(p.z - (z + 0.5)) < 0.8 && p.y >= y && p.y <= y + 1.2) {
+                            entityCount++;
+                        }
+                    }
+                    if (this.game.mobs) {
+                        for (const mob of this.game.mobs) {
+                            if (!mob.isDead && Math.abs(mob.x - (x + 0.5)) < 0.8 && Math.abs(mob.z - (z + 0.5)) < 0.8 && mob.y >= y && mob.y <= y + 1.2) {
+                                entityCount++;
+                            }
+                        }
+                    }
+                    if (this.game.drops) {
+                        for (const drop of this.game.drops) {
+                            if (Math.abs(drop.x - (x + 0.5)) < 0.8 && Math.abs(drop.z - (z + 0.5)) < 0.8 && drop.y >= y && drop.y <= y + 1.2) {
+                                entityCount += (drop.count || 1);
+                            }
+                        }
+                    }
+                }
+
+                let targetPower = 0;
+                if (type === window.BLOCK.LIGHT_WEIGHTED_PRESSURE_PLATE) {
+                    targetPower = Math.min(15, entityCount);
+                } else if (type === window.BLOCK.HEAVY_WEIGHTED_PRESSURE_PLATE) {
+                    targetPower = Math.min(15, Math.ceil(entityCount / 10));
+                }
+
+                const currentPower = this.getMetadata(x, y, z);
+                if (targetPower !== currentPower) {
+                    this.setMetadata(x, y, z, targetPower);
+                    this.scheduleNeighborRedstoneUpdates(x, y, z);
+                }
+                this.activeRedstone.add(key);
             }
 
             // Always check if there is a Redstone Torch supported by this block that needs updating

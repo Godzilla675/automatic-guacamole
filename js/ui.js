@@ -1266,7 +1266,7 @@ class UIManager {
             }
         }
 
-        // Render Clear Grid Button
+        // Render Clear Grid Button & Quick Fill Button
         let clearBtn = doc ? doc.getElementById('clear-crafter-btn') : null;
         if (!clearBtn && doc) {
             clearBtn = doc.createElement('button');
@@ -1280,6 +1280,73 @@ class UIManager {
             const content = screen ? screen.querySelector('.inventory-content') || screen : null;
             if (content) content.appendChild(clearBtn);
         }
+
+        let fillBtn = doc ? doc.getElementById('quick-fill-crafter-btn') : null;
+        if (!fillBtn && doc) {
+            fillBtn = doc.createElement('button');
+            fillBtn.id = 'quick-fill-crafter-btn';
+            fillBtn.className = 'menu-button';
+            fillBtn.textContent = '⚡ Quick Fill';
+            fillBtn.style.marginTop = '10px';
+            fillBtn.style.marginLeft = '5px';
+            fillBtn.style.cursor = 'pointer';
+            fillBtn.addEventListener('click', () => this.quickFillCrafter());
+            const screen = doc.getElementById('crafter-screen');
+            const content = screen ? screen.querySelector('.inventory-content') || screen : null;
+            if (content) content.appendChild(fillBtn);
+        }
+    }
+
+    quickFillCrafter(sourceSlotIndex = null) {
+        if (!this.activeCrafter || !this.activeCrafter.items) return false;
+        const player = this.game ? this.game.player : null;
+        if (!player) return false;
+
+        const disabledSlots = this.activeCrafter.disabledSlots || new Array(9).fill(false);
+        const inv = player.inventory;
+        let filledAny = false;
+
+        let sourceIndices = [];
+        if (sourceSlotIndex !== null && sourceSlotIndex >= 0 && sourceSlotIndex < inv.length) {
+            sourceIndices = [sourceSlotIndex];
+        } else {
+            sourceIndices = [player.selectedSlot];
+            for (let i = 0; i < 9; i++) {
+                if (i !== player.selectedSlot) sourceIndices.push(i);
+            }
+        }
+
+        for (const idx of sourceIndices) {
+            const item = inv[idx];
+            if (!item || item.count <= 0) continue;
+
+            for (let c = 0; c < 9; c++) {
+                if (disabledSlots[c]) continue;
+                const target = this.activeCrafter.items[c];
+
+                if (!target) {
+                    this.activeCrafter.items[c] = { ...item, count: 1 };
+                    item.count--;
+                    if (item.count <= 0) inv[idx] = null;
+                    filledAny = true;
+                    break;
+                } else if (target.type === item.type && target.count < 64) {
+                    target.count++;
+                    item.count--;
+                    if (item.count <= 0) inv[idx] = null;
+                    filledAny = true;
+                    break;
+                }
+            }
+        }
+
+        if (filledAny) {
+            if (window.soundManager) window.soundManager.play('place');
+            this.refreshCrafterUI();
+            this.refreshInventoryUI();
+            if (this.updateHotbarUI) this.updateHotbarUI();
+        }
+        return filledAny;
     }
 
     clearCrafterGrid() {
@@ -1693,30 +1760,29 @@ class UIManager {
 
             // Repair
             if (anvil.input2) {
-                // Same item repair
-                if (anvil.input2.type === anvil.input1.type) {
-                    // Restore durability
-                    const def = window.TOOLS[output.type];
-                    if (def) {
-                        const max = def.durability;
-                        const d1 = output.durability !== undefined ? output.durability : max;
+                const isSameItemRepair = anvil.input2.type === anvil.input1.type;
+                const isMaceBreezeRodRepair = (anvil.input1.type === window.BLOCK.ITEM_MACE) && (anvil.input2.type === window.BLOCK.ITEM_BREEZE_ROD);
+
+                if (isSameItemRepair || isMaceBreezeRodRepair) {
+                    const def = (window.TOOLS && window.TOOLS[output.type]) ? window.TOOLS[output.type] : { durability: 250 };
+                    const max = def.durability || 250;
+                    const d1 = output.durability !== undefined ? output.durability : max;
+
+                    if (isSameItemRepair) {
                         const d2 = anvil.input2.durability !== undefined ? anvil.input2.durability : max;
-
-                        const damage1 = max - d1;
-                        const damage2 = max - d2;
-
-                        // Repair amount: damage2 + 12% of max
-                        // Actually Minecraft logic combines both durabilities + 12% bonus
-                        // Current durability = d1. Max - d1 = damage taken.
-                        // Wait, d1 is "remaining uses".
-                        // Uses1 + Uses2 + Bonus
-
                         const repair = d2 + Math.floor(max * 0.12);
                         const newDurability = Math.min(max, d1 + repair);
-
                         if (newDurability > d1) {
                             output.durability = newDurability;
                             cost += 2;
+                        }
+                    } else if (isMaceBreezeRodRepair) {
+                        const rodCount = anvil.input2.count || 1;
+                        const repairPerRod = Math.floor(max * 0.25);
+                        const newDurability = Math.min(max, d1 + repairPerRod * Math.min(rodCount, 4));
+                        if (newDurability > d1) {
+                            output.durability = newDurability;
+                            cost += 1 * Math.min(rodCount, 4);
                         }
                     }
                 }

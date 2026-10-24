@@ -569,3 +569,10 @@ Total: 477 items.
 - [x] **New Task: Add Husk Zombie Variant**: Desert biome zombie variant that does not burn in sunlight and inflicts Hunger on attack in `js/mob.js`.
 - [x] **New Task: Add Redstone Comparator Subtract Mode**: Toggle Comparators into Subtract Mode via right-click to subtract side input signal strength from rear signal in `js/world.js`.
 - [x] **New Task: Add Custom Inventory Sort Button**: Add 'Sort Inventory' button to inventory screen organizing player inventory items by block category and item ID in `js/ui.js`.
+- [x] **New Task: Add Crafter Slot Grid Hotbar Quick-Fill**: Quick-shifting items from inventory hotbar directly into active non-disabled Crafter UI slots and quick-fill UI button in `js/ui.js`.
+- [x] **New Task: Add Ominous Bottle Consumable Effects & Drinking Particles**: Consuming Ominous Bottles applying Bad Omen level I-V status effects and purple particle bubbles in `js/player.js` and `js/item_use.js`.
+- [x] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials in `js/ui.js`.
+- [x] **New Task: Add Trident Loyalty & Riptide Enchantment Interactions**: Throwing Loyalty Tridents automatically return to player inventory; Riptide Tridents launch player in water or rain in `js/game.js`.
+- [x] **New Task: Add Shulker Box Color Dyeing & Inventory Storage**: Craftable 27-slot Shulker Boxes that retain stored items when broken and can be dyed 16 colors in `js/blocks.js`, `js/textures.js`, `js/crafting.js`, `js/interactions.js`, and `js/game.js`.
+- [x] **New Task: Add Heavy Weighted Pressure Plates**: Gold (Light) and Iron (Heavy) pressure plates emitting redstone signal strength proportional to entity count in `js/blocks.js`, `js/textures.js`, `js/crafting.js`, and `js/world.js`.
+- [x] **New Task: Add Redstone Repeater Lock Mechanism**: Secondary redstone repeaters powering side faces of active repeaters locking their current signal transmission state in `js/world.js`.
