@@ -14,6 +14,8 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
+- [ ] **Bug: Waterlogged Copper Grate Fluid Flow Interaction**: Water passing through copper grates fails to replace non-solid blocks when propagating fluid horizontally in `js/world.js`.
+
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 
@@ -31,7 +33,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Spatial Partitioning for Entity Collisions**: Optimize entity-to-entity collision detection in `Physics.prototype` using spatial partitioning rather than N^2 distance checks.
 - [ ] **New Task: Add WebAudio Sound Pool Caching**: Optimize `SoundManager` instances using reusable sound source buffer pools to reduce AudioContext memory overhead.
 - [ ] **Chunk Mesh Face Culling & Instancing**: Group identical chunk block faces into instanced draw arrays to reduce render draw calls.
-- [ ] **New Task: Add Particle Engine Object Pooling**: Reuse Particle objects in `ParticleSystem` (`js/particles.js`) from an array pool instead of allocating new objects on every explosion/snowball/wind effect to reduce garbage collection pressure.
 - [ ] **New Task: Add Unified Container Interaction Registry**: Consolidate container opening logic for Chests, Furnaces, Hoppers, Dispensers, Droppers, Crafters, and Shulker Boxes into a unified `ContainerUI` manager in `js/ui.js`.
 - [ ] **New Task: Add Spatial Quadtree Chunk Lookup**: Replace O(chunks) linear scan in `World.prototype.getChunk` with spatial 2D grid/quadtree array lookup.
 
@@ -48,14 +49,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Block Break Particle Color Matching**: Break particles dynamically sampling exact texture/block color hex values rather than default grayscale.
-- [ ] **New Task: Add Mob Hitting Flash Shader Effect**: Briefly render mobs with a red tint overlay when taking damage in `js/renderer.js`.
 - [ ] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Render a subtle water distortion wave effect and darkened vignette overlay when player head is submerged. (Status: Partially implemented - basic water blue tint and bubbles rendered in `js/renderer.js`, but wave distortion shader and dark vignette overlay are pending implementation)
 - [ ] **New Task: Add Rain Particle Ripple Effects on Liquid Surfaces**: Spawn expanding ripple ring particles on top face of water/lava blocks during rainfall in `js/particles.js` and `js/renderer.js`.
 - [ ] **New Task: Add Directional Hurt Screen Shake**: Tilt player camera angle away from the direction of incoming entity damage in `js/player.js` and `js/renderer.js`.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
-- [ ] **New Task: Add Mob Taking Damage Red Flash Overlay**: Render mobs with a subtle red tint overlay when taking damage during hit invulnerability ticks in `js/renderer.js`.
-- [ ] **New Task: Add Block Placement & Breaking Particles Color Blend**: Dynamically sample average block texture colors when spawning break/place dust particles in `js/particles.js`.
-- [ ] **New Task: Add Underwater Screen Distortion Wave Shader**: Render horizontal sine-wave screen distortion when player head is submerged in water in `js/renderer.js`.
 
 ## 🧱 World Generation & Structures
 
@@ -89,8 +86,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Lush Caves Glow Berry Vines**: Subterranean mossy cave generation with hanging light-emitting Glow Berries.
 - [ ] **New Task: Add Ocean Ruins Structures**: Submerged sandstone and stone brick ruin structures generating in ocean biomes with suspicious gravel and drowned spawns in `js/structures.js`.
 - [ ] **New Task: Add Ruined Portals Structure Generation**: Obsidian and crying obsidian portal frames generating partially buried in Overworld and Nether biomes with loot chests in `js/structures.js`.
-- [ ] **New Task: Add Witch Hut Structure in Swamp Biomes**: Procedurally generate 4x4 wooden Witch Huts on stilts in Swamp biomes containing Cauldrons, Crafting Tables, and Witch spawns in `js/structures.js`.
-- [ ] **New Task: Add Desert Well Structures with Water Source**: Generate Sandstone Wells in Desert biomes with water source blocks and suspicious sand in `js/structures.js`.
 - [ ] **New Task: Add End Ship Outer Islands Generation**: Generate flying End Ships adjacent to End Cities containing Elytra items in item frames and Dragon Heads in `js/structures.js`.
 - [ ] **New Task: Add Deep Dark Ancient City Portal Frame**: Generate large central reinforced deepslate portal frame structures in Deep Dark biomes in `js/structures.js`.
 
@@ -120,24 +115,19 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
-- [ ] **New Task: Add Strider Mob Lava Walking Physics**: Rideable Nether mob that walks speed-boosted across lava surfaces and slows down/turns blue on land.
 - [ ] **New Task: Add Blaze Mob Entity**: Flying Nether fortress mob shooting triple fireballs at players and dropping Blaze Rods.
 - [ ] **New Task: Add Ghast Mob Entity**: Floating Nether mob shooting explosive fireballs that can be deflected back with melee attacks.
-- [ ] **New Task: Add Phantom Flying AI**: Flying hostile mob appearing at night when player has not slept for 3+ days, dropping Phantom Membranes.
 - [ ] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats spawning in villages that flee from fast player movements, can be tamed with raw fish, and repel Creepers.
 - [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
 - [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
 - [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish.
-- [ ] **New Task: Add Drowned Trident Throwing & Aquatic Aggro AI**: Drowned mobs spawning underwater with tridents and throwing projectile tridents at target players in `js/mob.js`.
-- [ ] **New Task: Add Phantom Night Spawning & Flying Swoop AI**: Flying Phantoms spawning above players who haven't slept for 3+ in-game days and swooping down to attack in `js/mob.js`.
-- [ ] **New Task: Add Strider Lava Walking & Cold Tremor Physics**: Striders walking rapidly across lava surfaces while shivering and slowing down when on land in `js/mob.js`.
+- [ ] **New Task: Add Allay Entity Item Collecting & Note Block Sorting**: Allay passive mobs collecting dropped items matching held item and delivering them to active Note Blocks in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
 - [ ] **New Task: Add Wind Charge Enchantment Synergy**: Wind Charge projectiles triggering extra knockback or fire damage when launched using enchanted bows or crossbows.
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments.
 - [ ] **Map item**
-- [ ] **Shulker Boxes**
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players when placed on a pyramid.
 - [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns.
 - [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
@@ -152,12 +142,9 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Crafter Slot Grid Hotbar Quick-Fill**: Quick-shifting items from inventory hotbar directly into active non-disabled Crafter UI slots.
-- [ ] **New Task: Add Ominous Bottle Consumable Effects**: Consuming Ominous Bottles applying Bad Omen level I-V status effects.
-- [ ] **New Task: Add Breeze Rod Mace Repair Crafting**: Repairing Mace durability at Anvil using Breeze Rod materials.
-- [ ] **New Task: Add Ominous Bottle Consumable Drinking Effects**: Drinking Ominous Bottles displays particle bubble animation and grants Bad Omen level I-V.
-- [ ] **New Task: Add Trident Loyalty & Riptide Enchantment Interactions**: Throwing Loyalty Tridents automatically return to player inventory; Riptide Tridents launch player in water or rain in `js/item_use.js`.
-- [ ] **New Task: Add Shulker Box Color Dyeing & Inventory Storage**: Craftable 27-slot Shulker Boxes that retain stored items when broken and can be dyed 16 colors in `js/blocks.js` and `js/crafting.js`.
+- [ ] **New Task: Add Turtle Shell Helmet Water Breathing Buff**: Equipping Turtle Shell helmet granting Water Breathing status effect while submerged in water in `js/player.js`.
+- [ ] **New Task: Add Lead Leashing Mechanics for Passive Mobs**: Using Leads on passive mobs to leash and pull them around the world in `js/mob.js` and `js/item_use.js`.
+- [ ] **New Task: Add Lodestone & Compass Binding Mechanics**: Using Compass on Lodestone blocks to lock compass orientation to the Lodestone position in `js/item_use.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -170,9 +157,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 - [ ] **New Task: Add Crafter Redstone Pulse Lock Indicator**: Visual locking overlay indicator on Crafter UI when redstone power holds the craft cycle.
-- [ ] **New Task: Add Heavy Weighted Pressure Plates**: Gold and Iron pressure plates emitting redstone signal strength proportional to entity count standing on them in `js/world.js`.
-- [ ] **New Task: Add Heavy Weighted Pressure Plate Entity Power Output**: Gold (Light) and Iron (Heavy) pressure plates calculating analog signal output based on exact entity weight counts in `js/world.js`.
-- [ ] **New Task: Add Redstone Repeater Lock Mechanism**: Secondary redstone repeaters powering side faces of active repeaters locking their current signal transmission state in `js/world.js`.
+- [ ] **New Task: Add Sculk Catalyst Mob Death Spread**: Sculk Catalyst blocks converting nearby defeated mob death positions into Sculk blocks and Sculk Veins in `js/world.js`.
+- [ ] **New Task: Add Fire Charge Dispenser Projectile Launch**: Dispensers shooting Fire Charges as explosive fireball entities when powered by redstone in `js/world.js`.
+- [ ] **New Task: Add Honey Block Sticky Sliding & Fall Damage Reduction**: Honey Blocks reducing player jump height, sliding speed on walls, and mitigating 80% fall damage in `js/player.js`.
+- [ ] **New Task: Add Lightning Rod Thunderstorm Charge Attraction**: Lightning Rods attracting lightning strikes within 128 blocks during thunderstorms in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -187,9 +175,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
 - [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
-- [ ] **New Task: Add Dynamic Crosshair Recoil Indicator**: Crosshair visual expansion during weapon cooldowns and projectile launches.
-- [ ] **New Task: Add Keybind Remapping UI Menu**: Interactive settings menu screen for customizing movement, jump, sprint, inventory, and drop key bindings in `js/ui.js`.
-- [ ] **New Task: Add Dynamic Crosshair Recoil Indicator FX**: Crosshair visual expansion during weapon attack cooldowns and bow draw charging in `js/ui.js`.
+- [ ] **New Task: Add Spyglass Zoom Vignette FOV Effect**: Using Spyglass narrowing camera FOV and applying a circular telescope overlay in `js/ui.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -205,4 +191,3 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Plugin API Custom Particle Registration**: `PluginAPI.registerParticle(name, config)` endpoint for custom particle effects.
 - [ ] **New Task: Add Plugin API Custom UI Container Registration**: Endpoint for plugins to define custom grid GUIs and item container screens.
 - [ ] **New Task: Add Plugin API World Generator Hook**: `PluginAPI.registerBiomeGenerator(name, config)` allowing custom biome structure and heightmap generation logic in `js/plugin.js`.
-- [ ] **New Task: Add Plugin API Sound Effect Event Hooks**: `PluginAPI.on('sound', callback)` allowing plugins to intercept, modify, or silence sound play events in `js/plugin.js`.
