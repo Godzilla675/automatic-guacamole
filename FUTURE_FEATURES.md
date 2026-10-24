@@ -52,7 +52,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Render a subtle water distortion wave effect and darkened vignette overlay when player head is submerged. (Status: Partially implemented - basic water blue tint and bubbles rendered in `js/renderer.js`, but wave distortion shader and dark vignette overlay are pending implementation)
 - [ ] **New Task: Add Rain Particle Ripple Effects on Liquid Surfaces**: Spawn expanding ripple ring particles on top face of water/lava blocks during rainfall in `js/particles.js` and `js/renderer.js`.
 - [ ] **New Task: Add Directional Hurt Screen Shake**: Tilt player camera angle away from the direction of incoming entity damage in `js/player.js` and `js/renderer.js`.
-- [ ] **New Task: Add Wind Charge Explosion Shockwave Rings**: Expanding 3D ring particles generated upon Wind Charge impact explosions.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
 - [ ] **New Task: Add Mob Taking Damage Red Flash Overlay**: Render mobs with a subtle red tint overlay when taking damage during hit invulnerability ticks in `js/renderer.js`.
 - [ ] **New Task: Add Block Placement & Breaking Particles Color Blend**: Dynamically sample average block texture colors when spawning break/place dust particles in `js/particles.js`.

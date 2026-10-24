@@ -2,8 +2,28 @@ class ParticleSystem {
     constructor(game) {
         this.game = game;
         this.particles = [];
+        this.pool = [];
     }
 
+    getParticle(props) {
+        let p;
+        if (this.pool.length > 0) {
+            p = this.pool.pop();
+        } else {
+            p = {};
+        }
+        p.x = props.x || 0;
+        p.y = props.y || 0;
+        p.z = props.z || 0;
+        p.vx = props.vx || 0;
+        p.vy = props.vy || 0;
+        p.vz = props.vz || 0;
+        p.life = props.life !== undefined ? props.life : 1.0;
+        p.color = props.color || '#FFFFFF';
+        p.size = props.size || 0.1;
+        p.orbit = !!props.orbit;
+        return p;
+    }
 
     spawnVaultOrbit(x, y, z, color = '#00FFFF') {
         const particleCount = 24;
@@ -13,7 +33,7 @@ class ParticleSystem {
             const px = x + Math.cos(angle) * radius;
             const py = y + (i / particleCount) * 0.6;
             const pz = z + Math.sin(angle) * radius;
-            this.particles.push({
+            this.particles.push(this.getParticle({
                 x: px,
                 y: py,
                 z: pz,
@@ -24,7 +44,7 @@ class ParticleSystem {
                 color: color,
                 size: 0.12,
                 orbit: true
-            });
+            }));
         }
     }
 
@@ -37,7 +57,7 @@ class ParticleSystem {
             const speed = 3.0 + Math.random() * 5.0;
             const color = colors[Math.floor(Math.random() * colors.length)];
 
-            this.particles.push({
+            this.particles.push(this.getParticle({
                 x: x,
                 y: y,
                 z: z,
@@ -47,13 +67,33 @@ class ParticleSystem {
                 life: 1.5 + Math.random() * 0.5,
                 color: color,
                 size: 0.15 + Math.random() * 0.1
-            });
+            }));
+        }
+    }
+
+    spawnWindChargeShockwave(x, y, z) {
+        const particleCount = 28;
+        const radius = 0.3;
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (i / particleCount) * Math.PI * 2;
+            const speed = 3.5 + Math.random() * 1.5;
+            this.particles.push(this.getParticle({
+                x: x + Math.cos(angle) * radius,
+                y: y + (Math.random() - 0.5) * 0.2,
+                z: z + Math.sin(angle) * radius,
+                vx: Math.cos(angle) * speed,
+                vy: (Math.random() * 0.8) + 0.2,
+                vz: Math.sin(angle) * speed,
+                life: 0.6 + Math.random() * 0.3,
+                color: i % 2 === 0 ? '#E0FFFF' : '#00FFFF',
+                size: 0.15 + Math.random() * 0.1
+            }));
         }
     }
 
     spawn(x, y, z, color, count = 5) {
         for (let i = 0; i < count; i++) {
-            this.particles.push({
+            this.particles.push(this.getParticle({
                 x: x + (Math.random() - 0.5) * 0.5,
                 y: y + (Math.random() - 0.5) * 0.5,
                 z: z + (Math.random() - 0.5) * 0.5,
@@ -63,7 +103,7 @@ class ParticleSystem {
                 life: 1.0 + Math.random(),
                 color: color,
                 size: 0.1 + Math.random() * 0.1
-            });
+            }));
         }
     }
 
@@ -73,6 +113,9 @@ class ParticleSystem {
             p.life -= dt;
             if (p.life <= 0) {
                 this.particles.splice(i, 1);
+                if (this.pool.length < 500) {
+                    this.pool.push(p);
+                }
                 continue;
             }
 
@@ -87,10 +130,7 @@ class ParticleSystem {
     }
 
     render(ctx, camera) {
-        // This would require hooking into Renderer.
-        // Since Renderer uses WebGL or Canvas 2D?
-        // The game seems to be Canvas 2D based on `this.ctx = this.canvas.getContext('2d');` in `game.js`.
-        // I need to check `js/renderer.js`.
+        // Rendered by Renderer.prototype.render
     }
 }
 
