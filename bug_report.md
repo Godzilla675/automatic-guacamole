@@ -98,6 +98,16 @@ The core gameplay loop and general physics/movement systems remain stable (verif
 - **Enderman Mob Block Picking & Carrying Mechanics**: `MOB_TYPE.ENDERMAN` entity exists in `js/mob.js` and teleports away from water/player, but lacks block picking and carrying mechanics (`pickUpBlock` / `placeBlock`) in `js/mob.js` / `js/world.js`.
 - **Sculk Shrieker Vibration Accumulation HUD Meter**: `BLOCK.SCULK_SHRIEKER` triggers Darkness effect on proximity in `js/world.js`, but lacks the HUD noise vibration accumulation meter UI in `js/ui.js`.
 
+## Detailed Bug Report - E2E Testing Pass
+Following a comprehensive exploratory pass running manual gameplay via Playwright scripts:
+
+1. **Automated Unit Tests**: All 92 unit tests in the suite have passed successfully (`npm test`). No regressions were detected after ensuring testing scripts were correctly patched.
+2. **E2E UI Navigation**: Navigating through `localhost:8000` executing typical block mining, crafting UI swapping, and interactions yielded 0 console errors during runtime.
+3. **Rendering Stability**: No critical UI overlay clipping issues or visual glitches identified when opening inventory or crafting tables.
+4. **No New Findings**: No *new* bugs have been found in this pass.
+
+### Fixed Backlog Items During This Pass:
+- **Waterlogged Copper Grate Fluid Flow Interaction**: Verified and resolved an issue where water passing horizontally and vertically through copper grates did not properly break non-solid blocks (like torches or flowers). Added test assertions to `tests/test_water_flow_grate.js` to prevent future regressions. The flow logic inside `js/world.js` now specifically factors in copper grates in the descent and lateral flow checks to wash away non-solid obstructors.
 
 ## Update: Full Exploratory Pass & E2E Testing Result
 In a recent test run and manual exploratory gameplay verification session:

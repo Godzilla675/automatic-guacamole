@@ -508,6 +508,7 @@ Total: 477 items.
 - [x] **Bug: Standalone Verification Scripts Mocha Execution Compatibility**: Standalone node verification scripts in `verification/` causing Mocha execution errors when included in test globbing. (Status: Verified and working - updated `run_all_tests.js` to target unit test suite)
 - [x] **Bug: JSDOM Batch Runner Performance Memory Overhead**: Running multiple JSDOM test suites in a single process leading to PerformanceImpl stack recursion depth overflow. (Status: Verified and working - handled in `run_all_tests.js` with isolated process execution)
 - [x] **Bug: Waterlogged Copper Grate Flow Interaction**: Water blocks passing through Copper Grates do not propagate full fluid source blocks on adjacent open faces.
+- [x] **Bug: Waterlogged Copper Grate Fluid Flow Interaction**: Water passing through copper grates fails to replace non-solid blocks when propagating fluid horizontally in `js/world.js`.
 - [x] **New Task: Add Bogged Shearable Mushrooms Drop Table**: Ensure Bogged mobs yield red or brown mushrooms upon shearing and update skin overlay. (Status: Verified and working in js/mob.js)
 - [x] **New Task: Add Resin Brick Wall Dynamic Post Connections**: Resin Brick Wall models dynamically connecting visually to adjacent wall segments and solid blocks. (Status: Verified and working in js/renderer.js)
 - [x] **New Task: Add Pale Oak Hanging Signs Crafting & Placement**: Craftable hanging signs using Pale Oak wood planks and chains, mountable on block ceilings and side walls.
