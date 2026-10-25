@@ -398,9 +398,20 @@ class Player {
         this.xp = currentPoints / needed;
     }
 
-    takeDamage(amount) {
+    takeDamage(amount, source) {
         if (this.gamemode === 1 || this.gamemode === 3 || this.spectator) return; // God Mode
         if (Date.now() - this.lastDamageTime < 500) return; // Invulnerability frames
+
+        // Directional Hurt Screen Shake Camera Calculation
+        let hitAngle = (Math.random() - 0.5) * Math.PI;
+        if (source && typeof source.x === 'number' && typeof source.z === 'number') {
+            const dx = source.x - this.x;
+            const dz = source.z - this.z;
+            const sourceYaw = Math.atan2(dx, dz);
+            hitAngle = sourceYaw - this.yaw;
+        }
+        this.hurtCamAngle = hitAngle;
+        this.hurtCamTimer = 0.4;
 
         if (this.blocking) {
             // Reduce damage (100% block) and play block sound
@@ -547,6 +558,10 @@ class Player {
         }
 
         const controls = this.game.controls;
+
+        if (this.hurtCamTimer > 0) {
+            this.hurtCamTimer = Math.max(0, this.hurtCamTimer - dt);
+        }
 
         if (this.gamemode === 3 || this.spectator) {
             this.flying = true;

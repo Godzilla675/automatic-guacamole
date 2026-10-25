@@ -7,6 +7,10 @@ these features, add a regression test rather than editing this list.
 Total: 477 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add Directional Hurt Screen Shake**: Calculated camera tilt angle away from incoming damage sources and set `hurtCamTimer` in `js/player.js` & `js/renderer.js`.
+- [x] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Rendered radial vignette shader overlay with JSDOM compatibility guard and animated wave line distortion in `js/renderer.js`.
+- [x] **New Task: Add Rain Particle Ripple Effects on Liquid Surfaces**: Spawned expanding ripple particles on water and lava surfaces during rainfall in `js/particles.js`, `js/game.js`, and `js/renderer.js`.
+- [x] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Attached `trimMaterial` and `trimColor` metadata to Smithing Table output and rendered trim slot overlays in `js/ui.js` & `js/renderer.js`.
 - [x] **Bug: Dispenser Block Missing Right-Click Container Interaction**: Right-clicking `BLOCK.DISPENSER` in game opens container UI via `BlockInteractions` registry in `js/interactions.js` and `js/ui.js`.
 - [x] **Bug: Hopper Block Missing Right-Click Container Interaction**: Right-clicking `BLOCK.HOPPER` in game opens 5-slot Hopper container UI via `BlockInteractions` registry in `js/interactions.js` and `js/ui.js`.
 - [x] **Bug: Grindstone Block Missing Interactive Container UI Handler**: Right-clicking `BLOCK.GRINDSTONE` in game opens Grindstone UI screen via `BlockInteractions` registry in `js/interactions.js` and `UIManager.prototype.openGrindstone` in `js/ui.js`.

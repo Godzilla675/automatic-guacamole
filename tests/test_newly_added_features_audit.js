@@ -321,4 +321,66 @@ describe('Newly Added Features Audit & Verification Test Suite', function() {
         const rodMeta = game.world.getMetadata(10, 10, 10);
         assert.strictEqual(rodMeta, 15, 'Lightning rod attracted strike and became powered');
     });
+
+    it('17. should verify Directional Hurt Screen Shake camera calculation', function() {
+        game.player.x = 10; game.player.z = 10; game.player.yaw = 0;
+        const attacker = { x: 15, z: 10 }; // Attacker to the right (+X)
+
+        game.player.takeDamage(4, attacker);
+
+        assert.strictEqual(game.player.hurtCamTimer, 0.4);
+        assert.ok(game.player.hurtCamAngle !== undefined);
+
+        game.player.update(0.1, game.controls, game.world);
+        assert.ok(Math.abs(game.player.hurtCamTimer - 0.3) < 0.01, 'Hurt camera timer decayed');
+    });
+
+    it('18. should verify Underwater Screen Distortion & Vignette Shader', function() {
+        game.world.generateChunk(0, 0);
+        game.player.x = 5; game.player.y = 5; game.player.z = 5;
+        game.world.setBlock(5, 6, 5, window.BLOCK.WATER); // Head in water
+
+        assert.strictEqual(game.world.getBlock(5, 6, 5), window.BLOCK.WATER);
+
+        // Render call should execute underwater vignette shader branch without throwing errors
+        assert.doesNotThrow(() => {
+            game.renderer.render();
+        });
+    });
+
+    it('19. should verify Rain Particle Ripple Effects on Liquid Surfaces', function() {
+        if (!game.particleSystem) game.particleSystem = new window.ParticleSystem(game);
+        game.particleSystem.particles = [];
+        game.particleSystem.spawnLiquidRipple(10, 5, 10, '#a0c0ff');
+
+        assert.strictEqual(game.particleSystem.particles.length, 1);
+        const p = game.particleSystem.particles[0];
+        assert.strictEqual(p.type, 'ripple');
+        assert.strictEqual(p.color, '#a0c0ff');
+
+        game.particleSystem.update(0.3);
+        assert.ok(p.radius > 0.1, 'Ripple radius expanded');
+    });
+
+    it('20. should verify Armor Trim Smithing Table Metadata and Visual Overlay', function() {
+        game.ui.activeSmithingTable = {
+            template: { type: window.BLOCK.ITEM_SMITHING_TEMPLATE, count: 1 },
+            base: { type: window.BLOCK.ARMOR_DIAMOND_CHESTPLATE || 211, count: 1, name: 'Diamond Chestplate' },
+            addition: { type: window.BLOCK.GOLD_INGOT || 52, count: 1, name: 'Gold Ingot' },
+            output: null
+        };
+
+        game.ui.updateSmithingUI();
+
+        const out = game.ui.activeSmithingTable.output;
+        assert.ok(out, 'Smithing table produced output');
+        assert.strictEqual(out.trimmed, true);
+        assert.strictEqual(out.trimColor, '#ffd700');
+
+        const slotEl = window.document.createElement('div');
+        game.ui.renderSlotItem(slotEl, out);
+
+        const overlay = slotEl.querySelector('.trim-overlay');
+        assert.ok(overlay, 'Trim visual overlay added to slot element');
+    });
 });

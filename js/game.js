@@ -2322,6 +2322,18 @@ class Game {
             this.triggerLightningStrike();
         }
 
+        // Rainfall & Liquid Surface Ripples
+        if (this.world && (this.world.weather === 'rain' || this.world.weather === 'thunder') && this.particleSystem && Math.random() < 0.35) {
+            const rx = Math.floor(this.player.x + (Math.random() - 0.5) * 20);
+            const rz = Math.floor(this.player.z + (Math.random() - 0.5) * 20);
+            const ry = this.world.getHighestBlockY ? this.world.getHighestBlockY(rx, rz) : Math.floor(this.player.y);
+            const bType = this.world.getBlock(rx, ry, rz);
+            if (bType === window.BLOCK.WATER || bType === window.BLOCK.LAVA) {
+                const rippleColor = bType === window.BLOCK.LAVA ? '#ff6600' : '#a0c0ff';
+                this.particleSystem.spawnLiquidRipple(rx + 0.5, ry + 0.98, rz + 0.5, rippleColor);
+            }
+        }
+
         // Chunk Loading
         if (this.frameCount % 60 === 0) { // Check every second
             this.updateChunks();
