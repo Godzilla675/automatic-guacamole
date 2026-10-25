@@ -1426,10 +1426,10 @@ class World {
             const below = { x, y: y - 1, z };
             const belowType = this.getBlock(below.x, below.y, below.z);
 
-            if (belowType === window.BLOCK.COPPER_GRATE) {
+            if (belowType === window.BLOCK.COPPER_GRATE || belowType === window.BLOCK.EXPOSED_COPPER_GRATE || belowType === window.BLOCK.WEATHERED_COPPER_GRATE || belowType === window.BLOCK.OXIDIZED_COPPER_GRATE) {
                 const below2 = { x, y: y - 2, z };
                 const below2Type = this.getBlock(below2.x, below2.y, below2.z);
-                if (below2Type === BLOCK.AIR || (below2Type === BLOCK.WATER && this.getMetadata(below2.x, below2.y, below2.z) !== 8)) {
+                if (below2Type === BLOCK.AIR || (below2Type === BLOCK.WATER && this.getMetadata(below2.x, below2.y, below2.z) !== 8) || (window.BLOCKS[below2Type] && !window.BLOCKS[below2Type].solid && below2Type !== BLOCK.WATER)) {
                     if (below2Type !== BLOCK.WATER || this.getMetadata(below2.x, below2.y, below2.z) !== 7) {
                         this.setBlock(below2.x, below2.y, below2.z, BLOCK.WATER);
                         this.setMetadata(below2.x, below2.y, below2.z, 8);
@@ -1467,7 +1467,7 @@ class World {
                      ];
                      for (const n of neighbors) {
                          const nType = this.getBlock(n.x, n.y, n.z);
-                         if (nType === window.BLOCK.COPPER_GRATE) {
+                         if (nType === window.BLOCK.COPPER_GRATE || nType === window.BLOCK.EXPOSED_COPPER_GRATE || nType === window.BLOCK.WEATHERED_COPPER_GRATE || nType === window.BLOCK.OXIDIZED_COPPER_GRATE) {
                              const farN = { x: n.x + n.dx, y: y, z: n.z + n.dz };
                              const farType = this.getBlock(farN.x, farN.y, farN.z);
                              if (farType === BLOCK.AIR || (window.BLOCKS[farType] && !window.BLOCKS[farType].solid && farType !== BLOCK.WATER)) {
