@@ -498,12 +498,30 @@ class UIManager {
                 const materialName = window.BLOCKS[st.addition.type] ? window.BLOCKS[st.addition.type].name : 'Trimmed';
                 trimmedName += ` (${materialName} Trim)`;
             }
+
+            const TRIM_COLORS = {
+                [window.BLOCK.ITEM_RAW_GOLD || 52]: '#ffd700',
+                [window.BLOCK.GOLD_INGOT || 52]: '#ffd700',
+                [window.BLOCK.ITEM_RAW_IRON || 51]: '#d8d8d8',
+                [window.BLOCK.IRON_INGOT || 51]: '#d8d8d8',
+                [window.BLOCK.COPPER_INGOT || 550]: '#b87333',
+                [window.BLOCK.NETHERITE_INGOT || 551]: '#4a3a3b',
+                [window.BLOCK.REDSTONE || 250]: '#ff2200',
+                [window.BLOCK.EMERALD || 552]: '#50c878',
+                [window.BLOCK.DIAMOND || 553]: '#4aedd9',
+                [window.BLOCK.LAPIS_LAZULI || 554]: '#1e40af',
+                [window.BLOCK.AMETHYST_SHARD || 555]: '#9966cc',
+                [window.BLOCK.QUARTZ || 556]: '#e3e3e3'
+            };
+
             st.output = {
                 type: st.base.type,
                 count: 1,
                 name: trimmedName,
                 durability: window.TOOLS && window.TOOLS[st.base.type] ? window.TOOLS[st.base.type].durability : 100,
-                trimmed: true
+                trimmed: true,
+                trimMaterial: st.addition ? st.addition.type : null,
+                trimColor: (st.addition && TRIM_COLORS[st.addition.type]) ? TRIM_COLORS[st.addition.type] : '#ffd700'
             };
             renderSlot('smithing-output', st.output);
         } else {
@@ -2542,11 +2560,27 @@ class UIManager {
             slotElement.appendChild(count);
         }
 
-        // Clear existing durability bar if any
+        // Clear existing durability bar & trim overlay if any
         const existingBar = slotElement.querySelector('.durability-bar-bg');
         if (existingBar) existingBar.remove();
+        const existingTrim = slotElement.querySelector('.trim-overlay');
+        if (existingTrim) existingTrim.remove();
 
         if (item) {
+            if (item.trimmed) {
+                const trimOverlay = document.createElement('div');
+                trimOverlay.className = 'trim-overlay';
+                trimOverlay.style.position = 'absolute';
+                trimOverlay.style.top = '1px';
+                trimOverlay.style.left = '1px';
+                trimOverlay.style.right = '1px';
+                trimOverlay.style.bottom = '1px';
+                trimOverlay.style.border = `2px solid ${item.trimColor || '#ffd700'}`;
+                trimOverlay.style.borderRadius = '3px';
+                trimOverlay.style.pointerEvents = 'none';
+                trimOverlay.style.boxShadow = `0 0 4px ${item.trimColor || '#ffd700'}`;
+                slotElement.appendChild(trimOverlay);
+            }
             const blockDef = window.BLOCKS[item.type];
             if (blockDef) {
                 // Try to use texture preview

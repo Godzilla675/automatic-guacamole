@@ -45,11 +45,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] Music system
 - [ ] **Screenshot system**
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
-- [ ] **New Task: Add Armor Trim Smithing Table Visual Rendering**: Render trimmed armor textures on player model when wearing smithing-trimmed armor items. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Block Break Particle Color Matching**: Break particles dynamically sampling exact texture/block color hex values rather than default grayscale.
-- [ ] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Render a subtle water distortion wave effect and darkened vignette overlay when player head is submerged. (Status: Partially implemented - basic water blue tint and bubbles rendered in `js/renderer.js`, but wave distortion shader and dark vignette overlay are pending implementation)
-- [ ] **New Task: Add Rain Particle Ripple Effects on Liquid Surfaces**: Spawn expanding ripple ring particles on top face of water/lava blocks during rainfall in `js/particles.js` and `js/renderer.js`.
-- [ ] **New Task: Add Directional Hurt Screen Shake**: Tilt player camera angle away from the direction of incoming entity damage in `js/player.js` and `js/renderer.js`.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
 
 ## 🧱 World Generation & Structures

@@ -22,7 +22,29 @@ class ParticleSystem {
         p.color = props.color || '#FFFFFF';
         p.size = props.size || 0.1;
         p.orbit = !!props.orbit;
+        p.type = props.type || 'standard';
+        p.radius = props.radius || 0.1;
+        p.maxRadius = props.maxRadius || 0.5;
+        p.maxLife = props.life !== undefined ? props.life : 1.0;
         return p;
+    }
+
+    spawnLiquidRipple(x, y, z, color = '#a0c0ff') {
+        const p = this.getParticle({
+            x: x,
+            y: y,
+            z: z,
+            vx: 0,
+            vy: 0,
+            vz: 0,
+            life: 0.6,
+            color: color,
+            size: 0.1,
+            type: 'ripple',
+            radius: 0.1,
+            maxRadius: 0.55
+        });
+        this.particles.push(p);
     }
 
     spawnVaultOrbit(x, y, z, color = '#00FFFF') {
@@ -119,13 +141,18 @@ class ParticleSystem {
                 continue;
             }
 
-            p.vy -= 15.0 * dt; // Gravity
-            p.x += p.vx * dt;
-            p.y += p.vy * dt;
-            p.z += p.vz * dt;
+            if (p.type === 'ripple') {
+                const progress = 1 - (p.life / (p.maxLife || 0.6));
+                p.radius = (p.maxRadius || 0.55) * progress;
+            } else {
+                p.vy -= 15.0 * dt; // Gravity
+                p.x += p.vx * dt;
+                p.y += p.vy * dt;
+                p.z += p.vz * dt;
 
-            // Simple collision check (floor)
-            if (p.y < 0) p.y = 0;
+                // Simple collision check (floor)
+                if (p.y < 0) p.y = 0;
+            }
         }
     }
 

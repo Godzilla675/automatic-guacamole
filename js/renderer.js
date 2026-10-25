@@ -235,11 +235,28 @@ class Renderer {
             }
         }
 
-        // Water Overlay & Deep Underwater Fog
+        // Water Overlay & Deep Underwater Fog with Vignette Shader & Distortion Waves
         const headBlock = this.game.world.getBlock(Math.floor(this.game.player.x), Math.floor(this.game.player.y + this.game.player.height - 0.2), Math.floor(this.game.player.z));
         if (headBlock === BLOCK.WATER) {
-            ctx.fillStyle = 'rgba(10, 40, 90, 0.85)';
+            // Dark Radial Vignette Shader with JSDOM fallback guard
+            if (ctx.createRadialGradient) {
+                const waterVignette = ctx.createRadialGradient(w / 2, h / 2, w * 0.15, w / 2, h / 2, w * 0.75);
+                waterVignette.addColorStop(0, 'rgba(12, 48, 98, 0.75)');
+                waterVignette.addColorStop(0.65, 'rgba(8, 30, 70, 0.88)');
+                waterVignette.addColorStop(1, 'rgba(0, 10, 30, 0.96)');
+                ctx.fillStyle = waterVignette;
+            } else {
+                ctx.fillStyle = 'rgba(10, 40, 90, 0.85)';
+            }
             ctx.fillRect(0, 0, w, h);
+
+            // Underwater Wave Distortion Scanlines
+            ctx.fillStyle = 'rgba(150, 220, 255, 0.08)';
+            const waveTime = Date.now() * 0.003;
+            for (let y = 0; y < h; y += 12) {
+                const shift = Math.sin(waveTime + y * 0.02) * 8;
+                ctx.fillRect(shift, y, w, 6);
+            }
 
             // Ambient underwater bubbles
             ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
@@ -273,8 +290,16 @@ class Renderer {
         const px = this.game.player.x;
         const py = this.game.player.y + this.game.player.height - 0.2 + headBob; // Camera Y with head bobbing
         const pz = this.game.player.z;
-        const yaw = this.game.player.yaw;
-        const pitch = this.game.player.pitch;
+        let yaw = this.game.player.yaw;
+        let pitch = this.game.player.pitch;
+
+        // Directional Hurt Screen Shake Camera Calculation
+        if (this.game.player.hurtCamTimer && this.game.player.hurtCamTimer > 0) {
+            const hurtProgress = this.game.player.hurtCamTimer / 0.4;
+            const hurtIntensity = Math.sin(hurtProgress * Math.PI) * 0.12;
+            pitch += hurtIntensity * Math.cos(this.game.player.hurtCamAngle || 0);
+            yaw += hurtIntensity * Math.sin(this.game.player.hurtCamAngle || 0);
+        }
 
         const sinY = Math.sin(-yaw);
         const cosY = Math.cos(-yaw);
@@ -827,12 +852,24 @@ class Renderer {
                  const rz2 = dy * sinP + rz * cosP;
 
                  if (rz2 > 0.1) {
-                     const size = (scale / rz2) * p.size;
                      const sx = (rx / rz2) * scale + w / 2;
                      const sy = h / 2 - (ry / rz2) * scale;
 
-                     ctx.fillStyle = p.color || 'white';
-                     ctx.fillRect(sx - size/2, sy - size/2, size, size);
+                     if (p.type === 'ripple') {
+                         const size = (scale / rz2) * (p.radius || 0.3);
+                         ctx.save();
+                         ctx.strokeStyle = p.color || '#a0c0ff';
+                         ctx.lineWidth = 2;
+                         ctx.globalAlpha = Math.max(0, p.life / (p.maxLife || 0.6));
+                         ctx.beginPath();
+                         ctx.ellipse(sx, sy, size, Math.max(1, size * 0.4), 0, 0, Math.PI * 2);
+                         ctx.stroke();
+                         ctx.restore();
+                     } else {
+                         const size = (scale / rz2) * p.size;
+                         ctx.fillStyle = p.color || 'white';
+                         ctx.fillRect(sx - size/2, sy - size/2, size, size);
+                     }
                  }
             });
         }
@@ -1148,6 +1185,13 @@ class Renderer {
         // Vertical lines with recoil expansion
         ctx.fillRect(cx - 1, cy - 10 - recoilOffset, 2, 8);
         ctx.fillRect(cx - 1, cy + 2 + recoilOffset, 2, 8);
+
+        // Directional Hurt Red Screen Overlay
+        if (this.game.player && this.game.player.hurtCamTimer && this.game.player.hurtCamTimer > 0) {
+            const hurtProgress = this.game.player.hurtCamTimer / 0.4;
+            ctx.fillStyle = `rgba(220, 20, 20, ${0.28 * hurtProgress})`;
+            ctx.fillRect(0, 0, w, h);
+        }
     }
 
     projectPoint(wx, wy, wz, cam) {
