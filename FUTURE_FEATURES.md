@@ -14,6 +14,9 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
+- [ ] **Bug: Turtle Shell Helmet Water Breathing Buff Missing**: Equipping Turtle Shell helmet (`BLOCK.ITEM_TURTLE_SHELL`) in helmet armor slot does not apply `water_breathing` status effect while player is submerged in water in `js/player.js`.
+- [ ] **Bug: Dispenser Fire Charge Shooting Mechanics Missing**: Dispensers receiving redstone power pulse when holding Fire Charges (`BLOCK.ITEM_FIRE_CHARGE`) do not launch explosive fireball entities in `js/world.js`.
+
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 
@@ -109,13 +112,14 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
-- [ ] **New Task: Add Blaze Mob Entity**: Flying Nether fortress mob shooting triple fireballs at players and dropping Blaze Rods.
-- [ ] **New Task: Add Ghast Mob Entity**: Floating Nether mob shooting explosive fireballs that can be deflected back with melee attacks.
 - [ ] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats spawning in villages that flee from fast player movements, can be tamed with raw fish, and repel Creepers.
 - [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
 - [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
 - [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish.
 - [ ] **New Task: Add Allay Entity Item Collecting & Note Block Sorting**: Allay passive mobs collecting dropped items matching held item and delivering them to active Note Blocks in `js/mob.js`.
+- [ ] **New Task: Add Redstone Comparator Container Item Frame Rotation Signal**: Redstone Comparators reading item frame rotation states behind opaque blocks to output proportional redstone signal levels (1-8) in `js/world.js`.
+- [ ] **New Task: Add Sculk Shrieker Warden Summoning Wave Progress**: Sculk Shrieker blocks tracking cumulative warning levels (1-4) across nearby activations before summoning a Warden mob entity in `js/world.js` and `js/mob.js`.
+- [ ] **New Task: Add Copper Grate Fluid Source Waterlogging Toggle**: Submerged Copper Grate blocks maintaining source block status and allowing fluid flow to adjacent waterlogged blocks in `js/world.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -137,8 +141,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
 - [ ] **New Task: Add Turtle Shell Helmet Water Breathing Buff**: Equipping Turtle Shell helmet granting Water Breathing status effect while submerged in water in `js/player.js`.
-- [ ] **New Task: Add Lead Leashing Mechanics for Passive Mobs**: Using Leads on passive mobs to leash and pull them around the world in `js/mob.js` and `js/item_use.js`.
-- [ ] **New Task: Add Lodestone & Compass Binding Mechanics**: Using Compass on Lodestone blocks to lock compass orientation to the Lodestone position in `js/item_use.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -151,10 +153,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
 - [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
 - [ ] **New Task: Add Crafter Redstone Pulse Lock Indicator**: Visual locking overlay indicator on Crafter UI when redstone power holds the craft cycle.
-- [ ] **New Task: Add Sculk Catalyst Mob Death Spread**: Sculk Catalyst blocks converting nearby defeated mob death positions into Sculk blocks and Sculk Veins in `js/world.js`.
-- [ ] **New Task: Add Fire Charge Dispenser Projectile Launch**: Dispensers shooting Fire Charges as explosive fireball entities when powered by redstone in `js/world.js`.
-- [ ] **New Task: Add Honey Block Sticky Sliding & Fall Damage Reduction**: Honey Blocks reducing player jump height, sliding speed on walls, and mitigating 80% fall damage in `js/player.js`.
-- [ ] **New Task: Add Lightning Rod Thunderstorm Charge Attraction**: Lightning Rods attracting lightning strikes within 128 blocks during thunderstorms in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 

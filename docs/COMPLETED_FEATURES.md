@@ -142,6 +142,13 @@ Total: 477 items.
 - [x] **New Task: Add Warden Sonic Boom Attack**: Powerful ranged sonic burst attack launched by Warden mobs through walls when vibrations are triggered.
 - [x] **New Task: Add Ominous Pillager Captains & Ominous Banner Drops**: Pillager Captain mobs spawning with banners on their heads that drop Ominous Banners to grant Bad Omen.
 - [x] **New Task: Add Wither Boss Entity**: Crafted multi-stage boss mob shooting explosive Wither skulls in `js/mob.js`.
+- [x] **New Task: Add Blaze Mob Entity**: Flying Nether mob shooting triple fireballs at players and dropping Blaze Rods in `js/mob.js`.
+- [x] **New Task: Add Ghast Mob Entity**: Floating Nether mob shooting explosive fireballs that can be deflected in `js/mob.js`.
+- [x] **New Task: Add Lead Leashing Mechanics for Passive Mobs**: Using Leads on passive mobs to leash, pull, and tie to fence posts in `js/mob.js`.
+- [x] **New Task: Add Lodestone & Compass Binding Mechanics**: Using Compass on Lodestone blocks to lock compass orientation to the Lodestone position in `js/interactions.js`.
+- [x] **New Task: Add Sculk Catalyst Mob Death Spread**: Sculk Catalyst blocks converting nearby defeated mob death positions into Sculk blocks and Sculk Veins in `js/game.js`.
+- [x] **New Task: Add Honey Block Sticky Sliding & Fall Damage Reduction**: Honey Blocks slowing wall sliding and mitigating fall damage in `js/player.js`.
+- [x] **New Task: Add Lightning Rod Thunderstorm Charge Attraction**: Lightning Rods attracting lightning strikes during thunderstorms in `js/world.js` and `js/game.js`.
 
 ## Items & Crafting
 - [x] **New Task: Add Brush Tool & Archaeology**: Brush tool definition, textures, crafting, and interaction with suspicious sand/gravel blocks to unearth items.
