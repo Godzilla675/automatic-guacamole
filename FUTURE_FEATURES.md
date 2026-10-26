@@ -108,11 +108,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
-- [ ] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats spawning in villages that flee from fast player movements, can be tamed with raw fish, and repel Creepers.
-- [ ] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating percentage damage taken by tamed wolves from explosions and hostile mob attacks.
-- [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
 - [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish.
-- [ ] **New Task: Add Allay Entity Item Collecting & Note Block Sorting**: Allay passive mobs collecting dropped items matching held item and delivering them to active Note Blocks in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
