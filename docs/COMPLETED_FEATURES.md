@@ -596,3 +596,7 @@ Total: 477 items.
 - [x] **Redstone Comparator Container Fullness Scaling**: Scaled redstone signal output based on container items and stack capacity for Chests, Furnaces, Hoppers, Droppers, Dispensers, Crafters in `js/world.js`.
 - [x] **Enderman Mob Block Picking & Carrying Mechanics**: Implemented block pickup and block placement AI mechanics (`pickUpBlock` / `placeBlock`) for `MOB_TYPE.ENDERMAN` in `js/mob.js` and `js/world.js`.
 - [x] **Sculk Shrieker Vibration Accumulation HUD Meter**: Rendered HUD noise vibration accumulation meter overlay in `js/ui.js` via `updateSculkVibrationMeter`.
+- [x] **New Task: Add Sculk Shrieker Warden Summoning Wave Progress**: Sculk Shrieker blocks tracking cumulative warning levels (1-4) across nearby activations before summoning a Warden mob entity in `js/world.js` and `js/mob.js`.
+- [x] **New Task: Add Copper Grate Fluid Source Waterlogging Toggle**: Submerged Copper Grate blocks maintaining source block status and allowing fluid flow to adjacent waterlogged blocks in `js/world.js`.
+- [x] **New Task: Add Redstone Comparator Container Item Frame Rotation Signal**: Redstone Comparators reading item frame rotation states behind opaque blocks to output proportional redstone signal levels (1-8) in `js/world.js` and `js/interactions.js`.
+- [x] **Hot-loop `window.*` lookups**: Optimized renderer/world code lookups for `window.BLOCKS[...]` and `window.BLOCK[...]` in `js/world.js` and `js/renderer.js`.

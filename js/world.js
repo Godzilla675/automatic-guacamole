@@ -79,6 +79,26 @@ class World {
         this.blockEntities.delete(`${x},${y},${z}`);
     }
 
+    isWaterlogged(x, y, z) {
+        const b = this.getBlock(x, y, z);
+        const isGrate = (b === window.BLOCK.COPPER_GRATE || b === window.BLOCK.EXPOSED_COPPER_GRATE || b === window.BLOCK.WEATHERED_COPPER_GRATE || b === window.BLOCK.OXIDIZED_COPPER_GRATE);
+        const entity = this.getBlockEntity(x, y, z);
+        return (entity && entity.waterlogged) || (isGrate && this.getMetadata(x, y, z) === 8);
+    }
+
+    setWaterlogged(x, y, z, waterlogged = true) {
+        let entity = this.getBlockEntity(x, y, z);
+        if (!entity) {
+            entity = { waterlogged };
+            this.setBlockEntity(x, y, z, entity);
+        } else {
+            entity.waterlogged = waterlogged;
+        }
+        if (waterlogged) {
+            this.activeFluids.add(`${x},${y},${z}`);
+        }
+    }
+
     setBlock(x, y, z, type) {
         const cx = Math.floor(x / this.chunkSize);
         const cz = Math.floor(z / this.chunkSize);
@@ -745,6 +765,17 @@ class World {
                         if (entity.vibrationLevel >= 15) {
                             entity.warningLevel = Math.min(4, (entity.warningLevel || 0) + 1);
                             entity.vibrationLevel = 0;
+
+                            if (entity.warningLevel >= 4) {
+                                const mobsList = (this.game && this.game.mobs) || (typeof window !== 'undefined' && window.game && window.game.mobs ? window.game.mobs : []);
+                                const mobTypeWarden = (typeof window !== 'undefined' && window.MOB_TYPE) ? window.MOB_TYPE.WARDEN : 'warden';
+                                const existingWarden = mobsList.find(m => m && !m.isDead && m.type === mobTypeWarden);
+                                const MobClass = (typeof Mob !== 'undefined') ? Mob : (typeof window !== 'undefined' ? window.Mob : null);
+                                if (!existingWarden && MobClass && this.game) {
+                                    const warden = new MobClass(this.game, sx + 0.5, sy + 1, sz + 0.5, mobTypeWarden);
+                                    if (this.game.mobs) this.game.mobs.push(warden);
+                                }
+                            }
                         }
 
                         if (this.game && this.game.ui && this.game.ui.updateSculkVibrationMeter) {
@@ -781,6 +812,8 @@ class World {
     }
 
     updateRedstone() {
+        const BLOCKS = (typeof window !== 'undefined' && window.BLOCKS) || {};
+        const BLOCK = (typeof window !== 'undefined' && window.BLOCK) || {};
         this.updateTargetBlocks(0.05);
         this.updateDroppers();
         this.updateDispensers();
@@ -927,7 +960,23 @@ class World {
                     } else if (nType === window.BLOCK.TARGET_BLOCK) {
                         const targetPower = this.getMetadata(n.x, n.y, n.z);
                         if (targetPower > inputPower) inputPower = targetPower;
+                    } else if (nType === window.BLOCK.ITEM_FRAME || nType === window.BLOCK.ITEM_GLOW_FRAME) {
+                        const frameRotation = this.getMetadata(n.x, n.y, n.z) || 1;
+                        if (frameRotation > inputPower) inputPower = frameRotation;
                     } else if (nDef) {
+                        if (nDef.solid) {
+                            const dx = n.x - x;
+                            const dy = n.y - y;
+                            const dz = n.z - z;
+                            const behindX = n.x + dx;
+                            const behindY = n.y + dy;
+                            const behindZ = n.z + dz;
+                            const behindType = this.getBlock(behindX, behindY, behindZ);
+                            if (behindType === window.BLOCK.ITEM_FRAME || behindType === window.BLOCK.ITEM_GLOW_FRAME) {
+                                const frameRotation = this.getMetadata(behindX, behindY, behindZ) || 1;
+                                if (frameRotation > inputPower) inputPower = frameRotation;
+                            }
+                        }
                         if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) inputPower = 15;
                         else if (nDef.isWire) {
                             const p = this.getMetadata(n.x, n.y, n.z);
@@ -1340,6 +1389,8 @@ class World {
     }
 
     updateFluids() {
+        const BLOCKS = (typeof window !== 'undefined' && window.BLOCKS) || {};
+        const BLOCK = (typeof window !== 'undefined' && window.BLOCK) || {};
         if (this.activeFluids.size === 0) return;
 
         // Process a batch
