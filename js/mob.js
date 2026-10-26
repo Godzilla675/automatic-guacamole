@@ -7,6 +7,7 @@ const MOB_TYPE = {
     SHEEP: 'sheep',
     WOLF: 'wolf',
     OCELOT: 'ocelot',
+    CAT: 'cat',
     VILLAGER: 'villager',
     IRON_GOLEM: 'iron_golem',
     CHICKEN: 'chicken',
@@ -292,15 +293,16 @@ class Mob extends Entity {
         }
 
         // Toggle Sit for Tamed Wolf/Cat
-        if ((this.type === MOB_TYPE.WOLF || this.type === MOB_TYPE.OCELOT) && this.isTamed && itemType === 0) { // Empty hand
+        if ((this.type === MOB_TYPE.WOLF || this.type === MOB_TYPE.OCELOT || this.type === MOB_TYPE.CAT) && this.isTamed && itemType === 0) { // Empty hand
             this.isSitting = !this.isSitting;
             return true;
         }
 
-        // Taming Ocelot
-        if (this.type === MOB_TYPE.OCELOT && !this.isTamed && itemType === BLOCK.ITEM_RAW_FISH) {
-             if (Math.random() < 0.3) {
+        // Taming Ocelot / Cat
+        if ((this.type === MOB_TYPE.OCELOT || this.type === MOB_TYPE.CAT) && !this.isTamed && itemType === (window.BLOCK ? window.BLOCK.ITEM_RAW_FISH : BLOCK.ITEM_RAW_FISH)) {
+             if (Math.random() < 0.4) {
                 this.isTamed = true;
+                this.type = MOB_TYPE.CAT;
                 this.color = '#000000'; // Black cat
                 if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z});
              }
@@ -479,8 +481,10 @@ class Mob extends Entity {
                 this.xpValue = 2;
                 break;
             case MOB_TYPE.OCELOT:
-                this.color = '#FFFF00';
+            case MOB_TYPE.CAT:
+                this.color = this.type === MOB_TYPE.CAT ? '#000000' : '#FFFF00';
                 this.height = 0.7;
+                this.width = 0.6;
                 this.speed = 1.8;
                 this.maxHealth = 10;
                 this.xpValue = 2;
@@ -734,6 +738,14 @@ class Mob extends Entity {
 
     takeDamage(amount, knockbackDir) {
         if (this.isDead) return;
+
+        // Wolf Armor Protection Multiplier (60% mitigation for tamed wolves equipped with wolf armor)
+        if (this.type === MOB_TYPE.WOLF && this.isTamed && this.hasWolfArmor) {
+            amount *= 0.4;
+            if (this.game && this.game.particles) {
+                this.game.particles.spawn(this.x, this.y + this.height * 0.5, this.z, '#C0C0C0', 8);
+            }
+        }
 
         // Enderman Teleport
         if (this.type === MOB_TYPE.ENDERMAN) {
@@ -1049,6 +1061,11 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.ALLAY) {
+            this.updateAllayAI(dt);
+            return;
+        }
+
         if (this.type === MOB_TYPE.BEE) {
             this.updateBeeAI(dt);
             return;
@@ -1071,6 +1088,11 @@ class Mob extends Entity {
 
         if (this.type === MOB_TYPE.PILLAGER) {
             this.updatePillagerAI(dt);
+            return;
+        }
+
+        if (this.type === MOB_TYPE.OCELOT || this.type === MOB_TYPE.CAT) {
+            this.updateCatAI(dt);
             return;
         }
 
@@ -1432,6 +1454,97 @@ class Mob extends Entity {
         }
     }
 
+    updateAllayAI(dt) {
+        // Floating/flying physics for Allay
+        this.vy += (Math.sin(Date.now() * 0.005) * 0.5 - this.vy) * 2.0 * dt;
+
+        if (this.heldItem && this.game) {
+            const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+            const targetType = typeof this.heldItem === 'object' ? this.heldItem.type : this.heldItem;
+
+            // Search for matching dropped items nearby (within 16 blocks)
+            if (this.game.drops && this.game.drops.length > 0) {
+                const targetDrop = this.game.drops.find(d => !d.pickedUp && d.type === targetType && Math.hypot(d.x - this.x, d.z - this.z) < 16);
+                if (targetDrop) {
+                    const dx = targetDrop.x - this.x;
+                    const dy = (targetDrop.y + 0.3) - this.y;
+                    const dz = targetDrop.z - this.z;
+                    const dist = Math.hypot(dx, dz);
+
+                    if (dist > 0.8) {
+                        this.yaw = Math.atan2(dx, dz);
+                        this.vx = Math.sin(this.yaw) * this.speed * 1.5;
+                        this.vz = Math.cos(this.yaw) * this.speed * 1.5;
+                        if (Math.abs(dy) > 0.2) this.vy += Math.sign(dy) * 3 * dt;
+                    } else {
+                        // Collect matching drop
+                        this.collectedCount = (this.collectedCount || 0) + (targetDrop.count || 1);
+                        targetDrop.pickedUp = true;
+                        this.game.drops = this.game.drops.filter(d => d !== targetDrop);
+                        if (window.soundManager) window.soundManager.play('place', { x: this.x, y: this.y, z: this.z });
+                    }
+                    return;
+                }
+            }
+
+            // If collected items, deliver to nearest active Note Block or Player
+            if (this.collectedCount && this.collectedCount > 0) {
+                // Find nearby Note Block
+                const noteBlockId = window.BLOCK ? window.BLOCK.NOTE_BLOCK : 385;
+                let destX = this.game.player ? this.game.player.x : this.x;
+                let destY = this.game.player ? this.game.player.y : this.y;
+                let destZ = this.game.player ? this.game.player.z : this.z;
+
+                // Search 10x10x10 around Allay for Note Block
+                let foundNoteBlock = false;
+                if (this.world) {
+                    const ax = Math.floor(this.x);
+                    const ay = Math.floor(this.y);
+                    const az = Math.floor(this.z);
+                    for (let x = ax - 5; x <= ax + 5 && !foundNoteBlock; x++) {
+                        for (let y = ay - 3; y <= ay + 3 && !foundNoteBlock; y++) {
+                            for (let z = az - 5; z <= az + 5 && !foundNoteBlock; z++) {
+                                if (this.world.getBlock(x, y, z) === noteBlockId) {
+                                    destX = x + 0.5;
+                                    destY = y + 1.0;
+                                    destZ = z + 0.5;
+                                    foundNoteBlock = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                const dx = destX - this.x;
+                const dz = destZ - this.z;
+                const dist = Math.hypot(dx, dz);
+
+                if (dist > 1.2) {
+                    this.yaw = Math.atan2(dx, dz);
+                    this.vx = Math.sin(this.yaw) * this.speed * 1.5;
+                    this.vz = Math.cos(this.yaw) * this.speed * 1.5;
+                } else {
+                    // Drop collected items
+                    if (this.game.drops && DropClass) {
+                        this.game.drops.push(new DropClass(this.game, this.x, this.y + 0.2, this.z, targetType, this.collectedCount));
+                        if (window.soundManager) window.soundManager.play('place', { x: this.x, y: this.y, z: this.z });
+                    }
+                    this.collectedCount = 0;
+                }
+                return;
+            }
+        }
+
+        // Default floating wander
+        this.moveTimer -= dt;
+        if (this.moveTimer <= 0) {
+            this.moveTimer = 2 + Math.random() * 3;
+            this.yaw = Math.random() * Math.PI * 2;
+            this.vx = Math.sin(this.yaw) * this.speed * 0.8;
+            this.vz = Math.cos(this.yaw) * this.speed * 0.8;
+        }
+    }
+
     updateBeeAI(dt) {
         // Flying floating motion around flowers/beehives
         this.moveTimer -= dt;
@@ -1510,7 +1623,63 @@ class Mob extends Entity {
         }
     }
 
+    updateCatAI(dt) {
+        if (this.isSitting) {
+            this.vx = 0;
+            this.vz = 0;
+            return;
+        }
+
+        const player = this.game.player;
+        if (player) {
+            const dx = player.x - this.x;
+            const dz = player.z - this.z;
+            const dist = Math.hypot(dx, dz);
+
+            if (this.isTamed) {
+                if (dist > 10) {
+                    this.x = player.x;
+                    this.y = player.y;
+                    this.z = player.z;
+                } else if (dist > 3) {
+                    this.yaw = Math.atan2(dx, dz);
+                    this.vx = Math.sin(this.yaw) * this.speed;
+                    this.vz = Math.cos(this.yaw) * this.speed;
+                } else {
+                    this.vx = 0;
+                    this.vz = 0;
+                }
+                return;
+            } else {
+                // Untamed stray cat/ocelot flees from fast player or close player
+                const playerSpeed = Math.hypot(player.vx || 0, player.vz || 0);
+                if (dist < 8 && (playerSpeed > 1.5 || dist < 4)) {
+                    this.yaw = Math.atan2(-dx, -dz);
+                    this.vx = Math.sin(this.yaw) * this.speed * 1.5;
+                    this.vz = Math.cos(this.yaw) * this.speed * 1.5;
+                    return;
+                }
+            }
+        }
+
+        this.updatePassiveAI(dt);
+    }
+
     updateArmadilloAI(dt) {
+        this.scuteShedTimer = (this.scuteShedTimer || 0) + dt;
+        // Shed scute every 50 seconds or when idle
+        if (this.scuteShedTimer >= 50.0) {
+            this.scuteShedTimer = 0;
+            const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+            const scuteBlock = window.BLOCK ? window.BLOCK.ITEM_ARMADILLO_SCUTE : (typeof BLOCK !== 'undefined' ? BLOCK.ITEM_ARMADILLO_SCUTE : 451);
+            if (this.game && this.game.drops && DropClass && scuteBlock) {
+                this.game.drops.push(new DropClass(this.game, this.x, this.y + 0.3, this.z, scuteBlock, 1));
+                if (window.soundManager) window.soundManager.play('place', { x: this.x, y: this.y, z: this.z });
+                if (this.game.particles) {
+                    this.game.particles.spawn(this.x, this.y + 0.3, this.z, '#A07050', 5);
+                }
+            }
+        }
         this.updatePassiveAI(dt);
     }
 
@@ -2006,9 +2175,9 @@ class Mob extends Entity {
 
             if (this.type === MOB_TYPE.CREEPER) {
                 // Creeper Logic
-                let ocelot = this.game.mobs.find(m => m !== this && m.type === MOB_TYPE.OCELOT && Math.hypot(m.x - this.x, m.z - this.z) < 10);
-                if (ocelot) {
-                    this.yaw = Math.atan2(this.x - ocelot.x, this.z - ocelot.z);
+                let cat = this.game.mobs.find(m => m !== this && (m.type === MOB_TYPE.OCELOT || m.type === MOB_TYPE.CAT) && !m.isDead && Math.hypot(m.x - this.x, m.z - this.z) < 10);
+                if (cat) {
+                    this.yaw = Math.atan2(this.x - cat.x, this.z - cat.z);
                     this.fuseTimer = 0; // stop fusing if running away
                 }
                 this.vx = Math.sin(this.yaw) * this.speed;

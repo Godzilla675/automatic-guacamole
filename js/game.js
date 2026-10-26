@@ -790,7 +790,10 @@ class Game {
 
         if (this.particles) {
              const def = BLOCKS[blockType];
-             if (def) this.particles.spawn(x+0.5, y+0.5, z+0.5, def.color, 10);
+             if (def) {
+                 const colorHex = def.color || def.top || '#888888';
+                 this.particles.spawn(x + 0.5, y + 0.5, z + 0.5, colorHex, 15);
+             }
         }
         window.soundManager.play('break', pos, blockType);
 

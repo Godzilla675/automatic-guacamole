@@ -7,6 +7,11 @@ these features, add a regression test rather than editing this list.
 Total: 477 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats/ocelots fleeing from fast player movements, taming with raw fish into `MOB_TYPE.CAT`, and Creepers fleeing within 10-block radius in `js/mob.js`.
+- [x] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating 60% incoming damage (0.4 multiplier) on tamed wolves in `js/mob.js`.
+- [x] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically shedding Armadillo Scute item drops in `js/mob.js`.
+- [x] **New Task: Add Allay Entity Item Collecting & Note Block Sorting**: Allay passive mobs collecting matching dropped items and delivering them to nearby Note Blocks or player in `js/mob.js`.
+- [x] **New Task: Add Block Break Particle Color Matching**: Block break particles sampling exact hex color / top face color from `BLOCKS` definition in `js/game.js`.
 - [x] **Bug: Turtle Shell Helmet Water Breathing Buff Missing**: Equipping Turtle Shell helmet (`BLOCK.ITEM_TURTLE_SHELL`) in helmet armor slot applies `water_breathing` status effect while player is submerged in water in `js/player.js`.
 - [x] **Bug: Dispenser Fire Charge Shooting Mechanics Missing**: Dispensers receiving redstone power pulse when holding Fire Charges (`BLOCK.ITEM_FIRE_CHARGE`) launch explosive fireball entities in `js/world.js`.
 - [x] **New Task: Add Directional Hurt Screen Shake**: Calculated camera tilt angle away from incoming damage sources and set `hurtCamTimer` in `js/player.js` & `js/renderer.js`.
