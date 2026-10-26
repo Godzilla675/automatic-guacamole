@@ -386,6 +386,7 @@ class World {
             const type = this.getBlock(n.x, n.y, n.z);
             const def = window.BLOCKS[type];
             if (def) {
+                if (type === window.BLOCK.REDSTONE_BLOCK) return true;
                 if ((type === window.BLOCK.REDSTONE_CLOCK || type === window.BLOCK.TARGET_BLOCK || def.isWire) && this.getMetadata(n.x, n.y, n.z) > 0) return true;
                 if (type === window.BLOCK.DETECTOR_RAIL && this.getMetadata(n.x, n.y, n.z) > 0) return true;
                 if (def.isTorch && type === window.BLOCK.REDSTONE_TORCH) {
@@ -443,11 +444,20 @@ class World {
         const meta = this.getMetadata(x, y, z);
         const dir = this.getDirectionVector(meta);
 
-        if (item.type === window.BLOCK.ITEM_WIND_CHARGE && this.game && this.game.spawnProjectile) {
+        const blockDef = window.BLOCK || global.BLOCK;
+        const fireChargeId = blockDef ? blockDef.ITEM_FIRE_CHARGE : 590;
+        const windChargeId = blockDef ? blockDef.ITEM_WIND_CHARGE : 410;
+
+        if (item.type === windChargeId && this.game && this.game.spawnProjectile) {
             const launchX = x + 0.5 + dir.x * 0.8;
             const launchY = y + 0.5 + dir.y * 0.8;
             const launchZ = z + 0.5 + dir.z * 0.8;
             this.game.spawnProjectile(launchX, launchY, launchZ, dir, 'wind_charge');
+        } else if (item.type === fireChargeId && this.game && this.game.spawnProjectile) {
+            const launchX = x + 0.5 + dir.x * 0.8;
+            const launchY = y + 0.5 + dir.y * 0.8;
+            const launchZ = z + 0.5 + dir.z * 0.8;
+            this.game.spawnProjectile(launchX, launchY, launchZ, dir, 'fireball');
         } else {
             const dropX = x + 0.5 + dir.x * 0.6;
             const dropY = y + 0.5 + dir.y * 0.6;

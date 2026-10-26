@@ -536,7 +536,9 @@ const BLOCK = {
     ITEM_POTION_STRENGTH: 585,
     ITEM_POTION_REGENERATION: 586,
     ITEM_ECHO_SHARD: 587,
-    ITEM_GOAT_HORN: 588
+    ITEM_GOAT_HORN: 588,
+    ITEM_TURTLE_SHELL: 589,
+    ITEM_FIRE_CHARGE: 590
 };
 
 const ARMOR = {
@@ -558,7 +560,8 @@ const ARMOR = {
     [BLOCK.ITEM_HELMET_DIAMOND]: { defense: 3, durability: 363, slot: 0 },
     [BLOCK.ITEM_CHESTPLATE_DIAMOND]: { defense: 8, durability: 528, slot: 1 },
     [BLOCK.ITEM_LEGGINGS_DIAMOND]: { defense: 6, durability: 495, slot: 2 },
-    [BLOCK.ITEM_BOOTS_DIAMOND]: { defense: 3, durability: 429, slot: 3 }
+    [BLOCK.ITEM_BOOTS_DIAMOND]: { defense: 3, durability: 429, slot: 3 },
+    [BLOCK.ITEM_TURTLE_SHELL]: { defense: 2, durability: 275, slot: 0 }
 };
 
 const TOOLS = {
@@ -1150,7 +1153,9 @@ const BLOCKS = {
     [BLOCK.ITEM_POTION_STRENGTH]: { name: 'Potion of Strength', color: '#FF0000', solid: false, isItem: true, icon: '🧪' },
     [BLOCK.ITEM_POTION_REGENERATION]: { name: 'Potion of Regeneration', color: '#FF1493', solid: false, isItem: true, icon: '🧪' },
     [BLOCK.ITEM_ECHO_SHARD]: { name: 'Echo Shard', color: '#008080', solid: false, isItem: true, icon: '💎' },
-    [BLOCK.ITEM_GOAT_HORN]: { name: 'Goat Horn', color: '#D2B48C', solid: false, isItem: true, icon: '📯' }
+    [BLOCK.ITEM_GOAT_HORN]: { name: 'Goat Horn', color: '#D2B48C', solid: false, isItem: true, icon: '📯' },
+    [BLOCK.ITEM_TURTLE_SHELL]: { name: 'Turtle Shell', color: '#2E8B57', solid: false, isItem: true, icon: '🐢' },
+    [BLOCK.ITEM_FIRE_CHARGE]: { name: 'Fire Charge', color: '#FF4500', solid: false, isItem: true, icon: '🔥' }
 };
 
 if (typeof window !== 'undefined') {
