@@ -14,9 +14,6 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Bug: Turtle Shell Helmet Water Breathing Buff Missing**: Equipping Turtle Shell helmet (`BLOCK.ITEM_TURTLE_SHELL`) in helmet armor slot does not apply `water_breathing` status effect while player is submerged in water in `js/player.js`.
-- [ ] **Bug: Dispenser Fire Charge Shooting Mechanics Missing**: Dispensers receiving redstone power pulse when holding Fire Charges (`BLOCK.ITEM_FIRE_CHARGE`) do not launch explosive fireball entities in `js/world.js`.
-
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 

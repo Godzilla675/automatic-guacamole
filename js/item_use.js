@@ -196,6 +196,21 @@ const ItemUse = (() => {
         return true;
     });
 
+    // Fire Charge Logic
+    register(BLOCK.ITEM_FIRE_CHARGE, function fireCharge(game, slot, eyePos, dir) {
+        game.spawnProjectile(game.player.x, game.player.y + game.player.height * 0.9, game.player.z, dir, 'fireball');
+        if (window.soundManager) window.soundManager.play('fire', {x: game.player.x, y: game.player.y, z: game.player.z});
+
+        if (game.player.gamemode !== 1) {
+            slot.count--;
+            if (slot.count <= 0) {
+                game.player.inventory[game.player.selectedSlot] = null;
+            }
+        }
+        if (game.ui && game.ui.updateHotbarUI) game.ui.updateHotbarUI();
+        return true;
+    });
+
     // Snowball Logic
     register(BLOCK.ITEM_SNOWBALL, function snowball(game, slot, eyePos, dir) {
         game.spawnProjectile(game.player.x, game.player.y + game.player.height * 0.9, game.player.z, dir, 'snowball');

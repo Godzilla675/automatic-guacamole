@@ -1802,6 +1802,8 @@ class TextureManager {
         this.textures[B.ITEM_LAPIS_LAZULI] = this.genGem('#00008B');
         this.textures[B.ITEM_ECHO_SHARD] = this.genGem('#008080');
         this.textures[B.ITEM_GOAT_HORN] = this.genGoatHornItem();
+        this.textures[B.ITEM_TURTLE_SHELL] = this.genTurtleShell();
+        this.textures[B.ITEM_FIRE_CHARGE] = this.genFireCharge();
         this.textures[B.ITEM_REDSTONE_DUST] = this.genDust('#FF0000');
         this.textures[B.ITEM_GLOWSTONE_DUST] = this.genDust('#FFD700');
         this.textures[B.ITEM_GUNPOWDER] = this.genDust('#696969');
@@ -2145,6 +2147,32 @@ class TextureManager {
         ctx.fillStyle = `rgb(${Math.min(255, rgb.r + 60)},${Math.min(255, rgb.g + 60)},${Math.min(255, rgb.b + 60)})`;
         ctx.fillRect(6, 5, 2, 2);
         ctx.fillRect(5, 8, 2, 1);
+        return c;
+    }
+
+    genTurtleShell() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#2E8B57';
+        ctx.fillRect(3, 5, 10, 7);
+        ctx.fillStyle = '#3CB371';
+        ctx.fillRect(5, 3, 6, 3);
+        ctx.fillStyle = '#1E4D2B';
+        ctx.fillRect(4, 7, 8, 1);
+        return c;
+    }
+
+    genFireCharge() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#FF4500';
+        ctx.beginPath();
+        ctx.arc(8, 8, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath();
+        ctx.arc(8, 8, 3, 0, Math.PI * 2);
+        ctx.fill();
         return c;
     }
 

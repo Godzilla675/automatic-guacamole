@@ -7,6 +7,8 @@ these features, add a regression test rather than editing this list.
 Total: 477 items.
 
 ## 🐛 Bugs Fixed
+- [x] **Bug: Turtle Shell Helmet Water Breathing Buff Missing**: Equipping Turtle Shell helmet (`BLOCK.ITEM_TURTLE_SHELL`) in helmet armor slot applies `water_breathing` status effect while player is submerged in water in `js/player.js`.
+- [x] **Bug: Dispenser Fire Charge Shooting Mechanics Missing**: Dispensers receiving redstone power pulse when holding Fire Charges (`BLOCK.ITEM_FIRE_CHARGE`) launch explosive fireball entities in `js/world.js`.
 - [x] **New Task: Add Directional Hurt Screen Shake**: Calculated camera tilt angle away from incoming damage sources and set `hurtCamTimer` in `js/player.js` & `js/renderer.js`.
 - [x] **New Task: Add Underwater Screen Distortion & Vignette Shader**: Rendered radial vignette shader overlay with JSDOM compatibility guard and animated wave line distortion in `js/renderer.js`.
 - [x] **New Task: Add Rain Particle Ripple Effects on Liquid Surfaces**: Spawned expanding ripple particles on water and lava surfaces during rainfall in `js/particles.js`, `js/game.js`, and `js/renderer.js`.

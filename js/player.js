@@ -712,13 +712,31 @@ class Player {
         const isSpectatorMode = (this.gamemode === 3 || this.spectator);
         const inWater = isSpectatorMode ? false : this.game.physics.getFluidIntersection({x: this.x, y: this.y, z: this.z, width: this.width, height: this.height});
         const headInWater = isSpectatorMode ? false : this.game.physics.getFluidIntersection({x: this.x, y: this.y + this.height * 0.8, z: this.z, width: 0.1, height: 0.1});
+
+        // Turtle Shell Helmet effect application
+        const blockDef = window.BLOCK || global.BLOCK;
+        const turtleShellId = blockDef ? blockDef.ITEM_TURTLE_SHELL : 589;
+        const hasTurtleShell = (this.armor && this.armor[0] && this.armor[0].type === turtleShellId);
+        if (headInWater && hasTurtleShell) {
+            if (!this.activeEffects || !this.activeEffects.some(e => e.name === 'water_breathing' || e.name === 'Water Breathing')) {
+                this.addEffect('water_breathing', '🫧', 10);
+            }
+        }
+
+        const hasWaterBreathing = this.activeEffects && this.activeEffects.some(e => e.name === 'water_breathing' || e.name === 'Water Breathing');
+
         if (headInWater && this.gamemode !== 1 && !isSpectatorMode) {
-            this.drowningTimer += dt;
-            if (this.drowningTimer >= 1.0) {
+            if (hasWaterBreathing) {
+                this.oxygen = this.maxOxygen;
                 this.drowningTimer = 0;
-                this.oxygen = Math.max(0, this.oxygen - 1);
-                if (this.oxygen === 0) {
-                    this.takeDamage(2);
+            } else {
+                this.drowningTimer += dt;
+                if (this.drowningTimer >= 1.0) {
+                    this.drowningTimer = 0;
+                    this.oxygen = Math.max(0, this.oxygen - 1);
+                    if (this.oxygen === 0) {
+                        this.takeDamage(2);
+                    }
                 }
             }
         } else {
