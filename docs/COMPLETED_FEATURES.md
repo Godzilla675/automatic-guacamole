@@ -180,6 +180,7 @@ Total: 477 items.
 - [x] **New Task: Add AutoSaveTimer Initialization**: Game constructor autoSaveTimer initialized to 0 for periodic auto-saves.
 
 ## User Interface
+- [x] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°) in `js/game.js`, `js/ui.js`, and `index.html`.
 - [x] **New Task: Add Chat History Log Toggle**: Hides chat overlay messages without disabling chat input box.
 - [x] **New Task: Add Offhand Quick Swap & HUD Container**: Offhand armor slot UI and 'F' key quick swap shortcut.
 - [x] **New Task: Add Death Screen Coordinates & Respawn Anchor Button**: Screen overlay upon player death showing death coordinates.

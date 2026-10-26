@@ -14,6 +14,9 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
+- [ ] **Bug: Mobile Touch Control Joystick Touch Event Loss**: On mobile touchscreens, rapidly swiping outside the virtual joystick bounding area causes touch event tracking to freeze or lose touch focus in `js/input.js`.
+- [ ] **Bug: Offhand Bow Arrow Consumption**: Firing a bow with arrows placed exclusively in the offhand slot fails to consume arrows or trigger bow firing animations in `js/player.js` and `js/item_use.js`.
+
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
 
@@ -44,7 +47,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] Music system
 - [ ] **Screenshot system**
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
-- [ ] **New Task: Add Block Break Particle Color Matching**: Break particles dynamically sampling exact texture/block color hex values rather than default grayscale.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
 
 ## 🧱 World Generation & Structures
@@ -57,7 +59,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Trial Chamber Secret Vault Passages**: Hidden redstone trapdoors in Trial Chamber corridors leading to bonus Vault reward rooms. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Trial Chamber Map Loot Tables**: Cartographer Villagers trading maps leading directly to Trial Chamber structures. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Ocean Monument Structures**: Ocean monuments generating in deep ocean biomes containing Sea Lanterns and Elder Guardians.
-- [ ] **New Task: Add Ominous Trials**: Harder version of Trial Chambers.
+- [ ] **New Task: Add End City Generation & Chorus Plants**: Generate End Cities on outer End islands with Chorus Plant flora harvesting in `js/structures.js`.
 - [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Status: Partially implemented - Biomes generated in biome.js, but smooth noise transitions and biome temperature gradients are pending agent implementation)
 - [ ] **New Task: Add End Cities**: Generate End Cities and End Ships in the outer islands of the End dimension with Purpur blocks and Shulker mobs.
 - [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld.
@@ -85,13 +87,14 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 ## 👾 Mobs & Entities
 
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
-- [ ] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics.
+- [ ] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics. (Status: Partially implemented - Boss health bar recognized in UI, but Ender Dragon mob entity AI and End Crystals logic in `js/mob.js` are pending implementation)
+- [ ] **New Task: Add Shulker Mob Entity**: Hostile End city mob that fires Levitation projectiles and drops Shulker Shells in `js/mob.js`.
+- [ ] **New Task: Add Wandering Trader Bartering**: Ambient Wandering Trader mob accepting Emeralds for biomes items in `js/mob.js`.
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles.
 - [ ] **New Task: Add Dolphins**: Neutral aquatic mobs in ocean biomes that guide players to treasure and grant Dolphin's Grace.
 - [ ] **New Task: Add Ravagers**: Large hostile beasts ridden by Illagers.
 - [ ] **New Task: Add Drowned**: Zombie variant that spawns underwater.
-- [ ] **New Task: Add Goats**: New mob that rams players and entities.
 - [ ] **New Task: Implement Mob Spawning Rules**: Mobs should spawn based on light levels and biome types.
 - [ ] **New Task: Implement Parrots**: Add Parrots that can imitate sounds and ride on player shoulders.
 - [ ] **New Task: Add Horses**: Rideable mob with different speeds and jump heights.
@@ -129,19 +132,19 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Turtle Shell Helmet Water Breathing Buff**: Equipping Turtle Shell helmet granting Water Breathing status effect while submerged in water in `js/player.js`.
+- [ ] **New Task: Add Shulker Box Color Dyeing**: Dye Shulker Boxes into 16 color variants using dyes at Crafting Table in `js/crafting.js`.
+- [ ] **New Task: Add Potion of Levitation Brewing**: Brew Shulker Shells into Levitation Potions at Brewing Stand in `js/crafting.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
 - [ ] **New Task: Add Command Blocks**: Blocks that can execute server/world commands when powered by redstone.
+- [ ] **New Task: Add Sculk Sensor Calibration with Calibrated Sculk Sensors**: Calibrated Sculk Sensor block filtering vibration frequencies using side redstone input signal in `js/world.js`.
 - [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated.
 - [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures.
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
-- [ ] **New Task: Add Crafter Block Comparator Pulse Stability**: Stabilize comparator signal outputs during rapid redstone auto-crafting sequences.
-- [ ] **New Task: Add Crafter Redstone Pulse Lock Indicator**: Visual locking overlay indicator on Crafter UI when redstone power holds the craft cycle.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -155,8 +158,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue, quest tracking, and task completion rewards.
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
-- [ ] **New Task: Add FOV Camera Slider in Settings**: Settings slider allowing players to customize camera Field of View (60° to 110°).
-- [ ] **New Task: Add Spyglass Zoom Vignette FOV Effect**: Using Spyglass narrowing camera FOV and applying a circular telescope overlay in `js/ui.js`.
+- [ ] **New Task: Add Mobile Touch Controls HUD Sensitivity Slider**: Settings UI slider for adjusting touch joystick and camera swipe sensitivity in `js/ui.js`.
+- [ ] **New Task: Add Custom Keybinds Profile Import/Export**: Settings UI buttons to export and import player keybinding configurations as JSON in `js/ui.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
