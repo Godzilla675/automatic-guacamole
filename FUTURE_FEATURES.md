@@ -20,7 +20,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Move placement rules out of `Game.placeBlock()`**: ~400 lines of per-block placement special cases. Candidate for a `BlockPlacement` registry keyed by block id (orientation, multi-block placement, "can place on" rules).
 - [ ] **Per-frame block-entity ticking registry**: `Game.update()` has a growing `if (entity.type === ...)` chain for furnaces/brewing/crops/etc. Register tick handlers by entity type instead.
 - [ ] **Convert legacy tests to `tests/helpers/game_env.js`**: ~70 test files each hand-roll a JSDOM and leak globals; they only work because `npm test` isolates files per process. Migrate opportunistically whenever you touch a file, and name test files after the feature (not "batch17").
-- [ ] **Hot-loop `window.*` lookups**: renderer/world code reads `window.BLOCKS[...]` inside per-block loops. Cache `BLOCKS`/`BLOCK` in local consts at the top of hot functions (free in browsers, 2x faster under JSDOM).
 - [ ] **Block light is computed but never rendered**: `World.setBlock()` runs `recalcLocalLight()` (a 31x31x31 scan) for every gameplay block change, yet `renderer.js` ignores `b.light` (the brightness line is commented out). Either use the light values for shading or make the recalculation incremental; worldgen already skips it (see `_generating` in `js/world.js`).
 - [ ] **Parked chunks are memory-only**: edited chunks that scroll out of range are kept in `World.unloadedChunks` (capped at 512, LRU) and included in saves, but a very long session can still evict old edits. Spill evicted chunks to IndexedDB instead of dropping them.
 - [ ] **LOD (Level of Detail) system**
@@ -114,9 +113,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically dropping Armadillo Scutes over time when idle.
 - [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish.
 - [ ] **New Task: Add Allay Entity Item Collecting & Note Block Sorting**: Allay passive mobs collecting dropped items matching held item and delivering them to active Note Blocks in `js/mob.js`.
-- [ ] **New Task: Add Redstone Comparator Container Item Frame Rotation Signal**: Redstone Comparators reading item frame rotation states behind opaque blocks to output proportional redstone signal levels (1-8) in `js/world.js`.
-- [ ] **New Task: Add Sculk Shrieker Warden Summoning Wave Progress**: Sculk Shrieker blocks tracking cumulative warning levels (1-4) across nearby activations before summoning a Warden mob entity in `js/world.js` and `js/mob.js`.
-- [ ] **New Task: Add Copper Grate Fluid Source Waterlogging Toggle**: Submerged Copper Grate blocks maintaining source block status and allowing fluid flow to adjacent waterlogged blocks in `js/world.js`.
 
 ## 🧰 Items, Equipment & Crafting
 

@@ -351,7 +351,7 @@ class Renderer {
                     const rz2 = dy * sinP + rz * cosP; // Depth
 
                     if (rz2 > 0.1) {
-                        const blockDef = window.BLOCKS[b.type];
+                        const blockDef = (typeof window !== 'undefined' && window.BLOCKS) ? window.BLOCKS[b.type] : {};
                         if (blockDef && blockDef.isStair) {
                             // Stairs: Push 2 parts
                             // 1. Bottom Half (Center at y - 0.25)

@@ -617,6 +617,19 @@ const BlockInteractions = (() => {
         return true;
     });
 
+    // Item Frame and Glow Item Frame Rotation Interaction
+    register([BLOCK.ITEM_FRAME, BLOCK.ITEM_GLOW_FRAME], function itemFrame(game, x, y, z, blockType, pos) {
+        const currentRotation = game.world.getMetadata(x, y, z) || 1;
+        const newRotation = (currentRotation % 8) + 1;
+        game.world.setMetadata(x, y, z, newRotation);
+        game.world.scheduleNeighborRedstoneUpdates(x, y, z);
+        if (window.soundManager) window.soundManager.play('place', pos);
+        if (game.ui && game.ui.showNotification) {
+            game.ui.showNotification(`Item Frame rotated: position ${newRotation}/8`);
+        }
+        return true;
+    });
+
     // TNT
     register(BLOCK.TNT, function tnt(game, x, y, z, blockType, pos) {
         game.world.setBlock(x, y, z, BLOCK.AIR);
