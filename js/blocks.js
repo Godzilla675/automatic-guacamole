@@ -538,7 +538,12 @@ const BLOCK = {
     ITEM_ECHO_SHARD: 587,
     ITEM_GOAT_HORN: 588,
     ITEM_TURTLE_SHELL: 589,
-    ITEM_FIRE_CHARGE: 590
+    ITEM_FIRE_CHARGE: 590,
+    ITEM_NAME_TAG: 591,
+    DRIPSTONE: 592,
+    POINTED_DRIPSTONE: 593,
+    WEEPING_VINES: 594,
+    ITEM_WEEPING_VINES: 595
 };
 
 const ARMOR = {
@@ -1155,7 +1160,12 @@ const BLOCKS = {
     [BLOCK.ITEM_ECHO_SHARD]: { name: 'Echo Shard', color: '#008080', solid: false, isItem: true, icon: '💎' },
     [BLOCK.ITEM_GOAT_HORN]: { name: 'Goat Horn', color: '#D2B48C', solid: false, isItem: true, icon: '📯' },
     [BLOCK.ITEM_TURTLE_SHELL]: { name: 'Turtle Shell', color: '#2E8B57', solid: false, isItem: true, icon: '🐢' },
-    [BLOCK.ITEM_FIRE_CHARGE]: { name: 'Fire Charge', color: '#FF4500', solid: false, isItem: true, icon: '🔥' }
+    [BLOCK.ITEM_FIRE_CHARGE]: { name: 'Fire Charge', color: '#FF4500', solid: false, isItem: true, icon: '🔥' },
+    [BLOCK.ITEM_NAME_TAG]: { name: 'Name Tag', color: '#F5DEB3', solid: false, isItem: true, icon: '🏷️' },
+    [BLOCK.DRIPSTONE]: { name: 'Dripstone Block', color: '#8B7355', top: '#9C8262', solid: true, icon: '🪨', hardness: 1.5, tool: 'pickaxe' },
+    [BLOCK.POINTED_DRIPSTONE]: { name: 'Pointed Dripstone', color: '#8B7355', solid: false, transparent: true, icon: '🗡️', hardness: 0.5, tool: 'pickaxe', drop: { type: 593, count: 1 } },
+    [BLOCK.WEEPING_VINES]: { name: 'Weeping Vines', color: '#8B0000', solid: false, transparent: true, icon: '🌿', hardness: 0.2, isVine: true, drop: { type: 595, count: 1 } },
+    [BLOCK.ITEM_WEEPING_VINES]: { name: 'Weeping Vines', color: '#8B0000', solid: false, isItem: true, icon: '🌿' }
 };
 
 if (typeof window !== 'undefined') {

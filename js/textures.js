@@ -174,6 +174,11 @@ class TextureManager {
         this.textures[B.CORAL_HORN] = this.genCoral('#FFD700');
         this.textures[B.CORAL_FIRE] = this.genCoral('#FF4500');
         this.textures[B.CORAL_BUBBLE] = this.genCoral('#9370DB');
+        this.textures[B.ITEM_NAME_TAG] = this.genNameTagItem();
+        this.textures[B.DRIPSTONE] = this.genStone();
+        this.textures[B.POINTED_DRIPSTONE] = this.genPickaxe('#8B7355', '#8B7355');
+        this.textures[B.WEEPING_VINES] = this.genLeaves('#8B0000', '#550000');
+        this.textures[B.ITEM_WEEPING_VINES] = this.genFeather();
         this.textures[B.SMITHING_TABLE] = this.genSmithingTable();
         this.textures[B.BEEHIVE] = this.genBeehive();
         this.textures[B.HOPPER] = this.genHopper();
@@ -3763,6 +3768,19 @@ class TextureManager {
         ctx.fillRect(10, 2, 2, 5);
         ctx.fillRect(7, 1, 2, 5);
         ctx.fillRect(4, 6, 8, 2);
+        return c;
+    }
+
+    genNameTagItem() {
+        const c = this.createCanvas();
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#F5DEB3';
+        ctx.fillRect(3, 4, 10, 8);
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(2, 7, 2, 2);
+        ctx.fillStyle = '#A0522D';
+        ctx.fillRect(5, 6, 6, 1);
+        ctx.fillRect(5, 9, 6, 1);
         return c;
     }
 

@@ -150,6 +150,28 @@ class Mob extends Entity {
     }
 
     interact(itemType) {
+        // Name Tag Naming
+        const player = this.game ? this.game.player : null;
+        const heldItem = player ? (typeof player.getHeldItem === 'function' ? player.getHeldItem() : (player.inventory ? player.inventory[player.selectedSlot || 0] : null)) : null;
+        const nameTagId = (window.BLOCK && window.BLOCK.ITEM_NAME_TAG) ? window.BLOCK.ITEM_NAME_TAG : (typeof BLOCK !== 'undefined' ? BLOCK.ITEM_NAME_TAG : 591);
+
+        if (heldItem && heldItem.type === nameTagId && heldItem.name) {
+            this.customName = heldItem.name;
+            this.preventDespawn = true;
+            heldItem.count--;
+            if (heldItem.count <= 0 && player && player.inventory) {
+                player.inventory[player.selectedSlot] = null;
+            }
+            if (window.soundManager) window.soundManager.play('place', { x: this.x, y: this.y, z: this.z });
+            if (this.game && this.game.ui && this.game.ui.showNotification) {
+                this.game.ui.showNotification(`Named mob '${this.customName}'!`);
+            }
+            if (this.game && this.game.ui && this.game.ui.updateHotbarUI) {
+                this.game.ui.updateHotbarUI();
+            }
+            return true;
+        }
+
         if (this.breedingCooldown > 0 || this.isBaby) return false;
 
         // Villager / Wandering Trader Trading

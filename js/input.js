@@ -6,15 +6,18 @@ class InputManager {
         this.lookTouch = { active: false, startX: 0, startY: 0 };
 
         let sens = null;
+        let touchSens = null;
         let saved = null;
         try {
             if (typeof localStorage !== 'undefined' && localStorage.getItem) {
                 sens = localStorage.getItem('voxel_sensitivity');
+                touchSens = localStorage.getItem('voxel_touch_sensitivity');
                 saved = localStorage.getItem('voxel_keybinds');
             }
         } catch (e) {}
 
         this.sensitivity = parseFloat(sens) || 1.0;
+        this.touchSensitivity = parseFloat(touchSens) || 1.0;
 
         // Default Keybinds
         this.keybinds = {
@@ -328,8 +331,9 @@ class InputManager {
                 e.preventDefault();
                 const dx = e.touches[0].clientX - this.lookTouch.startX;
                 const dy = e.touches[0].clientY - this.lookTouch.startY;
-                this.game.player.yaw -= dx * 0.005;
-                this.game.player.pitch -= dy * 0.005;
+                const touchSens = (this.touchSensitivity || 1.0) * 0.005;
+                this.game.player.yaw -= dx * touchSens;
+                this.game.player.pitch -= dy * touchSens;
                 this.game.player.pitch = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.game.player.pitch));
                 this.lookTouch.startX = e.touches[0].clientX;
                 this.lookTouch.startY = e.touches[0].clientY;
