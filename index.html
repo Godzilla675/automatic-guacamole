@@ -414,6 +414,10 @@
                 <label for="sensitivity-slider">Sensitivity: <span id="sensitivity-value">1.0</span></label>
                 <input type="range" id="sensitivity-slider" min="0.1" max="5.0" step="0.1" value="1.0">
             </div>
+            <div class="setting-item">
+                <label for="touch-sensitivity-slider">Touch Sensitivity: <span id="touch-sensitivity-value">1.0</span></label>
+                <input type="range" id="touch-sensitivity-slider" min="0.1" max="5.0" step="0.1" value="1.0">
+            </div>
 
             <h3>UI</h3>
             <div class="setting-item">
@@ -423,7 +427,12 @@
             <div id="keybinds-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
                 <!-- Dynamically populated -->
             </div>
-            <button type="button" id="reset-controls" class="menu-button" style="font-size: 14px; padding: 5px 10px;">Reset Defaults</button>
+            <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                <button type="button" id="export-keybinds" class="menu-button" style="font-size: 14px; padding: 5px 10px;">Export Keybinds</button>
+                <button type="button" id="import-keybinds" class="menu-button" style="font-size: 14px; padding: 5px 10px;">Import Keybinds</button>
+                <input type="file" id="import-keybinds-file" accept=".json" style="display: none;">
+                <button type="button" id="reset-controls" class="menu-button" style="font-size: 14px; padding: 5px 10px;">Reset Defaults</button>
+            </div>
 
             <hr style="margin: 20px 0; border-color: #555;">
             <button type="button" id="close-settings" class="menu-button">Back</button>

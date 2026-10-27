@@ -170,6 +170,47 @@ class StructureManager {
         if (structureName === 'amethyst_geode') {
             this.generateAmethystGeode(chunk, x, y, z);
         }
+        if (structureName === 'dripstone_cluster') {
+            this.generateDripstoneCluster(chunk, x, y, z);
+        }
+    }
+
+    generateDripstoneCluster(chunk, x, y, z, sync = false) {
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const wx = chunk.cx * 16 + x;
+        const wz = chunk.cz * 16 + z;
+        const dripstoneBlock = BLOCK.DRIPSTONE || BLOCK.STONE;
+        const pointedDripstone = BLOCK.POINTED_DRIPSTONE || BLOCK.STONE;
+
+        // Create dripstone ceiling and floor base
+        for (let dx = -2; dx <= 2; dx++) {
+            for (let dz = -2; dz <= 2; dz++) {
+                if (Math.abs(dx) + Math.abs(dz) <= 3) {
+                    this.world.setBlock(wx + dx, y + 4, wz + dz, dripstoneBlock);
+                    this.world.setBlock(wx + dx, y - 1, wz + dz, dripstoneBlock);
+
+                    // Stalactite (hanging downwards)
+                    if (Math.random() < 0.6) {
+                        const len = 1 + Math.floor(Math.random() * 3);
+                        for (let h = 0; h < len; h++) {
+                            if (this.world.getBlock(wx + dx, y + 3 - h, wz + dz) === BLOCK.AIR) {
+                                this.world.setBlock(wx + dx, y + 3 - h, wz + dz, pointedDripstone);
+                            }
+                        }
+                    }
+
+                    // Stalagmite (growing upwards)
+                    if (Math.random() < 0.6) {
+                        const len = 1 + Math.floor(Math.random() * 2);
+                        for (let h = 0; h < len; h++) {
+                            if (this.world.getBlock(wx + dx, y + h, wz + dz) === BLOCK.AIR) {
+                                this.world.setBlock(wx + dx, y + h, wz + dz, pointedDripstone);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     generateAmethystGeode(chunk, x, y, z, sync = false) {

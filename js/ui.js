@@ -122,6 +122,20 @@ class UIManager {
             });
         }
 
+        const touchSensitivitySlider = document.getElementById('touch-sensitivity-slider');
+        if (touchSensitivitySlider) {
+            const currentTouchSens = (this.game && this.game.input && this.game.input.touchSensitivity) ? this.game.input.touchSensitivity : 1.0;
+            touchSensitivitySlider.value = currentTouchSens;
+            const displayEl = document.getElementById('touch-sensitivity-value');
+            if (displayEl) displayEl.textContent = currentTouchSens.toFixed(1);
+            touchSensitivitySlider.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                if (this.game && this.game.input) this.game.input.touchSensitivity = val;
+                setStorage('voxel_touch_sensitivity', val);
+                if (displayEl) displayEl.textContent = val.toFixed(1);
+            });
+        }
+
         // UI Scale
         const scaleVal = getStorage('voxel_ui_scale') || 1.0;
         if (document.documentElement && document.documentElement.style) {
@@ -191,7 +205,19 @@ class UIManager {
             });
         }
 
-        // Controls Reset
+        // Keybind Export / Import / Reset
+        const exportBtn = document.getElementById('export-keybinds');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => this.exportKeybinds());
+        }
+
+        const importBtn = document.getElementById('import-keybinds');
+        const importFileInput = document.getElementById('import-keybinds-file');
+        if (importBtn && importFileInput) {
+            importBtn.addEventListener('click', () => importFileInput.click());
+            importFileInput.addEventListener('change', (e) => this.importKeybinds(e));
+        }
+
         const resetBtn = document.getElementById('reset-controls');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
@@ -212,7 +238,8 @@ class UIManager {
                         inventory: 'KeyE',
                         fly: 'KeyF',
                         chat: 'KeyT',
-                        crafting: 'KeyC'
+                        crafting: 'KeyC',
+                        offhandSwap: 'KeyF'
                     };
                     this.renderSettings();
                 }
@@ -674,6 +701,47 @@ class UIManager {
         }
 
         this.renderSettings();
+    }
+
+    exportKeybinds() {
+        if (!this.game || !this.game.input || !this.game.input.keybinds) return;
+        const jsonStr = JSON.stringify(this.game.input.keybinds, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'voxel_keybinds.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        if (this.showNotification) this.showNotification("Exported keybind profile!");
+    }
+
+    importKeybinds(e) {
+        if (!e || !e.target || !e.target.files || !e.target.files[0]) return;
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const parsed = JSON.parse(event.target.result);
+                if (typeof parsed === 'object' && parsed !== null) {
+                    this.game.input.keybinds = { ...this.game.input.keybinds, ...parsed };
+                    try {
+                        if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                            localStorage.setItem('voxel_keybinds', JSON.stringify(this.game.input.keybinds));
+                        }
+                    } catch (err) {}
+                    this.renderSettings();
+                    if (this.showNotification) this.showNotification("Successfully imported keybind profile!");
+                }
+            } catch (err) {
+                console.error("Failed to parse keybinds JSON:", err);
+                if (this.showNotification) this.showNotification("Error: Invalid keybind JSON profile");
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
     }
 
     renderSettings() {

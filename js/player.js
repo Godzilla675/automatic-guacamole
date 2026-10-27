@@ -703,10 +703,11 @@ class Player {
             this.vy = -2.0; // Slide down slowly on honey block
         }
 
-        // Scaffolding Check
+        // Scaffolding & Vine Climbing Check
         const playerBox = { x: this.x, y: this.y, z: this.z, width: this.width, height: this.height };
         const collidingBlocksScaffold = this.game.physics ? this.game.physics.getCollidingBlocks(playerBox) : [];
-        const inScaffolding = collidingBlocksScaffold.some(b => b.type === window.BLOCK.SCAFFOLDING);
+        const weepingVineBlock = window.BLOCK ? window.BLOCK.WEEPING_VINES : 594;
+        const inScaffolding = collidingBlocksScaffold.some(b => b.type === window.BLOCK.SCAFFOLDING || b.type === weepingVineBlock);
 
         // Fluid Physics & Drowning
         const isSpectatorMode = (this.gamemode === 3 || this.spectator);

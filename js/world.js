@@ -19,6 +19,7 @@ class World {
         this.activeFluids = new Set();
         this.activeRedstone = new Set();
         this.eyeblossoms = new Set();
+        this.weepingVines = new Set();
         this.fluidTickTimer = 0;
 
         this.dimension = 'overworld'; // 'overworld', 'nether'
@@ -126,6 +127,14 @@ class World {
             this.eyeblossoms.add(ekey);
         } else if (oldType === BLOCK.EYEBLOSSOM) {
             this.eyeblossoms.delete(ekey);
+        }
+
+        if (!this.weepingVines) this.weepingVines = new Set();
+        const weepingVineId = (window.BLOCK && window.BLOCK.WEEPING_VINES) ? window.BLOCK.WEEPING_VINES : (typeof BLOCK !== 'undefined' ? BLOCK.WEEPING_VINES : 594);
+        if (type === weepingVineId) {
+            this.weepingVines.add(ekey);
+        } else if (oldType === weepingVineId) {
+            this.weepingVines.delete(ekey);
         }
 
         if (oldType === BLOCK.INFESTED_STONE && type === BLOCK.AIR) {
@@ -382,6 +391,64 @@ class World {
                  }
                  this.removeBlockEntity(x, y, z);
              }
+        } else if (type === (window.BLOCK && window.BLOCK.POINTED_DRIPSTONE ? window.BLOCK.POINTED_DRIPSTONE : (typeof BLOCK !== 'undefined' ? BLOCK.POINTED_DRIPSTONE : 593))) {
+             this.updateDripstone(x, y, z);
+        }
+    }
+
+    updateDripstone(x, y, z) {
+        const BLOCKS = (typeof window !== 'undefined' && window.BLOCKS) ? window.BLOCKS : (typeof global !== 'undefined' ? global.BLOCKS : {});
+        const BLOCK = (typeof window !== 'undefined' && window.BLOCK) ? window.BLOCK : (typeof global !== 'undefined' ? global.BLOCK : {});
+        const above = this.getBlock(x, y + 1, z);
+        const below = this.getBlock(x, y - 1, z);
+        const aboveDef = BLOCKS[above];
+        const belowDef = BLOCKS[below];
+
+        // Check if pointed dripstone is hanging from ceiling or standing on floor
+        const isHanging = aboveDef && (aboveDef.solid || above === BLOCK.DRIPSTONE || above === BLOCK.POINTED_DRIPSTONE);
+        const isStanding = belowDef && (belowDef.solid || below === BLOCK.DRIPSTONE || below === BLOCK.POINTED_DRIPSTONE);
+
+        if (!isHanging && !isStanding) {
+            // Unsupported pointed dripstone breaks or falls
+            this.setBlock(x, y, z, BLOCK.AIR);
+
+            // Falling stalactite mechanics if dropped from high ceiling
+            let fallY = y - 1;
+            let hitEntity = false;
+
+            while (fallY >= 0) {
+                const b = this.getBlock(x, fallY, z);
+                if (window.BLOCKS && window.BLOCKS[b] && window.BLOCKS[b].solid) break;
+
+                // Check collision with player or mobs
+                if (this.game && this.game.player) {
+                    const p = this.game.player;
+                    if (Math.floor(p.x) === x && Math.floor(p.z) === z && Math.floor(p.y) === fallY) {
+                        p.takeDamage(6);
+                        hitEntity = true;
+                        break;
+                    }
+                }
+                if (this.game && this.game.mobs) {
+                    for (const mob of this.game.mobs) {
+                        if (!mob.isDead && Math.floor(mob.x) === x && Math.floor(mob.z) === z && Math.floor(mob.y) === fallY) {
+                            mob.takeDamage(8);
+                            hitEntity = true;
+                            break;
+                        }
+                    }
+                }
+                if (hitEntity) break;
+                fallY--;
+            }
+
+            if (this.game && this.game.drops) {
+                const DropClass = window.Drop || global.Drop || (typeof Drop !== 'undefined' ? Drop : null);
+                if (DropClass) {
+                    this.game.drops.push(new DropClass(this.game, x + 0.5, fallY + 1.0, z + 0.5, BLOCK.POINTED_DRIPSTONE, 1));
+                }
+            }
+            if (window.soundManager) window.soundManager.play('break', { x, y, z });
         }
     }
 
@@ -819,6 +886,7 @@ class World {
         this.updateDispensers();
         this.updateHoppers();
         this.updateFireSpread();
+        this.updateWeepingVines();
         if (this.activeRedstone.size === 0) return;
 
         // Process a batch (breadth-firstish)
@@ -1386,6 +1454,32 @@ class World {
     updateWaterFlow() {
         // Alias for tests
         this.updateFluids();
+    }
+
+    updateWeepingVines() {
+        if (!this.weepingVines) this.weepingVines = new Set();
+        if (this.weepingVines.size === 0) return;
+
+        this.weepingVineTick = (this.weepingVineTick || 0) + 1;
+        if (this.weepingVineTick % 60 !== 0) return;
+
+        const BLOCK = window.BLOCK || global.BLOCK;
+        const vineBlock = BLOCK.WEEPING_VINES || 594;
+        const processing = Array.from(this.weepingVines);
+
+        for (const key of processing) {
+            const [x, y, z] = key.split(',').map(Number);
+            if (this.getBlock(x, y, z) !== vineBlock) {
+                this.weepingVines.delete(key);
+                continue;
+            }
+
+            // Downward growth: grow down if below is AIR
+            if (this.getBlock(x, y - 1, z) === BLOCK.AIR && Math.random() < 0.25) {
+                this.setBlock(x, y - 1, z, vineBlock);
+                this.weepingVines.add(`${x},${y - 1},${z}`);
+            }
+        }
     }
 
     updateFluids() {
@@ -1983,6 +2077,17 @@ class World {
                              }
                              if (y === 35 && Math.random() < 0.005) {
                                  this.structureManager.generateNetherFortress(chunk, x, y, z);
+                             }
+
+                             // Weeping Vines hanging underneath netherrack
+                             if (y > 20 && Math.random() < 0.08) {
+                                 const weepingVinesBlock = BLOCK.WEEPING_VINES || 594;
+                                 const vineLen = 1 + Math.floor(Math.random() * 4);
+                                 for (let v = 1; v <= vineLen; v++) {
+                                     if (chunk.getBlock(x, y - v, z) === BLOCK.AIR) {
+                                         chunk.setBlock(x, y - v, z, weepingVinesBlock);
+                                     } else break;
+                                 }
                              }
 
                          // Ores

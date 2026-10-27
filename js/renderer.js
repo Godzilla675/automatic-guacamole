@@ -771,6 +771,18 @@ class Renderer {
                  ctx.fillRect(sx - size/4, sy - size, size/2, size);
              }
 
+             // Custom Name Tag Overhead Display
+             if (mob.customName) {
+                 ctx.save();
+                 ctx.fillStyle = '#FFFFFF';
+                 ctx.font = 'bold 12px Arial';
+                 ctx.textAlign = 'center';
+                 ctx.shadowColor = 'black';
+                 ctx.shadowBlur = 3;
+                 ctx.fillText(mob.customName, sx, sy - size - 6);
+                 ctx.restore();
+             }
+
              // Mob Taking Damage Red Flash Overlay
              if (mob.lastDamageTime && Date.now() - mob.lastDamageTime < 300) {
                  ctx.save();
