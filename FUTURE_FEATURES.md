@@ -46,6 +46,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Screenshot system**
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
+- [ ] **New Task: Add Nether Portal Warp Shader**: Screen vignette and distortion shader effect while standing inside a Nether Portal.
 
 ## 🧱 World Generation & Structures
 
@@ -81,13 +82,14 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ruined Portals Structure Generation**: Obsidian and crying obsidian portal frames generating partially buried in Overworld and Nether biomes with loot chests in `js/structures.js`.
 - [ ] **New Task: Add End Ship Outer Islands Generation**: Generate flying End Ships adjacent to End Cities containing Elytra items in item frames and Dragon Heads in `js/structures.js`.
 - [ ] **New Task: Add Deep Dark Ancient City Portal Frame**: Generate large central reinforced deepslate portal frame structures in Deep Dark biomes in `js/structures.js`.
+- [ ] **New Task: Add Vault Block Unlocking**: Trial Chamber Vault blocks opening upon key insertion to eject rare rewards.
 
 ## 👾 Mobs & Entities
 
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
-- [ ] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics. (Status: Partially implemented - Boss health bar recognized in UI, but Ender Dragon mob entity AI and End Crystals logic in `js/mob.js` are pending implementation)
+- [ ] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics. (Status: Partially implemented - Boss health bar exists in js/ui.js, but Ender Dragon mob AI and End Crystals logic in js/mob.js are pending implementation)
 - [ ] **New Task: Add Shulker Mob Entity**: Hostile End city mob that fires Levitation projectiles and drops Shulker Shells in `js/mob.js`.
-- [ ] **New Task: Add Wandering Trader Bartering**: Ambient Wandering Trader mob accepting Emeralds for biomes items in `js/mob.js`.
+- [ ] **New Task: Add Wandering Trader Bartering**: Ambient Wandering Trader mob accepting Emeralds for biomes items in `js/mob.js`. (Status: Partially implemented - Wandering Trader entity and textures exist in js/mob.js and js/textures.js, but Emerald trading UI and bartering transactions are pending implementation)
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles.
 - [ ] **New Task: Add Dolphins**: Neutral aquatic mobs in ocean biomes that guide players to treasure and grant Dolphin's Grace.
@@ -109,7 +111,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
-- [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish.
+- [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish. (Status: Partially implemented - Axolotl entity and bucket item exist in js/mob.js and js/blocks.js, but 5 color variants and tropical fish breeding are pending implementation)
+- [ ] **New Task: Add Breeze Mob Entity**: Hostile trial spawner mob firing Wind Charge projectiles and deflecting incoming arrows.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -132,6 +135,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
 - [ ] **New Task: Add Shulker Box Color Dyeing**: Dye Shulker Boxes into 16 color variants using dyes at Crafting Table in `js/crafting.js`.
 - [ ] **New Task: Add Potion of Levitation Brewing**: Brew Shulker Shells into Levitation Potions at Brewing Stand in `js/crafting.js`.
+- [ ] **New Task: Add Bundle Item Storage**: Craftable leather bundle item storing up to 64 mixed items in a single slot with hover tooltip contents preview.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -143,6 +147,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures.
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
+- [ ] **New Task: Add Crafter Automatic Redstone Pulsing**: Crafter block automatic item ejection on repeated redstone clock pulses.
 
 ## 🖥️ UI, Multiplayer & Meta
 
