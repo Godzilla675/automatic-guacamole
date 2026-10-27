@@ -7,6 +7,8 @@ these features, add a regression test rather than editing this list.
 Total: 477 items.
 
 ## 🐛 Bugs Fixed
+- [x] **Bug: Mobile Touch Control Joystick Touch Event Loss**: Continuously track mobile touch movements on `window` using touch identifiers in `js/input.js` to prevent joystick freeze when swiping outside bounding area.
+- [x] **Bug: Offhand Bow Arrow Consumption**: Firing a bow checks and consumes `BLOCK.ITEM_ARROW` from offhand slot in `js/game.js` when main inventory contains no arrows.
 - [x] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats/ocelots fleeing from fast player movements, taming with raw fish into `MOB_TYPE.CAT`, and Creepers fleeing within 10-block radius in `js/mob.js`.
 - [x] **New Task: Add Wolf Armor Protection Multiplier**: Wolf armor mitigating 60% incoming damage (0.4 multiplier) on tamed wolves in `js/mob.js`.
 - [x] **New Task: Add Armadillo Scute Shedding Mechanics**: Armadillo mobs periodically shedding Armadillo Scute item drops in `js/mob.js`.

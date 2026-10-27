@@ -352,37 +352,52 @@ class Game {
 
             // Bow Logic
             if (slot && slot.type === BLOCK.BOW) {
-                // Check for Arrows
+                // Check for Arrows in main inventory or offhand slot
                 let hasArrow = false;
                 let arrowIdx = -1;
-                for (let i=0; i<this.player.inventory.length; i++) {
-                     if (this.player.inventory[i] && this.player.inventory[i].type === BLOCK.ITEM_ARROW) {
-                         hasArrow = true;
-                         arrowIdx = i;
-                         break;
-                     }
+                let isOffhandArrow = false;
+
+                for (let i = 0; i < this.player.inventory.length; i++) {
+                    if (this.player.inventory[i] && this.player.inventory[i].type === BLOCK.ITEM_ARROW) {
+                        hasArrow = true;
+                        arrowIdx = i;
+                        break;
+                    }
+                }
+
+                if (!hasArrow && this.player.offhand && this.player.offhand.type === BLOCK.ITEM_ARROW) {
+                    hasArrow = true;
+                    isOffhandArrow = true;
                 }
 
                 if (hasArrow) {
-                     // Fire
-                     const dir = {
+                    // Fire
+                    const dir = {
                         x: Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
                         y: -Math.sin(this.player.pitch),
                         z: Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
                     };
-                    this.spawnProjectile(this.player.x, this.player.y + this.player.height*0.9, this.player.z, dir);
-                    window.soundManager.play('jump', {x: this.player.x, y: this.player.y, z: this.player.z}); // Shoot sound
+                    this.spawnProjectile(this.player.x, this.player.y + this.player.height * 0.9, this.player.z, dir);
+                    window.soundManager.play('jump', { x: this.player.x, y: this.player.y, z: this.player.z }); // Shoot sound
 
                     // Consume arrow
-                    if (arrowIdx !== -1 && this.player.gamemode !== 1) {
-                        this.player.inventory[arrowIdx].count--;
-                        if (this.player.inventory[arrowIdx].count <= 0) {
-                            this.player.inventory[arrowIdx] = null;
+                    if (this.player.gamemode !== 1) {
+                        if (isOffhandArrow && this.player.offhand) {
+                            this.player.offhand.count--;
+                            if (this.player.offhand.count <= 0) {
+                                this.player.offhand = null;
+                            }
+                        } else if (arrowIdx !== -1 && this.player.inventory[arrowIdx]) {
+                            this.player.inventory[arrowIdx].count--;
+                            if (this.player.inventory[arrowIdx].count <= 0) {
+                                this.player.inventory[arrowIdx] = null;
+                            }
                         }
                     }
                     // Durability
                     if (slot.durability) slot.durability--;
                     this.updateHotbarUI();
+                    if (this.ui && this.ui.refreshInventoryUI) this.ui.refreshInventoryUI();
                 }
                 return;
             }
