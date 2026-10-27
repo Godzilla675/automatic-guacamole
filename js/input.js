@@ -228,15 +228,34 @@ class InputManager {
         const joystickContainer = document.getElementById('joystick-container');
         const joystickStick = document.getElementById('joystick-stick');
 
-        joystickContainer.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.joystick.active = true;
-        });
+        let joystickTouchId = null;
 
-        joystickContainer.addEventListener('touchmove', (e) => {
-            if (!this.joystick.active) return;
-            e.preventDefault();
-            const touch = e.touches[0];
+        const resetJoystick = () => {
+            this.joystick.active = false;
+            joystickTouchId = null;
+            if (joystickStick) joystickStick.style.transform = 'translate(-50%, -50%)';
+            this.joystick.x = 0;
+            this.joystick.y = 0;
+            this.game.controls.forward = false;
+            this.game.controls.backward = false;
+            this.game.controls.left = false;
+            this.game.controls.right = false;
+        };
+
+        if (joystickContainer) {
+            joystickContainer.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (e.changedTouches && e.changedTouches.length > 0) {
+                    const touch = e.changedTouches[0];
+                    joystickTouchId = touch.identifier;
+                    this.joystick.active = true;
+                    updateJoystickPos(touch);
+                }
+            });
+        }
+
+        const updateJoystickPos = (touch) => {
+            if (!joystickContainer) return;
             const rect = joystickContainer.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
@@ -244,14 +263,16 @@ class InputManager {
             let dx = touch.clientX - centerX;
             let dy = touch.clientY - centerY;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            const maxDistance = rect.width / 2;
+            const maxDistance = (rect.width / 2) || 50;
 
             if (distance > maxDistance) {
-                dx = dx / distance * maxDistance;
-                dy = dy / distance * maxDistance;
+                dx = (dx / distance) * maxDistance;
+                dy = (dy / distance) * maxDistance;
             }
 
-            joystickStick.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+            if (joystickStick) {
+                joystickStick.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+            }
 
             this.joystick.x = dx / maxDistance;
             this.joystick.y = dy / maxDistance;
@@ -260,20 +281,39 @@ class InputManager {
             this.game.controls.backward = this.joystick.y > 0.3;
             this.game.controls.left = this.joystick.x < -0.3;
             this.game.controls.right = this.joystick.x > 0.3;
-        });
-
-        const resetJoystick = () => {
-             this.joystick.active = false;
-             joystickStick.style.transform = 'translate(-50%, -50%)';
-             this.joystick.x = 0;
-             this.joystick.y = 0;
-             this.game.controls.forward = false;
-             this.game.controls.backward = false;
-             this.game.controls.left = false;
-             this.game.controls.right = false;
         };
-        joystickContainer.addEventListener('touchend', resetJoystick);
-        joystickContainer.addEventListener('touchcancel', resetJoystick);
+
+        window.addEventListener('touchmove', (e) => {
+            if (!this.joystick.active || joystickTouchId === null) return;
+            let trackedTouch = null;
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === joystickTouchId) {
+                    trackedTouch = e.touches[i];
+                    break;
+                }
+            }
+            if (trackedTouch) {
+                e.preventDefault();
+                updateJoystickPos(trackedTouch);
+            }
+        }, { passive: false });
+
+        const handleTouchEndOrCancel = (e) => {
+            if (!this.joystick.active || joystickTouchId === null) return;
+            let ended = false;
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                if (e.changedTouches[i].identifier === joystickTouchId) {
+                    ended = true;
+                    break;
+                }
+            }
+            if (ended) {
+                resetJoystick();
+            }
+        };
+
+        window.addEventListener('touchend', handleTouchEndOrCancel);
+        window.addEventListener('touchcancel', handleTouchEndOrCancel);
 
         // Touch look
         this.game.canvas.addEventListener('touchstart', (e) => {

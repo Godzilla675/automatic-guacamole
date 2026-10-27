@@ -14,8 +14,7 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Bug: Mobile Touch Control Joystick Touch Event Loss**: On mobile touchscreens, rapidly swiping outside the virtual joystick bounding area causes touch event tracking to freeze or lose touch focus in `js/input.js`.
-- [ ] **Bug: Offhand Bow Arrow Consumption**: Firing a bow with arrows placed exclusively in the offhand slot fails to consume arrows or trigger bow firing animations in `js/player.js` and `js/item_use.js`.
+*No open bugs reported at this time.*
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
