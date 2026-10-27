@@ -608,3 +608,4 @@ Total: 477 items.
 - [x] **New Task: Add Copper Grate Fluid Source Waterlogging Toggle**: Submerged Copper Grate blocks maintaining source block status and allowing fluid flow to adjacent waterlogged blocks in `js/world.js`.
 - [x] **New Task: Add Redstone Comparator Container Item Frame Rotation Signal**: Redstone Comparators reading item frame rotation states behind opaque blocks to output proportional redstone signal levels (1-8) in `js/world.js` and `js/interactions.js`.
 - [x] **Hot-loop `window.*` lookups**: Optimized renderer/world code lookups for `window.BLOCKS[...]` and `window.BLOCK[...]` in `js/world.js` and `js/renderer.js`.
+- [x] **Block light is computed but never rendered**: Calculated block light levels (`b.light`) are utilized in `js/renderer.js` to adjust block fill color brightness and apply shading overlays on textured blocks.

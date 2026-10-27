@@ -22,7 +22,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Move placement rules out of `Game.placeBlock()`**: ~400 lines of per-block placement special cases. Candidate for a `BlockPlacement` registry keyed by block id (orientation, multi-block placement, "can place on" rules).
 - [ ] **Per-frame block-entity ticking registry**: `Game.update()` has a growing `if (entity.type === ...)` chain for furnaces/brewing/crops/etc. Register tick handlers by entity type instead.
 - [ ] **Convert legacy tests to `tests/helpers/game_env.js`**: ~70 test files each hand-roll a JSDOM and leak globals; they only work because `npm test` isolates files per process. Migrate opportunistically whenever you touch a file, and name test files after the feature (not "batch17").
-- [ ] **Block light is computed but never rendered**: `World.setBlock()` runs `recalcLocalLight()` (a 31x31x31 scan) for every gameplay block change, yet `renderer.js` ignores `b.light` (the brightness line is commented out). Either use the light values for shading or make the recalculation incremental; worldgen already skips it (see `_generating` in `js/world.js`).
 - [ ] **Parked chunks are memory-only**: edited chunks that scroll out of range are kept in `World.unloadedChunks` (capped at 512, LRU) and included in saves, but a very long session can still evict old edits. Spill evicted chunks to IndexedDB instead of dropping them.
 - [ ] **LOD (Level of Detail) system**
 - [ ] **Worker threads for world generation**

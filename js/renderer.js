@@ -454,17 +454,21 @@ class Renderer {
                  const distFactor = Math.min(1, b.dist / 50);
                  const fog = distFactor * distFactor;
 
-                 // Basic lighting from chunk data + distance fog
-                 // We don't have exact face lighting here easily without normal data
-                 // Just use the block type color
+                 // Block lighting calculated from chunk data (0-15) + distance fog
+                 const lightVal = typeof b.light === 'number' ? b.light : 15;
+                 const lightMult = Math.max(0.2, Math.min(1.0, lightVal / 15.0));
+
                  let drawHeight = size;
                  let drawSy = sy;
 
                  if (b.type === window.BLOCK.WATER) {
                      const time = Date.now() / 500;
                      const shift = Math.sin(time + b.x * 0.2 + b.z * 0.2) * 20;
-                     // Base #4169E1 -> 65, 105, 225
-                     ctx.fillStyle = `rgb(${65 + shift/2}, ${105 + shift/2}, ${225 + shift})`;
+                     // Base #4169E1 -> 65, 105, 225 adjusted by lightMult
+                     const rWater = Math.floor((65 + shift / 2) * lightMult);
+                     const gWater = Math.floor((105 + shift / 2) * lightMult);
+                     const bWater = Math.floor((225 + shift) * lightMult);
+                     ctx.fillStyle = `rgb(${rWater}, ${gWater}, ${bWater})`;
 
                      // Water Level
                      const level = b.metadata || 8;
@@ -474,7 +478,7 @@ class Renderer {
                      drawSy = sy + (size - drawHeight) / 2;
 
                  } else {
-                     ctx.fillStyle = blockDef.color;
+                     ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
                      // Slabs
                      if (blockDef.isSlab) {
                          drawHeight = size * 0.5;
@@ -716,10 +720,6 @@ class Renderer {
                          return;
                      }
                  }
-                 // We could adjust brightness by b.light (0-15)
-                 // let lightMult = b.light / 15;
-                 // ctx.fillStyle = this.adjustColor(blockDef.color, lightMult);
-
                  const drawX = Math.floor(sx - size/2);
                  const drawY = Math.floor(drawSy - drawHeight/2);
                  const drawW = Math.ceil(size);
@@ -727,6 +727,10 @@ class Renderer {
                  const tex = this.textureManager ? this.textureManager.getBlockTexture(b.type) : null;
                  if (tex) {
                      ctx.drawImage(tex, drawX, drawY, drawW, drawH);
+                     if (lightMult < 0.99) {
+                         ctx.fillStyle = `rgba(0, 0, 0, ${(1.0 - lightMult) * 0.7})`;
+                         ctx.fillRect(drawX, drawY, drawW, drawH);
+                     }
                  } else {
                      ctx.fillRect(drawX, drawY, drawW, drawH);
                  }
@@ -1328,6 +1332,20 @@ class Renderer {
                 const rr = Math.max(0, Math.min(255, Math.floor(r*brightness)));
                 const gg = Math.max(0, Math.min(255, Math.floor(g*brightness)));
                 const bb = Math.max(0, Math.min(255, Math.floor(b*brightness)));
+                return `rgb(${rr},${gg},${bb})`;
+            }
+        } else if (typeof color === 'string' && color.startsWith('rgb')) {
+            const match = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)$/);
+            if (match) {
+                const r = parseInt(match[1], 10);
+                const g = parseInt(match[2], 10);
+                const b = parseInt(match[3], 10);
+                const rr = Math.max(0, Math.min(255, Math.floor(r * brightness)));
+                const gg = Math.max(0, Math.min(255, Math.floor(g * brightness)));
+                const bb = Math.max(0, Math.min(255, Math.floor(b * brightness)));
+                if (match[4] !== undefined) {
+                    return `rgba(${rr},${gg},${bb},${match[4]})`;
+                }
                 return `rgb(${rr},${gg},${bb})`;
             }
         }
