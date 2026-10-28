@@ -87,9 +87,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 ## 👾 Mobs & Entities
 
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
-- [ ] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics. (Status: Partially implemented - Boss health bar exists in js/ui.js, but Ender Dragon mob AI and End Crystals logic in js/mob.js are pending implementation)
 - [ ] **New Task: Add Shulker Mob Entity**: Hostile End city mob that fires Levitation projectiles and drops Shulker Shells in `js/mob.js`.
-- [ ] **New Task: Add Wandering Trader Bartering**: Ambient Wandering Trader mob accepting Emeralds for biomes items in `js/mob.js`. (Status: Partially implemented - Wandering Trader entity and textures exist in js/mob.js and js/textures.js, but Emerald trading UI and bartering transactions are pending implementation)
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles.
 - [ ] **New Task: Add Dolphins**: Neutral aquatic mobs in ocean biomes that guide players to treasure and grant Dolphin's Grace.
@@ -111,7 +109,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
 - [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
-- [ ] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical fish. (Status: Partially implemented - Axolotl entity and bucket item exist in js/mob.js and js/blocks.js, but 5 color variants and tropical fish breeding are pending implementation)
 - [ ] **New Task: Add Breeze Mob Entity**: Hostile trial spawner mob firing Wind Charge projectiles and deflecting incoming arrows.
 
 ## 🧰 Items, Equipment & Crafting

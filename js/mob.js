@@ -41,7 +41,8 @@ const MOB_TYPE = {
     ENDERMITE: 'endermite',
     GOAT: 'goat',
     STRAY: 'stray',
-    HUSK: 'husk'
+    HUSK: 'husk',
+    ENDER_DRAGON: 'ender_dragon'
 };
 
 class Mob extends Entity {
@@ -408,6 +409,7 @@ class Mob extends Entity {
         else if (this.type === MOB_TYPE.PIG) food = window.BLOCK.ITEM_APPLE; // Placeholder for carrot
         else if (this.type === MOB_TYPE.WOLF && this.isTamed) food = window.BLOCK.ITEM_PORKCHOP; // Heal wolf
         else if (this.type === MOB_TYPE.CHICKEN) food = window.BLOCK.ITEM_WHEAT_SEEDS;
+        else if (this.type === MOB_TYPE.AXOLOTL) food = window.BLOCK.ITEM_RAW_FISH;
 
         if (food && itemType === food) {
             this.loveTimer = 30; // 30 seconds
@@ -694,8 +696,22 @@ class Mob extends Entity {
                 this.xpValue = 2;
                 break;
             case MOB_TYPE.AXOLOTL:
-                const colors = ['#FFB6C1', '#FFD700', '#808080', '#D8BFD8', '#4169E1'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                const variants = [
+                    { name: 'lucia', color: '#FFB6C1' },  // Pink
+                    { name: 'wild', color: '#8B4513' },   // Brown
+                    { name: 'gold', color: '#FFD700' },   // Gold
+                    { name: 'cyan', color: '#00FFFF' },   // Cyan
+                    { name: 'blue', color: '#0000FF' }    // Rare Blue
+                ];
+                if (!this.variant) {
+                    // 1 in 1200 chance for blue in vanilla, or 10% for rare blue in our clone
+                    if (Math.random() < 0.1) {
+                        this.variant = variants[4];
+                    } else {
+                        this.variant = variants[Math.floor(Math.random() * 4)];
+                    }
+                }
+                this.color = this.variant.color;
                 this.height = 0.4;
                 this.width = 0.6;
                 this.speed = 2.0;
@@ -753,6 +769,15 @@ class Mob extends Entity {
                 this.maxHealth = 20;
                 this.xpValue = 5;
                 this.sunlightBurn = false;
+                break;
+            case MOB_TYPE.ENDER_DRAGON:
+                this.color = '#111111';
+                this.height = 4.0;
+                this.width = 6.0;
+                this.speed = 4.0;
+                this.maxHealth = 200;
+                this.isBoss = true;
+                this.xpValue = 100;
                 break;
         }
         this.health = this.maxHealth;
@@ -1168,6 +1193,11 @@ class Mob extends Entity {
             return;
         }
 
+        if (this.type === MOB_TYPE.ENDER_DRAGON) {
+            this.updateEnderDragonAI(dt);
+            return;
+        }
+
         // Nether Mobs
         if (this.type === MOB_TYPE.GHAST) {
             this.updateGhastAI(dt);
@@ -1199,6 +1229,70 @@ class Mob extends Entity {
             this.updateHostileAI(dt);
         } else {
             this.updatePassiveAI(dt);
+        }
+    }
+
+    updateEnderDragonAI(dt) {
+        const player = this.game ? this.game.player : null;
+
+        // End Crystal / Bedrock / Obsidian Pillar Healing logic
+        this.healTimer = (this.healTimer || 0) + dt;
+        if (this.healTimer >= 1.0) {
+            this.healTimer = 0;
+            // Scan 20x20 area for End Crystal (or Obsidian / Bedrock pillar tops)
+            if (this.world) {
+                const ex = Math.floor(this.x);
+                const ey = Math.floor(this.y);
+                const ez = Math.floor(this.z);
+                let foundCrystal = false;
+
+                const BLOCK_REF = window.BLOCK || (typeof BLOCK !== 'undefined' ? BLOCK : {});
+                const endCrystalBlock = BLOCK_REF.END_CRYSTAL || 579;
+                const obsidianBlock = BLOCK_REF.OBSIDIAN || 195;
+
+                for (let x = ex - 10; x <= ex + 10 && !foundCrystal; x++) {
+                    for (let y = ey - 10; y <= ey + 10 && !foundCrystal; y++) {
+                        for (let z = ez - 10; z <= ez + 10 && !foundCrystal; z++) {
+                            const b = this.world.getBlock(x, y, z);
+                            if (b === endCrystalBlock || b === obsidianBlock) {
+                                foundCrystal = true;
+                                if (this.health < this.maxHealth) {
+                                    this.health = Math.min(this.maxHealth, this.health + 4);
+                                    if (this.game && this.game.particles) {
+                                        this.game.particles.spawn(this.x, this.y + 2, this.z, '#00FF88', 6);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Flying / Swooping AI logic
+        if (player) {
+            const dx = player.x - this.x;
+            const dy = (player.y + 5) - this.y;
+            const dz = player.z - this.z;
+            const dist = Math.hypot(dx, dz);
+
+            this.yaw = Math.atan2(dx, dz);
+            this.vx = Math.sin(this.yaw) * this.speed;
+            this.vz = Math.cos(this.yaw) * this.speed;
+            this.vy = Math.max(-2, Math.min(2, dy * 0.5));
+
+            this.attackCooldown = (this.attackCooldown || 0) - dt;
+            if (dist < 4.0 && this.attackCooldown <= 0) {
+                player.takeDamage(12);
+                if (this.game.spawnProjectile) {
+                    this.game.spawnProjectile(this.x, this.y + 2, this.z, { x: Math.sin(this.yaw), y: -0.2, z: Math.cos(this.yaw) }, 'fireball');
+                }
+                this.attackCooldown = 2.0;
+            }
+        } else {
+            this.vy = Math.sin(Date.now() * 0.002) * 2;
+            this.vx = Math.sin(this.yaw) * this.speed * 0.5;
+            this.vz = Math.cos(this.yaw) * this.speed * 0.5;
         }
     }
 
@@ -2097,6 +2191,17 @@ class Mob extends Entity {
                          baby.width *= 0.5;
                          baby.height *= 0.5;
                          baby.growthTimer = 300; // 5 mins to grow
+
+                         if (this.type === MOB_TYPE.AXOLOTL) {
+                             // Axolotl genetics: inherit variant from one parent, or 1/1200 chance rare blue
+                             if (Math.random() < 0.05) {
+                                 baby.variant = { name: 'blue', color: '#0000FF' };
+                             } else {
+                                 baby.variant = Math.random() < 0.5 ? (this.variant || { color: '#FFB6C1' }) : (mate.variant || { color: '#FFB6C1' });
+                             }
+                             baby.color = baby.variant.color;
+                         }
+
                          this.game.mobs.push(baby);
 
                          if (window.soundManager) window.soundManager.play('place', {x: this.x, y: this.y, z: this.z}); // Pop sound

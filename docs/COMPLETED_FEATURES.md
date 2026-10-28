@@ -4,9 +4,12 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 477 items.
+Total: 480 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics, boss health bar, flying AI, and fireball attack cooldowns in `js/mob.js` and `js/ui.js`.
+- [x] **New Task: Add Wandering Trader Bartering**: Ambient Wandering Trader mob accepting Emeralds for biomes items, trade offer generation, and trading UI in `js/mob.js` and `js/ui.js`.
+- [x] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical/raw fish in `js/mob.js`.
 - [x] **Bug: Mobile Touch Control Joystick Touch Event Loss**: Continuously track mobile touch movements on `window` using touch identifiers in `js/input.js` to prevent joystick freeze when swiping outside bounding area.
 - [x] **Bug: Offhand Bow Arrow Consumption**: Firing a bow checks and consumes `BLOCK.ITEM_ARROW` from offhand slot in `js/game.js` when main inventory contains no arrows.
 - [x] **New Task: Add Cat Taming & Creeping Fleeing Physics**: Stray cats/ocelots fleeing from fast player movements, taming with raw fish into `MOB_TYPE.CAT`, and Creepers fleeing within 10-block radius in `js/mob.js`.
