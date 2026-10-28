@@ -141,6 +141,7 @@ class TextureManager {
         this.textures[B.GRINDSTONE] = this.genGrindstone();
         this.textures[B.ITEM_FRAME] = this.genItemFrame();
         this.textures[B.SCULK_SENSOR] = this.genSculkSensor();
+        if (B.CALIBRATED_SCULK_SENSOR) this.textures[B.CALIBRATED_SCULK_SENSOR] = this.genSculkSensor();
         this.textures[B.ITEM_GLOW_FRAME] = this.genGlowItemFrame();
         this.textures[B.REDSTONE_REPEATER] = this.genRedstoneRepeater();
         this.textures[B.REDSTONE_COMPARATOR] = this.genRedstoneComparator();
@@ -253,6 +254,22 @@ class TextureManager {
         for (const [cName, cHex] of Object.entries(bundleColors)) {
             const bId = B['ITEM_BUNDLE_' + cName];
             if (bId !== undefined) this.textures[bId] = this.genBundleItem(cHex);
+        }
+
+        if (B.SHULKER_BOX) {
+            this.textures[B.SHULKER_BOX] = this.genChest();
+            for (const [cName, cHex] of Object.entries(bundleColors)) {
+                const sId = B['SHULKER_BOX_' + cName];
+                if (sId !== undefined) this.textures[sId] = this.genChest();
+            }
+        }
+
+        if (B.CANDLE) {
+            this.textures[B.CANDLE] = this.genTorch('#FFD700');
+            for (const [cName, cHex] of Object.entries(bundleColors)) {
+                const candleId = B['CANDLE_' + cName];
+                if (candleId !== undefined) this.textures[candleId] = this.genTorch(cHex);
+            }
         }
 
         // Feature Batch 2
@@ -1853,6 +1870,8 @@ class TextureManager {
         this.textures[B.ITEM_POTION_SWIFTNESS] = this.genPotion();
         this.textures[B.ITEM_POTION_STRENGTH] = this.genPotion();
         this.textures[B.ITEM_POTION_REGENERATION] = this.genPotion();
+        if (B.ITEM_POTION_LEVITATION) this.textures[B.ITEM_POTION_LEVITATION] = this.genPotion();
+        if (B.ITEM_SHULKER_SHELL) this.textures[B.ITEM_SHULKER_SHELL] = this.genScuteItem();
         this.textures[B.ITEM_BLAZE_POWDER] = this.genDust('#FF4500');
         this.textures[B.ITEM_SUGAR] = this.genDust('#FFFFFF');
 

@@ -270,8 +270,15 @@ const BlockInteractions = (() => {
         return true;
     });
 
-    // Chest
-    register(BLOCK.CHEST, function chest(game, x, y, z, blockType, pos) {
+    // Chest & Shulker Boxes
+    const shulkerBoxIds = [
+        BLOCK.CHEST,
+        BLOCK.SHULKER_BOX, BLOCK.SHULKER_BOX_WHITE, BLOCK.SHULKER_BOX_ORANGE, BLOCK.SHULKER_BOX_MAGENTA,
+        BLOCK.SHULKER_BOX_LIGHT_BLUE, BLOCK.SHULKER_BOX_YELLOW, BLOCK.SHULKER_BOX_LIME, BLOCK.SHULKER_BOX_PINK,
+        BLOCK.SHULKER_BOX_GRAY, BLOCK.SHULKER_BOX_LIGHT_GRAY, BLOCK.SHULKER_BOX_CYAN, BLOCK.SHULKER_BOX_PURPLE,
+        BLOCK.SHULKER_BOX_BLUE, BLOCK.SHULKER_BOX_BROWN, BLOCK.SHULKER_BOX_GREEN, BLOCK.SHULKER_BOX_RED, BLOCK.SHULKER_BOX_BLACK
+    ];
+    register(shulkerBoxIds, function chestAndShulkerBoxes(game, x, y, z, blockType, pos) {
          let entity = game.world.getBlockEntity(x, y, z);
          if (!entity) {
              entity = {
@@ -628,6 +635,45 @@ const BlockInteractions = (() => {
             game.ui.showNotification(`Item Frame rotated: position ${newRotation}/8`);
         }
         return true;
+    });
+
+    // Candle Lighting / Extinguishing Interaction
+    const candleIds = [
+        BLOCK.CANDLE, BLOCK.CANDLE_WHITE, BLOCK.CANDLE_ORANGE, BLOCK.CANDLE_MAGENTA,
+        BLOCK.CANDLE_LIGHT_BLUE, BLOCK.CANDLE_YELLOW, BLOCK.CANDLE_LIME, BLOCK.CANDLE_PINK,
+        BLOCK.CANDLE_GRAY, BLOCK.CANDLE_LIGHT_GRAY, BLOCK.CANDLE_CYAN, BLOCK.CANDLE_PURPLE,
+        BLOCK.CANDLE_BLUE, BLOCK.CANDLE_BROWN, BLOCK.CANDLE_GREEN, BLOCK.CANDLE_RED, BLOCK.CANDLE_BLACK
+    ];
+    register(candleIds, function candle(game, x, y, z, blockType, pos) {
+        let meta = game.world.getMetadata(x, y, z);
+        const isLit = (meta & 1) !== 0;
+        const held = game.player.getHeldItem();
+
+        if (held && held.type === BLOCK.ITEM_FLINT_AND_STEEL) {
+            if (!isLit) {
+                meta |= 1;
+                game.world.setMetadata(x, y, z, meta);
+                if (game.particles) game.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#FF4500', 12);
+                if (window.soundManager) window.soundManager.play('fuse', pos);
+                if (game.ui && game.ui.showNotification) {
+                    game.ui.showNotification("Lit Candle!");
+                }
+                return true;
+            }
+        } else {
+            // Extinguish lit candle
+            if (isLit) {
+                meta &= ~1;
+                game.world.setMetadata(x, y, z, meta);
+                if (game.particles) game.particles.spawn(x + 0.5, y + 0.8, z + 0.5, '#808080', 8);
+                if (window.soundManager) window.soundManager.play('break', pos);
+                if (game.ui && game.ui.showNotification) {
+                    game.ui.showNotification("Extinguished Candle!");
+                }
+                return true;
+            }
+        }
+        return false;
     });
 
     // TNT

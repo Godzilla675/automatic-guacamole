@@ -274,6 +274,11 @@ class CraftingSystem {
                 ingredients: [ { type: BLOCK.OBSIDIAN, count: 2 }, { type: BLOCK.ITEM_REDSTONE_DUST, count: 2 } ]
             },
             {
+                name: "Calibrated Sculk Sensor",
+                result: { type: BLOCK.CALIBRATED_SCULK_SENSOR, count: 1 },
+                ingredients: [ { type: BLOCK.SCULK_SENSOR, count: 1 }, { type: BLOCK.AMETHYST_BLOCK, count: 1 } ]
+            },
+            {
                 name: "Glow Item Frame",
                 result: { type: BLOCK.ITEM_GLOW_FRAME, count: 1 },
                 ingredients: [ { type: BLOCK.ITEM_FRAME, count: 1 }, { type: BLOCK.ITEM_GLOWSTONE_DUST, count: 1 } ]
@@ -388,6 +393,48 @@ class CraftingSystem {
                 result: { type: BLOCK.ITEM_SUSPICIOUS_STEW, count: 1, isEyeblossomStew: true },
                 ingredients: [ { type: BLOCK.EYEBLOSSOM, count: 1 }, { type: BLOCK.PLANK, count: 1 } ]
             },
+            {
+                name: "Candle",
+                result: { type: BLOCK.CANDLE, count: 1 },
+                ingredients: [ { type: BLOCK.HONEYCOMB_BLOCK || BLOCK.ITEM_STRING, count: 1 }, { type: BLOCK.ITEM_STRING, count: 1 } ]
+            },
+            { name: "White Candle", result: { type: BLOCK.CANDLE_WHITE, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_WHITE, count: 1 } ] },
+            { name: "Orange Candle", result: { type: BLOCK.CANDLE_ORANGE, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_ORANGE, count: 1 } ] },
+            { name: "Magenta Candle", result: { type: BLOCK.CANDLE_MAGENTA, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_MAGENTA, count: 1 } ] },
+            { name: "Light Blue Candle", result: { type: BLOCK.CANDLE_LIGHT_BLUE, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_LIGHT_BLUE, count: 1 } ] },
+            { name: "Yellow Candle", result: { type: BLOCK.CANDLE_YELLOW, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_YELLOW, count: 1 } ] },
+            { name: "Lime Candle", result: { type: BLOCK.CANDLE_LIME, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_LIME, count: 1 } ] },
+            { name: "Pink Candle", result: { type: BLOCK.CANDLE_PINK, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_PINK, count: 1 } ] },
+            { name: "Gray Candle", result: { type: BLOCK.CANDLE_GRAY, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_GRAY, count: 1 } ] },
+            { name: "Light Gray Candle", result: { type: BLOCK.CANDLE_LIGHT_GRAY, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_LIGHT_GRAY, count: 1 } ] },
+            { name: "Cyan Candle", result: { type: BLOCK.CANDLE_CYAN, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_CYAN, count: 1 } ] },
+            { name: "Purple Candle", result: { type: BLOCK.CANDLE_PURPLE, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_PURPLE, count: 1 } ] },
+            { name: "Blue Candle", result: { type: BLOCK.CANDLE_BLUE, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_BLUE, count: 1 } ] },
+            { name: "Brown Candle", result: { type: BLOCK.CANDLE_BROWN, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_BROWN, count: 1 } ] },
+            { name: "Green Candle", result: { type: BLOCK.CANDLE_GREEN, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_GREEN, count: 1 } ] },
+            { name: "Red Candle", result: { type: BLOCK.CANDLE_RED, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_RED, count: 1 } ] },
+            { name: "Black Candle", result: { type: BLOCK.CANDLE_BLACK, count: 1 }, ingredients: [ { type: BLOCK.CANDLE, count: 1 }, { type: BLOCK.WOOL_BLACK, count: 1 } ] },
+            {
+                name: "Shulker Box",
+                result: { type: BLOCK.SHULKER_BOX, count: 1 },
+                ingredients: [ { type: BLOCK.ITEM_SHULKER_SHELL, count: 2 }, { type: BLOCK.CHEST, count: 1 } ]
+            },
+            { name: "White Shulker Box", result: { type: BLOCK.SHULKER_BOX_WHITE, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_WHITE, count: 1 } ] },
+            { name: "Orange Shulker Box", result: { type: BLOCK.SHULKER_BOX_ORANGE, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_ORANGE, count: 1 } ] },
+            { name: "Magenta Shulker Box", result: { type: BLOCK.SHULKER_BOX_MAGENTA, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_MAGENTA, count: 1 } ] },
+            { name: "Light Blue Shulker Box", result: { type: BLOCK.SHULKER_BOX_LIGHT_BLUE, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_LIGHT_BLUE, count: 1 } ] },
+            { name: "Yellow Shulker Box", result: { type: BLOCK.SHULKER_BOX_YELLOW, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_YELLOW, count: 1 } ] },
+            { name: "Lime Shulker Box", result: { type: BLOCK.SHULKER_BOX_LIME, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_LIME, count: 1 } ] },
+            { name: "Pink Shulker Box", result: { type: BLOCK.SHULKER_BOX_PINK, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_PINK, count: 1 } ] },
+            { name: "Gray Shulker Box", result: { type: BLOCK.SHULKER_BOX_GRAY, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_GRAY, count: 1 } ] },
+            { name: "Light Gray Shulker Box", result: { type: BLOCK.SHULKER_BOX_LIGHT_GRAY, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_LIGHT_GRAY, count: 1 } ] },
+            { name: "Cyan Shulker Box", result: { type: BLOCK.SHULKER_BOX_CYAN, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_CYAN, count: 1 } ] },
+            { name: "Purple Shulker Box", result: { type: BLOCK.SHULKER_BOX_PURPLE, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_PURPLE, count: 1 } ] },
+            { name: "Blue Shulker Box", result: { type: BLOCK.SHULKER_BOX_BLUE, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_BLUE, count: 1 } ] },
+            { name: "Brown Shulker Box", result: { type: BLOCK.SHULKER_BOX_BROWN, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_BROWN, count: 1 } ] },
+            { name: "Green Shulker Box", result: { type: BLOCK.SHULKER_BOX_GREEN, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_GREEN, count: 1 } ] },
+            { name: "Red Shulker Box", result: { type: BLOCK.SHULKER_BOX_RED, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_RED, count: 1 } ] },
+            { name: "Black Shulker Box", result: { type: BLOCK.SHULKER_BOX_BLACK, count: 1 }, ingredients: [ { type: BLOCK.SHULKER_BOX, count: 1 }, { type: BLOCK.WOOL_BLACK, count: 1 } ] },
             {
                 name: "White Bundle",
                 result: { type: BLOCK.ITEM_BUNDLE_WHITE, count: 1 },

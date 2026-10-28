@@ -1472,7 +1472,7 @@ class UIManager {
         const inv = document.getElementById('inventory-screen');
         if (inv) inv.classList.remove('hidden');
 
-        document.exitPointerLock();
+        if (typeof document !== 'undefined' && document.exitPointerLock) { try { document.exitPointerLock(); } catch (e) {} }
         this.refreshChestUI();
         this.refreshInventoryUI(); // Ensure inventory events are bound and visible
     }

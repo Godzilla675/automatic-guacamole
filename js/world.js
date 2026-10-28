@@ -817,6 +817,24 @@ class World {
                         if (this.game && this.game.particles) {
                             this.game.particles.spawn(sx + 0.5, sy + 1.0, sz + 0.5, '#00ACC1', 8);
                         }
+                    } else if (b === window.BLOCK.CALIBRATED_SCULK_SENSOR) {
+                        let sideInputPower = 0;
+                        const sideNeighbors = [
+                            {x: sx+1, y: sy, z: sz}, {x: sx-1, y: sy, z: sz},
+                            {x: sx, y: sy, z: sz+1}, {x: sx, y: sy, z: sz-1}
+                        ];
+                        for (const sn of sideNeighbors) {
+                            const p = this.getMetadata(sn.x, sn.y, sn.z);
+                            if (p > sideInputPower) sideInputPower = p;
+                        }
+                        if (sideInputPower === 0 || sideInputPower === signalStrength) {
+                            this.setMetadata(sx, sy, sz, signalStrength);
+                            this.activeRedstone.add(`${sx},${sy},${sz}`);
+                            this.scheduleNeighborRedstoneUpdates(sx, sy, sz);
+                            if (this.game && this.game.particles) {
+                                this.game.particles.spawn(sx + 0.5, sy + 1.0, sz + 0.5, '#80DEEA', 12);
+                            }
+                        }
                     } else if (b === window.BLOCK.SCULK_SHRIEKER) {
                         // Track vibration accumulation for Sculk Shrieker
                         const skey = `${sx},${sy},${sz}`;

@@ -612,3 +612,8 @@ Total: 480 items.
 - [x] **New Task: Add Redstone Comparator Container Item Frame Rotation Signal**: Redstone Comparators reading item frame rotation states behind opaque blocks to output proportional redstone signal levels (1-8) in `js/world.js` and `js/interactions.js`.
 - [x] **Hot-loop `window.*` lookups**: Optimized renderer/world code lookups for `window.BLOCKS[...]` and `window.BLOCK[...]` in `js/world.js` and `js/renderer.js`.
 - [x] **Block light is computed but never rendered**: Calculated block light levels (`b.light`) are utilized in `js/renderer.js` to adjust block fill color brightness and apply shading overlays on textured blocks.
+- [x] **New Task: Add Potion of Levitation Brewing**: Brew Shulker Shells into Levitation Potions at Brewing Stand in `js/crafting.js` and `js/game.js`, applying floating upward buoyancy in `js/player.js`.
+- [x] **New Task: Add Shulker Box Color Dyeing**: Dye Shulker Boxes into 16 color variants using dyes at Crafting Table in `js/crafting.js` while preserving stored items, with 27-slot container storage in `js/interactions.js`.
+- [x] **New Task: Add Name Tags**: Item to name mobs to prevent despawning with custom overhead name label rendering in `js/mob.js`, `js/interactions.js`, and `js/renderer.js`.
+- [x] **New Task: Add Candles**: Decorative light source blocks with 16 dye color variants in `js/blocks.js` and `js/textures.js`, with Flint and Steel lighting and extinguishing interactions in `js/interactions.js`.
+- [x] **New Task: Add Sculk Sensor Calibration with Calibrated Sculk Sensors**: Calibrated Sculk Sensor block filtering vibration frequencies using side redstone input signal strength in `js/world.js`.

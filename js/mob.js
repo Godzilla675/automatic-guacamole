@@ -156,12 +156,14 @@ class Mob extends Entity {
         const heldItem = player ? (typeof player.getHeldItem === 'function' ? player.getHeldItem() : (player.inventory ? player.inventory[player.selectedSlot || 0] : null)) : null;
         const nameTagId = (window.BLOCK && window.BLOCK.ITEM_NAME_TAG) ? window.BLOCK.ITEM_NAME_TAG : (typeof BLOCK !== 'undefined' ? BLOCK.ITEM_NAME_TAG : 591);
 
-        if (heldItem && heldItem.type === nameTagId && heldItem.name) {
-            this.customName = heldItem.name;
+        if (heldItem && heldItem.type === nameTagId) {
+            const chosenName = heldItem.customName || heldItem.name || "Named Mob";
+            this.customName = chosenName;
+            this.persistent = true;
             this.preventDespawn = true;
             heldItem.count--;
             if (heldItem.count <= 0 && player && player.inventory) {
-                player.inventory[player.selectedSlot] = null;
+                player.inventory[player.selectedSlot || 0] = null;
             }
             if (window.soundManager) window.soundManager.play('place', { x: this.x, y: this.y, z: this.z });
             if (this.game && this.game.ui && this.game.ui.showNotification) {

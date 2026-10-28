@@ -571,6 +571,8 @@ class Player {
             }
         }
 
+        const hasLevitation = this.activeEffects && this.activeEffects.some(e => e.name === 'Levitation');
+
         // Potion effects update
         if (this.activeEffects && this.activeEffects.length > 0) {
             for (let i = this.activeEffects.length - 1; i >= 0; i--) {
@@ -900,7 +902,10 @@ class Player {
                 }
 
                 if (!this.flying) {
-                    if (inWater) {
+                    if (hasLevitation) {
+                        this.vy = 3.5;
+                        this.fallDistance = 0;
+                    } else if (inWater) {
                         this.vy -= this.gravity * dt * 0.2; // Reduced gravity
                         this.vy *= 0.8; // Water drag
                     } else {
@@ -1050,6 +1055,12 @@ class Player {
     eat(itemType) {
         if (itemType === BLOCK.ITEM_POTION || itemType === BLOCK.ITEM_POTION_AWKWARD) {
             this.health = Math.min(this.maxHealth, this.health + 2);
+            if (window.soundManager) window.soundManager.play('eat');
+            if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
+            return true;
+        }
+        if (itemType === BLOCK.ITEM_POTION_LEVITATION) {
+            this.addEffect('Levitation', '🪶', 15);
             if (window.soundManager) window.soundManager.play('eat');
             if (this.game && this.game.updateHealthUI) this.game.updateHealthUI();
             return true;
