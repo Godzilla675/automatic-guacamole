@@ -4,9 +4,16 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 480 items.
+Total: 487 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add Nether Portal Warp Shader**: Screen vignette and distortion shader effect while standing inside a Nether Portal in `js/renderer.js`.
+- [x] **New Task: Add Dripstone**: Dripstone Block and Pointed Dripstone spike blocks defined in `js/blocks.js`.
+- [x] **New Task: Add Weeping Vines**: Weeping Vines blocks and item defined in `js/blocks.js`.
+- [x] **New Task: Add Vault Block Unlocking**: Trial Chamber Vault and Ominous Vault opening upon key insertion to eject rare rewards in `js/interactions.js`.
+- [x] **New Task: Add Breeze Mob Entity**: Hostile trial spawner mob firing Wind Charge projectiles and deflecting incoming arrows in `js/mob.js`.
+- [x] **New Task: Add Bundle Item Storage**: Craftable leather bundle item storing up to 64 mixed items in a single slot with hover tooltip contents preview in `js/blocks.js` and `js/ui.js`.
+- [x] **New Task: Add Crafter Automatic Redstone Pulsing**: Crafter block automatic item ejection on repeated redstone clock pulses in `js/world.js`.
 - [x] **New Task: Add Ender Dragon Boss**: Main boss mob in the End dimension with End Crystals healing mechanics, boss health bar, flying AI, and fireball attack cooldowns in `js/mob.js` and `js/ui.js`.
 - [x] **New Task: Add Wandering Trader Bartering**: Ambient Wandering Trader mob accepting Emeralds for biomes items, trade offer generation, and trading UI in `js/mob.js` and `js/ui.js`.
 - [x] **New Task: Add Axolotl Color Variants & Breeding**: Pink, brown, gold, cyan, and rare blue axolotl variants breedable with tropical/raw fish in `js/mob.js`.

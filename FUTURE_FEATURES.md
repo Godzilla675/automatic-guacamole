@@ -1,7 +1,7 @@
 # Future Features & Tasks
 
 The backlog for Voxel World. **Only open work lives here** - everything already shipped is archived in
-[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (480 items and counting).
+[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (487 items and counting).
 
 How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
@@ -33,6 +33,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Chunk Mesh Face Culling & Instancing**: Group identical chunk block faces into instanced draw arrays to reduce render draw calls.
 - [ ] **New Task: Add Unified Container Interaction Registry**: Consolidate container opening logic for Chests, Furnaces, Hoppers, Dispensers, Droppers, Crafters, and Shulker Boxes into a unified `ContainerUI` manager in `js/ui.js`.
 - [ ] **New Task: Add Spatial Quadtree Chunk Lookup**: Replace O(chunks) linear scan in `World.prototype.getChunk` with spatial 2D grid/quadtree array lookup.
+- [ ] **New Task: Add Spatial Octree Node Recycling**: Pool spatial quadtree/octree node allocations during chunk updates in `js/world.js` to reduce garbage collection overhead.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -46,15 +47,13 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Screenshot system**
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
-- [ ] **New Task: Add Nether Portal Warp Shader**: Screen vignette and distortion shader effect while standing inside a Nether Portal.
+- [ ] **New Task: Add Particle Emission Rate Quality Scaling**: Settings option to scale particle density and emission caps based on GPU/device performance in `js/particles.js`.
 
 ## 🧱 World Generation & Structures
 
 - [ ] **New Task: Add End Citadel Structure**: Generate End Citadel towers in the End dimension with End Stone bricks, Purpur blocks, and Shulker spawners.
 - [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day.
 - [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning.
-- [ ] **New Task: Add Dripstone**: Stalactites and stalagmites for cave biomes.
-- [ ] **New Task: Add Weeping Vines**: Vines that grow downwards in the Nether.
 - [ ] **New Task: Add Trial Chamber Secret Vault Passages**: Hidden redstone trapdoors in Trial Chamber corridors leading to bonus Vault reward rooms. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Trial Chamber Map Loot Tables**: Cartographer Villagers trading maps leading directly to Trial Chamber structures. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Ocean Monument Structures**: Ocean monuments generating in deep ocean biomes containing Sea Lanterns and Elder Guardians.
@@ -62,7 +61,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Improve Biome Generation**: Make biome transitions smoother and add more variations. (Status: Partially implemented - Biomes generated in biome.js, but smooth noise transitions and biome temperature gradients are pending agent implementation)
 - [ ] **New Task: Add End Cities**: Generate End Cities and End Ships in the outer islands of the End dimension with Purpur blocks and Shulker mobs.
 - [ ] **New Task: Structures (Dungeons)**: Generate dungeon structures in the overworld.
-- [ ] **New Task: Add Chorus Plants**: Plant found in the End.
 - [ ] **New Task: Add Cave Vines**: Growing vines in caves that can produce Glow Berries.
 - [ ] **New Task: Add Nether Gold Ore**: Gold ore variant found in the Nether that drops gold nuggets.
 - [ ] **New Task: Add Volcano Structures**: Natural volcanic landforms that spout lava and spawn magma cubes.
@@ -82,7 +80,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ruined Portals Structure Generation**: Obsidian and crying obsidian portal frames generating partially buried in Overworld and Nether biomes with loot chests in `js/structures.js`.
 - [ ] **New Task: Add End Ship Outer Islands Generation**: Generate flying End Ships adjacent to End Cities containing Elytra items in item frames and Dragon Heads in `js/structures.js`.
 - [ ] **New Task: Add Deep Dark Ancient City Portal Frame**: Generate large central reinforced deepslate portal frame structures in Deep Dark biomes in `js/structures.js`.
-- [ ] **New Task: Add Vault Block Unlocking**: Trial Chamber Vault blocks opening upon key insertion to eject rare rewards.
+- [ ] **New Task: Add Trail Ruins Archaeological Site Generation**: Subterranean gravel and mud brick structure generation in birch and taiga biomes with archaeology loot.
 
 ## 👾 Mobs & Entities
 
@@ -107,9 +105,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Boss Arenas**: Specific locations for boss fights.
 - [ ] **New Task: Add Evokers**: Spell-casting illagers.
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
-- [ ] **New Task: Add Shulkers**: Hostile mobs in the End that shoot levitation projectiles.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
-- [ ] **New Task: Add Breeze Mob Entity**: Hostile trial spawner mob firing Wind Charge projectiles and deflecting incoming arrows.
+- [ ] **New Task: Add Camel Rideable Mount Physics & Sprint Dash**: Desert camel mounts supporting two players and executing horizontal gap-clearing dash moves in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -128,7 +125,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Bundle Item Storage**: Craftable leather bundle item storing up to 64 mixed items in a single slot with hover tooltip contents preview.
+- [ ] **New Task: Add Wind Charge Elytra Boost Synergy**: Launching Wind Charges while gliding with Elytra provides vertical velocity boost and radial wind burst FX in `js/item_use.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -139,7 +136,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures.
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
-- [ ] **New Task: Add Crafter Automatic Redstone Pulsing**: Crafter block automatic item ejection on repeated redstone clock pulses.
+- [ ] **New Task: Add Calibrated Sculk Sensor Output Latching**: Allow side-powered Calibrated Sculk Sensors to hold their redstone signal output until reset in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -155,6 +152,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
 - [ ] **New Task: Add Mobile Touch Controls HUD Sensitivity Slider**: Settings UI slider for adjusting touch joystick and camera swipe sensitivity in `js/ui.js`.
 - [ ] **New Task: Add Custom Keybinds Profile Import/Export**: Settings UI buttons to export and import player keybinding configurations as JSON in `js/ui.js`.
+- [ ] **New Task: Add Audio Subtitles Directional Radar Indicator**: Visual HUD compass rose showing directional sound source markers in `js/ui.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -170,3 +168,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Plugin API Custom Particle Registration**: `PluginAPI.registerParticle(name, config)` endpoint for custom particle effects.
 - [ ] **New Task: Add Plugin API Custom UI Container Registration**: Endpoint for plugins to define custom grid GUIs and item container screens.
 - [ ] **New Task: Add Plugin API World Generator Hook**: `PluginAPI.registerBiomeGenerator(name, config)` allowing custom biome structure and heightmap generation logic in `js/plugin.js`.
+- [ ] **New Task: Add Plugin API Custom Recipe Registration**: `PluginAPI.registerRecipe(output, ingredients, matrix)` endpoint for plugins to register shaped/shapeless crafting recipes in `js/plugin.js`.
