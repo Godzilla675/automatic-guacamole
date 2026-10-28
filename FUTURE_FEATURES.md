@@ -118,10 +118,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **Map item**
 - [ ] **New Task: Add Beacons**: Blocks that grant buffs to nearby players when placed on a pyramid.
 - [ ] **New Task: Add Banners**: Decorative blocks with customizable patterns.
-- [ ] **New Task: Add Name Tags**: Item to name mobs to prevent despawning.
 - [ ] **New Task: Add Paraglider Equipment**: Early-game aerial glider equipment before obtaining Elytra.
 - [ ] **New Task: Add Hanging Signs**: Signs that hang from underneath blocks.
-- [ ] **New Task: Add Candles**: Decorative light source that can be dyed.
 - [ ] **New Task: Add Tool Icons**: Add icons for different tool types.
 - [ ] **New Task: Add Enderite**: A new tier of gear found in the End dimension.
 - [ ] **New Task: Add Backpacks**: Equipable items that expand player inventory space.
@@ -130,15 +128,12 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Shulker Box Color Dyeing**: Dye Shulker Boxes into 16 color variants using dyes at Crafting Table in `js/crafting.js`.
-- [ ] **New Task: Add Potion of Levitation Brewing**: Brew Shulker Shells into Levitation Potions at Brewing Stand in `js/crafting.js`.
 - [ ] **New Task: Add Bundle Item Storage**: Craftable leather bundle item storing up to 64 mixed items in a single slot with hover tooltip contents preview.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
 - [ ] **New Task: Add Command Blocks**: Blocks that can execute server/world commands when powered by redstone.
-- [ ] **New Task: Add Sculk Sensor Calibration with Calibrated Sculk Sensors**: Calibrated Sculk Sensor block filtering vibration frequencies using side redstone input signal in `js/world.js`.
 - [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
 - [ ] **New Task: Add Waystones**: Blocks that allow players to teleport between them when activated.
 - [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures.

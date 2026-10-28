@@ -1659,6 +1659,9 @@ class Game {
             if (ingType === BLOCK.ITEM_GHAST_TEAR) {
                 if (isAwkward || isBottle) return BLOCK.ITEM_POTION_REGENERATION;
             }
+            if (ingType === BLOCK.ITEM_SHULKER_SHELL) {
+                if (isAwkward || isBottle) return BLOCK.ITEM_POTION_LEVITATION;
+            }
             return null;
         };
 
