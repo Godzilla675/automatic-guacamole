@@ -21,7 +21,7 @@ const fs = require('fs');
     });
 
     await page.setViewportSize({ width: 1280, height: 720 });
-    await page.goto('http://localhost:8000');
+    await page.goto('http://localhost:3000');
 
     await page.waitForSelector('#start-game', { state: 'visible', timeout: 5000 });
     await page.evaluate(() => document.getElementById('start-game').click());
