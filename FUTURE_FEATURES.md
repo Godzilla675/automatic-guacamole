@@ -14,7 +14,9 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-*No open bugs reported at this time.*
+- [ ] **Bug: Heavy Core Mace Fall Smash Shockwave Missing**: The Mace weapon does not emit the 3D expanding ground shockwave ring particle effect upon landing a fall smash attack. (Verified via missing shockwave logic in js/player.js or js/particles.js)
+- [ ] **Bug: Comparator Subtract Mode Missing**: The Redstone Comparator subtract mode toggling (right-click) is missing the mode state on the block entity or fails to compute subtraction correctly. (Verified via checking js/interactions.js)
+
 
 ## 🛠️ Engineering & Architecture
 Structural work that makes every later feature cheaper. Each of these is a single agent-sized PR.
