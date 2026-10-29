@@ -14,8 +14,9 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Bug: Heavy Core Mace Fall Smash Shockwave Missing**: The Mace weapon does not emit the 3D expanding ground shockwave ring particle effect upon landing a fall smash attack. (Verified via missing shockwave logic in js/player.js or js/particles.js)
-- [ ] **Bug: Comparator Subtract Mode Missing**: The Redstone Comparator subtract mode toggling (right-click) is missing the mode state on the block entity or fails to compute subtraction correctly. (Verified via checking js/interactions.js)
+- [ ] **Bug: Heavy Core Mace Fall Smash Shockwave Missing**: The Mace weapon does not emit the 3D expanding ground shockwave ring particle effect upon landing a fall smash attack. (Status: Partially implemented - Entity hit particle ring exists in Player.prototype.attack in js/player.js, but missing 3D expanding ground impact shockwave when landing on ground blocks)
+- [ ] **Bug: Comparator Subtract Mode Missing**: The Redstone Comparator subtract mode toggling (right-click) is missing the mode state on the block entity or fails to compute subtraction correctly. (Status: Partially implemented - Block entity toggling mode='subtract' exists in js/interactions.js, but updateRedstone in js/world.js treats sidePower as 0 without separating side neighbor inputs from rear inputs, causing subtraction mode to output full input power)
+- [ ] **Bug: Redstone Comparator Side Signal Locking & Orthogonal Input Evaluation**: Redstone Comparator neighbor checks in World.prototype.updateRedstone (js/world.js) aggregate rear and side inputs into a single inputPower accumulator without distinguishing side inputs for subtract/compare evaluation or side locking mechanisms. (Status: Open defect)
 
 
 ## 🛠️ Engineering & Architecture
@@ -50,9 +51,13 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Ambient Sounds**: Background noises for caves, forests, and oceans.
 - [ ] **New Task: Add Custom Sun Flare & Ray Occlusion Effects**: Light shafts rendering through opaque blocks around sun/moon models.
 - [ ] **New Task: Add Particle Emission Rate Quality Scaling**: Settings option to scale particle density and emission caps based on GPU/device performance in `js/particles.js`.
+- [ ] **New Task: Add Atmospheric Volumetric Cave Fog**: Render subtle depth-based volumetric fog density layers in subterranean cave structures below Y=30.
+- [ ] **New Task: Add Sprinting Motion Blur & Flight Vignette Effects**: Canvas post-processing visual feedback effect when sprinting or gliding with Elytra.
 
 ## 🧱 World Generation & Structures
 
+- [ ] **New Task: Add Ice Spikes Tundra Structures**: Tall packed ice and blue ice spires generating in cold tundra biomes.
+- [ ] **New Task: Add Tall Birch Forest Variant Generation**: Procedurally generate 10-14 block tall birch tree variants in birch forest biomes.
 - [ ] **New Task: Add End Citadel Structure**: Generate End Citadel towers in the End dimension with End Stone bricks, Purpur blocks, and Shulker spawners.
 - [ ] **New Task: Add Eclipse Events**: Special events where the sun is blocked during the day.
 - [ ] **New Task: Add Moon Phases**: Moon phases that affect mob spawning.
@@ -87,6 +92,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 ## 👾 Mobs & Entities
 
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
+- [ ] **New Task: Add Warden Directional Sonic Boom Ranged Attack**: Warden mob entity charging and launching a high-damage directional sonic boom ray when target is out of melee range in `js/mob.js`.
+- [ ] **New Task: Add Sniffer Mob Digging & Ancient Flower Seeds**: Sniffer passive mob sniffing dirt/moss terrain and unearthing Torchflower seeds and Pitcher pods in `js/mob.js`.
 - [ ] **New Task: Add Shulker Mob Entity**: Hostile End city mob that fires Levitation projectiles and drops Shulker Shells in `js/mob.js`.
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles.
@@ -112,6 +119,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🧰 Items, Equipment & Crafting
 
+- [ ] **New Task: Add Wind Charge Throwable Projectile**: Throwable Wind Charge item launching entity knockback gusts and vertical self-propulsion upon impact in `js/item_use.js`.
+- [ ] **New Task: Add Crafter Grid Quick-Shift Auto-Fill**: Shift-clicking ingredients into open Crafter GUI populates all non-disabled crafting grid slots evenly in `js/ui.js`.
 - [ ] **New Task: Add Wind Charge Enchantment Synergy**: Wind Charge projectiles triggering extra knockback or fire damage when launched using enchanted bows or crossbows.
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments.
 - [ ] **Map item**
@@ -131,6 +140,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
+- [ ] **New Task: Add Sculk Sensor Redstone Signal Frequency Calibration**: Sculk Sensor and Calibrated Sculk Sensor emitting distinct redstone power levels (1-15) based on vibration event types in `js/world.js`.
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
 - [ ] **New Task: Add Command Blocks**: Blocks that can execute server/world commands when powered by redstone.
 - [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
@@ -142,6 +152,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🖥️ UI, Multiplayer & Meta
 
+- [ ] **New Task: Add World HUD Minimap Overlay**: Toggleable mini-map display in HUD showing top-down biome colors and player orientation.
 - [ ] **Share world links**
 - [ ] **Leaderboards**
 - [ ] **World showcase gallery**
@@ -159,6 +170,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
 
+- [ ] **New Task: Add Plugin API Custom Command Handler**: `PluginAPI.registerCommand(name, handler)` endpoint allowing mod plugins to register custom chat commands.
 - [ ] Custom block registration
 - [ ] Custom item registration
 - [ ] Event hooks
