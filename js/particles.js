@@ -70,6 +70,31 @@ class ParticleSystem {
         }
     }
 
+    spawnMaceShockwave(x, y, z) {
+        const ringCount = 3;
+        for (let ring = 1; ring <= ringCount; ring++) {
+            const particleCount = ring * 16;
+            const initialRadius = ring * 0.3;
+            const speed = ring * 2.5;
+            for (let i = 0; i < particleCount; i++) {
+                const angle = (i / particleCount) * Math.PI * 2;
+                const vx = Math.cos(angle) * speed;
+                const vz = Math.sin(angle) * speed;
+                this.particles.push(this.getParticle({
+                    x: x + Math.cos(angle) * initialRadius,
+                    y: y + 0.1,
+                    z: z + Math.sin(angle) * initialRadius,
+                    vx: vx,
+                    vy: 0.2 + Math.random() * 0.3,
+                    vz: vz,
+                    life: 0.5 + Math.random() * 0.3,
+                    color: (i + ring) % 2 === 0 ? '#708090' : '#00FFFF',
+                    size: 0.18 + Math.random() * 0.1
+                }));
+            }
+        }
+    }
+
     spawnFirework(x, y, z) {
         const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF', '#FFA500'];
         const particleCount = 40;

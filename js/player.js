@@ -1026,14 +1026,18 @@ class Player {
         targetEntity.takeDamage(baseDamage);
         if (isMaceSmash && this.game && (this.game.particleSystem || this.game.particles)) {
             const particleSys = this.game.particleSystem || this.game.particles;
-            for (let ring = 1; ring <= 3; ring++) {
-                const count = ring * 12;
-                const radius = ring * 0.8;
-                for (let i = 0; i < count; i++) {
-                    const angle = (i / count) * Math.PI * 2;
-                    const px = targetEntity.x + Math.cos(angle) * radius;
-                    const pz = targetEntity.z + Math.sin(angle) * radius;
-                    particleSys.spawn(px, targetEntity.y + 0.1, pz, '#00FFFF', 1);
+            if (typeof particleSys.spawnMaceShockwave === 'function') {
+                particleSys.spawnMaceShockwave(targetEntity.x, targetEntity.y, targetEntity.z);
+            } else {
+                for (let ring = 1; ring <= 3; ring++) {
+                    const count = ring * 12;
+                    const radius = ring * 0.8;
+                    for (let i = 0; i < count; i++) {
+                        const angle = (i / count) * Math.PI * 2;
+                        const px = targetEntity.x + Math.cos(angle) * radius;
+                        const pz = targetEntity.z + Math.sin(angle) * radius;
+                        particleSys.spawn(px, targetEntity.y + 0.1, pz, '#00FFFF', 1);
+                    }
                 }
             }
             if (window.soundManager) window.soundManager.play('break', { x: targetEntity.x, y: targetEntity.y, z: targetEntity.z });

@@ -14,9 +14,6 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
-- [ ] **Bug: Heavy Core Mace Fall Smash Shockwave Missing**: The Mace weapon does not emit the 3D expanding ground shockwave ring particle effect upon landing a fall smash attack. (Status: Partially implemented - Entity hit particle ring exists in Player.prototype.attack in js/player.js, but missing 3D expanding ground impact shockwave when landing on ground blocks)
-- [ ] **Bug: Comparator Subtract Mode Missing**: The Redstone Comparator subtract mode toggling (right-click) is missing the mode state on the block entity or fails to compute subtraction correctly. (Status: Partially implemented - Block entity toggling mode='subtract' exists in js/interactions.js, but updateRedstone in js/world.js treats sidePower as 0 without separating side neighbor inputs from rear inputs, causing subtraction mode to output full input power)
-- [ ] **Bug: Redstone Comparator Side Signal Locking & Orthogonal Input Evaluation**: Redstone Comparator neighbor checks in World.prototype.updateRedstone (js/world.js) aggregate rear and side inputs into a single inputPower accumulator without distinguishing side inputs for subtract/compare evaluation or side locking mechanisms. (Status: Open defect)
 
 
 ## 🛠️ Engineering & Architecture
