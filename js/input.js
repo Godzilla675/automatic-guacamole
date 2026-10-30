@@ -32,7 +32,8 @@ class InputManager {
             fly: 'KeyG',
             chat: 'KeyT',
             crafting: 'KeyC',
-            offhandSwap: 'KeyF'
+            offhandSwap: 'KeyF',
+            minimap: 'KeyM'
         };
         if (saved) {
             try {
@@ -115,7 +116,9 @@ class InputManager {
             }
 
             // Configurable Controls
-            if (e.code === this.keybinds.forward) this.game.controls.forward = true;
+            if (e.code === this.keybinds.minimap || e.code === 'KeyM') {
+                if (this.game.minimap) this.game.minimap.toggle();
+            } else if (e.code === this.keybinds.forward) this.game.controls.forward = true;
             else if (e.code === this.keybinds.backward) this.game.controls.backward = true;
             else if (e.code === this.keybinds.left) this.game.controls.left = true;
             else if (e.code === this.keybinds.right) this.game.controls.right = true;

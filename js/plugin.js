@@ -2,6 +2,7 @@ class PluginAPI {
     constructor(game) {
         this.game = game;
         this.events = {};
+        this.commands = {};
     }
 
     on(event, callback) {
@@ -15,6 +16,12 @@ class PluginAPI {
         if (this.events[event]) {
             this.events[event].forEach(cb => cb(data));
         }
+    }
+
+    registerCommand(name, handler) {
+        if (!name || typeof handler !== 'function') return;
+        const cleanName = name.startsWith('/') ? name.substring(1).toLowerCase() : name.toLowerCase();
+        this.commands[cleanName] = handler;
     }
 
     registerBlock(id, def) {

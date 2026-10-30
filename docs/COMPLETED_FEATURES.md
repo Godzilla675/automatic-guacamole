@@ -4,9 +4,14 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 487 items.
+Total: 492 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add World HUD Minimap Overlay**: Toggleable mini-map display in HUD showing top-down biome colors and player orientation (`js/minimap.js`, `KeyM` keybind, settings UI checkbox).
+- [x] **New Task: Add Mobile Touch Controls HUD Sensitivity Slider**: Settings UI slider for adjusting touch joystick and camera swipe sensitivity in `js/ui.js` and `js/input.js`.
+- [x] **New Task: Add Custom Keybinds Profile Import/Export**: Settings UI buttons and functions (`exportKeybinds`, `importKeybinds`) to export and import player keybinding configurations as JSON in `js/ui.js`.
+- [x] **New Task: Add Plugin API Custom Command Handler**: `PluginAPI.registerCommand(name, handler)` endpoint allowing mod plugins to register custom chat commands in `js/plugin.js` and `js/chat.js`.
+- [x] **New Task: Add Custom Sound Effect Event Hooks**: `PluginAPI.on('sound', callback)` allowing plugins to intercept, inspect, modify, or cancel in-game audio events in `js/audio.js`.
 - [x] **New Task: Add Nether Portal Warp Shader**: Screen vignette and distortion shader effect while standing inside a Nether Portal in `js/renderer.js`.
 - [x] **New Task: Add Dripstone**: Dripstone Block and Pointed Dripstone spike blocks defined in `js/blocks.js`.
 - [x] **New Task: Add Weeping Vines**: Weeping Vines blocks and item defined in `js/blocks.js`.

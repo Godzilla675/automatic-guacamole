@@ -89,10 +89,21 @@ class ChatManager {
 
     handleCommand(text) {
         const parts = text.split(' ');
-        const cmd = parts[0].toLowerCase();
+        const rawCmd = parts[0];
+        const cmd = rawCmd.startsWith('/') ? rawCmd.substring(1).toLowerCase() : rawCmd.toLowerCase();
         const args = parts.slice(1);
 
-        if (cmd === '/time' && args[0] === 'set') {
+        // Check plugin custom commands
+        if (this.game && this.game.pluginAPI && this.game.pluginAPI.commands && this.game.pluginAPI.commands[cmd]) {
+            try {
+                this.game.pluginAPI.commands[cmd](args, text);
+            } catch (err) {
+                this.addMessage(`Error executing command /${cmd}: ${err.message}`);
+            }
+            return;
+        }
+
+        if ((cmd === 'time' || cmd === '/time') && args[0] === 'set') {
             const val = args[1];
             if (val === 'day') {
                 this.game.gameTime = 0;
@@ -107,7 +118,7 @@ class ChatManager {
                     this.addMessage("Time set to " + time);
                 }
             }
-        } else if (cmd === '/fill') {
+        } else if (cmd === 'fill' || cmd === '/fill') {
             if (args.length >= 7) {
                 const x1 = Math.floor(parseFloat(args[0]));
                 const y1 = Math.floor(parseFloat(args[1]));
@@ -154,7 +165,7 @@ class ChatManager {
             } else {
                 this.addMessage("Usage: /fill x1 y1 z1 x2 y2 z2 blockName");
             }
-        } else if (cmd === '/gamemode') {
+        } else if (cmd === 'gamemode' || cmd === '/gamemode') {
             if (args.length >= 1) {
                 const mode = args[0].toLowerCase();
                 let gm = -1;
@@ -178,7 +189,7 @@ class ChatManager {
             } else {
                 this.addMessage("Usage: /gamemode <survival|creative>");
             }
-        } else if (cmd === '/give') {
+        } else if (cmd === 'give' || cmd === '/give') {
             if (args.length >= 1) {
                 const itemName = args[0].toLowerCase();
                 const count = args.length >= 2 ? parseInt(args[1]) : 1;
@@ -235,7 +246,7 @@ class ChatManager {
             } else {
                 this.addMessage("Usage: /give <item> [count]");
             }
-        } else if (cmd === '/tp') {
+        } else if (cmd === 'tp' || cmd === '/tp') {
             if (args.length === 3) {
                 const x = parseFloat(args[0]);
                 const y = parseFloat(args[1]);
@@ -254,11 +265,11 @@ class ChatManager {
             } else {
                 this.addMessage("Usage: /tp <x> <y> <z>");
             }
-        } else if (cmd === '/clear') {
+        } else if (cmd === 'clear' || cmd === '/clear') {
             this.game.player.inventory.fill(null);
             this.game.ui.updateHotbarUI();
             this.addMessage("Cleared inventory");
-        } else if (cmd === '/togglechat' || cmd === '/chatlog') {
+        } else if (cmd === 'togglechat' || cmd === '/togglechat' || cmd === 'chatlog' || cmd === '/chatlog') {
             const state = this.toggleLogVisibility();
             this.addMessage(`Chat history log ${state ? 'shown' : 'hidden'}.`);
         } else {
