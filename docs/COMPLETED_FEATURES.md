@@ -624,3 +624,5 @@ Total: 487 items.
 - [x] **New Task: Add Name Tags**: Item to name mobs to prevent despawning with custom overhead name label rendering in `js/mob.js`, `js/interactions.js`, and `js/renderer.js`.
 - [x] **New Task: Add Candles**: Decorative light source blocks with 16 dye color variants in `js/blocks.js` and `js/textures.js`, with Flint and Steel lighting and extinguishing interactions in `js/interactions.js`.
 - [x] **New Task: Add Sculk Sensor Calibration with Calibrated Sculk Sensors**: Calibrated Sculk Sensor block filtering vibration frequencies using side redstone input signal strength in `js/world.js`.
+- [x] **Bug: Heavy Core Mace Fall Smash Shockwave Missing**: The Mace weapon emits a 3D expanding ground shockwave ring particle effect upon landing a fall smash attack via `spawnMaceShockwave` in `js/particles.js` and `js/player.js`.
+- [x] **Bug: Redstone Comparator Side Signal Locking & Orthogonal Input Evaluation**: `World.prototype.updateRedstone` in `js/world.js` evaluates Redstone Comparators by distinguishing rear input power from orthogonal side input power, correctly executing Compare mode, Subtract mode, and side signal evaluation.

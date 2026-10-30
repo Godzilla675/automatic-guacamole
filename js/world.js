@@ -989,18 +989,29 @@ class World {
                 }
             } else if (type === window.BLOCK.REDSTONE_COMPARATOR) {
                 const currentPower = this.getMetadata(x, y, z);
-                let inputPower = 0;
+                const compMeta = this.getMetadata(x, y, z);
+                const hasFacing = (compMeta & 4) !== 0;
+                const orientation = compMeta & 3;
+
+                // Orientation: 0: North (-Z), 1: East (+X), 2: South (+Z), 3: West (-X)
+                // When meta is unoriented (e.g. 0 from default setBlock without orientation bit 4 set),
+                // treat all neighbors as rear inputs for backward compatibility unless bit 4 is set.
+                let rearDx = 0, rearDz = 0;
+                if (hasFacing) {
+                    if (orientation === 0) rearDz = 1;      // Facing North -> Rear is South (+Z)
+                    else if (orientation === 1) rearDx = -1; // Facing East -> Rear is West (-X)
+                    else if (orientation === 2) rearDz = -1; // Facing South -> Rear is North (-Z)
+                    else if (orientation === 3) rearDx = 1;  // Facing West -> Rear is East (+X)
+                }
+
+                let rearPower = 0;
                 let sidePower = 0;
 
-                const neighbors = [
-                    {x:x+1, y:y, z:z}, {x:x-1, y:y, z:z},
-                    {x:x, y:y, z:z+1}, {x:x, y:y, z:z-1}
-                ];
-
-                for (const n of neighbors) {
-                    const nType = this.getBlock(n.x, n.y, n.z);
+                const getNeighborPower = (nx, ny, nz) => {
+                    const nType = this.getBlock(nx, ny, nz);
                     const nDef = window.BLOCKS[nType];
-                    const entity = this.getBlockEntity(n.x, n.y, n.z);
+                    const entity = this.getBlockEntity(nx, ny, nz);
+                    let p = 0;
 
                     if (nType === window.BLOCK.CRAFTER) {
                         if (entity && entity.items) {
@@ -1011,15 +1022,13 @@ class World {
                                     occupiedSlots++;
                                 }
                             }
-                            if (occupiedSlots > inputPower) inputPower = occupiedSlots;
+                            p = occupiedSlots;
                         }
                     } else if (entity && (entity.items || entity.input || entity.fuelItem || entity.output || entity.bottles || entity.ingredient)) {
-                        // General container fullness scaling (Chests, Furnaces, Hoppers, Droppers, Dispensers, Chiseled Bookshelves, Brewing Stands, etc.)
                         let itemsList = [];
                         if (Array.isArray(entity.items)) {
                             itemsList = entity.items;
                         } else {
-                            // Furnace / Smoker / Blast Furnace or Brewing Stand
                             if (entity.input) itemsList.push(entity.input);
                             if (entity.fuelItem) itemsList.push(entity.fuelItem);
                             if (entity.output) itemsList.push(entity.output);
@@ -1037,43 +1046,61 @@ class World {
                         }
 
                         if (itemCount > 0) {
-                            // Standard Minecraft comparator fullness formula scaled 1-15
                             const totalMaxCapacity = maxSlots * 64;
                             const fullnessRatio = Math.min(1.0, itemCount / totalMaxCapacity);
-                            const calcPower = Math.floor(1 + fullnessRatio * 14);
-                            if (calcPower > inputPower) inputPower = calcPower;
+                            p = Math.floor(1 + fullnessRatio * 14);
                         }
                     } else if (nType === window.BLOCK.TARGET_BLOCK) {
-                        const targetPower = this.getMetadata(n.x, n.y, n.z);
-                        if (targetPower > inputPower) inputPower = targetPower;
+                        p = this.getMetadata(nx, ny, nz);
                     } else if (nType === window.BLOCK.ITEM_FRAME || nType === window.BLOCK.ITEM_GLOW_FRAME) {
-                        const frameRotation = this.getMetadata(n.x, n.y, n.z) || 1;
-                        if (frameRotation > inputPower) inputPower = frameRotation;
+                        p = this.getMetadata(nx, ny, nz) || 1;
                     } else if (nDef) {
                         if (nDef.solid) {
-                            const dx = n.x - x;
-                            const dy = n.y - y;
-                            const dz = n.z - z;
-                            const behindX = n.x + dx;
-                            const behindY = n.y + dy;
-                            const behindZ = n.z + dz;
+                            const dx = nx - x;
+                            const dy = ny - y;
+                            const dz = nz - z;
+                            const behindX = nx + dx;
+                            const behindY = ny + dy;
+                            const behindZ = nz + dz;
                             const behindType = this.getBlock(behindX, behindY, behindZ);
                             if (behindType === window.BLOCK.ITEM_FRAME || behindType === window.BLOCK.ITEM_GLOW_FRAME) {
-                                const frameRotation = this.getMetadata(behindX, behindY, behindZ) || 1;
-                                if (frameRotation > inputPower) inputPower = frameRotation;
+                                p = this.getMetadata(behindX, behindY, behindZ) || 1;
                             }
                         }
-                        if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) inputPower = 15;
+                        if (nDef.isTorch && nType !== window.BLOCK.REDSTONE_TORCH_OFF) p = 15;
                         else if (nDef.isWire) {
-                            const p = this.getMetadata(n.x, n.y, n.z);
-                            if (p > inputPower) inputPower = p;
+                            p = this.getMetadata(nx, ny, nz);
                         }
+                    }
+                    return p;
+                };
+
+                const neighbors = [
+                    { x: x + 1, y, z, dx: 1, dz: 0 },
+                    { x: x - 1, y, z, dx: -1, dz: 0 },
+                    { x, y, z: z + 1, dx: 0, dz: 1 },
+                    { x, y, z: z - 1, dx: 0, dz: -1 }
+                ];
+
+                for (const n of neighbors) {
+                    const p = getNeighborPower(n.x, n.y, n.z);
+                    if (hasFacing) {
+                        if (n.dx === rearDx && n.dz === rearDz) {
+                            if (p > rearPower) rearPower = p;
+                        } else if (n.dx === -rearDx && n.dz === -rearDz) {
+                            // Front output direction, ignore for input calculation
+                        } else {
+                            // Orthogonal side neighbor
+                            if (p > sidePower) sidePower = p;
+                        }
+                    } else {
+                        if (p > rearPower) rearPower = p;
                     }
                 }
 
                 let compEntity = this.getBlockEntity(x, y, z);
                 const isSubtractMode = compEntity && compEntity.mode === 'subtract';
-                const outputPower = isSubtractMode ? Math.max(0, inputPower - sidePower) : (inputPower >= sidePower ? inputPower : 0);
+                const outputPower = isSubtractMode ? Math.max(0, rearPower - sidePower) : (rearPower >= sidePower ? rearPower : 0);
                 if (outputPower !== currentPower) {
                     this.setMetadata(x, y, z, outputPower);
                     this.scheduleNeighborRedstoneUpdates(x, y, z);

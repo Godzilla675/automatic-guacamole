@@ -1302,6 +1302,18 @@ class Game {
                      else meta = 0;
 
                      this.world.setMetadata(nx, ny, nz, meta);
+                 } else if (slot.type === BLOCK.REDSTONE_REPEATER || slot.type === BLOCK.REDSTONE_COMPARATOR) {
+                     // Repeater & Comparator Placement Orientation (Bit 2 / 0x4 set to indicate explicit facing)
+                     let r = this.player.yaw % (2 * Math.PI);
+                     if (r < 0) r += 2 * Math.PI;
+
+                     let orientation = 0; // 0: North (-Z), 1: East (+X), 2: South (+Z), 3: West (-X)
+                     if (r >= Math.PI / 4 && r < 3 * Math.PI / 4) orientation = 1;      // Facing East
+                     else if (r >= 3 * Math.PI / 4 && r < 5 * Math.PI / 4) orientation = 2; // Facing South
+                     else if (r >= 5 * Math.PI / 4 && r < 7 * Math.PI / 4) orientation = 3; // Facing West
+                     else orientation = 0;                                                  // Facing North
+
+                     this.world.setMetadata(nx, ny, nz, orientation | 4);
                  }
                  if (this.particles) {
                      const placedDef = BLOCKS[slot.type];
