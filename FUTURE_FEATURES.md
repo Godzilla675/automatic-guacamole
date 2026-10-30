@@ -149,7 +149,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🖥️ UI, Multiplayer & Meta
 
-- [ ] **New Task: Add World HUD Minimap Overlay**: Toggleable mini-map display in HUD showing top-down biome colors and player orientation.
 - [ ] **Share world links**
 - [ ] **Leaderboards**
 - [ ] **World showcase gallery**
@@ -160,14 +159,11 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue, quest tracking, and task completion rewards.
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
 - [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
-- [ ] **New Task: Add Mobile Touch Controls HUD Sensitivity Slider**: Settings UI slider for adjusting touch joystick and camera swipe sensitivity in `js/ui.js`.
-- [ ] **New Task: Add Custom Keybinds Profile Import/Export**: Settings UI buttons to export and import player keybinding configurations as JSON in `js/ui.js`.
 - [ ] **New Task: Add Audio Subtitles Directional Radar Indicator**: Visual HUD compass rose showing directional sound source markers in `js/ui.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
 
-- [ ] **New Task: Add Plugin API Custom Command Handler**: `PluginAPI.registerCommand(name, handler)` endpoint allowing mod plugins to register custom chat commands.
 - [ ] Custom block registration
 - [ ] Custom item registration
 - [ ] Event hooks
@@ -175,7 +171,6 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **Resource pack support**
 - [ ] **Support for custom models**
 - [ ] **New Task: Add Plugin API Custom Mob Registration**: `PluginAPI.registerMob(type, config)` endpoint allowing custom mob entity behaviors and textures.
-- [ ] **New Task: Add Custom Sound Effect Event Hooks**: `PluginAPI.on('sound', callback)` allowing plugins to intercept and modify in-game audio events.
 - [ ] **New Task: Add Plugin API Custom Particle Registration**: `PluginAPI.registerParticle(name, config)` endpoint for custom particle effects.
 - [ ] **New Task: Add Plugin API Custom UI Container Registration**: Endpoint for plugins to define custom grid GUIs and item container screens.
 - [ ] **New Task: Add Plugin API World Generator Hook**: `PluginAPI.registerBiomeGenerator(name, config)` allowing custom biome structure and heightmap generation logic in `js/plugin.js`.

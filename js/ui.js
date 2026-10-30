@@ -96,6 +96,16 @@ class UIManager {
             });
         }
 
+        const minimapCheckbox = document.getElementById('minimap-visible-checkbox');
+        if (minimapCheckbox) {
+            if (this.game && this.game.minimap) minimapCheckbox.checked = this.game.minimap.visible;
+            minimapCheckbox.addEventListener('change', (e) => {
+                if (this.game && this.game.minimap) {
+                    this.game.minimap.toggle(e.target.checked);
+                }
+            });
+        }
+
         const autoJumpCheckbox = document.getElementById('auto-jump-checkbox');
         if (autoJumpCheckbox) {
             const savedAutoJump = getStorage('voxel_auto_jump') === 'true';
@@ -124,13 +134,17 @@ class UIManager {
 
         const touchSensitivitySlider = document.getElementById('touch-sensitivity-slider');
         if (touchSensitivitySlider) {
-            const currentTouchSens = (this.game && this.game.input && this.game.input.touchSensitivity) ? this.game.input.touchSensitivity : 1.0;
+            const savedTouchSens = getStorage('voxel_touch_sensitivity');
+            const currentTouchSens = savedTouchSens !== null ? parseFloat(savedTouchSens) : ((this.game && this.game.input && this.game.input.touchSensitivity) ? this.game.input.touchSensitivity : 1.0);
             touchSensitivitySlider.value = currentTouchSens;
+            if (this.game && this.game.input) this.game.input.touchSensitivity = currentTouchSens;
+            if (this.game) this.game.touchSensitivity = currentTouchSens;
             const displayEl = document.getElementById('touch-sensitivity-value');
             if (displayEl) displayEl.textContent = currentTouchSens.toFixed(1);
             touchSensitivitySlider.addEventListener('input', (e) => {
                 const val = parseFloat(e.target.value);
                 if (this.game && this.game.input) this.game.input.touchSensitivity = val;
+                if (this.game) this.game.touchSensitivity = val;
                 setStorage('voxel_touch_sensitivity', val);
                 if (displayEl) displayEl.textContent = val.toFixed(1);
             });
@@ -686,6 +700,17 @@ class UIManager {
             if (chatVisibleCheckbox && this.game) {
                 chatVisibleCheckbox.checked = this.game.chatVisible;
             }
+            const minimapCheckbox = document.getElementById('minimap-visible-checkbox');
+            if (minimapCheckbox && this.game && this.game.minimap) {
+                minimapCheckbox.checked = this.game.minimap.visible;
+            }
+            const touchSensitivitySlider = document.getElementById('touch-sensitivity-slider');
+            if (touchSensitivitySlider) {
+                const sens = (this.game && this.game.input && this.game.input.touchSensitivity) || 1.0;
+                touchSensitivitySlider.value = sens;
+                const displayEl = document.getElementById('touch-sensitivity-value');
+                if (displayEl) displayEl.textContent = parseFloat(sens).toFixed(1);
+            }
             const uiScaleSlider = document.getElementById('ui-scale-slider');
             if (uiScaleSlider) {
                 let val = 1.0;
@@ -704,44 +729,64 @@ class UIManager {
     }
 
     exportKeybinds() {
-        if (!this.game || !this.game.input || !this.game.input.keybinds) return;
+        if (!this.game || !this.game.input || !this.game.input.keybinds) return null;
         const jsonStr = JSON.stringify(this.game.input.keybinds, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'voxel_keybinds.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        if (typeof document !== 'undefined' && document.createElement && document.body) {
+            try {
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'voxel_keybinds.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } catch (err) {}
+        }
         if (this.showNotification) this.showNotification("Exported keybind profile!");
+        return jsonStr;
     }
 
     importKeybinds(e) {
-        if (!e || !e.target || !e.target.files || !e.target.files[0]) return;
+        if (!e) return false;
+
+        const applyParsedJSON = (parsed) => {
+            if (typeof parsed === 'object' && parsed !== null) {
+                this.game.input.keybinds = { ...this.game.input.keybinds, ...parsed };
+                try {
+                    if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                        localStorage.setItem('voxel_keybinds', JSON.stringify(this.game.input.keybinds));
+                    }
+                } catch (err) {}
+                this.renderSettings();
+                if (this.showNotification) this.showNotification("Successfully imported keybind profile!");
+                return true;
+            }
+            return false;
+        };
+
+        if (typeof e === 'string') {
+            try { return applyParsedJSON(JSON.parse(e)); } catch (err) { return false; }
+        } else if (typeof e === 'object' && !e.target) {
+            return applyParsedJSON(e);
+        }
+
+        if (!e.target || !e.target.files || !e.target.files[0]) return false;
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = (event) => {
             try {
                 const parsed = JSON.parse(event.target.result);
-                if (typeof parsed === 'object' && parsed !== null) {
-                    this.game.input.keybinds = { ...this.game.input.keybinds, ...parsed };
-                    try {
-                        if (typeof localStorage !== 'undefined' && localStorage.setItem) {
-                            localStorage.setItem('voxel_keybinds', JSON.stringify(this.game.input.keybinds));
-                        }
-                    } catch (err) {}
-                    this.renderSettings();
-                    if (this.showNotification) this.showNotification("Successfully imported keybind profile!");
-                }
+                applyParsedJSON(parsed);
             } catch (err) {
                 console.error("Failed to parse keybinds JSON:", err);
                 if (this.showNotification) this.showNotification("Error: Invalid keybind JSON profile");
             }
         };
         reader.readAsText(file);
-        e.target.value = '';
+        if (e.target) e.target.value = '';
+        return true;
     }
 
     renderSettings() {

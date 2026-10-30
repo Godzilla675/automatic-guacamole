@@ -1,26 +1,56 @@
 class Minimap {
     constructor(game) {
         this.game = game;
-        this.canvas = document.createElement('canvas');
-        this.canvas.id = 'minimap';
-        this.canvas.width = 128;
-        this.canvas.height = 128;
-        Object.assign(this.canvas.style, {
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            border: '2px solid white',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            zIndex: '50'
-        });
-        const hud = document.getElementById('hud');
-        if (hud) hud.appendChild(this.canvas);
-        this.ctx = this.canvas.getContext('2d');
+        this.visible = true;
+
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem) {
+                const saved = localStorage.getItem('voxel_minimap_visible');
+                if (saved !== null) this.visible = saved === 'true';
+            }
+        } catch (e) {}
+
+        const doc = typeof document !== 'undefined' ? document : null;
+        if (doc) {
+            this.canvas = doc.createElement('canvas');
+            this.canvas.id = 'minimap';
+            this.canvas.width = 128;
+            this.canvas.height = 128;
+            Object.assign(this.canvas.style, {
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                border: '2px solid white',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                zIndex: '50',
+                display: this.visible ? 'block' : 'none'
+            });
+            const hud = doc.getElementById('hud');
+            if (hud) hud.appendChild(this.canvas);
+            this.ctx = this.canvas.getContext ? this.canvas.getContext('2d') : null;
+        }
+    }
+
+    toggle(forceState) {
+        if (forceState !== undefined) {
+            this.visible = !!forceState;
+        } else {
+            this.visible = !this.visible;
+        }
+        if (this.canvas) {
+            this.canvas.style.display = this.visible ? 'block' : 'none';
+        }
+        try {
+            if (typeof localStorage !== 'undefined' && localStorage.setItem) {
+                localStorage.setItem('voxel_minimap_visible', this.visible);
+            }
+        } catch (e) {}
+        return this.visible;
     }
 
     update() {
-        if (!this.game.player) return;
+        if (!this.visible || !this.game.player || !this.game.world) return;
         const ctx = this.ctx;
         const player = this.game.player;
         const cx = Math.floor(player.x);

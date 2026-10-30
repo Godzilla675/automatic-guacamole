@@ -148,6 +148,16 @@ class SoundManager {
     }
 
     play(type, position = null, blockType = null) {
+        const soundData = { type, position, blockType, cancel: false, cancelled: false };
+        if (typeof window !== 'undefined' && window.game && window.game.pluginAPI) {
+            window.game.pluginAPI.emit('sound', soundData);
+        }
+        if (soundData.cancel || soundData.cancelled) return;
+
+        type = soundData.type;
+        position = soundData.position;
+        blockType = soundData.blockType;
+
         if (typeof window !== 'undefined' && window.game && window.game.ui && typeof window.game.ui.addSubtitle === 'function') {
             window.game.ui.addSubtitle(type, position);
         }
