@@ -89,8 +89,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 ## 👾 Mobs & Entities
 
 - [ ] Complex AI (Pathfinding, fleeing, attacking)
-- [ ] **New Task: Add Warden Directional Sonic Boom Ranged Attack**: Warden mob entity charging and launching a high-damage directional sonic boom ray when target is out of melee range in `js/mob.js`.
-- [ ] **New Task: Add Sniffer Mob Digging & Ancient Flower Seeds**: Sniffer passive mob sniffing dirt/moss terrain and unearthing Torchflower seeds and Pitcher pods in `js/mob.js`.
 - [ ] **New Task: Add Shulker Mob Entity**: Hostile End city mob that fires Levitation projectiles and drops Shulker Shells in `js/mob.js`.
 - [ ] **New Task: Implement Strider Mobs**: Rideable passive mobs in the Nether that walk on lava.
 - [ ] **New Task: Add Pandas**: Neutral mobs that eat bamboo in jungles.
