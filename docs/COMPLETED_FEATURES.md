@@ -631,3 +631,5 @@ Total: 492 items.
 - [x] **New Task: Add Sculk Sensor Calibration with Calibrated Sculk Sensors**: Calibrated Sculk Sensor block filtering vibration frequencies using side redstone input signal strength in `js/world.js`.
 - [x] **Bug: Heavy Core Mace Fall Smash Shockwave Missing**: The Mace weapon emits a 3D expanding ground shockwave ring particle effect upon landing a fall smash attack via `spawnMaceShockwave` in `js/particles.js` and `js/player.js`.
 - [x] **Bug: Redstone Comparator Side Signal Locking & Orthogonal Input Evaluation**: `World.prototype.updateRedstone` in `js/world.js` evaluates Redstone Comparators by distinguishing rear input power from orthogonal side input power, correctly executing Compare mode, Subtract mode, and side signal evaluation.
+- [x] **New Task: Add Warden Directional Sonic Boom Ranged Attack**: Warden mob entity charging and launching a high-damage directional sonic boom ray when target is out of melee range in `js/mob.js`.
+- [x] **New Task: Add Sniffer Mob Digging & Ancient Flower Seeds**: Sniffer passive mob sniffing dirt/moss terrain and unearthing Torchflower seeds and Pitcher pods in `js/mob.js`.
