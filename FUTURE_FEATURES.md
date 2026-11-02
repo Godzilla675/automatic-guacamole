@@ -1,7 +1,7 @@
 # Future Features & Tasks
 
 The backlog for Voxel World. **Only open work lives here** - everything already shipped is archived in
-[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (487 items and counting).
+[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (494 items and counting).
 
 How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
@@ -50,6 +50,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Particle Emission Rate Quality Scaling**: Settings option to scale particle density and emission caps based on GPU/device performance in `js/particles.js`.
 - [ ] **New Task: Add Atmospheric Volumetric Cave Fog**: Render subtle depth-based volumetric fog density layers in subterranean cave structures below Y=30.
 - [ ] **New Task: Add Sprinting Motion Blur & Flight Vignette Effects**: Canvas post-processing visual feedback effect when sprinting or gliding with Elytra.
+- [ ] **New Task: Add Trial Spawner Cooldown Emitter Particles**: Emit subtle glowing flame/smoke particle effects around Trial Spawners while in cooldown mode.
 
 ## 🧱 World Generation & Structures
 
@@ -85,6 +86,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add End Ship Outer Islands Generation**: Generate flying End Ships adjacent to End Cities containing Elytra items in item frames and Dragon Heads in `js/structures.js`.
 - [ ] **New Task: Add Deep Dark Ancient City Portal Frame**: Generate large central reinforced deepslate portal frame structures in Deep Dark biomes in `js/structures.js`.
 - [ ] **New Task: Add Trail Ruins Archaeological Site Generation**: Subterranean gravel and mud brick structure generation in birch and taiga biomes with archaeology loot.
+- [ ] **New Task: Add Pale Moss Bonemeal Spread Mechanics**: Applying Bone Meal to Pale Moss Carpet or Pale Moss block spreads foliage to neighboring Pale Oak wood and stone blocks.
 
 ## 👾 Mobs & Entities
 
@@ -114,8 +116,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🧰 Items, Equipment & Crafting
 
-- [ ] **New Task: Add Wind Charge Throwable Projectile**: Throwable Wind Charge item launching entity knockback gusts and vertical self-propulsion upon impact in `js/item_use.js`.
-- [ ] **New Task: Add Crafter Grid Quick-Shift Auto-Fill**: Shift-clicking ingredients into open Crafter GUI populates all non-disabled crafting grid slots evenly in `js/ui.js`.
+- [ ] **New Task: Add Crafter Grid Quick-Shift Auto-Fill**: Shift-clicking ingredients into open Crafter GUI populates all non-disabled crafting grid slots evenly in `js/ui.js`. (Status: Partially implemented - shift-clicking into Crafter stacks into matching slots or first available slot; even slot distribution across non-disabled slots pending agent implementation)
 - [ ] **New Task: Add Wind Charge Enchantment Synergy**: Wind Charge projectiles triggering extra knockback or fire damage when launched using enchanted bows or crossbows.
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments.
 - [ ] **Map item**
@@ -132,10 +133,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
 - [ ] **New Task: Add Wind Charge Elytra Boost Synergy**: Launching Wind Charges while gliding with Elytra provides vertical velocity boost and radial wind burst FX in `js/item_use.js`.
+- [ ] **New Task: Add Bogged Poison Tipped Arrow Crafting**: Crafting recipe combining standard arrows with fermented spider eye or lingering poison potion to yield poison tipped arrows.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
-- [ ] **New Task: Add Sculk Sensor Redstone Signal Frequency Calibration**: Sculk Sensor and Calibrated Sculk Sensor emitting distinct redstone power levels (1-15) based on vibration event types in `js/world.js`.
 - [ ] **New Task: Add Apiaries**: Crafted blocks where bees live and produce honey.
 - [ ] **New Task: Add Command Blocks**: Blocks that can execute server/world commands when powered by redstone.
 - [ ] **New Task: Add Copper Golem Mob & Copper Button Interactivity**: A friendly construct mob crafted from copper blocks that randomly interacts with copper buttons and oxidizes into a statue over time. (Status: Proposed feature, pending implementation)
@@ -144,6 +145,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
 - [ ] **New Task: Add Calibrated Sculk Sensor Output Latching**: Allow side-powered Calibrated Sculk Sensors to hold their redstone signal output until reset in `js/world.js`.
+- [ ] **New Task: Add Copper Trapdoors & Grate Submerged Waterlogging**: Toggle waterlogged fluid pass-through states on oxidized Copper Trapdoors and Copper Grates.
 
 ## 🖥️ UI, Multiplayer & Meta
 

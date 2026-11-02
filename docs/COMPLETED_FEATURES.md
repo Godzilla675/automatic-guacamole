@@ -4,9 +4,11 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 492 items.
+Total: 494 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add Wind Charge Throwable Projectile**: Throwable Wind Charge item launching entity knockback gusts and vertical self-propulsion upon impact in `js/item_use.js`, `js/game.js`, and `js/particles.js`.
+- [x] **New Task: Add Sculk Sensor Redstone Signal Frequency Calibration**: Sculk Sensor and Calibrated Sculk Sensor emitting distinct redstone power levels (1-15) based on vibration event types in `js/world.js`.
 - [x] **New Task: Add World HUD Minimap Overlay**: Toggleable mini-map display in HUD showing top-down biome colors and player orientation (`js/minimap.js`, `KeyM` keybind, settings UI checkbox).
 - [x] **New Task: Add Mobile Touch Controls HUD Sensitivity Slider**: Settings UI slider for adjusting touch joystick and camera swipe sensitivity in `js/ui.js` and `js/input.js`.
 - [x] **New Task: Add Custom Keybinds Profile Import/Export**: Settings UI buttons and functions (`exportKeybinds`, `importKeybinds`) to export and import player keybinding configurations as JSON in `js/ui.js`.
