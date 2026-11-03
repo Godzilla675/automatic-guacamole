@@ -88,10 +88,18 @@ describe('Newly Added Bugs Fix Suite (Batch 2)', function() {
         // Slot 0 in Crafter is disabled, so it MUST remain null
         assert.strictEqual(crafter.items[0], null, 'Crafter slot 0 must remain null because it is disabled');
 
-        // Slot 1 in Crafter is enabled, so the items should be inserted into slot 1
-        assert.ok(crafter.items[1], 'Crafter slot 1 should receive the quick-shifted items');
+        // Due to the new even-distribution logic for Crafter, 5 items are distributed across the available slots.
+        // There are 8 available slots (slots 1-8). The 5 items will go 1 each into slots 1-5.
+        assert.ok(crafter.items[1], 'Crafter slot 1 should receive one of the quick-shifted items');
         assert.strictEqual(crafter.items[1].type, window.BLOCK.DIRT);
-        assert.strictEqual(crafter.items[1].count, 5);
+        assert.strictEqual(crafter.items[1].count, 1);
+
+        assert.ok(crafter.items[5], 'Crafter slot 5 should receive one of the quick-shifted items');
+        assert.strictEqual(crafter.items[5].type, window.BLOCK.DIRT);
+        assert.strictEqual(crafter.items[5].count, 1);
+
+        assert.strictEqual(crafter.items[6], null, 'Crafter slot 6 should be null');
+
         assert.strictEqual(game.player.inventory[0], null, 'Player inventory slot 0 should be empty');
     });
 

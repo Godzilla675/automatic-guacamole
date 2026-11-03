@@ -2778,31 +2778,41 @@ class UIManager {
                 const crafter = this.activeCrafter;
                 if (!crafter.disabledSlots) crafter.disabledSlots = new Array(9).fill(false);
 
-                // First try stacking into existing non-disabled matching slots
+                // Distribute items evenly across all available non-disabled slots
+                // Find all target slots: either empty or matching item type
+                const targetSlots = [];
                 for (let i = 0; i < 9; i++) {
                     if (crafter.disabledSlots[i]) continue;
                     const cItem = crafter.items[i];
-                    if (cItem && cItem.type === clickedItem.type && cItem.count < 64) {
-                        const space = 64 - cItem.count;
-                        const toAdd = Math.min(space, clickedItem.count);
-                        cItem.count += toAdd;
-                        clickedItem.count -= toAdd;
-                        if (clickedItem.count <= 0) {
-                            player.inventory[index] = null;
-                            break;
-                        }
+                    if (!cItem || (cItem.type === clickedItem.type && cItem.count < 64)) {
+                        targetSlots.push(i);
                     }
                 }
 
-                // Next place into first available empty non-disabled slot
-                if (player.inventory[index] && player.inventory[index].count > 0) {
-                    for (let i = 0; i < 9; i++) {
-                        if (crafter.disabledSlots[i]) continue;
-                        if (!crafter.items[i]) {
-                            crafter.items[i] = { ...player.inventory[index] };
-                            player.inventory[index] = null;
-                            break;
+                if (targetSlots.length > 0) {
+                    // Distribute one by one until clickedItem is exhausted
+                    while (clickedItem.count > 0) {
+                        let placedAny = false;
+                        for (let i = 0; i < targetSlots.length; i++) {
+                            if (clickedItem.count <= 0) break;
+                            const t = targetSlots[i];
+                            let cItem = crafter.items[t];
+
+                            if (!cItem) {
+                                crafter.items[t] = { ...clickedItem, count: 1 };
+                                clickedItem.count--;
+                                placedAny = true;
+                            } else if (cItem.count < 64) {
+                                cItem.count++;
+                                clickedItem.count--;
+                                placedAny = true;
+                            }
                         }
+                        if (!placedAny) break; // All slots full
+                    }
+
+                    if (clickedItem.count <= 0) {
+                        player.inventory[index] = null;
                     }
                 }
 
