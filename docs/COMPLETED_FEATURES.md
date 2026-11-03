@@ -4,7 +4,7 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 494 items.
+Total: 495 items.
 
 ## 🐛 Bugs Fixed
 - [x] **New Task: Add Wind Charge Throwable Projectile**: Throwable Wind Charge item launching entity knockback gusts and vertical self-propulsion upon impact in `js/item_use.js`, `js/game.js`, and `js/particles.js`.
@@ -587,6 +587,8 @@ Total: 494 items.
 - [x] **New Task: Add Wind Charge Spiral Blast Trail Particles**: Wind Charge projectiles emit spiral wind blast particle trails behind throwable projectile trajectories in `js/game.js`.
 - [x] **New Task: Add Heavy Core Mace Fall Smash Shockwave FX**: Landing a Mace smash attack after falling emits a 3D expanding ground shockwave ring particle effect in `js/player.js`.
 - [x] **New Task: Add Crafter Pulse Trigger Cooldown Status Overlay**: Visual progress status overlay on Crafter UI screen indicates redstone pulse auto-crafting cooldown state in `js/ui.js` and `styles.css`.
+
+- [x] **New Task: Add Crafter Grid Quick-Shift Auto-Fill**: Shift-clicking ingredients into open Crafter GUI populates all non-disabled crafting grid slots evenly in `js/ui.js`.
 
 ## Engineering (October 14 cleanup PR)
 - [x] **Move item-use logic out of `Game.startAction()`**: Introduced `ItemUse` registry in `js/item_use.js` (same shape as `BlockInteractions` in `js/interactions.js`) and migrated right-click item-use handlers into registry. Tests: `tests/test_item_use.js`.

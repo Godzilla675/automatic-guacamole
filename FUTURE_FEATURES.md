@@ -116,7 +116,6 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 
 ## 🧰 Items, Equipment & Crafting
 
-- [ ] **New Task: Add Crafter Grid Quick-Shift Auto-Fill**: Shift-clicking ingredients into open Crafter GUI populates all non-disabled crafting grid slots evenly in `js/ui.js`. (Status: Partially implemented - shift-clicking into Crafter stacks into matching slots or first available slot; even slot distribution across non-disabled slots pending agent implementation)
 - [ ] **New Task: Add Wind Charge Enchantment Synergy**: Wind Charge projectiles triggering extra knockback or fire damage when launched using enchanted bows or crossbows.
 - [ ] **New Task: Implement Tridents with Enchantments**: Add Loyalty, Channeling, and Riptide enchantments.
 - [ ] **Map item**
