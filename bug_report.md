@@ -188,6 +188,27 @@ All systems executed cleanly without causing freezes or unhandled internal appli
 ### Conclusion
 As of this execution pass, the core systems, rendering loops, and UI boundaries are operating stably. No critical system anomalies or feature defects were discovered during this execution block.
 
+## Backlog Audit & Repository Maintenance Pass
+
+Following an exhaustive audit of `FUTURE_FEATURES.md` against codebase implementations:
+
+### 1. Verified Completed Tasks Reconciled
+- **In-Game Keybind Remapping UI**: Confirmed that `renderSettings()` in `js/ui.js` dynamically renders all input actions, attaches remapping handlers (`this.game.input.bindKey`), provides keybind profile reset to default, and exports/imports JSON keybindings via `exportKeybinds()` / `importKeybinds()`. This completed feature was moved from `FUTURE_FEATURES.md` to `docs/COMPLETED_FEATURES.md`, bringing the archived feature count to 588 items.
+
+### 2. Backlog Task Status Annotations
+- **Copper Trapdoors & Grate Submerged Waterlogging**: Copper Grate submerged waterlogging is active and working via `World.prototype.isWaterlogged` and metadata 8 in `js/world.js`, but Copper Trapdoors are not yet defined in `BLOCK`. Annotated as partially implemented in `FUTURE_FEATURES.md`.
+- **Calibrated Sculk Sensor Output Latching**: Vibration filtering is active, but output latching until reset is pending implementation. Annotated as proposed/pending in `FUTURE_FEATURES.md`.
+- **Wind Charge Elytra Boost Synergy**: Wind Charge projectiles and Elytra gliding are independently functional, but direct launch boost synergy while gliding is pending implementation. Annotated as proposed/pending in `FUTURE_FEATURES.md`.
+- **Bogged Poison Tipped Arrow Crafting**: Standard and poison tipped arrow items exist, but crafting integration combining arrows with lingering potions/spider eyes is pending implementation. Annotated as proposed/pending in `FUTURE_FEATURES.md`.
+
+### 3. Expansion of Future Feature Proposals
+Added 15 new high-quality, themed tasks to `FUTURE_FEATURES.md` across Engineering & Architecture, Rendering & Audio, World Generation, Mobs & Entities, Items & Crafting, Redstone & Mechanics, UI & Meta, and Modding API.
+
+### 4. Overall Health & Stability
+- Automated unit test suite (`npm test`) executed cleanly with 107/107 passed test files and 641/641 passed tests.
+- Playwright headless client error check (`scripts/e2e/playwright_console_errors.js`) recorded 0 uncaught exceptions and 0 console errors.
+- Manual gameplay simulation sequence (`scripts/e2e/verify_manual_gameplay.py`) verified 100% operational stability across core GUI screens (Inventory, Crafting, Furnace, Jukebox, Anvil, Enchanting, Brewing, Trading, Settings, and Armor UI).
+
 ## Backlog & Implementation Audit Pass
 
 Following an exhaustive audit of the `FUTURE_FEATURES.md` backlog against shipped functionality:

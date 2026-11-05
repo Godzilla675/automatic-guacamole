@@ -34,6 +34,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Unified Container Interaction Registry**: Consolidate container opening logic for Chests, Furnaces, Hoppers, Dispensers, Droppers, Crafters, and Shulker Boxes into a unified `ContainerUI` manager in `js/ui.js`.
 - [ ] **New Task: Add Spatial Quadtree Chunk Lookup**: Replace O(chunks) linear scan in `World.prototype.getChunk` with spatial 2D grid/quadtree array lookup.
 - [ ] **New Task: Add Spatial Octree Node Recycling**: Pool spatial quadtree/octree node allocations during chunk updates in `js/world.js` to reduce garbage collection overhead.
+- [ ] **New Task: Add Block Entity Event Bus**: Decouple block entity lifecycle events and state transitions into an event emitter pattern in `js/world.js`.
+- [ ] **New Task: Add WebGL Shader Compilation Cache**: Cache compiled WebGL shader programs and uniform locations in `js/renderer.js` to reduce context initialization time.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -51,6 +53,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Atmospheric Volumetric Cave Fog**: Render subtle depth-based volumetric fog density layers in subterranean cave structures below Y=30.
 - [ ] **New Task: Add Sprinting Motion Blur & Flight Vignette Effects**: Canvas post-processing visual feedback effect when sprinting or gliding with Elytra.
 - [ ] **New Task: Add Trial Spawner Cooldown Emitter Particles**: Emit subtle glowing flame/smoke particle effects around Trial Spawners while in cooldown mode.
+- [ ] **New Task: Add Underwater Bubble Trail Particle Emitter**: Spawn subtle ascending bubble particles when swimming underwater in `js/particles.js` and `js/player.js`.
+- [ ] **New Task: Add Day/Night Sky Transition Atmospheric Fog Hue**: Dynamically modulate fog color gradients during sunrise and sunset transitions in `js/renderer.js`.
 
 ## 🧱 World Generation & Structures
 
@@ -87,6 +91,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Deep Dark Ancient City Portal Frame**: Generate large central reinforced deepslate portal frame structures in Deep Dark biomes in `js/structures.js`.
 - [ ] **New Task: Add Trail Ruins Archaeological Site Generation**: Subterranean gravel and mud brick structure generation in birch and taiga biomes with archaeology loot.
 - [ ] **New Task: Add Pale Moss Bonemeal Spread Mechanics**: Applying Bone Meal to Pale Moss Carpet or Pale Moss block spreads foliage to neighboring Pale Oak wood and stone blocks.
+- [ ] **New Task: Add Desert Fossil Rib Cage Generation**: Subterranean Bone Block skeletal structures generating in Desert biomes in `js/structures.js`.
+- [ ] **New Task: Add Nether Fortresses Nether Wart Courtyard**: Generate interior soul sand patches containing Nether Wart crops within Nether Fortress structures in `js/structures.js`.
 
 ## 👾 Mobs & Entities
 
@@ -113,6 +119,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Foxes**: Passive mobs found in taigas.
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
 - [ ] **New Task: Add Camel Rideable Mount Physics & Sprint Dash**: Desert camel mounts supporting two players and executing horizontal gap-clearing dash moves in `js/mob.js`.
+- [ ] **New Task: Add Mooshroom Mob Shearing Mechanics**: Right-clicking Mooshrooms with Shears yields 5 Red Mushrooms and transforms them into standard Cows in `js/mob.js`.
+- [ ] **New Task: Add Iron Golem Village Defending AI**: Iron Golems targeting hostile zombies and skeletons within village boundaries in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -131,8 +139,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Paintbrushes**: Items used to paint blocks different colors.
 - [ ] **New Task: Add Netherite Armor**: Higher tier armor that resists fire.
 - [ ] **New Task: Add Firework Star Customization**: Crafting recipes for Firework Stars with dye color combinations and explosive effect shapes.
-- [ ] **New Task: Add Wind Charge Elytra Boost Synergy**: Launching Wind Charges while gliding with Elytra provides vertical velocity boost and radial wind burst FX in `js/item_use.js`.
-- [ ] **New Task: Add Bogged Poison Tipped Arrow Crafting**: Crafting recipe combining standard arrows with fermented spider eye or lingering poison potion to yield poison tipped arrows.
+- [ ] **New Task: Add Wind Charge Elytra Boost Synergy**: Launching Wind Charges while gliding with Elytra provides vertical velocity boost and radial wind burst FX in `js/item_use.js`. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Bogged Poison Tipped Arrow Crafting**: Crafting recipe combining standard arrows with fermented spider eye or lingering poison potion to yield poison tipped arrows. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Suspicious Stew Recipe Variations**: Crafting recipes for Suspicious Stew using Dandelions (Saturation), Cornflowers (Jump Boost), and Poppies (Night Vision) in `js/crafting.js`.
+- [ ] **New Task: Add Clock & Compass Offhand HUD Display**: Active visual time-of-day and spawn-direction icons in HUD when holding Clock or Compass in offhand slot in `js/ui.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -143,8 +153,10 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Structure Blocks**: Technical blocks for saving and loading structures.
 - [ ] **New Task: Add Jigsaw Blocks**: Technical blocks used for generating complex structures like villages.
 - [ ] **New Task: Add Water Wheels and Windmills**: Multiblock mechanical power generators using environmental water flow and wind.
-- [ ] **New Task: Add Calibrated Sculk Sensor Output Latching**: Allow side-powered Calibrated Sculk Sensors to hold their redstone signal output until reset in `js/world.js`.
-- [ ] **New Task: Add Copper Trapdoors & Grate Submerged Waterlogging**: Toggle waterlogged fluid pass-through states on oxidized Copper Trapdoors and Copper Grates.
+- [ ] **New Task: Add Calibrated Sculk Sensor Output Latching**: Allow side-powered Calibrated Sculk Sensors to hold their redstone signal output until reset in `js/world.js`. (Status: Proposed feature, pending implementation)
+- [ ] **New Task: Add Copper Trapdoors & Grate Submerged Waterlogging**: Toggle waterlogged fluid pass-through states on oxidized Copper Trapdoors and Copper Grates. (Status: Partially implemented - Copper Grate submerged waterlogging is supported in `js/world.js`, but Copper Trapdoor block definitions and waterlogged state toggling are pending agent implementation)
+- [ ] **New Task: Add Target Block Arrow Deflection Particle Burst**: Impact spark and ring particles emitted when arrows or projectiles strike Target Blocks in `js/particles.js`.
+- [ ] **New Task: Add Lightning Rod Redstone Comparator Reading**: Comparators facing Lightning Rods emitting brief 15-strength pulses upon lightning strike in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -157,8 +169,9 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Block Dragging**: Allow players to drag and select multiple blocks in creative.
 - [ ] **New Task: Add Dynamic Quest System**: Questgiver NPC dialogue, quest tracking, and task completion rewards.
 - [ ] **New Task: Add Magic Spells**: Allow players to cast spells using wands.
-- [ ] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls.
 - [ ] **New Task: Add Audio Subtitles Directional Radar Indicator**: Visual HUD compass rose showing directional sound source markers in `js/ui.js`.
+- [ ] **New Task: Add Hotbar Quick-Drop Keybind**: Configurable keybind (`KeyQ`) to drop 1 item from active hotbar slot or `Ctrl+KeyQ` to drop the entire stack in `js/input.js` and `js/player.js`.
+- [ ] **New Task: Add Debug F3 Chunk Coordinates Display**: Display chunk-relative coordinates (cx, cz, lx, lz) alongside global XYZ in debug HUD overlay in `js/renderer.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -174,3 +187,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Plugin API Custom UI Container Registration**: Endpoint for plugins to define custom grid GUIs and item container screens.
 - [ ] **New Task: Add Plugin API World Generator Hook**: `PluginAPI.registerBiomeGenerator(name, config)` allowing custom biome structure and heightmap generation logic in `js/plugin.js`.
 - [ ] **New Task: Add Plugin API Custom Recipe Registration**: `PluginAPI.registerRecipe(output, ingredients, matrix)` endpoint for plugins to register shaped/shapeless crafting recipes in `js/plugin.js`.
+- [ ] **New Task: Add Plugin API Custom Biome Decorator Hook**: `PluginAPI.registerDecorator(biomeName, callback)` allowing plugins to add custom plant and structure decorators during chunk generation in `js/plugin.js`.
