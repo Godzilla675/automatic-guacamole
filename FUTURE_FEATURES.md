@@ -14,6 +14,8 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
+- [ ] **Tested all features**: All currently implemented features and partially implemented features have been verified and tested without issues via unit tests, manual playwright gameplay tests, and console error scripts.
+
 
 
 ## 🛠️ Engineering & Architecture
