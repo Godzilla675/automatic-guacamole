@@ -4,7 +4,7 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 589 items.
+Total: 590 items.
 
 ## 🐛 Bugs Fixed
 - [x] **Tested all features**: All currently implemented features and partially implemented features have been verified and tested without issues via unit tests, manual playwright gameplay tests, and console error scripts.
@@ -639,3 +639,4 @@ Total: 589 items.
 - [x] **Bug: Redstone Comparator Side Signal Locking & Orthogonal Input Evaluation**: `World.prototype.updateRedstone` in `js/world.js` evaluates Redstone Comparators by distinguishing rear input power from orthogonal side input power, correctly executing Compare mode, Subtract mode, and side signal evaluation.
 - [x] **New Task: Add Warden Directional Sonic Boom Ranged Attack**: Warden mob entity charging and launching a high-damage directional sonic boom ray when target is out of melee range in `js/mob.js`.
 - [x] **New Task: Add Sniffer Mob Digging & Ancient Flower Seeds**: Sniffer passive mob sniffing dirt/moss terrain and unearthing Torchflower seeds and Pitcher pods in `js/mob.js`.
+- [x] **New Task: Add Iron Golem Village Defending AI**: Iron Golems targeting hostile zombies, skeletons, and spiders within 10 blocks, moving toward targets and tossing them upward with damage (`updateIronGolemAI` in `js/mob.js`).
