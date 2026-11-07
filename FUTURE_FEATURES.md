@@ -37,6 +37,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Block Entity Event Bus**: Decouple block entity lifecycle events and state transitions into an event emitter pattern in `js/world.js`.
 - [ ] **New Task: Add WebGL Shader Compilation Cache**: Cache compiled WebGL shader programs and uniform locations in `js/renderer.js` to reduce context initialization time.
 - [ ] **New Task: Add Entity Raycast Spatial Hash Grid**: Spatial 3D hashing bucket index for high-frequency player and projectile raycasts against entities in `js/physics.js`.
+- [ ] **New Task: Add Memory Profiling Diagnostics Hook**: Periodic tracking of chunk and entity heap allocations in debug mode.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -57,6 +58,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Underwater Bubble Trail Particle Emitter**: Spawn subtle ascending bubble particles when swimming underwater in `js/particles.js` and `js/player.js`.
 - [ ] **New Task: Add Day/Night Sky Transition Atmospheric Fog Hue**: Dynamically modulate fog color gradients during sunrise and sunset transitions in `js/renderer.js`.
 - [ ] **New Task: Add Dynamic Sun Glow & Bloom Post-Process FX**: Radial gradient specular flare and canvas bloom overlay encircling the active solar disc in `js/renderer.js`.
+- [ ] **New Task: Add Atmospheric Cloud Shadows**: Render subtle scrolling cloud shadows projected on terrain surface blocks in `js/renderer.js`.
 
 ## 🧱 World Generation & Structures
 
@@ -96,6 +98,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Desert Fossil Rib Cage Generation**: Subterranean Bone Block skeletal structures generating in Desert biomes in `js/structures.js`.
 - [ ] **New Task: Add Nether Fortresses Nether Wart Courtyard**: Generate interior soul sand patches containing Nether Wart crops within Nether Fortress structures in `js/structures.js`.
 - [ ] **New Task: Add Desert Oasis Structures**: Subterranean/surface palm trees and natural freshwater spring oases generating in desert biomes in `js/structures.js`.
+- [ ] **New Task: Add Badlands Mesa Plateau Caves**: Generate exposed red sandstone canyon caves in Badlands biomes.
 
 ## 👾 Mobs & Entities
 
@@ -123,7 +126,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Glow Squid**: Squid variant that drops glow ink sacs.
 - [ ] **New Task: Add Camel Rideable Mount Physics & Sprint Dash**: Desert camel mounts supporting two players and executing horizontal gap-clearing dash moves in `js/mob.js`.
 - [ ] **New Task: Add Mooshroom Mob Shearing Mechanics**: Right-clicking Mooshrooms with Shears yields 5 Red Mushrooms and transforms them into standard Cows in `js/mob.js`. (Status: Partially implemented - shearing interaction transforms Mooshroom into Cow in `js/mob.js`, but drops Eyeblossom blocks instead of Red Mushrooms; bowl milking gives Suspicious Stew rather than standard Mushroom Stew)
-- [ ] **New Task: Add Goat Ramming Knockback Mechanics**: Goat entities charging stationary entities and blocks, dealing strong horizontal impulse knockback and dropping Goat Horns upon solid wall impacts in `js/mob.js`.
+- [ ] **New Task: Add Goat Ramming Knockback Mechanics**: Goat entities charging stationary entities and blocks, dealing strong horizontal impulse knockback and dropping Goat Horns upon solid wall impacts in `js/mob.js`. (Status: Partially implemented - Goat mob bumping into solid blocks drops Goat Horn item in `js/mob.js`, but charging target entities and dealing horizontal impulse knockback to entities remain pending implementation)
+- [ ] **New Task: Add Bat Ambient Mob Entity**: Flying subterranean ambient bats hanging from cave ceilings and roosting in low-light environments in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -147,6 +151,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Suspicious Stew Recipe Variations**: Crafting recipes for Suspicious Stew using Dandelions (Saturation), Cornflowers (Jump Boost), and Poppies (Night Vision) in `js/crafting.js`.
 - [ ] **New Task: Add Clock & Compass Offhand HUD Display**: Active visual time-of-day and spawn-direction icons in HUD when holding Clock or Compass in offhand slot in `js/ui.js`.
 - [ ] **New Task: Add Copper Nugget Item & De-crafting Recipes**: Crafting recipe breaking 1 Copper Ingot into 9 Copper Nuggets and re-compacting 9 Nuggets into 1 Ingot in `js/blocks.js` and `js/crafting.js`.
+- [ ] **New Task: Add Glow Ink Sac Glowing Sign Text**: Applying Glow Ink Sac to placed wooden signs makes sign text illuminated and bright in dark areas.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -162,6 +167,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Target Block Arrow Deflection Particle Burst**: Impact spark and ring particles emitted when arrows or projectiles strike Target Blocks in `js/particles.js`.
 - [ ] **New Task: Add Lightning Rod Redstone Comparator Reading**: Comparators facing Lightning Rods emitting brief 15-strength pulses upon lightning strike in `js/world.js`.
 - [ ] **New Task: Add Sculk Sensor Redstone Comparator Frequency Reading**: Comparators reading vibration frequency directly from adjacent Sculk Sensors without signal decay in `js/world.js`.
+- [ ] **New Task: Add Daylight Sensor Inverted Night Mode**: Right-clicking Daylight Sensors toggles them to Moonlight/Inverted sensors emitting power at night.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -178,6 +184,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Hotbar Quick-Drop Keybind**: Configurable keybind (`KeyQ`) to drop 1 item from active hotbar slot or `Ctrl+KeyQ` to drop the entire stack in `js/input.js` and `js/player.js`.
 - [ ] **New Task: Add Debug F3 Chunk Coordinates Display**: Display chunk-relative coordinates (cx, cz, lx, lz) alongside global XYZ in debug HUD overlay in `js/renderer.js`.
 - [ ] **New Task: Add Custom Crosshair Style Selector in Settings**: Options menu selection for Classic Plus, Dot, Circle, or Dynamic crosshair styles in `js/ui.js` and `js/renderer.js`.
+- [ ] **New Task: Add Hotbar Number Overlay Toggle in Settings**: Option to toggle 1-9 slot number overlays on hotbar cells in `js/ui.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -195,3 +202,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Plugin API Custom Recipe Registration**: `PluginAPI.registerRecipe(output, ingredients, matrix)` endpoint for plugins to register shaped/shapeless crafting recipes in `js/plugin.js`.
 - [ ] **New Task: Add Plugin API Custom Biome Decorator Hook**: `PluginAPI.registerDecorator(biomeName, callback)` allowing plugins to add custom plant and structure decorators during chunk generation in `js/plugin.js`.
 - [ ] **New Task: Add Plugin API Custom Event Emitter Registration**: `PluginAPI.createEventEmitter(channel)` allowing plugins to dispatch and listen for decoupled inter-plugin messaging in `js/plugin.js`.
+- [ ] **New Task: Add Plugin API Custom Keybind Registration**: `PluginAPI.registerKeybind(name, defaultKey, callback)` endpoint for custom plugin shortcuts.
