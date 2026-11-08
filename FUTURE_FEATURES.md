@@ -42,6 +42,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add WebGL Shader Compilation Cache**: Cache compiled WebGL shader programs and uniform locations in `js/renderer.js` to reduce context initialization time.
 - [ ] **New Task: Add Entity Raycast Spatial Hash Grid**: Spatial 3D hashing bucket index for high-frequency player and projectile raycasts against entities in `js/physics.js`.
 - [ ] **New Task: Add Memory Profiling Diagnostics Hook**: Periodic tracking of chunk and entity heap allocations in debug mode.
+- [ ] **New Task: Add Entity Camera Frustum Culling**: Skip transformation matrix and render evaluations in `Renderer.prototype.renderMob` for entities outside camera field of view frustum.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -63,6 +64,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Day/Night Sky Transition Atmospheric Fog Hue**: Dynamically modulate fog color gradients during sunrise and sunset transitions in `js/renderer.js`.
 - [ ] **New Task: Add Dynamic Sun Glow & Bloom Post-Process FX**: Radial gradient specular flare and canvas bloom overlay encircling the active solar disc in `js/renderer.js`.
 - [ ] **New Task: Add Atmospheric Cloud Shadows**: Render subtle scrolling cloud shadows projected on terrain surface blocks in `js/renderer.js`.
+- [ ] **New Task: Add Rain Impact Splash Particles on Entities**: Spawn subtle water droplet splash particles when rainfall collides with mob and player bounding boxes in `js/particles.js`.
+- [ ] **New Task: Add Cave Lava Dripping Ambient Audio**: Subterranean droplet sound synthesis loop when within 8 blocks of ceiling lava sources in `js/audio.js`.
 
 ## 🧱 World Generation & Structures
 
@@ -103,6 +106,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Nether Fortresses Nether Wart Courtyard**: Generate interior soul sand patches containing Nether Wart crops within Nether Fortress structures in `js/structures.js`.
 - [ ] **New Task: Add Desert Oasis Structures**: Subterranean/surface palm trees and natural freshwater spring oases generating in desert biomes in `js/structures.js`.
 - [ ] **New Task: Add Badlands Mesa Plateau Caves**: Generate exposed red sandstone canyon caves in Badlands biomes.
+- [ ] **New Task: Add Desert Well Suspicious Sand Archaeological Loot**: Generate suspicious sand blocks within Desert Well structures containing pottery sherd loot drops in `js/structures.js`.
+- [ ] **New Task: Add Frozen Ocean Iceberg Formations**: Procedurally generate packed ice and blue ice iceberg clusters in deep ocean and frozen ocean biomes.
 
 ## 👾 Mobs & Entities
 
@@ -132,6 +137,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Mooshroom Mob Shearing Mechanics**: Right-clicking Mooshrooms with Shears yields 5 Red Mushrooms and transforms them into standard Cows in `js/mob.js`. (Status: Partially implemented - shearing interaction transforms Mooshroom into Cow in `js/mob.js`, but drops Eyeblossom blocks instead of Red Mushrooms; bowl milking gives Suspicious Stew rather than standard Mushroom Stew)
 - [ ] **New Task: Add Goat Ramming Knockback Mechanics**: Goat entities charging stationary entities and blocks, dealing strong horizontal impulse knockback and dropping Goat Horns upon solid wall impacts in `js/mob.js`. (Status: Partially implemented - Goat mob bumping into solid blocks drops Goat Horn item in `js/mob.js`, but charging target entities and dealing horizontal impulse knockback to entities remain pending implementation)
 - [ ] **New Task: Add Bat Ambient Mob Entity**: Flying subterranean ambient bats hanging from cave ceilings and roosting in low-light environments in `js/mob.js`.
+- [ ] **New Task: Add Silverfish Stone Infestation Mechanics**: Silverfish burrowing into neighboring stone blocks to create infested stone and bursting forth when infested stone is broken in `js/mob.js`.
+- [ ] **New Task: Add Wandering Trader Lead Caravan AI**: Wandering Trader entities spawning with 2 lead-tethered Llamas that follow the trader in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -156,6 +163,8 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Clock & Compass Offhand HUD Display**: Active visual time-of-day and spawn-direction icons in HUD when holding Clock or Compass in offhand slot in `js/ui.js`.
 - [ ] **New Task: Add Copper Nugget Item & De-crafting Recipes**: Crafting recipe breaking 1 Copper Ingot into 9 Copper Nuggets and re-compacting 9 Nuggets into 1 Ingot in `js/blocks.js` and `js/crafting.js`.
 - [ ] **New Task: Add Glow Ink Sac Glowing Sign Text**: Applying Glow Ink Sac to placed wooden signs makes sign text illuminated and bright in dark areas.
+- [ ] **New Task: Add Fire Charge Direct Ignition Interaction**: Right-clicking Campfires, Soul Campfires, Candles, or TNT with Fire Charges ignites them and consumes 1 charge in `js/interactions.js`.
+- [ ] **New Task: Add Potion of Night Vision Brewing**: Brew Golden Carrots into Awkward Potions at Brewing Stand to produce Potions of Night Vision granting visual clarity in caves in `js/crafting.js` and `js/player.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -172,6 +181,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Lightning Rod Redstone Comparator Reading**: Comparators facing Lightning Rods emitting brief 15-strength pulses upon lightning strike in `js/world.js`.
 - [ ] **New Task: Add Sculk Sensor Redstone Comparator Frequency Reading**: Comparators reading vibration frequency directly from adjacent Sculk Sensors without signal decay in `js/world.js`.
 - [ ] **New Task: Add Daylight Sensor Inverted Night Mode**: Right-clicking Daylight Sensors toggles them to Moonlight/Inverted sensors emitting power at night.
+- [ ] **New Task: Add Trapped Chest Redstone Power Emission**: Trapped Chest container blocks emitting redstone power level 15 to adjacent blocks while opened by a player in `js/world.js` and `js/ui.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -189,6 +199,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Debug F3 Chunk Coordinates Display**: Display chunk-relative coordinates (cx, cz, lx, lz) alongside global XYZ in debug HUD overlay in `js/renderer.js`.
 - [ ] **New Task: Add Custom Crosshair Style Selector in Settings**: Options menu selection for Classic Plus, Dot, Circle, or Dynamic crosshair styles in `js/ui.js` and `js/renderer.js`.
 - [ ] **New Task: Add Hotbar Number Overlay Toggle in Settings**: Option to toggle 1-9 slot number overlays on hotbar cells in `js/ui.js`.
+- [ ] **New Task: Add Hotbar Selected Item Name Floating Tooltip**: Display temporary floating item name tooltip above hotbar when switching active hotbar slot in `js/ui.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -207,3 +218,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Plugin API Custom Biome Decorator Hook**: `PluginAPI.registerDecorator(biomeName, callback)` allowing plugins to add custom plant and structure decorators during chunk generation in `js/plugin.js`.
 - [ ] **New Task: Add Plugin API Custom Event Emitter Registration**: `PluginAPI.createEventEmitter(channel)` allowing plugins to dispatch and listen for decoupled inter-plugin messaging in `js/plugin.js`.
 - [ ] **New Task: Add Plugin API Custom Keybind Registration**: `PluginAPI.registerKeybind(name, defaultKey, callback)` endpoint for custom plugin shortcuts.
+- [ ] **New Task: Add Plugin API Custom Block Audio Mapping**: `PluginAPI.registerBlockSound(blockId, soundType)` endpoint allowing mod plugins to register custom step and break sound profiles in `js/plugin.js`.
