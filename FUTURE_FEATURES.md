@@ -14,6 +14,10 @@ How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 ## 🐛 Bugs & Defects
 Real defects in shipped behaviour. These outrank everything else.
 
+- [ ] **Bug: Mooshroom Shearing/Milking Drops**: Mooshrooms currently drop Eyeblossom instead of Red Mushrooms when sheared, and give Suspicious Stew instead of Mushroom Stew when milked with a bowl in `js/mob.js`.
+- [ ] **Bug: Goat Ramming Knockback**: Goats do not currently charge target entities and deal horizontal impulse knockback to entities as intended in `js/mob.js`.
+- [ ] **Bug: Copper Trapdoor Waterlogging**: Copper Trapdoor block definitions and waterlogged state toggling are missing/pending, despite Copper Grate submerged waterlogging being supported in `js/world.js`.
+- [ ] **Bug: Biome Generation Transitions**: Smooth noise transitions and biome temperature gradients are pending implementation in `js/biome.js`.
 
 
 ## 🛠️ Engineering & Architecture
