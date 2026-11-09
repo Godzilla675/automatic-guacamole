@@ -43,6 +43,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Entity Raycast Spatial Hash Grid**: Spatial 3D hashing bucket index for high-frequency player and projectile raycasts against entities in `js/physics.js`.
 - [ ] **New Task: Add Memory Profiling Diagnostics Hook**: Periodic tracking of chunk and entity heap allocations in debug mode.
 - [ ] **New Task: Add Entity Camera Frustum Culling**: Skip transformation matrix and render evaluations in `Renderer.prototype.renderMob` for entities outside camera field of view frustum.
+- [ ] **New Task: Add Chunk Mesh Dirty Flag De-bouncing**: Batch and debounce multiple neighbor chunk block modifications into a single remesh pass in `js/world.js` to eliminate redundant geometry rebuilding.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -66,6 +67,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Atmospheric Cloud Shadows**: Render subtle scrolling cloud shadows projected on terrain surface blocks in `js/renderer.js`.
 - [ ] **New Task: Add Rain Impact Splash Particles on Entities**: Spawn subtle water droplet splash particles when rainfall collides with mob and player bounding boxes in `js/particles.js`.
 - [ ] **New Task: Add Cave Lava Dripping Ambient Audio**: Subterranean droplet sound synthesis loop when within 8 blocks of ceiling lava sources in `js/audio.js`.
+- [ ] **New Task: Add Campfire Ash Smoke Column Height Scaling**: Scale Campfire smoke particle column height from 10 to 24 blocks when a Hay Bale is placed directly beneath in `js/particles.js`.
 
 ## 🧱 World Generation & Structures
 
@@ -108,6 +110,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Badlands Mesa Plateau Caves**: Generate exposed red sandstone canyon caves in Badlands biomes.
 - [ ] **New Task: Add Desert Well Suspicious Sand Archaeological Loot**: Generate suspicious sand blocks within Desert Well structures containing pottery sherd loot drops in `js/structures.js`.
 - [ ] **New Task: Add Frozen Ocean Iceberg Formations**: Procedurally generate packed ice and blue ice iceberg clusters in deep ocean and frozen ocean biomes.
+- [ ] **New Task: Add Pillager Outpost Watchtower Generation**: Procedurally generate cobble and dark oak Pillager Outpost watchtowers with loot chests in plains and savanna biomes in `js/structures.js`.
 
 ## 👾 Mobs & Entities
 
@@ -139,6 +142,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Bat Ambient Mob Entity**: Flying subterranean ambient bats hanging from cave ceilings and roosting in low-light environments in `js/mob.js`.
 - [ ] **New Task: Add Silverfish Stone Infestation Mechanics**: Silverfish burrowing into neighboring stone blocks to create infested stone and bursting forth when infested stone is broken in `js/mob.js`.
 - [ ] **New Task: Add Wandering Trader Lead Caravan AI**: Wandering Trader entities spawning with 2 lead-tethered Llamas that follow the trader in `js/mob.js`.
+- [ ] **New Task: Add Frog Eating Slime Animation & Slimeball Drops**: Frogs snapping tongues at small slimes to consume them and drop slimeballs in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -165,6 +169,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Glow Ink Sac Glowing Sign Text**: Applying Glow Ink Sac to placed wooden signs makes sign text illuminated and bright in dark areas.
 - [ ] **New Task: Add Fire Charge Direct Ignition Interaction**: Right-clicking Campfires, Soul Campfires, Candles, or TNT with Fire Charges ignites them and consumes 1 charge in `js/interactions.js`.
 - [ ] **New Task: Add Potion of Night Vision Brewing**: Brew Golden Carrots into Awkward Potions at Brewing Stand to produce Potions of Night Vision granting visual clarity in caves in `js/crafting.js` and `js/player.js`.
+- [ ] **New Task: Add Honey Bottle Consumption & Poison Neutralization**: Consuming Honey Bottles restores hunger and immediately cures active poison status effects in `js/item_use.js` and `js/player.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -182,6 +187,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Sculk Sensor Redstone Comparator Frequency Reading**: Comparators reading vibration frequency directly from adjacent Sculk Sensors without signal decay in `js/world.js`.
 - [ ] **New Task: Add Daylight Sensor Inverted Night Mode**: Right-clicking Daylight Sensors toggles them to Moonlight/Inverted sensors emitting power at night.
 - [ ] **New Task: Add Trapped Chest Redstone Power Emission**: Trapped Chest container blocks emitting redstone power level 15 to adjacent blocks while opened by a player in `js/world.js` and `js/ui.js`.
+- [ ] **New Task: Add Redstone Lamp Quasi-Connectivity Pulse Detection**: Redstone Lamps receiving diagonal or upper-neighbor block power triggering activation update in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -200,6 +206,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Custom Crosshair Style Selector in Settings**: Options menu selection for Classic Plus, Dot, Circle, or Dynamic crosshair styles in `js/ui.js` and `js/renderer.js`.
 - [ ] **New Task: Add Hotbar Number Overlay Toggle in Settings**: Option to toggle 1-9 slot number overlays on hotbar cells in `js/ui.js`.
 - [ ] **New Task: Add Hotbar Selected Item Name Floating Tooltip**: Display temporary floating item name tooltip above hotbar when switching active hotbar slot in `js/ui.js`.
+- [ ] **New Task: Add Item Frame Invisible Entity Tag in Creative**: Allow creative mode placement of invisible item frames via tag metadata in `js/interactions.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -219,3 +226,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Plugin API Custom Event Emitter Registration**: `PluginAPI.createEventEmitter(channel)` allowing plugins to dispatch and listen for decoupled inter-plugin messaging in `js/plugin.js`.
 - [ ] **New Task: Add Plugin API Custom Keybind Registration**: `PluginAPI.registerKeybind(name, defaultKey, callback)` endpoint for custom plugin shortcuts.
 - [ ] **New Task: Add Plugin API Custom Block Audio Mapping**: `PluginAPI.registerBlockSound(blockId, soundType)` endpoint allowing mod plugins to register custom step and break sound profiles in `js/plugin.js`.
+- [ ] **New Task: Add Plugin API Custom HUD Element Hook**: `PluginAPI.registerHudElement(id, renderCallback)` endpoint allowing plugins to render custom overlays on game canvas in `js/plugin.js` and `js/renderer.js`.
