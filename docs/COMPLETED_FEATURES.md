@@ -4,9 +4,10 @@ Everything below has been implemented and was verified by an agent run at the ti
 This archive exists so that `FUTURE_FEATURES.md` only contains *open* work. When you fix a bug in one of
 these features, add a regression test rather than editing this list.
 
-Total: 590 items.
+Total: 591 items.
 
 ## 🐛 Bugs Fixed
+- [x] **New Task: Add Bundle Dye Washing in Cauldrons**: Using dyed Bundles on Water Cauldron blocks restores default undyed Bundle state and decrements cauldron fluid level in `js/interactions.js`.
 - [x] **Tested all features**: All currently implemented features and partially implemented features have been verified and tested without issues via unit tests, manual playwright gameplay tests, and console error scripts.
 - [x] **New Task: Add In-Game Keybind Remapping UI**: Settings screen menu allowing players to customize keybindings for movement, inventory, and hotbar controls (`renderSettings` and `bindKey` in `js/ui.js` and `index.html`).
 - [x] **New Task: Add Wind Charge Throwable Projectile**: Throwable Wind Charge item launching entity knockback gusts and vertical self-propulsion upon impact in `js/item_use.js`, `js/game.js`, and `js/particles.js`.

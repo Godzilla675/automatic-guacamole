@@ -1,7 +1,7 @@
 # Future Features & Tasks
 
 The backlog for Voxel World. **Only open work lives here** - everything already shipped is archived in
-[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (590 items and counting).
+[`docs/COMPLETED_FEATURES.md`](docs/COMPLETED_FEATURES.md) (591 items and counting).
 
 How to use this file (see [`AGENTS.md`](AGENTS.md) for the full workflow):
 
@@ -45,6 +45,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Entity Camera Frustum Culling**: Skip transformation matrix and render evaluations in `Renderer.prototype.renderMob` for entities outside camera field of view frustum.
 - [ ] **New Task: Add Chunk Mesh Dirty Flag De-bouncing**: Batch and debounce multiple neighbor chunk block modifications into a single remesh pass in `js/world.js` to eliminate redundant geometry rebuilding.
 - [ ] **New Task: Add Entity Collision Broadphase Dynamic Grid**: Optimize multi-entity collision queries with spatial dynamic hash grids in `js/physics.js`.
+- [ ] **New Task: Add Spatial Particle Collision Grid**: Optimize particle-to-block collision detection in `ParticleSystem.prototype.update` using spatial coordinate bucket caching instead of repeated world block queries.
 
 ## 🎨 Rendering, Lighting & Audio
 
@@ -70,6 +71,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Cave Lava Dripping Ambient Audio**: Subterranean droplet sound synthesis loop when within 8 blocks of ceiling lava sources in `js/audio.js`.
 - [ ] **New Task: Add Campfire Ash Smoke Column Height Scaling**: Scale Campfire smoke particle column height from 10 to 24 blocks when a Hay Bale is placed directly beneath in `js/particles.js`.
 - [ ] **New Task: Add Player Footstep Surface Splash Audio**: Play specialized shallow water splashing audio when walking across partially submerged blocks or water surface edges in `js/audio.js`.
+- [ ] **New Task: Add Nether Ambient Particle Ash Fall**: Atmospheric drifting basalt ash particle flakes rendering in Nether Wastes and Basalt Deltas in `js/particles.js`.
 
 ## 🧱 World Generation & Structures
 
@@ -114,6 +116,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Frozen Ocean Iceberg Formations**: Procedurally generate packed ice and blue ice iceberg clusters in deep ocean and frozen ocean biomes.
 - [ ] **New Task: Add Pillager Outpost Watchtower Generation**: Procedurally generate cobble and dark oak Pillager Outpost watchtowers with loot chests in plains and savanna biomes in `js/structures.js`.
 - [ ] **New Task: Add Nether Bastion Remnant Structures**: Procedurally generate blackstone and polished blackstone bastion remnant structures in Nether wastes and nether fortresses in `js/structures.js`.
+- [ ] **New Task: Add Witch Hut Cat Spawning**: Black cat entities spawning alongside witches inside procedurally generated Swamp Hut structures in `js/structures.js` and `js/mob.js`.
 
 ## 👾 Mobs & Entities
 
@@ -147,6 +150,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Wandering Trader Lead Caravan AI**: Wandering Trader entities spawning with 2 lead-tethered Llamas that follow the trader in `js/mob.js`.
 - [ ] **New Task: Add Frog Eating Slime Animation & Slimeball Drops**: Frogs snapping tongues at small slimes to consume them and drop slimeballs in `js/mob.js`.
 - [ ] **New Task: Add Squid Inking Defense Behavior**: Squids emitting black ink cloud particles and accelerating away in burst flight when taking damage in `js/mob.js`.
+- [ ] **New Task: Add Skeleton Aim Inaccuracy at Range**: Dynamic projectile spread and distance-based arrow trajectory inaccuracy for Skeleton entities in `js/mob.js`.
 
 ## 🧰 Items, Equipment & Crafting
 
@@ -174,7 +178,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Fire Charge Direct Ignition Interaction**: Right-clicking Campfires, Soul Campfires, Candles, or TNT with Fire Charges ignites them and consumes 1 charge in `js/interactions.js`.
 - [ ] **New Task: Add Potion of Night Vision Brewing**: Brew Golden Carrots into Awkward Potions at Brewing Stand to produce Potions of Night Vision granting visual clarity in caves in `js/crafting.js` and `js/player.js`.
 - [ ] **New Task: Add Honey Bottle Consumption & Poison Neutralization**: Consuming Honey Bottles restores hunger and immediately cures active poison status effects in `js/item_use.js` and `js/player.js`.
-- [ ] **New Task: Add Bundle Dye Washing in Cauldrons**: Using dyed Bundles on Water Cauldron blocks restores default undyed Bundle state and decrements cauldron fluid level in `js/interactions.js`.
+- [ ] **New Task: Add Sweet Berry Bush Harvesting & Prick Damage**: Sweet Berry bushes slowing entity movement and inflicting prick damage when walked through, with right-click berry harvesting in `js/interactions.js` and `js/player.js`.
 
 ## 🔌 Redstone, Mechanics & Functional Blocks
 
@@ -194,6 +198,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Trapped Chest Redstone Power Emission**: Trapped Chest container blocks emitting redstone power level 15 to adjacent blocks while opened by a player in `js/world.js` and `js/ui.js`.
 - [ ] **New Task: Add Redstone Lamp Quasi-Connectivity Pulse Detection**: Redstone Lamps receiving diagonal or upper-neighbor block power triggering activation update in `js/world.js`.
 - [ ] **New Task: Add Tripwire Hook Redstone Mechanics**: Tripwire Hook wall attachments connected by String lines detecting entity crossings and emitting redstone pulses in `js/world.js`.
+- [ ] **New Task: Add Dropper Container Item Insertion**: Powered Dropper blocks facing adjacent container blocks (chests, furnaces, hoppers) transferring dropped items directly into container inventory slots rather than dropping into world space in `js/world.js`.
 
 ## 🖥️ UI, Multiplayer & Meta
 
@@ -214,6 +219,7 @@ Structural work that makes every later feature cheaper. Each of these is a singl
 - [ ] **New Task: Add Hotbar Selected Item Name Floating Tooltip**: Display temporary floating item name tooltip above hotbar when switching active hotbar slot in `js/ui.js`.
 - [ ] **New Task: Add Item Frame Invisible Entity Tag in Creative**: Allow creative mode placement of invisible item frames via tag metadata in `js/interactions.js`.
 - [ ] **New Task: Add Inventory Armor Quick-Equip Shortcut**: Shift-clicking armor items in inventory automatically moves them into corresponding vacant armor slots in `js/ui.js`.
+- [ ] **New Task: Add Hotbar Active Item Durability HUD Bar**: Render a miniature durability bar indicator below damaged tool and weapon icons on the active hotbar slot in `js/ui.js`.
 
 ## 🧩 Modding & Plugin API
 The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) and `BlockInteractions.register()` for right-click behaviour.
@@ -235,3 +241,4 @@ The in-game plugin surface today: `window.PluginAPI` (events, `registerBlock`) a
 - [ ] **New Task: Add Plugin API Custom Block Audio Mapping**: `PluginAPI.registerBlockSound(blockId, soundType)` endpoint allowing mod plugins to register custom step and break sound profiles in `js/plugin.js`.
 - [ ] **New Task: Add Plugin API Custom HUD Element Hook**: `PluginAPI.registerHudElement(id, renderCallback)` endpoint allowing plugins to render custom overlays on game canvas in `js/plugin.js` and `js/renderer.js`.
 - [ ] **New Task: Add Plugin API Custom Sound Registration Hook**: `PluginAPI.registerSound(soundName, audioUrl)` endpoint allowing mod plugins to register custom audio effects in `js/plugin.js` and `js/audio.js`.
+- [ ] **New Task: Add Plugin API Custom Particle System Hook**: `PluginAPI.registerCustomEmitter(name, emitterCallback)` endpoint allowing plugins to define custom particle lifetime and velocity physics loops in `js/plugin.js` and `js/particles.js`.
